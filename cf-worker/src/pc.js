@@ -25,20 +25,21 @@ export async function searchScenes({ bbox, start, end, pass = "descending", limi
   return out;
 }
 
-// 对一景影像的一组坡面求 VV 统计。返回 {facet_id: {mean_lin, db, count, valid_percent}}
-export async function facetStats(itemId, features, { asset = "vv" } = {}) {
-  const fc = { type: "FeatureCollection", features: features.map(f => ({ type: "Feature", properties: { id: f.properties.id }, geometry: f.geometry })) };
-  const qs = new URLSearchParams({ collection: "sentinel-1-rtc", item: itemId, assets: asset, histogram_bins: "1" });
-  const r = await fetch(`${DATA}?${qs}`, { method: "POST", headers: { "content-type": "application/json" }, body: JSON.stringify(fc) });
+// 对一景影像的一个坡面求 VV 统计（Data API 对 FeatureCollection 返回 500，只能逐个坡面请求，约 0.25 s/个）
+export async function facetStat(itemId, feature) {
+  const qs = new URLSearchParams({ collection: "sentinel-1-rtc", item: itemId, assets: "vv", histogram_bins: "1" });
+  const body = { type: "Feature", properties: { id: feature.properties.id }, geometry: feature.geometry };
+  const r = await fetch(`${DATA}?${qs}`, { method: "POST", headers: { "content-type": "application/json" }, body: JSON.stringify(body) });
   const text = await r.text();
-  if (!r.ok) throw new Error(`stats ${r.status} ${text.slice(0, 300)}`);
-  const j = JSON.parse(text);
-  const res = {};
-  for (const f of j.features || []) {
-    const st = f.properties.statistics || {};
-    const k = Object.keys(st)[0];
-    const s = k ? st[k] : null;
-    res[f.properties.id] = s ? { mean_lin: s.mean, db: s.mean > 0 ? 10 * Math.log10(s.mean) : null, count: s.count, valid_percent: s.valid_percent, band: k } : null;
-  }
-  return { res, bytes: text.length };
+  if (!r.ok) throw new Error(`stats ${r.status} ${text.slice(0, 160)}`);
+  const s = Object.values(JSON.parse(text).properties.statistics || {})[0];
+  return s && s.count > 0 ? { mean_lin: s.mean, db: s.mean > 0 ? 10 * Math.log10(s.mean) : null, count: s.count, valid_percent: s.valid_percent } : null;
+}
+
+// 并发跑一组坡面（试算用；Worker 里每次调用最多 50 个子请求）
+export async function facetStats(itemId, features, conc = 6) {
+  const res = {}; let i = 0, err = 0;
+  async function worker() { while (i < features.length) { const f = features[i++]; try { res[f.properties.id] = await facetStat(itemId, f) } catch (e) { err++; res[f.properties.id] = null } } }
+  await Promise.all(Array.from({ length: conc }, worker));
+  return { res, err };
 }
