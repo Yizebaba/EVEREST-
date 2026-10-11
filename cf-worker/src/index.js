@@ -187,24 +187,41 @@ async function rollup(env, log) {
   return doc;
 }
 
-// 5 （可选）把结果推到 GitHub 仓库的 facet-live 分支，让平台页面接入。需要在 Cloudflare 里配 GH_TOKEN。
-async function pushGitHub(env, doc, log) {
-  if (!env.GH_TOKEN || !env.GH_REPO) return;
+// 5 （可选）把结果推到 GitHub 仓库的 facet-live 分支，让平台页面接入。需要在 Cloudflare 里配 GH_TOKEN 密钥。
+async function pushFile(env, path, obj, msg, log) {
+  if (!env.GH_TOKEN || !env.GH_REPO) return null;
   const api = `https://api.github.com/repos/${env.GH_REPO}`, br = env.GH_BRANCH || "facet-live";
   const h = { authorization: `Bearer ${env.GH_TOKEN}`, accept: "application/vnd.github+json", "user-agent": "everest-facets-worker", "content-type": "application/json" };
-  let ref = await fetch(`${api}/git/ref/heads/${br}`, { headers: h }); log.fetches++;
+  const ref = await fetch(`${api}/git/ref/heads/${br}`, { headers: h }); log.fetches++;
   if (ref.status === 404) {
     const base = await (await fetch(`${api}/git/ref/heads/${env.GH_BASE || "data-probe"}`, { headers: h })).json(); log.fetches++;
-    await fetch(`${api}/git/refs`, { method: "POST", headers: h, body: JSON.stringify({ ref: `refs/heads/${br}`, sha: base.object.sha }) }); log.fetches++;
-  }
-  const path = "facet_live.json";
+    const c = await fetch(`${api}/git/refs`, { method: "POST", headers: h, body: JSON.stringify({ ref: `refs/heads/${br}`, sha: base.object.sha }) }); log.fetches++;
+    log.gh_branch = c.status;
+  } else if (!ref.ok) { log.github = ref.status; return ref.status; }
   const cur = await fetch(`${api}/contents/${path}?ref=${br}`, { headers: h }); log.fetches++;
   const sha = cur.ok ? (await cur.json()).sha : undefined;
-  const bytes = new TextEncoder().encode(JSON.stringify(doc));
+  const bytes = new TextEncoder().encode(JSON.stringify(obj));
   let bin = ""; for (let i = 0; i < bytes.length; i += 0x8000) bin += String.fromCharCode(...bytes.subarray(i, i + 0x8000));
-  const r = await fetch(`${api}/contents/${path}`, { method: "PUT", headers: h, body: JSON.stringify({ message: `facet live ${doc.last_scene}`, content: btoa(bin), branch: br, sha }) }); log.fetches++;
+  const r = await fetch(`${api}/contents/${path}`, { method: "PUT", headers: h, body: JSON.stringify({ message: msg, content: btoa(bin), branch: br, sha }) }); log.fetches++;
   log.github = r.status;
-  if (r.ok) await setMeta(env, "pushed_scene", `${doc.last_scene}|${doc.null_n}`);
+  return r.status;
+}
+
+async function pushGitHub(env, doc, log) {
+  const st = await pushFile(env, "facet_live.json", doc, `facet live ${doc.last_scene}`, log);
+  if (st === 200 || st === 201) await setMeta(env, "pushed_scene", `${doc.last_scene}|${doc.null_n}`);
+}
+
+// 每小时把进度也推一次（建基线期间平台能显示进度；也顺便检查 GH_TOKEN 是否可用）
+async function pushStatus(env, log) {
+  if (!env.GH_TOKEN) return false;
+  const last = await getMeta(env, "gh_status_at");
+  if (last && Date.now() - Date.parse(last) < 60 * 60e3) return false;
+  await setMeta(env, "gh_status_at", nowIso());
+  const st = await status(env);
+  delete st.last_tick;
+  log.gh_status = await pushFile(env, "facet_status.json", { t: nowIso(), ...st }, `facet status ${nowIso().slice(0, 16)}`, log);
+  return true;
 }
 
 async function tick(env) {
@@ -212,6 +229,8 @@ async function tick(env) {
   try {
     await init(env);
     await discover(env, log);
+    // 推进度的那一分钟不做计算，避免超过每次 50 个子请求
+    if (await pushStatus(env, log)) { await setMeta(env, "last_tick", JSON.stringify(log)); return log; }
     const worked = await work(env, log);
     // 队列空了才打分：保证每个日期都在完整历史上计算
     if (!worked) {
