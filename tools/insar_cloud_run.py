@@ -83,7 +83,7 @@ def export_v2(tif, od, p, jid):
 def export_job(jid, ttl):
     d = ttl.replace("Everest_InSAR_", ""); a, b = d.split("_"); p = [a[:4] + "-" + a[4:6] + "-" + a[6:], b[:4] + "-" + b[4:6] + "-" + b[6:]]
     od = OUT / d
-    if (od / "product_v2.json").exists(): step("export_skip", pair=p); return
+    if (od / "product_v2.json").exists() and "tif_bytes" in json.loads((od / "product_v2.json").read_text()): step("export_skip", pair=p); return
     od.mkdir(parents=True, exist_ok=True)
     r = c.job(jid).get_results(); md = r.get_metadata()
     names = [n for n in md.get("assets", {}) if n.endswith(".tif")]
@@ -91,6 +91,7 @@ def export_job(jid, ttl):
     tif = pathlib.Path("/tmp") / names[0]
     if not tif.exists(): r.get_asset(names[0]).download(tif)
     pr = export_v2(tif, od, p, jid)
+    pr["tif_bytes"] = tif.stat().st_size; (od / "product_v2.json").write_text(json.dumps(pr, ensure_ascii=False, indent=1), encoding="utf-8")
     (od / "provenance.json").write_text(json.dumps(cip.safe_metadata(md), indent=1), encoding="utf-8")
     step("exported", pair=p, stats=pr["stats"], bands=pr["bands"], used=pr["used"])
 
@@ -106,4 +107,6 @@ for j in J:
 prods = sorted(p.name for p in OUT.iterdir() if (p / "product_v2.json").exists())
 if prods: (OUT / "latest.json").write_text((OUT / prods[-1] / "product_v2.json").read_text(), encoding="utf-8")
 log["products"] = prods
+log["index"] = [json.loads((OUT / d / "product_v2.json").read_text()) for d in prods]
+for x in log["index"]: x.pop("bands", None)
 (OUT / "run.json").write_text(json.dumps(log, ensure_ascii=False, indent=1), encoding="utf-8")

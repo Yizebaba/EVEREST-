@@ -237,6 +237,12 @@ try:
         cred = json.loads(get("https://raw.githubusercontent.com/" + R + "/probe-out/cred.json"))
     except Exception:
         cred = None
+    try:  # 本平台在 insar-out 分支跑的真实云端干涉（用仓库 main 的 cloud_insar_pipeline.py）
+        io_run = json.loads(get("https://raw.githubusercontent.com/" + R + "/insar-out/run.json"))
+        cloud["io"] = {"t": io_run["t"], "index": io_run.get("index", []),
+                       "latest_job": next((x for x in io_run["steps"] if x["k"] == "latest_job"), None)}
+    except Exception as e:
+        cloud["io_err"] = repr(e)[:120]
     flow = {"fetched": iso(NOW), "daily": daily, "cloud": cloud,
             "cred": ({"t": cred["t"], "secrets": cred["secrets"], "ok": {k: v.get("ok") for k, v in cred["checks"].items()}} if cred else None),
             "commits": {"summary": last_commit("data/displacement_summary.json"), "npy": last_commit("data/everest_insar_los_displacement_candidates_mm.npy"),
