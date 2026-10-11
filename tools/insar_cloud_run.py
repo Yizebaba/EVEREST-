@@ -36,6 +36,10 @@ step("latest_job", id=job.job_id, title=title, status=st, waited_min=round((time
 def export_v2(tif, od, p, jid):
     """自己的导出（不依赖仓库 export 的波段顺序假设）：按波段描述识别，NaN 安全统计，修正预览拉伸。"""
     import numpy as np, rasterio, matplotlib; matplotlib.use("Agg"); import matplotlib.pyplot as plt
+    from matplotlib import font_manager as fm
+    for f in fm.findSystemFonts():
+        if "NotoSansCJK" in f or "NotoSerifCJK" in f: fm.fontManager.addfont(f)
+    plt.rcParams["font.sans-serif"] = ["Noto Sans CJK JP", "Noto Sans CJK SC", "DejaVu Sans"]; plt.rcParams["axes.unicode_minus"] = False
     with rasterio.open(tif) as ds:
         desc = [ds.descriptions[i] or "" for i in range(ds.count)]
         arr = [ds.read(i + 1).astype("float32") for i in range(ds.count)]
