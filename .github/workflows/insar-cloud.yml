@@ -20,7 +20,7 @@ jobs:
         with: {ref: main, path: mainsrc}
       - uses: actions/setup-python@v5
         with: {python-version: "3.12"}
-      - run: pip install -q openeo rasterio matplotlib numpy requests
+      - run: pip install -q openeo rasterio matplotlib numpy requests && sudo apt-get install -y -q fonts-noto-cjk >/dev/null
       - name: restore previous outputs
         run: |
           mkdir -p out
