@@ -9,7 +9,7 @@ crons = ["* * * * *"]          # 每分钟一次（UTC）；每次最多 40 个�
 [[d1_databases]]
 binding = "DB"
 database_name = "everest-facets"
-database_id = "REPLACE_WITH_D1_DATABASE_ID"   # ← 在 Cloudflare 后台创建 D1 后，把 Database ID 填这里
+database_id = "b9e8c8c3-1395-4b7d-85a1-3c707004c87e"   # Cloudflare D1：everest-facets
 
 [vars]
 GH_REPO = "Yizebaba/everest-insar-pipeline"   # 结果推到这个仓库的 facet-live 分支（需另配 GH_TOKEN 密钥，可选）
