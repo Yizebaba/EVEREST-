@@ -126,6 +126,84 @@ try:
 except Exception as e:
     run["src"]["alerts"] = {"ok": False, "err": repr(e)[:200]}
 
+# ---- 以下来自本仓库 main 分支代码里用到的公开接口（无需登录） ----
+import urllib.parse
+EVEREST_PT = "POINT(86.925 27.988)"
+
+# 5 哥白尼数据空间 CDSE 目录：珠峰上空最新的哨兵卫星过境（拍摄时间、入库时间 → 延迟）
+try:
+    sat = {}
+    for coll, extra in (("SENTINEL-1", ""), ("SENTINEL-2", " and contains(Name,'L1C')"), ("SENTINEL-3", " and contains(Name,'OL_1_EFR')")):
+        f = (f"Collection/Name eq '{coll}' and OData.CSC.Intersects(area=geography'SRID=4326;{EVEREST_PT}')"
+             f" and ContentDate/Start gt {(NOW - dt.timedelta(days=20)).strftime('%Y-%m-%dT%H:%M:%S.000Z')}{extra}")
+        url = "https://catalogue.dataspace.copernicus.eu/odata/v1/Products?" + urllib.parse.urlencode(
+            {"$filter": f, "$orderby": "ContentDate/Start desc", "$top": "6"})
+        vals = json.loads(get(url)).get("value", [])
+        sat[coll] = [{"name": v["Name"], "start": v["ContentDate"]["Start"], "pub": v.get("PublicationDate"), "online": v.get("Online")} for v in vals]
+    f = ("BurstId eq 23790 and SwathIdentifier eq 'IW1' and PolarisationChannels eq 'VV'"
+         f" and ContentDate/Start gt {(NOW - dt.timedelta(days=40)).strftime('%Y-%m-%dT%H:%M:%S.000Z')}")
+    url = "https://catalogue.dataspace.copernicus.eu/odata/v1/Bursts?" + urllib.parse.urlencode(
+        {"$filter": f, "$orderby": "ContentDate/Start desc", "$top": "6"})
+    vals = json.loads(get(url)).get("value", [])
+    sat["BURST_23790"] = [{"name": v.get("ParentProductName") or v.get("Name"), "start": v["ContentDate"]["Start"],
+                           "platform": v.get("PlatformSerialIdentifier"), "orbit": v.get("RelativeOrbitNumber"), "dir": v.get("OrbitDirection")} for v in vals]
+    save("sat.json", {"fetched": iso(NOW), "sat": sat})
+    run["src"]["sat"] = {"ok": True, "newest": {k: (v[0]["start"] if v else None) for k, v in sat.items()}}
+except Exception as e:
+    run["src"]["sat"] = {"ok": False, "err": repr(e)[:200]}
+
+# 6 本仓库每日 InSAR 管线的产物（main 分支 data/displacement_summary.json，公开仓库原始文件）
+#   只取实测量：InSAR 位移统计、ITS_LIVE 年速度；不取天气、模型打分、风险等级
+try:
+    raw = "https://raw.githubusercontent.com/Yizebaba/everest-insar-pipeline/main/data/displacement_summary.json"
+    d = json.loads(get(raw))
+    r = d.get("results", {})
+    cm = json.loads(get("https://api.github.com/repos/Yizebaba/everest-insar-pipeline/commits?path=data/displacement_summary.json&per_page=10"))
+    it = r.get("itslive_velocity_baseline", {})
+    pipe = {"fetched": iso(NOW), "url": raw, "generated": d.get("timestamp_utc"), "pair": d.get("insar_pair"), "burst": d.get("burst_id"),
+            "insar": r.get("insar_displacement"), "decision": (r.get("engine_decision") or {}).get("status"),
+            "itslive": {k: it.get(k) for k in ("status", "datacube_id", "matched_utm_coord", "latest_observed_velocity_m_yr",
+                                               "historical_baseline_mean_m_yr", "annual_time_series_sample")},
+            "commits": [{"sha": c["sha"][:7], "t": c["commit"]["committer"]["date"]} for c in cm]}
+    save("pipeline.json", pipe)
+    run["src"]["pipeline"] = {"ok": True, "newest": d.get("timestamp_utc")}
+except Exception as e:
+    run["src"]["pipeline"] = {"ok": False, "err": repr(e)[:200]}
+
+# 7 ITS_LIVE 冰川速度（NASA JPL，AWS 公开 Zarr，直接读，不经过管线）：年度合成，一天读一次即可
+try:
+    old = load("itslive.json", {})
+    if not old.get("fetched") or old["fetched"] < iso(NOW - dt.timedelta(hours=24)):
+        try:
+            import zarr, fsspec, aiohttp
+        except ImportError:  # main 分支上的定时工作流只装了 obspy，这里自行补装
+            import subprocess; subprocess.run([sys.executable, "-m", "pip", "install", "-q", "zarr<3", "fsspec", "aiohttp", "requests"], check=True)
+            import zarr, fsspec
+        import numpy as np
+        U = "https://its-live-data.s3.amazonaws.com/composites/annual/v2-updated-september2025/N20E080/ITS_LIVE_velocity_EPSG32645_120m_X450000_Y3050000.zarr"
+        root = zarr.open(fsspec.get_mapper(U), mode="r")
+        xs, ys = np.asarray(root["x"][:]), np.asarray(root["y"][:])
+        tv = root["time"]; tt = np.asarray(tv[:])
+        units = dict(tv.attrs).get("units", "days since 1970-01-01")
+        base = dt.datetime.fromisoformat(units.split("since")[1].strip()[:19].replace(" ", "T")).replace(tzinfo=dt.timezone.utc)
+        mul = 86400 if units.startswith("days") else (3600 if units.startswith("hours") else 1)
+        # 点位：仓库匹配的 Khumbu 冰川点 + 珠峰附近两个对照点（UTM 45N）
+        pts = {"Khumbu（管线匹配点）": (486052.5, 3097027.5), "Khumbu 冰瀑下方": (488500.0, 3094500.0), "Rongbuk 冰川（北坡）": (490500.0, 3108500.0)}
+        series = {}
+        for nm, (px, py) in pts.items():
+            ix, iy = int(np.abs(xs - px).argmin()), int(np.abs(ys - py).argmin())
+            v = np.asarray(root["v"][:, iy, ix], dtype=float)
+            ve = np.asarray(root["v_error"][:, iy, ix], dtype=float) if "v_error" in root else np.full_like(v, np.nan)
+            series[nm] = {"x": float(xs[ix]), "y": float(ys[iy]),
+                          "obs": [[(base + dt.timedelta(seconds=float(t) * mul)).year, round(float(a), 2), (None if not np.isfinite(b) else round(float(b), 2))]
+                                  for t, a, b in zip(tt, v, ve) if np.isfinite(a) and a > -9000]}
+        save("itslive.json", {"fetched": iso(NOW), "url": U, "series": series})
+        run["src"]["itslive"] = {"ok": True, "years": {k: (v["obs"][-1][0] if v["obs"] else None) for k, v in series.items()}}
+    else:
+        run["src"]["itslive"] = {"ok": True, "cached": old["fetched"]}
+except Exception as e:
+    run["src"]["itslive"] = {"ok": False, "err": repr(e)[:300]}
+
 runs = load("runs.json", [])
 runs.append(run)
 cut = iso(NOW - dt.timedelta(days=3))

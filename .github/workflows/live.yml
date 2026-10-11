@@ -30,7 +30,7 @@ jobs:
           fi
       - uses: actions/setup-python@v5
         with: {python-version: "3.12", cache: pip}
-      - run: pip install obspy numpy
+      - run: pip install obspy numpy "zarr<3" fsspec aiohttp requests
       - run: python tools/live_collect.py state
       - name: save state (single orphan commit)
         run: |
