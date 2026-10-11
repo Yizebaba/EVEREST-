@@ -1,0 +1,172 @@
+{
+ "assets": {
+  "phase_coh_20260904T121331_20260916T121332.tif": {
+   "eo:bands": [
+    {
+     "name": "Phase_ifg_VV"
+    },
+    {
+     "name": "Unw_Phase_ifg_VV"
+    },
+    {
+     "name": "coh_VV"
+    }
+   ],
+   "href": "https://s3.waw3-1.openeo.v1.dataspace.copernicus.eu/openeo-data-prod-waw4-1/batch_jobs/j-2609200833024b288c2d38398b94e856/phase_coh_20260904T121331_20260916T121332.tif",
+   "proj:bbox": [
+    86.2135636,
+    27.7391675,
+    87.1803305,
+    28.0821443
+   ],
+   "proj:code": "EPSG:4326",
+   "proj:epsg": 4326,
+   "proj:shape": [
+    1909,
+    5381
+   ],
+   "raster:bands": [
+    {
+     "name": "Phase_ifg_VV",
+     "statistics": {
+      "maximum": 3.1395201683044,
+      "mean": -0.1084142792538,
+      "minimum": -3.1386227607727,
+      "stddev": 1.5587667196762,
+      "valid_percent": 50.7
+     }
+    },
+    {
+     "name": "Unw_Phase_ifg_VV",
+     "statistics": {
+      "maximum": 24.701019287109,
+      "mean": -56.667697061835,
+      "minimum": -135.72842407227,
+      "stddev": 25.156846660396,
+      "valid_percent": 53.68
+     }
+    },
+    {
+     "name": "coh_VV",
+     "statistics": {
+      "maximum": 0.98881417512894,
+      "mean": 0.39391424320686,
+      "minimum": 8.013308615773e-06,
+      "stddev": 0.21393552779031,
+      "valid_percent": 50.7
+     }
+    }
+   ],
+   "roles": [
+    "data"
+   ],
+   "title": "phase_coh_20260904T121331_20260916T121332.tif",
+   "type": "application/octet-stream"
+  }
+ },
+ "description": "Everest long-term InSAR coherence monitoring. Template job: j-2609181338124e19818d3c4f4f4e1f66. Date pair: 2026-09-04 to 2026-09-16. Burst 23790, IW1, VV.",
+ "extent": {
+  "spatial": {
+   "bbox": [
+    [
+     86.2135636,
+     27.7391675,
+     87.1803305,
+     28.0821443
+    ]
+   ]
+  },
+  "temporal": {
+   "interval": [
+    [
+     "2026-09-04T12:13:31Z",
+     "2026-09-04T12:13:31Z"
+    ]
+   ]
+  }
+ },
+ "id": "j-2609200833024b288c2d38398b94e856",
+ "license": "proprietary",
+ "links": [
+  {
+   "href": "s3://openeo-data-prod-waw4-1/batch_jobs/j-2609200833024b288c2d38398b94e856/collection.json",
+   "rel": "original",
+   "title": "Link to original STAC catalog.",
+   "type": "application/json"
+  },
+  {
+   "href": "https://openeo.dataspace.copernicus.eu/openeo/1.2/jobs/j-2609200833024b288c2d38398b94e856/results",
+   "rel": "self",
+   "type": "application/json"
+  },
+  {
+   "href": "https://openeo.dataspace.copernicus.eu/openeo/1.2/jobs/j-2609200833024b288c2d38398b94e856/results/YjU5ZWIzNTItYjc1My00NGZmLWExYjQtNWE2MTA4MTg0MjFj/1d8cb04fe45e5c9f865698340cb9bfa5",
+   "rel": "canonical",
+   "type": "application/json"
+  },
+  {
+   "href": "http://ceos.org/ard/files/PFS/SR/v5.0/CARD4L_Product_Family_Specification_Surface_Reflectance-v5.0.pdf",
+   "rel": "card4l-document",
+   "type": "application/pdf"
+  }
+ ],
+ "openeo:status": "finished",
+ "providers": [
+  {
+   "description": "This data was processed on an openEO backend maintained by VITO.",
+   "name": "VITO",
+   "processing:expression": {
+    "expression": {
+     "saveresult1": {
+      "arguments": {
+       "data": {
+        "from_node": "sentinel1sarinterferogram1"
+       },
+       "format": "GTiff",
+       "options": {}
+      },
+      "process_id": "save_result",
+      "result": true
+     },
+     "sentinel1sarinterferogram1": {
+      "arguments": {
+       "InSAR_pairs": [
+        [
+         "2026-09-04",
+         "2026-09-16"
+        ]
+       ],
+       "burst_id": 23790,
+       "coherence_window_az": 2,
+       "coherence_window_rg": 10,
+       "n_az_looks": 1,
+       "n_rg_looks": 4,
+       "polarization": "VV",
+       "sub_swath": "IW1"
+      },
+      "namespace": "https://raw.githubusercontent.com/ESA-APEx/apex_algorithms/refs/heads/main/algorithm_catalog/eurac/sentinel1_sar_interferogram/openeo_udp/sentinel1_sar_interferogram.json",
+      "process_id": "sentinel1_sar_interferogram"
+     }
+    },
+    "format": "openeo"
+   },
+   "processing:facility": "openEO Geotrellis backend",
+   "processing:software": {
+    "Geotrellis backend": "0.73.0a17"
+   },
+   "roles": [
+    "processor"
+   ]
+  }
+ ],
+ "stac_extensions": [
+  "https://stac-extensions.github.io/eo/v1.1.0/schema.json",
+  "https://stac-extensions.github.io/file/v2.1.0/schema.json",
+  "https://stac-extensions.github.io/processing/v1.1.0/schema.json",
+  "https://stac-extensions.github.io/projection/v1.2.0/schema.json"
+ ],
+ "stac_version": "1.0.0",
+ "summaries": {},
+ "title": "Everest_InSAR_20260904_20260916",
+ "type": "Collection"
+}

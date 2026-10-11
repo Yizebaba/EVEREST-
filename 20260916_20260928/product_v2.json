@@ -1,0 +1,84 @@
+{
+ "pair": [
+  "2026-09-16",
+  "2026-09-28"
+ ],
+ "job_id": "j-2610040315054d53adc2b231cdd02ba3",
+ "exported": "2026-10-11T16:17:10+00:00",
+ "tif": {
+  "count": 3,
+  "descriptions": [
+   "Phase_ifg_VV",
+   "Unw_Phase_ifg_VV",
+   "coh_VV"
+  ],
+  "dtype": "float32",
+  "nodata": null,
+  "crs": "EPSG:4326",
+  "bounds": [
+   86.21248562681983,
+   27.739167489855117,
+   87.17925253558926,
+   28.08214426533195
+  ],
+  "shape": [
+   1909,
+   5381
+  ]
+ },
+ "bands": [
+  {
+   "i": 1,
+   "desc": "Phase_ifg_VV",
+   "finite": 5207221,
+   "q": [
+    -3.1295,
+    -2.4125,
+    0.0019,
+    2.4101,
+    3.1372
+   ]
+  },
+  {
+   "i": 2,
+   "desc": "Unw_Phase_ifg_VV",
+   "finite": 5519608,
+   "q": [
+    -38.1261,
+    -10.0487,
+    114.6039,
+    232.4778,
+    283.7225
+   ]
+  },
+  {
+   "i": 3,
+   "desc": "coh_VV",
+   "finite": 5207221,
+   "q": [
+    0.0,
+    0.1064,
+    0.2549,
+    0.6123,
+    0.9847
+   ]
+  }
+ ],
+ "used": {
+  "coherence": 3,
+  "unwrapped": 2,
+  "wrapped": 1
+ },
+ "stats": {
+  "coh_mean": 0.277,
+  "coh_ge_0_3": 0.345,
+  "valid_los_pixels": 1798602,
+  "los_q_mm": [
+   -1003.8,
+   -503.3,
+   34.3
+  ]
+ },
+ "status": "UNREFERENCED_NOT_FOR_HAZARD_DECISIONS",
+ "tif_bytes": 79737365
+}

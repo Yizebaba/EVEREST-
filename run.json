@@ -1,0 +1,483 @@
+{
+ "t": "2026-10-11T16:16:42+00:00",
+ "steps": [
+  {
+   "jobs": [
+    {
+     "id": "j-26101115482648a789947e9680a3f97d",
+     "title": "Everest_InSAR_20260928_20261010",
+     "status": "finished",
+     "created": "2026-10-11T15:48:26Z",
+     "updated": "2026-10-11T16:11:28Z",
+     "costs": null,
+     "usage": null
+    },
+    {
+     "id": "j-2610040315054d53adc2b231cdd02ba3",
+     "title": "Everest_InSAR_20260916_20260928",
+     "status": "finished",
+     "created": "2026-10-04T03:15:05Z",
+     "updated": "2026-10-04T03:42:19Z",
+     "costs": null,
+     "usage": null
+    },
+    {
+     "id": "j-2610031819484b9da30dd42bff46b2eb",
+     "title": "Everest_InSAR_20260928_20261003",
+     "status": "error",
+     "created": "2026-10-03T18:19:48Z",
+     "updated": "2026-10-03T18:24:20Z",
+     "costs": null,
+     "usage": null
+    },
+    {
+     "id": "j-2609200833024b288c2d38398b94e856",
+     "title": "Everest_InSAR_20260904_20260916",
+     "status": "finished",
+     "created": "2026-09-20T08:33:02Z",
+     "updated": "2026-09-20T08:57:13Z",
+     "costs": null,
+     "usage": null
+    },
+    {
+     "id": "j-260920083259498087362b496800cd9d",
+     "title": "Everest_InSAR_20260823_20260904",
+     "status": "finished",
+     "created": "2026-09-20T08:32:59Z",
+     "updated": "2026-09-20T09:01:17Z",
+     "costs": null,
+     "usage": null
+    },
+    {
+     "id": "j-2609181338124e19818d3c4f4f4e1f66",
+     "title": "Everest_InSAR_20260811_20260823",
+     "status": "finished",
+     "created": "2026-09-18T13:38:12Z",
+     "updated": "2026-09-18T14:12:20Z",
+     "costs": null,
+     "usage": null
+    },
+    {
+     "id": "j-26091812355247d1b1e7eb57b06a5ee3",
+     "title": "Everest_InSAR_20260807_20260819",
+     "status": "finished",
+     "created": "2026-09-18T12:35:52Z",
+     "updated": "2026-09-18T13:02:56Z",
+     "costs": null,
+     "usage": null
+    }
+   ],
+   "k": "jobs_before",
+   "t": "2026-10-11T16:16:47+00:00"
+  },
+  {
+   "pair": [
+    "2026-09-28",
+    "2026-10-10"
+   ],
+   "k": "discover",
+   "t": "2026-10-11T16:16:48+00:00"
+  },
+  {
+   "id": "j-26101115482648a789947e9680a3f97d",
+   "title": "Everest_InSAR_20260928_20261010",
+   "status": "finished",
+   "waited_min": 0.0,
+   "k": "latest_job",
+   "t": "2026-10-11T16:16:50+00:00"
+  },
+  {
+   "pair": [
+    "2026-09-28",
+    "2026-10-10"
+   ],
+   "stats": {
+    "coh_mean": 0.328,
+    "coh_ge_0_3": 0.509,
+    "valid_los_pixels": 2650018,
+    "los_q_mm": [
+     -169.1,
+     -102.2,
+     -18.3
+    ]
+   },
+   "bands": [
+    {
+     "i": 1,
+     "desc": "Phase_ifg_VV",
+     "finite": 5206390,
+     "q": [
+      -3.1302,
+      -2.5387,
+      -0.1488,
+      2.4591,
+      3.137
+     ]
+    },
+    {
+     "i": 2,
+     "desc": "Unw_Phase_ifg_VV",
+     "finite": 5516689,
+     "q": [
+      -19.1271,
+      4.2124,
+      23.9174,
+      38.6766,
+      60.1502
+     ]
+    },
+    {
+     "i": 3,
+     "desc": "coh_VV",
+     "finite": 5206390,
+     "q": [
+      0.0,
+      0.1234,
+      0.3029,
+      0.6873,
+      0.9991
+     ]
+    }
+   ],
+   "used": {
+    "coherence": 3,
+    "unwrapped": 2,
+    "wrapped": 1
+   },
+   "k": "exported",
+   "t": "2026-10-11T16:17:01+00:00"
+  },
+  {
+   "pair": [
+    "2026-09-16",
+    "2026-09-28"
+   ],
+   "stats": {
+    "coh_mean": 0.277,
+    "coh_ge_0_3": 0.345,
+    "valid_los_pixels": 1798602,
+    "los_q_mm": [
+     -1003.8,
+     -503.3,
+     34.3
+    ]
+   },
+   "bands": [
+    {
+     "i": 1,
+     "desc": "Phase_ifg_VV",
+     "finite": 5207221,
+     "q": [
+      -3.1295,
+      -2.4125,
+      0.0019,
+      2.4101,
+      3.1372
+     ]
+    },
+    {
+     "i": 2,
+     "desc": "Unw_Phase_ifg_VV",
+     "finite": 5519608,
+     "q": [
+      -38.1261,
+      -10.0487,
+      114.6039,
+      232.4778,
+      283.7225
+     ]
+    },
+    {
+     "i": 3,
+     "desc": "coh_VV",
+     "finite": 5207221,
+     "q": [
+      0.0,
+      0.1064,
+      0.2549,
+      0.6123,
+      0.9847
+     ]
+    }
+   ],
+   "used": {
+    "coherence": 3,
+    "unwrapped": 2,
+    "wrapped": 1
+   },
+   "k": "exported",
+   "t": "2026-10-11T16:17:10+00:00"
+  },
+  {
+   "pair": [
+    "2026-09-04",
+    "2026-09-16"
+   ],
+   "stats": {
+    "coh_mean": 0.394,
+    "coh_ge_0_3": 0.558,
+    "valid_los_pixels": 2904840,
+    "los_q_mm": [
+     23.1,
+     266.2,
+     421.4
+    ]
+   },
+   "bands": [
+    {
+     "i": 1,
+     "desc": "Phase_ifg_VV",
+     "finite": 5207703,
+     "q": [
+      -3.1386,
+      -2.7815,
+      -0.1698,
+      2.7748,
+      3.1395
+     ]
+    },
+    {
+     "i": 2,
+     "desc": "Unw_Phase_ifg_VV",
+     "finite": 5513908,
+     "q": [
+      -135.7284,
+      -106.8102,
+      -60.2338,
+      0.3169,
+      24.701
+     ]
+    },
+    {
+     "i": 3,
+     "desc": "coh_VV",
+     "finite": 5207703,
+     "q": [
+      0.0,
+      0.116,
+      0.3276,
+      0.8707,
+      0.9888
+     ]
+    }
+   ],
+   "used": {
+    "coherence": 3,
+    "unwrapped": 2,
+    "wrapped": 1
+   },
+   "k": "exported",
+   "t": "2026-10-11T16:17:18+00:00"
+  }
+ ],
+ "jobs_after": [
+  {
+   "id": "j-26101115482648a789947e9680a3f97d",
+   "title": "Everest_InSAR_20260928_20261010",
+   "status": "finished",
+   "created": "2026-10-11T15:48:26Z",
+   "updated": "2026-10-11T16:11:28Z",
+   "costs": null,
+   "usage": null
+  },
+  {
+   "id": "j-2610040315054d53adc2b231cdd02ba3",
+   "title": "Everest_InSAR_20260916_20260928",
+   "status": "finished",
+   "created": "2026-10-04T03:15:05Z",
+   "updated": "2026-10-04T03:42:19Z",
+   "costs": null,
+   "usage": null
+  },
+  {
+   "id": "j-2610031819484b9da30dd42bff46b2eb",
+   "title": "Everest_InSAR_20260928_20261003",
+   "status": "error",
+   "created": "2026-10-03T18:19:48Z",
+   "updated": "2026-10-03T18:24:20Z",
+   "costs": null,
+   "usage": null
+  },
+  {
+   "id": "j-2609200833024b288c2d38398b94e856",
+   "title": "Everest_InSAR_20260904_20260916",
+   "status": "finished",
+   "created": "2026-09-20T08:33:02Z",
+   "updated": "2026-09-20T08:57:13Z",
+   "costs": null,
+   "usage": null
+  },
+  {
+   "id": "j-260920083259498087362b496800cd9d",
+   "title": "Everest_InSAR_20260823_20260904",
+   "status": "finished",
+   "created": "2026-09-20T08:32:59Z",
+   "updated": "2026-09-20T09:01:17Z",
+   "costs": null,
+   "usage": null
+  },
+  {
+   "id": "j-2609181338124e19818d3c4f4f4e1f66",
+   "title": "Everest_InSAR_20260811_20260823",
+   "status": "finished",
+   "created": "2026-09-18T13:38:12Z",
+   "updated": "2026-09-18T14:12:20Z",
+   "costs": null,
+   "usage": null
+  },
+  {
+   "id": "j-26091812355247d1b1e7eb57b06a5ee3",
+   "title": "Everest_InSAR_20260807_20260819",
+   "status": "finished",
+   "created": "2026-09-18T12:35:52Z",
+   "updated": "2026-09-18T13:02:56Z",
+   "costs": null,
+   "usage": null
+  }
+ ],
+ "products": [
+  "20260904_20260916",
+  "20260916_20260928",
+  "20260928_20261010"
+ ],
+ "index": [
+  {
+   "pair": [
+    "2026-09-04",
+    "2026-09-16"
+   ],
+   "job_id": "j-2609200833024b288c2d38398b94e856",
+   "exported": "2026-10-11T16:17:18+00:00",
+   "tif": {
+    "count": 3,
+    "descriptions": [
+     "Phase_ifg_VV",
+     "Unw_Phase_ifg_VV",
+     "coh_VV"
+    ],
+    "dtype": "float32",
+    "nodata": null,
+    "crs": "EPSG:4326",
+    "bounds": [
+     86.21356360516077,
+     27.739167489855117,
+     87.1803305139302,
+     28.08214426533195
+    ],
+    "shape": [
+     1909,
+     5381
+    ]
+   },
+   "used": {
+    "coherence": 3,
+    "unwrapped": 2,
+    "wrapped": 1
+   },
+   "stats": {
+    "coh_mean": 0.394,
+    "coh_ge_0_3": 0.558,
+    "valid_los_pixels": 2904840,
+    "los_q_mm": [
+     23.1,
+     266.2,
+     421.4
+    ]
+   },
+   "status": "UNREFERENCED_NOT_FOR_HAZARD_DECISIONS",
+   "tif_bytes": 79056985
+  },
+  {
+   "pair": [
+    "2026-09-16",
+    "2026-09-28"
+   ],
+   "job_id": "j-2610040315054d53adc2b231cdd02ba3",
+   "exported": "2026-10-11T16:17:10+00:00",
+   "tif": {
+    "count": 3,
+    "descriptions": [
+     "Phase_ifg_VV",
+     "Unw_Phase_ifg_VV",
+     "coh_VV"
+    ],
+    "dtype": "float32",
+    "nodata": null,
+    "crs": "EPSG:4326",
+    "bounds": [
+     86.21248562681983,
+     27.739167489855117,
+     87.17925253558926,
+     28.08214426533195
+    ],
+    "shape": [
+     1909,
+     5381
+    ]
+   },
+   "used": {
+    "coherence": 3,
+    "unwrapped": 2,
+    "wrapped": 1
+   },
+   "stats": {
+    "coh_mean": 0.277,
+    "coh_ge_0_3": 0.345,
+    "valid_los_pixels": 1798602,
+    "los_q_mm": [
+     -1003.8,
+     -503.3,
+     34.3
+    ]
+   },
+   "status": "UNREFERENCED_NOT_FOR_HAZARD_DECISIONS",
+   "tif_bytes": 79737365
+  },
+  {
+   "pair": [
+    "2026-09-28",
+    "2026-10-10"
+   ],
+   "job_id": "j-26101115482648a789947e9680a3f97d",
+   "exported": "2026-10-11T16:17:01+00:00",
+   "tif": {
+    "count": 3,
+    "descriptions": [
+     "Phase_ifg_VV",
+     "Unw_Phase_ifg_VV",
+     "coh_VV"
+    ],
+    "dtype": "float32",
+    "nodata": null,
+    "crs": "EPSG:4326",
+    "bounds": [
+     86.21392293127442,
+     27.739526815968766,
+     87.18068984004385,
+     28.082323928388774
+    ],
+    "shape": [
+     1908,
+     5381
+    ]
+   },
+   "used": {
+    "coherence": 3,
+    "unwrapped": 2,
+    "wrapped": 1
+   },
+   "stats": {
+    "coh_mean": 0.328,
+    "coh_ge_0_3": 0.509,
+    "valid_los_pixels": 2650018,
+    "los_q_mm": [
+     -169.1,
+     -102.2,
+     -18.3
+    ]
+   },
+   "status": "UNREFERENCED_NOT_FOR_HAZARD_DECISIONS",
+   "tif_bytes": 80151523
+  }
+ ]
+}
