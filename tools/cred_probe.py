@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""检查完整流程需要的授权是否已配置、能不能用。只输出“有/没有/成功/失败”，绝不输出任何密钥内容。"""
+"""检查完整流程需要的授权是否已配置、能不能用。只输出“有/没有/成功/失败”，绝不输出任何密钥内容。""" 
 import json, os, sys, datetime as dt, urllib.request, urllib.parse
 out = {"t": dt.datetime.now(dt.timezone.utc).isoformat(timespec="seconds"), "secrets": {}, "checks": {}}
 for k in ("OPENEO_REFRESH_TOKEN", "CDSE_USERNAME", "CDSE_PASSWORD", "GH_PAT"):
