@@ -2,6 +2,7 @@
 name = "everest-facets"
 main = "src/index.js"
 compatibility_date = "2025-09-01"
+workers_dev = true             # 开启 everest-facets.<子域>.workers.dev 网址
 
 [triggers]
 crons = ["* * * * *"]          # 每分钟一次（UTC）；每次最多 40 个请求给微软
