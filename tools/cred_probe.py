@@ -20,6 +20,7 @@ if os.environ.get("OPENEO_REFRESH_TOKEN"):
         try: parsed = json.loads(raw)
         except json.JSONDecodeError: parsed = raw
         open(p + "/refresh-tokens.json", "w").write(json.dumps(parsed) if not isinstance(parsed, str) else parsed)
+        os.chmod(p + "/refresh-tokens.json", 0o600)
         c = openeo.connect(URL); c.authenticate_oidc_refresh_token()
         jobs = c.list_jobs()
         out["checks"]["openeo_refresh"] = {"ok": True, "jobs": len(jobs), "titles": [j.get("title") for j in jobs][:10]}
