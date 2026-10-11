@@ -81,4 +81,24 @@ try:
 except Exception as e:
     rec("国家地理珠峰站看板", "-", err=repr(e)[:300])
 
+# 6 意大利 EvK2 Minoprio：遥测数据页与 Pumori 直播摄像头
+for label, url in [("EvK2 Minoprio 实时遥测页", "https://evk2minoprio.org/en/real-time-data-en/"),
+                   ("EvK2 Minoprio Pumori 摄像头图片", "http://www.peterpyr.net/webcam.jpg")]:
+    try:
+        req = urllib.request.Request(url, headers={"User-Agent": "everest-liveness/0.1"})
+        with urllib.request.urlopen(req, timeout=60) as r:
+            b = r.read(); h = dict(r.headers)
+        lm = h.get("Last-Modified")
+        latest = None
+        if lm:
+            from email.utils import parsedate_to_datetime
+            latest = parsedate_to_datetime(lm)
+        import re, hashlib
+        txt = b.decode("utf-8", "replace") if "html" in (h.get("Content-Type") or "") else ""
+        stamps = sorted(set(re.findall(r"20\d\d[-/]\d\d[-/]\d\d[ T]\d\d:\d\d", txt)))[-3:]
+        rec(label, url, latest, {"status": r.status, "content_type": h.get("Content-Type"), "bytes": len(b), "sha1": hashlib.sha1(b).hexdigest()[:12], "stamps_in_page": stamps,
+                                  "radar_mentioned": ("radar" in txt.lower())})
+    except Exception as e:
+        rec(label, url, err=repr(e)[:300])
+
 json.dump(out, open("data/liveness/latest.json", "w"), ensure_ascii=False, indent=1)
