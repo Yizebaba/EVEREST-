@@ -6,7 +6,7 @@
   alerts.json  BIPAD 警报最近 30 条
   runs.json    每次采集的时间与各源状态（用来证明是否在实时更新），保留 3 天
 不做任何判断或预测；停报就记停报，不补值。"""
-import json, os, sys, datetime as dt, urllib.request, traceback
+import json, os, sys, datetime as dt, urllib.request, urllib.error, traceback
 
 NOW = dt.datetime.now(dt.timezone.utc)
 ST = sys.argv[1] if len(sys.argv) > 1 else "state"
@@ -203,6 +203,48 @@ try:
         run["src"]["itslive"] = {"ok": True, "cached": old["fetched"]}
 except Exception as e:
     run["src"]["itslive"] = {"ok": False, "err": repr(e)[:300]}
+
+# 8 完整 InSAR 流程各环节的真实状态（读仓库公开信息：工作流运行记录、main 分支文件、授权检查结果）
+try:
+    R = "Yizebaba/everest-insar-pipeline"
+    def ghj(path):
+        h = {"User-Agent": "everest-live", "Accept": "application/vnd.github+json"}
+        if os.environ.get("GH_TOKEN"): h["Authorization"] = "Bearer " + os.environ["GH_TOKEN"]
+        try:
+            with urllib.request.urlopen(urllib.request.Request("https://api.github.com/repos/" + R + path, headers=h), timeout=60) as r:
+                return json.loads(r.read())
+        except urllib.error.HTTPError as e:
+            if e.code == 404: return None
+            raise
+    def last_commit(p):
+        c = ghj("/commits?per_page=1&path=" + p)
+        return c[0]["commit"]["committer"]["date"] if c else None
+    wr = ghj("/actions/workflows/daily-pipeline.yml/runs?per_page=8") or {}
+    daily = [{"t": x["run_started_at"], "end": x["updated_at"], "ev": x["event"], "st": x["status"], "res": x["conclusion"], "url": x["html_url"]}
+             for x in wr.get("workflow_runs", [])]
+    ci = ghj("/contents/data/cloud_insar?ref=main")
+    cloud = {"exists": ci is not None, "dirs": [x["name"] for x in (ci or []) if x["type"] == "dir"]}
+    if ci is not None:
+        if any(x["name"] == "latest.json" for x in ci):
+            cloud["latest"] = json.loads(get("https://raw.githubusercontent.com/" + R + "/main/data/cloud_insar/latest.json"))
+            cloud["latest_commit"] = last_commit("data/cloud_insar/latest.json")
+        for dname in sorted(cloud["dirs"])[-1:]:
+            fl = [x["name"] for x in (ghj("/contents/data/cloud_insar/" + dname + "?ref=main") or [])]
+            cloud["last_dir"] = {"name": dname, "files": fl}
+            if "job.json" in fl:
+                cloud["last_dir"]["job"] = json.loads(get("https://raw.githubusercontent.com/" + R + "/main/data/cloud_insar/" + dname + "/job.json"))
+    try:
+        cred = json.loads(get("https://raw.githubusercontent.com/" + R + "/probe-out/cred.json"))
+    except Exception:
+        cred = None
+    flow = {"fetched": iso(NOW), "daily": daily, "cloud": cloud,
+            "cred": ({"t": cred["t"], "secrets": cred["secrets"], "ok": {k: v.get("ok") for k, v in cred["checks"].items()}} if cred else None),
+            "commits": {"summary": last_commit("data/displacement_summary.json"), "npy": last_commit("data/everest_insar_los_displacement_candidates_mm.npy"),
+                        "db": last_commit("data/glacier_state.db")}}
+    save("flow.json", flow)
+    run["src"]["flow"] = {"ok": True, "daily_last": daily[0]["t"] if daily else None, "cloud": bool(cloud.get("latest"))}
+except Exception as e:
+    run["src"]["flow"] = {"ok": False, "err": repr(e)[:200]}
 
 runs = load("runs.json", [])
 runs.append(run)
