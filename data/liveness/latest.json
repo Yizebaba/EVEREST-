@@ -1,0 +1,81 @@
+{
+ "checked_utc": "2026-10-11T04:37:42+00:00",
+ "sources": [
+  {
+   "name": "IO.EVN 金字塔地震台",
+   "url": "GEOFON FDSN IO.EVN.HHZ",
+   "latest_utc": "2026-10-11T04:32:45+00:00",
+   "age_minutes": 5.0,
+   "traces": 3,
+   "samples": 953447
+  },
+  {
+   "name": "AM.R5A68 卢卡拉公民地震仪",
+   "url": "RASPISHAKE FDSN AM.R5A68.EHZ",
+   "error": "FDSNNoDataException('No data available for request.\\nHTTP Status code: 204\\nDetailed response of server:\\n\\n')"
+  },
+  {
+   "name": "AM.RDD5D 卢卡拉公民地震仪",
+   "url": "RASPISHAKE FDSN AM.RDD5D.EHZ",
+   "error": "FDSNNoDataException('No data available for request.\\nHTTP Status code: 204\\nDetailed response of server:\\n\\n')"
+  },
+  {
+   "name": "BIPAD 河流水位（全国最新一条）",
+   "url": "https://bipadportal.gov.np/api/v1/river-stations/",
+   "latest_utc": "2026-10-11T04:25:00+00:00",
+   "age_minutes": 12.7,
+   "imja_tsho_rolpa": [
+    {
+     "title": "HS at Imja Lake Downstream",
+     "waterLevel": 8.0,
+     "waterLevelOn": "2026-04-22T13:10:00+05:45"
+    },
+    {
+     "title": "Imja River at Dingboche",
+     "waterLevel": 0.309,
+     "waterLevelOn": "2026-10-11T10:10:00+05:45"
+    },
+    {
+     "title": "Imja River at Pangboche",
+     "waterLevel": 1.24399995804,
+     "waterLevelOn": "2026-10-11T10:00:00+05:45"
+    },
+    {
+     "title": "Rolwaling River at Beding",
+     "waterLevel": 1.32120037079,
+     "waterLevelOn": "2026-08-31T15:20:00+05:45"
+    },
+    {
+     "title": "Tsho Rolpa Lake at Outlet",
+     "waterLevel": 0.608,
+     "waterLevelOn": "2026-10-11T10:05:00+05:45"
+    },
+    {
+     "title": "Imja Lake Outlet",
+     "waterLevel": 0.585999965668,
+     "waterLevelOn": "2026-10-11T10:00:00+05:45"
+    }
+   ]
+  },
+  {
+   "name": "BIPAD 实时警报",
+   "url": "https://bipadportal.gov.np/api/v1/alert/",
+   "latest_utc": "2026-10-11T02:45:00+00:00",
+   "age_minutes": 112.7,
+   "title": "Flood warning at Aarughat-9, Gorkha"
+  },
+  {
+   "name": "USGS 实时地震 feed（生成时间）",
+   "url": "https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/all_hour.geojson",
+   "latest_utc": "2026-10-11T04:37:48+00:00",
+   "age_minutes": -0.1,
+   "events_last_hour": 2
+  },
+  {
+   "name": "国家地理珠峰站看板（页面里最新时间，尼泊尔时间）",
+   "url": "https://datadash.appstate.edu/high-altitude-climate/lb",
+   "latest_stamp_text_npt": "2026-10-11 09:45:00",
+   "bytes": 14545
+  }
+ ]
+}
