@@ -105,7 +105,7 @@ except Exception as e:
 # 3 USGS 范围内地震（含 landslide 类型）
 try:
     w, s, e_, n = BBOX
-    url = ("https://earthquake.usgs.gov/fdsnws/event/1/query?format=geojson&orderby=time&eventtype=*"
+    url = ("https://earthquake.usgs.gov/fdsnws/event/1/query?format=geojson&orderby=time"
            f"&minlatitude={s}&maxlatitude={n}&minlongitude={w}&maxlongitude={e_}&starttime={(NOW - dt.timedelta(days=60)).date()}")
     j = json.loads(get(url))
     q = [{"id": f["id"], "t": iso(dt.datetime.fromtimestamp(f["properties"]["time"] / 1000, dt.timezone.utc)), "mag": f["properties"].get("mag"),
