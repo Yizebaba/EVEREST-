@@ -258,7 +258,7 @@ async function status(env) {
   const o = await env.DB.prepare("SELECT COUNT(*) n FROM obs").first();
   const sc = await env.DB.prepare("SELECT COUNT(*) n FROM scored").first();
   const dates = await env.DB.prepare("SELECT COUNT(*) n FROM (SELECT 1 FROM obs GROUP BY date, orbit)").first();
-  return { scenes: s, obs_rows: o.n, dates_scored: sc.n, dates_total: dates.n, live_at: await getMeta(env, "live_at"),
+  return { code: "v3-status-push", gh_token_set: !!env.GH_TOKEN, gh_status_at: await getMeta(env, "gh_status_at"), scenes: s, obs_rows: o.n, dates_scored: sc.n, dates_total: dates.n, live_at: await getMeta(env, "live_at"),
     last_tick: JSON.parse((await getMeta(env, "last_tick")) || "null"), facets: FACETS.length };
 }
 
