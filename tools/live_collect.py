@@ -187,8 +187,8 @@ try:
         units = dict(tv.attrs).get("units", "days since 1970-01-01")
         base = dt.datetime.fromisoformat(units.split("since")[1].strip()[:19].replace(" ", "T")).replace(tzinfo=dt.timezone.utc)
         mul = 86400 if units.startswith("days") else (3600 if units.startswith("hours") else 1)
-        # 点位：仓库匹配的 Khumbu 冰川点 + 珠峰附近两个对照点（UTM 45N）
-        pts = {"Khumbu（管线匹配点）": (486052.5, 3097027.5), "Khumbu 冰瀑下方": (488500.0, 3094500.0), "Rongbuk 冰川（北坡）": (490500.0, 3108500.0)}
+        # 该立方体北界约 y=3100000，覆盖不到绒布冰川；只取仓库匹配的 Khumbu 点
+        pts = {"Khumbu（管线匹配点）": (486052.5, 3097027.5)}
         series = {}
         for nm, (px, py) in pts.items():
             ix, iy = int(np.abs(xs - px).argmin()), int(np.abs(ys - py).argmin())
