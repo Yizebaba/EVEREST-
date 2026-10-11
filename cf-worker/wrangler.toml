@@ -1,0 +1,20 @@
+# 珠峰冰坡雷达监测 Worker。部署：Cloudflare 后台 Workers & Pages → 导入本仓库（根目录 cf-worker，分支 data-probe）。
+name = "everest-facets"
+main = "src/index.js"
+compatibility_date = "2025-09-01"
+
+[triggers]
+crons = ["* * * * *"]          # 每分钟一次（UTC）；每次最多 40 个请求给微软
+
+[[d1_databases]]
+binding = "DB"
+database_name = "everest-facets"
+database_id = "REPLACE_WITH_D1_DATABASE_ID"   # ← 在 Cloudflare 后台创建 D1 后，把 Database ID 填这里
+
+[vars]
+GH_REPO = "Yizebaba/everest-insar-pipeline"   # 结果推到这个仓库的 facet-live 分支（需另配 GH_TOKEN 密钥，可选）
+GH_BRANCH = "facet-live"
+GH_BASE = "data-probe"
+
+[observability]
+enabled = true

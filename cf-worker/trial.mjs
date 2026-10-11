@@ -22,7 +22,7 @@ step("latest", { ms: Date.now() - t0, per_req_ms: Math.round((Date.now() - t0) /
 const hist = {}; t0 = Date.now(); let req = 0, errs = 0;
 for (const p of pool) {
   const r = await facetStats(p.id, S); req += S.length; errs += r.err;
-  for (const [k, v] of Object.entries(r.res)) if (v && v.db != null) (hist[k] ||= []).push([p.t.slice(0, 10), +v.db.toFixed(3), v.count]);
+  for (const [k, v] of Object.entries(r.res)) if (v && v.db != null) (hist[k] ||= []).push([p.t.slice(0, 10), +v.db.toFixed(3), v.px]);
 }
 step("history", { scenes: pool.length, requests: req, errors: errs, ms: Date.now() - t0, req_per_s: +(req / ((Date.now() - t0) / 1000)).toFixed(1) });
 // 区域对照：同一景所有坡面 z 的中位数（与 OCHA 一致的做法）
@@ -31,7 +31,7 @@ for (const f of S) {
   const id = f.properties.id, c = cur.res[id], h = (hist[id] || []).map(x => x[1]);
   if (!c || c.db == null || h.length < 4) { rows.push({ id, ocha: f.properties.ocha_tier, z: null, n: h.length }); continue; }
   const m = h.reduce((a, b) => a + b, 0) / h.length, sd = Math.sqrt(h.reduce((a, b) => a + (b - m) ** 2, 0) / (h.length - 1));
-  rows.push({ id, ocha: f.properties.ocha_tier, ocha_live: f.properties.ocha_live, db: +c.db.toFixed(2), clim: +m.toFixed(2), sd: +sd.toFixed(2), z: +((c.db - m) / sd).toFixed(2), n: h.length, px: c.count });
+  rows.push({ id, ocha: f.properties.ocha_tier, ocha_live: f.properties.ocha_live, db: +c.db.toFixed(2), clim: +m.toFixed(2), sd: +sd.toFixed(2), z: +((c.db - m) / sd).toFixed(2), n: h.length, px: c.px });
 }
 const zs = rows.filter(r => r.z != null).map(r => r.z).sort((a, b) => a - b), med = zs.length ? zs[Math.floor(zs.length / 2)] : 0;
 rows.forEach(r => { if (r.z != null) r.z_adj = +(r.z - med).toFixed(2) });
