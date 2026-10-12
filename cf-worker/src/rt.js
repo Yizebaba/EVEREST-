@@ -270,7 +270,9 @@ const JOBS = { evn, bipad, emsc, gibs, ioda, usgs, alerts, nsc, gdacs, doris, ad
 export async function rtTick(env, getMeta, setMeta) {
   const st = JSON.parse((await getMeta(env, "rt")) || "{}");
   const log = { rt: [] };
-  const due = Object.keys(JOBS).filter(k => { const s = st[k]; return !s || !s.at || Date.now() - Date.parse(s.at) >= (every(k, s) - 0.5) * 60e3; })
+  // 刚加了 OpenSky 凭证、还没用凭证试过时，不等 60 分钟，下一轮就试
+  const fresh = k => k === "adsb" && env.OPENSKY_CLIENT_ID && st.adsb && !st.adsb.ok && !/opensky注册/.test(st.adsb.err || "");
+  const due = Object.keys(JOBS).filter(k => { const s = st[k]; return !s || !s.at || fresh(k) || Date.now() - Date.parse(s.at) >= (every(k, s) - 0.5) * 60e3; })
     .sort((a, b) => (Date.parse((st[a] || {}).at || 0) - (every(a, st[a]) * 60e3)) - (Date.parse((st[b] || {}).at || 0) - (every(b, st[b]) * 60e3))).slice(0, MAX_PER_ROUND);
   for (const k of due) {
     const fn = JOBS[k], s = st[k] || {};
