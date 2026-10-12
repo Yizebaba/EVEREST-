@@ -1,0 +1,23 @@
+# 一次性核查：8/26 吉隆冰岩崩时 IO.EVN 是否记录到（读 GEOFON / EarthScope 公开地震数据）。查完即删。
+name: evn-aug26
+on:
+  push:
+    branches: [data-probe]
+    paths: [tools/evn_aug26.py, .github/workflows/evn-aug26.yml]
+permissions:
+  contents: write
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+        with: {ref: data-probe}
+      - uses: actions/setup-python@v5
+        with: {python-version: "3.12"}
+      - run: pip install -q obspy matplotlib
+      - run: python tools/evn_aug26.py
+      - if: always()
+        run: |
+          mkdir _o && cp evn_aug26.* _o/ 2>/dev/null; cd _o && git init -q -b evn-aug26 && git add -A
+          git -c user.name=probe -c user.email=probe@users.noreply.github.com commit -qm check && git push -qf "https://x-access-token:${{ github.token }}@github.com/${{ github.repository }}.git" evn-aug26
