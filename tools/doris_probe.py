@@ -9,9 +9,14 @@ out["dirs"] = dirs
 for d in dirs:
     try:
         files = sorted(n.rsplit("/", 1)[-1] for n in f.nlst(f"{base}/{d}"))
-        snx = [x for x in files if re.search(r"\.snx", x)]
+        def key(x):
+            m = re.match(r"[a-z]{3}(\d\d)(\d{3})", x)
+            if not m: return (0, 0)
+            y = int(m.group(1)); return (1900 + y if y >= 90 else 2000 + y, int(m.group(2)))
+        snx = sorted([x for x in files if re.search(r"\.snx(\.Z|\.gz)?$", x) and key(x) != (0, 0)], key=key)
         info = {"n": len(snx), "last": snx[-3:]}
-        if snx and re.match(r"[a-z]{3}(2[4-9])", d):
+        if snx: info["last_date"] = "%d-%03d" % key(snx[-1])
+        if snx and key(snx[-1])[0] >= 2025:
             b = io.BytesIO(); f.retrbinary(f"RETR {base}/{d}/{snx[-1]}", b.write); raw = b.getvalue()
             txt = gzip.decompress(raw).decode("latin1") if snx[-1].endswith(".gz") else subprocess.run(["uncompress", "-c"], input=raw, capture_output=True).stdout.decode("latin1")
             info["has_evec"] = "EVEC" in txt
