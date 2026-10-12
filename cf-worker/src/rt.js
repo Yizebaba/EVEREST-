@@ -62,8 +62,17 @@ async function adsb(prev) {
                            ["airplanes.live", "https://api.airplanes.live/v2/point/27.85/86.80/40"]]) {
     try { x = await j(u); src = name; break; } catch (e) { errs.push(name + ":" + String(e.message || e).slice(0, 4)); }
   }
-  if (!x) throw new Error("ADS-B 三个源都失败 " + errs.join(" "));
-  const ac = (x.ac || x.aircraft || []).map(a => ({ hex: a.hex, flight: (a.flight || "").trim(), type: a.t || null, alt: a.alt_baro, gs: a.gs, lat: a.lat, lon: a.lon, seen: a.seen }));
+  let ac = null;
+  if (x) ac = (x.ac || x.aircraft || []).map(a => ({ hex: a.hex, flight: (a.flight || "").trim(), type: a.t || null, alt: a.alt_baro, gs: a.gs, lat: a.lat, lon: a.lon, seen: a.seen }));
+  else {
+    // 第四个：OpenSky Network（匿名每天 400 点额度，小范围查询 1 点/次）
+    try {
+      const o = await j("https://opensky-network.org/api/states/all?lamin=27.45&lomin=86.35&lamax=28.25&lomax=87.25");
+      src = "opensky";
+      ac = (o.states || []).map(v => ({ hex: v[0], flight: (v[1] || "").trim(), type: null, alt: v[7] == null ? null : Math.round(v[7] * 3.281), gs: v[9] == null ? null : Math.round(v[9] * 1.944), lat: v[6], lon: v[5], seen: o.time - v[4] }));
+    } catch (e) { errs.push("opensky:" + String(e.message || e).slice(0, 4)); }
+  }
+  if (!ac) throw new Error("ADS-B 四个源都失败 " + errs.join(" "));
   const hist = ((prev && prev.hist) || []).filter(h => Date.now() - Date.parse(h[0]) < 24 * 3600e3);
   hist.push([iso(Date.now()), ac.length]);
   return { now: ac, count: ac.length, hist: hist.slice(-300), source: src };

@@ -334,7 +334,7 @@ a{color:var(--acc)}svg{width:100%;height:60px}
 <h2>空中交通（ADS-B · 卢卡拉周围 40 海里）</h2><div class="c" id="adsb"></div>
 <h2>灾害警报（GDACS · 尼泊尔及珠峰附近）</h2><div class="c"><table id="gdacs"></table></div>
 <h2>DORIS 信标 EVEC（Pyramid）· 卫星跟踪记录</h2><div class="c" id="doris"></div>
-<p class="sub">只监测：显示各公开源的最新数据和时间，不判断、不预测。来源：NASA GIBS（向日葵 9 号）、EUMETSAT EUMETView（Meteosat IODC）、EMSC、尼泊尔国家地震中心、IODA（佐治亚理工）、ADS-B（adsb.lol / <a href=\"https://adsb.fi\">adsb.fi</a> / airplanes.live，非商业使用）、GDACS、IGN/IDS DORIS。<a href="/">← 冰坡雷达亮度</a></p></main>
+<p class="sub">只监测：显示各公开源的最新数据和时间，不判断、不预测。来源：NASA GIBS（向日葵 9 号）、EUMETSAT EUMETView（Meteosat IODC）、EMSC、尼泊尔国家地震中心、IODA（佐治亚理工）、ADS-B（adsb.lol / <a href=\"https://adsb.fi\">adsb.fi</a> / airplanes.live / OpenSky Network，非商业使用）、GDACS、IGN/IDS DORIS。<a href="/">← 冰坡雷达亮度</a></p></main>
 <script>
 const BJ=t=>t?new Date(t).toLocaleString("zh-CN",{timeZone:"Asia/Shanghai",hour12:false,month:"2-digit",day:"2-digit",hour:"2-digit",minute:"2-digit"}):"—";
 const ago=t=>{if(!t)return"—";const m=(Date.now()-new Date(t))/6e4;return m<90?Math.round(m)+" 分钟前":m<2880?(m/60).toFixed(1)+" 小时前":Math.round(m/1440)+" 天前"};
