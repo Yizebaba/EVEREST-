@@ -132,23 +132,31 @@ async function doris(prev, env) {
     await f.open(); await f.cmd("USER anonymous"); await f.cmd("PASS everest-facets@"); await f.cmd("TYPE I");
     const names = dec.decode(await f.data(`NLST /pub/doris/data/${sat}/NRT`)).split(/\r?\n/).map(s => s.trim().split("/").pop()).filter(n => n && /rx\d{8}_\d{6}/.test(n)).sort();
     const done = new Set((st.sats[sat] && st.sats[sat].files) || []);
-    const todo = names.slice(-6).filter(n => !done.has(n)).slice(-2);
+    const todo = names.slice(-12).filter(n => !done.has(n)).slice(-3);   // 最近约一天里没看过的，每次最多 3 个
     info.newest_file = names[names.length - 1] || null;
+    const dbg = [];
     for (const n of todo) {
       const txt = dec.decode(await f.data(`RETR /pub/doris/data/${sat}/NRT/${n}`));
-      const cut = txt.indexOf("END OF HEADER"), head = txt.slice(0, cut), body = txt.slice(cut);
-      const ref = head.split("\n").find(l => l.includes("STATION REFERENCE") && l.includes("EVEC"));
       done.add(n);
-      if (!ref) continue;
-      const id = ref.trim().split(/\s+/)[0];
-      let cur = null, first = null, last = null, cnt = 0;
-      for (const line of body.split("\n")) {
-        if (line[0] === ">") cur = line.slice(2, 21);
-        else if (line.startsWith(id)) { if (!first) first = cur; last = cur; cnt++; }
+      const cut = txt.indexOf("END OF HEADER");
+      const hs = txt.lastIndexOf("\n", txt.indexOf("EVEC")) + 1;
+      const ev = txt.indexOf("EVEC") > -1 && txt.indexOf("EVEC") < cut ? txt.slice(hs, txt.indexOf("\n", hs)) : null;
+      const d = { f: n.slice(5, 20), kb: Math.round(txt.length / 1024), evec_ref: !!(ev && ev.includes("STATION REFERENCE")), n: 0 };
+      if (d.evec_ref) {
+        const id = "\n" + ev.trim().split(/\s+/)[0] + " ";
+        let p = txt.indexOf(id, cut), first = null, last = null;
+        while (p > -1) {
+          const e = txt.lastIndexOf("\n>", p);
+          const ep = txt.slice(e + 3, e + 22);
+          if (!first) first = ep; last = ep; d.n++;
+          p = txt.indexOf(id, p + 4);
+        }
+        if (d.n) st.passes.push({ sat, first: tsOf(first), last: tsOf(last), n: d.n, file: n });
       }
-      if (cnt) st.passes.push({ sat, first: tsOf(first), last: tsOf(last), n: cnt, file: n });
+      dbg.push(d);
     }
-    st.sats[sat] = { checked: iso(Date.now()), newest_file: info.newest_file, files: [...done].slice(-12) };
+    info.dbg = dbg;
+    st.sats[sat] = { checked: iso(Date.now()), newest_file: info.newest_file, files: [...done].slice(-16), dbg: info.dbg };
   } finally { f.close(); }
   st.k = (st.k || 0) + 1;
   st.passes = st.passes.filter(p => Date.now() - Date.parse(p.last) < 72 * 3600e3).sort((a, b) => a.last.localeCompare(b.last)).slice(-80);
@@ -186,7 +194,7 @@ export function rtPublic(st) {
   for (const k of Object.keys(JOBS)) {
     const s = st[k]; if (!s) continue;
     let v = s.v;
-    if (k === "doris" && v) v = { last_pass: v.last_pass, passes_24h: v.passes_24h, passes: (v.passes || []).slice(-30), sats: Object.fromEntries(Object.entries(v.sats || {}).map(([a, b]) => [a, { checked: b.checked, newest_file: b.newest_file }])) };
+    if (k === "doris" && v) v = { last_pass: v.last_pass, passes_24h: v.passes_24h, passes: (v.passes || []).slice(-30), sats: Object.fromEntries(Object.entries(v.sats || {}).map(([a, b]) => [a, { checked: b.checked, newest_file: b.newest_file, dbg: b.dbg }])) };
     o.sources[k] = { at: s.at, ok: s.ok, err: s.err || null, v };
   }
   return o;
