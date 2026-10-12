@@ -1,44 +1,23 @@
 #!/usr/bin/env python3
-"""一次性调查第 3 步：NRT 目录最新文件多新、里面有没有 EVEC、观测类型。只读 IGN 匿名 FTP。"""
-import ftplib, io, json, gzip, re, subprocess, datetime as dt, sys
-out = {"t": dt.datetime.utcnow().isoformat(timespec="seconds") + "Z", "nrt": {}, "errors": []}
+"""一次性调查第 4 步：各分析中心周解（sinex_series）最新到哪一周，是否包含 EVEC。只读 IGN 匿名 FTP。"""
+import ftplib, io, json, re, subprocess, gzip, datetime as dt, sys
+out = {"t": dt.datetime.utcnow().isoformat(timespec="seconds") + "Z", "acs": {}, "errors": []}
 f = ftplib.FTP("doris.ign.fr", timeout=60); f.login()
-def get(path):
-    b = io.BytesIO(); f.retrbinary("RETR " + path, b.write); raw = b.getvalue()
-    if path.endswith(".Z"): return subprocess.run(["uncompress", "-c"], input=raw, capture_output=True).stdout.decode("latin1", "replace"), len(raw)
-    if path.endswith(".gz"): return gzip.decompress(raw).decode("latin1", "replace"), len(raw)
-    return raw.decode("latin1", "replace"), len(raw)
-for sat in ("ja3", "s6a", "s3a", "swo", "h2c", "srl"):
+base = "/pub/doris/products/sinex_series"
+dirs = sorted(n.rsplit("/", 1)[-1] for n in f.nlst(base))
+out["dirs"] = dirs
+for d in dirs:
     try:
-        base = f"/pub/doris/data/{sat}/NRT"
-        names = sorted(n.rsplit("/", 1)[-1] for n in f.nlst(base))
-        out.setdefault("ls", {})[sat] = names[-6:]
-        sub = [n for n in names if re.fullmatch(r"\d{4}", n)]
-        if sub:
-            yd = base + "/" + sub[-1]; inner = sorted(n.rsplit("/", 1)[-1] for n in f.nlst(yd))
-            dd = [n for n in inner if re.fullmatch(r"\d{3}", n)]
-            out["ls"][sat + "_y"] = inner[-6:]
-            if dd: yd = yd + "/" + dd[-1]; inner = sorted(n.rsplit("/", 1)[-1] for n in f.nlst(yd)); out["ls"][sat + "_d"] = inner[-6:]
-            files = [yd + "/" + n for n in inner]
-        else:
-            files = [base + "/" + n for n in names]
-        info = {"n": len(files), "newest": [x.rsplit("/", 1)[-1] for x in files[-2:]], "evec_passes": []}
-        for fp in files[-10:]:
-            txt, size = get(fp)
-            head, _, body = txt.partition("END OF HEADER")
-            if "obs_types" not in info:
-                info["obs_types"] = [l[:60].strip() for l in head.splitlines() if "OBS TYPES" in l][:3]
-                info["bytes"] = size
-            ev = [l for l in head.splitlines() if "STATION REFERENCE" in l and "EVEC" in l]
-            if not ev: continue
-            sid = ev[0].split()[0]; cur = None; ep = []
-            for l in body.splitlines():
-                if l.startswith(">"): cur = l[2:21]
-                elif l.startswith(sid): ep.append(cur)
-            if ep: info["evec_passes"].append({"file": fp.rsplit("/", 1)[-1], "first": ep[0], "last": ep[-1], "n": len(ep),
-                     "sample": next(l[:150] for l in body.splitlines() if l.startswith(sid))})
-        out["nrt"][sat] = info
+        files = sorted(n.rsplit("/", 1)[-1] for n in f.nlst(f"{base}/{d}"))
+        snx = [x for x in files if re.search(r"\.snx", x)]
+        info = {"n": len(snx), "last": snx[-3:]}
+        if snx and re.match(r"[a-z]{3}(2[4-9])", d):
+            b = io.BytesIO(); f.retrbinary(f"RETR {base}/{d}/{snx[-1]}", b.write); raw = b.getvalue()
+            txt = gzip.decompress(raw).decode("latin1") if snx[-1].endswith(".gz") else subprocess.run(["uncompress", "-c"], input=raw, capture_output=True).stdout.decode("latin1")
+            info["has_evec"] = "EVEC" in txt
+            m = re.search(r"%=SNX.{60}", txt); info["hdr"] = m.group(0) if m else txt[:80]
+        out["acs"][d] = info
     except Exception as e:
-        out["errors"].append(f"{sat}: {e!r}"[:200])
+        out["errors"].append(f"{d}: {e!r}"[:160])
 f.quit()
-json.dump(out, open(sys.argv[1], "w"), indent=1, ensure_ascii=False)
+json.dump(out, open(sys.argv[1], "w"), indent=1)
