@@ -4,6 +4,7 @@
 // 只监测：每个坡面“和自己历年同季相比有多反常”的排名，不预测、不判断会不会崩。
 import FACETS from "./facets.json";
 import { searchScenes, facetStat, STAC, DATA } from "./pc.js";
+import { rtTick, rtPublic, IMG } from "./rt.js";
 
 const BBOX = [86.54, 27.746, 87.257, 28.23];
 const START = "2020-01-01T00:00:00Z";
@@ -200,7 +201,7 @@ async function pushFile(env, path, obj, msg, log) {
   } else if (!ref.ok) { log.github = ref.status; return ref.status; }
   const cur = await fetch(`${api}/contents/${path}?ref=${br}`, { headers: h }); log.fetches++;
   const sha = cur.ok ? (await cur.json()).sha : undefined;
-  const bytes = new TextEncoder().encode(JSON.stringify(obj));
+  const bytes = obj instanceof Uint8Array ? obj : new TextEncoder().encode(JSON.stringify(obj));
   let bin = ""; for (let i = 0; i < bytes.length; i += 0x8000) bin += String.fromCharCode(...bytes.subarray(i, i + 0x8000));
   const r = await fetch(`${api}/contents/${path}`, { method: "PUT", headers: h, body: JSON.stringify({ message: msg, content: btoa(bin), branch: br, sha }) }); log.fetches++;
   log.github = r.status;
@@ -221,6 +222,17 @@ async function pushStatus(env, log) {
   const st = await status(env);
   delete st.last_tick;
   log.gh_status = await pushFile(env, "facet_status.json", { t: nowIso(), ...st }, `facet status ${nowIso().slice(0, 16)}`, log);
+  const rt = await getMeta(env, "rt");
+  if (rt) log.gh_rt = await pushFile(env, "rt.json", rtPublic(JSON.parse(rt)), `rt ${nowIso().slice(0, 16)}`, log);
+  // 卫星图像每 3 小时存一张到 GitHub（平台页面不能直接加载外部图片）
+  const li = await getMeta(env, "gh_img_at");
+  if (!li || Date.now() - Date.parse(li) > 3 * 3600e3) {
+    await setMeta(env, "gh_img_at", nowIso());
+    for (const [k, path] of [["himawari_vis", "img/himawari_vis.png"], ["meteosat_snow", "img/meteosat_snow.png"]]) {
+      try { const r = await fetch(IMG[k]); log.fetches++; if (r.ok) log["gh_" + k] = await pushFile(env, path, new Uint8Array(await r.arrayBuffer()), `img ${k} ${nowIso().slice(0, 16)}`, log); }
+      catch (e) { log["gh_" + k] = String(e).slice(0, 80); }
+    }
+  }
   return true;
 }
 
@@ -228,6 +240,10 @@ async function tick(env) {
   const log = { t: nowIso(), fetches: 0 };
   try {
     await init(env);
+    if (new Date().getUTCMinutes() % 5 === 2 || env.RT_EVERY_TICK === "1") {
+      Object.assign(log, await rtTick(env, getMeta, setMeta));
+      await setMeta(env, "last_tick", JSON.stringify(log)); return log;
+    }
     await discover(env, log);
     // 推进度的那一分钟不做计算，避免超过每次 50 个子请求
     if (await pushStatus(env, log)) { await setMeta(env, "last_tick", JSON.stringify(log)); return log; }
@@ -258,7 +274,7 @@ async function status(env) {
   const o = await env.DB.prepare("SELECT COUNT(*) n FROM obs").first();
   const sc = await env.DB.prepare("SELECT COUNT(*) n FROM scored").first();
   const dates = await env.DB.prepare("SELECT COUNT(*) n FROM (SELECT 1 FROM obs GROUP BY date, orbit)").first();
-  return { code: "v3-status-push", gh_token_set: !!env.GH_TOKEN, gh_status_at: await getMeta(env, "gh_status_at"), scenes: s, obs_rows: o.n, dates_scored: sc.n, dates_total: dates.n, live_at: await getMeta(env, "live_at"),
+  return { code: "v4-rt", gh_token_set: !!env.GH_TOKEN, gh_status_at: await getMeta(env, "gh_status_at"), scenes: s, obs_rows: o.n, dates_scored: sc.n, dates_total: dates.n, live_at: await getMeta(env, "live_at"),
     last_tick: JSON.parse((await getMeta(env, "last_tick")) || "null"), facets: FACETS.length };
 }
 
@@ -269,6 +285,8 @@ export default {
     if (u.pathname === "/api/live.json") { await init(env); const v = await getMeta(env, "live"); return v ? new Response(v, { headers: { "content-type": "application/json; charset=utf-8", ...CORS } }) : json({ building: true, status: await status(env) }, 202); }
     if (u.pathname === "/api/status.json") return json(await status(env));
     if (u.pathname === "/api/facets.json") return json(FACETS);
+    if (u.pathname === "/api/rt.json") { await init(env); const v = await getMeta(env, "rt"); return json(v ? rtPublic(JSON.parse(v)) : { building: true }); }
+    if (u.pathname === "/rt") return new Response(RT_PAGE, { headers: { "content-type": "text/html; charset=utf-8" } });
     if (u.pathname === "/__tick" && env.ALLOW_MANUAL_TICK === "1") return json(await tick(env));
     if (u.pathname === "/") return new Response(PAGE, { headers: { "content-type": "text/html; charset=utf-8" } });
     return new Response("not found", { status: 404 });
@@ -285,7 +303,7 @@ svg{width:100%;height:auto;background:#15181d;border-radius:8px;margin:10px 0}.l
 </style></head><body><main><h1>珠峰冰坡雷达亮度监测</h1><div class="sub" id="meta">加载中…</div>
 <div class="leg"><span><i style="background:var(--c)"></i>异常显著（&lt;1%）</span><span><i style="background:var(--e)"></i>偏高（&lt;5%）</span><span><i style="background:var(--w)"></i>留意（&lt;15%）</span><span><i style="background:var(--q)"></i>平静</span><span><i style="background:var(--n)"></i>无数据</span></div>
 <svg id="map" viewBox="0 0 1000 680"></svg><table id="tb"></table>
-<p class="sub">方法：OCHA-DAP 0005 facet watch（MIT），数据：Sentinel-1 RTC（Microsoft Planetary Computer）。只监测：分级表示“和自己历年同季相比有多反常”，不预测、不是预警。</p></main>
+<p class="sub"><a href="/rt" style="color:#8fc3ff">→ 珠峰实时源总览（卫星云图、地震、网络连通、空中交通、灾害警报、DORIS 信标）</a></p><p class="sub">方法：OCHA-DAP 0005 facet watch（MIT），数据：Sentinel-1 RTC（Microsoft Planetary Computer）。只监测：分级表示“和自己历年同季相比有多反常”，不预测、不是预警。</p></main>
 <script>
 const C={critical:"var(--c)",elevated:"var(--e)",watch:"var(--w)",quiet:"var(--q)",nodata:"var(--n)"},CN={critical:"异常显著",elevated:"偏高",watch:"留意",quiet:"平静",nodata:"无数据"};
 const B=[86.54,27.746,87.257,28.23],X=x=>(x-B[0])/(B[2]-B[0])*1000,Y=y=>(B[3]-y)/(B[3]-B[1])*680;
@@ -297,5 +315,40 @@ Promise.all([fetch("/api/facets.json").then(r=>r.json()),fetch("/api/live.json")
  document.getElementById("map").innerHTML=F.map(f=>{const t=(T[f.id]||{}).tier||"nodata";return '<polygon points="'+f.g.map(p=>X(p[0]).toFixed(1)+","+Y(p[1]).toFixed(1)).join(" ")+'" fill="'+C[t]+'" fill-opacity=".85" stroke="#000" stroke-width=".4"><title>'+f.id+" "+CN[t]+'</title></polygon>'}).join("")+'<polygon points="'+X(86.925)+","+(Y(27.988)-9)+" "+(X(86.925)-7)+","+(Y(27.988)+5)+" "+(X(86.925)+7)+","+(Y(27.988)+5)+'" fill="#fff"><title>珠峰</title></polygon>';
  const top=(L.facets||[]).filter(f=>f.tier!=="quiet"&&f.tier!=="nodata").sort((a,b)=>a.pct-b.pct);
  document.getElementById("tb").innerHTML='<tr><th>坡面</th><th>等级</th><th>最近90天</th><th>历史分位</th><th>最新一景</th></tr>'+top.map(f=>'<tr><td>'+f.id+'</td><td style="color:'+C[f.tier]+'">'+CN[f.tier]+'</td><td>'+f.live+'</td><td>'+f.pct+'%</td><td>'+(f.last?f.last[0]+" "+f.last[1]:"—")+'</td></tr>').join("");
+});
+</script></body></html>`;
+
+const RT_PAGE = `<!doctype html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>珠峰实时源</title><style>
+:root{--bg:#0e1013;--fg:#e8e6e1;--mute:#8d8b86;--line:#2a2d33;--ok:#63c99a;--w:#e2b44c;--bad:#ef8a7e;--acc:#8fc3ff}
+body{margin:0;background:var(--bg);color:var(--fg);font:14px/1.5 system-ui,-apple-system,"PingFang SC","Noto Sans CJK SC",sans-serif}
+main{max-width:1060px;margin:0 auto;padding:16px}h1{font-size:18px;margin:0 0 2px}h2{font-size:15px;margin:22px 0 6px}.sub{color:var(--mute);font-size:12px}
+.g{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:10px}.c{background:#15181d;border-radius:8px;padding:10px}
+.c img{width:100%;border-radius:6px;display:block;background:#222}table{width:100%;border-collapse:collapse;font-size:12px}td,th{padding:3px 4px;border-bottom:1px solid var(--line);text-align:left}
+.k{display:inline-block;font-size:11px;padding:0 7px;border-radius:999px}.ok{background:rgba(99,201,154,.16);color:var(--ok)}.w{background:rgba(226,180,76,.16);color:var(--w)}.bad{background:rgba(239,138,126,.16);color:var(--bad)}
+a{color:var(--acc)}svg{width:100%;height:60px}
+</style></head><body><main><h1>珠峰实时源总览</h1><div class="sub" id="m">加载中…</div>
+<h2>卫星云图（每 10–15 分钟）</h2><div class="g" id="img"></div>
+<h2>地震（EMSC 实时 · 尼泊尔国家地震中心）</h2><div class="g"><div class="c"><b>EMSC · 珠峰 330 km 内，近 30 天</b><table id="emsc"></table></div><div class="c"><b>尼泊尔国家地震中心 · 最新</b><table id="nsc"></table></div></div>
+<h2>当地网络连通（IODA · 萨加玛塔区）</h2><div class="c" id="ioda"></div>
+<h2>空中交通（ADS-B · 卢卡拉周围 40 海里）</h2><div class="c" id="adsb"></div>
+<h2>灾害警报（GDACS · 尼泊尔及珠峰附近）</h2><div class="c"><table id="gdacs"></table></div>
+<h2>DORIS 信标 EVEC（Pyramid）· 卫星跟踪记录</h2><div class="c" id="doris"></div>
+<p class="sub">只监测：显示各公开源的最新数据和时间，不判断、不预测。来源：NASA GIBS（向日葵 9 号）、EUMETSAT EUMETView（Meteosat IODC）、EMSC、尼泊尔国家地震中心、IODA（佐治亚理工）、adsb.lol、GDACS、IGN/IDS DORIS。<a href="/">← 冰坡雷达亮度</a></p></main>
+<script>
+const BJ=t=>t?new Date(t).toLocaleString("zh-CN",{timeZone:"Asia/Shanghai",hour12:false,month:"2-digit",day:"2-digit",hour:"2-digit",minute:"2-digit"}):"—";
+const ago=t=>{if(!t)return"—";const m=(Date.now()-new Date(t))/6e4;return m<90?Math.round(m)+" 分钟前":m<2880?(m/60).toFixed(1)+" 小时前":Math.round(m/1440)+" 天前"};
+const chip=(t,lim)=>{if(!t)return'<span class="k bad">无数据</span>';const m=(Date.now()-new Date(t))/6e4;return m<=lim?'<span class="k ok">实时</span>':m<=lim*6?'<span class="k w">延迟</span>':'<span class="k bad">停更</span>'};
+const spark=(v,col)=>{v=(v||[]).filter(x=>x!=null);if(v.length<2)return"";const mn=Math.min(...v),mx=Math.max(...v),r=mx-mn||1;return'<svg viewBox="0 0 300 60" preserveAspectRatio="none"><polyline fill="none" stroke="'+col+'" stroke-width="1.5" points="'+v.map((y,i)=>(i/(v.length-1)*300).toFixed(1)+","+(55-(y-mn)/r*50).toFixed(1)).join(" ")+'"/></svg>'};
+const IMGS=${JSON.stringify(IMG)};
+const bad=s=>s&&s.ok===false?'<span class="k bad">取数失败</span> <span class="sub">'+(s.err||"")+'（'+BJ(s.at)+'）</span> ':"";
+fetch("/api/rt.json").then(r=>r.json()).then(d=>{const S=d.sources||{};document.getElementById("m").textContent="汇总于 "+BJ(d.updated)+"（北京）。每 5 分钟一轮，各源按自己的节奏更新。";
+ const g=(S.gibs||{}).v||{};document.getElementById("img").innerHTML=[["向日葵 9 号 可见光",IMGS.himawari_vis,g.vis_latest,30],["向日葵 9 号 红外（夜间也可见）",IMGS.himawari_ir,g.ir_latest,30],["Meteosat 雪 RGB（雪为红色调）",IMGS.meteosat_snow,null,0],["Meteosat 自然色增强",IMGS.meteosat_natural,null,0]].map(a=>'<div class="c"><b>'+a[0]+'</b> '+(a[2]?chip(a[2],a[3])+'<div class="sub">最新 '+BJ(a[2])+'（'+ago(a[2])+'）</div>':'<div class="sub">'+(a[3]?bad(S.gibs)||"最新一张":"EUMETView 最新一张")+'</div>')+'<img loading="lazy" src="'+a[1]+'" alt="'+a[0]+'"></div>').join("");
+ const e=((S.emsc||{}).v||{}).events||[];document.getElementById("emsc").innerHTML=bad(S.emsc)+'<tr><th>时间（北京）</th><th>震级</th><th>地区</th></tr>'+e.slice(0,12).map(x=>'<tr><td>'+BJ(x.t)+'</td><td>'+x.mt+" "+x.mag+'</td><td>'+x.region+'</td></tr>').join("");
+ const n=((S.nsc||{}).v||{}).events||[];document.getElementById("nsc").innerHTML=bad(S.nsc)+'<tr><th>时间（北京）</th><th>震级</th><th>地点</th></tr>'+n.slice(0,12).map(x=>'<tr><td>'+BJ(x.t)+'</td><td>'+x.mt+" "+x.mag+'</td><td>'+x.place+'</td></tr>').join("");
+ const io=(S.ioda||{}).v||{};document.getElementById("ioda").innerHTML=bad(S.ioda)+chip(io.until,30)+' BGP 可达网段 <b>'+(io.bgp_last??"—")+'</b> · 主动探测有响应的地址块 <b>'+(io.ping_last??"—")+'</b><div class="sub">过去 24 小时（BGP）</div>'+spark((io.bgp||{}).v,"#8fc3ff")+'<div class="sub">过去 24 小时（主动探测）</div>'+spark((io.ping||{}).v,"#63c99a")+'<div class="sub">骤降可能是断网、断电或灾害，也可能是探测本身波动；本页不判断。</div>';
+ const a=(S.adsb||{}).v||{};document.getElementById("adsb").innerHTML=(bad(S.adsb)||chip((S.adsb||{}).at,15))+' 当前 <b>'+(a.count??"—")+'</b> 架'+'<div class="sub">过去 24 小时架次（每 5 分钟）</div>'+spark((a.hist||[]).map(h=>h[1]),"#e2b44c")+'<table><tr><th>航班</th><th>机型</th><th>高度 ft</th><th>位置</th></tr>'+(a.now||[]).map(x=>'<tr><td>'+(x.flight||x.hex)+'</td><td>'+(x.type||"—")+'</td><td>'+(x.alt??"—")+'</td><td>'+(x.lat?x.lat.toFixed(3)+", "+x.lon.toFixed(3):"—")+'</td></tr>').join("")+'</table><div class="sub">不是所有直升机都装 ADS-B 发射器，没看到不代表没有飞行。</div>';
+ const gd=((S.gdacs||{}).v||{}).events||[];document.getElementById("gdacs").innerHTML=bad(S.gdacs)+'<tr><th>开始</th><th>类型</th><th>级别</th><th>名称</th></tr>'+gd.map(x=>'<tr><td>'+BJ(x.from)+'</td><td>'+x.type+'</td><td>'+x.level+'</td><td>'+(x.url?'<a href="'+x.url+'" target="_blank" rel="noopener">'+x.name+'</a>':x.name)+'</td></tr>').join("");
+ const dd=(S.doris||{}).v||{};const lp=dd.last_pass;document.getElementById("doris").innerHTML=bad(S.doris)+(lp?chip(lp.last,6*60)+' 最近一次被跟踪 <b>'+BJ(lp.last)+'</b>（'+ago(lp.last)+'，卫星 '+lp.sat+'，'+lp.n+' 条观测）':'<span class="k w">首次运行，正在逐颗卫星检查</span>')+' · 过去 24 小时被跟踪 <b>'+(dd.passes_24h??"—")+'</b> 次<table><tr><th>卫星</th><th>开始</th><th>结束</th><th>观测数</th></tr>'+(dd.passes||[]).slice(-10).reverse().map(p=>'<tr><td>'+p.sat+'</td><td>'+BJ(p.first)+'</td><td>'+BJ(p.last)+'</td><td>'+p.n+'</td></tr>').join("")+'</table><div class="sub">数据来自 IGN 匿名 FTP 的准实时文件（延迟 2–3 小时），每 30 分钟查一颗卫星，轮流检查 9 颗。只说明信标在工作，不是位置变化。</div>';
 });
 </script></body></html>`;
