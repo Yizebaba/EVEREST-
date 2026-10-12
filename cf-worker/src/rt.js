@@ -56,11 +56,17 @@ async function ioda(prev) {
   return { region: "Sagarmatha (3027)", bgp_last: lastNum(bgp), ping_last: lastNum(ping), bgp, ping, until: iso(until * 1000) };
 }
 async function adsb(prev) {
-  const x = await j("https://api.adsb.lol/v2/point/27.85/86.80/40");
-  const ac = (x.ac || []).map(a => ({ hex: a.hex, flight: (a.flight || "").trim(), type: a.t || null, alt: a.alt_baro, gs: a.gs, lat: a.lat, lon: a.lon, seen: a.seen }));
+  // 三个免费 ADS-B 源依次尝试（adsb.lol 会对共享出口 IP 限流）
+  let x = null, src = null, errs = [];
+  for (const [name, u] of [["adsb.lol", "https://api.adsb.lol/v2/point/27.85/86.80/40"], ["adsb.fi", "https://opendata.adsb.fi/api/v3/lat/27.85/lon/86.80/dist/40"],
+                           ["airplanes.live", "https://api.airplanes.live/v2/point/27.85/86.80/40"]]) {
+    try { x = await j(u); src = name; break; } catch (e) { errs.push(name + ":" + String(e.message || e).slice(0, 4)); }
+  }
+  if (!x) throw new Error("ADS-B 三个源都失败 " + errs.join(" "));
+  const ac = (x.ac || x.aircraft || []).map(a => ({ hex: a.hex, flight: (a.flight || "").trim(), type: a.t || null, alt: a.alt_baro, gs: a.gs, lat: a.lat, lon: a.lon, seen: a.seen }));
   const hist = ((prev && prev.hist) || []).filter(h => Date.now() - Date.parse(h[0]) < 24 * 3600e3);
   hist.push([iso(Date.now()), ac.length]);
-  return { now: ac, count: ac.length, hist: hist.slice(-300) };
+  return { now: ac, count: ac.length, hist: hist.slice(-300), source: src };
 }
 async function gdacs() {
   const from = new Date(Date.now() - 90 * 864e5).toISOString().slice(0, 10);
