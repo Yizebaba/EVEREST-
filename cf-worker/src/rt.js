@@ -128,24 +128,43 @@ async function ioda(prev) {
   const lastNum = s => s ? [...s.v].reverse().find(a => a != null) ?? null : null;
   return { region: "Sagarmatha (3027)", bgp_last: lastNum(bgp), ping_last: lastNum(ping), bgp, ping, until: iso(until * 1000) };
 }
-async function adsb(prev) {
-  // 三个免费 ADS-B 源依次尝试（adsb.lol 会对共享出口 IP 限流）
-  let x = null, src = null, errs = [];
-  for (const [name, u] of [["adsb.lol", "https://api.adsb.lol/v2/point/27.85/86.80/40"], ["adsb.fi", "https://opendata.adsb.fi/api/v3/lat/27.85/lon/86.80/dist/40"],
-                           ["airplanes.live", "https://api.airplanes.live/v2/point/27.85/86.80/40"]]) {
-    try { x = await j(u); src = name; break; } catch (e) { errs.push(name + ":" + String(e.message || e).slice(0, 4)); }
-  }
-  let ac = null;
-  if (x) ac = (x.ac || x.aircraft || []).map(a => ({ hex: a.hex, flight: (a.flight || "").trim(), type: a.t || null, alt: a.alt_baro, gs: a.gs, lat: a.lat, lon: a.lon, seen: a.seen }));
-  else {
-    // 第四个：OpenSky Network（匿名每天 400 点额度，小范围查询 1 点/次）
+// OpenSky 注册账号（OAuth2 客户端凭证，2026-03-18 起不再支持用户名密码）。凭证放在 Worker 机密 OPENSKY_CLIENT_ID / OPENSKY_CLIENT_SECRET。
+let OSK = null;   // 本实例内缓存的访问令牌 {tok, exp}
+async function openskyToken(env) {
+  if (OSK && OSK.exp > Date.now() + 60e3) return OSK.tok;
+  const r = await fetch("https://auth.opensky-network.org/auth/realms/opensky-network/protocol/openid-connect/token", {
+    method: "POST", headers: { "Content-Type": "application/x-www-form-urlencoded", ...UA },
+    body: new URLSearchParams({ grant_type: "client_credentials", client_id: env.OPENSKY_CLIENT_ID, client_secret: env.OPENSKY_CLIENT_SECRET }) });
+  if (!r.ok) throw new Error("OpenSky 令牌 " + r.status);
+  const x = await r.json();
+  OSK = { tok: x.access_token, exp: Date.now() + (x.expires_in || 1800) * 1000 };
+  return OSK.tok;
+}
+const osMap = o => (o.states || []).map(v => ({ hex: v[0], flight: (v[1] || "").trim(), type: null, alt: v[7] == null ? null : Math.round(v[7] * 3.281), gs: v[9] == null ? null : Math.round(v[9] * 1.944), lat: v[6], lon: v[5], seen: o.time - v[4] }));
+const OS_URL = "https://opensky-network.org/api/states/all?lamin=27.45&lomin=86.35&lamax=28.25&lomax=87.25";
+async function adsb(prev, env) {
+  let ac = null, src = null, errs = [];
+  // 有注册凭证时先用 OpenSky（带令牌）
+  if (env && env.OPENSKY_CLIENT_ID && env.OPENSKY_CLIENT_SECRET) {
     try {
-      const o = await j("https://opensky-network.org/api/states/all?lamin=27.45&lomin=86.35&lamax=28.25&lomax=87.25");
-      src = "opensky";
-      ac = (o.states || []).map(v => ({ hex: v[0], flight: (v[1] || "").trim(), type: null, alt: v[7] == null ? null : Math.round(v[7] * 3.281), gs: v[9] == null ? null : Math.round(v[9] * 1.944), lat: v[6], lon: v[5], seen: o.time - v[4] }));
-    } catch (e) { errs.push("opensky:" + String(e.message || e).slice(0, 4)); }
+      const tok = await openskyToken(env);
+      const r = await fetch(OS_URL, { headers: { ...UA, Authorization: "Bearer " + tok } });
+      if (!r.ok) throw new Error(String(r.status));
+      ac = osMap(await r.json()); src = "opensky（注册）";
+    } catch (e) { errs.push("opensky注册:" + String(e.message || e).slice(0, 40)); }
   }
-  if (!ac) throw new Error("ADS-B 四个源都失败 " + errs.join(" "));
+  if (!ac) {
+    // 免费源依次尝试（adsb.lol 会对共享出口 IP 限流）
+    for (const [name, u] of [["adsb.lol", "https://api.adsb.lol/v2/point/27.85/86.80/40"], ["adsb.fi", "https://opendata.adsb.fi/api/v3/lat/27.85/lon/86.80/dist/40"],
+                             ["airplanes.live", "https://api.airplanes.live/v2/point/27.85/86.80/40"]]) {
+      try { const x = await j(u); src = name; ac = (x.ac || x.aircraft || []).map(a => ({ hex: a.hex, flight: (a.flight || "").trim(), type: a.t || null, alt: a.alt_baro, gs: a.gs, lat: a.lat, lon: a.lon, seen: a.seen })); break; }
+      catch (e) { errs.push(name + ":" + String(e.message || e).slice(0, 4)); }
+    }
+  }
+  if (!ac && !(env && env.OPENSKY_CLIENT_ID)) {
+    try { ac = osMap(await j(OS_URL)); src = "opensky（匿名）"; } catch (e) { errs.push("opensky:" + String(e.message || e).slice(0, 4)); }
+  }
+  if (!ac) throw new Error("ADS-B 都失败 " + errs.join(" "));
   const hist = ((prev && prev.hist) || []).filter(h => Date.now() - Date.parse(h[0]) < 24 * 3600e3);
   hist.push([iso(Date.now()), ac.length]);
   return { now: ac, count: ac.length, hist: hist.slice(-300), source: src };
