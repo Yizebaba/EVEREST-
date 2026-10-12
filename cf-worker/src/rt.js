@@ -101,7 +101,8 @@ class Ftp {
   async cmd(c) { await this.w.write(enc.encode(c + "\r\n")); return this.reply(); }
   async data(c) {
     const p = await this.cmd("PASV"); const m = p.match(/(\d+),(\d+),(\d+),(\d+),(\d+),(\d+)/); if (!m) throw new Error("PASV " + p);
-    const ds = connect({ hostname: this.port === 21 ? `${m[1]}.${m[2]}.${m[3]}.${m[4]}` : this.host, port: (+m[5]) * 256 + (+m[6]) });
+    // 与 Python ftplib 默认做法一致：忽略 PASV 里的 IP（服务器可能给内网地址），用控制连接的主机名
+    const ds = connect({ hostname: this.host, port: (+m[5]) * 256 + (+m[6]) });
     const pre = await this.cmd(c); if (!/^1\d\d/.test(pre)) { ds.close(); throw new Error(c + " " + pre); }
     const b = await readAll(ds); await this.reply(); return b;
   }
@@ -152,8 +153,12 @@ export async function rtTick(env, getMeta, setMeta) {
     const s = st[k] || {};
     if (s.at && Date.now() - Date.parse(s.at) < (EVERY[k] - 0.5) * 60e3) continue;
     const t0 = Date.now();
-    try { const v = await fn(s.v, env); st[k] = { at: iso(Date.now()), ok: true, v, ms: Date.now() - t0 }; log.rt.push(k); }
-    catch (e) { st[k] = { ...s, at: iso(Date.now()), ok: false, err: String(e && e.message || e).slice(0, 200), ms: Date.now() - t0 }; log.rt.push(k + "!"); }
+    try {
+      const v = await Promise.race([fn(s.v, env), new Promise((_, rej) => setTimeout(() => rej(new Error("超时 40 秒")), 40e3))]);
+      st[k] = { at: iso(Date.now()), ok: true, v, ms: Date.now() - t0 }; log.rt.push(k);
+    } catch (e) { st[k] = { ...s, at: iso(Date.now()), ok: false, err: String(e && e.message || e).slice(0, 200), ms: Date.now() - t0 }; log.rt.push(k + "!"); }
+    st.updated = iso(Date.now());
+    await setMeta(env, "rt", JSON.stringify(st));   // 每个源做完就存，一个卡住不影响其他
   }
   st.updated = iso(Date.now());
   await setMeta(env, "rt", JSON.stringify(st));
