@@ -274,7 +274,7 @@ async function status(env) {
   const o = await env.DB.prepare("SELECT COUNT(*) n FROM obs").first();
   const sc = await env.DB.prepare("SELECT COUNT(*) n FROM scored").first();
   const dates = await env.DB.prepare("SELECT COUNT(*) n FROM (SELECT 1 FROM obs GROUP BY date, orbit)").first();
-  return { code: "v4-rt", gh_token_set: !!env.GH_TOKEN, gh_status_at: await getMeta(env, "gh_status_at"), scenes: s, obs_rows: o.n, dates_scored: sc.n, dates_total: dates.n, live_at: await getMeta(env, "live_at"),
+  return { code: "v5-rt-south", gh_token_set: !!env.GH_TOKEN, gh_status_at: await getMeta(env, "gh_status_at"), scenes: s, obs_rows: o.n, dates_scored: sc.n, dates_total: dates.n, live_at: await getMeta(env, "live_at"),
     last_tick: JSON.parse((await getMeta(env, "last_tick")) || "null"), facets: FACETS.length };
 }
 
@@ -303,7 +303,7 @@ svg{width:100%;height:auto;background:#15181d;border-radius:8px;margin:10px 0}.l
 </style></head><body><main><h1>珠峰冰坡雷达亮度监测</h1><div class="sub" id="meta">加载中…</div>
 <div class="leg"><span><i style="background:var(--c)"></i>异常显著（&lt;1%）</span><span><i style="background:var(--e)"></i>偏高（&lt;5%）</span><span><i style="background:var(--w)"></i>留意（&lt;15%）</span><span><i style="background:var(--q)"></i>平静</span><span><i style="background:var(--n)"></i>无数据</span></div>
 <svg id="map" viewBox="0 0 1000 680"></svg><table id="tb"></table>
-<p class="sub"><a href="/rt" style="color:#8fc3ff">→ 珠峰实时源总览（卫星云图、地震、网络连通、空中交通、灾害警报、DORIS 信标）</a></p><p class="sub">方法：OCHA-DAP 0005 facet watch（MIT），数据：Sentinel-1 RTC（Microsoft Planetary Computer）。只监测：分级表示“和自己历年同季相比有多反常”，不预测、不是预警。</p></main>
+<p class="sub"><a href="/rt" style="color:#8fc3ff">→ 珠峰实时源总览（卫星云图、地震、网络连通、空中交通、灾害警报、DORIS 信标）</a></p><p class="sub">方法：OCHA-DAP 0005 facet watch（MIT）。与原方法的差别：数据用 Sentinel-1 RTC（γ0，地形校正，Catalyst 处理，Microsoft Planetary Computer，CC BY 4.0），坡面平均在线性功率上求再换成 dB；OCHA 原版用 GEE 的 σ0 dB 平均。只比较同一坡面自己的历史，所以分级规则不受影响，但数值不能与 OCHA 页面直接对比。只监测：分级表示“和自己历年同季相比有多反常”，不预测、不是预警。</p></main>
 <script>
 const C={critical:"var(--c)",elevated:"var(--e)",watch:"var(--w)",quiet:"var(--q)",nodata:"var(--n)"},CN={critical:"异常显著",elevated:"偏高",watch:"留意",quiet:"平静",nodata:"无数据"};
 const B=[86.54,27.746,87.257,28.23],X=x=>(x-B[0])/(B[2]-B[0])*1000,Y=y=>(B[3]-y)/(B[3]-B[1])*680;
@@ -328,13 +328,16 @@ main{max-width:1060px;margin:0 auto;padding:16px}h1{font-size:18px;margin:0 0 2p
 .k{display:inline-block;font-size:11px;padding:0 7px;border-radius:999px}.ok{background:rgba(99,201,154,.16);color:var(--ok)}.w{background:rgba(226,180,76,.16);color:var(--w)}.bad{background:rgba(239,138,126,.16);color:var(--bad)}
 a{color:var(--acc)}svg{width:100%;height:60px}
 </style></head><body><main><h1>珠峰实时源总览</h1><div class="sub" id="m">加载中…</div>
+<h2>南坡：冰湖出口与河流水位（BIPAD，每 10 分钟）</h2><div class="c"><table id="lv"></table></div>
+<h2>意大利地震台 IO.EVN（Pyramid 5010 m，GEOFON）</h2><div class="c" id="evn"></div>
 <h2>卫星云图（每 10–15 分钟）</h2><div class="g" id="img"></div>
 <h2>地震（EMSC 实时 · 尼泊尔国家地震中心）</h2><div class="g"><div class="c"><b>EMSC · 珠峰 330 km 内，近 30 天</b><table id="emsc"></table></div><div class="c"><b>尼泊尔国家地震中心 · 最新</b><table id="nsc"></table></div></div>
 <h2>当地网络连通（IODA · 萨加玛塔区）</h2><div class="c" id="ioda"></div>
 <h2>空中交通（ADS-B · 卢卡拉周围 40 海里）</h2><div class="c" id="adsb"></div>
 <h2>灾害警报（GDACS · 尼泊尔及珠峰附近）</h2><div class="c"><table id="gdacs"></table></div>
+<h2>USGS 地震与崩塌目录（近 60 天）· 尼泊尔减灾局警报</h2><div class="g"><div class="c"><table id="usgs"></table></div><div class="c"><table id="al"></table></div></div>
 <h2>DORIS 信标 EVEC（Pyramid）· 卫星跟踪记录</h2><div class="c" id="doris"></div>
-<p class="sub">只监测：显示各公开源的最新数据和时间，不判断、不预测。来源：NASA GIBS（向日葵 9 号）、EUMETSAT EUMETView（Meteosat IODC）、EMSC、尼泊尔国家地震中心、IODA（佐治亚理工）、ADS-B（adsb.lol / <a href=\"https://adsb.fi\">adsb.fi</a> / airplanes.live / OpenSky Network，非商业使用）、GDACS、IGN/IDS DORIS。<a href="/">← 冰坡雷达亮度</a></p></main>
+<p class="sub">数据来源与署名：BIPAD 尼泊尔国家减灾局（转发水文气象局遥测）；GEOFON / OGS 国际台网 IO（doi:10.7914/SN/IO）；USGS；向日葵 9 号 © JMA，经 NASA GIBS；Meteosat © EUMETSAT（EUMETView）；EMSC；尼泊尔国家地震中心；IODA（佐治亚理工 Internet Intelligence Lab）；GDACS（欧盟 JRC / 联合国）；DORIS © IDS / IGN；冰坡数据含经修改的哥白尼哨兵数据（Catalyst 处理，Microsoft Planetary Computer，CC BY 4.0）。</p><p class="sub">只监测：显示各公开源的最新数据和时间，不判断、不预测。来源：NASA GIBS（向日葵 9 号）、EUMETSAT EUMETView（Meteosat IODC）、EMSC、尼泊尔国家地震中心、IODA（佐治亚理工）、ADS-B（adsb.lol / <a href=\"https://adsb.fi\">adsb.fi</a> / airplanes.live / OpenSky Network，非商业使用）、GDACS、IGN/IDS DORIS。<a href="/">← 冰坡雷达亮度</a></p></main>
 <script>
 const BJ=t=>t?new Date(t).toLocaleString("zh-CN",{timeZone:"Asia/Shanghai",hour12:false,month:"2-digit",day:"2-digit",hour:"2-digit",minute:"2-digit"}):"—";
 const ago=t=>{if(!t)return"—";const m=(Date.now()-new Date(t))/6e4;return m<90?Math.round(m)+" 分钟前":m<2880?(m/60).toFixed(1)+" 小时前":Math.round(m/1440)+" 天前"};
@@ -344,9 +347,14 @@ const IMGS=${JSON.stringify(IMG)};
 const bad=s=>s&&s.ok===false?'<span class="k bad">取数失败</span> <span class="sub">'+(s.err||"")+'（'+BJ(s.at)+'）</span> ':"";
 fetch("/api/rt.json").then(r=>r.json()).then(d=>{const S=d.sources||{};document.getElementById("m").textContent="汇总于 "+BJ(d.updated)+"（北京）。每 5 分钟一轮，各源按自己的节奏更新。";
  const g=(S.gibs||{}).v||{};document.getElementById("img").innerHTML=[["向日葵 9 号 可见光",IMGS.himawari_vis,g.vis_latest,30],["向日葵 9 号 红外（夜间也可见）",IMGS.himawari_ir,g.ir_latest,30],["Meteosat 雪 RGB（雪为红色调）",IMGS.meteosat_snow,null,0],["Meteosat 自然色增强",IMGS.meteosat_natural,null,0]].map(a=>'<div class="c"><b>'+a[0]+'</b> '+(a[2]?chip(a[2],a[3])+'<div class="sub">最新 '+BJ(a[2])+'（'+ago(a[2])+'）</div>':'<div class="sub">'+(a[3]?bad(S.gibs)||"最新一张":"EUMETView 最新一张")+'</div>')+'<img loading="lazy" src="'+a[1]+'" alt="'+a[0]+'"></div>').join("");
+ const lvv=((S.bipad||{}).v||{}).st||{},LK=["5385","1867","12378","5287","1877","1500","26631","21089","1481","1640","22609","1508","5378","23263","2874"];
+ document.getElementById("lv").innerHTML=bad(S.bipad)+'<tr><th>站点</th><th>水位 m</th><th>警戒 / 危险</th><th>读数时间（北京）</th><th></th></tr>'+LK.filter(k=>lvv[k]).map(k=>{const d=lvv[k],o=d.obs,v=o.length?o[o.length-1][1]:null;return'<tr><td>'+d.meta.name+'</td><td>'+(v??"—")+'</td><td>'+(d.meta.warning??"—")+" / "+(d.meta.danger??"—")+'</td><td>'+BJ(d.meta.last_on)+'</td><td>'+chip(d.meta.last_on,60)+' <span class="sub">'+ago(d.meta.last_on)+'</span></td></tr>'}).join("");
+ const ev=(S.evn||{}).v||{};document.getElementById("evn").innerHTML=bad(S.evn)+(ev.last_sample?chip(ev.last_sample,15)+' 最新样点 <b>'+BJ(ev.last_sample)+'</b>（落后 '+Math.round(ev.lag_s/60)+' 分钟）· 最近 20 分钟数据完整度 <b>'+ev.completeness+'%</b>':'<span class="k bad">最近 20 分钟没有数据</span>')+'<div class="sub">卫星链路传回，常有几秒到几十秒的小缺口。只看台站是否在线，不判断事件。</div>';
+ const us=((S.usgs||{}).v||{}).events||[];document.getElementById("usgs").innerHTML=bad(S.usgs)+'<tr><th>时间（北京）</th><th>震级</th><th>类型</th><th>地点</th></tr>'+(us.length?us.slice(0,10).map(x=>'<tr><td>'+BJ(x.t)+'</td><td>'+(x.mag??"—")+'</td><td>'+(x.type==="landslide"?"崩塌/滑坡":x.type)+'</td><td><a href="'+x.url+'" target="_blank" rel="noopener">'+x.place+'</a></td></tr>').join(""):'<tr><td class="sub">近 60 天没有</td></tr>');
+ const al=((S.alerts||{}).v||{}).alerts||[];document.getElementById("al").innerHTML=bad(S.alerts)+'<tr><th>开始（北京）</th><th>警报</th></tr>'+al.slice(0,10).map(x=>'<tr><td>'+BJ(x.started)+'</td><td>'+x.title+'</td></tr>').join("");
  const e=((S.emsc||{}).v||{}).events||[];document.getElementById("emsc").innerHTML=bad(S.emsc)+'<tr><th>时间（北京）</th><th>震级</th><th>地区</th></tr>'+e.slice(0,12).map(x=>'<tr><td>'+BJ(x.t)+'</td><td>'+x.mt+" "+x.mag+'</td><td>'+x.region+'</td></tr>').join("");
  const n=((S.nsc||{}).v||{}).events||[];document.getElementById("nsc").innerHTML=bad(S.nsc)+'<tr><th>时间（北京）</th><th>震级</th><th>地点</th></tr>'+n.slice(0,12).map(x=>'<tr><td>'+BJ(x.t)+'</td><td>'+x.mt+" "+x.mag+'</td><td>'+x.place+'</td></tr>').join("");
- const io=(S.ioda||{}).v||{};document.getElementById("ioda").innerHTML=bad(S.ioda)+chip(io.until,30)+' BGP 可达网段 <b>'+(io.bgp_last??"—")+'</b> · 主动探测有响应的地址块 <b>'+(io.ping_last??"—")+'</b><div class="sub">过去 24 小时（BGP）</div>'+spark((io.bgp||{}).v,"#8fc3ff")+'<div class="sub">过去 24 小时（主动探测）</div>'+spark((io.ping||{}).v,"#63c99a")+'<div class="sub">骤降可能是断网、断电或灾害，也可能是探测本身波动；本页不判断。</div>';
+ const io=(S.ioda||{}).v||{};document.getElementById("ioda").innerHTML=bad(S.ioda)+chip(io.until,30)+' BGP 可见网段 <b>'+(io.bgp_last??"—")+'</b> · 探测有响应的地址块 <b>'+(io.ping_last??"—")+'</b> <span class="sub">（萨加玛塔区：索卢昆布等 6 个县，不只珠峰）</span><div class="sub">过去 24 小时 · BGP 可见的 /24 网段数</div>'+spark((io.bgp||{}).v,"#8fc3ff")+'<div class="sub">过去 24 小时 · 主动探测有响应的 /24 地址块数</div>'+spark((io.ping||{}).v,"#63c99a")+'<div class="sub">骤降可能是断网、断电或灾害，也可能是探测本身波动；本页不判断。</div>';
  const a=(S.adsb||{}).v||{};document.getElementById("adsb").innerHTML=(bad(S.adsb)||chip((S.adsb||{}).at,15))+' 当前 <b>'+(a.count??"—")+'</b> 架'+(a.source?' <span class="sub">（来源 '+a.source+'）</span>':'')+'<div class="sub">过去 24 小时架次（每 5 分钟）</div>'+spark((a.hist||[]).map(h=>h[1]),"#e2b44c")+'<table><tr><th>航班</th><th>机型</th><th>高度 ft</th><th>位置</th></tr>'+(a.now||[]).map(x=>'<tr><td>'+(x.flight||x.hex)+'</td><td>'+(x.type||"—")+'</td><td>'+(x.alt??"—")+'</td><td>'+(x.lat?x.lat.toFixed(3)+", "+x.lon.toFixed(3):"—")+'</td></tr>').join("")+'</table><div class="sub">不是所有直升机都装 ADS-B 发射器，没看到不代表没有飞行。</div>';
  const gd=((S.gdacs||{}).v||{}).events||[];document.getElementById("gdacs").innerHTML=bad(S.gdacs)+'<tr><th>开始</th><th>类型</th><th>级别</th><th>名称</th></tr>'+gd.map(x=>'<tr><td>'+BJ(x.from)+'</td><td>'+x.type+'</td><td>'+x.level+'</td><td>'+(x.url?'<a href="'+x.url+'" target="_blank" rel="noopener">'+x.name+'</a>':x.name)+'</td></tr>').join("");
  const dd=(S.doris||{}).v||{};const lp=dd.last_pass;document.getElementById("doris").innerHTML=bad(S.doris)+(lp?chip(lp.last,6*60)+' 最近一次被跟踪 <b>'+BJ(lp.last)+'</b>（'+ago(lp.last)+'，卫星 '+lp.sat+'，'+lp.n+' 条观测）':'<span class="k w">首次运行，正在逐颗卫星检查</span>')+' · 过去 24 小时被跟踪 <b>'+(dd.passes_24h??"—")+'</b> 次<table><tr><th>卫星</th><th>开始</th><th>结束</th><th>观测数</th></tr>'+(dd.passes||[]).slice(-10).reverse().map(p=>'<tr><td>'+p.sat+'</td><td>'+BJ(p.first)+'</td><td>'+BJ(p.last)+'</td><td>'+p.n+'</td></tr>').join("")+'</table><div class="sub">数据来自 IGN 匿名 FTP 的准实时文件（延迟 2–3 小时），每 30 分钟查一颗卫星，轮流检查 9 颗。只说明信标在工作，不是位置变化。</div>';
