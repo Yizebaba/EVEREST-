@@ -1,0 +1,20 @@
+# 一次性核对（只读公开接口）。查完即删。
+name: rt-sweep
+on:
+  push:
+    branches: [data-probe]
+    paths: [tools/rt_sweep.py, .github/workflows/rt-sweep.yml]
+permissions:
+  contents: write
+jobs:
+  sweep:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+        with: {ref: data-probe}
+      - run: python3 tools/rt_sweep.py sweep.json
+      - if: always()
+        run: |
+          mkdir _o && cp sweep.json _o/ 2>/dev/null; cd _o && git init -q -b rt-sweep && git add -A
+          git -c user.name=probe -c user.email=probe@users.noreply.github.com commit -qm sweep && git push -qf "https://x-access-token:${{ github.token }}@github.com/${{ github.repository }}.git" rt-sweep
