@@ -53,10 +53,23 @@ async function usgs() {
   return { events: (x.features || []).map(f => ({ id: f.id, t: iso(f.properties.time), mag: f.properties.mag, type: f.properties.type, place: f.properties.place, url: f.properties.url, lon: f.geometry.coordinates[0], lat: f.geometry.coordinates[1] })) };
 }
 // 意大利 OGS 地震台 IO.EVN：从 GEOFON 取最近 20 分钟 BHZ 的 miniSEED，只读记录头（不解压波形），得到最新样点时刻和数据完整度
-async function evn() {
+async function evn(prev) {
   const end = new Date(), start = new Date(end - 20 * 60e3), f = d => d.toISOString().slice(0, 19);
   const r = await fetch(`https://geofon.gfz.de/fdsnws/dataselect/1/query?net=IO&sta=EVN&cha=BHZ&starttime=${f(start)}&endtime=${f(end)}`, { headers: UA });
-  if (r.status === 204) return { last_sample: null, lag_s: null, completeness: 0, note: "最近 20 分钟没有数据" };
+  if (r.status === 204) {
+    // 没有新数据：查 GEOFON 数据可用性，拿到台站最后一条数据的时间（FDSN availability extent）
+    let latest = null, src = null;
+    try {
+      const x = await (await fetch("https://geofon.gfz.de/fdsnws/availability/1/extent?net=IO&sta=EVN&cha=BHZ&format=text", { headers: UA })).text();
+      const row = x.split("\n").find(l => /^IO\s+EVN\s/.test(l));
+      if (row) { const c = row.trim().split(/\s+/); const ds = c.filter(v => /^\d{4}-\d{2}-\d{2}T/.test(v)); latest = ds.length >= 2 ? ds[1] : null; src = "GEOFON 可用性"; }   // 日期依次是 Earliest、Latest、Updated
+    } catch (e) { }
+    if (!latest && prev && (prev.last_sample || prev.last_seen)) { latest = prev.last_sample || prev.last_seen; src = "本平台上次看到"; }
+    if (latest && !/Z$/.test(latest)) latest += "Z";
+    const lag = latest ? Math.round((end - Date.parse(latest)) / 1000) : null;
+    return { last_sample: null, last_seen: latest, last_src: src, lag_s: lag, completeness: 0,
+             note: latest ? "最近 20 分钟没有数据；台站最后一条数据 " + latest.slice(0, 16).replace("T", " ") + " UTC（" + src + "）" : "最近 20 分钟没有数据；GEOFON 也查不到最后数据时间" };
+  }
   if (!r.ok) throw new Error(`GEOFON ${r.status}`);
   const b = new DataView(await r.arrayBuffer());
   let off = 0, last = 0, n = 0, rate = 0, recs = 0;
@@ -75,7 +88,7 @@ async function evn() {
     off += len; recs++;
   }
   if (!recs) throw new Error("miniSEED 解析不到记录");
-  return { last_sample: iso(last), lag_s: Math.round((end - last) / 1000), completeness: rate ? Math.round(n / (rate * 1200) * 100) : null, rate, records: recs };
+  return { last_sample: iso(last), last_seen: iso(last), lag_s: Math.round((end - last) / 1000), completeness: rate ? Math.round(n / (rate * 1200) * 100) : null, rate, records: recs };
 }
 
 async function gibs() {
@@ -226,14 +239,20 @@ async function doris(prev, env) {
 }
 const tsOf = s => { if (!s) return null; const p = s.trim().split(/\s+/).map(Number); return iso(Date.UTC(p[0], p[1] - 1, p[2], p[3], p[4], Math.floor(p[5] || 0))); };
 
+// 各源的取数间隔（分钟）。ADS-B 连通时按网站要求取：adsb.lol / adsb.fi / airplanes.live 公开接口限 1 次/秒，
+// OpenSky 匿名每天 400 点、每次 1 点（约 4 分钟一次）；实时轮每 5 分钟一次，所以连通时取 5 分钟。都不通时退到 60 分钟，免得反复打扰对方。
+function every(k, s) {
+  if (k !== "adsb") return EVERY[k];
+  return (s && s.ok) ? 5 : 60;
+}
 const JOBS = { evn, bipad, emsc, gibs, ioda, usgs, alerts, nsc, gdacs, doris, adsb };
 
 // 每轮：取状态，跑到点的源，存回。返回本轮日志。
 export async function rtTick(env, getMeta, setMeta) {
   const st = JSON.parse((await getMeta(env, "rt")) || "{}");
   const log = { rt: [] };
-  const due = Object.keys(JOBS).filter(k => { const s = st[k]; return !s || !s.at || Date.now() - Date.parse(s.at) >= (EVERY[k] - 0.5) * 60e3; })
-    .sort((a, b) => (Date.parse((st[a] || {}).at || 0) - (EVERY[a] * 60e3)) - (Date.parse((st[b] || {}).at || 0) - (EVERY[b] * 60e3))).slice(0, MAX_PER_ROUND);
+  const due = Object.keys(JOBS).filter(k => { const s = st[k]; return !s || !s.at || Date.now() - Date.parse(s.at) >= (every(k, s) - 0.5) * 60e3; })
+    .sort((a, b) => (Date.parse((st[a] || {}).at || 0) - (every(a, st[a]) * 60e3)) - (Date.parse((st[b] || {}).at || 0) - (every(b, st[b]) * 60e3))).slice(0, MAX_PER_ROUND);
   for (const k of due) {
     const fn = JOBS[k], s = st[k] || {};
     const t0 = Date.now();
