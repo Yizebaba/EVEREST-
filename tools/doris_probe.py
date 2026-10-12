@@ -22,26 +22,21 @@ for sat in ("ja3", "s6a", "s3a", "swo", "h2c", "srl"):
             files = [yd + "/" + n for n in inner]
         else:
             files = [base + "/" + n for n in names]
-        files = [x for x in files if "MEP" in x or "RINEX" in x.upper() or x.endswith((".Z", ".gz"))]
-        info = {"n": len(files), "newest": [x.rsplit("/", 1)[-1] for x in files[-3:]]}
-        txt, size = get(files[-1])
-        head, _, body = txt.partition("END OF HEADER")
-        info["bytes"] = size
-        info["obs_types"] = [l[:60].strip() for l in head.splitlines() if "OBS TYPES" in l][:3]
-        st = [l for l in head.splitlines() if "STATION REFERENCE" in l]
-        ev = [l for l in st if "EVEC" in l]
-        info["stations"] = len(st); info["evec"] = ev[:1]
-        epochs = [l for l in body.splitlines() if l.startswith(">")]
-        info["first_epoch"] = epochs[0][:32] if epochs else None; info["last_epoch"] = epochs[-1][:32] if epochs else None
-        if ev:
-            sid = ev[0].split()[0]
-            # 找含 EVEC 的最后一个历元
-            last = None; cur = None
+        info = {"n": len(files), "newest": [x.rsplit("/", 1)[-1] for x in files[-2:]], "evec_passes": []}
+        for fp in files[-10:]:
+            txt, size = get(fp)
+            head, _, body = txt.partition("END OF HEADER")
+            if "obs_types" not in info:
+                info["obs_types"] = [l[:60].strip() for l in head.splitlines() if "OBS TYPES" in l][:3]
+                info["bytes"] = size
+            ev = [l for l in head.splitlines() if "STATION REFERENCE" in l and "EVEC" in l]
+            if not ev: continue
+            sid = ev[0].split()[0]; cur = None; ep = []
             for l in body.splitlines():
-                if l.startswith(">"): cur = l[:32]
-                elif l.startswith(sid): last = cur
-            info["evec_last_epoch"] = last
-            info["evec_sample"] = [l[:120] for l in body.splitlines() if l.startswith(sid)][:2]
+                if l.startswith(">"): cur = l[2:21]
+                elif l.startswith(sid): ep.append(cur)
+            if ep: info["evec_passes"].append({"file": fp.rsplit("/", 1)[-1], "first": ep[0], "last": ep[-1], "n": len(ep),
+                     "sample": next(l[:150] for l in body.splitlines() if l.startswith(sid))})
         out["nrt"][sat] = info
     except Exception as e:
         out["errors"].append(f"{sat}: {e!r}"[:200])
