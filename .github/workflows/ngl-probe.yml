@@ -1,0 +1,20 @@
+# 一次性调查：珠峰附近 GNSS 站在 NGL 的公开解（只读 HTTPS）。查完即删。
+name: ngl-probe
+on:
+  push:
+    branches: [data-probe]
+    paths: [tools/ngl_probe.py, .github/workflows/ngl-probe.yml]
+permissions:
+  contents: write
+jobs:
+  probe:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+        with: {ref: data-probe}
+      - run: python3 tools/ngl_probe.py ngl.json
+      - if: always()
+        run: |
+          mkdir _o && cp ngl.json _o/ 2>/dev/null; cd _o && git init -q -b ngl-probe && git add -A
+          git -c user.name=probe -c user.email=probe@users.noreply.github.com commit -qm probe && git push -qf "https://x-access-token:${{ github.token }}@github.com/${{ github.repository }}.git" ngl-probe
