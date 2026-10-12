@@ -12,15 +12,17 @@ for sat in ("ja3", "s6a", "s3a", "swo", "h2c", "srl"):
     try:
         base = f"/pub/doris/data/{sat}/NRT"
         names = sorted(n.rsplit("/", 1)[-1] for n in f.nlst(base))
+        out.setdefault("ls", {})[sat] = names[-6:]
         sub = [n for n in names if re.fullmatch(r"\d{4}", n)]
         if sub:
             yd = base + "/" + sub[-1]; inner = sorted(n.rsplit("/", 1)[-1] for n in f.nlst(yd))
             dd = [n for n in inner if re.fullmatch(r"\d{3}", n)]
-            if dd: yd = yd + "/" + dd[-1]; inner = sorted(n.rsplit("/", 1)[-1] for n in f.nlst(yd))
+            out["ls"][sat + "_y"] = inner[-6:]
+            if dd: yd = yd + "/" + dd[-1]; inner = sorted(n.rsplit("/", 1)[-1] for n in f.nlst(yd)); out["ls"][sat + "_d"] = inner[-6:]
             files = [yd + "/" + n for n in inner]
         else:
             files = [base + "/" + n for n in names]
-        files = [x for x in files if "MEP" in x]
+        files = [x for x in files if "MEP" in x or "RINEX" in x.upper() or x.endswith((".Z", ".gz"))]
         info = {"n": len(files), "newest": [x.rsplit("/", 1)[-1] for x in files[-3:]]}
         txt, size = get(files[-1])
         head, _, body = txt.partition("END OF HEADER")
