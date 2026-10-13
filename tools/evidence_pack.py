@@ -20,10 +20,10 @@ import json, math, os, re, sys, time, traceback
 from datetime import datetime, timedelta, timezone
 import urllib.request, urllib.parse
 
-UA = {"user-agent": "everest-evidence (github.com/Yizebaba/everest-insar-pipeline)"}
+UA = {"user-agent": "everest-evidence (github.com/Yizebaba/EVEREST-)"}
 EVN = (27.9587, 86.8117)
 OUT = "events"
-VERSION = 9   # 改了证据包内容时加 1，所有包会重算一次
+VERSION = 10   # 改了证据包内容时加 1，所有包会重算一次
 NOW = datetime.now(timezone.utc)
 
 # 尼泊尔区县 → IODA 地区（旧 14 区）
@@ -566,8 +566,13 @@ def gdelt(ev, t0, items, pack):
     try:
         u = "https://api.gdeltproject.org/api/v2/doc/doc?" + urllib.parse.urlencode({"query": q, "mode": "artlist", "maxrecords": 75, "format": "json", "sort": "dateasc",
                                                                                      "startdatetime": a.strftime("%Y%m%d%H%M%S"), "enddatetime": b.strftime("%Y%m%d%H%M%S")})
-        time.sleep(6)   # GDELT 要求每 5 秒最多一次
-        raw = get(u, raw=True, timeout=60)
+        raw = b""
+        for wait in (6, 20, 60):   # GDELT 要求每 5 秒最多一次；共用的 GitHub 运行器容易被限流，退避重试
+            time.sleep(wait)
+            try:
+                raw = get(u, raw=True, timeout=60); break
+            except Exception as e:
+                if "429" not in str(e) or wait == 60: raise
         arts = json.loads(raw).get("articles", []) if raw.strip().startswith(b"{") else []
         news = [{"t": datetime.strptime(x["seendate"], "%Y%m%dT%H%M%SZ").replace(tzinfo=timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ"), "title": x.get("title", "")[:160], "url": x.get("url"), "domain": x.get("domain"), "lang": x.get("language")} for x in arts]
         pack["news"] = news[:20]
@@ -787,8 +792,10 @@ def vantor(ev, t0, items, pack):
             tt = ((c.get("extent") or {}).get("temporal") or {}).get("interval") or [[None, None]]
             for b4 in bb:
                 if len(b4) >= 4 and b4[0] - 0.5 <= ev["lon"] <= b4[2] + 0.5 and b4[1] - 0.5 <= ev["lat"] <= b4[3] + 0.5:
-                    t1 = tt[0][1] or iso(NOW)
-                    if P(t1) >= t0 - timedelta(days=30): hits.append((c.get("title") or c.get("id"), href, tt[0][0])); break
+                    # 要有事件之后拍的影像才算：用目录的最晚拍摄时间；没有结束时间的，看名字里的年月是不是事件当月
+                    t1 = tt[0][1]; nm = (c.get("title") or c.get("id") or "")
+                    if (t1 and P(t1) >= t0 and P(t1) <= t0 + timedelta(days=60)) or (not t1 and t0.strftime("%b") in nm and str(t0.year) in nm):
+                        hits.append((nm, href, t1 or iso(t0))); break
         for h in hits:
             items.append({"t": (h[2] or iso(t0))[:19] + "Z", "src": "Vantor 开放影像", "kind": "SUPPORTING", "text": f"高分辨率开放影像覆盖本地：{h[0]}", "text_en": f"Open high-resolution imagery covers this area: {h[0]}",
                           "url": "https://radiantearth.github.io/stac-browser/#/external/" + h[1].replace("https://", "")})
@@ -847,7 +854,7 @@ def main():
             evs = []
             for k, m in idx["events"].items():
                 p = json.load(open(os.path.join(OUT, k + ".json")))
-                src = [x for x in p["timeline"] if x["src"] in ("BIPAD 灾害警报", "GDACS", "BIPAD 水位站") or (x["src"] == "USGS 地震目录" and "崩塌" in x["text"])]
+                src = [x for x in p["timeline"] if x["src"] in ("BIPAD 灾害警报", "GDACS", "BIPAD 水位站", "新闻（GDELT）") or (x["src"] == "USGS 地震目录" and "崩塌" in x["text"])]
                 evs.append({"id": k, "title": p["title"], "title_en": p.get("title_en"), "kind": p.get("kind"), "place": p.get("place"), "lat": p["lat"], "lon": p["lon"],
                             "t": p["t"], "first_seen": m.get("first_seen"), "src": src[:m.get("src_n", len(src))]})
     for ev in evs:
