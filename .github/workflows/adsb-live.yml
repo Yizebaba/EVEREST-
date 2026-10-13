@@ -1,0 +1,29 @@
+# 珠峰周边 ADS-B：Cloudflare 实时采集每 15 分钟改一次 adsb-live 分支的 trigger.txt 来触发；结果写回 adsb-live 分支的 adsb.json。
+name: adsb-live
+on:
+  push:
+    branches: [adsb-live]
+    paths: [trigger.txt]
+  workflow_dispatch:
+permissions:
+  contents: write
+concurrency:
+  group: adsb-live
+  cancel-in-progress: false
+jobs:
+  fetch:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+        with: { ref: adsb-live }
+      - name: Fetch ADS-B
+        env:
+          OPENSKY_CLIENT_ID: ${{ secrets.OPENSKY_CLIENT_ID }}
+          OPENSKY_CLIENT_SECRET: ${{ secrets.OPENSKY_CLIENT_SECRET }}
+        run: python3 tools/adsb_fetch.py
+      - name: Save
+        run: |
+          git config user.name "adsb-live"; git config user.email "actions@users.noreply.github.com"
+          git add adsb.json && git commit -qm "adsb $(date -u +%FT%TZ)" || exit 0
+          for i in 1 2 3; do git pull -q --rebase origin adsb-live && git push -q origin adsb-live && break; sleep 3; done
