@@ -3,7 +3,7 @@
 输出：live_rt.json（→ live/rt）、live_fs.json（→ live/fs）、live_img.json（→ live/img）、mt_monitor.json（→ mt_monitor/latest）"""
 import base64, json, os, subprocess, sys, time
 out = sys.argv[1]; os.makedirs(out, exist_ok=True)
-REPO = "Yizebaba/everest-insar-pipeline"
+REPO = "Yizebaba/EVEREST-"
 def raw(path, ref="facet-live"):
     return subprocess.check_output(["gh", "api", "-H", "Accept: application/vnd.github.raw", f"repos/{REPO}/contents/{path}?ref={ref}"])
 rt = json.loads(raw("rt.json")); fs = json.loads(raw("facet_status.json"))

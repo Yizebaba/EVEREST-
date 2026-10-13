@@ -48,8 +48,8 @@ const TOOLS = [
     description: "某个水位站最近的水位时间序列（约 10 分钟一个点），附警戒/危险水位、最高最低值和变化量。station 填站名关键词或站号。",
     inputSchema: { type: "object", properties: { station: { type: "string", description: "站名关键词或站号，如 Imja、Tsho Rolpa、2874" }, hours: { type: "integer", minimum: 1, maximum: 72, description: "最近几小时，默认 24" } }, required: ["station"], additionalProperties: false } },
   { name: "everest_events", title: "事件与证据包",
-    description: "自动发现的喜马拉雅上游突发事件（BIPAD 洪水警报、USGS 崩塌、GDACS 橙/红级、水位越线），以及每个事件的证据包：IO.EVN 地震台信号、地震目录、附近水位站、网络连通、卫星前后影像，按时间排在一条线上。只陈述公开来源记录，不判断成因。",
-    inputSchema: { type: "object", properties: { days: { type: "integer", minimum: 1, maximum: 60, description: "最近几天，默认 30" }, id: { type: "string", description: "事件编号；填了就返回这个事件的完整证据时间线" } }, additionalProperties: false } },
+    description: "自动发现的喜马拉雅上游突发事件（BIPAD 洪水警报、USGS 崩塌、GDACS 橙/红级、水位越线、两家以上媒体报道的雪崩/冰湖溃决/泥石流/滑坡新闻线索），以及每个事件的证据包：地震台（含民间地震仪）、地震目录与震动图、附近水位站、网络连通、卫星影像与洪水范围、新闻、人道报告、存证状态，按时间排在一条线上。只陈述公开来源记录，不判断成因。",
+    inputSchema: { type: "object", properties: { days: { type: "integer", minimum: 1, maximum: 60, description: "最近几天，默认 30" }, id: { type: "string", description: "事件编号；填了就返回这个事件的完整证据时间线" }, full: { type: "boolean", description: "true 时返回所有事件的完整证据包（总览页用）" } }, additionalProperties: false } },
   { name: "everest_daily_brief", title: "监测日报",
     description: "一次生成珠峰监测日报：数据源状态、停发设备、近 N 小时地震与崩塌、灾害警报、水位越线站、通信连通、DORIS 跟踪、坡面进度。只监测、不预测。",
     inputSchema: { type: "object", properties: { hours: { type: "integer", minimum: 1, maximum: 72, description: "统计最近几小时，默认 24" } }, additionalProperties: false } },
@@ -160,12 +160,23 @@ async function call(name, args, h) {
   }
   if (name === "everest_events") {
     const days = Math.min(60, Math.max(1, args.days || 30)), E = Object.values((h.events ? await h.events() : {}) || {}).filter(e => now - Date.parse(e.t) <= days * 864e5).sort((a, b) => b.t.localeCompare(a.t));
-    let idx = {}; try { const r = await fetch(`https://raw.githubusercontent.com/Yizebaba/everest-insar-pipeline/events/index.json`, { cf: { cacheTtl: 120 } }); if (r.ok) idx = (await r.json()).events || {}; } catch (e) {}
+    let idx = {}; try { const r = await fetch(`https://raw.githubusercontent.com/Yizebaba/EVEREST-/events/index.json`, { cf: { cacheTtl: 120 } }); if (r.ok) idx = (await r.json()).events || {}; } catch (e) {}
     if (args.id) {
       const e = E.find(x => x.id === args.id) || Object.values((await h.events()) || {}).find(x => x.id === args.id); if (!e) return { text: "没有这个事件：" + args.id, data: null, err: true };
-      let pack = null; try { const r = await fetch(`https://raw.githubusercontent.com/Yizebaba/everest-insar-pipeline/events/events/${e.id}.json`); if (r.ok) pack = await r.json(); } catch (x) {}
+      let pack = null; try { const r = await fetch(`https://raw.githubusercontent.com/Yizebaba/EVEREST-/events/events/${e.id}.json`); if (r.ok) pack = await r.json(); } catch (x) {}
       const tl = (pack && pack.timeline) || e.src;
       return { text: `${e.title}（${e.place || ""}）\n事件时间（最早信号）：${BJ(e.t)} 北京时间\n` + (pack ? `证据包生成于 ${BJ(pack.built)}\n` : "证据包还没生成\n") + tl.map(x => `  ${BJ(x.t)} [${x.src}] ${x.text}` + (x.status ? `（${x.status}）` : "")).join("\n") + "\n只陈述公开来源记录，不判断成因。", data: { event: e, pack } };
+    }
+    if (args.full) {   // 总览页用：完整证据包（不含图），页面有更新就拉
+      const L = [];
+      for (const e of E.slice(0, 10)) {
+        let p = null; try { const r = await fetch(`https://raw.githubusercontent.com/Yizebaba/EVEREST-/events/events/${e.id}.json`, { cf: { cacheTtl: 60 } }); if (r.ok) p = await r.json(); } catch (x) {}
+        if (!p) continue; const m = idx[e.id] || {};
+        L.push({ id: p.id, title: p.title, title_en: p.title_en, kind: p.kind, place: p.place, lat: p.lat, lon: p.lon, t: p.t, built: p.built, note: p.note, note_en: p.note_en, first_seen: m.first_seen || e.first_seen,
+          timeline: (p.timeline || []).slice(0, 80), evn: p.evn ? { distance_km: p.evn.distance_km, coverage_pct: p.evn.coverage_pct, peaks: p.evn.peaks, error: p.evn.error } : null,
+          kkn: p.kkn || null, gfm: p.gfm || null, sentinel: p.sentinel || null, gauges: p.gauges || null, ioda: p.ioda || null, manual: p.manual || null, news: (p.news || []).slice(0, 10), ots: m.ots || [], png: p.png || null });
+      }
+      return { text: `${L.length} 个事件的完整证据包`, data: { updated: new Date().toISOString(), events: L } };
     }
     return { text: E.length ? E.map(e => `${BJ(e.t)} ${e.kind} · ${e.title} · ${e.src.length} 条信号` + (idx[e.id] ? ` · 证据包 ${idx[e.id].n} 条` : " · 证据包待生成") + `（编号 ${e.id}）`).join("\n") : `最近 ${days} 天没有自动发现的事件。`, data: { events: E, packs: idx } };
   }

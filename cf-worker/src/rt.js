@@ -10,14 +10,14 @@ export const IMG = {
   meteosat_natural: "https://view.eumetsat.int/geoserver/ows?service=WMS&version=1.3.0&request=GetMap&layers=msg_iodc:rgb_naturalenhncd&styles=&crs=EPSG:4326&BBOX=27.3,86.2,28.7,87.7&WIDTH=450&HEIGHT=420&format=image/png",
 };
 // 各源节奏（分钟）
-const EVERY = { evn: 5, bipad: 10, emsc: 10, gibs: 10, ioda: 10, usgs: 15, alerts: 15, nsc: 30, gdacs: 30, doris: 30, adsb: 30 };
+const EVERY = { evn: 5, bipad: 10, emsc: 10, gibs: 10, ioda: 10, usgs: 15, alerts: 15, nsc: 30, gdacs: 30, doris: 30, adsb: 30, news: 30 };
 const MAX_PER_ROUND = 5;   // 每轮最多跑 5 个源（按最久没更新的先跑），控制单次计算量
 // 南坡关键水文站（BIPAD stationSeriesId）
 export const SERIES = { 5385: "Imja 冰湖出口", 5378: "Imja 湖下游（疑似故障）", 12378: "Imja 河 Dingboche", 5287: "Imja 河 Pangboche",
   1867: "Tsho Rolpa 冰湖出口", 1877: "Rolwaling 河 Bedding", 1500: "杜德科西 Rabuwabazar", 26631: "杜德科西 Jayaramghat",
   23263: "阿伦河 Kimathanka", 2874: "阿伦河 Uwa Gau", 21089: "Barun 河 Syaksila", 1481: "阿伦河 Turkeghat",
   22609: "博特科西 Kodari", 1640: "博特科西 Bahrabise", 1508: "萨普塔科西 Chatara" };
-const UA = { "user-agent": "everest-facets-worker (github.com/Yizebaba/everest-insar-pipeline)" };
+const UA = { "user-agent": "everest-facets-worker (github.com/Yizebaba/EVEREST-)" };
 const iso = d => new Date(d).toISOString();
 
 async function j(url, opt = {}) { const r = await fetch(url, { ...opt, headers: { ...UA, ...(opt.headers || {}) } }); if (!r.ok) throw new Error(`${r.status} ${url.slice(0, 60)}`); return r.json(); }
@@ -246,7 +246,16 @@ function every(k, s) {
   if (k !== "adsb") return EVERY[k];
   return (s && s.ok) ? 15 : 30;
 }
-const JOBS = { evn, bipad, emsc, gibs, ioda, usgs, alerts, nsc, gdacs, doris, adsb };
+// 新闻（GDELT 全球新闻库）：喜马拉雅的雪崩、冰崩、冰湖溃决、滑坡、泥石流、暴雪、山洪报道。只当“线索”，至少两家媒体才成为事件候选。
+async function news() {
+  const q = '(avalanche OR landslide OR "glacial lake" OR GLOF OR "flash flood" OR "debris flow" OR rockfall OR snowstorm OR blizzard) (Nepal OR Everest OR Himalaya OR Tibet OR Xizang)';
+  const r = await fetch("https://api.gdeltproject.org/api/v2/doc/doc?" + new URLSearchParams({ query: q, mode: "artlist", maxrecords: "75", format: "json", timespan: "3d", sort: "datedesc" }), { headers: UA });
+  const tx = await r.text(); if (!r.ok) throw new Error(`GDELT ${r.status}`);   // 被限流时这一轮报错，30 分钟后再取
+  if (!tx.trim().startsWith("{")) throw new Error("GDELT: " + tx.slice(0, 80));
+  const s2 = d => `${d.slice(0, 4)}-${d.slice(4, 6)}-${d.slice(6, 8)}T${d.slice(9, 11)}:${d.slice(11, 13)}:${d.slice(13, 15)}Z`;
+  return { arts: (JSON.parse(tx).articles || []).map(x => ({ t: s2(x.seendate), title: String(x.title || "").slice(0, 200), url: x.url, domain: x.domain, lang: x.language })) };
+}
+const JOBS = { evn, bipad, emsc, gibs, ioda, usgs, alerts, nsc, gdacs, doris, adsb, news };
 
 // 每轮：取状态，跑到点的源，存回。返回本轮日志。
 export async function rtTick(env, getMeta, setMeta) {

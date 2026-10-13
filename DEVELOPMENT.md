@@ -25,7 +25,7 @@ For automated daily overpass sensing, openEO processing, and cross-repo syncing 
 
 #### Step A: Clone and Install
 ```bash
-git clone https://github.com/Yizebaba/everest-insar-pipeline.git
+git clone https://github.com/Yizebaba/EVEREST-.git
 cd everest-insar-pipeline
 
 # Create virtual environment

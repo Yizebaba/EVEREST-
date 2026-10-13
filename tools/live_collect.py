@@ -19,7 +19,7 @@ SERIES = {5385: "Imja 冰湖出口", 5378: "Imja 湖下游（疑似故障）", 1
           22609: "博特科西 Kodari", 1640: "博特科西 Bahrabise", 1508: "萨普塔科西 Chatara"}
 
 def get(url, timeout=60):
-    req = urllib.request.Request(url, headers={"User-Agent": "everest-live/0.1 (github.com/Yizebaba/everest-insar-pipeline)"})
+    req = urllib.request.Request(url, headers={"User-Agent": "everest-live/0.1 (github.com/Yizebaba/EVEREST-)"})
     with urllib.request.urlopen(req, timeout=timeout) as r:
         return r.read()
 
@@ -155,10 +155,10 @@ except Exception as e:
 # 6 本仓库每日 InSAR 管线的产物（main 分支 data/displacement_summary.json，公开仓库原始文件）
 #   只取实测量：InSAR 位移统计、ITS_LIVE 年速度；不取天气、模型打分、风险等级
 try:
-    raw = "https://raw.githubusercontent.com/Yizebaba/everest-insar-pipeline/main/data/displacement_summary.json"
+    raw = "https://raw.githubusercontent.com/Yizebaba/EVEREST-/main/data/displacement_summary.json"
     d = json.loads(get(raw))
     r = d.get("results", {})
-    cm = json.loads(get("https://api.github.com/repos/Yizebaba/everest-insar-pipeline/commits?path=data/displacement_summary.json&per_page=10"))
+    cm = json.loads(get("https://api.github.com/repos/Yizebaba/EVEREST-/commits?path=data/displacement_summary.json&per_page=10"))
     it = r.get("itslive_velocity_baseline", {})
     pipe = {"fetched": iso(NOW), "url": raw, "generated": d.get("timestamp_utc"), "pair": d.get("insar_pair"), "burst": d.get("burst_id"),
             "insar": r.get("insar_displacement"), "decision": (r.get("engine_decision") or {}).get("status"),
@@ -206,7 +206,7 @@ except Exception as e:
 
 # 8 完整 InSAR 流程各环节的真实状态（读仓库公开信息：工作流运行记录、main 分支文件、授权检查结果）
 try:
-    R = "Yizebaba/everest-insar-pipeline"
+    R = "Yizebaba/EVEREST-"
     def ghj(path):
         h = {"User-Agent": "everest-live", "Accept": "application/vnd.github+json"}
         if os.environ.get("GH_TOKEN"): h["Authorization"] = "Bearer " + os.environ["GH_TOKEN"]

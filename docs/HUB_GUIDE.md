@@ -146,7 +146,7 @@ EVEREST 连接器和 Claude 里的“连接器”是同一个：在对话里问�
 
 - **Claude Code 直接从仓库装**：
   ```
-  /plugin marketplace add Yizebaba/everest-insar-pipeline
+  /plugin marketplace add Yizebaba/EVEREST-
   /plugin install everest@everest
   ```
 - **下载的 .zip**：解压后在 Claude Code 里运行 `/plugin marketplace add ./文件夹名`，再 `/plugin install 插件名@插件名`。

@@ -14,7 +14,7 @@
 - **Claude 网页 / 桌面**：设置 → 连接器 → 添加自定义连接器，名称 `EVEREST`，地址填上面的 URL；技能在设置 → 技能里上传各 `SKILL.md` 所在文件夹。
 - **Claude Code**：
   ```
-  /plugin marketplace add Yizebaba/everest-insar-pipeline
+  /plugin marketplace add Yizebaba/EVEREST-
   /plugin install everest@everest
   ```
 

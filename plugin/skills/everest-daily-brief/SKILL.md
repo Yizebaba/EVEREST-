@@ -10,7 +10,7 @@ description: 生成珠峰监测日报：数据源状态、停发设备、近 24 
 1. 调用 `everest_daily_brief`（`hours` 默认 24；用户说“最近三天”就传 72）。
 2. 日报里有停发设备或越线水位站时，再调 `everest_station_history` 看那几个站的序列，写清最后数据时间。
 3. 有地震或崩塌时，调 `everest_quakes` 补全震级、位置和来源。
-4. 没有连接器时，读 `https://raw.githubusercontent.com/Yizebaba/everest-insar-pipeline/facet-live/rt.json` 自己汇总。
+4. 没有连接器时，读 `https://raw.githubusercontent.com/Yizebaba/EVEREST-/facet-live/rt.json` 自己汇总。
 
 ## 格式
 

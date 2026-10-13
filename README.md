@@ -3,7 +3,7 @@
 **公开地球观测数据的真实度审计和事件证据平台**
 *Truth audit and event evidence for public Earth-observation data*
 
-[总览页](https://claude.ai/artifact/6heopu2wizEAFMJJLDs44H) · [总览页说明](docs/HUB_GUIDE.md) · [连接器（MCP）](https://everest-facets.yizebaba.workers.dev/mcp) · [实时采集页](https://everest-facets.yizebaba.workers.dev/rt) · [证据包数据](https://github.com/Yizebaba/everest-insar-pipeline/tree/events) · [English](#english)
+[总览页](https://claude.ai/artifact/6heopu2wizEAFMJJLDs44H) · [总览页说明](docs/HUB_GUIDE.md) · [连接器（MCP）](https://everest-facets.yizebaba.workers.dev/mcp) · [实时采集页](https://everest-facets.yizebaba.workers.dev/rt) · [证据包数据](https://github.com/Yizebaba/EVEREST-/tree/events) · [English](#english)
 
 ---
 
@@ -34,7 +34,7 @@ Worker 从 BIPAD 洪水警报里自动发现事件（Aarughat-9, Gorkha），证
 | 10-13 | BIPAD 水位站 | 80 km 内 12 站只有 9 站在报，Budhi Gandaki at Aarughat 停报 | **缺失** |
 | 10-13 | IFRC Montandon | 需要 IFRC GO 令牌（未配置） | **缺失** |
 
-完整时间线：[`events/bipad-gorkha-2026-10-11.json`](https://github.com/Yizebaba/everest-insar-pipeline/blob/events/events/bipad-gorkha-2026-10-11.json)。证据包写明“谁没记录到”，和“谁记录到了”同等重要。
+完整时间线：[`events/bipad-gorkha-2026-10-11.json`](https://github.com/Yizebaba/EVEREST-/blob/events/events/bipad-gorkha-2026-10-11.json)。证据包写明“谁没记录到”，和“谁记录到了”同等重要。
 
 ## 证据链怎么生成
 
@@ -80,12 +80,12 @@ ots verify events/archive/<事件编号>_<哈希>.json.ots
 - **在 Claude 里提问**：设置 → 连接器 → 添加自定义连接器，名称 `EVEREST`，地址 `https://everest-facets.yizebaba.workers.dev/mcp`（提示无法检查登录方式时选“仍然继续”）。15 个只读工具，例如 `everest_events`、`everest_daily_brief`、`everest_offline`。
 - **Claude Code 插件**（连接器 + 8 个技能）：
   ```
-  /plugin marketplace add Yizebaba/everest-insar-pipeline
+  /plugin marketplace add Yizebaba/EVEREST-
   /plugin install everest@everest
   ```
 - **直接取数据**（公开 JSON）：
-  - 事件目录：`https://raw.githubusercontent.com/Yizebaba/everest-insar-pipeline/events/index.json`
-  - 实时快照：`https://raw.githubusercontent.com/Yizebaba/everest-insar-pipeline/facet-live/rt.json`
+  - 事件目录：`https://raw.githubusercontent.com/Yizebaba/EVEREST-/events/index.json`
+  - 实时快照：`https://raw.githubusercontent.com/Yizebaba/EVEREST-/facet-live/rt.json`
   - 事件接口：`https://everest-facets.yizebaba.workers.dev/api/events.json`
 
 ## 边界
@@ -142,5 +142,5 @@ People can also submit photos, videos, links and field notes through the hub. Fi
 
 - Hub: <https://claude.ai/artifact/6heopu2wizEAFMJJLDs44H>
 - MCP connector (15 read-only tools): `https://everest-facets.yizebaba.workers.dev/mcp`
-- Evidence data: the [`events`](https://github.com/Yizebaba/everest-insar-pipeline/tree/events) branch
+- Evidence data: the [`events`](https://github.com/Yizebaba/EVEREST-/tree/events) branch
 - Verify a stamp: `pip install opentimestamps-client`, then `ots verify <snapshot>.json.ots`

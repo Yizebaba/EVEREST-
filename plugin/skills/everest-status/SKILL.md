@@ -17,7 +17,7 @@ description: 查询珠峰（Everest）多源监测的当前状态：数据源是
    - `everest_station_history`：单站水位序列；`everest_alerts`：灾害警报；`everest_connectivity`：当地网络连通；
      `everest_satellite_tracking`：DORIS 信标跟踪；`everest_air_traffic`：ADS-B；`everest_imagery`：最新云图链接；`everest_daily_brief`：日报。
 2. **没有连接器时**：读公开快照
-   `https://raw.githubusercontent.com/Yizebaba/everest-insar-pipeline/facet-live/rt.json`（每小时更新）和同分支的 `facet_status.json`。
+   `https://raw.githubusercontent.com/Yizebaba/EVEREST-/facet-live/rt.json`（每小时更新）和同分支的 `facet_status.json`。
    停发判定：水位站超过 6 小时无数据；IO.EVN 最近 20 分钟完整度为 0；DORIS 12 小时内没被跟踪。
 
 ## 回答规则

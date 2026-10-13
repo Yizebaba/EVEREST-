@@ -5,6 +5,7 @@
 //   - USGS 归类为 landslide（崩塌/滑坡）的事件
 //   - GDACS 橙色/红色级别、在喜马拉雅范围内的事件
 //   - 本平台监测的水位站在报且越过警戒线
+//   - 新闻线索（GDELT）：标题里同时有灾种（雪崩、冰湖溃决、泥石流、滑坡、暴雪、洪水）和喜马拉雅地名，同一天至少两家媒体
 
 // 喜马拉雅高山区县（尼泊尔，有冰川或跨境上游河流）大致中心，用于没有坐标的警报
 export const DISTRICTS = {
@@ -15,6 +16,13 @@ export const DISTRICTS = {
   Bajhang: [29.7, 81.2], Darchula: [29.85, 80.75], 
   Ramechhap: [27.5, 86.08], 
 };
+// 新闻里常见的山峰、山谷和西藏一侧地名
+const PLACES = Object.assign({}, DISTRICTS, { Everest: [27.99, 86.93], Khumbu: [27.95, 86.8], Lukla: [27.69, 86.73], Namche: [27.8, 86.71], Manaslu: [28.55, 84.56],
+  Annapurna: [28.6, 83.82], Langtang: [28.21, 85.56], Dhaulagiri: [28.7, 83.49], Makalu: [27.89, 87.09], Kanchenjunga: [27.7, 88.15], Kangchenjunga: [27.7, 88.15],
+  Rolwaling: [27.88, 86.4], Melamchi: [27.83, 85.58], Tingri: [28.66, 87.12], Dingri: [28.66, 87.12], Gyirong: [28.85, 85.3], Kyirong: [28.85, 85.3],
+  Nyalam: [28.16, 85.98], Zhangmu: [27.99, 85.98], Rasuwagadhi: [28.27, 85.38], Tatopani: [27.95, 85.94] });
+const NEWS_KIND = [[/avalanche/i, "雪崩", "avalanche"], [/glacial lake|GLOF/i, "冰湖溃决", "glacial lake outburst"], [/debris flow/i, "泥石流", "debris flow"],
+  [/landslide|rockfall/i, "滑坡", "landslide"], [/snowstorm|blizzard/i, "暴雪", "snowstorm"], [/flood/i, "洪水", "flood"]];
 const BOX = { s: 26.5, n: 31.5, w: 79.5, e: 92.5 };
 const inBox = (lat, lon) => lat != null && lon != null && lat >= BOX.s && lat <= BOX.n && lon >= BOX.w && lon <= BOX.e;
 const npDay = s => new Date(Date.parse(s) + 345 * 60e3).toISOString().slice(0, 10);   // 尼泊尔日期
@@ -53,6 +61,19 @@ export function detect(rt, prev) {
     const t = new Date(m.last_on).toISOString();
     add(`gauge-${id}-${npDay(m.last_on)}`, { kind: "水位越线", title: `${m.name} 越过${/DANGER/.test(m.status) ? "危险" : "警戒"}水位`, title_en: `${m.title} ${/DANGER/.test(m.status) ? "above danger level" : "above warning level"}`, place: m.title, lat: m.lat, lon: m.lon, t },
       { k: "gauge:" + id + ":" + t, t, src: "BIPAD 水位站", text: `${m.name} ${m.status}`, text_en: `${m.title} ${m.status}` });
+  }
+  const grp = {};
+  for (const a of v("news").arts || []) {
+    const kk = NEWS_KIND.find(k => k[0].test(a.title)); if (!kk) continue;
+    const pl = Object.keys(PLACES).find(p => new RegExp("\\b" + p + "\\b", "i").test(a.title)); if (!pl) continue;
+    const key = `${kk[2]}|${pl}|${npDay(a.t)}`; (grp[key] = grp[key] || { kk, pl, arts: [] }).arts.push(a);
+  }
+  for (const [key, g] of Object.entries(grp)) {
+    if (new Set(g.arts.map(a => a.domain)).size < 2) continue;
+    const t = g.arts.map(a => a.t).sort()[0], [la, lo] = PLACES[g.pl];
+    for (const a of g.arts) add(`news-${g.kk[2].replace(/\s+/g, "-")}-${g.pl.toLowerCase()}-${key.split("|")[2]}`,
+      { kind: g.kk[1], title: `${g.pl} ${g.kk[1]}（新闻线索）`, title_en: `${g.pl} ${g.kk[2]} (news lead)`, place: g.pl, lat: la, lon: lo, t },
+      { k: "news:" + a.url, t: a.t, src: "新闻（GDELT）", text: `${a.domain}：${a.title}`, text_en: `${a.domain}: ${a.title}`, url: a.url });
   }
   // 清掉同一来源同一时刻的重复（旧版本用时间做键，新版本用警报编号做键）
   for (const e of Object.values(ev)) { const seen = new Set(); e.src = e.src.filter(x => { const k = x.src + "|" + x.t; if (seen.has(k)) return false; seen.add(k); return true; }); }
