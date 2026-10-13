@@ -573,7 +573,11 @@ def gdelt(ev, t0, items, pack):
                 raw = get(u, raw=True, timeout=60); break
             except Exception as e:
                 if "429" not in str(e) or wait == 60: raise
+        if not raw.strip().startswith(b"{"):
+            print("GDELT 返回：", q, raw[:300])
+            if raw.strip(): raise RuntimeError("GDELT：" + raw[:80].decode(errors="ignore"))
         arts = json.loads(raw).get("articles", []) if raw.strip().startswith(b"{") else []
+        print("GDELT", q, len(arts))
         news = [{"t": datetime.strptime(x["seendate"], "%Y%m%dT%H%M%SZ").replace(tzinfo=timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ"), "title": x.get("title", "")[:160], "url": x.get("url"), "domain": x.get("domain"), "lang": x.get("language")} for x in arts]
         pack["news"] = news[:20]
         if news:
