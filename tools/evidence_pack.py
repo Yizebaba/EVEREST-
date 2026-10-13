@@ -23,7 +23,7 @@ import urllib.request, urllib.parse
 UA = {"user-agent": "everest-evidence (github.com/Yizebaba/EVEREST-)"}
 EVN = (27.9587, 86.8117)
 OUT = "events"
-VERSION = 10   # 改了证据包内容时加 1，所有包会重算一次
+VERSION = 11   # 改了证据包内容时加 1，所有包会重算一次
 NOW = datetime.now(timezone.utc)
 
 # 尼泊尔区县 → IODA 地区（旧 14 区）
@@ -577,7 +577,7 @@ def gdelt(ev, t0, items, pack):
             print("GDELT 返回：", q, raw[:300])
             if raw.strip(): raise RuntimeError("GDELT：" + raw[:80].decode(errors="ignore"))
         arts = json.loads(raw).get("articles", []) if raw.strip().startswith(b"{") else []
-        print("GDELT", q, len(arts))
+        pack["gdelt_q"] = {"q": q, "n": len(arts), "head": raw[:200].decode(errors="ignore")}
         news = [{"t": datetime.strptime(x["seendate"], "%Y%m%dT%H%M%SZ").replace(tzinfo=timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ"), "title": x.get("title", "")[:160], "url": x.get("url"), "domain": x.get("domain"), "lang": x.get("language")} for x in arts]
         pack["news"] = news[:20]
         if news:
