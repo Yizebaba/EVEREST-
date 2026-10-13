@@ -1,6 +1,6 @@
 {
   "pipeline": "Everest Autonomous InSAR & Multi-Hazard Pipeline (v5.0)",
-  "timestamp_utc": "2026-10-13T08:41:55.937501",
+  "timestamp_utc": "2026-10-13T20:05:47.007407",
   "insar_pair": {
     "master": "2026-10-06",
     "slave": "2026-10-10"
@@ -9,16 +9,24 @@
   "wavelength_cm": 5.5465,
   "results": {
     "insar_displacement": {
-      "evaluated_candidate_pixels": 20278,
-      "median_mm": 0.66,
-      "mean_mm": 0.79,
-      "min_mm": 0.46,
-      "max_mm": 2.75,
-      "bedrock_anchor": {
-        "grid_y": 285,
-        "grid_x": 613,
-        "coherence": 0.965
-      }
+      "source": "cloud_insar (Copernicus openEO)",
+      "status": "OBSERVED_PHASE_ONLY",
+      "reason": "\u5df2\u6709\u6700\u65b0\u5f71\u50cf\u5bf9\u7684\u76f8\u4f4d\u548c\u76f8\u5e72\u6027\uff1b\u6ca1\u6709\u7a33\u5b9a\u53c2\u8003\u70b9\uff0c\u4f4d\u79fb\u4e0d\u7ed9\u6570",
+      "evaluated_candidate_pixels": 0,
+      "median_mm": null,
+      "mean_mm": null,
+      "min_mm": null,
+      "max_mm": null,
+      "cloud_pair": {
+        "master": "2026-09-28",
+        "slave": "2026-10-10"
+      },
+      "cloud_processed_utc": "2026-10-11T18:37:33.864581+00:00",
+      "job_id": "j-26101115482648a789947e9680a3f97d",
+      "valid_phase_pixels": 2650018,
+      "coherence_mean": 0.3281253901455711,
+      "displacement_status": "UNREFERENCED_NOT_FOR_HAZARD_DECISIONS",
+      "source_sha256": "33b104d60c7fa82dd5b839cd780802b84d4527e8cc8687b26277e7f8277ffb76"
     },
     "itslive_velocity_baseline": {
       "status": "success",
@@ -83,11 +91,11 @@
       "status": "ACTIVE_INFERENCE",
       "embedding_dimension": 768,
       "semantic_tokens": 196,
-      "cryo_anomaly_score": 0.1802,
-      "cryo_stability_index": 0.8198,
+      "cryo_anomaly_score": 0.1754,
+      "cryo_stability_index": 0.8246,
       "representation_summary": {
         "spectral_energy": 1.223,
-        "motion_coupling_factor": 0.012,
+        "motion_coupling_factor": 0.0,
         "semantic_state": "STABLE_HIGH_ALTITUDE_FIRN"
       }
     },
@@ -164,73 +172,19 @@
       "decision": "ROUTINE_BACKGROUND_MONITORING",
       "status": "NORMAL_PHYSICAL_CREEP",
       "is_event_candidate": false,
-      "overall_confidence": 0.62,
-      "uncertainty_score": 0.38,
-      "uncertainty_reasons": [],
-      "active_evidences": [
-        "InSAR LOS creep (0.66 mm)"
+      "overall_confidence": 0.35,
+      "uncertainty_score": 0.65,
+      "uncertainty_reasons": [
+        "LOW_INSAR_COHERENCE_NOISE"
       ],
+      "active_evidences": [],
       "persistence_index": 0.4,
-      "spatial_consistency_index": 0.95,
-      "evidence_score": 0.05,
+      "spatial_consistency_index": 0.5,
+      "evidence_score": 0.0,
       "human_verification_required": false,
       "alert_dispatched": false
     },
-    "sam_deformation_feature": {
-      "type": "Feature",
-      "properties": {
-        "feature_type": "insar_sam_deformation_region",
-        "center_lon": 86.858568,
-        "center_lat": 27.986862,
-        "los_displacement_mm": 0.66,
-        "area_approx_km2": 0.385,
-        "sam_prompt_type": "bbox_centroid_coupled",
-        "physical_status": "slow_creep_stable"
-      },
-      "geometry": {
-        "type": "Polygon",
-        "coordinates": [
-          [
-            [
-              86.862151,
-              27.986862
-            ],
-            [
-              86.861076,
-              27.989069
-            ],
-            [
-              86.858568,
-              27.990015
-            ],
-            [
-              86.85606,
-              27.989069
-            ],
-            [
-              86.854985,
-              27.986862
-            ],
-            [
-              86.85606,
-              27.984655
-            ],
-            [
-              86.858568,
-              27.983709
-            ],
-            [
-              86.861076,
-              27.984655
-            ],
-            [
-              86.862151,
-              27.986862
-            ]
-          ]
-        ]
-      }
-    },
+    "sam_deformation_feature": null,
     "crevasse_feature": {
       "type": "Feature",
       "properties": {
