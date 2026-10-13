@@ -196,7 +196,7 @@ async function pushFile(env, path, obj, msg, log) {
   const h = { authorization: `Bearer ${env.GH_TOKEN}`, accept: "application/vnd.github+json", "user-agent": "everest-facets-worker", "content-type": "application/json" };
   const ref = await fetch(`${api}/git/ref/heads/${br}`, { headers: h }); log.fetches++;
   if (ref.status === 404) {
-    const base = await (await fetch(`${api}/git/ref/heads/${env.GH_BASE || "data-probe"}`, { headers: h })).json(); log.fetches++;
+    const base = await (await fetch(`${api}/git/ref/heads/${env.GH_BASE || "main"}`, { headers: h })).json(); log.fetches++;
     const c = await fetch(`${api}/git/refs`, { method: "POST", headers: h, body: JSON.stringify({ ref: `refs/heads/${br}`, sha: base.object.sha }) }); log.fetches++;
     log.gh_branch = c.status;
   } else if (!ref.ok) { log.github = ref.status; return ref.status; }
