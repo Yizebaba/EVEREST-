@@ -26,6 +26,9 @@ const TOOLS = [
   { name: "everest_source", title: "单个数据源原始数据",
     description: "取某个实时数据源的最新原始结果（JSON）。可选：evn、bipad、emsc、gibs、ioda、usgs、alerts、nsc、gdacs、doris、adsb。",
     inputSchema: { type: "object", properties: { key: { type: "string", enum: Object.keys(NAMES) } }, required: ["key"], additionalProperties: false } },
+  { name: "everest_snapshot", title: "完整实时快照",
+    description: "一次取回全部实时采集结果（11 个数据源的最新 JSON）和坡面监测进度，供网页或程序整体刷新使用。",
+    inputSchema: { type: "object", properties: {}, additionalProperties: false } },
 ];
 for (const t of TOOLS) t.annotations = { readOnlyHint: true, openWorldHint: true };
 
@@ -84,6 +87,10 @@ async function call(name, args, h) {
     const F = (live.facets || []).slice().sort((a, b) => (a.pct ?? 999) - (b.pct ?? 999));
     const cnt = {}; F.forEach(f => cnt[f.tier] = (cnt[f.tier] || 0) + 1);
     return { text: `坡面分级（最新影像 ${BJ(live.last_scene)}）：` + Object.entries(cnt).map(([k, n]) => `${k} ${n}`).join("，") + "\n最异常的坡面：\n" + F.slice(0, top).map(f => `  ${f.id} · ${f.tier}` + (f.pct != null ? ` · 历史分位 ${f.pct}%` : "")).join("\n"), data: { counts: cnt, top: F.slice(0, top), last_scene: live.last_scene } };
+  }
+  if (name === "everest_snapshot") {
+    const fs = await h.status();
+    return { text: `实时快照：汇总于 ${BJ(rt.updated)}，${Object.keys(S).length} 个数据源；坡面 ${(fs.scenes || {}).d || 0}/${(fs.scenes || {}).n || 0} 景。`, data: { rt, status: fs } };
   }
   if (name === "everest_source") {
     const k = args.key; if (!S[k]) return { text: "没有这个数据源：" + k, data: null, err: true };
