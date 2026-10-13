@@ -81,7 +81,8 @@ def export(tif, output, pair, job_id):
             'bounds': list(dataset.bounds), 'transform': list(dataset.transform),
             'valid_phase_pixels': int(valid.sum()),
             'coherence_threshold': 0.3,
-            'coherence_mean': float(coherence.compressed().mean()),
+            # skip NaN (masked array still holds NaN pixels, mean became NaN)
+            'coherence_mean': float(np.ma.masked_invalid(coherence).mean()),
             'displacement_status': 'UNREFERENCED_NOT_FOR_HAZARD_DECISIONS',
             'reference': None,
             'source_sha256': hashlib.sha256(Path(tif).read_bytes()).hexdigest(),
@@ -90,7 +91,8 @@ def export(tif, output, pair, job_id):
         arrays = [wrapped, coherence, np.ma.masked_invalid(los)]
         titles = ['Wrapped phase (rad)', 'Coherence', 'Unreferenced phase-to-LOS (mm)']
         for ax, array, title in zip(axes, arrays, titles):
-            lo, hi = np.percentile(array.compressed(), [2, 98])
+            # skip NaN, otherwise percentiles are NaN and the colour stretch collapses
+            lo, hi = np.percentile(np.ma.masked_invalid(array).compressed(), [2, 98])
             image = ax.imshow(array, vmin=lo, vmax=hi)
             ax.set_title(title)
             ax.axis('off')
@@ -108,6 +110,10 @@ def run(root, export_only=False):
     output = root / ('_'.join(d.replace('-', '') for d in pair))
     output.mkdir(parents=True, exist_ok=True)
     state_path = output / 'job.json'
+    if (output / 'product.json').exists() and not export_only:
+        # Pair already exported; large rasters are git-ignored, so do not re-download every run
+        print('ALREADY_EXPORTED', output)
+        return
     connection = openeo.connect('https://openeo.dataspace.copernicus.eu')
     connection.authenticate_oidc_refresh_token()
     title = 'Everest_InSAR_' + output.name
