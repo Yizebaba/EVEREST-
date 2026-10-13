@@ -526,7 +526,7 @@ const TRC_RESET=()=>{for(const k in TRC)delete TRC[k]};
 /* v51：自动发现的事件 + 证据包（Worker 发现 → GitHub evidence 工作流生成 → 每小时同步到 live/ev）。
    事件按首次发现时间追加到异常列表末尾，序号固定，处理记录不会错位。 */
 const EVK={SUPPORTING:"SUPPORTING",MISSING:"MISSING",NEUTRAL:"NEUTRAL",CONTRADICTORY:"CONTRADICTORY"};
-const SRCEN={"IO.EVN 地震台":"IO.EVN seismic station","BIPAD 灾害警报":"BIPAD alerts","BIPAD 水位站":"BIPAD river gauges","USGS 地震目录":"USGS catalogue","EMSC 地震目录":"EMSC catalogue","IODA 网络连通":"IODA connectivity","Sentinel-1 雷达":"Sentinel-1 radar","Sentinel-2 光学":"Sentinel-2 optical"},seN=x=>Z(x,SRCEN[x]||x),teX=x=>Z(x.text,(x.text_en||x.text).replace("（已结束）"," (ended)"));
+const SRCEN={"IO.EVN 地震台":"IO.EVN seismic station","KKN 地震台":"KKN seismic station","BIPAD 灾害警报":"BIPAD alerts","BIPAD 水位站":"BIPAD river gauges","USGS 地震目录":"USGS catalogue","EMSC 地震目录":"EMSC catalogue","IODA 网络连通":"IODA connectivity","Sentinel-1 雷达":"Sentinel-1 radar","Sentinel-2 光学":"Sentinel-2 optical"},seN=x=>Z(x,SRCEN[x]||x),teX=x=>Z(x.text,(x.text_en||x.text).replace("（已结束）"," (ended)"));
 let EVLAST=null,EVLANG=null;
 function evApply(d){const L=(d&&d.events)||[];let ch=false;const lc=EVLANG!==LANG;EVLAST=d;EVLANG=LANG;
  L.forEach(e=>{const tl=e.timeline||[],miss=tl.filter(x=>x.kind==="MISSING").length,sup=tl.filter(x=>x.kind==="SUPPORTING"),srcs=[...new Set(sup.map(x=>x.src))];
@@ -1287,14 +1287,16 @@ $("cards").className=(NODEI==null&&view==="hub")?"off":"";
 const all=curRows();$("rows").innerHTML=all.length?all.map(rowHTML).join(""):'<div class="none">'+(Q?"没有匹配项":"这里还没有内容。可以点上面的“＋ 提交”。")+"</div>";
 const r=FOCUS||(NODEI!=null&&view==="hub"?{type:"node",ref:NODEI}:(selK&&all.find(x=>x.k===selK)));$("det").innerHTML=r?detHTML(r):"";$("det").classList.toggle("open",!!r);
 let ab=0;nodes.forEach(n=>{if(n.st==="U"||n.st==="X")ab++});RN.forEach(x=>{const e=eff(x);if(e==="U"||e==="X")ab++});
-/* v52：底部只放计算结果和事件；数据源停发、缺数这类“取数异常”放在“运行状态”和“设备维护”里 */
-const act=ANOM.map((a,i)=>({a:a,i:i})).filter(x=>x.a.state!=="REJECTED"&&x.a.state!=="RESOLVED"&&x.a.type!=="数据不可用");
+/* v53：底部只放最近 14 天的事件和计算结果；取数异常在“运行状态”“设备维护”，管线自身问题在“运行状态”，过去的事件在搜索里能找到 */
+const anT=a=>Date.parse((a.pack&&a.pack.t)||a.evday||"")||null,OLD=14*864e5;
+const act=ANOM.map((a,i)=>({a:a,i:i})).filter(x=>x.a.state!=="REJECTED"&&x.a.state!=="RESOLVED"&&x.a.type!=="数据不可用"&&x.a.type!=="管线数值异常"&&!(anT(x.a)&&Date.now()-anT(x.a)>OLD));
+const histN=ANOM.filter(a=>anT(a)&&Date.now()-anT(a)>OLD).length;
 $("stats").innerHTML=[["nodes",nodes.length+RN.length,"节点"],["bad",ab,"节点故障或缺失"],["anom",act.length,"计算异常"],["comm",COMM.filter(c=>c.status==="open").length,"待评议"]].map(a=>'<button data-stt="'+a[0]+'"><b>'+a[1]+"</b>"+a[2]+"</button>").join("")+SH.chip();
 $("lgs").innerHTML=SF+"候选";$("lgj").innerHTML=JY+"外部提供 / Agent";
 $("q").value=Q;$("lact").innerHTML=lactHTML();
 const gw=grow();GT=gw.g;$("i2").textContent="工具 "+gw.T+" · 能力 "+gw.C+" · 球体 ×"+gw.g.toFixed(2);
 const _op=[...document.querySelectorAll("#side details")].map(d=>d.open);$("side").innerHTML=sideHTML();document.querySelectorAll("#side details").forEach((d,i)=>{if(_op[i])d.open=true});bindOrbs();$("cb").innerHTML=SATS.map(x=>'<button class="catb" data-cb="'+x.id+'" style="--c:'+x.tint+'" aria-pressed="'+(NT===x.id)+'" aria-label="'+x.cn+'">'+x.ico+"<b>"+attCnt(x.id)+"</b></button>").join("");
-$("dock").innerHTML='<div class="dl">'+AL+"计算异常 "+act.length+' <span class="sub">'+Z("实测 + 自动发现的事件","measured + auto-detected events")+'</span></div>'+(act.length?act.map(x=>{const sx=x.a.state==="WATCH"?"X":"U";return'<button class="an" data-dk="'+x.i+'"><span class="at">'+SY[sx]+esc(x.a.t)+'</span><span class="as">'+ST_AN[x.a.state]+'</span><span class="ap">'+esc(x.a.place)+" · "+fmtLL(x.a.lat,x.a.lon)+"</span></button>"}).join(""):'<div class="sub">暂无异常</div>');
+$("dock").innerHTML='<div class="dl">'+AL+"计算异常 "+act.length+' <span class="sub">'+Z("最近 14 天"+(histN?" · 更早 "+histN+" 条可搜索":""),"last 14 days"+(histN?" · "+histN+" older, searchable":""))+'</span></div>'+(act.length?act.map(x=>{const sx=x.a.state==="WATCH"?"X":"U";return'<button class="an" data-dk="'+x.i+'"><span class="at">'+SY[sx]+esc(x.a.t)+'</span><span class="as">'+ST_AN[x.a.state]+'</span><span class="ap">'+esc(x.a.place)+" · "+fmtLL(x.a.lat,x.a.lon)+"</span></button>"}).join(""):'<div class="sub">暂无异常</div>');
 if(GL&&NP)syncNodes();applyBG();applyLang();sizeCards();target();measure();inval()}
 let cw={};function sizeCards(){document.querySelectorAll(".card").forEach(c=>{cw[c.dataset.c]=[c.offsetWidth,c.offsetHeight]})}
 /* ---------- 3D (three.js) ---------- */

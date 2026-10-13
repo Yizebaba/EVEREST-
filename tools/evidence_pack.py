@@ -5,7 +5,7 @@
 
 每个证据包包含：
   - 事件本身的公开信号（BIPAD 警报、USGS、GDACS、水位越线）
-  - IO.EVN 地震台（珠峰 Pyramid，GEOFON）事件前 24 小时到后 3 小时的 1–5 Hz 信号包络，标出最强的几段
+  - IO.EVN 地震台（珠峰 Pyramid，GEOFON）和 KKN 地震台（Kakani，EarthScope）事件前 24 小时到后 3 小时的 1–5 Hz 信号包络，标出最强的几段，并核对两台是否一致
   - USGS、EMSC 在事件 300 km 内、前后一天的目录记录
   - 事件 80 km 内 BIPAD 水位站的当前状态（是否在报、是否越线）
   - 所在区的 IODA 网络连通（BGP、主动探测）前后变化
@@ -20,7 +20,7 @@ import urllib.request, urllib.parse
 UA = {"user-agent": "everest-evidence (github.com/Yizebaba/everest-insar-pipeline)"}
 EVN = (27.9587, 86.8117)
 OUT = "events"
-VERSION = 3   # 改了证据包内容时加 1，所有包会重算一次
+VERSION = 4   # 改了证据包内容时加 1，所有包会重算一次
 NOW = datetime.now(timezone.utc)
 
 # 尼泊尔区县 → IODA 地区（旧 14 区）
@@ -106,6 +106,52 @@ def evn(ev, t0, items, pack):
     except Exception as e:
         pack["evn"] = {"distance_km": dist, "error": str(e)[:200]}
         items.append({"t": iso(t0), "src": "IO.EVN 地震台", "kind": "MISSING", "text_en": f"Waveform not available ({str(e)[:80]})", "text": f"取不到这段波形（{str(e)[:80]}）"})
+
+
+KKN = (27.8008, 85.2788)   # 尼泊尔 Kakani 台（NK.KKN，EarthScope 公开）
+
+
+def kkn(ev, t0, items, pack):
+    """第二个台：NK.KKN（加德满都北面）。两个台同一时刻都有强信号，才更可能是区域性事件而不是 Pyramid 附近的冰崩。"""
+    a, b = t0 - timedelta(hours=24), t0 + timedelta(hours=3)
+    dist = round(km((ev["lat"], ev["lon"]), KKN))
+    try:
+        from obspy import read
+        import io, numpy as np
+        raw = get(f"https://service.iris.edu/fdsnws/dataselect/1/query?net=NK&sta=KKN&cha=BHZ&loc=*&starttime={iso(a)[:-1]}&endtime={iso(b)[:-1]}", raw=True, timeout=180)
+        if not raw:
+            raise RuntimeError("EarthScope 没有返回数据")
+        st = read(io.BytesIO(raw)); st.merge(fill_value=0); tr = st[0]
+        tr.detrend("demean"); tr.filter("bandpass", freqmin=1, freqmax=5, corners=4, zerophase=True)
+        n = int(60 * tr.stats.sampling_rate); x = tr.data.astype(float); m = len(x) // n
+        env = np.sqrt((x[:m * n].reshape(m, n) ** 2).mean(axis=1)); start = tr.stats.starttime.datetime.replace(tzinfo=timezone.utc)
+        valid = env[env > 0]; bg = float(np.median(valid)) if len(valid) else 0
+        cover = round(100 * len(valid) / max(1, int((b - a).total_seconds() / 60)))
+        peaks = []
+        for i in np.argsort(-env):
+            if bg <= 0 or env[i] / bg < 5 or len(peaks) >= 3:
+                break
+            ti = start + timedelta(minutes=int(i))
+            if all(abs((ti - p[0]).total_seconds()) > 1800 for p in peaks):
+                peaks.append((ti, float(env[i] / bg)))
+        pack["kkn"] = {"distance_km": dist, "coverage_pct": cover, "peaks": [[iso(p[0]), round(p[1], 1)] for p in peaks]}
+        evp = [P(p[0]) for p in (pack.get("evn") or {}).get("peaks", [])]
+        for p in sorted(peaks):
+            both = any(abs((p[0] - q).total_seconds()) <= 180 for q in evp)
+            items.append({"t": iso(p[0]), "src": "KKN 地震台", "kind": "SUPPORTING",
+                          "text": f"1–5 Hz 信号约为背景的 {p[1]:.0f} 倍（台站距事件约 {dist} km）" + ("；IO.EVN 同一时刻也有强信号，两台一致" if both else "；IO.EVN 这一时刻没有强信号"),
+                          "text_en": f"1–5 Hz signal about {p[1]:.0f}× background (station about {dist} km away)" + ("; IO.EVN also strong at the same time — both stations agree" if both else "; IO.EVN not strong at this time")})
+        for q in evp:
+            if not any(abs((q - p[0]).total_seconds()) <= 180 for p in peaks) and cover >= 80:
+                items.append({"t": iso(q), "src": "KKN 地震台", "kind": "CONTRADICTORY",
+                              "text": "IO.EVN 这一时刻的强信号，KKN 没有记录到：更可能是珠峰附近的局部震动（如冰崩），不是这次事件",
+                              "text_en": "KKN did not record IO.EVN's strong signal at this time: more likely local shaking near Everest (e.g. icefall), not this event"})
+        if not peaks:
+            items.append({"t": iso(t0), "src": "KKN 地震台", "kind": "NEUTRAL", "text": f"事件前 24 小时到后 3 小时没有超过背景 5 倍的信号（距约 {dist} km，覆盖 {cover}%）",
+                          "text_en": f"No signal above 5× background from 24 h before to 3 h after (about {dist} km away, {cover}% coverage)"})
+    except Exception as e:
+        pack["kkn"] = {"distance_km": dist, "error": str(e)[:200]}
+        items.append({"t": iso(t0), "src": "KKN 地震台", "kind": "MISSING", "text": f"取不到这段波形（{str(e)[:80]}）", "text_en": f"Waveform not available ({str(e)[:80]})"})
 
 
 def catalogs(ev, t0, items):
@@ -259,7 +305,7 @@ def build(ev):
     for s in ev.get("src", []):
         items.append({"t": s["t"], "src": s["src"], "kind": "SUPPORTING", "text_en": s.get("text_en", s["text"]), "text": s["text"], "url": s.get("url")})
     pack = {"id": ev["id"], "title": ev["title"], "title_en": ev.get("title_en") or ev["title"].replace("洪水预警", "flood warning"), "kind": ev.get("kind"), "place": ev.get("place"), "lat": ev["lat"], "lon": ev["lon"], "t": ev["t"]}
-    for fn in (lambda: evn(ev, t0, items, pack), lambda: catalogs(ev, t0, items), lambda: gauges(ev, t0, items, pack),
+    for fn in (lambda: evn(ev, t0, items, pack), lambda: kkn(ev, t0, items, pack), lambda: catalogs(ev, t0, items), lambda: gauges(ev, t0, items, pack),
                lambda: ioda(ev, t0, items, pack), lambda: ems(ev, t0, items), lambda: sentinel(ev, t0, items, pack)):
         try:
             fn()
