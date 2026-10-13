@@ -186,3 +186,8 @@
   - 能力声明：数据库规则 36 → 40 条（只增：evsrc、evup 各两条）；新增 assets；mcp 工具 14 → 15（everest_events）。见 hub/capabilities.json。
 - 流程：每小时同步任务读 evup → tools/manual_export.py → events 分支 manual.json（全部条目公开指纹；只有“已采信”的公开内容；不含提交人和文件本身）。manual.json 变化会触发 evidence 工作流：证据包 v8 把已采信条目列入时间线，链接取一次内容算指纹并请求互联网档案馆存档；manual.json 每一版也用 OpenTimestamps 存证。
 - 复原：页面回退 Version 55（不读 evsrc/evup，数据留着无影响；能力声明回退时传 Version 55 的 capabilities，即去掉 assets 和 4 条规则）；证据包回退 VERSION 7 那次提交；同步任务提示词去掉第 5 步。
+
+---
+# 第二十八次改动（去掉右上角“定位”按钮）
+- 页面：线上 Version 57。只删了按钮，定位弹窗的内容（posHTML）还在代码里。
+- 复原：回退到 Version 56。
