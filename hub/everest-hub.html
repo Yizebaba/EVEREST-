@@ -1289,14 +1289,14 @@ const r=FOCUS||(NODEI!=null&&view==="hub"?{type:"node",ref:NODEI}:(selK&&all.fin
 let ab=0;nodes.forEach(n=>{if(n.st==="U"||n.st==="X")ab++});RN.forEach(x=>{const e=eff(x);if(e==="U"||e==="X")ab++});
 /* v53：底部只放最近 14 天的事件和计算结果；取数异常在“运行状态”“设备维护”，管线自身问题在“运行状态”，过去的事件在搜索里能找到 */
 const anT=a=>Date.parse((a.pack&&a.pack.t)||a.evday||"")||null,OLD=14*864e5;
-const act=ANOM.map((a,i)=>({a:a,i:i})).filter(x=>x.a.state!=="REJECTED"&&x.a.state!=="RESOLVED"&&x.a.type!=="数据不可用"&&x.a.type!=="管线数值异常"&&!(anT(x.a)&&Date.now()-anT(x.a)>OLD));
+const act=ANOM.map((a,i)=>({a:a,i:i})).filter(x=>x.a.state!=="REJECTED"&&x.a.state!=="RESOLVED"&&x.a.type!=="数据不可用"&&x.a.type!=="管线数值异常"&&!(anT(x.a)&&Date.now()-anT(x.a)>OLD)).sort((p,q)=>(anT(q.a)||0)-(anT(p.a)||0));
 const histN=ANOM.filter(a=>anT(a)&&Date.now()-anT(a)>OLD).length;
 $("stats").innerHTML=[["nodes",nodes.length+RN.length,"节点"],["bad",ab,"节点故障或缺失"],["anom",act.length,"计算异常"],["comm",COMM.filter(c=>c.status==="open").length,"待评议"]].map(a=>'<button data-stt="'+a[0]+'"><b>'+a[1]+"</b>"+a[2]+"</button>").join("")+SH.chip();
 $("lgs").innerHTML=SF+"候选";$("lgj").innerHTML=JY+"外部提供 / Agent";
 $("q").value=Q;$("lact").innerHTML=lactHTML();
 const gw=grow();GT=gw.g;$("i2").textContent="工具 "+gw.T+" · 能力 "+gw.C+" · 球体 ×"+gw.g.toFixed(2);
 const _op=[...document.querySelectorAll("#side details")].map(d=>d.open);$("side").innerHTML=sideHTML();document.querySelectorAll("#side details").forEach((d,i)=>{if(_op[i])d.open=true});bindOrbs();$("cb").innerHTML=SATS.map(x=>'<button class="catb" data-cb="'+x.id+'" style="--c:'+x.tint+'" aria-pressed="'+(NT===x.id)+'" aria-label="'+x.cn+'">'+x.ico+"<b>"+attCnt(x.id)+"</b></button>").join("");
-$("dock").innerHTML='<div class="dl">'+AL+"计算异常 "+act.length+' <span class="sub">'+Z("最近 14 天"+(histN?" · 更早 "+histN+" 条可搜索":""),"last 14 days"+(histN?" · "+histN+" older, searchable":""))+'</span></div>'+(act.length?act.map(x=>{const sx=x.a.state==="WATCH"?"X":"U";return'<button class="an" data-dk="'+x.i+'"><span class="at">'+SY[sx]+esc(x.a.t)+'</span><span class="as">'+ST_AN[x.a.state]+'</span><span class="ap">'+esc(x.a.place)+" · "+fmtLL(x.a.lat,x.a.lon)+"</span></button>"}).join(""):'<div class="sub">暂无异常</div>');
+$("dock").innerHTML='<div class="dl">'+AL+"计算异常 "+act.length+' <span class="sub">'+Z("最近 14 天"+(histN?" · 更早 "+histN+" 条可搜索":""),"last 14 days"+(histN?" · "+histN+" older, searchable":""))+'</span></div>'+(act.length?act.map(x=>{const sx=x.a.state==="WATCH"?"X":"U";return'<button class="an" data-dk="'+x.i+'"><span class="at">'+SY[sx]+esc(x.a.t)+'</span><span class="as">'+ST_AN[x.a.state]+'</span><span class="ap">'+(anT(x.a)?'<b style="color:var(--ink)">'+lvBJ(new Date(anT(x.a)).toISOString())+Z("（北京）"," (Beijing)")+"</b> · ":"")+esc(x.a.place)+" · "+fmtLL(x.a.lat,x.a.lon)+"</span></button>"}).join(""):'<div class="sub">暂无异常</div>');
 if(GL&&NP)syncNodes();applyBG();applyLang();sizeCards();target();measure();inval()}
 let cw={};function sizeCards(){document.querySelectorAll(".card").forEach(c=>{cw[c.dataset.c]=[c.offsetWidth,c.offsetHeight]})}
 /* ---------- 3D (three.js) ---------- */

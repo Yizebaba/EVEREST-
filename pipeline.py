@@ -61,32 +61,29 @@ def run_real_pipeline():
     print(f"      Status: {velocity_state.get('status')}, 39-Year Baseline: {velocity_state.get('historical_baseline_mean_m_yr')} m/yr")
     print(f"      Latest Speed: {velocity_state.get('latest_observed_velocity_m_yr')} m/yr, Z-Score: {velocity_state.get('velocity_anomaly_z_score')}")
 
-    # 3. L1/L2 真实 2D 矩阵 InSAR 毫米位移与基岩平差
-    print("\n[3/6] [L1/L2 InSAR] Inverting real 2D LOS displacement matrix & bedrock anchor...")
-    matrix_path = "data/everest_insar_los_displacement_candidates_mm.npy"
-    if os.path.exists(matrix_path):
-        disp_matrix = np.load(matrix_path)
-        valid_disp = disp_matrix[~np.isnan(disp_matrix)]
-        evaluated_pixels = int(len(valid_disp))
-        median_disp = round(float(np.median(valid_disp)), 2)
-        mean_disp = round(float(np.mean(valid_disp)), 2)
-        min_disp = round(float(np.min(valid_disp)), 2)
-        max_disp = round(float(np.max(valid_disp)), 2)
-    else:
-        evaluated_pixels = 20278
-        median_disp, mean_disp, min_disp, max_disp = 0.66, 0.79, 0.46, 2.75
-
-    anchor = {"grid_y": 285, "grid_x": 613, "coherence": 0.965}
-    insar_state = {
-        "evaluated_candidate_pixels": evaluated_pixels,
-        "median_mm": median_disp,
-        "mean_mm": mean_disp,
-        "min_mm": min_disp,
-        "max_mm": max_disp,
-        "bedrock_anchor": anchor
-    }
-    print(f"      Verified Bedrock Anchor Coherence: {anchor['coherence']} at Grid ({anchor['grid_y']}, {anchor['grid_x']})")
-    print(f"      Real InSAR Matrix Displacement: Median={median_disp} mm, Range=[{min_disp} mm, {max_disp} mm]")
+    # 3. L1/L2 云端干涉结果（只认真实结果）
+    print("\n[3/6] [L1/L2 InSAR] Reading cloud interferometry result (Copernicus openEO)...")
+    # 位移只认云端干涉（哥白尼 openEO）的真实结果。云端结果还没有参考点（UNREFERENCED），所以只报相位、相干性和覆盖，
+    # 位移毫米数一律不给；云端结果比最新影像对旧，就标“不可观测”。以前这里读的是仓库里的固定矩阵文件，数字每天一样，已停用。
+    cloud_path = "data/cloud_insar/latest.json"
+    insar_state = {"source": "cloud_insar (Copernicus openEO)", "status": "UNOBSERVABLE", "reason": "没有云端干涉结果",
+                   "evaluated_candidate_pixels": 0, "median_mm": None, "mean_mm": None, "min_mm": None, "max_mm": None}
+    if os.path.exists(cloud_path):
+        with open(cloud_path) as f:
+            c = json.load(f)
+        pair = c.get("insar_pair") or {}
+        fresh = c.get("processing_status") == "finished" and str(pair.get("slave", "")) >= str(slave_date)
+        insar_state.update({
+            "cloud_pair": pair, "cloud_processed_utc": c.get("timestamp_utc"), "job_id": c.get("job_id"),
+            "valid_phase_pixels": c.get("valid_phase_pixels"), "coherence_mean": c.get("coherence_mean"),
+            "displacement_status": c.get("displacement_status"), "source_sha256": c.get("source_sha256"),
+            "status": "OBSERVED_PHASE_ONLY" if fresh else "UNOBSERVABLE",
+            "reason": ("已有最新影像对的相位和相干性；没有稳定参考点，位移不给数" if fresh
+                       else f"云端干涉最新是 {pair.get('master')}→{pair.get('slave')}，还没算到最新影像对 {master_date}→{slave_date}"),
+        })
+    median_disp = insar_state["median_mm"]
+    valid_disp = []
+    print(f"      Cloud InSAR: status={insar_state['status']} · {insar_state['reason']}")
 
     # 4. 专项灾害管道执行 (裂隙检测、冰湖溃决、雪崩动力学、DEM物理约束)
     print("\n[4/6] [Hazard Pipelines] Running Crevasse, GLOF, Avalanche & DEM Physical Vetting...")
@@ -96,7 +93,7 @@ def run_real_pipeline():
     fm_result = fm_embedder.extract_temporal_embeddings(
         spectral_bands={"B02": 0.62, "B03": 0.58, "B04": 0.55, "B08": 0.68, "B11": 0.08, "B12": 0.06},
         temporal_delta_days=12,
-        displacement_los_mm=float(valid_disp[0] if len(valid_disp) > 0 else 0.66)
+        displacement_los_mm=0.0
     )
     print(f"      Foundation Model ({fm_result['foundation_model']}): State={fm_result['representation_summary']['semantic_state']}, Stability={fm_result['cryo_stability_index']}")
 
@@ -189,7 +186,7 @@ def run_real_pipeline():
             "velocity_m_yr": velocity_state.get("latest_observed_velocity_m_yr"),
             "velocity_z_score": velocity_state.get("velocity_anomaly_z_score"),
             "displacement_los_mm": median_disp,
-            "insar_coherence": anchor["coherence"],
+            "insar_coherence": insar_state.get("coherence_mean"),
             "crevasse_count": 0,
             "lake_risk_level": glof_state["glof_risk_level"],
             "stability_status": decision_result["status"],
@@ -200,7 +197,7 @@ def run_real_pipeline():
 
     # 组装最终全量成果 JSON
     sam_adapter = CloudInSARSAMAdapter()
-    sam_feature = sam_adapter.generate_deformation_polygon_from_point(86.858568, 27.986862, disp_mm=median_disp, radius_km=0.35)
+    sam_feature = None if median_disp is None else sam_adapter.generate_deformation_polygon_from_point(86.858568, 27.986862, disp_mm=median_disp, radius_km=0.35)
 
     final_summary = {
         "pipeline": "Everest Autonomous InSAR & Multi-Hazard Pipeline (v5.0)",

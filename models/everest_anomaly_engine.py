@@ -43,7 +43,7 @@ class EverestAnomalyEngine:
             }
 
         # 2. 不确定性归因 (Uncertainty Attribution)
-        coherence = insar_state.get("bedrock_anchor", {}).get("coherence", 0.9)
+        coherence = insar_state.get("coherence_mean") or insar_state.get("bedrock_anchor", {}).get("coherence", 0.0)
         if coherence < 0.60:
             uncertainty_factors.append("LOW_INSAR_COHERENCE_NOISE")
             confidence_penalties += 0.20
@@ -54,7 +54,7 @@ class EverestAnomalyEngine:
             confidence_penalties += 0.15
 
         # 3. 持续性与空间一致性量化 (Persistence & Spatial Consistency)
-        disp_mm = insar_state.get("median_mm", 0.0)
+        disp_mm = insar_state.get("median_mm") or 0.0   # 没有参考点时位移为 None，不作为证据
         is_accelerating = velocity_state.get("is_velocity_accelerating", False)
         is_crevasse = optical_state.get("is_crevasse_detected", False)
         
