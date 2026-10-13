@@ -22,7 +22,7 @@ import urllib.request, urllib.parse
 UA = {"user-agent": "everest-evidence (github.com/Yizebaba/everest-insar-pipeline)"}
 EVN = (27.9587, 86.8117)
 OUT = "events"
-VERSION = 5   # 改了证据包内容时加 1，所有包会重算一次
+VERSION = 6   # 改了证据包内容时加 1，所有包会重算一次
 NOW = datetime.now(timezone.utc)
 
 # 尼泊尔区县 → IODA 地区（旧 14 区）
@@ -97,14 +97,7 @@ def evn(ev, t0, items, pack):
             items.append({"t": iso(t0), "src": "IO.EVN 地震台", "kind": "NEUTRAL", "text_en": f"No signal above 5× background from 24 h before to 3 h after (about {dist} km away, {cover}% data coverage)", "text": f"事件前 24 小时到后 3 小时没有超过背景 5 倍的信号（距约 {dist} km，数据覆盖 {cover}%）"})
         if cover < 80:
             items.append({"t": iso(a), "src": "IO.EVN 地震台", "kind": "MISSING", "text_en": f"Data covers only {cover}% of the window", "text": f"窗口内数据只覆盖 {cover}%"})
-        # 画图
-        import matplotlib; matplotlib.use("Agg"); import matplotlib.pyplot as plt
-        ts = [start + timedelta(minutes=i) for i in range(m)]
-        fig, ax = plt.subplots(figsize=(9, 2.6), dpi=110)
-        ax.plot(ts, env / (bg or 1), lw=0.7, color="#d9822b"); ax.set_yscale("log"); ax.axhline(1, color="#999", lw=0.5)
-        ax.axvline(t0, color="#3b82f6", lw=1, ls="--"); ax.set_ylabel("× 背景" if False else "x background")
-        ax.set_title(f"IO.EVN BHZ 1-5 Hz, 60 s RMS  |  {ev['id']}  |  dashed = first public signal", fontsize=8)
-        fig.autofmt_xdate(); fig.tight_layout(); fig.savefig(os.path.join(OUT, f"{ev['id']}_evn.png")); plt.close(fig)
+        pack["_series_evn"] = (start, env / (bg or 1))
     except Exception as e:
         pack["evn"] = {"distance_km": dist, "error": str(e)[:200]}
         items.append({"t": iso(t0), "src": "IO.EVN 地震台", "kind": "MISSING", "text_en": f"Waveform not available ({str(e)[:80]})", "text": f"取不到这段波形（{str(e)[:80]}）"})
@@ -137,6 +130,7 @@ def kkn(ev, t0, items, pack):
             if all(abs((ti - p[0]).total_seconds()) > 1800 for p in peaks):
                 peaks.append((ti, float(env[i] / bg)))
         pack["kkn"] = {"distance_km": dist, "coverage_pct": cover, "peaks": [[iso(p[0]), round(p[1], 1)] for p in peaks]}
+        pack["_series_kkn"] = (start, env / (bg or 1))
         evp = [P(p[0]) for p in (pack.get("evn") or {}).get("peaks", [])]
         for p in sorted(peaks):
             both = any(abs((p[0] - q).total_seconds()) <= 180 for q in evp)
@@ -378,6 +372,23 @@ def ots_upgrade(idx):
                 x["status"] = "confirmed"; x["bitcoin_block"] = int(m.group(1)); x["confirmed_checked"] = iso(NOW)
 
 
+def plot_seis(ev, t0, pack):
+    """两台站的 1–5 Hz 包络（相对各自背景，对数刻度），上下对齐；没有数据的分钟留空，不画成 0。"""
+    S = [(k, pack.get(k)) for k in ("_series_evn", "_series_kkn") if pack.get(k)]
+    if not S:
+        return
+    import numpy as np, matplotlib; matplotlib.use("Agg"); import matplotlib.pyplot as plt
+    fig, axs = plt.subplots(len(S), 1, figsize=(9, 1.7 * len(S) + 0.5), dpi=90, sharex=True, squeeze=False)
+    names = {"_series_evn": f"IO.EVN (Everest, {(pack.get('evn') or {}).get('distance_km', '?')} km)", "_series_kkn": f"NK.KKN (Kakani, {(pack.get('kkn') or {}).get('distance_km', '?')} km)"}
+    for ax, (k, (start, y)) in zip(axs[:, 0], S):
+        y = np.where(y > 0, y, np.nan); ts = [start + timedelta(minutes=i) for i in range(len(y))]
+        ax.plot(ts, y, lw=0.7, color="#d9822b"); ax.set_yscale("log"); ax.axhline(1, color="#999", lw=0.5); ax.axhline(5, color="#c33", lw=0.4, ls=":")
+        ax.axvline(t0, color="#3b82f6", lw=1, ls="--"); ax.set_ylabel("x bg", fontsize=7); ax.set_title(names[k], fontsize=8, loc="left"); ax.tick_params(labelsize=7)
+    fig.suptitle(f"1-5 Hz, 60 s RMS  |  {ev['id']}  |  blue dashed = first public signal, red dotted = 5x background", fontsize=8)
+    fig.autofmt_xdate(); fig.tight_layout(); fig.savefig(os.path.join(OUT, f"{ev['id']}_evn.png")); plt.close(fig)
+    pack["png"] = f"{ev['id']}_evn.png"
+
+
 def build(ev):
     t0 = P(ev["t"]); items = []
     m = re.search(r"bipad-([a-z-]+)-\d{4}", ev["id"])
@@ -393,6 +404,11 @@ def build(ev):
             fn()
         except Exception:
             traceback.print_exc()
+    try:
+        plot_seis(ev, t0, pack)
+    except Exception:
+        traceback.print_exc()
+    pack.pop("_series_evn", None); pack.pop("_series_kkn", None)
     items.sort(key=lambda i: i["t"])
     pack["timeline"] = items; pack["built"] = iso(NOW)
     pack["note_en"] = "States only what public sources recorded and when; no attribution of cause, no prediction. A strong seismic signal only means the station recorded strong shaking at that moment."
