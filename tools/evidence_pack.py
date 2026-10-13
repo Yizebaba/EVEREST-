@@ -11,6 +11,8 @@
   - 所在区的 IODA 网络连通（BGP、主动探测）前后变化
   - 哥白尼应急制图（Copernicus EMS）是否启动
   - Sentinel-1 / Sentinel-2 在事件前最近一景、事件后第一景（微软 Planetary Computer 目录，附预览链接）
+  - 哥白尼全球洪水监测（GFM）自动洪水范围产品；IFRC Montandon 国际事件记录
+  - 每一版证据包都存一份不可变快照，并用 OpenTimestamps 加公开时间戳（之后升级为比特币区块确认）
 只陈述公开来源记录了什么、什么时候；不判断成因，不预测。
 """
 import json, math, os, re, sys, time, traceback
@@ -20,7 +22,7 @@ import urllib.request, urllib.parse
 UA = {"user-agent": "everest-evidence (github.com/Yizebaba/everest-insar-pipeline)"}
 EVN = (27.9587, 86.8117)
 OUT = "events"
-VERSION = 4   # 改了证据包内容时加 1，所有包会重算一次
+VERSION = 5   # 改了证据包内容时加 1，所有包会重算一次
 NOW = datetime.now(timezone.utc)
 
 # 尼泊尔区县 → IODA 地区（旧 14 区）
@@ -297,6 +299,85 @@ def sentinel(ev, t0, items, pack):
     pack["sentinel"] = res
 
 
+def gfm(ev, t0, items, pack):
+    """哥白尼全球洪水监测（GFM）：事件前 2 天到后 7 天，事件 15 km 内每景 Sentinel-1 自动提取的洪水范围。"""
+    bb = [ev["lon"] - 0.15, ev["lat"] - 0.15, ev["lon"] + 0.15, ev["lat"] + 0.15]
+    try:
+        body = {"collections": ["GFM"], "bbox": bb, "datetime": f"{iso(t0 - timedelta(days=2))}/{iso(min(NOW, t0 + timedelta(days=7)))}", "limit": 20}
+        r = get("https://stac.eodc.eu/api/v1/search", data=json.dumps(body).encode(), headers={"content-type": "application/json"})
+        fs = r.get("features", [])
+        res = []
+        for f in fs:
+            a = f.get("assets", {})
+            fl = next((k for k in a if "flood" in k.lower() and "extent" in k.lower()), None) or next((k for k in a if "flood" in k.lower()), None)
+            res.append({"id": f["id"], "t": (f["properties"].get("datetime") or "")[:19] + "Z", "flood_asset": fl, "href": (a.get(fl) or {}).get("href") if fl else None})
+        pack["gfm"] = {"scenes": res, "portal": f"https://portal.gfm.eodc.eu/?lat={ev['lat']}&lng={ev['lon']}&zoom=11"}
+        for x in sorted(res, key=lambda z: z["t"]):
+            items.append({"t": x["t"], "src": "哥白尼 GFM", "kind": "SUPPORTING" if P(x["t"]) >= t0 else "NEUTRAL",
+                          "text": f"Sentinel-1 自动洪水范围产品 {x['id']}" + ("（含洪水范围图层）" if x["flood_asset"] else ""),
+                          "text_en": f"Sentinel-1 automatic flood-extent product {x['id']}" + (" (flood-extent layer included)" if x["flood_asset"] else ""),
+                          "url": x["href"] or pack["gfm"]["portal"]})
+        if not res:
+            items.append({"t": iso(NOW), "src": "哥白尼 GFM", "kind": "MISSING", "text": "事件前后没有覆盖这里的自动洪水范围产品（可能是山区阴影、雷达几何遮挡或还没过境）",
+                          "text_en": "No automatic flood-extent product covering this place around the event (mountain shadow/layover, or no pass yet)"})
+    except Exception as e:
+        items.append({"t": iso(NOW), "src": "哥白尼 GFM", "kind": "MISSING", "text": f"查询失败（{str(e)[:60]}）", "text_en": f"Query failed ({str(e)[:60]})"})
+
+
+def montandon(ev, t0, items, pack):
+    """IFRC Montandon：国际通用的灾害事件记录（GDACS、GLIDE、EM-DAT、USGS 等统一编号）。"""
+    url = "https://montandon-eoapi-stage.ifrc.org/stac/search"
+    tok = os.environ.get("MONTANDON_API_TOKEN")
+    body = {"collections": ["glide-events", "gdacs-events", "emdat-events", "usgs-events", "ifrcevent-events"],
+            "bbox": [ev["lon"] - 1.0, ev["lat"] - 1.0, ev["lon"] + 1.0, ev["lat"] + 1.0],
+            "datetime": f"{iso(t0 - timedelta(days=3))}/{iso(t0 + timedelta(days=3))}", "limit": 20}
+    try:
+        r = get(url, data=json.dumps(body).encode(), headers={"content-type": "application/json", **({"authorization": "Bearer " + tok} if tok else {})})
+        fs = r.get("features", [])
+        pack["montandon"] = [{"id": f["id"], "collection": f.get("collection"), "corr_id": f["properties"].get("monty:corr_id"), "title": f["properties"].get("title"), "t": f["properties"].get("datetime")} for f in fs]
+        for f in pack["montandon"]:
+            items.append({"t": (f["t"] or iso(t0))[:19] + "Z", "src": "IFRC Montandon", "kind": "SUPPORTING",
+                          "text": f"国际事件记录 {f['collection']} · {f['title'] or f['id']}（关联编号 {f['corr_id']}）",
+                          "text_en": f"International event record {f['collection']} · {f['title'] or f['id']} (correlation id {f['corr_id']})"})
+        if not fs:
+            items.append({"t": iso(NOW), "src": "IFRC Montandon", "kind": "NEUTRAL", "text": "国际灾害事件库里还没有这次事件", "text_en": "Not yet in the international disaster event registry"})
+    except Exception as e:
+        need = "401" in str(e) or "403" in str(e)
+        items.append({"t": iso(NOW), "src": "IFRC Montandon", "kind": "MISSING",
+                      "text": "需要 IFRC GO 账号令牌才能查询（未配置）" if need else f"查询失败（{str(e)[:60]}）",
+                      "text_en": "Needs an IFRC GO account token (not configured)" if need else f"Query failed ({str(e)[:60]})"})
+
+
+def ots_stamp(eid, path, idx_entry):
+    """OpenTimestamps：给这一版证据包加公开时间戳。存一份不再改动的快照 events/archive/<编号>_<哈希前12位>.json 和对应 .ots。"""
+    import hashlib, shutil, subprocess
+    b = open(path, "rb").read(); h = hashlib.sha256(b).hexdigest()
+    os.makedirs(os.path.join(OUT, "archive"), exist_ok=True)
+    snap = os.path.join(OUT, "archive", f"{eid}_{h[:12]}.json")
+    stamps = idx_entry.setdefault("ots", [])
+    if any(x["sha256"] == h for x in stamps):
+        return
+    shutil.copyfile(path, snap)
+    r = subprocess.run(["ots", "stamp", snap], capture_output=True, text=True, timeout=120)
+    ok = os.path.exists(snap + ".ots")
+    stamps.append({"sha256": h, "file": f"events/archive/{os.path.basename(snap)}", "ots": f"events/archive/{os.path.basename(snap)}.ots",
+                   "stamped": iso(NOW), "status": "pending" if ok else "failed", "err": None if ok else (r.stderr or r.stdout)[-200:]})
+
+
+def ots_upgrade(idx):
+    """把还在等待的时间戳升级为比特币区块确认（通常几小时后可升级）。"""
+    import subprocess
+    for e in idx["events"].values():
+        for x in e.get("ots", []):
+            if x.get("status") != "pending" or not os.path.exists(x["ots"]):
+                continue
+            subprocess.run(["ots", "upgrade", x["ots"]], capture_output=True, text=True, timeout=120)
+            info = subprocess.run(["ots", "info", x["ots"]], capture_output=True, text=True, timeout=60).stdout
+            m = re.search(r"BitcoinBlockHeaderAttestation\((\d+)\)", info)
+            if m:
+                x["status"] = "confirmed"; x["bitcoin_block"] = int(m.group(1)); x["confirmed_checked"] = iso(NOW)
+
+
 def build(ev):
     t0 = P(ev["t"]); items = []
     m = re.search(r"bipad-([a-z-]+)-\d{4}", ev["id"])
@@ -306,7 +387,8 @@ def build(ev):
         items.append({"t": s["t"], "src": s["src"], "kind": "SUPPORTING", "text_en": s.get("text_en", s["text"]), "text": s["text"], "url": s.get("url")})
     pack = {"id": ev["id"], "title": ev["title"], "title_en": ev.get("title_en") or ev["title"].replace("洪水预警", "flood warning"), "kind": ev.get("kind"), "place": ev.get("place"), "lat": ev["lat"], "lon": ev["lon"], "t": ev["t"]}
     for fn in (lambda: evn(ev, t0, items, pack), lambda: kkn(ev, t0, items, pack), lambda: catalogs(ev, t0, items), lambda: gauges(ev, t0, items, pack),
-               lambda: ioda(ev, t0, items, pack), lambda: ems(ev, t0, items), lambda: sentinel(ev, t0, items, pack)):
+               lambda: ioda(ev, t0, items, pack), lambda: ems(ev, t0, items), lambda: sentinel(ev, t0, items, pack),
+               lambda: gfm(ev, t0, items, pack), lambda: montandon(ev, t0, items, pack)):
         try:
             fn()
         except Exception:
@@ -320,8 +402,19 @@ def build(ev):
 
 def main():
     os.makedirs(OUT, exist_ok=True)
-    evs = get("https://everest-facets.yizebaba.workers.dev/api/events.json").get("events", [])
     idx_p = "index.json"; idx = json.load(open(idx_p)) if os.path.exists(idx_p) else {"events": {}}
+    try:
+        evs = get("https://everest-facets.yizebaba.workers.dev/api/events.json").get("events", [])
+    except Exception as e:   # Worker 暂时不可用时，用上次保存的事件原始记录重算
+        print("Worker 不可用，用上次的事件记录：", e)
+        evs = [json.load(open(os.path.join(OUT, k + ".event.json"))) for k in idx["events"] if os.path.exists(os.path.join(OUT, k + ".event.json"))]
+        if not evs:
+            evs = []
+            for k, m in idx["events"].items():
+                p = json.load(open(os.path.join(OUT, k + ".json")))
+                src = [x for x in p["timeline"] if x["src"] in ("BIPAD 灾害警报", "GDACS", "BIPAD 水位站") or (x["src"] == "USGS 地震目录" and "崩塌" in x["text"])]
+                evs.append({"id": k, "title": p["title"], "title_en": p.get("title_en"), "kind": p.get("kind"), "place": p.get("place"), "lat": p["lat"], "lon": p["lon"],
+                            "t": p["t"], "first_seen": m.get("first_seen"), "src": src[:m.get("src_n", len(src))]})
     for ev in evs:
         age = (NOW - P(ev["t"])).days
         old = idx["events"].get(ev["id"])
@@ -330,15 +423,25 @@ def main():
             continue
         print("build", ev["id"]); pack = build(ev)
         json.dump(pack, open(os.path.join(OUT, ev["id"] + ".json"), "w"), ensure_ascii=False, indent=1)
-        idx["events"][ev["id"]] = {"title": ev["title"], "t": ev["t"], "first_seen": ev.get("first_seen"), "kind": ev.get("kind"), "place": ev.get("place"), "lat": ev["lat"], "lon": ev["lon"],
+        json.dump(ev, open(os.path.join(OUT, ev["id"] + ".event.json"), "w"), ensure_ascii=False, indent=1)
+        ots_prev = (idx["events"].get(ev["id"]) or {}).get("ots", [])
+        idx["events"][ev["id"]] = {"ots": ots_prev, "title": ev["title"], "t": ev["t"], "first_seen": ev.get("first_seen"), "kind": ev.get("kind"), "place": ev.get("place"), "lat": ev["lat"], "lon": ev["lon"],
                                    "v": VERSION, "n": len(pack["timeline"]), "src_n": len(ev.get("src", [])), "built": pack["built"],
                                    "missing": sum(1 for i in pack["timeline"] if i["kind"] == "MISSING")}
+        try:
+            ots_stamp(ev["id"], os.path.join(OUT, ev["id"] + ".json"), idx["events"][ev["id"]])
+        except Exception as e:
+            print("OpenTimestamps 失败：", e)
     live = {e["id"] for e in evs}
     for k in list(idx["events"]):
         if k not in live:   # 已并入别的事件或超过 60 天
             idx["events"].pop(k)
-            for f in (k + ".json", k + "_evn.png"):
+            for f in (k + ".json", k + "_evn.png", k + ".event.json"):
                 if os.path.exists(os.path.join(OUT, f)): os.remove(os.path.join(OUT, f))
+    try:
+        ots_upgrade(idx)
+    except Exception as e:
+        print("OpenTimestamps 升级失败：", e)
     idx["updated"] = iso(NOW)
     json.dump(idx, open(idx_p, "w"), ensure_ascii=False, indent=1)
 
