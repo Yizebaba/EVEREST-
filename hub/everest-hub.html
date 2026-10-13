@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>EVEREST 接入平台</title>
+<title>EVEREST 真实度审计与事件证据平台</title>
 <style>
 :root{--bg:#0a0b0c;--glass:rgba(255,255,255,.045);--gb:rgba(255,255,255,.1);--ink:#ececf0;--mute:#8d8f99;--amber:#ffb347;--acc:#d9c8ff;--ok:#5fe0a8;--bad:#ff7a6b;--unk:#f2c14e;--cand:#8fd3ff;
 box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px);color-scheme:dark}
@@ -208,10 +208,10 @@ body{--calm:1}
 <body>
 <div id="app">
 <header class="top">
-<button class="brand" id="home" aria-label="EVEREST 总览"><i class="orb" style="--c:#ffb347"></i><b>EVEREST</b><small>MOUNTAIN SCIENCE · 多源监测接入平台</small></button>
+<button class="brand" id="home" aria-label="EVEREST 总览"><i class="orb" style="--c:#ffb347"></i><b>EVEREST</b><small>公开数据真实度审计与事件证据 · 示范区：珠峰</small></button>
 <div class="stats" id="stats"></div>
 <input id="cmd" type="search" placeholder="搜索节点、仓库、组件、异常，回车跳转…" aria-label="搜索">
-<div class="tr"><button class="pill lg" id="lgIn" title="登录" aria-haspopup="dialog"><span id="lgTx">登录</span></button><button class="pill" id="lang" aria-label="语言">EN</button><button class="pill hi" id="new">＋ 提交</button></div>
+<div class="tr"><button class="pill lg" id="lgIn" title="登录" aria-haspopup="dialog"><span id="lgTx">登录</span></button><button class="pill" id="posBtn" aria-haspopup="dialog">定位</button><button class="pill" id="lang" aria-label="语言">EN</button><button class="pill hi" id="new">＋ 提交</button></div>
 </header>
 <div class="crumb" id="crumb"></div>
 <div id="main">
@@ -741,6 +741,20 @@ document.addEventListener("click",e=>{const b=e.target.closest("[data-xt]");if(!
  else if(k==="pdl"){if(a==="official")plDl(plOfficial());else{const p=a.split(":"),d=(((XDB.xplug||{})[p[1]]||{}).m||{})[p[2]];if(d)plDl(d)}}
  else if(k==="pdel"){XT.del=null;xPut("xplug",a,null).then(ok=>ok&&say(Z("已删除","Deleted")))}});
 
+/* v49：定位说明（按钮在右上角） */
+setTimeout(()=>{LT("定位","About");LT("公开数据真实度审计与事件证据 · 示范区：珠峰","Public-data truth audit & event evidence · Pilot: Everest");if(LANG==="en")applyLang()},0);
+function posHTML(){const li=a=>'<ul style="margin:4px 0 8px 18px;padding:0;font-size:13px;line-height:1.7">'+a.map(x=>'<li>'+x+'</li>').join("")+'</ul>';
+ return '<b style="font-size:15px">'+Z("公开地球观测数据的真实度审计和事件证据平台","Truth audit and event evidence platform for public Earth-observation data")+'</b>'
+ +'<div class="sub" style="margin:6px 0">'+Z("珠峰是第一个示范区，不是最终产品。我们不和国家比数据，比的是中立、透明、边界清楚，以及把公开数据拼起来的速度。","Everest is the first pilot area, not the product. We don't compete with governments on data; we compete on neutrality, transparency, clear boundaries and how fast public data can be pieced together.")+'</div>'
+ +'<div class="gt">'+Z("做什么","What we do")+'</div>'+li([Z("<b>真实度审计</b>：持续记录每个公开来源（水位站、地震台、卫星目录、警报接口、网络连通）是否在线、延迟多少、哪里断档。WMO 的 WDQMS 只管气象观测，水文、地震和卫星目录没有同类工具。","<b>Truth audit</b>: continuously record whether each public source (gauges, seismic stations, satellite catalogues, alert feeds, connectivity) is online, how late it is and where it breaks. WMO's WDQMS covers only weather observations; nothing equivalent exists for hydrology, seismology or satellite catalogues."),
+  Z("<b>事件证据包</b>：事件发生后，把地震台、水位站、网络连通和卫星影像对齐到同一条时间线，每条注明来源和时间。灾后影像已经很多（哥白尼应急、国际宪章、Planet），但没人把这些非影像信号和影像放在一起。","<b>Event evidence packs</b>: after an event, align seismic, river-gauge, connectivity and satellite signals on one timeline, each with source and time. Post-event imagery is plentiful (Copernicus EMS, the Charter, Planet), but nobody puts the non-image signals next to it.")])
+ +'<div class="gt">'+Z("谁承担损失","Who carries the losses")+'</div>'+li([Z("水电业主、贷款方、保险和再保险公司。8·26 洪水：政府评估合计约 27 亿美元，其中实物损坏 18.1 亿（世界银行估计实物损坏 16.6 亿）；水电在运 281 MW、在建 395 MW 受影响（世界银行；初报为约 360 MW、占装机约 8%）。AM Best：国际再保人将承担大部分保险损失，水电和工程险理赔需要密切关注。","Hydropower owners, lenders, insurers and reinsurers. 26 August flood: government assessment about US$2.7 bn in total, US$1.81 bn of it physical damage (World Bank: US$1.66 bn physical); 281 MW operating and 395 MW under construction affected (World Bank; first reports said about 360 MW, ~8% of capacity). AM Best: international reinsurers will absorb a significant share of insured losses; hydropower and engineering claims warrant close monitoring.")])
+ +'<div class="gt">'+Z("边界：不做什么","Boundaries: what we don't do")+'</div>'+li([Z("不预测、不预警：那是国家项目的职责，例如 UNDP 执行的 4,990 万美元冰湖项目（GCF FP272）。","No prediction or warnings: that belongs to national programmes, e.g. the US$49.9 m UNDP glacial-lake project (GCF FP272)."),Z("不做天气预报。","No weather forecasting."),Z("不对中国境内公众发布地图：需要审图，服务器须在境内（《地图管理条例》第十五、三十四条）。","No public maps for users in China: they need map review and servers inside China (Map Management Regulations, Arts. 15 and 34).")])
+ +'<div class="gt">'+Z("市场","Market")+'</div>'+li([Z("小众。最接近的口径是气候金融数据与分析市场，2025 年约 7.51 亿美元（Verdantix），喜马拉雅细分没有公开数字。现实是少数机构客户加资助。","Niche. The closest figure is climate financial data and analytics, about US$751 m in 2025 (Verdantix); no public figure for the Himalaya. In practice: a few institutional clients plus grants.")])
+ +'<div class="gt">'+Z("尚未验证","Not yet verified")+'</div>'+li([Z("喜马拉雅细分市场规模","Size of the Himalayan niche"),Z("各出资方实际怎么采购（FP272 走 UNGM 询价，数据服务类招标尚未出现）","How each funder actually buys (FP272 buys through UNGM requests for quotation; no data-service tender yet)"),Z("客户是否真的愿意付费：只有访谈能回答","Whether customers will pay: only interviews can tell")])
+ +'<div class="sub">'+Z("法律部分是对公开文本的解读，不是法律意见。详见","The legal part is a reading of public texts, not legal advice. Details: ")+'<a href="https://claude.ai/code/artifact/e72d61c9-b06d-4230-b8e1-59741d620a58" target="_blank" rel="noopener">'+Z("平台定位调研 ↗","Positioning research ↗")+'</a></div>'
+ +'<div class="sb">'+xBtn("close","",Z("关闭","Close"))+'</div>'}
+document.addEventListener("click",e=>{if(e.target.closest("#posBtn")){e.preventDefault();xModal(posHTML())}});
 function acctHTML(){
  const role=r=>'<div style="padding:6px 0;border-top:1px solid var(--gb)"><div><b>'+esc(r[0])+'</b> <span class="sub">'+(/所有者/.test(r[1])?esc(r[1]):"分享菜单："+esc(r[1]))+'</span></div><div class="sub">能做：'+esc(r[2])+'</div><div class="sub">不能做：'+esc(r[3])+'</div></div>';
  return '<div class="acct">'
@@ -1023,7 +1037,7 @@ const EXS="哨兵一号过境 · 23790 条带=Sentinel-1 passes · burst 23790|�
 const DICT=DSTR.split("|").map(x=>{const i=x.indexOf("=");return[x.slice(0,i),x.slice(i+1)]}).sort((a,b)=>b[0].length-a[0].length),TRC={};
 function tr(x){if(TRC[x]!==undefined)return TRC[x];const tt=x.trim();if(EX[tt]!==undefined)return TRC[x]=x.replace(tt,EX[tt]);let o=x;for(const p of DICT){if(o.indexOf(p[0])>=0)o=o.split(p[0]).join(p[1])}return TRC[x]=o}
 function lgSync(){const t=$("lgTx");if(t)t.textContent=AUTH.session?AUTH.session.actor:"登录"}
-function applyLang(){const en=LANG==="en";document.documentElement.lang=en?"en":"zh-CN";document.title=en?"EVEREST Hub":"EVEREST 接入平台";
+function applyLang(){const en=LANG==="en";document.documentElement.lang=en?"en":"zh-CN";document.title=en?"EVEREST Truth Audit & Event Evidence":"EVEREST 真实度审计与事件证据平台";
 const w=document.createTreeWalker($("app"),NodeFilter.SHOW_TEXT);let n;while(n=w.nextNode()){if(!ORI.has(n))ORI.set(n,n.nodeValue);n.nodeValue=en?tr(ORI.get(n)):ORI.get(n)}
 document.querySelectorAll("#app [placeholder],#app [aria-label],#app [title],#app [data-tip]").forEach(e=>{["placeholder","aria-label","title","data-tip"].forEach(a=>{if(e.hasAttribute(a)){const k="_o"+a;if(!(k in e))e[k]=e.getAttribute(a);e.setAttribute(a,en?tr(e[k]):e[k])}})});
 lgSync();if(AUTH.session===null||!AUTH.session){const t=$("lgTx");if(t)t.textContent=en?"Sign in":"登录"}$("lang").textContent=en?"中文":"EN";const t=$("toast");if(t.textContent&&en)t.textContent=tr(t.textContent)}

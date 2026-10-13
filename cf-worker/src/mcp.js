@@ -189,8 +189,8 @@ export async function handleMcp(req, env, h) {
     if (m.method === "initialize") {
       const want = (m.params || {}).protocolVersion;
       return ok({ protocolVersion: PROTO.includes(want) ? want : PROTO[0], capabilities: { tools: { listChanged: false } },
-        serverInfo: { name: "everest", title: "EVEREST 珠峰监测", version: "1.0.0" },
-        instructions: "EVEREST 珠峰多源监测（只监测、不预测）。先用 everest_overview 看总览，再按需查水位、地震、停发设备、坡面。时间默认北京时间。" });
+        serverInfo: { name: "everest", title: "EVEREST 真实度审计与事件证据（示范区：珠峰）", version: "1.1.0" },
+        instructions: "EVEREST：公开地球观测数据的真实度审计和事件证据平台，珠峰是第一个示范区。只监测、不预测、不做天气。先用 everest_overview 看总览（各来源是否在线、停发设备），需要时查水位、地震、警报、通信、DORIS、坡面，或用 everest_daily_brief 出日报。时间默认北京时间；每个数字注明来源。" });
     }
     if (m.method === "ping") return ok({});
     if (m.method === "tools/list") return ok({ tools: TOOLS });

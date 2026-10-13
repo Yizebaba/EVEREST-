@@ -151,3 +151,9 @@
   - 能力声明：数据库规则 30 → 36 条（只增：xskill、xconn、xplug 各两条），mcp 工具 7 → 14。
 - Worker（main 40ec1ac）：连接器新增 everest_alerts、everest_connectivity、everest_satellite_tracking、everest_air_traffic、everest_imagery、everest_station_history、everest_daily_brief。插件 1.1.0。
 - 复原：回退到 Version 47（它不读新增的三个集合，数据留着不影响）；Worker 回退到 247b02f 的 cf-worker/src/mcp.js。
+
+---
+# 第二十三次改动（新定位）
+- 页面：hub/everest-hub.html（线上 Version 49）。标题改为“EVEREST 真实度审计与事件证据平台”，页头副标题“公开数据真实度审计与事件证据 · 示范区：珠峰”；右上角新增“定位”按钮，弹窗说明做什么、谁承担损失、边界、市场、尚未验证项（中英文）。
+- 连接器说明、插件说明、README 同步为新定位。平台定位调研文档新增第 10 节“再核实（10 月 13 日）”。
+- 复原：回退到 Version 48。
