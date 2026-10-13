@@ -1,10 +1,10 @@
-# 事件证据包：Cloudflare Worker 发现新事件（或每 6 小时补一次）时改 events 分支的 trigger.txt 触发；结果写回 events 分支。
+# 事件证据包：Cloudflare Worker 发现新事件（或每 6 小时补一次）时改 events 分支的 trigger.txt 触发；总览页有人工提交的证据时，每小时同步任务改 manual.json 也会触发。结果写回 events 分支。
 # 只做小量取数和画图（GEOFON 波形、目录查询、STAC 检索），重计算不在这里。
 name: evidence
 on:
   push:
     branches: [events]
-    paths: [trigger.txt]
+    paths: [trigger.txt, manual.json]
   workflow_dispatch:
 permissions:
   contents: write

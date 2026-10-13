@@ -12,6 +12,7 @@
   - 哥白尼应急制图（Copernicus EMS）是否启动
   - Sentinel-1 / Sentinel-2 在事件前最近一景、事件后第一景（微软 Planetary Computer 目录，附预览链接）
   - 哥白尼全球洪水监测（GFM）自动洪水范围产品；IFRC Montandon 国际事件记录
+  - 人工提交的证据（总览页“证据链 → 人工证据”，经 manual.json 进来）：已采信的列入时间线，待核实的只列指纹；链接会取一次内容算指纹并请求互联网档案馆存档
   - 每一版证据包都存一份不可变快照，并用 OpenTimestamps 加公开时间戳（之后升级为比特币区块确认）
 只陈述公开来源记录了什么、什么时候；不判断成因，不预测。
 """
@@ -22,7 +23,7 @@ import urllib.request, urllib.parse
 UA = {"user-agent": "everest-evidence (github.com/Yizebaba/everest-insar-pipeline)"}
 EVN = (27.9587, 86.8117)
 OUT = "events"
-VERSION = 7   # 改了证据包内容时加 1，所有包会重算一次
+VERSION = 8   # 改了证据包内容时加 1，所有包会重算一次
 NOW = datetime.now(timezone.utc)
 
 # 尼泊尔区县 → IODA 地区（旧 14 区）
@@ -371,6 +372,61 @@ def montandon(ev, t0, items, pack):
                       "text_en": "Needs an IFRC GO account token (not configured)" if need else f"Query failed ({str(e)[:60]})"})
 
 
+MANUAL = {"items": []}
+
+
+def manual_sig(eid):
+    return hashlib_sha([[i["mid"], i["status"], i.get("sha256")] for i in MANUAL["items"] if i.get("ev") == eid])
+
+
+def hashlib_sha(o):
+    import hashlib
+    return hashlib.sha256(json.dumps(o, sort_keys=True).encode()).hexdigest()[:16]
+
+
+def link_fingerprint(it):
+    """链接类证据：取一次内容算 SHA-256（证明“那时那个网址返回的就是这些字节”），并请求互联网档案馆存一份。结果缓存在条目里。"""
+    import hashlib
+    if not it.get("url") or it.get("url_sha256"):
+        return
+    try:
+        b = get(it["url"], raw=True, timeout=40)
+        it["url_sha256"] = hashlib.sha256(b).hexdigest(); it["url_bytes"] = len(b); it["url_fetched"] = iso(NOW)
+    except Exception as e:
+        it["url_err"] = str(e)[:80]
+    try:
+        req = urllib.request.Request("https://web.archive.org/save/" + it["url"], headers=UA)
+        with urllib.request.urlopen(req, timeout=60) as r:
+            loc = r.headers.get("Content-Location") or r.geturl()
+        if loc and "/web/" in loc:
+            it["wayback"] = loc if loc.startswith("http") else "https://web.archive.org" + loc
+    except Exception as e:
+        it["wayback_err"] = str(e)[:80]
+
+
+def manual(ev, t0, items, pack):
+    """人工提交：已采信 → 列入时间线（标“人工提交，已核实”）；待核实 → 只列一条“有 N 条待核实，指纹已存证”。不采信的不列。"""
+    mine = [i for i in MANUAL["items"] if i.get("ev") == ev["id"] and i["status"] != "rejected"]
+    acc = [i for i in mine if i["status"] == "accepted"]
+    pend = [i for i in mine if i["status"] == "pending"]
+    KN = {"file": ("文件", "file"), "link": ("链接", "link"), "note": ("现场记录", "field note")}
+    for i in acc:
+        link_fingerprint(i)
+        k = KN.get(i.get("kind"), (i.get("kind") or "", i.get("kind") or ""))
+        fp = i.get("sha256") or i.get("url_sha256")
+        extra = (f"；指纹 {fp[:12]}…" if fp else "") + ("；已存互联网档案馆" if i.get("wayback") else "")
+        extra_en = (f"; fingerprint {fp[:12]}…" if fp else "") + ("; archived on the Wayback Machine" if i.get("wayback") else "")
+        items.append({"t": i.get("when") or i.get("submitted"), "src": "人工提交", "kind": "SUPPORTING", "mid": i["mid"],
+                      "text": f"{k[0]}：{i.get('title', '')}" + (f"（{i['place']}）" if i.get("place") else "") + (f"，来源 {i['src']}" if i.get("src") else "") + f"。已核实{extra}",
+                      "text_en": f"{k[1]}: {i.get('title', '')}" + (f" ({i['place']})" if i.get("place") else "") + (f", source {i['src']}" if i.get("src") else "") + f". Verified{extra_en}",
+                      "url": i.get("wayback") or i.get("url")})
+    if pend:
+        items.append({"t": max(i.get("submitted") or iso(t0) for i in pend), "src": "人工提交", "kind": "NEUTRAL",
+                      "text": f"有 {len(pend)} 条人工提交的证据待核实，只公开指纹：" + "、".join((i.get("sha256") or i["mid"])[:12] for i in pend),
+                      "text_en": f"{len(pend)} submitted item(s) awaiting verification; only fingerprints are public: " + ", ".join((i.get("sha256") or i["mid"])[:12] for i in pend)})
+    pack["manual"] = {"accepted": len(acc), "pending": len(pend)}
+
+
 def ots_stamp(eid, path, idx_entry):
     """OpenTimestamps：给这一版证据包加公开时间戳。存一份不再改动的快照 events/archive/<编号>_<哈希前12位>.json 和对应 .ots。"""
     import hashlib, shutil, subprocess
@@ -390,7 +446,7 @@ def ots_stamp(eid, path, idx_entry):
 def ots_upgrade(idx):
     """把还在等待的时间戳升级为比特币区块确认（通常几小时后可升级）。"""
     import subprocess
-    for e in idx["events"].values():
+    for e in list(idx["events"].values()) + [idx.get("manual") or {}]:
         for x in e.get("ots", []):
             if x.get("status") != "pending" or not os.path.exists(x["ots"]):
                 continue
@@ -428,7 +484,7 @@ def build(ev):
     pack = {"id": ev["id"], "title": ev["title"], "title_en": ev.get("title_en") or ev["title"].replace("洪水预警", "flood warning"), "kind": ev.get("kind"), "place": ev.get("place"), "lat": ev["lat"], "lon": ev["lon"], "t": ev["t"]}
     for fn in (lambda: evn(ev, t0, items, pack), lambda: kkn(ev, t0, items, pack), lambda: catalogs(ev, t0, items), lambda: gauges(ev, t0, items, pack),
                lambda: ioda(ev, t0, items, pack), lambda: ems(ev, t0, items), lambda: sentinel(ev, t0, items, pack),
-               lambda: gfm(ev, t0, items, pack), lambda: montandon(ev, t0, items, pack)):
+               lambda: gfm(ev, t0, items, pack), lambda: montandon(ev, t0, items, pack), lambda: manual(ev, t0, items, pack)):
         try:
             fn()
         except Exception:
@@ -448,6 +504,12 @@ def build(ev):
 def main():
     os.makedirs(OUT, exist_ok=True)
     idx_p = "index.json"; idx = json.load(open(idx_p)) if os.path.exists(idx_p) else {"events": {}}
+    if os.path.exists("manual.json"):
+        MANUAL.update(json.load(open("manual.json")))
+        try:   # 人工证据清单本身也存证：所有条目（含待核实的）指纹在这一刻已经存在
+            ots_stamp("manual", "manual.json", idx.setdefault("manual", {}))
+        except Exception as e:
+            print("人工证据存证失败：", e)
     try:
         evs = get("https://everest-facets.yizebaba.workers.dev/api/events.json").get("events", [])
     except Exception as e:   # Worker 暂时不可用时，用上次保存的事件原始记录重算
@@ -463,7 +525,7 @@ def main():
     for ev in evs:
         age = (NOW - P(ev["t"])).days
         old = idx["events"].get(ev["id"])
-        fresh = old and old.get("v") == VERSION and old.get("src_n") == len(ev.get("src", [])) and (age > 14 or (NOW - P(old["built"])).total_seconds() < 5 * 3600)
+        fresh = old and old.get("v") == VERSION and old.get("src_n") == len(ev.get("src", [])) and old.get("man") == manual_sig(ev["id"]) and (age > 14 or (NOW - P(old["built"])).total_seconds() < 5 * 3600)
         if fresh:
             continue
         print("build", ev["id"]); pack = build(ev)
@@ -471,7 +533,7 @@ def main():
         json.dump(ev, open(os.path.join(OUT, ev["id"] + ".event.json"), "w"), ensure_ascii=False, indent=1)
         ots_prev = (idx["events"].get(ev["id"]) or {}).get("ots", [])
         idx["events"][ev["id"]] = {"ots": ots_prev, "title": ev["title"], "t": ev["t"], "first_seen": ev.get("first_seen"), "kind": ev.get("kind"), "place": ev.get("place"), "lat": ev["lat"], "lon": ev["lon"],
-                                   "v": VERSION, "n": len(pack["timeline"]), "src_n": len(ev.get("src", [])), "built": pack["built"],
+                                   "v": VERSION, "man": manual_sig(ev["id"]), "n": len(pack["timeline"]), "src_n": len(ev.get("src", [])), "built": pack["built"],
                                    "missing": sum(1 for i in pack["timeline"] if i["kind"] == "MISSING")}
         try:
             ots_stamp(ev["id"], os.path.join(OUT, ev["id"] + ".json"), idx["events"][ev["id"]])
