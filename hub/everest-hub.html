@@ -1287,7 +1287,8 @@ $("cards").className=(NODEI==null&&view==="hub")?"off":"";
 const all=curRows();$("rows").innerHTML=all.length?all.map(rowHTML).join(""):'<div class="none">'+(Q?"没有匹配项":"这里还没有内容。可以点上面的“＋ 提交”。")+"</div>";
 const r=FOCUS||(NODEI!=null&&view==="hub"?{type:"node",ref:NODEI}:(selK&&all.find(x=>x.k===selK)));$("det").innerHTML=r?detHTML(r):"";$("det").classList.toggle("open",!!r);
 let ab=0;nodes.forEach(n=>{if(n.st==="U"||n.st==="X")ab++});RN.forEach(x=>{const e=eff(x);if(e==="U"||e==="X")ab++});
-const act=ANOM.map((a,i)=>({a:a,i:i})).filter(x=>x.a.state!=="REJECTED"&&x.a.state!=="RESOLVED");
+/* v52：底部只放计算结果和事件；数据源停发、缺数这类“取数异常”放在“运行状态”和“设备维护”里 */
+const act=ANOM.map((a,i)=>({a:a,i:i})).filter(x=>x.a.state!=="REJECTED"&&x.a.state!=="RESOLVED"&&x.a.type!=="数据不可用");
 $("stats").innerHTML=[["nodes",nodes.length+RN.length,"节点"],["bad",ab,"节点故障或缺失"],["anom",act.length,"计算异常"],["comm",COMM.filter(c=>c.status==="open").length,"待评议"]].map(a=>'<button data-stt="'+a[0]+'"><b>'+a[1]+"</b>"+a[2]+"</button>").join("")+SH.chip();
 $("lgs").innerHTML=SF+"候选";$("lgj").innerHTML=JY+"外部提供 / Agent";
 $("q").value=Q;$("lact").innerHTML=lactHTML();

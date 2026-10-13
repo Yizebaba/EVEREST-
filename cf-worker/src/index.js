@@ -62,6 +62,11 @@ async function discover(env, log) {
 
 // 2 处理一景：最新的优先（实时），然后往回补历史
 async function work(env, log) {
+  // D1 免费额度每天 10 万行写入，用完后当天所有读写都会报错（实时采集、连接器一起停）。
+  // 每景约写 376 行观测（加索引翻倍），所以按 UTC 日限量：当天完成的景超过 SCENES_PER_DAY 就停到第二天。
+  const today = nowIso().slice(0, 10);
+  const doneToday = (await env.DB.prepare("SELECT COUNT(*) n FROM scene WHERE done_at >= ?").bind(today).first()).n;
+  if (doneToday >= Number(env.SCENES_PER_DAY || 40)) { log.skip = `今天已完成 ${doneToday} 景，留出 D1 写入额度给实时采集`; return "paused"; }
   const sc = await env.DB.prepare("SELECT * FROM scene WHERE status='queued' ORDER BY t DESC LIMIT 1").first();
   if (!sc) return false;
   const N = Math.min(FACETS.length, Number(env.FACET_LIMIT || FACETS.length));
@@ -261,6 +266,7 @@ async function tick(env) {
     // D1 免费额度每天 10 万行写入：建基线时每写 1 行观测要算 2 行（表 + 索引）。每 3 分钟停 1 分钟，全天约 6 万行，留出余量
     if (new Date().getUTCMinutes() % 3 === 0) { log.skip = "每 3 分钟停 1 分钟（省 D1 写入额度）"; return log; }
     const worked = await work(env, log);
+    if (worked === "paused") { if (new Date().getUTCMinutes() % 10 === 0) await setMeta(env, "last_tick", JSON.stringify(log)); return log; }
     // 队列空了才打分：保证每个日期都在完整历史上计算
     if (!worked) {
       const scored = await scoreOne(env, log);
