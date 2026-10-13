@@ -3,7 +3,7 @@
 **公开地球观测数据的真实度审计和事件证据平台**
 *Truth audit and event evidence for public Earth-observation data*
 
-[总览页](https://claude.ai/artifact/6heopu2wizEAFMJJLDs44H) · [连接器（MCP）](https://everest-facets.yizebaba.workers.dev/mcp) · [实时采集页](https://everest-facets.yizebaba.workers.dev/rt) · [证据包数据](https://github.com/Yizebaba/everest-insar-pipeline/tree/events) · [English](#english)
+[总览页](https://claude.ai/artifact/6heopu2wizEAFMJJLDs44H) · [总览页说明](docs/HUB_GUIDE.md) · [连接器（MCP）](https://everest-facets.yizebaba.workers.dev/mcp) · [实时采集页](https://everest-facets.yizebaba.workers.dev/rt) · [证据包数据](https://github.com/Yizebaba/everest-insar-pipeline/tree/events) · [English](#english)
 
 ---
 
