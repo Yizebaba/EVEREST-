@@ -72,8 +72,8 @@
    "id": 2554,
    "title": "Kali Gandaki at Jomsom",
    "km": 32,
-   "level": 2.09600019455,
-   "at": "2026-10-13T21:20:00+05:45",
+   "level": 2.09200000763,
+   "at": "2026-10-13T22:50:00+05:45",
    "warning": 6.0,
    "danger": null,
    "status": "BELOW WARNING LEVEL",
@@ -83,8 +83,8 @@
    "id": 30742,
    "title": "Marsyangdi River at Dharapani",
    "km": 37,
-   "level": 1.94570064545,
-   "at": "2026-10-13T21:20:00+05:45",
+   "level": 1.94880008698,
+   "at": "2026-10-13T22:50:00+05:45",
    "warning": 4.5,
    "danger": null,
    "status": "BELOW WARNING LEVEL",
@@ -117,7 +117,7 @@
    "title": "Mardi Khola at Lahachowk",
    "km": 42,
    "level": 2.18400001526,
-   "at": "2026-10-13T21:30:00+05:45",
+   "at": "2026-10-13T22:50:00+05:45",
    "warning": 3.4,
    "danger": 4.3,
    "status": "BELOW WARNING LEVEL",
@@ -127,8 +127,8 @@
    "id": 19615,
    "title": "Khudi Khola at Khudibazar",
    "km": 55,
-   "level": 1.00400066376,
-   "at": "2026-10-13T21:20:00+05:45",
+   "level": 1.00500011444,
+   "at": "2026-10-13T22:40:00+05:45",
    "warning": 4.0,
    "danger": 3.3,
    "status": "BELOW WARNING LEVEL",
@@ -161,7 +161,7 @@
    "title": "Myagdi at Mangalghat",
    "km": 58,
    "level": 1.20300006866,
-   "at": "2026-10-13T21:20:00+05:45",
+   "at": "2026-10-13T22:40:00+05:45",
    "warning": 3.6,
    "danger": 4.5,
    "status": "BELOW WARNING LEVEL",
@@ -317,8 +317,29 @@
   "accepted": 0,
   "pending": 0
  },
+ "rshake": {
+  "stations": [
+   {
+    "sta": "RE93F",
+    "km": 30
+   },
+   {
+    "sta": "R0CEA",
+    "km": 49
+   }
+  ]
+ },
+ "kp_max": 4.0,
  "png": "bipad-manang-2026-09-27_evn.png",
  "timeline": [
+  {
+   "t": "2021-10-16T05:22:48Z",
+   "src": "Vantor 开放影像",
+   "kind": "SUPPORTING",
+   "text": "高分辨率开放影像覆盖本地：Nepal-Flooding-Aug-2026",
+   "text_en": "Open high-resolution imagery covers this area: Nepal-Flooding-Aug-2026",
+   "url": "https://radiantearth.github.io/stac-browser/#/external/vantor-opendata.s3.amazonaws.com/events/Nepal-Flooding-Aug-2026/collection.json"
+  },
   {
    "t": "2026-09-21T04:57:01Z",
    "src": "Sentinel-2 光学",
@@ -401,6 +422,13 @@
    "text_en": "1–5 Hz signal about 5× background (station about 157 km away); IO.EVN not strong at this time"
   },
   {
+   "t": "2026-09-27T00:00:00Z",
+   "src": "地磁 Kp（GFZ）",
+   "kind": "NEUTRAL",
+   "text": "事件前后一天最大 Kp 4.0：没有地磁暴",
+   "text_en": "Max Kp 4.0 within a day of the event: no geomagnetic storm"
+  },
+  {
    "t": "2026-09-27T06:55:00.000Z",
    "src": "BIPAD 灾害警报",
    "kind": "SUPPORTING",
@@ -428,6 +456,41 @@
    "kind": "NEUTRAL",
    "text_en": "No clear drop in Gandaki region within 24 h of the event",
    "text": "Gandaki 区事件前后 24 小时没有明显下降"
+  },
+  {
+   "t": "2026-09-27T06:55:00Z",
+   "src": "Raspberry Shake 地震仪",
+   "kind": "MISSING",
+   "text": "AM.RE93F 取不到波形（没有返回数据）",
+   "text_en": "AM.RE93F waveform not available (没有返回数据)"
+  },
+  {
+   "t": "2026-09-27T06:55:00Z",
+   "src": "Raspberry Shake 地震仪",
+   "kind": "MISSING",
+   "text": "AM.R0CEA 取不到波形（没有返回数据）",
+   "text_en": "AM.R0CEA waveform not available (没有返回数据)"
+  },
+  {
+   "t": "2026-09-27T06:55:00Z",
+   "src": "GDELT 新闻",
+   "kind": "MISSING",
+   "text": "查询失败（HTTP Error 429: Too Many Requests）",
+   "text_en": "Query failed (HTTP Error 429: Too Many Requests)"
+  },
+  {
+   "t": "2026-09-27T06:55:00Z",
+   "src": "维基百科",
+   "kind": "NEUTRAL",
+   "text": "事件后没有新建的相关条目",
+   "text_en": "No related article created after the event"
+  },
+  {
+   "t": "2026-09-27T06:55:00Z",
+   "src": "OCHA HDX",
+   "kind": "NEUTRAL",
+   "text": "事件后没有新建的尼泊尔灾害数据集",
+   "text_en": "No new Nepal disaster dataset after the event"
   },
   {
    "t": "2026-09-27T07:45:00.000Z",
@@ -558,28 +621,56 @@
    "url": "https://data.eodc.eu/collections/GFM_NRT_INTERIM/flood_extent/AS020M/2026/10/04/DLR_FLOOD_20261004T002716_VV_AS020M_E033N027T3.tif"
   },
   {
-   "t": "2026-10-13T15:52:27Z",
+   "t": "2026-10-13T17:20:40Z",
    "src": "BIPAD 水位站",
    "kind": "MISSING",
    "text_en": "12 public gauges within 80 km, 5 reporting now; not reporting: Modi Khola at Annapurna, Seti at Jyamirebari, Seti at Gha Chowk, Kali Gandaki at Tatopani (Ratopani), Raughat Khola at Raughat, Kali Gandaki at Kalipul Beni, Modi Khola at  Jhaprebagar( Nayapul)",
    "text": "事件 80 km 内 12 个公开水位站，现在在报 5 个；停报：Modi Khola at Annapurna、Seti at Jyamirebari、Seti at Gha Chowk、Kali Gandaki at Tatopani (Ratopani)、Raughat Khola at Raughat、Kali Gandaki at Kalipul Beni、Modi Khola at  Jhaprebagar( Nayapul)"
   },
   {
-   "t": "2026-10-13T15:52:27Z",
+   "t": "2026-10-13T17:20:40Z",
    "src": "Copernicus EMS",
    "kind": "NEUTRAL",
    "text_en": "No rapid mapping activated for this event",
    "text": "没有为这次事件启动应急制图"
   },
   {
-   "t": "2026-10-13T15:52:27Z",
+   "t": "2026-10-13T17:20:40Z",
    "src": "IFRC Montandon",
    "kind": "MISSING",
    "text": "需要 IFRC GO 账号令牌才能查询（未配置）",
    "text_en": "Needs an IFRC GO account token (not configured)"
+  },
+  {
+   "t": "2026-10-13T17:20:40Z",
+   "src": "ReliefWeb",
+   "kind": "MISSING",
+   "text": "需要申请 ReliefWeb appname（未配置）",
+   "text_en": "Needs a ReliefWeb appname (not configured)"
+  },
+  {
+   "t": "2026-10-13T17:20:40Z",
+   "src": "Cloudflare Radar",
+   "kind": "MISSING",
+   "text": "需要 Cloudflare API 令牌（未配置）",
+   "text_en": "Needs a Cloudflare API token (not configured)"
+  },
+  {
+   "t": "2026-10-13T17:20:40Z",
+   "src": "NASA FIRMS 火点",
+   "kind": "MISSING",
+   "text": "需要 FIRMS MAP_KEY（未配置）",
+   "text_en": "Needs a FIRMS MAP_KEY (not configured)"
+  },
+  {
+   "t": "2026-10-13T17:20:40Z",
+   "src": "NASA 夜间灯光",
+   "kind": "MISSING",
+   "text": "需要 NASA Earthdata 账号令牌（未配置）",
+   "text_en": "Needs a NASA Earthdata token (not configured)"
   }
  ],
- "built": "2026-10-13T15:52:27Z",
+ "built": "2026-10-13T17:20:40Z",
  "note_en": "States only what public sources recorded and when; no attribution of cause, no prediction. A strong seismic signal only means the station recorded strong shaking at that moment.",
  "note": "只陈述公开来源记录了什么、什么时候；不判断成因，不预测。地震台强信号只说明那一刻台站记录到较强震动，来源需要结合其他证据。"
 }
