@@ -32,8 +32,10 @@ try:
         e["first_seen"] = m.get("first_seen"); e["timeline"] = p.get("timeline", [])[:60]
         e["evn"] = {k: (p.get("evn") or {}).get(k) for k in ("distance_km", "coverage_pct", "peaks", "error")}
         e["sentinel"] = p.get("sentinel"); e["gauges"] = p.get("gauges"); e["ioda"] = p.get("ioda")
-        if (p.get("evn") or {}).get("png") and time.time() - time.mktime(time.strptime(m["t"][:19], "%Y-%m-%dT%H:%M:%S")) < 21 * 86400:
-            try: e["evn_png"] = "data:image/png;base64," + base64.b64encode(raw(f"events/{p['evn']['png']}", "events")).decode()
+        e["kkn"] = p.get("kkn"); e["gfm"] = p.get("gfm"); e["ots"] = m.get("ots", [])
+        png = p.get("png") or (p.get("evn") or {}).get("png")
+        if png and time.time() - time.mktime(time.strptime(m["t"][:19], "%Y-%m-%dT%H:%M:%S")) < 21 * 86400:
+            try: e["evn_png"] = "data:image/png;base64," + base64.b64encode(raw(f"events/{png}", "events")).decode()
             except Exception as x: print("图", eid, x)
         evs.append(e)
     # 数据库单个文档上限 256 KiB：只给最近 3 个事件带图，超了就从最早的开始去掉图

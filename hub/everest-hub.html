@@ -202,7 +202,7 @@ body{--calm:1}
 #auth .who{font-size:12px;color:var(--mute);margin:6px 0 2px}
 #auth ol{margin:6px 0 4px 18px;padding:0;font-size:12.5px;line-height:1.7}
 #modal:has(.acct){width:min(560px,94%);top:5%;background:rgba(18,18,20,.985)}#auth .acct{max-height:58vh;overflow-y:auto;margin:8px 0;padding-right:4px}#auth .acct ol{font-size:12px}#auth .acct .sub{font-size:12px}#modal .acct input[type=checkbox]{width:auto}#modal .acct table{width:100%}#auth .warn{font-size:12px;color:#e8b26a;margin-top:6px}
-#modal.on{z-index:12}.xpt td:first-child{white-space:nowrap;color:var(--mute)}#modal:has(.mtm){width:min(520px,94%);top:4%;max-height:90vh;overflow-y:auto;background:rgba(18,18,20,.985)}#modal .mt2{display:grid;grid-template-columns:1fr 1fr;gap:8px}#modal textarea{padding:7px 11px;border-radius:9px;border:1px solid var(--gb);background:rgba(255,255,255,.05);color:var(--ink);font:inherit;font-size:13px;box-sizing:border-box}#modal .mtm .gt{font-size:12px;color:var(--mute);margin:12px 0 4px;letter-spacing:.05em}#modal .mtm .sb{display:flex;gap:6px;flex-wrap:wrap;margin-top:10px}#sideGrip{display:none}@media (min-width:1000px){#side:has(.wbody){width:var(--sideW,400px)}#sideGrip{position:absolute;left:calc(14px + var(--sideW,400px) - 3px);top:14px;bottom:130px;width:7px;cursor:col-resize;z-index:7;border-radius:4px;touch-action:none}#main:has(#side .wbody) #sideGrip{display:block}#sideGrip:hover,#sideGrip.on,#sideGrip:focus-visible{background:rgba(255,190,110,.35);outline:none}}
+#modal.on{z-index:12}#modal .lvt td{overflow-wrap:anywhere}.xpt td:first-child{white-space:nowrap;color:var(--mute)}#modal:has(.mtm){width:min(520px,94%);top:4%;max-height:90vh;overflow-y:auto;background:rgba(18,18,20,.985)}#modal .mt2{display:grid;grid-template-columns:1fr 1fr;gap:8px}#modal textarea{padding:7px 11px;border-radius:9px;border:1px solid var(--gb);background:rgba(255,255,255,.05);color:var(--ink);font:inherit;font-size:13px;box-sizing:border-box}#modal .mtm .gt{font-size:12px;color:var(--mute);margin:12px 0 4px;letter-spacing:.05em}#modal .mtm .sb{display:flex;gap:6px;flex-wrap:wrap;margin-top:10px}#sideGrip{display:none}@media (min-width:1000px){#side:has(.wbody){width:var(--sideW,400px)}#sideGrip{position:absolute;left:calc(14px + var(--sideW,400px) - 3px);top:14px;bottom:130px;width:7px;cursor:col-resize;z-index:7;border-radius:4px;touch-action:none}#main:has(#side .wbody) #sideGrip{display:block}#sideGrip:hover,#sideGrip.on,#sideGrip:focus-visible{background:rgba(255,190,110,.35);outline:none}}
 </style>
 </head>
 <body>
@@ -526,7 +526,7 @@ const TRC_RESET=()=>{for(const k in TRC)delete TRC[k]};
 /* v51：自动发现的事件 + 证据包（Worker 发现 → GitHub evidence 工作流生成 → 每小时同步到 live/ev）。
    事件按首次发现时间追加到异常列表末尾，序号固定，处理记录不会错位。 */
 const EVK={SUPPORTING:"SUPPORTING",MISSING:"MISSING",NEUTRAL:"NEUTRAL",CONTRADICTORY:"CONTRADICTORY"};
-const SRCEN={"IO.EVN 地震台":"IO.EVN seismic station","KKN 地震台":"KKN seismic station","BIPAD 灾害警报":"BIPAD alerts","BIPAD 水位站":"BIPAD river gauges","USGS 地震目录":"USGS catalogue","EMSC 地震目录":"EMSC catalogue","IODA 网络连通":"IODA connectivity","Sentinel-1 雷达":"Sentinel-1 radar","Sentinel-2 光学":"Sentinel-2 optical"},seN=x=>Z(x,SRCEN[x]||x),teX=x=>Z(x.text,(x.text_en||x.text).replace("（已结束）"," (ended)"));
+const SRCEN={"IO.EVN 地震台":"IO.EVN seismic station","KKN 地震台":"KKN seismic station","哥白尼 GFM":"Copernicus GFM","IFRC Montandon":"IFRC Montandon","Copernicus EMS":"Copernicus EMS","BIPAD 灾害警报":"BIPAD alerts","BIPAD 水位站":"BIPAD river gauges","USGS 地震目录":"USGS catalogue","EMSC 地震目录":"EMSC catalogue","IODA 网络连通":"IODA connectivity","Sentinel-1 雷达":"Sentinel-1 radar","Sentinel-2 光学":"Sentinel-2 optical"},seN=x=>Z(x,SRCEN[x]||x),teX=x=>Z(x.text,(x.text_en||x.text).replace("（已结束）"," (ended)"));
 let EVLAST=null,EVLANG=null;
 function evApply(d){const L=(d&&d.events)||[];let ch=false;const lc=EVLANG!==LANG;EVLAST=d;EVLANG=LANG;
  L.forEach(e=>{const tl=e.timeline||[],miss=tl.filter(x=>x.kind==="MISSING").length,sup=tl.filter(x=>x.kind==="SUPPORTING"),srcs=[...new Set(sup.map(x=>x.src))];
@@ -543,7 +543,7 @@ function evApply(d){const L=(d&&d.events)||[];let ch=false;const lc=EVLANG!==LAN
  if(ch&&SH.on&&SH.rebuild)SH.rebuild();return ch}
 function packHTML(a){const e=a.pack;if(!e)return"";const tl=e.timeline||[],K={SUPPORTING:"ok",MISSING:"unk",NEUTRAL:"cand",CONTRADICTORY:"bad"};
  let h='<div class="sec">'+Z("证据包：公开来源时间线","Evidence pack: public-source timeline")+'</div><div class="sub">'+Z("自动生成于 ","Built automatically ")+lvBJ(e.built)+Z("（北京）；新卫星影像出来后会自动补。"," (Beijing); refreshed automatically when new satellite scenes arrive.")+'</div>';
- if(e.evn_png)h+='<img src="'+e.evn_png+'" alt="IO.EVN" style="width:100%;border-radius:6px;margin:6px 0"><div class="sub">'+Z("IO.EVN 地震台 1–5 Hz 信号（相对背景，对数刻度）；虚线是第一条公开信号的时间。台站距事件约 ","IO.EVN 1–5 Hz signal (relative to background, log scale); dashed line = first public signal. Station is about ")+((e.evn&&e.evn.distance_km)||"—")+" km"+Z("。"," away.")+'</div>';
+ if(e.evn_png)h+='<img src="'+e.evn_png+'" alt="IO.EVN" style="width:100%;border-radius:6px;margin:6px 0"><div class="sub">'+Z("两个地震台的 1–5 Hz 信号（相对各自背景，对数刻度）：上 IO.EVN（珠峰），下 KKN（加德满都北）。蓝色虚线是第一条公开信号的时间，红点线是背景的 5 倍。","1–5 Hz signal at two stations (relative to each background, log scale): top IO.EVN (Everest), bottom KKN (north of Kathmandu). Blue dashed = first public signal; red dotted = 5× background.")+'</div>';
  h+='<table class="lvt"><tbody>'+tl.map(x=>'<tr><td class="lvn">'+lvBJ(x.t)+'</td><td><span class="'+(K[x.kind]||"")+'">'+esc(seN(x.src))+'</span><br>'+esc(teX(x))+(x.url?' <a href="'+esc(x.url)+'" target="_blank" rel="noopener">↗</a>':"")+'</td></tr>').join("")+'</tbody></table>';
  const sn=e.sentinel||{},sl=[];Object.keys(sn).forEach(c=>{["before","after"].forEach(k=>{const x=sn[c]&&sn[c][k];if(x)sl.push('<a class="act" href="'+esc(x.explore)+'" target="_blank" rel="noopener" style="text-decoration:none">'+(c.indexOf("-1-")>0?"Sentinel-1":"Sentinel-2")+" "+(k==="before"?Z("事件前","before"):Z("事件后","after"))+" "+lvBJ(x.t).slice(0,5)+' ↗</a>')})});
  if(sl.length)h+='<div class="sb">'+sl.join("")+'</div>';
@@ -781,6 +781,31 @@ function posHTML(){const li=a=>'<ul style="margin:4px 0 8px 18px;padding:0;font-
  +'<div class="sub">'+Z("法律部分是对公开文本的解读，不是法律意见。详见","The legal part is a reading of public texts, not legal advice. Details: ")+'<a href="https://claude.ai/code/artifact/e72d61c9-b06d-4230-b8e1-59741d620a58" target="_blank" rel="noopener">'+Z("平台定位调研 ↗","Positioning research ↗")+'</a></div>'
  +'<div class="sb">'+xBtn("close","",Z("关闭","Close"))+'</div>'}
 document.addEventListener("click",e=>{if(e.target.closest("#posBtn")){e.preventDefault();xModal(posHTML())}});
+/* v55：证据链标签。事件来自 live/fs 的 ev（每小时同步），证据包由 GitHub evidence 工作流自动生成，每一版用 OpenTimestamps 存证。 */
+const RAWB="https://raw.githubusercontent.com/Yizebaba/everest-insar-pipeline/events/";
+const CHAIN_SRC=[["发现事件","Event discovery","Worker 每 5 分钟看 BIPAD 洪水警报、USGS 崩塌、GDACS、水位越线","Worker checks BIPAD flood alerts, USGS landslides, GDACS and gauge thresholds every 5 min"],
+ ["地震台","Seismic stations","IO.EVN（珠峰）和 KKN（加德满都北）两台核对，一台有、一台没有的标“矛盾”","IO.EVN (Everest) and KKN (north of Kathmandu) cross-checked; one-station-only signals are marked contradictory"],
+ ["地震目录","Catalogues","USGS、EMSC","USGS, EMSC"],["水位站","River gauges","事件 80 km 内的 BIPAD 站：谁在报、谁停了","BIPAD gauges within 80 km: which report, which stopped"],
+ ["网络连通","Connectivity","IODA 所在区","IODA for the region"],["卫星","Satellites","Sentinel-1/2 前后影像；哥白尼 GFM 自动洪水范围","Sentinel-1/2 before/after; Copernicus GFM flood extent"],
+ ["国际记录","International records","哥白尼应急制图；IFRC Montandon（需令牌）","Copernicus EMS; IFRC Montandon (token needed)"],
+ ["存证","Proof of existence","每一版存不可变快照 + OpenTimestamps 公开时间戳，之后升级为比特币区块确认","Immutable snapshot of every version + OpenTimestamps, later anchored in a Bitcoin block"]];
+function otsChip(e){const o=(e.ots||[]).slice(-1)[0];if(!o)return'<span class="lvc lvw">'+Z("未存证","Not stamped")+'</span>';
+ return o.status==="confirmed"?'<span class="lvc lvo">'+Z("已上链 · 区块 ","Anchored · block ")+o.bitcoin_block+'</span>':o.status==="pending"?'<span class="lvc lvw">'+Z("已存证 · 等待区块确认","Stamped · awaiting block")+'</span>':'<span class="lvc lvd">'+Z("存证失败","Stamp failed")+'</span>'}
+function chainPanel(){const L=(((EVLAST||{}).events)||[]).slice().sort((a,b)=>b.t.localeCompare(a.t));
+ let h='<div class="sub">'+Z("每个自动发现的事件，都把公开来源对齐到同一条时间线：谁在什么时候记录了什么、哪些来源断了。只陈述记录，不判断成因，不预测。","Every auto-detected event gets one timeline of public sources: who recorded what and when, and which sources were down. Records only — no attribution of cause, no prediction.")+'</div>';
+ h+='<details><summary>'+Z("证据链由哪些部分组成","What the chain is made of")+'</summary><table class="lvt"><tbody>'+CHAIN_SRC.map(r=>'<tr><td style="white-space:nowrap">'+Z(r[0],r[1])+'</td><td>'+Z(r[2],r[3])+'</td></tr>').join("")+'</tbody></table></details>';
+ h+='<div class="gt" style="font-size:12px;color:var(--mute);margin:10px 0 4px">'+Z("事件（最近 60 天，新的在前）","Events (last 60 days, newest first)")+'</div>';
+ if(!L.length)h+='<div class="none">'+Z("还没有同步到事件。","No events synced yet.")+'</div>';
+ h+=L.map((e,i)=>{const tl=e.timeline||[],n=k=>tl.filter(x=>x.kind===k).length,o=(e.ots||[]).slice(-1)[0];
+  return '<div style="padding:8px 0;border-top:1px solid var(--gb)"><div><b style="font-family:ui-monospace,Menlo,monospace">'+lvBJ(e.t)+'</b> <b>'+esc(Z(e.title,e.title_en||e.title))+'</b></div>'
+   +'<div class="sub">'+esc(e.place||"")+' · '+Z("证据 ","")+'<span class="ok">'+Z("支持 ","supporting ")+n("SUPPORTING")+'</span> · <span class="unk">'+Z("缺失 ","missing ")+n("MISSING")+'</span> · <span class="bad">'+Z("矛盾 ","contradictory ")+n("CONTRADICTORY")+'</span> · '+Z("生成于 ","built ")+lvBJ(e.built)+'</div>'
+   +'<div style="margin:4px 0">'+otsChip(e)+'</div>'
+   +'<div style="display:flex;gap:6px;flex-wrap:wrap"><button class="act p" data-ch="'+esc(e.id)+'">'+Z("查看时间线","Open timeline")+'</button>'
+   +(o?'<a class="act" style="text-decoration:none" href="'+RAWB+o.file+'" target="_blank" rel="noopener">'+Z("存证快照 ↗","Snapshot ↗")+'</a><a class="act" style="text-decoration:none" href="'+RAWB+o.ots+'" target="_blank" rel="noopener">'+Z(".ots 证明 ↗",".ots proof ↗")+'</a>':'')+'</div></div>'}).join("");
+ h+='<details><summary>'+Z("怎么自己核对存证","How to verify a stamp yourself")+'</summary><ol class="sub" style="padding-left:18px;margin:4px 0"><li>'+Z("下载“存证快照”和“.ots 证明”两个文件，放在同一个文件夹。","Download the snapshot and the .ots proof into one folder.")+'</li><li>'+Z("安装 OpenTimestamps 客户端：<code>pip install opentimestamps-client</code>。","Install the OpenTimestamps client: <code>pip install opentimestamps-client</code>.")+'</li><li>'+Z("运行 <code>ots verify 快照文件名.ots</code>：会显示这份文件最晚在哪个比特币区块的时间已经存在。文件改过一个字，核对就会失败。","Run <code>ots verify snapshot.ots</code>: it shows the Bitcoin block by which the file existed. Change one byte and verification fails.")+'</li></ol></details>';
+ return h}
+document.addEventListener("click",e=>{const b=e.target.closest("[data-ch]");if(!b)return;e.preventDefault();const ev=(((EVLAST||{}).events)||[]).find(x=>x.id===b.dataset.ch);if(!ev)return;
+ xModal('<b>'+esc(Z(ev.title,ev.title_en||ev.title))+'</b><div class="sub">'+esc(ev.place||"")+' · '+fmtLL(ev.lat,ev.lon)+'</div><div style="margin:4px 0">'+otsChip(ev)+'</div>'+packHTML({pack:ev})+'<div class="sb">'+xBtn("close","",Z("关闭","Close"))+'</div>')});
 function acctHTML(){
  const role=r=>'<div style="padding:6px 0;border-top:1px solid var(--gb)"><div><b>'+esc(r[0])+'</b> <span class="sub">'+(/所有者/.test(r[1])?esc(r[1]):"分享菜单："+esc(r[1]))+'</span></div><div class="sub">能做：'+esc(r[2])+'</div><div class="sub">不能做：'+esc(r[3])+'</div></div>';
  return '<div class="acct">'
@@ -1099,7 +1124,7 @@ function curRows(){return rowsOf(view).filter(r=>!Q||(r.t+r.s).toLowerCase().inc
 const fmtLL=(a,o)=>Math.abs(a).toFixed(2)+"°"+(a>=0?"N":"S")+" "+Math.abs(o).toFixed(2)+"°"+(o>=0?"E":"W");
 function stageOK(){let ok=0;STAGES.forEach(x=>{const L=nodes.filter(n=>n.stage===x.id&&n.st!=="C");if(L.length&&L.every(n=>n.st==="H"))ok++});return ok}
 function coreCard(){const ok=flowOK(),n=FLW.length;return'<button class="card core" data-v="hub" data-c="core" data-flow="1"><span class="ci">'+orb(ok===n?"var(--ok)":"var(--unk)")+'</span><b class="cn">'+ok+"/"+n+'</b><span class="cl">完整流程</span><span class="cs">实测链路正常 · 点开看</span></button>'}
-const WBTIP={nodes:"全部数据源与处理节点",stages:"按流程阶段查看",run:"运行总览、数据源、南坡台站、实时源",maint:"设备台账、维修记录、保养到期和每日提醒（可登记、可记录）",skills:"和 Claude 技能同一份：查看、在本页运行",conn:"和 Claude 连接器同一个：EVEREST MCP",plug:"连接器 + 技能打包，Claude Code 可安装",gov:"变更审批与审计记录",kb:"方法、文献与对接文档",roles:"谁能看、谁能改",south:"南坡实时：冰湖、河流、地震台",rt:"实时源：卫星云图、地震、网络连通、灾害警报、DORIS 信标"};let SFIL="ALL",FOCUS=null;const WBS=[["nodes","节点"],["stages","阶段"],["run","运行状态"],["gov","治理与审计"],["kb","知识库"],["maint","设备维护"],["skills","技能"],["conn","连接器"],["plug","插件"]];let WBT="nodes";try{const w=localStorage.getItem("ev_wbt");WBT=w===null?"nodes":(w==="-"?"":w)}catch(e){}if(WBT==="south"||WBT==="rt")WBT="run";if(WBT==="roles")WBT="maint";
+const WBTIP={chain:"每个事件的公开来源时间线和存证",nodes:"全部数据源与处理节点",stages:"按流程阶段查看",run:"运行总览、数据源、南坡台站、实时源",maint:"设备台账、维修记录、保养到期和每日提醒（可登记、可记录）",skills:"和 Claude 技能同一份：查看、在本页运行",conn:"和 Claude 连接器同一个：EVEREST MCP",plug:"连接器 + 技能打包，Claude Code 可安装",gov:"变更审批与审计记录",kb:"方法、文献与对接文档",roles:"谁能看、谁能改",south:"南坡实时：冰湖、河流、地震台",rt:"实时源：卫星云图、地震、网络连通、灾害警报、DORIS 信标"};let SFIL="ALL",FOCUS=null;const WBS=[["nodes","节点"],["stages","阶段"],["run","运行状态"],["chain","证据链"],["gov","治理与审计"],["kb","知识库"],["maint","设备维护"],["skills","技能"],["conn","连接器"],["plug","插件"]];let WBT="nodes";try{const w=localStorage.getItem("ev_wbt");WBT=w===null?"nodes":(w==="-"?"":w)}catch(e){}if(WBT==="south"||WBT==="rt")WBT="run";if(WBT==="roles")WBT="maint";
 const POLICY_VER="policy-0.1（示例）";
 let AUD=[],KB=[],TT={T0:5,T1:120,T2:1440},GV={},TFIL="",AQ="";
 try{AUD=JSON.parse(localStorage.getItem("ev_audit_v1")||"[]")}catch(e){}
@@ -1242,6 +1267,7 @@ else if(WBT==="run")body=runPanel()+'<div class="sec">页面内部（示例链�
 else if(WBT==="gov")body=govPanel()+auditPanel();
 else if(WBT==="kb")body=kbPanel();
 else if(WBT==="maint")body=maintPanel();
+else if(WBT==="chain")body=chainPanel();
 else if(WBT==="skills")body=skillsPanel();
 else if(WBT==="conn")body=connPanel();
 else if(WBT==="plug")body=plugPanel();
@@ -1296,7 +1322,7 @@ $("lgs").innerHTML=SF+"候选";$("lgj").innerHTML=JY+"外部提供 / Agent";
 $("q").value=Q;$("lact").innerHTML=lactHTML();
 const gw=grow();GT=gw.g;$("i2").textContent="工具 "+gw.T+" · 能力 "+gw.C+" · 球体 ×"+gw.g.toFixed(2);
 const _op=[...document.querySelectorAll("#side details")].map(d=>d.open);$("side").innerHTML=sideHTML();document.querySelectorAll("#side details").forEach((d,i)=>{if(_op[i])d.open=true});bindOrbs();$("cb").innerHTML=SATS.map(x=>'<button class="catb" data-cb="'+x.id+'" style="--c:'+x.tint+'" aria-pressed="'+(NT===x.id)+'" aria-label="'+x.cn+'">'+x.ico+"<b>"+attCnt(x.id)+"</b></button>").join("");
-$("dock").innerHTML='<div class="dl">'+AL+"计算异常 "+act.length+' <span class="sub">'+Z("最近 14 天"+(histN?" · 更早 "+histN+" 条可搜索":""),"last 14 days"+(histN?" · "+histN+" older, searchable":""))+'</span></div>'+(act.length?act.map(x=>{const sx=x.a.state==="WATCH"?"X":"U";return'<button class="an" data-dk="'+x.i+'"><span class="at">'+SY[sx]+esc(x.a.t)+'</span><span class="as">'+ST_AN[x.a.state]+'</span><span class="ap">'+(anT(x.a)?'<b style="color:var(--ink)">'+lvBJ(new Date(anT(x.a)).toISOString())+Z("（北京）"," (Beijing)")+"</b> · ":"")+esc(x.a.place)+" · "+fmtLL(x.a.lat,x.a.lon)+"</span></button>"}).join(""):'<div class="sub">暂无异常</div>');
+$("dock").innerHTML='<div class="dl">'+AL+"计算异常 "+act.length+' <span class="sub">'+Z("最近 14 天"+(histN?" · 更早 "+histN+" 条可搜索":""),"last 14 days"+(histN?" · "+histN+" older, searchable":""))+'</span></div>'+(act.length?act.map(x=>{const sx=x.a.state==="WATCH"?"X":"U";const tt=anT(x.a),nm=(x.a.pack?Z(x.a.pack.title,x.a.pack.title_en||x.a.pack.title):x.a.t);return'<button class="an" data-dk="'+x.i+'"><span class="at">'+SY[sx]+(tt?'<b style="font-family:ui-monospace,Menlo,monospace;margin-right:6px">'+lvBJ(new Date(tt).toISOString())+'</b>':'')+esc(nm)+'</span><span class="ap">'+esc(x.a.place)+'</span><span class="as">'+ST_AN[x.a.state]+(x.a.evid?Z(" · 自动发现"," · auto-detected"):"")+'</span></button>'}).join(""):'<div class="sub">暂无异常</div>');
 if(GL&&NP)syncNodes();applyBG();applyLang();sizeCards();target();measure();inval()}
 let cw={};function sizeCards(){document.querySelectorAll(".card").forEach(c=>{cw[c.dataset.c]=[c.offsetWidth,c.offsetHeight]})}
 /* ---------- 3D (three.js) ---------- */

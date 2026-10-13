@@ -169,3 +169,10 @@
 - GitHub：events 分支 + evidence 工作流 + tools/evidence_pack.py：新事件或每 6 小时生成证据包（IO.EVN 信号图、地震目录、80 km 内水位站、IODA、哥白尼应急制图、Sentinel-1/2 前后影像）。
 - 页面：线上 Version 51。底部“计算异常”自动加入事件（事件候选），详情里有证据时间线、IO.EVN 图、卫星影像链接；数据随 live/fs 的 ev 字段每小时同步。
 - 复原：页面回退 Version 50；Worker 回退到 7ece293 之前的 events 相关提交（删 cf-worker/src/events.js 和 index.js 里的事件段）；events 分支可直接删除。
+
+---
+# 第二十六次改动（证据链）
+- 证据包 v6（events 分支 tools/evidence_pack.py）：加哥白尼 GFM 自动洪水范围、IFRC Montandon（需令牌，未配置时标缺失）、NK.KKN 第二地震台与两台一致性核对、OpenTimestamps 存证（events/archive/ 下每版快照 + .ots，之后自动升级为比特币区块确认）、两台站信号图。
+- 每日管线（pipeline.py）：位移改读云端干涉真实结果，没有新结果标“不可观测”；固定矩阵文件已删除。
+- 页面：线上 Version 55。左侧新增“证据链”标签；底部事件改为“时间 + 名称 / 地点 / 状态”，只放最近 14 天。
+- 复原：页面回退 Version 54；证据包脚本回退到 events 分支上一版提交；管线回退 git 提交 243f2d2 之前。
