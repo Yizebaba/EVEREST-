@@ -278,7 +278,7 @@ def main():
             continue
         print("build", ev["id"]); pack = build(ev)
         json.dump(pack, open(os.path.join(OUT, ev["id"] + ".json"), "w"), ensure_ascii=False, indent=1)
-        idx["events"][ev["id"]] = {"title": ev["title"], "t": ev["t"], "kind": ev.get("kind"), "place": ev.get("place"), "lat": ev["lat"], "lon": ev["lon"],
+        idx["events"][ev["id"]] = {"title": ev["title"], "t": ev["t"], "first_seen": ev.get("first_seen"), "kind": ev.get("kind"), "place": ev.get("place"), "lat": ev["lat"], "lon": ev["lon"],
                                    "n": len(pack["timeline"]), "src_n": len(ev.get("src", [])), "built": pack["built"],
                                    "missing": sum(1 for i in pack["timeline"] if i["kind"] == "MISSING")}
     idx["updated"] = iso(NOW)
