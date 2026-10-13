@@ -24,11 +24,20 @@ jobs:
         run: python3 tools/adsb_fetch.py
       - name: Check EVEREST connector from outside
         run: |
-          curl -s -m 30 -X POST https://everest-facets.yizebaba.workers.dev/mcp -H 'content-type: application/json' \
-            -d '{"jsonrpc":"2.0","id":1,"method":"tools/call","params":{"name":"everest_overview","arguments":{}}}' \
-            | python3 -c "import json,sys,time;r=json.load(sys.stdin);t=r['result']['content'][0]['text'];json.dump({'at':time.strftime('%Y-%m-%dT%H:%M:%SZ',time.gmtime()),'ok':not r['result'].get('isError'),'head':t[:300]},open('mcp_health.json','w'),ensure_ascii=False)" \
-            || echo '{"ok":false}' > mcp_health.json
-          cat mcp_health.json
+          U=https://everest-facets.yizebaba.workers.dev/mcp
+          curl -s -m 30 -X POST $U -H 'content-type: application/json' -d '{"jsonrpc":"2.0","id":1,"method":"tools/list"}' > tl.json || echo '{}' > tl.json
+          curl -s -m 30 -X POST $U -H 'content-type: application/json' \
+            -d '{"jsonrpc":"2.0","id":2,"method":"tools/call","params":{"name":"everest_daily_brief","arguments":{}}}' > db.json || echo '{}' > db.json
+          python3 - <<'PY'
+          import json,time
+          def ld(f):
+              try: return json.load(open(f))
+              except Exception: return {}
+          tl=ld('tl.json').get('result',{}).get('tools',[]);r=ld('db.json').get('result',{})
+          t=(r.get('content') or [{}])[0].get('text','')
+          json.dump({'at':time.strftime('%Y-%m-%dT%H:%M:%SZ',time.gmtime()),'ok':bool(t) and not r.get('isError'),'tools':len(tl),'tool_names':[x['name'] for x in tl],'head':t[:600]},open('mcp_health.json','w'),ensure_ascii=False)
+          PY
+          rm -f tl.json db.json; cat mcp_health.json
       - name: Save
         run: |
           git config user.name "adsb-live"; git config user.email "actions@users.noreply.github.com"
