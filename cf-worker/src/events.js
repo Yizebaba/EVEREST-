@@ -24,7 +24,7 @@ export function detect(rt, prev) {
   const S = (rt && rt.sources) || {}, v = k => (S[k] || {}).v || {}, ev = Object.assign({}, prev || {});
   const add = (id, base, item) => {
     const e = ev[id] || Object.assign({ id, first_seen: new Date().toISOString(), src: [] }, base);
-    if (!e.src.some(x => x.k === item.k)) { e.src.push(item); e.src.sort((a, b) => a.t.localeCompare(b.t)); e.updated = new Date().toISOString(); }
+    if (!e.src.some(x => x.k === item.k || (x.src === item.src && x.t === item.t))) { e.src.push(item); e.src.sort((a, b) => a.t.localeCompare(b.t)); e.updated = new Date().toISOString(); }
     if (item.t < e.t) e.t = item.t;
     ev[id] = e;
   };
@@ -54,13 +54,15 @@ export function detect(rt, prev) {
     add(`gauge-${id}-${npDay(m.last_on)}`, { kind: "水位越线", title: `${m.name} 越过${/DANGER/.test(m.status) ? "危险" : "警戒"}水位`, title_en: `${m.title} ${/DANGER/.test(m.status) ? "above danger level" : "above warning level"}`, place: m.title, lat: m.lat, lon: m.lon, t },
       { k: "gauge:" + id + ":" + t, t, src: "BIPAD 水位站", text: `${m.name} ${m.status}`, text_en: `${m.title} ${m.status}` });
   }
+  // 清掉同一来源同一时刻的重复（旧版本用时间做键，新版本用警报编号做键）
+  for (const e of Object.values(ev)) { const seen = new Set(); e.src = e.src.filter(x => { const k = x.src + "|" + x.t; if (seen.has(k)) return false; seen.add(k); return true; }); }
   // 同一事件的不同来源合并：时间相差 36 小时内、距离 150 km 内的并到最早的那个
   const km = (a, b) => { const r = Math.PI / 180, x = Math.sin((b.lat - a.lat) * r / 2) ** 2 + Math.cos(a.lat * r) * Math.cos(b.lat * r) * Math.sin((b.lon - a.lon) * r / 2) ** 2; return 12742 * Math.asin(Math.sqrt(x)); };
   const L = Object.values(ev).sort((a, b) => a.t.localeCompare(b.t));
   for (let i = 0; i < L.length; i++) for (let j = i + 1; j < L.length; j++) {
     const A = L[i], B = L[j]; if (!ev[A.id] || !ev[B.id]) continue;
     if (Math.abs(Date.parse(B.t) - Date.parse(A.t)) < 36 * 3600e3 && km(A, B) < 150) {
-      for (const it of B.src) if (!A.src.some(x => x.k === it.k)) A.src.push(it);
+      for (const it of B.src) if (!A.src.some(x => x.k === it.k || (x.src === it.src && x.t === it.t))) A.src.push(it);
       A.src.sort((a, b) => a.t.localeCompare(b.t)); A.also = (A.also || []).concat([B.id], B.also || []);
       if (A.kind !== B.kind && !String(A.kind).includes(B.kind)) A.kind = A.kind + "、" + B.kind;
       delete ev[B.id];
