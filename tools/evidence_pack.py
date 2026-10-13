@@ -23,7 +23,7 @@ import urllib.request, urllib.parse
 UA = {"user-agent": "everest-evidence (github.com/Yizebaba/EVEREST-)"}
 EVN = (27.9587, 86.8117)
 OUT = "events"
-VERSION = 11   # 改了证据包内容时加 1，所有包会重算一次
+VERSION = 12   # 改了证据包内容时加 1，所有包会重算一次
 NOW = datetime.now(timezone.utc)
 
 # 尼泊尔区县 → IODA 地区（旧 14 区）
@@ -562,22 +562,23 @@ def place_word(ev):
 def gdelt(ev, t0, items, pack):
     """GDELT 全球新闻：这个地方的灾害新闻最早什么时候出现、有多少家媒体报道。"""
     a, b = t0 - timedelta(days=1), min(NOW, t0 + timedelta(days=5))
-    q = f'"{place_word(ev)}" {HAZ_EN}' + ("" if place_word(ev) == "Nepal" else " Nepal")
+    q = f'"{place_word(ev)}" {HAZ_EN}' + ("" if place_word(ev) == "Nepal" else " Nepal") + " sourcelang:english"
     try:
         u = "https://api.gdeltproject.org/api/v2/doc/doc?" + urllib.parse.urlencode({"query": q, "mode": "artlist", "maxrecords": 75, "format": "json", "sort": "dateasc",
                                                                                      "startdatetime": a.strftime("%Y%m%d%H%M%S"), "enddatetime": b.strftime("%Y%m%d%H%M%S")})
         raw = b""
-        for wait in (6, 20, 60):   # GDELT 要求每 5 秒最多一次；共用的 GitHub 运行器容易被限流，退避重试
+        for wait in (15, 45, 120):   # GDELT 要求每 5 秒最多一次；共用的 GitHub 运行器容易被限流，退避重试
             time.sleep(wait)
             try:
                 raw = get(u, raw=True, timeout=60); break
             except Exception as e:
-                if "429" not in str(e) or wait == 60: raise
+                if "429" not in str(e) or wait == 120: raise
         if not raw.strip().startswith(b"{"):
             print("GDELT 返回：", q, raw[:300])
             if raw.strip(): raise RuntimeError("GDELT：" + raw[:80].decode(errors="ignore"))
         arts = json.loads(raw).get("articles", []) if raw.strip().startswith(b"{") else []
-        pack["gdelt_q"] = {"q": q, "n": len(arts), "head": raw[:200].decode(errors="ignore")}
+        HZ = re.compile(r"flood|landslide|avalanche|earthquake|quake|glacial|debris|snow|rockfall|inundat|deluge|swept|disaster|rescue|missing|dead|killed", re.I)
+        arts = [x for x in arts if HZ.search(x.get("title", ""))]   # 标题里要有灾害相关的词，排除新闻汇总页
         news = [{"t": datetime.strptime(x["seendate"], "%Y%m%dT%H%M%SZ").replace(tzinfo=timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ"), "title": x.get("title", "")[:160], "url": x.get("url"), "domain": x.get("domain"), "lang": x.get("language")} for x in arts]
         pack["news"] = news[:20]
         if news:

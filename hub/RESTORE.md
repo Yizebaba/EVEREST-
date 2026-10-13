@@ -196,3 +196,11 @@
 # 第二十九次改动（说明移到 GitHub）
 - 页面：线上 Version 58。各标签和事件详情里的长说明删掉，改成“说明 ↗”链接，指向 docs/HUB_GUIDE.md 对应一节（运行状态、数据来源、证据链、核对存证、人工证据、证据源、事件详情、流程阶段、治理与审计、知识库、技能、连接器、插件）。技能列表只显示描述的第一句。右上角加“GitHub ↗”按钮，打开本仓库。页面上的数据、状态、操作都没删。
 - 复原：回退到 Version 57（hub/backup 未存；Version 57 的源文件即提交 e339009 的 hub/everest-hub.html）。
+
+---
+# 第三十次改动（证据源扩充、有更新就同步、仓库改名）
+- 仓库改名为 Yizebaba/EVEREST-，代码和链接里的仓库名都已更新（旧地址 GitHub 会自动跳转）。
+- 证据包 v12（events 分支）：加民间地震仪 Raspberry Shake、USGS 震动图/有感报告/PAGER、GNSS（M5 以上）、GDELT 新闻、维基百科、OCHA HDX、ReliefWeb、Cloudflare Radar、NASA FIRMS、NASA 夜间灯光、地磁 Kp、Vantor 开放影像。需要账号的 4 个（RELIEFWEB_APPNAME、CF_RADAR_TOKEN、FIRMS_MAP_KEY、EARTHDATA_TOKEN）没配置时标“缺失”。
+- Worker：新增 news 源（GDELT，每 30 分钟）；事件发现加“新闻线索”（雪崩、冰湖溃决、泥石流、滑坡、暴雪，同一天两家以上媒体）；连接器 everest_events 加 full 参数。
+- 页面：线上 Version 59。装了连接器时页面直接订阅（快照每分钟、证据包每 2 分钟），不用等每小时同步；证据源表加新来源。
+- 复原：页面回退 Version 58；证据包回退 VERSION 8 那次提交；Worker 回退到 c92995e 的 cf-worker/src。

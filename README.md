@@ -52,17 +52,21 @@ flowchart LR
 
 | 环节 | 来源 |
 |---|---|
-| 发现事件 | BIPAD 洪水警报（喜马拉雅高山区县）、USGS 崩塌、GDACS 橙/红级、水位越线；36 小时 / 150 km 内合并 |
+| 发现事件 | BIPAD 洪水警报（喜马拉雅高山区县）、USGS 崩塌、GDACS 橙/红级、水位越线；新闻线索（两家以上媒体报道的雪崩、冰湖溃决、泥石流、滑坡、暴雪）；36 小时 / 150 km 内合并 |
 | 地震台 | IO.EVN（GEOFON）与 NK.KKN（EarthScope）两台核对；缺数时段标“缺失”，一台有一台没有标“矛盾” |
-| 地震目录 | USGS、EMSC |
+| 民间地震仪 | Raspberry Shake：事件 150 km 内最近两台 |
+| 地震目录与产品 | USGS、EMSC；USGS 震动图、公众有感报告、PAGER（标明是模型估计）；M5 以上时看附近 GNSS 站位移（NGL） |
 | 水位站 | 事件 80 km 内的 BIPAD 站：谁在报、谁停了 |
 | 网络连通 | IODA（所在区 BGP、主动探测） |
 | 卫星 | Sentinel-1/2 前后影像（Planetary Computer）；哥白尼 GFM 自动洪水范围 |
-| 国际记录 | 哥白尼应急制图（EMS）；IFRC Montandon（需令牌） |
+| 国际记录 | 哥白尼应急制图（EMS）；IFRC Montandon（需令牌）；Vantor 开放高分影像 |
+| 新闻与公开记录 | GDELT 全球新闻；维基百科新建条目；OCHA HDX；ReliefWeb（需 appname） |
+| 断电、火点 | NASA 夜间灯光（需 Earthdata）、Cloudflare Radar（需令牌）、NASA FIRMS（需 MAP_KEY） |
+| 太阳活动 | 地磁 Kp 指数（GFZ）：作为背景，地磁暴时 GNSS 和卫星通信可能受影响 |
 | 人工证据 | 总览页上传的照片、视频、链接、现场记录。全部公开指纹并存证；所有者核实为“已采信”后才公开内容、进入时间线；提交人和文件本身不公开 |
 | 存证 | 每一版证据包和人工证据清单都存快照并加 OpenTimestamps 时间戳，之后自动升级为比特币区块确认 |
 
-在总览页“证据链 → 证据源”里可以登记新的来源，所有者评估后决定是否接入。
+在总览页“证据链 → 证据源”里可以登记新的来源，所有者评估后决定是否接入。各灾种能留下哪些公开记录，见 [`docs/EVIDENCE_SOURCES.md`](docs/EVIDENCE_SOURCES.md)。
 
 ### 自己核对一份存证
 
@@ -104,8 +108,8 @@ ots verify events/archive/<事件编号>_<哈希>.json.ots
 |---|---|---|
 | `cf-worker/` | 实时采集、事件发现（`src/events.js`）、坡面雷达监测、EVEREST 连接器 `/mcp` | Cloudflare Worker |
 | `tools/evidence_pack.py` | 证据包生成、OpenTimestamps 存证 | GitHub Actions（`evidence.yml`，events 分支） |
-| `tools/manual_export.py` | 总览页人工证据 → `manual.json` | 每小时同步任务 |
-| `tools/hub_sync.py`、`tools/monitor_sync.py` | 实时数据和证据包 → 总览页数据库 | 每小时同步任务 |
+| `tools/manual_export.py` | 总览页人工证据 → `manual.json` | 同步任务 |
+| `tools/hub_sync.py`、`tools/monitor_sync.py` | 实时数据和证据包 → 总览页数据库（后备；页面打开时直接经连接器订阅，有更新就变） | 同步任务 |
 | `pipeline.py`、`cloud_insar_pipeline.py`、`models/` | 每日 InSAR 管线：读云端干涉结果，没有新结果标“不可观测” | GitHub Actions（`daily-pipeline.yml`）+ openEO |
 | `hub/` | 总览页源文件、能力声明、复原记录 `RESTORE.md`、自检脚本 | claude.ai |
 | `plugin/` | 插件：连接器配置 + 技能（`plugin/skills/*/SKILL.md`） | Claude / Claude Code |
