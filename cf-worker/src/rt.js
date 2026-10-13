@@ -45,7 +45,7 @@ async function bipad(prev) {
 }
 async function alerts() {
   const rows = (await j("https://bipadportal.gov.np/api/v1/alert/?format=json&ordering=-started_on&limit=30")).results || [];
-  return { alerts: rows.map(r => ({ title: r.title, started: r.startedOn, expire: r.expireOn, hazard: r.hazard, source: r.source })) };
+  return { alerts: rows.map(r => { const c = (r.point || {}).coordinates || []; return { id: r.id, title: r.title, started: r.startedOn, expire: r.expireOn, hazard: r.hazard, source: r.source, lon: c[0] ?? null, lat: c[1] ?? null }; }) };
 }
 async function usgs() {
   const start = new Date(Date.now() - 60 * 864e5).toISOString().slice(0, 10);

@@ -5,6 +5,7 @@
 import FACETS from "./facets.json";
 import { searchScenes, facetStat, STAC, DATA } from "./pc.js";
 import { rtTick, rtPublic, IMG } from "./rt.js";
+import { detect, kick } from "./events.js";
 import { handleMcp } from "./mcp.js";
 
 const BBOX = [86.54, 27.746, 87.257, 28.23];
@@ -243,6 +244,15 @@ async function tick(env) {
     await init(env);
     if (new Date().getUTCMinutes() % 5 === 2 || env.RT_EVERY_TICK === "1") {
       Object.assign(log, await rtTick(env, getMeta, setMeta));
+      try {   // 事件自动发现 + 触发证据包
+        const pub = rtPublic(JSON.parse((await getMeta(env, "rt")) || "{}")), prevS = (await getMeta(env, "events")) || "{}";
+        const ev = detect(pub, JSON.parse(prevS)), evS = JSON.stringify(ev);
+        if (evS !== prevS) await setMeta(env, "events", evS);
+        const sig = Object.values(ev).map(e => e.id + ":" + e.src.length).sort().join("|");
+        const k = await kick(env, ev, JSON.parse((await getMeta(env, "events_kick")) || "null"), sig);
+        if (k) { await setMeta(env, "events_kick", JSON.stringify(k)); log.kick = k.status || k.skip; }
+        log.events = Object.keys(ev).length;
+      } catch (e) { log.events_err = String(e && e.message || e).slice(0, 200); }
       await setMeta(env, "last_tick", JSON.stringify(log)); return log;
     }
     await discover(env, log);
@@ -287,6 +297,7 @@ export default {
     const u = new URL(req.url);
     if (u.pathname === "/api/live.json") { await init(env); const v = await getMeta(env, "live"); return v ? new Response(v, { headers: { "content-type": "application/json; charset=utf-8", ...CORS } }) : json({ building: true, status: await status(env) }, 202); }
     if (u.pathname === "/api/status.json") return json(await status(env));
+    if (u.pathname === "/api/events.json") { await init(env); const ev = JSON.parse((await getMeta(env, "events")) || "{}"); return json({ events: Object.values(ev).sort((x, y) => y.t.localeCompare(x.t)), kick: JSON.parse((await getMeta(env, "events_kick")) || "null") }); }
     if (u.pathname === "/api/facets.json") return json(FACETS);
     if (u.pathname === "/api/rt.json") { await init(env); const v = await getMeta(env, "rt"); return json(v ? rtPublic(JSON.parse(v)) : { building: true }); }
     if (u.pathname === "/mcp") {   // EVEREST 连接器（MCP），只读
@@ -295,6 +306,7 @@ export default {
         rt: async () => { const v = await getMeta(env, "rt"); return v ? rtPublic(JSON.parse(v)) : null; },
         status: () => status(env),
         live: async () => { const v = await getMeta(env, "live"); return v ? JSON.parse(v) : null; },
+        events: async () => JSON.parse((await getMeta(env, "events")) || "{}"),
       });
     }
     if (u.pathname === "/rt") return new Response(RT_PAGE, { headers: { "content-type": "text/html; charset=utf-8" } });
