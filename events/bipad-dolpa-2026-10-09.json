@@ -9,20 +9,20 @@
  "t": "2026-10-09T15:15:00.000Z",
  "evn": {
   "distance_km": 402,
-  "coverage_pct": 100,
-  "background": 22.871975219099,
+  "coverage_pct": 78,
+  "background": 24.141259851532418,
   "peaks": [
    [
     "2026-10-09T02:15:41Z",
-    48.6
+    46.0
    ],
    [
     "2026-10-09T06:04:41Z",
-    48.4
+    45.9
    ],
    [
     "2026-10-08T19:40:41Z",
-    18.3
+    17.3
    ]
   ],
   "png": "bipad-dolpa-2026-10-09_evn.png"
@@ -237,11 +237,18 @@
    "url": "https://planetarycomputer.microsoft.com/api/data/v1/item/preview.png?collection=sentinel-1-rtc&item=S1D_IW_GRDH_1SDV_20261008T123012_20261008T123037_004924_00946F_rtc&assets=vv&assets=vh&tile_format=png&expression=0.03%20%2B%20log%20(10e-4%20-%20log%20(0.05%20%2F%20(0.02%20%2B%202%20*%20vv)));0.05%20%2B%20exp%20(0.25%20*%20(log%20(0.01%20%2B%202%20*%20vv)%20%2B%20log%20(0.02%20%2B%205%20*%20vh)));1%20-%20log%20(0.05%20%2F%20(0.045%20-%200.9%20*%20vv))&asset_as_band=True&rescale=0,.8000&rescale=0,1.000&rescale=0,1.000&format=png"
   },
   {
+   "t": "2026-10-08T15:15:00Z",
+   "src": "IO.EVN 地震台",
+   "kind": "MISSING",
+   "text_en": "Data covers only 78% of the window",
+   "text": "窗口内数据只覆盖 78%"
+  },
+  {
    "t": "2026-10-08T19:40:41Z",
    "src": "IO.EVN 地震台",
    "kind": "SUPPORTING",
-   "text_en": "1–5 Hz signal about 18× background (station about 402 km away; shows only that strong shaking was recorded, source not determined)",
-   "text": "1–5 Hz 信号约为背景的 18 倍（台站距事件约 402 km；只说明此时有强信号，来源未判定）"
+   "text_en": "1–5 Hz signal about 17× background (station about 402 km away; shows only that strong shaking was recorded, source not determined)",
+   "text": "1–5 Hz 信号约为背景的 17 倍（台站距事件约 402 km；只说明此时有强信号，来源未判定）"
   },
   {
    "t": "2026-10-08T19:40:41Z",
@@ -249,6 +256,13 @@
    "kind": "CONTRADICTORY",
    "text": "IO.EVN 这一时刻的强信号，KKN 没有记录到：更可能是珠峰附近的局部震动（如冰崩），不是这次事件",
    "text_en": "KKN did not record IO.EVN's strong signal at this time: more likely local shaking near Everest (e.g. icefall), not this event"
+  },
+  {
+   "t": "2026-10-08T20:05:41Z",
+   "src": "IO.EVN 地震台",
+   "kind": "MISSING",
+   "text": "20:05–02:07 UTC 没有数据（362 分钟）",
+   "text_en": "No data 20:05–02:07 UTC (362 min)"
   },
   {
    "t": "2026-10-09T00:34:32Z",
@@ -278,8 +292,8 @@
    "t": "2026-10-09T02:15:41Z",
    "src": "IO.EVN 地震台",
    "kind": "SUPPORTING",
-   "text_en": "1–5 Hz signal about 49× background (station about 402 km away; shows only that strong shaking was recorded, source not determined)",
-   "text": "1–5 Hz 信号约为背景的 49 倍（台站距事件约 402 km；只说明此时有强信号，来源未判定）"
+   "text_en": "1–5 Hz signal about 46× background (station about 402 km away; shows only that strong shaking was recorded, source not determined)",
+   "text": "1–5 Hz 信号约为背景的 46 倍（台站距事件约 402 km；只说明此时有强信号，来源未判定）"
   },
   {
    "t": "2026-10-09T02:15:41Z",
@@ -292,8 +306,8 @@
    "t": "2026-10-09T06:04:41Z",
    "src": "IO.EVN 地震台",
    "kind": "SUPPORTING",
-   "text_en": "1–5 Hz signal about 48× background (station about 402 km away; shows only that strong shaking was recorded, source not determined)",
-   "text": "1–5 Hz 信号约为背景的 48 倍（台站距事件约 402 km；只说明此时有强信号，来源未判定）"
+   "text_en": "1–5 Hz signal about 46× background (station about 402 km away; shows only that strong shaking was recorded, source not determined)",
+   "text": "1–5 Hz 信号约为背景的 46 倍（台站距事件约 402 km；只说明此时有强信号，来源未判定）"
   },
   {
    "t": "2026-10-09T06:05:00Z",
@@ -356,35 +370,35 @@
    "url": "https://planetarycomputer.microsoft.com/api/data/v1/item/preview.png?collection=sentinel-2-l2a&item=S2C_MSIL2A_20261011T045721_R119_T44RPT_20261011T095104&assets=visual&asset_bidx=visual%7C1,2,3&nodata=0&format=png"
   },
   {
-   "t": "2026-10-13T15:31:50Z",
+   "t": "2026-10-13T15:35:38Z",
    "src": "BIPAD 水位站",
    "kind": "MISSING",
    "text_en": "7 public gauges within 80 km, 3 reporting now; not reporting: Thuli Bheri at Tripurakot, Thuli Bheri at Trivenighat, Jagdulla River at Hurikot, Intake at Kalaiya Taal (Nulsing Gad)",
    "text": "事件 80 km 内 7 个公开水位站，现在在报 3 个；停报：Thuli Bheri at Tripurakot、Thuli Bheri at Trivenighat、Jagdulla River at Hurikot、Intake at Kalaiya Taal (Nulsing Gad)"
   },
   {
-   "t": "2026-10-13T15:31:50Z",
+   "t": "2026-10-13T15:35:38Z",
    "src": "Copernicus EMS",
    "kind": "NEUTRAL",
    "text_en": "No rapid mapping activated for this event",
    "text": "没有为这次事件启动应急制图"
   },
   {
-   "t": "2026-10-13T15:31:50Z",
+   "t": "2026-10-13T15:35:38Z",
    "src": "Sentinel-1 雷达",
    "kind": "MISSING",
    "text_en": "No new scene after the first public signal yet (filled in automatically)",
    "text": "第一条公开信号之后还没有新的一景（下次自动补）"
   },
   {
-   "t": "2026-10-13T15:31:50Z",
+   "t": "2026-10-13T15:35:38Z",
    "src": "IFRC Montandon",
    "kind": "MISSING",
    "text": "需要 IFRC GO 账号令牌才能查询（未配置）",
    "text_en": "Needs an IFRC GO account token (not configured)"
   }
  ],
- "built": "2026-10-13T15:31:50Z",
+ "built": "2026-10-13T15:35:38Z",
  "note_en": "States only what public sources recorded and when; no attribution of cause, no prediction. A strong seismic signal only means the station recorded strong shaking at that moment.",
  "note": "只陈述公开来源记录了什么、什么时候；不判断成因，不预测。地震台强信号只说明那一刻台站记录到较强震动，来源需要结合其他证据。"
 }
