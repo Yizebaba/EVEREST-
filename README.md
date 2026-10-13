@@ -1,13 +1,14 @@
 # EVEREST · 珠峰多源监测平台
 
-**EVEREST — a transparent, neutral multi-source monitoring platform for Mount Everest**
+**EVEREST — independent multi-source monitoring and event evidence for upstream, cross-border hazards in the Himalaya**
 
-**定位：透明、中立的多源监测与数据对照平台。**
+**定位：喜马拉雅上游跨境灾害的独立多源监测 + 事件证据包。珠峰是演示区，不是产品本身。只监测、不预测、不碰天气。**
+（依据：[EVEREST 平台定位调研](https://claude.ai/code/artifact/e72d61c9-b06d-4230-b8e1-59741d620a58)，2026-10-12）
 
-- **监测**：把各家公开观测（卫星影像、冰湖与河流水位站、地震台网、灾害警报、网络连通、卫星信标、空中交通）接到一处，持续看它们在不在报、报了什么。
-- **对照**：同一件事不同来源怎么说，放在一起对照，不替任何一方下结论。
-- **透明**：每个数字写明来源、时间和取法；没数据、停发、来源之间不一致，都如实标出来。
-- **中立**：不预测、不评估风险、不发布预警，不做天气预报；结论留给主管单位和使用者。
+- **独立、中立**：只用公开来源，不替任何一方下结论；不做预测和预警（那是国家项目和主管单位的职责），不做天气。
+- **透明**：每个来源都标出是否在线、延迟多少、哪里断了；每个数字写明来源和时间。这份“在线度/真实度”记录本身就是平台的底座。
+- **对照与证据**：事件发生后，把地震台、水位站、网络连通、卫星雷达和光学影像对齐到同一条时间线，各信号并列对照，形成事件证据包。
+- **处理只用公开方法**：卫星雷达坡面统计（OCHA 公开方法）和 InSAR 干涉是把公开卫星数据处理成可对照的证据，方法和参数公开；重计算在外部平台（Planetary Computer、哥白尼 openEO）完成。
 
 - 总览页（主界面）：https://claude.ai/artifact/6heopu2wizEAFMJJLDs44H
 - EVEREST 连接器（MCP，只读，14 个工具）：https://everest-facets.yizebaba.workers.dev/mcp
