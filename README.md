@@ -1,4 +1,12 @@
-# Everest Anomaly Engine & Autonomous Pipeline (珠峰多源冰川与 InSAR 全自动解算引擎)
+# EVEREST · 珠峰多源监测平台
+
+**EVEREST Mount Everest Multi-Source Monitoring Platform**
+
+把珠峰地区的公开观测数据（卫星雷达与光学影像、冰湖与河流水位站、地震台网、灾害警报、网络连通、卫星信标、空中交通）接到一起，持续监测、如实标出“没数据”和“停发”，并提供设备维护、连接器、技能和插件。**只监测，不预测**，不做天气预报。
+
+- 总览页（主界面）：https://claude.ai/artifact/6heopu2wizEAFMJJLDs44H
+- EVEREST 连接器（MCP，只读，14 个工具）：https://everest-facets.yizebaba.workers.dev/mcp
+- 实时采集页：https://everest-facets.yizebaba.workers.dev/rt
 
 [English](#english) | [中文说明](#chinese)
 
@@ -11,9 +19,9 @@
 | 目录 | 内容 | 在哪运行 |
 |---|---|---|
 | `pipeline.py`、`cloud_insar_pipeline.py`、`models/`、`data/` | 每日 InSAR 管线与云端干涉（Sentinel-1，计算在哥白尼 openEO） | GitHub 计划任务（`.github/workflows/daily-pipeline.yml`） |
-| `cf-worker/` | 实时采集（11 个公开数据源）、坡面雷达监测（376 块坡面，Planetary Computer）、**EVEREST 连接器** `/mcp` | Cloudflare Worker（每分钟） |
+| `cf-worker/` | 实时采集（11 个公开数据源）、坡面雷达监测（376 块坡面，Planetary Computer）、**EVEREST 连接器** `/mcp`（14 个只读工具） | Cloudflare Worker（每分钟） |
 | `hub/` | 总览页源文件、能力声明、复原记录、自检脚本 | claude.ai Artifact |
-| `plugin/` | **插件**：连接器配置 + **技能**（`plugin/skills/*/SKILL.md`）；仓库根 `.claude-plugin/marketplace.json` 可直接作为插件市场 | Claude / Claude Code |
+| `plugin/` | **插件**：连接器配置 + 8 个**技能**（`plugin/skills/*/SKILL.md`）；仓库根 `.claude-plugin/marketplace.json` 可直接作为插件市场 | Claude / Claude Code |
 | `tools/` | 小工具：`live_collect.py`（旧采集，备用）、`monitor_sync.py`、`hub_sync.py`（每小时把实时数据写进总览）、`adsb_fetch.py` 在 `adsb-live` 分支 | 定时任务 / GitHub |
 | `site/` | 旧采集任务的静态页（`live.yml` 使用） | GitHub |
 
@@ -27,8 +35,12 @@
 ---
 
 
+## 早期文档：InSAR 管线
+
+> 下面是项目最早的 InSAR 管线说明，保留作参考。其中“预警”相关的设想已不在平台范围内：平台现在只监测、不预测，不发布预警。
+
 <a name="english"></a>
-## English Overview
+### English Overview
 
 **Everest Anomaly Engine** is an autonomous, cloud-native Sentinel-1 InSAR processing, physical constraint screening, and multi-hazard early warning pipeline designed for the Mount Everest region. It implements the **L0~L4 Five-Layer Architecture** and enforces the supreme operational axiom:
 

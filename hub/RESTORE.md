@@ -141,3 +141,13 @@
 - 页面：hub/everest-hub.html（线上 Version 47）。节点名称 18 条、技能说明补英文；9 个标签中英文切换自检无残留。
 - 从这次起，总览页源文件以仓库 hub/everest-hub.html 为准；之前的备份文件不再进仓库，旧版本用 Artifact 历史版本回退。
 - 复原：回退到 Version 46。
+
+---
+# 第二十二次改动（技能 / 连接器 / 插件都能添加）
+- 页面：hub/everest-hub.html（线上 Version 48）。
+  - 技能：内置 8 个（新增日报、冰湖水位、地震简报、停发排查）；可新建、导入 SKILL.md、复制改写、下载、在本页运行，存共享库 xskill。
+  - 连接器：14 个工具可改参数试调用；新增“接入申请”，存 xconn，所有者在 xconn/_review 写结论。
+  - 插件：自选技能 + 连接器打包成 Claude Code 插件 zip 下载，可保存到共享库 xplug；官方插件也可下载 zip。
+  - 能力声明：数据库规则 30 → 36 条（只增：xskill、xconn、xplug 各两条），mcp 工具 7 → 14。
+- Worker（main 40ec1ac）：连接器新增 everest_alerts、everest_connectivity、everest_satellite_tracking、everest_air_traffic、everest_imagery、everest_station_history、everest_daily_brief。插件 1.1.0。
+- 复原：回退到 Version 47（它不读新增的三个集合，数据留着不影响）；Worker 回退到 247b02f 的 cf-worker/src/mcp.js。
