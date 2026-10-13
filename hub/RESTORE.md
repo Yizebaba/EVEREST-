@@ -135,3 +135,9 @@
 - 页面：everest-hub-v45.html（线上 Version 46）。新增“技能”“连接器”“插件”三个标签：连接器标签通过 mcp 能力调用你在 Claude 里添加的 EVEREST 连接器（打开页面时若已允许会自动用它刷新数据），7 个工具可“试一下”；技能标签可查看 4 个技能全文，其中两个可在本页运行（sample 能力，运行中调用连接器）；插件标签说明包内容和安装命令。新增能力声明：mcp（EVEREST，7 个只读工具）、sample。
 - Worker（data-probe 5fdbdcc、0675c00）：/mcp 连接器。仓库：plugin/（插件、技能）、.claude-plugin/marketplace.json。
 - 复原：重新发布 backup/everest-hub-v44.html（sha256 294b298bdc448e231c58aec306a17a01a983d95bf7fb2a6bf45f506d296031a7）并去掉 mcp、sample 能力，或回退到 Version 45。
+
+---
+# 第二十一次改动（英文补齐；源文件改由仓库维护）
+- 页面：hub/everest-hub.html（线上 Version 47）。节点名称 18 条、技能说明补英文；9 个标签中英文切换自检无残留。
+- 从这次起，总览页源文件以仓库 hub/everest-hub.html 为准；之前的备份文件不再进仓库，旧版本用 Artifact 历史版本回退。
+- 复原：回退到 Version 46。
