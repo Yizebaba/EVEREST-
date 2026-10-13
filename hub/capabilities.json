@@ -1,1 +1,220 @@
-{"db": {"rules": [{"path": "comm", "read": "view", "write": "owner"}, {"path": "comm/{self}", "write": "interact"}, {"path": "vote", "read": "view", "write": "owner"}, {"path": "vote/{self}", "write": "interact"}, {"path": "edge", "read": "view", "write": "owner"}, {"path": "edge/{self}", "write": "interact"}, {"path": "xnode", "read": "view", "write": "owner"}, {"path": "xnode/{self}", "write": "interact"}, {"path": "att", "read": "view", "write": "owner"}, {"path": "att/{self}", "write": "interact"}, {"path": "rlink", "read": "view", "write": "owner"}, {"path": "rlink/{self}", "write": "interact"}, {"path": "anom", "read": "view", "write": "owner"}, {"path": "anom/{self}", "write": "interact"}, {"path": "audit", "read": "view", "write": "owner"}, {"path": "audit/{self}", "write": "interact"}, {"path": "govreg", "read": "view", "write": "owner"}, {"path": "govreg/{self}", "write": "interact"}, {"path": "roles", "read": "view", "write": "owner"}, {"path": "rev", "read": "view", "write": "admin"}, {"path": "rel", "read": "view", "write": "admin"}, {"path": "edgeo", "read": "view", "write": "admin"}, {"path": "xnodeo", "read": "view", "write": "admin"}, {"path": "anomr", "read": "view", "write": "admin"}, {"path": "kb", "read": "view", "write": "admin"}, {"path": "relp", "read": "view", "write": "owner"}, {"path": "gov", "read": "view", "write": "owner"}, {"path": "live", "read": "view", "write": "owner"}, {"path": "mt_monitor", "read": "view", "write": "owner"}, {"path": "mt_reminder", "read": "view", "write": "owner"}, {"path": "xskill", "read": "view", "write": "owner"}, {"path": "xskill/{self}", "write": "interact"}, {"path": "xconn", "read": "view", "write": "owner"}, {"path": "xconn/{self}", "write": "interact"}, {"path": "xplug", "read": "view", "write": "owner"}, {"path": "xplug/{self}", "write": "interact"}]}, "downloads": {}, "user": {}, "mcp": {"servers": [{"server": "EVEREST", "tools": ["everest_overview", "everest_offline", "everest_water_levels", "everest_quakes", "everest_facets", "everest_source", "everest_snapshot", "everest_alerts", "everest_connectivity", "everest_satellite_tracking", "everest_air_traffic", "everest_imagery", "everest_station_history", "everest_daily_brief"]}]}, "sample": {}}
+{
+ "db": {
+  "rules": [
+   {
+    "path": "comm",
+    "read": "view",
+    "write": "owner"
+   },
+   {
+    "path": "comm/{self}",
+    "write": "interact"
+   },
+   {
+    "path": "vote",
+    "read": "view",
+    "write": "owner"
+   },
+   {
+    "path": "vote/{self}",
+    "write": "interact"
+   },
+   {
+    "path": "edge",
+    "read": "view",
+    "write": "owner"
+   },
+   {
+    "path": "edge/{self}",
+    "write": "interact"
+   },
+   {
+    "path": "xnode",
+    "read": "view",
+    "write": "owner"
+   },
+   {
+    "path": "xnode/{self}",
+    "write": "interact"
+   },
+   {
+    "path": "att",
+    "read": "view",
+    "write": "owner"
+   },
+   {
+    "path": "att/{self}",
+    "write": "interact"
+   },
+   {
+    "path": "rlink",
+    "read": "view",
+    "write": "owner"
+   },
+   {
+    "path": "rlink/{self}",
+    "write": "interact"
+   },
+   {
+    "path": "anom",
+    "read": "view",
+    "write": "owner"
+   },
+   {
+    "path": "anom/{self}",
+    "write": "interact"
+   },
+   {
+    "path": "audit",
+    "read": "view",
+    "write": "owner"
+   },
+   {
+    "path": "audit/{self}",
+    "write": "interact"
+   },
+   {
+    "path": "govreg",
+    "read": "view",
+    "write": "owner"
+   },
+   {
+    "path": "govreg/{self}",
+    "write": "interact"
+   },
+   {
+    "path": "roles",
+    "read": "view",
+    "write": "owner"
+   },
+   {
+    "path": "rev",
+    "read": "view",
+    "write": "admin"
+   },
+   {
+    "path": "rel",
+    "read": "view",
+    "write": "admin"
+   },
+   {
+    "path": "edgeo",
+    "read": "view",
+    "write": "admin"
+   },
+   {
+    "path": "xnodeo",
+    "read": "view",
+    "write": "admin"
+   },
+   {
+    "path": "anomr",
+    "read": "view",
+    "write": "admin"
+   },
+   {
+    "path": "kb",
+    "read": "view",
+    "write": "admin"
+   },
+   {
+    "path": "relp",
+    "read": "view",
+    "write": "owner"
+   },
+   {
+    "path": "gov",
+    "read": "view",
+    "write": "owner"
+   },
+   {
+    "path": "live",
+    "read": "view",
+    "write": "owner"
+   },
+   {
+    "path": "mt_monitor",
+    "read": "view",
+    "write": "owner"
+   },
+   {
+    "path": "mt_reminder",
+    "read": "view",
+    "write": "owner"
+   },
+   {
+    "path": "xskill",
+    "read": "view",
+    "write": "owner"
+   },
+   {
+    "path": "xskill/{self}",
+    "write": "interact"
+   },
+   {
+    "path": "xconn",
+    "read": "view",
+    "write": "owner"
+   },
+   {
+    "path": "xconn/{self}",
+    "write": "interact"
+   },
+   {
+    "path": "xplug",
+    "read": "view",
+    "write": "owner"
+   },
+   {
+    "path": "xplug/{self}",
+    "write": "interact"
+   },
+   {
+    "path": "evsrc",
+    "read": "view",
+    "write": "owner"
+   },
+   {
+    "path": "evsrc/{self}",
+    "write": "interact"
+   },
+   {
+    "path": "evup",
+    "read": "view",
+    "write": "owner"
+   },
+   {
+    "path": "evup/{self}",
+    "write": "interact"
+   }
+  ]
+ },
+ "downloads": {},
+ "user": {},
+ "mcp": {
+  "servers": [
+   {
+    "server": "EVEREST",
+    "tools": [
+     "everest_overview",
+     "everest_offline",
+     "everest_water_levels",
+     "everest_quakes",
+     "everest_facets",
+     "everest_source",
+     "everest_snapshot",
+     "everest_alerts",
+     "everest_connectivity",
+     "everest_satellite_tracking",
+     "everest_air_traffic",
+     "everest_imagery",
+     "everest_station_history",
+     "everest_daily_brief",
+     "everest_events"
+    ]
+   }
+  ]
+ },
+ "sample": {},
+ "assets": {}
+}

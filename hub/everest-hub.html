@@ -579,17 +579,19 @@ const MCP_TOOLS=[["everest_overview","总览：数据源、停发设备、坡面
  ["everest_imagery","最新卫星云图链接","Latest satellite image links",{}],
  ["everest_facets","坡面雷达监测进度或分级","Facet radar watch progress or tiers",{top:10}],
  ["everest_source","单个数据源原始 JSON","Raw JSON for one source",{key:"evn"}],
+ ["everest_events","自动发现的事件和证据包","Auto-detected events and evidence packs",{days:30}],
  ["everest_snapshot","完整实时快照（本页刷新用）","Full live snapshot (used to refresh this page)",{}]];
-const XT={st:"idle",msg:"",at:null,out:{},busy:{},args:{},sub:{skills:"b",conn:"t",plug:"o"},del:null};
+const XT={st:"idle",msg:"",at:null,out:{},busy:{},args:{},sub:{skills:"b",conn:"t",plug:"o",chain:"e"},del:null};
 let MCPNS=null,SAMPLE=null,PERMS=null,DLNS=null;
 (async()=>{try{const C=window.claude;if(!C||!C.use)return;[MCPNS,SAMPLE,PERMS,DLNS]=await Promise.all([C.use("mcp"),C.use("sample"),C.use("permissions"),C.use("downloads")]);
  if(MCPNS&&PERMS){let s="unavailable";try{s=await PERMS.state("mcp:"+MCP_NAME)}catch(e){}if(s==="granted")xtRefresh(true)}
- if(WBT==="skills"||WBT==="conn"||WBT==="plug")render()}catch(e){}})();
+ if(WBT==="skills"||WBT==="conn"||WBT==="plug")render()}catch(e){}
+ try{ASNS=await window.claude.use("assets");if(ASNS&&WBT==="chain")render()}catch(e){}})();
 /* 共享库：每人一份文档 col/<uid> = {name, m:{id:item}} */
-const XDB={xskill:{},xconn:{},xplug:{}},XMINE={xskill:null,xconn:null,xplug:null};
+const XDB={xskill:{},xconn:{},xplug:{},evsrc:{},evup:{}},XMINE={xskill:null,xconn:null,xplug:null,evsrc:null,evup:null};let ASNS=null;
 function xdbWait(){if(!(SH.on&&SH.db)){setTimeout(xdbWait,600);return}
  Object.keys(XDB).forEach(col=>SH.db.collection(col).onSnapshot(q=>{const o={};q.docs.forEach(d=>{o[d.id]=SH.cj(d.data())});XDB[col]=o;if(XMINE[col]==null){const me=o[SH.uid];XMINE[col]=me?SH.cj(me.m||{}):{}}
-  if(WBT==="skills"||WBT==="conn"||WBT==="plug")xtSoft()},e=>SH.err(e)))}
+  if(WBT==="skills"||WBT==="conn"||WBT==="plug"||WBT==="chain")xtSoft()},e=>SH.err(e)))}
 setTimeout(xdbWait,800);
 function xtSoft(){if($("modal").classList.contains("on"))return;render()}
 const xCanW=()=>SH.on&&SH.canW!==false;
@@ -792,7 +794,10 @@ const CHAIN_SRC=[["发现事件","Event discovery","Worker 每 5 分钟看 BIPAD
 function otsChip(e){const o=(e.ots||[]).slice(-1)[0];if(!o)return'<span class="lvc lvw">'+Z("未存证","Not stamped")+'</span>';
  return o.status==="confirmed"?'<span class="lvc lvo">'+Z("已上链 · 区块 ","Anchored · block ")+o.bitcoin_block+'</span>':o.status==="pending"?'<span class="lvc lvw">'+Z("已存证 · 等待区块确认","Stamped · awaiting block")+'</span>':'<span class="lvc lvd">'+Z("存证失败","Stamp failed")+'</span>'}
 function chainPanel(){const L=(((EVLAST||{}).events)||[]).slice().sort((a,b)=>b.t.localeCompare(a.t));
- let h='<div class="sub">'+Z("每个自动发现的事件，都把公开来源对齐到同一条时间线：谁在什么时候记录了什么、哪些来源断了。只陈述记录，不判断成因，不预测。","Every auto-detected event gets one timeline of public sources: who recorded what and when, and which sources were down. Records only — no attribution of cause, no prediction.")+'</div>';
+ let h='<div class="sub">'+Z("每个自动发现的事件，都把公开来源对齐到同一条时间线：谁在什么时候记录了什么、哪些来源断了。只陈述记录，不判断成因，不预测。","Every auto-detected event gets one timeline of public sources: who recorded what and when, and which sources were down. Records only — no attribution of cause, no prediction.")+'</div>'
+  +'<div class="sb">'+xBtn("eunew","",Z("＋ 上传证据","＋ Submit evidence"),true)+xBtn("esnew","",Z("＋ 添加证据源","＋ Add evidence source"))+'</div>'
+  +xSub("chain",[["e",Z("事件 ","Events ")+L.length],["u",Z("人工证据 ","Submitted ")+xAll("evup").length],["s",Z("证据源 ","Sources ")+(CHAIN_SRC.length+xAll("evsrc").length)]]);
+ if(XT.sub.chain==="u")return h+euPanel();if(XT.sub.chain==="s")return h+esPanel();
  h+='<details><summary>'+Z("证据链由哪些部分组成","What the chain is made of")+'</summary><table class="lvt"><tbody>'+CHAIN_SRC.map(r=>'<tr><td style="white-space:nowrap">'+Z(r[0],r[1])+'</td><td>'+Z(r[2],r[3])+'</td></tr>').join("")+'</tbody></table></details>';
  h+='<div class="gt" style="font-size:12px;color:var(--mute);margin:10px 0 4px">'+Z("事件（最近 60 天，新的在前）","Events (last 60 days, newest first)")+'</div>';
  if(!L.length)h+='<div class="none">'+Z("还没有同步到事件。","No events synced yet.")+'</div>';
@@ -805,7 +810,88 @@ function chainPanel(){const L=(((EVLAST||{}).events)||[]).slice().sort((a,b)=>b.
  h+='<details><summary>'+Z("怎么自己核对存证","How to verify a stamp yourself")+'</summary><ol class="sub" style="padding-left:18px;margin:4px 0"><li>'+Z("下载“存证快照”和“.ots 证明”两个文件，放在同一个文件夹。","Download the snapshot and the .ots proof into one folder.")+'</li><li>'+Z("安装 OpenTimestamps 客户端：<code>pip install opentimestamps-client</code>。","Install the OpenTimestamps client: <code>pip install opentimestamps-client</code>.")+'</li><li>'+Z("运行 <code>ots verify 快照文件名.ots</code>：会显示这份文件最晚在哪个比特币区块的时间已经存在。文件改过一个字，核对就会失败。","Run <code>ots verify snapshot.ots</code>: it shows the Bitcoin block by which the file existed. Change one byte and verification fails.")+'</li></ol></details>';
  return h}
 document.addEventListener("click",e=>{const b=e.target.closest("[data-ch]");if(!b)return;e.preventDefault();const ev=(((EVLAST||{}).events)||[]).find(x=>x.id===b.dataset.ch);if(!ev)return;
- xModal('<b>'+esc(Z(ev.title,ev.title_en||ev.title))+'</b><div class="sub">'+esc(ev.place||"")+' · '+fmtLL(ev.lat,ev.lon)+'</div><div style="margin:4px 0">'+otsChip(ev)+'</div>'+packHTML({pack:ev})+'<div class="sb">'+xBtn("close","",Z("关闭","Close"))+'</div>')});
+ xModal('<b>'+esc(Z(ev.title,ev.title_en||ev.title))+'</b><div class="sub">'+esc(ev.place||"")+' · '+fmtLL(ev.lat,ev.lon)+'</div><div style="margin:4px 0">'+otsChip(ev)+'</div>'+packHTML({pack:ev})+euForEvent(ev.id)+'<div class="sb">'+xBtn("eunew",ev.id,Z("＋ 为这个事件上传证据","＋ Submit evidence for this event"),true)+xBtn("close","",Z("关闭","Close"))+'</div>')});
+/* v56：证据链可以“添加证据源”和“人工上传证据”。
+   证据源：共享库 evsrc/<用户>，所有者在 evsrc/_review 写结论（待评估/计划接入/已接入/不接入）；已接入的进入证据包流程。
+   人工证据：共享库 evup/<用户>，文件存本页附件库（assets，只有能编辑本页的人能上传），浏览器里先算 SHA-256 指纹；
+   所有者在 evup/_review 核实（待核实/已采信/不采信）。每小时同步任务把清单写到 events 分支 manual.json：
+   全部条目公开指纹并用 OpenTimestamps 存证；只有“已采信”的公开内容并进入事件时间线。提交人姓名和文件本身不公开。 */
+const UR=t=>'<span data-raw>'+esc(t)+'</span>';/* 用户写的内容：切英文时不翻译 */
+const EU_K=[["file","文件（照片、视频、文档）","File (photo, video, document)"],["link","链接（新闻、通报、帖子）","Link (news, bulletin, post)"],["note","现场记录（文字）","Field note (text)"]];
+const EU_ST={pending:["lvw","待核实","Awaiting check"],accepted:["lvo","已采信","Accepted"],rejected:["lvd","不采信","Not accepted"]};
+const ES_K=[["地震台网","Seismic network"],["水文站","Hydrology gauges"],["卫星目录 / 产品","Satellite catalogue / product"],["灾害警报接口","Hazard alert feed"],["官方通报","Official bulletins"],["新闻 / 社交媒体","News / social media"],["其他","Other"]];
+const ES_ST={pending:["lvw","待评估","Pending"],planned:["lvw","计划接入","Planned"],accepted:["lvo","已接入","Integrated"],rejected:["lvd","不接入","Declined"]};
+const evName=id=>{if(!id)return Z("未关联事件（新线索）","No event (new lead)");const e=(((EVLAST||{}).events)||[]).find(x=>x.id===id);return e?lvBJ(e.t)+" "+Z(e.title,e.title_en||e.title):id};
+async function sha256hex(buf){const d=await crypto.subtle.digest("SHA-256",buf);return[...new Uint8Array(d)].map(b=>b.toString(16).padStart(2,"0")).join("")}
+const bjIn=v=>v?new Date(v+":00+08:00").toISOString():"";
+const bjOut=t=>{if(!t)return"";const d=new Date(new Date(t).getTime()+8*3600e3);return d.toISOString().slice(0,16)};
+function euInPack(it){const ev=(((EVLAST||{}).events)||[]).find(x=>x.id===it.ev);if(!ev||!it.sha256)return false;return(ev.timeline||[]).some(x=>x.src==="人工提交"&&String(x.text||"").indexOf(it.sha256.slice(0,12))>=0)}
+function euRow(it,withEv){const rv=(((XDB.evup||{})._review||{}).m||{})[it._u+":"+it._id]||{},st=EU_ST[rv.status||"pending"],k=EU_K.find(x=>x[0]===it.kind)||[it.kind,it.kind,it.kind];
+ const links=(it.asset?'<a class="act" style="text-decoration:none" href="/_blob/'+esc(it.asset)+'" target="_blank" rel="noopener">'+Z("打开文件 ↗","Open file ↗")+'</a>':'')+(it.url?'<a class="act" style="text-decoration:none" href="'+esc(it.url)+'" target="_blank" rel="noopener">'+Z("打开链接 ↗","Open link ↗")+'</a>':'');
+ const own=SH.own?'<select data-er="'+esc(it._u+":"+it._id)+'" aria-label="'+Z("核实结论","Verification")+'" style="font-size:12px">'+Object.keys(EU_ST).map(x=>'<option value="'+x+'"'+(x===(rv.status||"pending")?" selected":"")+'>'+Z(EU_ST[x][1],EU_ST[x][2])+'</option>').join("")+'</select>':'';
+ return xRow('<b style="font-family:ui-monospace,Menlo,monospace">'+lvBJ(it.when||it.t)+'</b> <b>'+UR(it.title||"")+'</b> <span class="lvc '+st[0]+'">'+Z(st[1],st[2])+'</span>'+(euInPack(it)?' <span class="lvc lvo">'+Z("已进证据包","In evidence pack")+'</span>':''),
+  links+(it._mine?xDel("eudel",it._id):"")+own,
+  (withEv?esc(evName(it.ev))+'<br>':'')+esc(Z(k[1],k[2]))+(it.place?" · "+UR(it.place):"")+(it.src?" · "+Z("来源：","Source: ")+UR(it.src):"")+(it.desc?'<br>'+UR(it.desc):"")
+  +'<br><span style="font-family:ui-monospace,Menlo,monospace;font-size:11px">SHA-256 '+esc((it.sha256||"").slice(0,16))+'…</span>'+(it.fname?" · "+esc(it.fname)+(it.size?" · "+(it.size>=1048576?(it.size/1048576).toFixed(1)+" MB":Math.max(1,Math.round(it.size/1024))+" KB"):""):"")
+  +'<br>'+Z("提交：","Submitted: ")+esc(it._by||"—")+" · "+lvBJ(it.t))}
+function euForEvent(id){const L=xAll("evup").filter(x=>x.ev===id);return'<div class="sec">'+Z("人工提交的证据","Submitted evidence")+'</div>'+(L.length?L.map(x=>euRow(x,false)).join(""):'<div class="none">'+Z("还没有人为这个事件上传证据","No one has submitted evidence for this event yet")+'</div>')}
+function euPanel(){const L=xAll("evup");
+ return'<div class="sub">'+Z("现场照片、视频、新闻链接、目击记录都可以提交。提交时浏览器先算出文件指纹（SHA-256）；每小时把指纹写进公开仓库并用 OpenTimestamps 存证，证明这份材料最晚在那个时间已经存在、之后没被改过。所有者核实后标“已采信”的，才会公开内容并进入事件时间线；提交人姓名和文件本身不公开。","Photos, videos, news links and eyewitness notes can be submitted. Your browser first computes a fingerprint (SHA-256); every hour fingerprints go to the public repo and are stamped with OpenTimestamps, proving the material existed by then and hasn't changed since. Only items the owner marks “Accepted” have their content published into the event timeline; submitter names and the files themselves stay private.")+'</div>'+xNoDb()
+  +(L.length?L.map(x=>euRow(x,true)).join(""):'<div class="none">'+Z("还没有人工证据。点“上传证据”。","No submitted evidence yet. Click “Submit evidence”.")+'</div>')}
+function esPanel(){const U=xAll("evsrc"),rv=((XDB.evsrc||{})._review||{}).m||{};
+ let h='<div class="sub">'+Z("证据包自动查询的公开来源。想加新的来源（别的台网、水文站、卫星产品、通报渠道），在这里登记；所有者评估后写结论，“已接入”的会加进每个事件的证据包。","Public sources each evidence pack queries automatically. To add one (another network, gauge set, satellite product or bulletin channel), register it here; the owner reviews it and “Integrated” sources are added to every pack.")+'</div>';
+ h+='<div class="gt" style="font-size:12px;color:var(--mute);margin:8px 0 4px">'+Z("已在证据包里","Already in every pack")+'</div><table class="lvt"><tbody>'+CHAIN_SRC.map(r=>'<tr><td style="white-space:nowrap">'+Z(r[0],r[1])+'</td><td>'+Z(r[2],r[3])+'</td></tr>').join("")+'</tbody></table>';
+ h+='<div class="gt" style="font-size:12px;color:var(--mute);margin:10px 0 4px">'+Z("大家登记的来源","Sources people registered")+'</div>'+xNoDb();
+ h+=U.length?U.map(r=>{const v=rv[r._u+":"+r._id]||{},st=ES_ST[v.status||"pending"]||ES_ST.pending,kk=ES_K.find(x=>x[0]===r.kind)||[r.kind,r.kind];
+   return xRow('<b>'+UR(r.name)+'</b> <span class="lvc '+st[0]+'">'+Z(st[1],st[2])+'</span>',(r._mine?xBtn("esedit",r._id,Z("编辑","Edit"))+xDel("esdel",r._id):"")+(SH.own?'<select data-esr="'+esc(r._u+":"+r._id)+'" aria-label="'+Z("结论","Decision")+'" style="font-size:12px">'+Object.keys(ES_ST).map(x=>'<option value="'+x+'"'+(x===(v.status||"pending")?" selected":"")+'>'+Z(ES_ST[x][1],ES_ST[x][2])+'</option>').join("")+'</select>':""),
+    esc(Z(kk[0],kk[1]))+(r.url?' · <a href="'+esc(r.url)+'" target="_blank" rel="noopener">'+esc(r.url)+'</a>':"")+'<br>'+UR(r.what||"")+(r.cover?'<br>'+Z("覆盖：","Coverage: ")+UR(r.cover):"")+(r.access?'<br>'+Z("获取方式：","Access: ")+UR(r.access):"")+'<br>'+Z("登记人：","By: ")+esc(r._by||"—")+" · "+lvBJ(r.t))}).join(""):'<div class="none">'+Z("还没有人登记新来源","No sources registered yet")+'</div>';
+ return h}
+function esEdit(id){const v=id?(XMINE.evsrc||{})[id]:{name:"",kind:ES_K[0][0],url:"",what:"",cover:"",access:""};
+ xModal('<b>'+(id?Z("编辑证据源","Edit evidence source"):Z("添加证据源","Add evidence source"))+'</b>'
+  +'<label for="es_n">'+Z("名称","Name")+'</label><input id="es_n" value="'+esc(v.name)+'">'
+  +'<label for="es_k">'+Z("类型","Type")+'</label><select id="es_k">'+ES_K.map(k=>'<option value="'+k[0]+'"'+(v.kind===k[0]?" selected":"")+'>'+Z(k[0],k[1])+'</option>').join("")+'</select>'
+  +'<label for="es_u">'+Z("地址（数据接口或说明页）","Address (data endpoint or docs page)")+'</label><input id="es_u" value="'+esc(v.url)+'" placeholder="https://">'
+  +'<label for="es_w">'+Z("能证明什么（记录什么、多久更新、事后能不能查到历史）","What it can show (what it records, how often, whether history stays available)")+'</label><textarea id="es_w" rows="3" style="width:100%">'+esc(v.what)+'</textarea>'
+  +'<label for="es_c">'+Z("覆盖范围","Coverage")+'</label><input id="es_c" value="'+esc(v.cover||"")+'">'
+  +'<label for="es_a">'+Z("获取方式（公开 / 要注册 / 要付费；不要填密码或密钥）","Access (open / registration / paid; never enter passwords or keys)")+'</label><input id="es_a" value="'+esc(v.access||"")+'">'
+  +'<div class="sb">'+xBtn("essave",id||"",Z("保存","Save"),true,!xCanW())+xBtn("close","",Z("取消","Cancel"))+'</div><div class="sub">'+Z("只收公开或可授权的观测记录；不收天气预报、不收预测类产品；需要重计算的在外部平台跑，只接结果。","Only public or licensable observation records; no weather forecasts or predictive products; heavy computation runs elsewhere and only results come in.")+'</div>')}
+function euEdit(evId){const E=(((EVLAST||{}).events)||[]).slice().sort((a,b)=>b.t.localeCompare(a.t));
+ xModal('<b>'+Z("上传证据","Submit evidence")+'</b>'
+  +'<label for="eu_e">'+Z("关联事件","Event")+'</label><select id="eu_e"><option value="">'+esc(evName(""))+'</option>'+E.map(e=>'<option value="'+esc(e.id)+'"'+(e.id===evId?" selected":"")+'>'+esc(evName(e.id))+'</option>').join("")+'</select>'
+  +'<label for="eu_k">'+Z("类型","Type")+'</label><select id="eu_k">'+EU_K.map(k=>'<option value="'+k[0]+'">'+Z(k[1],k[2])+'</option>').join("")+'</select>'
+  +'<div id="eu_fw"><label for="eu_f">'+Z("文件（最大 20 MB）","File (up to 20 MB)")+'</label>'+(ASNS?'<input id="eu_f" type="file" accept="image/*,video/*,application/pdf,text/plain,text/csv,application/json">':'<div class="sub" style="color:#e2b44c">'+Z("只有能编辑本页的人能上传文件。你可以改用“链接”，或把文件交给所有者上传。","Only people who can edit this page can upload files. Use “Link” instead, or send the file to the owner.")+'</div>')+'</div>'
+  +'<div id="eu_uw" style="display:none"><label for="eu_u">'+Z("链接","Link")+'</label><input id="eu_u" placeholder="https://"></div>'
+  +'<label for="eu_t">'+Z("标题（一句话：是什么）","Title (one line: what it is)")+'</label><input id="eu_t">'
+  +'<div class="mt2"><div><label for="eu_w">'+Z("拍摄 / 发生时间（北京时间）","Time taken / observed (Beijing)")+'</label><input id="eu_w" type="datetime-local"></div><div><label for="eu_p">'+Z("地点","Place")+'</label><input id="eu_p"></div></div>'
+  +'<label for="eu_s">'+Z("原始来源（谁拍的、哪家媒体、哪个机构）","Original source (who took it, which outlet or agency)")+'</label><input id="eu_s">'
+  +'<label for="eu_d">'+Z("说明（看到了什么；不写推测）","Description (what it shows; no speculation)")+'</label><textarea id="eu_d" rows="3" style="width:100%"></textarea>'
+  +'<label style="color:var(--ink)"><input type="checkbox" id="eu_ok" style="width:auto"> '+Z("我有权分享这份材料；它不含可识别的他人隐私（人脸、门牌、电话等），或已经处理过。","I have the right to share this, and it contains no identifiable private details of others (faces, addresses, phone numbers), or they have been removed.")+'</label>'
+  +'<div class="sb">'+xBtn("eusave","",Z("提交","Submit"),true,!xCanW())+xBtn("close","",Z("取消","Cancel"))+'</div><div class="sub" id="eu_st">'+Z("提交后浏览器先算出指纹，再上传。","The fingerprint is computed in your browser before upload.")+'</div>');
+ const k=$("eu_k");k.onchange=()=>{$("eu_fw").style.display=k.value==="file"?"":"none";$("eu_uw").style.display=k.value==="link"?"":"none"}}
+async function euSave(){const g=i=>(($(i)||{}).value||"").trim(),kind=g("eu_k"),st=$("eu_st");
+ if(!$("eu_ok").checked){say(Z("请先勾选确认。","Please tick the confirmation."));return}
+ const v={ev:g("eu_e"),kind:kind,title:g("eu_t"),when:bjIn(g("eu_w")),place:g("eu_p"),src:g("eu_s"),desc:g("eu_d")};
+ if(!v.title){say(Z("请写标题。","Please add a title."));return}
+ try{if(kind==="file"){const f=$("eu_f")&&$("eu_f").files&&$("eu_f").files[0];if(!ASNS||!f){say(Z("请选择文件。","Please choose a file."));return}
+   if(f.size>20*1048576){say(Z("文件超过 20 MB。","The file is over 20 MB."));return}
+   st.textContent=Z("正在计算指纹…","Computing fingerprint…");v.sha256=await sha256hex(await f.arrayBuffer());v.fname=f.name;v.size=f.size;v.mime=f.type||"";
+   st.textContent=Z("正在上传…","Uploading…");const r=await ASNS.upload(f);v.asset=r.id}
+  else if(kind==="link"){v.url=g("eu_u");if(!/^https?:\/\//.test(v.url)){say(Z("链接要以 http:// 或 https:// 开头。","The link must start with http:// or https://."));return}
+   v.sha256=await sha256hex(new TextEncoder().encode(JSON.stringify([v.url,v.title,v.when,v.place,v.src,v.desc])))}
+  else v.sha256=await sha256hex(new TextEncoder().encode(JSON.stringify([v.title,v.when,v.place,v.src,v.desc])));
+ }catch(e){st.textContent=Z("没成功：","Failed: ")+((e&&e.code)||(e&&e.message)||"");return}
+ const ok=await xPut("evup",xNew("u"),v);if(ok){say(Z("已提交，等待核实","Submitted; awaiting verification"));XT.sub.chain="u";xClose()}}
+document.addEventListener("change",e=>{const s=e.target.closest("[data-er],[data-esr]");if(!s||!SH.own)return;const col=s.dataset.er?"evup":"evsrc",key=s.dataset.er||s.dataset.esr;
+ const doc=SH.cj(((XDB[col]||{})._review)||{m:{}});doc.m=doc.m||{};doc.m[key]=Object.assign({},doc.m[key]||{},{status:s.value,t:new Date().toISOString()});
+ SH.db.doc(col+"/_review").set(doc).then(()=>say(Z("已更新结论","Decision updated"))).catch(SH.err)});
+document.addEventListener("click",e=>{const b=e.target.closest("[data-xt]");if(!b)return;const k=b.dataset.xt,a=b.dataset.xa||"";
+ if(k==="eunew"){e.preventDefault();euEdit(a)}else if(k==="eusave"){e.preventDefault();euSave()}
+ else if(k==="eudel"){e.preventDefault();XT.del=null;const it=(XMINE.evup||{})[a];xPut("evup",a,null).then(ok=>{if(!ok)return;say(Z("已删除","Deleted"));if(it&&it.asset&&ASNS)ASNS.delete(it.asset).catch(()=>{})})}
+ else if(k==="esnew"){e.preventDefault();esEdit("")}else if(k==="esedit"){e.preventDefault();esEdit(a)}
+ else if(k==="essave"){e.preventDefault();const g=i=>(($(i)||{}).value||"").trim(),v={name:g("es_n"),kind:g("es_k"),url:g("es_u"),what:g("es_w"),cover:g("es_c"),access:g("es_a")};
+  if(!v.name){say(Z("请填名称。","Please fill in a name."));return}if(v.url&&!/^https?:\/\//.test(v.url)){say(Z("地址要以 http:// 或 https:// 开头。","The address must start with http:// or https://."));return}
+  xPut("evsrc",a||xNew("s"),v).then(ok=>{if(ok){say(Z("已登记","Saved"));XT.sub.chain="s";xClose()}})}
+ else if(k==="esdel"){e.preventDefault();XT.del=null;xPut("evsrc",a,null).then(ok=>ok&&say(Z("已删除","Deleted")))}});
 function acctHTML(){
  const role=r=>'<div style="padding:6px 0;border-top:1px solid var(--gb)"><div><b>'+esc(r[0])+'</b> <span class="sub">'+(/所有者/.test(r[1])?esc(r[1]):"分享菜单："+esc(r[1]))+'</span></div><div class="sub">能做：'+esc(r[2])+'</div><div class="sub">不能做：'+esc(r[3])+'</div></div>';
  return '<div class="acct">'
@@ -1089,7 +1175,7 @@ const DICT=DSTR.split("|").map(x=>{const i=x.indexOf("=");return[x.slice(0,i),x.
 function tr(x){if(TRC[x]!==undefined)return TRC[x];const tt=x.trim();if(EX[tt]!==undefined)return TRC[x]=x.replace(tt,EX[tt]);let o=x;for(const p of DICT){if(o.indexOf(p[0])>=0)o=o.split(p[0]).join(p[1])}return TRC[x]=o}
 function lgSync(){const t=$("lgTx");if(t)t.textContent=AUTH.session?AUTH.session.actor:"登录"}
 function applyLang(){const en=LANG==="en";document.documentElement.lang=en?"en":"zh-CN";document.title=en?"EVEREST Truth Audit & Event Evidence":"EVEREST 真实度审计与事件证据平台";
-const w=document.createTreeWalker($("app"),NodeFilter.SHOW_TEXT);let n;while(n=w.nextNode()){if(!ORI.has(n))ORI.set(n,n.nodeValue);n.nodeValue=en?tr(ORI.get(n)):ORI.get(n)}
+const w=document.createTreeWalker($("app"),NodeFilter.SHOW_TEXT);let n;while(n=w.nextNode()){if(n.parentElement&&n.parentElement.closest("[data-raw]"))continue;if(!ORI.has(n))ORI.set(n,n.nodeValue);n.nodeValue=en?tr(ORI.get(n)):ORI.get(n)}
 document.querySelectorAll("#app [placeholder],#app [aria-label],#app [title],#app [data-tip]").forEach(e=>{["placeholder","aria-label","title","data-tip"].forEach(a=>{if(e.hasAttribute(a)){const k="_o"+a;if(!(k in e))e[k]=e.getAttribute(a);e.setAttribute(a,en?tr(e[k]):e[k])}})});
 lgSync();if(AUTH.session===null||!AUTH.session){const t=$("lgTx");if(t)t.textContent=en?"Sign in":"登录"}$("lang").textContent=en?"中文":"EN";const t=$("toast");if(t.textContent&&en)t.textContent=tr(t.textContent)}
 

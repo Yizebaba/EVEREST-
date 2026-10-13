@@ -176,3 +176,13 @@
 - 每日管线（pipeline.py）：位移改读云端干涉真实结果，没有新结果标“不可观测”；固定矩阵文件已删除。
 - 页面：线上 Version 55。左侧新增“证据链”标签；底部事件改为“时间 + 名称 / 地点 / 状态”，只放最近 14 天。
 - 复原：页面回退 Version 54；证据包脚本回退到 events 分支上一版提交；管线回退 git 提交 243f2d2 之前。
+
+---
+# 第二十七次改动（证据链：添加证据源、人工上传证据）
+- 页面：线上 Version 56。“证据链”标签分三个子页：事件 / 人工证据 / 证据源。
+  - 人工证据：共享库 evup/<用户>；文件存本页附件库（assets 能力，只有能编辑本页的人能上传，最大 20 MB）；提交前浏览器算 SHA-256；所有者在 evup/_review 标 待核实 / 已采信 / 不采信。事件详情弹窗里也能看和上传。
+  - 证据源：共享库 evsrc/<用户>，所有者在 evsrc/_review 写结论（待评估 / 计划接入 / 已接入 / 不接入）。
+  - 用户写的内容切英文时不翻译（data-raw）。
+  - 能力声明：数据库规则 36 → 40 条（只增：evsrc、evup 各两条）；新增 assets；mcp 工具 14 → 15（everest_events）。见 hub/capabilities.json。
+- 流程：每小时同步任务读 evup → tools/manual_export.py → events 分支 manual.json（全部条目公开指纹；只有“已采信”的公开内容；不含提交人和文件本身）。manual.json 变化会触发 evidence 工作流：证据包 v8 把已采信条目列入时间线，链接取一次内容算指纹并请求互联网档案馆存档；manual.json 每一版也用 OpenTimestamps 存证。
+- 复原：页面回退 Version 55（不读 evsrc/evup，数据留着无影响；能力声明回退时传 Version 55 的 capabilities，即去掉 assets 和 4 条规则）；证据包回退 VERSION 7 那次提交；同步任务提示词去掉第 5 步。

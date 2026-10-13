@@ -1,214 +1,146 @@
-# EVEREST · 公开地球观测数据的真实度审计和事件证据平台
+# EVEREST
 
-**EVEREST — truth audit and event evidence for public Earth-observation data.**
+**公开地球观测数据的真实度审计和事件证据平台**
+*Truth audit and event evidence for public Earth-observation data*
 
-我们不和国家比数据，比的是**中立、透明、边界清楚**，以及**把公开数据拼起来的速度**。只监测、不预测、不做天气。
-
-- **真实度审计**：持续记录每个公开来源（水位站、地震台、卫星目录、警报接口、网络连通）是否在线、延迟多少、哪里断档。WMO 的 WDQMS 只管气象观测，水文、地震、卫星目录没有同类工具。
-- **事件证据包**：事件发生后，把地震台、水位站、网络连通和卫星影像对齐到同一条时间线，每条注明来源和时间。灾后影像已经很多（哥白尼应急、国际宪章、Planet），但没有人把这些非影像信号和影像放在一起。
-- **服务谁**：承担损失的一方——水电业主、贷款方、保险和再保险公司。
-- **边界**：不预测、不预警（国家项目的职责，例如 UNDP 执行的 GCF FP272）；不做天气；不对中国境内公众发布地图（《地图管理条例》要求审图、服务器在境内）。
-- **处理只用公开方法**：坡面雷达统计（OCHA 公开方法）和 InSAR 干涉只是把公开卫星数据处理成可对照的证据，方法和参数公开；重计算在外部平台完成。
-
-依据和核实记录：[EVEREST 平台定位调研](https://claude.ai/code/artifact/e72d61c9-b06d-4230-b8e1-59741d620a58)（第 9、10 节为核实结果；法律部分是对公开文本的解读，不是法律意见）。
-
-- 总览页（主界面）：https://claude.ai/artifact/6heopu2wizEAFMJJLDs44H
-- EVEREST 连接器（MCP，只读，14 个工具）：https://everest-facets.yizebaba.workers.dev/mcp
-- 实时采集页：https://everest-facets.yizebaba.workers.dev/rt
-
-[English](#english) | [中文说明](#chinese)
+[总览页](https://claude.ai/artifact/6heopu2wizEAFMJJLDs44H) · [连接器（MCP）](https://everest-facets.yizebaba.workers.dev/mcp) · [实时采集页](https://everest-facets.yizebaba.workers.dev/rt) · [证据包数据](https://github.com/Yizebaba/everest-insar-pipeline/tree/events) · [English](#english)
 
 ---
 
-## 项目地图（整体）
+灾害发生后，地震台、水位站、网络连通、卫星目录各自都留下了记录，但分散在不同机构、不同格式里，有的还会断档、会被覆盖。
+EVEREST 不产生新数据，它做三件事：
 
-一个仓库包含整个 EVEREST 平台。只监测，不预测。
-
-| 目录 | 内容 | 在哪运行 |
+| | 做什么 | 结果 |
 |---|---|---|
-| `pipeline.py`、`cloud_insar_pipeline.py`、`models/`、`data/` | 每日 InSAR 管线与云端干涉（Sentinel-1，计算在哥白尼 openEO） | GitHub 计划任务（`.github/workflows/daily-pipeline.yml`） |
-| `cf-worker/` | 实时采集（11 个公开数据源）、坡面雷达监测（376 块坡面，Planetary Computer）、**EVEREST 连接器** `/mcp`（14 个只读工具） | Cloudflare Worker（每分钟） |
-| `hub/` | 总览页源文件、能力声明、复原记录、自检脚本 | claude.ai Artifact |
-| `plugin/` | **插件**：连接器配置 + 8 个**技能**（`plugin/skills/*/SKILL.md`）；仓库根 `.claude-plugin/marketplace.json` 可直接作为插件市场 | Claude / Claude Code |
-| `tools/` | 小工具：`live_collect.py`（旧采集，备用）、`monitor_sync.py`、`hub_sync.py`（每小时把实时数据写进总览）、`adsb_fetch.py` 在 `adsb-live` 分支 | 定时任务 / GitHub |
-| `site/` | 旧采集任务的静态页（`live.yml` 使用） | GitHub |
+| **真实度审计** | 持续记录每个公开来源是否在线、延迟多少、哪里断档 | 停报本身就是一条证据：哪个站在什么时候没了数据 |
+| **事件证据包** | 自动发现事件，把各来源对齐到同一条时间线，标出“支持 / 缺失 / 矛盾” | 每个事件一份 JSON + 两台站地震信号图 |
+| **存证** | 每一版证据包存不可变快照，用 OpenTimestamps 加公开时间戳 | 任何人都能核对：这份文件最晚在哪个比特币区块时已经存在、之后没被改过 |
 
-数据分支（自动写入，不要手改、不要合并进 main）：`facet-live`（实时快照、坡面进度、云图）、`adsb-live`（ADS-B 中转与连接器外部检查）、`live-data`（旧采集结果）、`insar-out`（早期云端干涉结果）。
+**只监测，不预测。** 不发预警、不给风险概率、不做天气预报、不判断责任或成因。
 
-- 总览：https://claude.ai/artifact/6heopu2wizEAFMJJLDs44H
-- 实时采集页：https://everest-facets.yizebaba.workers.dev/rt
-- 连接器：https://everest-facets.yizebaba.workers.dev/mcp（在 Claude 设置 → 连接器里添加，名称 EVEREST）
-- Claude Code 安装插件：`/plugin marketplace add Yizebaba/everest-insar-pipeline` 然后 `/plugin install everest@everest`
+## 一个例子：2026-10-11 Gorkha 洪水
+
+Worker 从 BIPAD 洪水警报里自动发现事件（Aarughat-9, Gorkha），证据包自动生成。节选：
+
+| 时间 (UTC) | 来源 | 记录 | 判定 |
+|---|---|---|---|
+| 10-10 13:31 | IO.EVN 地震台（珠峰，217 km） | 1–5 Hz 信号约背景 23 倍 | 支持 |
+| 10-10 13:31 | KKN 地震台（加德满都北，84 km） | 同一时刻没有记录到 → 更可能是珠峰附近的局部震动 | **矛盾** |
+| 10-10 14:39 | KKN + IO.EVN | 两台同时有强信号 | 支持 |
+| 10-10 18:37–01:53 | IO.EVN | 436 分钟没有数据 | **缺失** |
+| 10-10 22:40 | KKN | 信号约背景 60 倍；IO.EVN 此时无数据，无法核对 | 支持 |
+| 10-11 02:05 | BIPAD 灾害警报 | Flood warning at Aarughat-9, Gorkha | 支持 |
+| 10-11 04:57 | Sentinel-2 | 事件后第一景（云量 20%），可与 10-06 对比 | 支持 |
+| 10-13 | BIPAD 水位站 | 80 km 内 12 站只有 9 站在报，Budhi Gandaki at Aarughat 停报 | **缺失** |
+| 10-13 | IFRC Montandon | 需要 IFRC GO 令牌（未配置） | **缺失** |
+
+完整时间线：[`events/bipad-gorkha-2026-10-11.json`](https://github.com/Yizebaba/everest-insar-pipeline/blob/events/events/bipad-gorkha-2026-10-11.json)。证据包写明“谁没记录到”，和“谁记录到了”同等重要。
+
+## 证据链怎么生成
+
+```mermaid
+flowchart LR
+  A[公开来源<br>BIPAD · USGS · GDACS · 水位站] -->|每 5 分钟| W[Cloudflare Worker<br>发现事件 · 合并去重]
+  W -->|新事件或每 6 小时| T[events 分支<br>trigger.txt]
+  H[总览页 · 人工证据<br>浏览器算 SHA-256] -->|每小时同步| M[events 分支<br>manual.json]
+  T --> G[GitHub Actions<br>evidence_pack.py]
+  M --> G
+  G --> P[证据包 JSON + 信号图]
+  P --> O[OpenTimestamps<br>不可变快照 + .ots]
+  P --> V[总览页“证据链” · 连接器 everest_events]
+```
+
+| 环节 | 来源 |
+|---|---|
+| 发现事件 | BIPAD 洪水警报（喜马拉雅高山区县）、USGS 崩塌、GDACS 橙/红级、水位越线；36 小时 / 150 km 内合并 |
+| 地震台 | IO.EVN（GEOFON）与 NK.KKN（EarthScope）两台核对；缺数时段标“缺失”，一台有一台没有标“矛盾” |
+| 地震目录 | USGS、EMSC |
+| 水位站 | 事件 80 km 内的 BIPAD 站：谁在报、谁停了 |
+| 网络连通 | IODA（所在区 BGP、主动探测） |
+| 卫星 | Sentinel-1/2 前后影像（Planetary Computer）；哥白尼 GFM 自动洪水范围 |
+| 国际记录 | 哥白尼应急制图（EMS）；IFRC Montandon（需令牌） |
+| 人工证据 | 总览页上传的照片、视频、链接、现场记录。全部公开指纹并存证；所有者核实为“已采信”后才公开内容、进入时间线；提交人和文件本身不公开 |
+| 存证 | 每一版证据包和人工证据清单都存快照并加 OpenTimestamps 时间戳，之后自动升级为比特币区块确认 |
+
+在总览页“证据链 → 证据源”里可以登记新的来源，所有者评估后决定是否接入。
+
+### 自己核对一份存证
+
+```bash
+pip install opentimestamps-client
+# 从 events 分支 events/archive/ 下载快照和同名 .ots，放在一起
+ots verify events/archive/<事件编号>_<哈希>.json.ots
+```
+
+文件改动一个字节，核对就会失败。
+
+## 怎么用
+
+- **总览页**（主界面）：<https://claude.ai/artifact/6heopu2wizEAFMJJLDs44H>。左侧“证据链”看事件、上传证据、登记证据源；“运行状态”看各来源在线情况。
+- **在 Claude 里提问**：设置 → 连接器 → 添加自定义连接器，名称 `EVEREST`，地址 `https://everest-facets.yizebaba.workers.dev/mcp`（提示无法检查登录方式时选“仍然继续”）。15 个只读工具，例如 `everest_events`、`everest_daily_brief`、`everest_offline`。
+- **Claude Code 插件**（连接器 + 8 个技能）：
+  ```
+  /plugin marketplace add Yizebaba/everest-insar-pipeline
+  /plugin install everest@everest
+  ```
+- **直接取数据**（公开 JSON）：
+  - 事件目录：`https://raw.githubusercontent.com/Yizebaba/everest-insar-pipeline/events/index.json`
+  - 实时快照：`https://raw.githubusercontent.com/Yizebaba/everest-insar-pipeline/facet-live/rt.json`
+  - 事件接口：`https://everest-facets.yizebaba.workers.dev/api/events.json`
+
+## 边界
+
+- **不预测、不预警**：那是国家项目的职责（例如 UNDP 执行的冰湖项目 GCF FP272）。
+- **不做天气预报**。
+- **不对中国境内公众发布地图**：需要审图、服务器在境内（《地图管理条例》第十五、三十四条）。
+- **重计算不在 GitHub 跑**：InSAR 干涉在哥白尼 openEO，坡面雷达统计在 Planetary Computer；GitHub 只跑取数、画图这类小任务。
+- **只用公开方法**：方法和参数都在仓库里，结果可复现。
+
+定位依据与核实记录：[平台定位调研](https://claude.ai/code/artifact/e72d61c9-b06d-4230-b8e1-59741d620a58)（法律部分是对公开文本的解读，不是法律意见）。
+
+## 仓库结构
+
+| 路径 | 内容 | 运行在 |
+|---|---|---|
+| `cf-worker/` | 实时采集、事件发现（`src/events.js`）、坡面雷达监测、EVEREST 连接器 `/mcp` | Cloudflare Worker |
+| `tools/evidence_pack.py` | 证据包生成、OpenTimestamps 存证 | GitHub Actions（`evidence.yml`，events 分支） |
+| `tools/manual_export.py` | 总览页人工证据 → `manual.json` | 每小时同步任务 |
+| `tools/hub_sync.py`、`tools/monitor_sync.py` | 实时数据和证据包 → 总览页数据库 | 每小时同步任务 |
+| `pipeline.py`、`cloud_insar_pipeline.py`、`models/` | 每日 InSAR 管线：读云端干涉结果，没有新结果标“不可观测” | GitHub Actions（`daily-pipeline.yml`）+ openEO |
+| `hub/` | 总览页源文件、能力声明、复原记录 `RESTORE.md`、自检脚本 | claude.ai |
+| `plugin/` | 插件：连接器配置 + 技能（`plugin/skills/*/SKILL.md`） | Claude / Claude Code |
+
+**数据分支**（自动写入，不要手改，不要合并进 main）：
+
+| 分支 | 内容 |
+|---|---|
+| `events` | 事件目录、证据包、信号图、存证快照与 `.ots`、`manual.json` |
+| `facet-live` | 实时快照、坡面进度、云图 |
+| `adsb-live` | ADS-B 中转、连接器外部健康检查 |
+| `live-data`、`insar-out` | 旧采集结果、早期云端干涉结果 |
+
+## 复原
+
+每次改动都在 [`hub/RESTORE.md`](hub/RESTORE.md) 记一条：改了什么、线上版本号、怎么回退。证据包和存证快照只增不改，历史版本都在 `events` 分支的提交记录里。
+
+早期的 InSAR 管线说明（含已不在范围内的预警设想）存档在 [`docs/LEGACY_INSAR.md`](docs/LEGACY_INSAR.md)。
 
 ---
-
-
-## 早期文档：InSAR 管线
-
-> 下面是项目最早的 InSAR 管线说明，保留作参考。其中“预警”相关的设想已不在平台范围内：平台现在只监测、不预测，不发布预警。
 
 <a name="english"></a>
-### English Overview
+## English
 
-**Everest Anomaly Engine** is an autonomous, cloud-native Sentinel-1 InSAR processing, physical constraint screening, and multi-hazard early warning pipeline designed for the Mount Everest region. It implements the **L0~L4 Five-Layer Architecture** and enforces the supreme operational axiom:
+EVEREST does not produce new data. After a disaster, seismic stations, river gauges, connectivity monitors and satellite catalogues each leave records, scattered across agencies, and some go missing or get overwritten. EVEREST:
 
-$$\mathbf{Detection \neq Warning}$$
-*(An anomaly does not equal a disaster warning; candidates must pass physical gating, cross-source validation, and human review before generating an alert).*
+1. **Audits** whether each public source is online, how late it is, and where it breaks. A station going silent is itself evidence.
+2. **Builds an evidence pack** for every auto-detected event: one timeline across sources, each entry marked supporting, missing or contradictory. For example, a strong signal at the Everest station that the Kathmandu station did not record is marked contradictory: more likely local to Everest than part of the flood.
+3. **Timestamps** every version with OpenTimestamps, so anyone can verify that a pack existed by a given Bitcoin block and has not changed since.
 
-```text
-                              Everest                                
-                                │
-        =================================================
-        │                       │                       │
-        ▼                       ▼                       ▼
-   Sentinel-1              Sentinel-2                DEM
-   SAR                     Optical                   Terrain
-        │                       │                       │
-        ▼                       ▼                       ▼
- SAR Feature             Optical Feature          Terrain Feature
- - Backscatter           - RGB                    - Elevation
- - Coherence             - NIR                    - Slope
- - Phase                 - SWIR                   - Aspect
- - Texture               - NDVI/NDSI              - Curvature
-                         - Snow Index             - Glacier Basin
-        │                       │                       │
-        =========================                       │
-                    │                                   │
-                    ▼                                   │
-        =================================               │
-        │                              │                │
-        ▼                              ▼                │
- Glacier Motion                  Glacier Mapping        │
- 冰川运动                         冰川范围              │
-        │                              │                │
-        ▼                              ▼                │
- ITS_LIVE                         GlaViTU               │
- autoRIFT                         GlacierNet            │
- CC-ResSiamNet                    DeepLab/U-Net         │
-        │                              │                │
-        ▼                              ▼                │
- Glacier Velocity                 Glacier Mask          │
- Time Series                      Glacier Boundary      │
-        │                              │                │
-        ▼                              │                │
- Velocity Anomaly                  Glacier Change       │
- Detection                         Detection            │
-        │                              │                │
-        =================================                │
-                         │                              │
-                         ▼                              ▼
-              Glacier State Database  <-----------------
-              冰川状态数据库
-============================================================
-              Sentinel-1 SAR变化模块 ➔ InSAR ➔ Deformation Map ➔ Glacier Stability
-              Sentinel-2 变化模块 ➔ AnyChange / ChangeFormer ➔ Crevasse Detection
-              Sentinel-2 + SAR ➔ Lake Detection ➔ GLOF Module (冰湖溃决风险)
-              Sentinel-2 + SAR + DEM ➔ Avalanche / Icefall Module (冰崩雪崩动力学)
-              DEM Terrain Layer ➔ Physical Constraint Layer (陡坡/末端/重力硬门禁)
-============================================================
-                 外部环境数据: Weather (气象) + Seismic (地震动)
-                                 │
-                                 ▼
-        Remote Sensing Foundation Models (Copernicus-FM / RobSense / Prithvi)
-                                 │
-                                 ▼
-              Multi-modal Feature Fusion ➔ Everest Anomaly Engine
-                                 │
-                                 ▼
-        Persistence + Spatial Consistency + Cross Validation + Physics Constraint
-                                 │
-                                 ▼
-              Event Candidate ➔ Human Review ➔ Alert
-```
+People can also submit photos, videos, links and field notes through the hub. Fingerprints are published and timestamped for all of them; content enters the public timeline only after the owner marks it accepted. Submitter names and the files themselves stay private.
 
-### Key Technical Pillars
-1. **L0 Data & Sensing**: Precise overpass sensing via Copernicus CDSE OData API (Burst 23790 IW1/VV, Orbit 12 Ascending).
-2. **L1/L2 Glacier Dynamics**:
-   - **NASA ITS_LIVE Streaming**: Direct cloud streaming from AWS S3 Zarr datacube, extracting 39-year baseline velocity (mean: `12.27 m/yr`) and Z-Score anomaly.
-   - **Real 2D InSAR Inversion**: Adaptive bedrock anchor calibration at $(Y=285, X=613)$ with Coherence = `0.965`, yielding `0.66 mm` median LOS micro-creep across 20,278 pixels.
-   - **RGI 7.0 & GlaViTU Bridge**: Spatial topology verification against Khumbu, Rongbuk, and Kangshung glaciers.
-3. **L3 Multi-Hazard Pipelines**:
-   - **Crevasse Detection**: Optical texture gradient and extensional fracture field modeling.
-   - **GLOF Module**: Expansion tracking and moraine dam stability assessment.
-   - **Avalanche Mechanics**: Gravitational potential energy on critical slopes ($28^\circ \sim 55^\circ$).
-   - **DEM Physics Gate**: Hard veto on radar layover/shadow artifacts ($>38^\circ$) and physically impossible events.
-4. **L4 Everest Anomaly Engine**: Quantitative multi-source fusion, persistence scoring, and uncertainty attribution.
+**Monitoring only:** no prediction, no warnings, no weather forecasts, no attribution of cause or blame.
 
----
-
-## 📦 Package Release & Installation
-
-The core engine is packaged and published as a standard Python Wheel package (`everest-glacier-engine`).
-
-```bash
-# Install directly via pip from GitHub Releases:
-pip install https://github.com/Yizebaba/everest-insar-pipeline/releases/download/v1.0.0/everest_glacier_engine-1.0.0-py3-none-any.whl
-
-# Or install from source:
-pip install git+https://github.com/Yizebaba/everest-insar-pipeline.git
-```
-
-### CLI Execution
-```bash
-everest-glacier
-```
-
-### Python SDK & AI Agent Invocation
-```python
-from pipeline import run_real_pipeline
-from models.glacier_state_database import GlacierStateDatabase
-from models.cloud_services_adapter import CloudGlacierVelocityService, CloudInSARSAMAdapter
-from models.dem_physical_constraint import DEMPhysicalConstraintLayer
-
-# 1. Fetch real 39-year NASA ITS_LIVE velocity baseline from AWS S3 cloud
-its = CloudGlacierVelocityService()
-v_state = its.fetch_real_glacier_velocity_series()
-print(f"39-year baseline: {v_state['historical_baseline_mean_m_yr']} m/yr, Z-score: {v_state['velocity_anomaly_z_score']}")
-
-# 2. Evaluate DEM physical constraint gate
-dem_gate = DEMPhysicalConstraintLayer()
-physics = dem_gate.evaluate_physical_feasibility(elevation_m=5800, slope_deg=32.5, aspect_deg=185, hazard_type="insar_displacement")
-print(f"Physical constraint status: {physics['physical_constraint_status']}")
-
-# 3. Query persistent Glacier State Database
-db = GlacierStateDatabase()
-summary = db.get_latest_glacier_summary()
-print(f"Recorded glacier state inventory count: {len(summary)}")
-```
-
----
-
-<a name="chinese"></a>
-## 中文说明
-
-**珠穆朗玛峰多源冰川与 InSAR 全自动解算分析引擎（v5.0 终极版）**。
-
-### 核心设计与科学法则
-本系统坚守防灾减灾最高科学红线：**检测到异常 $\neq$ 灾害预警（$\mathbf{Detection \neq Warning}$）**。
-通过多源异构卫星（Sentinel-1/2、Landsat、Copernicus DEM）与外部环境（气象/地震），构建了五大平行物理管道与 DEM 物理约束门禁。
-
-### 六大落地核心能力
-1. **全自动卫星过境嗅探**：在北京时间晚间过境窗口期，自动通过 CDSE OData 接口捕获最新过境切片（Burst 23790）。
-2. **NASA MEaSUREs ITS_LIVE 云端流式计算**：
-   - 彻底摆脱本地繁重算力，直接通过 HTTP Range 零下载流式切片读取 AWS S3 上的 Zarr 数据立方体；
-   - 提取珠峰孔布冰川 39 年（1985-2024）真实流速序列（均值 12.27 米/年），动态计算 Z-Score 速度异常度。
-3. **真实 2D 矩阵 InSAR 毫米级位移反演**：
-   - 消除硬编码，动态加载 20,278 像元真实数组；
-   - 自动在坐标 $(Y=285, X=613)$ 锁定相干性高达 **0.965** 的天然不动基岩；
-   - 算得视线向位移中位数 **`0.66 毫米`**，评估为微小缓慢蠕变（`HIGHLY_STABLE_MICRO_CREEP`）。
-4. **专项灾害管道全面落地**：
-   - **冰裂缝检测 (Crevasse)**：基于高频空间梯度与构造主应力走向，生成破裂斑块；
-   - **冰湖溃决风险 (GLOF)**：以伊姆扎湖（Imja Tsho）为目标，结合扩张率与冰碛坝雷达相干性量化风险；
-   - **雪崩/冰崩动力学**：输入高程落差与坡度，计算重力失稳指数；
-   - **DEM 物理约束门禁**：对坡度 $>38^\circ$ 极易产生雷达叠掩/阴影的区域实施**一票否决**，杜绝假阳性。
-5. **冰川状态数据库 (Glacier State Database)**：
-   - 内置 SQLite 引擎，沉淀孔布、绒布、康雄三大冰川历史档案，每次过境自动写入动态物理状态日志。
-6. **L4 Everest Anomaly Engine 综合判定**：
-   - 整合持续性、空间一致性、多源交叉验证、物理门禁、置信度（62%）与不确定性（38%），给出最终综合裁决。
-
----
-
-### 双仓全自动闭环架构
-1. **后端算力调度仓**：[`Yizebaba/everest-insar-pipeline`](https://github.com/Yizebaba/everest-insar-pipeline)（本仓库，负责侦听、解算、平差、物理门禁与综合决策）。
-2. **前端地图插件仓**：[`Yizebaba/hqmw-cryosphere-windy`](https://github.com/Yizebaba/hqmw-cryosphere-windy)（接收后端推来的成果，在 Windy 真实地图上渲染基岩不动点、形变连线、SAM 红色闭合面与 NASA 流速热力带）。
-   - **在线插件加载地址**：`https://windy-plugins.com/17744505/windy-plugin-everest-mhews/3.1.14/plugin.min.js`
+- Hub: <https://claude.ai/artifact/6heopu2wizEAFMJJLDs44H>
+- MCP connector (15 read-only tools): `https://everest-facets.yizebaba.workers.dev/mcp`
+- Evidence data: the [`events`](https://github.com/Yizebaba/everest-insar-pipeline/tree/events) branch
+- Verify a stamp: `pip install opentimestamps-client`, then `ots verify <snapshot>.json.ots`
