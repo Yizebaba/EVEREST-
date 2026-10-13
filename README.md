@@ -1,8 +1,13 @@
 # EVEREST · 珠峰多源监测平台
 
-**EVEREST Mount Everest Multi-Source Monitoring Platform**
+**EVEREST — a transparent, neutral multi-source monitoring platform for Mount Everest**
 
-把珠峰地区的公开观测数据（卫星雷达与光学影像、冰湖与河流水位站、地震台网、灾害警报、网络连通、卫星信标、空中交通）接到一起，持续监测、如实标出“没数据”和“停发”，并提供设备维护、连接器、技能和插件。**只监测，不预测**，不做天气预报。
+**定位：透明、中立的多源监测与数据对照平台。**
+
+- **监测**：把各家公开观测（卫星影像、冰湖与河流水位站、地震台网、灾害警报、网络连通、卫星信标、空中交通）接到一处，持续看它们在不在报、报了什么。
+- **对照**：同一件事不同来源怎么说，放在一起对照，不替任何一方下结论。
+- **透明**：每个数字写明来源、时间和取法；没数据、停发、来源之间不一致，都如实标出来。
+- **中立**：不预测、不评估风险、不发布预警，不做天气预报；结论留给主管单位和使用者。
 
 - 总览页（主界面）：https://claude.ai/artifact/6heopu2wizEAFMJJLDs44H
 - EVEREST 连接器（MCP，只读，14 个工具）：https://everest-facets.yizebaba.workers.dev/mcp
