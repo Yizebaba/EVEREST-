@@ -22,7 +22,7 @@ import urllib.request, urllib.parse
 UA = {"user-agent": "everest-evidence (github.com/Yizebaba/everest-insar-pipeline)"}
 EVN = (27.9587, 86.8117)
 OUT = "events"
-VERSION = 6   # 改了证据包内容时加 1，所有包会重算一次
+VERSION = 7   # 改了证据包内容时加 1，所有包会重算一次
 NOW = datetime.now(timezone.utc)
 
 # 尼泊尔区县 → IODA 地区（旧 14 区）
@@ -62,6 +62,23 @@ def nearest_district(lat, lon):
     return min(DIST, key=lambda d: km((lat, lon), DIST[d]))
 
 
+def gaps_of(env, start, min_min=30):
+    """找出没有数据的时段（合并缺口时填的 0 经滤波后会变成极小值，这里按背景的千分之一判断）。返回 [(开始, 结束)]。"""
+    import numpy as np
+    pos = env[env > 0]; bg = float(np.median(pos)) if len(pos) else 0
+    bad = env <= bg * 1e-3 if bg > 0 else env <= 0
+    out = []; i = 0
+    while i < len(bad):
+        if bad[i]:
+            j = i
+            while j < len(bad) and bad[j]: j += 1
+            if j - i >= min_min: out.append((start + timedelta(minutes=i), start + timedelta(minutes=j)))
+            i = j
+        else:
+            i += 1
+    return out, bad
+
+
 # ---------- 各证据 ----------
 def evn(ev, t0, items, pack):
     """IO.EVN：1–5 Hz、60 秒均方根包络；背景取窗口中位数。"""
@@ -79,8 +96,12 @@ def evn(ev, t0, items, pack):
         sr = tr.stats.sampling_rate; n = int(60 * sr); x = tr.data.astype(float)
         m = len(x) // n; env = np.sqrt((x[:m * n].reshape(m, n) ** 2).mean(axis=1))
         start = tr.stats.starttime.datetime.replace(tzinfo=timezone.utc)
+        gp, bad = gaps_of(env, start); env = np.where(bad, 0.0, env)
         valid = env[env > 0]; bg = float(np.median(valid)) if len(valid) else 0
         cover = round(100 * len(valid) / max(1, int((b - a).total_seconds() / 60)))
+        for g0, g1 in gp:
+            items.append({"t": iso(g0), "src": "IO.EVN 地震台", "kind": "MISSING", "text": f"{iso(g0)[11:16]}–{iso(g1)[11:16]} UTC 没有数据（{int((g1 - g0).total_seconds() // 60)} 分钟）",
+                          "text_en": f"No data {iso(g0)[11:16]}–{iso(g1)[11:16]} UTC ({int((g1 - g0).total_seconds() // 60)} min)"})
         peaks = []
         order = np.argsort(-env)
         for i in order:
@@ -98,6 +119,7 @@ def evn(ev, t0, items, pack):
         if cover < 80:
             items.append({"t": iso(a), "src": "IO.EVN 地震台", "kind": "MISSING", "text_en": f"Data covers only {cover}% of the window", "text": f"窗口内数据只覆盖 {cover}%"})
         pack["_series_evn"] = (start, env / (bg or 1))
+        pack["_evn_gaps"] = gp
     except Exception as e:
         pack["evn"] = {"distance_km": dist, "error": str(e)[:200]}
         items.append({"t": iso(t0), "src": "IO.EVN 地震台", "kind": "MISSING", "text_en": f"Waveform not available ({str(e)[:80]})", "text": f"取不到这段波形（{str(e)[:80]}）"})
@@ -120,6 +142,10 @@ def kkn(ev, t0, items, pack):
         tr.detrend("demean"); tr.filter("bandpass", freqmin=1, freqmax=5, corners=4, zerophase=True)
         n = int(60 * tr.stats.sampling_rate); x = tr.data.astype(float); m = len(x) // n
         env = np.sqrt((x[:m * n].reshape(m, n) ** 2).mean(axis=1)); start = tr.stats.starttime.datetime.replace(tzinfo=timezone.utc)
+        gp, bad = gaps_of(env, start); env = np.where(bad, 0.0, env)
+        for g0, g1 in gp:
+            items.append({"t": iso(g0), "src": "KKN 地震台", "kind": "MISSING", "text": f"{iso(g0)[11:16]}–{iso(g1)[11:16]} UTC 没有数据（{int((g1 - g0).total_seconds() // 60)} 分钟）",
+                          "text_en": f"No data {iso(g0)[11:16]}–{iso(g1)[11:16]} UTC ({int((g1 - g0).total_seconds() // 60)} min)"})
         valid = env[env > 0]; bg = float(np.median(valid)) if len(valid) else 0
         cover = round(100 * len(valid) / max(1, int((b - a).total_seconds() / 60)))
         peaks = []
@@ -134,11 +160,14 @@ def kkn(ev, t0, items, pack):
         evp = [P(p[0]) for p in (pack.get("evn") or {}).get("peaks", [])]
         for p in sorted(peaks):
             both = any(abs((p[0] - q).total_seconds()) <= 180 for q in evp)
+            evgap = any(g0 <= p[0] <= g1 for g0, g1 in (pack.get("_evn_gaps") or []))
             items.append({"t": iso(p[0]), "src": "KKN 地震台", "kind": "SUPPORTING",
-                          "text": f"1–5 Hz 信号约为背景的 {p[1]:.0f} 倍（台站距事件约 {dist} km）" + ("；IO.EVN 同一时刻也有强信号，两台一致" if both else "；IO.EVN 这一时刻没有强信号"),
-                          "text_en": f"1–5 Hz signal about {p[1]:.0f}× background (station about {dist} km away)" + ("; IO.EVN also strong at the same time — both stations agree" if both else "; IO.EVN not strong at this time")})
+                          "text": f"1–5 Hz 信号约为背景的 {p[1]:.0f} 倍（台站距事件约 {dist} km）" + ("；IO.EVN 同一时刻也有强信号，两台一致" if both else "；IO.EVN 这一时刻没有数据，无法核对" if evgap else "；IO.EVN 这一时刻没有强信号"),
+                          "text_en": f"1–5 Hz signal about {p[1]:.0f}× background (station about {dist} km away)" + ("; IO.EVN also strong at the same time — both stations agree" if both else "; IO.EVN had no data then, cannot cross-check" if evgap else "; IO.EVN not strong at this time")})
         for q in evp:
-            if not any(abs((q - p[0]).total_seconds()) <= 180 for p in peaks) and cover >= 80:
+            qi = int((q - start).total_seconds() // 60)
+            has = 0 <= qi < len(env) and env[qi] > 0
+            if not any(abs((q - p[0]).total_seconds()) <= 180 for p in peaks) and has:
                 items.append({"t": iso(q), "src": "KKN 地震台", "kind": "CONTRADICTORY",
                               "text": "IO.EVN 这一时刻的强信号，KKN 没有记录到：更可能是珠峰附近的局部震动（如冰崩），不是这次事件",
                               "text_en": "KKN did not record IO.EVN's strong signal at this time: more likely local shaking near Everest (e.g. icefall), not this event"})
@@ -408,7 +437,7 @@ def build(ev):
         plot_seis(ev, t0, pack)
     except Exception:
         traceback.print_exc()
-    pack.pop("_series_evn", None); pack.pop("_series_kkn", None)
+    pack.pop("_series_evn", None); pack.pop("_series_kkn", None); pack.pop("_evn_gaps", None)
     items.sort(key=lambda i: i["t"])
     pack["timeline"] = items; pack["built"] = iso(NOW)
     pack["note_en"] = "States only what public sources recorded and when; no attribution of cause, no prediction. A strong seismic signal only means the station recorded strong shaking at that moment."
