@@ -20,7 +20,7 @@ import urllib.request, urllib.parse
 UA = {"user-agent": "everest-evidence (github.com/Yizebaba/everest-insar-pipeline)"}
 EVN = (27.9587, 86.8117)
 OUT = "events"
-VERSION = 2   # 改了证据包内容时加 1，所有包会重算一次
+VERSION = 3   # 改了证据包内容时加 1，所有包会重算一次
 NOW = datetime.now(timezone.utc)
 
 # 尼泊尔区县 → IODA 地区（旧 14 区）
@@ -90,11 +90,11 @@ def evn(ev, t0, items, pack):
         pack["evn"] = {"distance_km": dist, "coverage_pct": cover, "background": bg, "peaks": [[iso(p[0]), round(p[1], 1)] for p in peaks], "png": f"{ev['id']}_evn.png"}
         if peaks:
             for p in sorted(peaks):
-                items.append({"t": iso(p[0]), "src": "IO.EVN 地震台", "kind": "SUPPORTING", "text": f"1–5 Hz 信号约为背景的 {p[1]:.0f} 倍（台站距事件约 {dist} km；只说明此时有强信号，来源未判定）"})
+                items.append({"t": iso(p[0]), "src": "IO.EVN 地震台", "kind": "SUPPORTING", "text_en": f"1–5 Hz signal about {p[1]:.0f}× background (station about {dist} km away; shows only that strong shaking was recorded, source not determined)", "text": f"1–5 Hz 信号约为背景的 {p[1]:.0f} 倍（台站距事件约 {dist} km；只说明此时有强信号，来源未判定）"})
         else:
-            items.append({"t": iso(t0), "src": "IO.EVN 地震台", "kind": "NEUTRAL", "text": f"事件前 24 小时到后 3 小时没有超过背景 5 倍的信号（距约 {dist} km，数据覆盖 {cover}%）"})
+            items.append({"t": iso(t0), "src": "IO.EVN 地震台", "kind": "NEUTRAL", "text_en": f"No signal above 5× background from 24 h before to 3 h after (about {dist} km away, {cover}% data coverage)", "text": f"事件前 24 小时到后 3 小时没有超过背景 5 倍的信号（距约 {dist} km，数据覆盖 {cover}%）"})
         if cover < 80:
-            items.append({"t": iso(a), "src": "IO.EVN 地震台", "kind": "MISSING", "text": f"窗口内数据只覆盖 {cover}%"})
+            items.append({"t": iso(a), "src": "IO.EVN 地震台", "kind": "MISSING", "text_en": f"Data covers only {cover}% of the window", "text": f"窗口内数据只覆盖 {cover}%"})
         # 画图
         import matplotlib; matplotlib.use("Agg"); import matplotlib.pyplot as plt
         ts = [start + timedelta(minutes=i) for i in range(m)]
@@ -105,7 +105,7 @@ def evn(ev, t0, items, pack):
         fig.autofmt_xdate(); fig.tight_layout(); fig.savefig(os.path.join(OUT, f"{ev['id']}_evn.png")); plt.close(fig)
     except Exception as e:
         pack["evn"] = {"distance_km": dist, "error": str(e)[:200]}
-        items.append({"t": iso(t0), "src": "IO.EVN 地震台", "kind": "MISSING", "text": f"取不到这段波形（{str(e)[:80]}）"})
+        items.append({"t": iso(t0), "src": "IO.EVN 地震台", "kind": "MISSING", "text_en": f"Waveform not available ({str(e)[:80]})", "text": f"取不到这段波形（{str(e)[:80]}）"})
 
 
 def catalogs(ev, t0, items):
@@ -115,21 +115,21 @@ def catalogs(ev, t0, items):
         for f in x.get("features", []):
             p = f["properties"]
             items.append({"t": iso(datetime.fromtimestamp(p["time"] / 1000, timezone.utc)), "src": "USGS 地震目录", "kind": "SUPPORTING",
-                          "text": f"M{p['mag']} {'崩塌/滑坡（非构造）' if p.get('type') == 'landslide' else p.get('type')} · {p.get('place')}", "url": p.get("url")})
+                          "text_en": f"M{p['mag']} {'landslide/collapse (non-tectonic)' if p.get('type') == 'landslide' else p.get('type')} · {p.get('place')}", "text": f"M{p['mag']} {'崩塌/滑坡（非构造）' if p.get('type') == 'landslide' else p.get('type')} · {p.get('place')}", "url": p.get("url")})
         if not x.get("features"):
-            items.append({"t": iso(t0), "src": "USGS 地震目录", "kind": "NEUTRAL", "text": "事件 300 km 内前后一天没有记录"})
+            items.append({"t": iso(t0), "src": "USGS 地震目录", "kind": "NEUTRAL", "text_en": "Nothing within 300 km in the day before or after", "text": "事件 300 km 内前后一天没有记录"})
     except Exception as e:
-        items.append({"t": iso(t0), "src": "USGS 地震目录", "kind": "MISSING", "text": f"查询失败（{str(e)[:60]}）"})
+        items.append({"t": iso(t0), "src": "USGS 地震目录", "kind": "MISSING", "text_en": f"Query failed ({str(e)[:60]})", "text": f"查询失败（{str(e)[:60]}）"})
     try:
         rawb = get(f"https://www.seismicportal.eu/fdsnws/event/1/query?format=json&lat={ev['lat']}&lon={ev['lon']}&maxradius=2.7&start={iso(a)[:-1]}&end={iso(b)[:-1]}", raw=True)
         fs = json.loads(rawb).get("features", []) if rawb.strip() else []
         for f in fs:
             p = f["properties"]
-            items.append({"t": p["time"][:19] + "Z", "src": "EMSC 地震目录", "kind": "SUPPORTING", "text": f"{p.get('magtype')} {p.get('mag')} · {p.get('flynn_region')}"})
+            items.append({"t": p["time"][:19] + "Z", "src": "EMSC 地震目录", "kind": "SUPPORTING", "text_en": f"{p.get('magtype')} {p.get('mag')} · {p.get('flynn_region')}", "text": f"{p.get('magtype')} {p.get('mag')} · {p.get('flynn_region')}"})
         if not fs:
-            items.append({"t": iso(t0), "src": "EMSC 地震目录", "kind": "NEUTRAL", "text": "事件 300 km 内前后一天没有记录"})
+            items.append({"t": iso(t0), "src": "EMSC 地震目录", "kind": "NEUTRAL", "text_en": "Nothing within 300 km in the day before or after", "text": "事件 300 km 内前后一天没有记录"})
     except Exception as e:
-        items.append({"t": iso(t0), "src": "EMSC 地震目录", "kind": "NEUTRAL", "text": "事件 300 km 内前后一天没有记录" if "204" in str(e) else f"查询失败（{str(e)[:60]}）"})
+        items.append({"t": iso(t0), "src": "EMSC 地震目录", "kind": "NEUTRAL", "text_en": ("Nothing within 300 km in the day before or after" if "204" in str(e) else f"Query failed ({str(e)[:60]})"), "text": "事件 300 km 内前后一天没有记录" if "204" in str(e) else f"查询失败（{str(e)[:60]}）"})
 
 
 def gauges(ev, t0, items, pack):
@@ -157,9 +157,9 @@ def gauges(ev, t0, items, pack):
         pack["gauges"] = out
         nrep = sum(1 for g in out if g["reporting"])
         items.append({"t": iso(NOW), "src": "BIPAD 水位站", "kind": "MISSING" if nrep < len(out) else "NEUTRAL",
-                      "text": f"事件 80 km 内 {len(out)} 个公开水位站，现在在报 {nrep} 个" + ("；停报：" + "、".join(g["title"] for g in out if not g["reporting"]) if nrep < len(out) else "")})
+                      "text_en": f"{len(out)} public gauges within 80 km, {nrep} reporting now" + ("; not reporting: " + ", ".join(g["title"] for g in out if not g["reporting"]) if nrep < len(out) else ""), "text": f"事件 80 km 内 {len(out)} 个公开水位站，现在在报 {nrep} 个" + ("；停报：" + "、".join(g["title"] for g in out if not g["reporting"]) if nrep < len(out) else "")})
     except Exception as e:
-        items.append({"t": iso(NOW), "src": "BIPAD 水位站", "kind": "MISSING", "text": f"查询失败（{str(e)[:60]}）"})
+        items.append({"t": iso(NOW), "src": "BIPAD 水位站", "kind": "MISSING", "text_en": f"Query failed ({str(e)[:60]})", "text": f"查询失败（{str(e)[:60]}）"})
 
 
 def ioda(ev, t0, items, pack):
@@ -188,12 +188,12 @@ def ioda(ev, t0, items, pack):
             if base and low is not None and low < 0.7 * base:
                 tmin = min((t for t, y in v if t >= t0.timestamp() and y == low))
                 items.append({"t": iso(datetime.fromtimestamp(tmin, timezone.utc)), "src": "IODA 网络连通", "kind": "SUPPORTING",
-                              "text": f"{z} 区 {s['datasource']} 从 {base:.0f} 降到 {low:.0f}"})
+                              "text_en": f"{z} region {s['datasource']} fell from {base:.0f} to {low:.0f}", "text": f"{z} 区 {s['datasource']} 从 {base:.0f} 降到 {low:.0f}"})
         pack["ioda"] = res
         if not any(i["src"] == "IODA 网络连通" for i in items):
-            items.append({"t": iso(t0), "src": "IODA 网络连通", "kind": "NEUTRAL", "text": f"{z} 区事件前后 24 小时没有明显下降"})
+            items.append({"t": iso(t0), "src": "IODA 网络连通", "kind": "NEUTRAL", "text_en": f"No clear drop in {z} region within 24 h of the event", "text": f"{z} 区事件前后 24 小时没有明显下降"})
     except Exception as e:
-        items.append({"t": iso(t0), "src": "IODA 网络连通", "kind": "MISSING", "text": f"查询失败（{str(e)[:60]}）"})
+        items.append({"t": iso(t0), "src": "IODA 网络连通", "kind": "MISSING", "text_en": f"Query failed ({str(e)[:60]})", "text": f"查询失败（{str(e)[:60]}）"})
 
 
 def ems(ev, t0, items):
@@ -213,12 +213,12 @@ def ems(ev, t0, items):
             ta = a.get("activationTime") or a.get("eventTime")
             items.append({"t": iso(P(ta if ("Z" in ta or "+" in ta[10:]) else ta + "Z")),
                           "src": "Copernicus EMS", "kind": "SUPPORTING",
-                          "text": f"{a.get('code')} 启动应急制图：{a.get('name')}" + (f"；国际灾害宪章 {a.get('charterNumber')}" if a.get("charterNumber") else ""),
+                          "text_en": f"{a.get('code')} rapid mapping activated: {a.get('name')}" + (f"; International Charter {a.get('charterNumber')}" if a.get("charterNumber") else ""), "text": f"{a.get('code')} 启动应急制图：{a.get('name')}" + (f"；国际灾害宪章 {a.get('charterNumber')}" if a.get("charterNumber") else ""),
                           "url": f"https://rapidmapping.emergency.copernicus.eu/{a.get('code')}"})
         if not hits:
-            items.append({"t": iso(NOW), "src": "Copernicus EMS", "kind": "NEUTRAL", "text": "没有为这次事件启动应急制图"})
+            items.append({"t": iso(NOW), "src": "Copernicus EMS", "kind": "NEUTRAL", "text_en": "No rapid mapping activated for this event", "text": "没有为这次事件启动应急制图"})
     except Exception as e:
-        items.append({"t": iso(NOW), "src": "Copernicus EMS", "kind": "MISSING", "text": f"查询失败（{str(e)[:60]}）"})
+        items.append({"t": iso(NOW), "src": "Copernicus EMS", "kind": "MISSING", "text_en": f"Query failed ({str(e)[:60]})", "text": f"查询失败（{str(e)[:60]}）"})
 
 
 def sentinel(ev, t0, items, pack):
@@ -241,13 +241,13 @@ def sentinel(ev, t0, items, pack):
             after = srch(f"{iso(t0)}/{iso(NOW)}", "asc")
             res[col] = {"before": before, "after": after}
             if before:
-                items.append({"t": before["t"], "src": name, "kind": "NEUTRAL", "text": f"第一条公开信号之前最近一景 {before['id']}" + (f"（云量 {before['cloud']:.0f}%）" if before.get("cloud") is not None else ""), "url": before.get("preview")})
+                items.append({"t": before["t"], "src": name, "kind": "NEUTRAL", "text_en": f"Last scene before the first public signal {before['id']}" + (f" (cloud {before['cloud']:.0f}%)" if before.get("cloud") is not None else ""), "text": f"第一条公开信号之前最近一景 {before['id']}" + (f"（云量 {before['cloud']:.0f}%）" if before.get("cloud") is not None else ""), "url": before.get("preview")})
             if after:
-                items.append({"t": after["t"], "src": name, "kind": "SUPPORTING", "text": f"第一条公开信号之后第一景 {after['id']}" + (f"（云量 {after['cloud']:.0f}%）" if after.get("cloud") is not None else "") + "，可与事件前对比", "url": after.get("preview")})
+                items.append({"t": after["t"], "src": name, "kind": "SUPPORTING", "text_en": f"First scene after the first public signal {after['id']}" + (f" (cloud {after['cloud']:.0f}%)" if after.get("cloud") is not None else "") + ", compare with before", "text": f"第一条公开信号之后第一景 {after['id']}" + (f"（云量 {after['cloud']:.0f}%）" if after.get("cloud") is not None else "") + "，可与事件前对比", "url": after.get("preview")})
             else:
-                items.append({"t": iso(NOW), "src": name, "kind": "MISSING", "text": "第一条公开信号之后还没有新的一景（下次自动补）"})
+                items.append({"t": iso(NOW), "src": name, "kind": "MISSING", "text_en": "No new scene after the first public signal yet (filled in automatically)", "text": "第一条公开信号之后还没有新的一景（下次自动补）"})
         except Exception as e:
-            items.append({"t": iso(NOW), "src": name, "kind": "MISSING", "text": f"目录查询失败（{str(e)[:60]}）"})
+            items.append({"t": iso(NOW), "src": name, "kind": "MISSING", "text_en": f"Catalogue query failed ({str(e)[:60]})", "text": f"目录查询失败（{str(e)[:60]}）"})
     pack["sentinel"] = res
 
 
@@ -257,8 +257,8 @@ def build(ev):
     if m:
         ev["district"] = next((d for d in DIST if d.lower() == m.group(1).replace("-", " ") or d.lower() == m.group(1)), None)
     for s in ev.get("src", []):
-        items.append({"t": s["t"], "src": s["src"], "kind": "SUPPORTING", "text": s["text"], "url": s.get("url")})
-    pack = {"id": ev["id"], "title": ev["title"], "kind": ev.get("kind"), "place": ev.get("place"), "lat": ev["lat"], "lon": ev["lon"], "t": ev["t"]}
+        items.append({"t": s["t"], "src": s["src"], "kind": "SUPPORTING", "text_en": s.get("text_en", s["text"]), "text": s["text"], "url": s.get("url")})
+    pack = {"id": ev["id"], "title": ev["title"], "title_en": ev.get("title_en") or ev["title"].replace("洪水预警", "flood warning"), "kind": ev.get("kind"), "place": ev.get("place"), "lat": ev["lat"], "lon": ev["lon"], "t": ev["t"]}
     for fn in (lambda: evn(ev, t0, items, pack), lambda: catalogs(ev, t0, items), lambda: gauges(ev, t0, items, pack),
                lambda: ioda(ev, t0, items, pack), lambda: ems(ev, t0, items), lambda: sentinel(ev, t0, items, pack)):
         try:
@@ -267,6 +267,7 @@ def build(ev):
             traceback.print_exc()
     items.sort(key=lambda i: i["t"])
     pack["timeline"] = items; pack["built"] = iso(NOW)
+    pack["note_en"] = "States only what public sources recorded and when; no attribution of cause, no prediction. A strong seismic signal only means the station recorded strong shaking at that moment."
     pack["note"] = "只陈述公开来源记录了什么、什么时候；不判断成因，不预测。地震台强信号只说明那一刻台站记录到较强震动，来源需要结合其他证据。"
     return pack
 
@@ -286,6 +287,12 @@ def main():
         idx["events"][ev["id"]] = {"title": ev["title"], "t": ev["t"], "first_seen": ev.get("first_seen"), "kind": ev.get("kind"), "place": ev.get("place"), "lat": ev["lat"], "lon": ev["lon"],
                                    "v": VERSION, "n": len(pack["timeline"]), "src_n": len(ev.get("src", [])), "built": pack["built"],
                                    "missing": sum(1 for i in pack["timeline"] if i["kind"] == "MISSING")}
+    live = {e["id"] for e in evs}
+    for k in list(idx["events"]):
+        if k not in live:   # 已并入别的事件或超过 60 天
+            idx["events"].pop(k)
+            for f in (k + ".json", k + "_evn.png"):
+                if os.path.exists(os.path.join(OUT, f)): os.remove(os.path.join(OUT, f))
     idx["updated"] = iso(NOW)
     json.dump(idx, open(idx_p, "w"), ensure_ascii=False, indent=1)
 

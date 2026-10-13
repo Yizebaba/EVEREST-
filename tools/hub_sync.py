@@ -28,15 +28,18 @@ try:
         if time.time() - time.mktime(time.strptime(m["t"][:19], "%Y-%m-%dT%H:%M:%S")) > 60 * 86400: continue
         try: p = json.loads(raw(f"events/{eid}.json", "events"))
         except Exception: continue
-        e = {k: p.get(k) for k in ("id", "title", "kind", "place", "lat", "lon", "t", "built", "note")}
+        e = {k: p.get(k) for k in ("id", "title", "title_en", "kind", "place", "lat", "lon", "t", "built", "note", "note_en")}
         e["first_seen"] = m.get("first_seen"); e["timeline"] = p.get("timeline", [])[:60]
         e["evn"] = {k: (p.get("evn") or {}).get(k) for k in ("distance_km", "coverage_pct", "peaks", "error")}
         e["sentinel"] = p.get("sentinel"); e["gauges"] = p.get("gauges"); e["ioda"] = p.get("ioda")
-        if (p.get("evn") or {}).get("png"):
+        if (p.get("evn") or {}).get("png") and time.time() - time.mktime(time.strptime(m["t"][:19], "%Y-%m-%dT%H:%M:%S")) < 21 * 86400:
             try: e["evn_png"] = "data:image/png;base64," + base64.b64encode(raw(f"events/{p['evn']['png']}", "events")).decode()
             except Exception as x: print("图", eid, x)
         evs.append(e)
-    json.dump({"updated": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime()), "events": evs}, open(f"{out}/live_ev.json", "w"), ensure_ascii=False)
-    print("live_ev", os.path.getsize(f"{out}/live_ev.json"), "bytes,", len(evs), "events")
+    evd = {"updated": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime()), "events": evs}
+    json.dump(evd, open(f"{out}/live_ev.json", "w"), ensure_ascii=False)
+    # 同时并进 live_fs.json 的 ev 字段：定时任务原本就写 live/fs，不用改任务也能把事件送到页面
+    fs["ev"] = evd; json.dump(fs, open(f"{out}/live_fs.json", "w"), ensure_ascii=False)
+    print("live_ev", os.path.getsize(f"{out}/live_ev.json"), "bytes,", len(evs), "events；live_fs", os.path.getsize(f"{out}/live_fs.json"), "bytes")
 except Exception as e:
     print("事件证据包暂缺：", e)

@@ -33,27 +33,41 @@ export function detect(rt, prev) {
     const d = districtOf(a.title), pt = a.lat != null ? [a.lat, a.lon] : d ? DISTRICTS[d] : null;
     if (!pt || !inBox(pt[0], pt[1]) || !d) continue;
     const t = new Date(a.started).toISOString();
-    add(`bipad-${d.toLowerCase().replace(/\s+/g, "-")}-${npDay(a.started)}`, { kind: "洪水", title: `${d} 洪水预警`, place: (a.title || "").replace(/^Flood warning at\s*/i, ""), lat: pt[0], lon: pt[1], t },
-      { k: "bipad:" + (a.id || a.started), t, src: "BIPAD 灾害警报", text: a.title + (a.expire ? "（已结束）" : "") });
+    add(`bipad-${d.toLowerCase().replace(/\s+/g, "-")}-${npDay(a.started)}`, { kind: "洪水", title: `${d} 洪水预警`, title_en: `${d} flood warning`, place: (a.title || "").replace(/^Flood warning at\s*/i, ""), lat: pt[0], lon: pt[1], t },
+      { k: "bipad:" + (a.id || a.started), t, src: "BIPAD 灾害警报", text: a.title + (a.expire ? "（已结束）" : ""), text_en: a.title + (a.expire ? " (ended)" : "") });
   }
   for (const q of v("usgs").events || []) {
     if (q.type !== "landslide" || !inBox(q.lat, q.lon)) continue;
-    add(`usgs-${q.id}`, { kind: "崩塌", title: `USGS 记录的崩塌/滑坡 M${q.mag}`, place: q.place, lat: q.lat, lon: q.lon, t: q.t },
-      { k: "usgs:" + q.id, t: q.t, src: "USGS 地震目录", text: `M${q.mag} 归类为崩塌/滑坡（非构造）· ${q.place}`, url: q.url });
+    add(`usgs-${q.id}`, { kind: "崩塌", title: `USGS 记录的崩塌/滑坡 M${q.mag}`, title_en: `Landslide/collapse recorded by USGS, M${q.mag}`, place: q.place, lat: q.lat, lon: q.lon, t: q.t },
+      { k: "usgs:" + q.id, t: q.t, src: "USGS 地震目录", text: `M${q.mag} 归类为崩塌/滑坡（非构造）· ${q.place}`, text_en: `M${q.mag} classified as landslide/collapse (non-tectonic) · ${q.place}`, url: q.url });
   }
   for (const g of v("gdacs").events || []) {
     if (!/orange|red/i.test(g.level || "") || !inBox(g.lat, g.lon)) continue;
     const t = new Date(g.from + (/[zZ+]/.test(g.from || "") ? "" : "Z")).toISOString();
-    add(`gdacs-${g.type}-${(g.from || "").slice(0, 10)}`, { kind: g.type === "FL" ? "洪水" : g.type, title: g.name, place: g.name, lat: g.lat, lon: g.lon, t },
-      { k: "gdacs:" + g.type + g.from, t, src: "GDACS", text: `${g.level} 级 · ${g.name}`, url: g.url });
+    add(`gdacs-${g.type}-${(g.from || "").slice(0, 10)}`, { kind: g.type === "FL" ? "洪水" : g.type, title: g.name, title_en: g.name, place: g.name, lat: g.lat, lon: g.lon, t },
+      { k: "gdacs:" + g.type + g.from, t, src: "GDACS", text: `${g.level} 级 · ${g.name}`, text_en: `${g.level} alert · ${g.name}`, url: g.url });
   }
   for (const [id, s] of Object.entries(v("bipad").st || {})) {
     const m = s.meta || {}, now = Date.parse(rt.updated);
     if (!m.status || /BELOW/.test(m.status) || !m.last_on || now - Date.parse(m.last_on) > 6 * 3600e3) continue;
     const t = new Date(m.last_on).toISOString();
-    add(`gauge-${id}-${npDay(m.last_on)}`, { kind: "水位越线", title: `${m.name} 越过${/DANGER/.test(m.status) ? "危险" : "警戒"}水位`, place: m.title, lat: m.lat, lon: m.lon, t },
-      { k: "gauge:" + id + ":" + t, t, src: "BIPAD 水位站", text: `${m.name} ${m.status}` });
+    add(`gauge-${id}-${npDay(m.last_on)}`, { kind: "水位越线", title: `${m.name} 越过${/DANGER/.test(m.status) ? "危险" : "警戒"}水位`, title_en: `${m.title} ${/DANGER/.test(m.status) ? "above danger level" : "above warning level"}`, place: m.title, lat: m.lat, lon: m.lon, t },
+      { k: "gauge:" + id + ":" + t, t, src: "BIPAD 水位站", text: `${m.name} ${m.status}`, text_en: `${m.title} ${m.status}` });
   }
+  // 同一事件的不同来源合并：时间相差 36 小时内、距离 150 km 内的并到最早的那个
+  const km = (a, b) => { const r = Math.PI / 180, x = Math.sin((b.lat - a.lat) * r / 2) ** 2 + Math.cos(a.lat * r) * Math.cos(b.lat * r) * Math.sin((b.lon - a.lon) * r / 2) ** 2; return 12742 * Math.asin(Math.sqrt(x)); };
+  const L = Object.values(ev).sort((a, b) => a.t.localeCompare(b.t));
+  for (let i = 0; i < L.length; i++) for (let j = i + 1; j < L.length; j++) {
+    const A = L[i], B = L[j]; if (!ev[A.id] || !ev[B.id]) continue;
+    if (Math.abs(Date.parse(B.t) - Date.parse(A.t)) < 36 * 3600e3 && km(A, B) < 150) {
+      for (const it of B.src) if (!A.src.some(x => x.k === it.k)) A.src.push(it);
+      A.src.sort((a, b) => a.t.localeCompare(b.t)); A.also = (A.also || []).concat([B.id], B.also || []);
+      if (A.kind !== B.kind && !String(A.kind).includes(B.kind)) A.kind = A.kind + "、" + B.kind;
+      delete ev[B.id];
+    }
+  }
+  // 合并过的事件，以后新来的同源信号也并进来
+  for (const e of Object.values(ev)) for (const o of e.also || []) if (ev[o]) { for (const it of ev[o].src) if (!e.src.some(x => x.k === it.k)) e.src.push(it); delete ev[o]; }
   // 只保留 60 天
   for (const k of Object.keys(ev)) if (Date.now() - Date.parse(ev[k].t) > 60 * 864e5) delete ev[k];
   return ev;

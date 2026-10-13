@@ -25,5 +25,5 @@ jobs:
       - name: Save
         run: |
           git config user.name "evidence"; git config user.email "actions@users.noreply.github.com"
-          git add events index.json && git commit -qm "evidence $(date -u +%FT%TZ)" || exit 0
+          git add -A events index.json && git commit -qm "evidence $(date -u +%FT%TZ)" || exit 0
           for i in 1 2 3; do git pull -q --rebase origin events && git push -q origin events && break; sleep 3; done
