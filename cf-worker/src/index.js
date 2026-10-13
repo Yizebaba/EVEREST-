@@ -247,6 +247,8 @@ async function tick(env) {
     await discover(env, log);
     // 推进度的那一分钟不做计算，避免超过每次 50 个子请求
     if (await pushStatus(env, log)) { await setMeta(env, "last_tick", JSON.stringify(log)); return log; }
+    // D1 免费额度每天 10 万行写入：建基线时每写 1 行观测要算 2 行（表 + 索引）。每 3 分钟停 1 分钟，全天约 6 万行，留出余量
+    if (new Date().getUTCMinutes() % 3 === 0) { log.skip = "每 3 分钟停 1 分钟（省 D1 写入额度）"; return log; }
     const worked = await work(env, log);
     // 队列空了才打分：保证每个日期都在完整历史上计算
     if (!worked) {
@@ -260,7 +262,7 @@ async function tick(env) {
       }
     }
   } catch (e) { log.err = String(e && e.stack || e).slice(0, 400); }
-  await setMeta(env, "last_tick", JSON.stringify(log)).catch(() => {});
+  if (log.err || new Date().getUTCMinutes() % 10 === 0) await setMeta(env, "last_tick", JSON.stringify(log)).catch(() => {});
   return log;
 }
 
