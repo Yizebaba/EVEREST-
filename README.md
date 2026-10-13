@@ -1,8 +1,8 @@
 # EVEREST · 公开地球观测数据的真实度审计和事件证据平台
 
-**EVEREST — truth audit and event evidence for public Earth-observation data. Pilot area: Mount Everest.**
+**EVEREST — truth audit and event evidence for public Earth-observation data.**
 
-珠峰是第一个示范区，不是最终产品。我们不和国家比数据，比的是**中立、透明、边界清楚**，以及**把公开数据拼起来的速度**。只监测、不预测、不做天气。
+我们不和国家比数据，比的是**中立、透明、边界清楚**，以及**把公开数据拼起来的速度**。只监测、不预测、不做天气。
 
 - **真实度审计**：持续记录每个公开来源（水位站、地震台、卫星目录、警报接口、网络连通）是否在线、延迟多少、哪里断档。WMO 的 WDQMS 只管气象观测，水文、地震、卫星目录没有同类工具。
 - **事件证据包**：事件发生后，把地震台、水位站、网络连通和卫星影像对齐到同一条时间线，每条注明来源和时间。灾后影像已经很多（哥白尼应急、国际宪章、Planet），但没有人把这些非影像信号和影像放在一起。

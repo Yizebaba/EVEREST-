@@ -208,7 +208,7 @@ body{--calm:1}
 <body>
 <div id="app">
 <header class="top">
-<button class="brand" id="home" aria-label="EVEREST 总览"><i class="orb" style="--c:#ffb347"></i><b>EVEREST</b><small>公开数据真实度审计与事件证据 · 示范区：珠峰</small></button>
+<button class="brand" id="home" aria-label="EVEREST 总览"><i class="orb" style="--c:#ffb347"></i><b>EVEREST</b><small>公开地球观测数据的真实度审计和事件证据平台</small></button>
 <div class="stats" id="stats"></div>
 <input id="cmd" type="search" placeholder="搜索节点、仓库、组件、异常，回车跳转…" aria-label="搜索">
 <div class="tr"><button class="pill lg" id="lgIn" title="登录" aria-haspopup="dialog"><span id="lgTx">登录</span></button><button class="pill" id="posBtn" aria-haspopup="dialog">定位</button><button class="pill" id="lang" aria-label="语言">EN</button><button class="pill hi" id="new">＋ 提交</button></div>
@@ -742,10 +742,10 @@ document.addEventListener("click",e=>{const b=e.target.closest("[data-xt]");if(!
  else if(k==="pdel"){XT.del=null;xPut("xplug",a,null).then(ok=>ok&&say(Z("已删除","Deleted")))}});
 
 /* v49：定位说明（按钮在右上角） */
-setTimeout(()=>{LT("定位","About");LT("公开数据真实度审计与事件证据 · 示范区：珠峰","Public-data truth audit & event evidence · Pilot: Everest");if(LANG==="en")applyLang()},0);
+setTimeout(()=>{LT("定位","About");LT("公开地球观测数据的真实度审计和事件证据平台","Truth audit & event evidence for public Earth-observation data");if(LANG==="en")applyLang()},0);
 function posHTML(){const li=a=>'<ul style="margin:4px 0 8px 18px;padding:0;font-size:13px;line-height:1.7">'+a.map(x=>'<li>'+x+'</li>').join("")+'</ul>';
  return '<b style="font-size:15px">'+Z("公开地球观测数据的真实度审计和事件证据平台","Truth audit and event evidence platform for public Earth-observation data")+'</b>'
- +'<div class="sub" style="margin:6px 0">'+Z("珠峰是第一个示范区，不是最终产品。我们不和国家比数据，比的是中立、透明、边界清楚，以及把公开数据拼起来的速度。","Everest is the first pilot area, not the product. We don't compete with governments on data; we compete on neutrality, transparency, clear boundaries and how fast public data can be pieced together.")+'</div>'
+ +'<div class="sub" style="margin:6px 0">'+Z("我们不和国家比数据，比的是中立、透明、边界清楚，以及把公开数据拼起来的速度。","We don't compete with governments on data; we compete on neutrality, transparency, clear boundaries and how fast public data can be pieced together.")+'</div>'
  +'<div class="gt">'+Z("做什么","What we do")+'</div>'+li([Z("<b>真实度审计</b>：持续记录每个公开来源（水位站、地震台、卫星目录、警报接口、网络连通）是否在线、延迟多少、哪里断档。WMO 的 WDQMS 只管气象观测，水文、地震和卫星目录没有同类工具。","<b>Truth audit</b>: continuously record whether each public source (gauges, seismic stations, satellite catalogues, alert feeds, connectivity) is online, how late it is and where it breaks. WMO's WDQMS covers only weather observations; nothing equivalent exists for hydrology, seismology or satellite catalogues."),
   Z("<b>事件证据包</b>：事件发生后，把地震台、水位站、网络连通和卫星影像对齐到同一条时间线，每条注明来源和时间。灾后影像已经很多（哥白尼应急、国际宪章、Planet），但没人把这些非影像信号和影像放在一起。","<b>Event evidence packs</b>: after an event, align seismic, river-gauge, connectivity and satellite signals on one timeline, each with source and time. Post-event imagery is plentiful (Copernicus EMS, the Charter, Planet), but nobody puts the non-image signals next to it.")])
  +'<div class="gt">'+Z("谁承担损失","Who carries the losses")+'</div>'+li([Z("水电业主、贷款方、保险和再保险公司。8·26 洪水：政府评估合计约 27 亿美元，其中实物损坏 18.1 亿（世界银行估计实物损坏 16.6 亿）；水电在运 281 MW、在建 395 MW 受影响（世界银行；初报为约 360 MW、占装机约 8%）。AM Best：国际再保人将承担大部分保险损失，水电和工程险理赔需要密切关注。","Hydropower owners, lenders, insurers and reinsurers. 26 August flood: government assessment about US$2.7 bn in total, US$1.81 bn of it physical damage (World Bank: US$1.66 bn physical); 281 MW operating and 395 MW under construction affected (World Bank; first reports said about 360 MW, ~8% of capacity). AM Best: international reinsurers will absorb a significant share of insured losses; hydropower and engineering claims warrant close monitoring.")])
