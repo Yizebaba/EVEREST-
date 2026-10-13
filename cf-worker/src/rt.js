@@ -128,46 +128,28 @@ async function ioda(prev) {
   const lastNum = s => s ? [...s.v].reverse().find(a => a != null) ?? null : null;
   return { region: "Sagarmatha (3027)", bgp_last: lastNum(bgp), ping_last: lastNum(ping), bgp, ping, until: iso(until * 1000) };
 }
-// OpenSky 注册账号（OAuth2 客户端凭证，2026-03-18 起不再支持用户名密码）。凭证放在 Worker 机密 OPENSKY_CLIENT_ID / OPENSKY_CLIENT_SECRET。
-let OSK = null;   // 本实例内缓存的访问令牌 {tok, exp}
-async function openskyToken(env) {
-  if (OSK && OSK.exp > Date.now() + 60e3) return OSK.tok;
-  const r = await fetch("https://auth.opensky-network.org/auth/realms/opensky-network/protocol/openid-connect/token", {
-    method: "POST", headers: { "Content-Type": "application/x-www-form-urlencoded", ...UA },
-    body: new URLSearchParams({ grant_type: "client_credentials", client_id: env.OPENSKY_CLIENT_ID, client_secret: env.OPENSKY_CLIENT_SECRET }) });
-  if (!r.ok) throw new Error("OpenSky 令牌 " + r.status);
+// ADS-B：Cloudflare 的服务器连不上 OpenSky，adsb.fi / airplanes.live 也拒绝它。改由 GitHub 运行器代取：
+// 这里每轮先读上一次结果（adsb-live 分支的 adsb.json），再改 trigger.txt 触发下一次（GitHub 工作流 adsb-live）。
+async function ghFile(env, path, br) {
+  const r = await fetch(`https://api.github.com/repos/${env.GH_REPO}/contents/${path}?ref=${br}`, { headers: { ...UA, accept: "application/vnd.github+json", ...(env.GH_TOKEN ? { authorization: "Bearer " + env.GH_TOKEN } : {}) } });
+  if (!r.ok) return { status: r.status };
   const x = await r.json();
-  OSK = { tok: x.access_token, exp: Date.now() + (x.expires_in || 1800) * 1000 };
-  return OSK.tok;
+  return { sha: x.sha, text: new TextDecoder().decode(Uint8Array.from(atob(x.content.replace(/\n/g, "")), c => c.charCodeAt(0))) };
 }
-const osMap = o => (o.states || []).map(v => ({ hex: v[0], flight: (v[1] || "").trim(), type: null, alt: v[7] == null ? null : Math.round(v[7] * 3.281), gs: v[9] == null ? null : Math.round(v[9] * 1.944), lat: v[6], lon: v[5], seen: o.time - v[4] }));
-const OS_URL = "https://opensky-network.org/api/states/all?lamin=27.45&lomin=86.35&lamax=28.25&lomax=87.25";
 async function adsb(prev, env) {
-  let ac = null, src = null, errs = [];
-  // 有注册凭证时先用 OpenSky（带令牌）
-  if (env && env.OPENSKY_CLIENT_ID && env.OPENSKY_CLIENT_SECRET) {
-    try {
-      const tok = await openskyToken(env);
-      const r = await fetch(OS_URL, { headers: { ...UA, Authorization: "Bearer " + tok } });
-      if (!r.ok) throw new Error(String(r.status));
-      ac = osMap(await r.json()); src = "opensky（注册）";
-    } catch (e) { errs.push("opensky注册:" + String(e.message || e).slice(0, 40)); }
-  }
-  if (!ac) {
-    // 免费源依次尝试（adsb.lol 会对共享出口 IP 限流）
-    for (const [name, u] of [["adsb.lol", "https://api.adsb.lol/v2/point/27.85/86.80/40"], ["adsb.fi", "https://opendata.adsb.fi/api/v3/lat/27.85/lon/86.80/dist/40"],
-                             ["airplanes.live", "https://api.airplanes.live/v2/point/27.85/86.80/40"]]) {
-      try { const x = await j(u); src = name; ac = (x.ac || x.aircraft || []).map(a => ({ hex: a.hex, flight: (a.flight || "").trim(), type: a.t || null, alt: a.alt_baro, gs: a.gs, lat: a.lat, lon: a.lon, seen: a.seen })); break; }
-      catch (e) { errs.push(name + ":" + String(e.message || e).slice(0, 4)); }
-    }
-  }
-  if (!ac && !(env && env.OPENSKY_CLIENT_ID)) {
-    try { ac = osMap(await j(OS_URL)); src = "opensky（匿名）"; } catch (e) { errs.push("opensky:" + String(e.message || e).slice(0, 4)); }
-  }
-  if (!ac) throw new Error("ADS-B 都失败 " + errs.join(" "));
+  if (!env || !env.GH_TOKEN || !env.GH_REPO) throw new Error("没有 GH_TOKEN，无法触发 GitHub 运行器");
+  const res = await ghFile(env, "adsb.json", "adsb-live");
+  // 触发下一次
+  const tr = await ghFile(env, "trigger.txt", "adsb-live");
+  const put = await fetch(`https://api.github.com/repos/${env.GH_REPO}/contents/trigger.txt`, { method: "PUT",
+    headers: { ...UA, accept: "application/vnd.github+json", "content-type": "application/json", authorization: "Bearer " + env.GH_TOKEN },
+    body: JSON.stringify({ message: "adsb trigger " + iso(Date.now()), content: btoa(iso(Date.now()) + "\n"), branch: "adsb-live", sha: tr.sha }) });
+  if (!res.text) throw new Error("GitHub 运行器还没有结果（" + res.status + "）；触发 " + put.status);
+  const x = JSON.parse(res.text);
+  if (!x.ok) throw new Error("GitHub 运行器取数失败：" + (x.errs || []).join(" "));
   const hist = ((prev && prev.hist) || []).filter(h => Date.now() - Date.parse(h[0]) < 24 * 3600e3);
-  hist.push([iso(Date.now()), ac.length]);
-  return { now: ac, count: ac.length, hist: hist.slice(-300), source: src };
+  if (!hist.length || hist[hist.length - 1][0] !== x.at) hist.push([x.at, x.count]);
+  return { now: x.now, count: x.count, hist: hist.slice(-300), source: x.source + "，经 GitHub 运行器", fetched: x.at, trigger: put.status };
 }
 async function gdacs() {
   const from = new Date(Date.now() - 90 * 864e5).toISOString().slice(0, 10);
@@ -262,7 +244,7 @@ const tsOf = s => { if (!s) return null; const p = s.trim().split(/\s+/).map(Num
 // OpenSky 匿名每天 400 点、每次 1 点（约 4 分钟一次）；实时轮每 5 分钟一次，所以连通时取 5 分钟。都不通时退到 60 分钟，免得反复打扰对方。
 function every(k, s) {
   if (k !== "adsb") return EVERY[k];
-  return (s && s.ok) ? 5 : 60;
+  return (s && s.ok) ? 15 : 30;
 }
 const JOBS = { evn, bipad, emsc, gibs, ioda, usgs, alerts, nsc, gdacs, doris, adsb };
 
@@ -271,7 +253,7 @@ export async function rtTick(env, getMeta, setMeta) {
   const st = JSON.parse((await getMeta(env, "rt")) || "{}");
   const log = { rt: [] };
   // 刚加了 OpenSky 凭证、还没用凭证试过时，不等 60 分钟，下一轮就试
-  const fresh = k => k === "adsb" && env.OPENSKY_CLIENT_ID && st.adsb && !st.adsb.ok && !/opensky注册/.test(st.adsb.err || "");
+  const fresh = k => k === "adsb" && st.adsb && !st.adsb.ok && /OpenSky|ADS-B 都失败/.test(st.adsb.err || "");
   const due = Object.keys(JOBS).filter(k => { const s = st[k]; return !s || !s.at || fresh(k) || Date.now() - Date.parse(s.at) >= (every(k, s) - 0.5) * 60e3; })
     .sort((a, b) => (Date.parse((st[a] || {}).at || 0) - (every(a, st[a]) * 60e3)) - (Date.parse((st[b] || {}).at || 0) - (every(b, st[b]) * 60e3))).slice(0, MAX_PER_ROUND);
   for (const k of due) {
