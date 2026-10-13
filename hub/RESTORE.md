@@ -162,3 +162,10 @@
 # 第二十四次改动（去掉“示范区”字样）
 - 页面：线上 Version 50。页头副标题改为“公开地球观测数据的真实度审计和事件证据平台”，定位弹窗去掉“珠峰是第一个示范区”。README、连接器说明、插件说明同步。
 - 复原：回退到 Version 49。
+
+---
+# 第二十五次改动（自动发现事件 + 自动证据包）
+- Worker（main fb32ccb）：每 5 分钟从 BIPAD 洪水警报（喜马拉雅高山区县）、USGS 崩塌、GDACS 橙/红级、水位越线中自动发现事件，36 小时 / 150 km 内合并；/api/events.json；连接器新增 everest_events（共 15 个工具）。
+- GitHub：events 分支 + evidence 工作流 + tools/evidence_pack.py：新事件或每 6 小时生成证据包（IO.EVN 信号图、地震目录、80 km 内水位站、IODA、哥白尼应急制图、Sentinel-1/2 前后影像）。
+- 页面：线上 Version 51。底部“计算异常”自动加入事件（事件候选），详情里有证据时间线、IO.EVN 图、卫星影像链接；数据随 live/fs 的 ev 字段每小时同步。
+- 复原：页面回退 Version 50；Worker 回退到 7ece293 之前的 events 相关提交（删 cf-worker/src/events.js 和 index.js 里的事件段）；events 分支可直接删除。

@@ -36,7 +36,12 @@ try:
             try: e["evn_png"] = "data:image/png;base64," + base64.b64encode(raw(f"events/{p['evn']['png']}", "events")).decode()
             except Exception as x: print("图", eid, x)
         evs.append(e)
+    # 数据库单个文档上限 256 KiB：只给最近 3 个事件带图，超了就从最早的开始去掉图
+    for e in sorted(evs, key=lambda e: e["t"])[:-3]: e.pop("evn_png", None)
     evd = {"updated": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime()), "events": evs}
+    for e in sorted(evs, key=lambda e: e["t"]):
+        if len(json.dumps({**fs, "ev": evd}, ensure_ascii=False).encode()) < 230000: break
+        e.pop("evn_png", None)
     json.dump(evd, open(f"{out}/live_ev.json", "w"), ensure_ascii=False)
     # 同时并进 live_fs.json 的 ev 字段：定时任务原本就写 live/fs，不用改任务也能把事件送到页面
     fs["ev"] = evd; json.dump(fs, open(f"{out}/live_fs.json", "w"), ensure_ascii=False)
