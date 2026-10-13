@@ -75,8 +75,8 @@
    "id": 29997,
    "title": "Nalgad at Raulakhet",
    "km": 61,
-   "level": 0.594900131226,
-   "at": "2026-10-13T10:50:00+05:45",
+   "level": 0.600100040436,
+   "at": "2026-10-13T11:30:00+05:45",
    "warning": 2.0,
    "danger": 2.6,
    "status": "BELOW WARNING LEVEL",
@@ -86,8 +86,8 @@
    "id": 2267,
    "title": "Sano Bheri at Simlighat",
    "km": 64,
-   "level": 1.97399997711,
-   "at": "2026-10-13T12:40:00+05:45",
+   "level": 1.97200012207,
+   "at": "2026-10-13T12:50:00+05:45",
    "warning": 6.0,
    "danger": 7.0,
    "status": "BELOW WARNING LEVEL",
@@ -97,8 +97,8 @@
    "id": 2059,
    "title": "Thulo Bheri at Rimna",
    "km": 69,
-   "level": 2.99499988556,
-   "at": "2026-10-13T12:40:00+05:45",
+   "level": 2.98400020599,
+   "at": "2026-10-13T13:00:00+05:45",
    "warning": 5.6,
    "danger": 6.2,
    "status": "BELOW WARNING LEVEL",
@@ -149,14 +149,14 @@
    "t": "2026-10-04T05:06:51Z",
    "src": "Sentinel-2 光学",
    "kind": "NEUTRAL",
-   "text": "事件前最近一景 S2C_MSIL2A_20261004T050651_R019_T44RPT_20261004T102617（云量 8%）",
+   "text": "第一条公开信号之前最近一景 S2C_MSIL2A_20261004T050651_R019_T44RPT_20261004T102617（云量 8%）",
    "url": "https://planetarycomputer.microsoft.com/api/data/v1/item/preview.png?collection=sentinel-2-l2a&item=S2C_MSIL2A_20261004T050651_R019_T44RPT_20261004T102617&assets=visual&asset_bidx=visual%7C1,2,3&nodata=0&format=png"
   },
   {
    "t": "2026-10-08T12:30:25Z",
    "src": "Sentinel-1 雷达",
    "kind": "NEUTRAL",
-   "text": "事件前最近一景 S1D_IW_GRDH_1SDV_20261008T123012_20261008T123037_004924_00946F_rtc",
+   "text": "第一条公开信号之前最近一景 S1D_IW_GRDH_1SDV_20261008T123012_20261008T123037_004924_00946F_rtc",
    "url": "https://planetarycomputer.microsoft.com/api/data/v1/item/preview.png?collection=sentinel-1-rtc&item=S1D_IW_GRDH_1SDV_20261008T123012_20261008T123037_004924_00946F_rtc&assets=vv&assets=vh&tile_format=png&expression=0.03%20%2B%20log%20(10e-4%20-%20log%20(0.05%20%2F%20(0.02%20%2B%202%20*%20vv)));0.05%20%2B%20exp%20(0.25%20*%20(log%20(0.01%20%2B%202%20*%20vv)%20%2B%20log%20(0.02%20%2B%205%20*%20vh)));1%20-%20log%20(0.05%20%2F%20(0.045%20-%200.9%20*%20vv))&asset_as_band=True&rescale=0,.8000&rescale=0,1.000&rescale=0,1.000&format=png"
   },
   {
@@ -194,7 +194,7 @@
    "t": "2026-10-09T15:15:00Z",
    "src": "EMSC 地震目录",
    "kind": "NEUTRAL",
-   "text": "查询失败（Expecting value: line 1 column 1 (char 0)）"
+   "text": "事件 300 km 内前后一天没有记录"
   },
   {
    "t": "2026-10-09T19:40:00Z",
@@ -206,28 +206,28 @@
    "t": "2026-10-11T04:57:21Z",
    "src": "Sentinel-2 光学",
    "kind": "SUPPORTING",
-   "text": "事件后第一景 S2C_MSIL2A_20261011T045721_R119_T44RPT_20261011T095104（云量 4%），可与事件前对比",
+   "text": "第一条公开信号之后第一景 S2C_MSIL2A_20261011T045721_R119_T44RPT_20261011T095104（云量 4%），可与事件前对比",
    "url": "https://planetarycomputer.microsoft.com/api/data/v1/item/preview.png?collection=sentinel-2-l2a&item=S2C_MSIL2A_20261011T045721_R119_T44RPT_20261011T095104&assets=visual&asset_bidx=visual%7C1,2,3&nodata=0&format=png"
   },
   {
-   "t": "2026-10-13T07:17:39Z",
+   "t": "2026-10-13T07:21:18Z",
    "src": "BIPAD 水位站",
    "kind": "MISSING",
    "text": "事件 80 km 内 7 个公开水位站，现在在报 3 个；停报：Thuli Bheri at Tripurakot、Thuli Bheri at Trivenighat、Jagdulla River at Hurikot、Intake at Kalaiya Taal (Nulsing Gad)"
   },
   {
-   "t": "2026-10-13T07:17:39Z",
+   "t": "2026-10-13T07:21:18Z",
    "src": "Copernicus EMS",
-   "kind": "MISSING",
-   "text": "查询失败（HTTP Error 404: Not Found）"
+   "kind": "NEUTRAL",
+   "text": "没有为这次事件启动应急制图"
   },
   {
-   "t": "2026-10-13T07:17:39Z",
+   "t": "2026-10-13T07:21:18Z",
    "src": "Sentinel-1 雷达",
    "kind": "MISSING",
-   "text": "事件后还没有新的一景（下次自动补）"
+   "text": "第一条公开信号之后还没有新的一景（下次自动补）"
   }
  ],
- "built": "2026-10-13T07:17:39Z",
+ "built": "2026-10-13T07:21:18Z",
  "note": "只陈述公开来源记录了什么、什么时候；不判断成因，不预测。地震台强信号只说明那一刻台站记录到较强震动，来源需要结合其他证据。"
 }
