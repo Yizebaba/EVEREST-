@@ -5,6 +5,7 @@
 import FACETS from "./facets.json";
 import { searchScenes, facetStat, STAC, DATA } from "./pc.js";
 import { rtTick, rtPublic, IMG } from "./rt.js";
+import { handleMcp } from "./mcp.js";
 
 const BBOX = [86.54, 27.746, 87.257, 28.23];
 const START = "2020-01-01T00:00:00Z";
@@ -288,6 +289,14 @@ export default {
     if (u.pathname === "/api/status.json") return json(await status(env));
     if (u.pathname === "/api/facets.json") return json(FACETS);
     if (u.pathname === "/api/rt.json") { await init(env); const v = await getMeta(env, "rt"); return json(v ? rtPublic(JSON.parse(v)) : { building: true }); }
+    if (u.pathname === "/mcp") {   // EVEREST 连接器（MCP），只读
+      await init(env);
+      return handleMcp(req, env, {
+        rt: async () => { const v = await getMeta(env, "rt"); return v ? rtPublic(JSON.parse(v)) : null; },
+        status: () => status(env),
+        live: async () => { const v = await getMeta(env, "live"); return v ? JSON.parse(v) : null; },
+      });
+    }
     if (u.pathname === "/rt") return new Response(RT_PAGE, { headers: { "content-type": "text/html; charset=utf-8" } });
     if (u.pathname === "/__tick" && env.ALLOW_MANUAL_TICK === "1") return json(await tick(env));
     if (u.pathname === "/") return new Response(PAGE, { headers: { "content-type": "text/html; charset=utf-8" } });
