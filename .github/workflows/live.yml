@@ -30,8 +30,9 @@ jobs:
           fi
       - uses: actions/setup-python@v5
         with: {python-version: "3.12", cache: pip}
-      - run: pip install obspy numpy
+      - run: pip install obspy numpy "zarr<3" fsspec aiohttp requests
       - run: python tools/live_collect.py state
+        env: {GH_TOKEN: "${{ github.token }}"}
       - name: save state (single orphan commit)
         run: |
           rm -rf _out && mkdir -p _out/site/data && cp -r state _out/ && cp site/index.html _out/site/ && cp state/*.json _out/site/data/

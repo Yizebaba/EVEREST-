@@ -4,6 +4,29 @@
 
 ---
 
+## 项目地图（整体）
+
+一个仓库包含整个 EVEREST 平台。只监测，不预测。
+
+| 目录 | 内容 | 在哪运行 |
+|---|---|---|
+| `pipeline.py`、`cloud_insar_pipeline.py`、`models/`、`data/` | 每日 InSAR 管线与云端干涉（Sentinel-1，计算在哥白尼 openEO） | GitHub 计划任务（`.github/workflows/daily-pipeline.yml`） |
+| `cf-worker/` | 实时采集（11 个公开数据源）、坡面雷达监测（376 块坡面，Planetary Computer）、**EVEREST 连接器** `/mcp` | Cloudflare Worker（每分钟） |
+| `hub/` | 总览页源文件、能力声明、复原记录、自检脚本 | claude.ai Artifact |
+| `plugin/` | **插件**：连接器配置 + **技能**（`plugin/skills/*/SKILL.md`）；仓库根 `.claude-plugin/marketplace.json` 可直接作为插件市场 | Claude / Claude Code |
+| `tools/` | 小工具：`live_collect.py`（旧采集，备用）、`monitor_sync.py`、`hub_sync.py`（每小时把实时数据写进总览）、`adsb_fetch.py` 在 `adsb-live` 分支 | 定时任务 / GitHub |
+| `site/` | 旧采集任务的静态页（`live.yml` 使用） | GitHub |
+
+数据分支（自动写入，不要手改、不要合并进 main）：`facet-live`（实时快照、坡面进度、云图）、`adsb-live`（ADS-B 中转与连接器外部检查）、`live-data`（旧采集结果）、`insar-out`（早期云端干涉结果）。
+
+- 总览：https://claude.ai/artifact/6heopu2wizEAFMJJLDs44H
+- 实时采集页：https://everest-facets.yizebaba.workers.dev/rt
+- 连接器：https://everest-facets.yizebaba.workers.dev/mcp（在 Claude 设置 → 连接器里添加，名称 EVEREST）
+- Claude Code 安装插件：`/plugin marketplace add Yizebaba/everest-insar-pipeline` 然后 `/plugin install everest@everest`
+
+---
+
+
 <a name="english"></a>
 ## English Overview
 
