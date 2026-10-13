@@ -23,7 +23,7 @@ import urllib.request, urllib.parse
 UA = {"user-agent": "everest-evidence (github.com/Yizebaba/everest-insar-pipeline)"}
 EVN = (27.9587, 86.8117)
 OUT = "events"
-VERSION = 8   # 改了证据包内容时加 1，所有包会重算一次
+VERSION = 9   # 改了证据包内容时加 1，所有包会重算一次
 NOW = datetime.now(timezone.utc)
 
 # 尼泊尔区县 → IODA 地区（旧 14 区）
@@ -474,6 +474,330 @@ def plot_seis(ev, t0, pack):
     pack["png"] = f"{ev['id']}_evn.png"
 
 
+# ---------- v9：更多公开记录（见 docs/EVIDENCE_SOURCES.md） ----------
+def _env(raw, a, b):
+    """MiniSEED → 1–5 Hz、60 秒均方根包络、缺口。返回 (起点, 包络, 缺口, 背景, 覆盖率)。"""
+    from obspy import read
+    import io, numpy as np
+    st = read(io.BytesIO(raw)); st.merge(fill_value=0); tr = st[0]
+    tr.detrend("demean"); tr.filter("bandpass", freqmin=1, freqmax=5, corners=4, zerophase=True)
+    n = int(60 * tr.stats.sampling_rate); x = tr.data.astype(float); m = len(x) // n
+    env = np.sqrt((x[:m * n].reshape(m, n) ** 2).mean(axis=1)); start = tr.stats.starttime.datetime.replace(tzinfo=timezone.utc)
+    gp, bad = gaps_of(env, start); env = np.where(bad, 0.0, env)
+    valid = env[env > 0]; bg = float(np.median(valid)) if len(valid) else 0
+    return start, env, gp, bg, round(100 * len(valid) / max(1, int((b - a).total_seconds() / 60)))
+
+
+def rshake(ev, t0, items, pack):
+    """Raspberry Shake 民间地震仪（AM 台网）：事件 150 km 内最近的两台，事件前 6 小时到后 3 小时的强信号。"""
+    base = "https://data.raspberryshake.org/fdsnws"
+    a, b = t0 - timedelta(hours=6), t0 + timedelta(hours=3)
+    try:
+        txt = get(f"{base}/station/1/query?network=AM&latitude={ev['lat']}&longitude={ev['lon']}&maxradius=1.35&level=channel&format=text&starttime={iso(a)[:-1]}&endtime={iso(b)[:-1]}", raw=True, timeout=60).decode()
+        st = {}
+        for ln in txt.splitlines()[1:]:
+            c = ln.split("|")
+            if len(c) > 5 and c[3] in ("EHZ", "SHZ", "HHZ"):
+                st.setdefault(c[1], (float(c[4]), float(c[5]), c[3], c[2]))
+        near = sorted(((km((ev["lat"], ev["lon"]), (v[0], v[1])), k, v) for k, v in st.items()))[:2]
+        pack["rshake"] = {"stations": [{"sta": k, "km": round(d)} for d, k, v in near]}
+        if not near:
+            items.append({"t": iso(t0), "src": "Raspberry Shake 地震仪", "kind": "MISSING", "text": "事件 150 km 内这段时间没有在线的民间地震仪",
+                          "text_en": "No citizen seismometer online within 150 km during this window"})
+            return
+        for d, k, v in near:
+            try:
+                raw = get(f"{base}/dataselect/1/query?network=AM&station={k}&location={v[3] or '00'}&channel={v[2]}&starttime={iso(a)[:-1]}&endtime={iso(b)[:-1]}", raw=True, timeout=180)
+                if not raw:
+                    raise RuntimeError("没有返回数据")
+                start, env, gp, bg, cover = _env(raw, a, b)
+                import numpy as np
+                pk = []
+                for i in np.argsort(-env):
+                    if bg <= 0 or env[i] / bg < 5 or len(pk) >= 2: break
+                    ti = start + timedelta(minutes=int(i))
+                    if all(abs((ti - q[0]).total_seconds()) > 1800 for q in pk): pk.append((ti, float(env[i] / bg)))
+                for ti, r in pk:
+                    items.append({"t": iso(ti), "src": "Raspberry Shake 地震仪", "kind": "SUPPORTING",
+                                  "text": f"AM.{k}（距事件约 {d:.0f} km）1–5 Hz 信号约为背景的 {r:.0f} 倍", "text_en": f"AM.{k} (about {d:.0f} km away) 1–5 Hz signal about {r:.0f}× background"})
+                if not pk:
+                    items.append({"t": iso(t0), "src": "Raspberry Shake 地震仪", "kind": "NEUTRAL",
+                                  "text": f"AM.{k}（距约 {d:.0f} km，覆盖 {cover}%）事件前 6 小时到后 3 小时没有超过背景 5 倍的信号",
+                                  "text_en": f"AM.{k} (about {d:.0f} km, {cover}% coverage): nothing above 5× background from 6 h before to 3 h after"})
+            except Exception as e:
+                items.append({"t": iso(t0), "src": "Raspberry Shake 地震仪", "kind": "MISSING", "text": f"AM.{k} 取不到波形（{str(e)[:60]}）", "text_en": f"AM.{k} waveform not available ({str(e)[:60]})"})
+    except Exception as e:
+        items.append({"t": iso(t0), "src": "Raspberry Shake 地震仪", "kind": "MISSING", "text": f"台站查询失败（{str(e)[:60]}）", "text_en": f"Station query failed ({str(e)[:60]})"})
+
+
+def usgs_products(ev, t0, items, pack):
+    """USGS 每次地震的附加产品：ShakeMap 烈度、Did You Feel It? 有感报告、PAGER 模型估计（标明是估计，不是观测）。"""
+    a, b = t0 - timedelta(days=1), t0 + timedelta(days=1)
+    try:
+        x = get(f"https://earthquake.usgs.gov/fdsnws/event/1/query?format=geojson&latitude={ev['lat']}&longitude={ev['lon']}&maxradiuskm=300&starttime={iso(a)}&endtime={iso(b)}&minmagnitude=4")
+        for f in x.get("features", [])[:5]:
+            d = get(f["properties"]["detail"]); pr = d["properties"].get("products", {}); t = iso(datetime.fromtimestamp(d["properties"]["time"] / 1000, timezone.utc))
+            sm = (pr.get("shakemap") or [{}])[0].get("properties", {}); dy = (pr.get("dyfi") or [{}])[0].get("properties", {}); pg = (pr.get("losspager") or [{}])[0].get("properties", {})
+            if sm.get("maxmmi"):
+                items.append({"t": t, "src": "USGS ShakeMap", "kind": "SUPPORTING", "text": f"M{f['properties']['mag']} 最大烈度 {float(sm['maxmmi']):.1f}（台站实测与模型合成的震动图）",
+                              "text_en": f"M{f['properties']['mag']} max intensity {float(sm['maxmmi']):.1f} (shaking map from station records and model)", "url": f["properties"]["url"] + "/shakemap"})
+            if dy.get("num-responses"):
+                items.append({"t": t, "src": "USGS 有感报告", "kind": "SUPPORTING", "text": f"{dy['num-responses']} 份公众有感报告，最大烈度 {dy.get('maxmmi')}",
+                              "text_en": f"{dy['num-responses']} public felt reports, max intensity {dy.get('maxmmi')}", "url": f["properties"]["url"] + "/dyfi"})
+            if pg.get("alertlevel"):
+                items.append({"t": t, "src": "USGS PAGER", "kind": "NEUTRAL", "text": f"机构模型估计：PAGER 警报级别 {pg['alertlevel']}（模型估计，不是观测）",
+                              "text_en": f"Agency model estimate: PAGER alert level {pg['alertlevel']} (model estimate, not an observation)", "url": f["properties"]["url"] + "/pager"})
+    except Exception as e:
+        items.append({"t": iso(t0), "src": "USGS ShakeMap", "kind": "MISSING", "text": f"查询失败（{str(e)[:60]}）", "text_en": f"Query failed ({str(e)[:60]})"})
+
+
+HAZ_EN = "(flood OR landslide OR avalanche OR earthquake OR \"glacial lake\" OR \"debris flow\" OR snowstorm OR rockfall)"
+
+
+def place_word(ev):
+    d = ev.get("district") or (nearest_district(ev["lat"], ev["lon"]) if km((ev["lat"], ev["lon"]), DIST[nearest_district(ev["lat"], ev["lon"])]) < 60 else None)
+    return d or "Nepal"
+
+
+def gdelt(ev, t0, items, pack):
+    """GDELT 全球新闻：这个地方的灾害新闻最早什么时候出现、有多少家媒体报道。"""
+    a, b = t0 - timedelta(days=1), min(NOW, t0 + timedelta(days=5))
+    q = f'"{place_word(ev)}" {HAZ_EN}' + ("" if place_word(ev) == "Nepal" else " Nepal")
+    try:
+        u = "https://api.gdeltproject.org/api/v2/doc/doc?" + urllib.parse.urlencode({"query": q, "mode": "artlist", "maxrecords": 75, "format": "json", "sort": "dateasc",
+                                                                                     "startdatetime": a.strftime("%Y%m%d%H%M%S"), "enddatetime": b.strftime("%Y%m%d%H%M%S")})
+        time.sleep(6)   # GDELT 要求每 5 秒最多一次
+        raw = get(u, raw=True, timeout=60)
+        arts = json.loads(raw).get("articles", []) if raw.strip().startswith(b"{") else []
+        news = [{"t": datetime.strptime(x["seendate"], "%Y%m%dT%H%M%SZ").replace(tzinfo=timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ"), "title": x.get("title", "")[:160], "url": x.get("url"), "domain": x.get("domain"), "lang": x.get("language")} for x in arts]
+        pack["news"] = news[:20]
+        if news:
+            f0 = news[0]; doms = sorted({n["domain"] for n in news})
+            items.append({"t": f0["t"], "src": "GDELT 新闻", "kind": "SUPPORTING", "text": f"最早一篇相关报道（{f0['domain']}）：{f0['title']}", "text_en": f"Earliest related report ({f0['domain']}): {f0['title']}", "url": f0["url"]})
+            items.append({"t": news[-1]["t"], "src": "GDELT 新闻", "kind": "NEUTRAL", "text": f"事件前 1 天到后 5 天共 {len(news)} 篇、{len(doms)} 家媒体：{'、'.join(doms[:6])}", "text_en": f"{len(news)} articles from {len(doms)} outlets between 1 day before and 5 days after: {', '.join(doms[:6])}"})
+        else:
+            items.append({"t": iso(t0), "src": "GDELT 新闻", "kind": "NEUTRAL", "text": f"没有找到“{place_word(ev)}”的相关新闻", "text_en": f"No related news found for “{place_word(ev)}”"})
+    except Exception as e:
+        items.append({"t": iso(t0), "src": "GDELT 新闻", "kind": "MISSING", "text": f"查询失败（{str(e)[:60]}）", "text_en": f"Query failed ({str(e)[:60]})"})
+
+
+def wiki(ev, t0, items, pack):
+    """维基百科：事件后新建的相关条目（创建时间是公开、不可改的记录）。"""
+    try:
+        q = f"{place_word(ev)} {t0.year} " + ("flood" if "洪" in (ev.get("kind") or "") else "disaster")
+        x = get("https://en.wikipedia.org/w/api.php?" + urllib.parse.urlencode({"action": "query", "list": "search", "srsearch": q, "format": "json", "srlimit": 5}))
+        hits = 0
+        for r in x.get("query", {}).get("search", []):
+            y = get("https://en.wikipedia.org/w/api.php?" + urllib.parse.urlencode({"action": "query", "prop": "revisions", "titles": r["title"], "rvlimit": 1, "rvdir": "newer", "rvprop": "timestamp", "format": "json"}))
+            pg = next(iter(y["query"]["pages"].values())); ts = (pg.get("revisions") or [{}])[0].get("timestamp")
+            if ts and P(ts) >= t0 - timedelta(days=1):
+                hits += 1
+                items.append({"t": ts, "src": "维基百科", "kind": "SUPPORTING", "text": f"新建条目：{r['title']}", "text_en": f"Article created: {r['title']}", "url": "https://en.wikipedia.org/wiki/" + urllib.parse.quote(r["title"].replace(" ", "_"))})
+        if not hits:
+            items.append({"t": iso(t0), "src": "维基百科", "kind": "NEUTRAL", "text": "事件后没有新建的相关条目", "text_en": "No related article created after the event"})
+    except Exception as e:
+        items.append({"t": iso(t0), "src": "维基百科", "kind": "MISSING", "text": f"查询失败（{str(e)[:60]}）", "text_en": f"Query failed ({str(e)[:60]})"})
+
+
+def hdx(ev, t0, items, pack):
+    """OCHA HDX：事件后新建的尼泊尔人道数据集。"""
+    try:
+        fq = f"groups:npl AND metadata_created:[{iso(t0 - timedelta(days=1))} TO NOW]"
+        x = get("https://data.humdata.org/api/3/action/package_search?" + urllib.parse.urlencode({"q": "flood OR landslide OR avalanche OR earthquake OR disaster", "fq": fq, "sort": "metadata_created asc", "rows": 10}))
+        rs = (x.get("result") or {}).get("results", [])
+        for r in rs[:5]:
+            items.append({"t": r["metadata_created"][:19] + "Z", "src": "OCHA HDX", "kind": "SUPPORTING", "text": f"新数据集：{r.get('title')}（{(r.get('organization') or {}).get('title', '')}）",
+                          "text_en": f"New dataset: {r.get('title')} ({(r.get('organization') or {}).get('title', '')})", "url": "https://data.humdata.org/dataset/" + r["name"]})
+        if not rs:
+            items.append({"t": iso(t0), "src": "OCHA HDX", "kind": "NEUTRAL", "text": "事件后没有新建的尼泊尔灾害数据集", "text_en": "No new Nepal disaster dataset after the event"})
+    except Exception as e:
+        items.append({"t": iso(t0), "src": "OCHA HDX", "kind": "MISSING", "text": f"查询失败（{str(e)[:60]}）", "text_en": f"Query failed ({str(e)[:60]})"})
+
+
+def reliefweb(ev, t0, items, pack):
+    """ReliefWeb 人道报告（需要申请 appname，放在机密 RELIEFWEB_APPNAME）。"""
+    app = os.environ.get("RELIEFWEB_APPNAME")
+    if not app:
+        items.append({"t": iso(NOW), "src": "ReliefWeb", "kind": "MISSING", "text": "需要申请 ReliefWeb appname（未配置）", "text_en": "Needs a ReliefWeb appname (not configured)"}); return
+    try:
+        body = {"query": {"value": f"Nepal {place_word(ev)}"}, "filter": {"field": "date.created", "value": {"from": iso(t0 - timedelta(days=1))}}, "sort": ["date.created:asc"], "limit": 10, "fields": {"include": ["title", "url", "date.created", "source.shortname"]}}
+        x = get(f"https://api.reliefweb.int/v2/reports?appname={urllib.parse.quote(app)}", data=json.dumps(body).encode(), headers={"content-type": "application/json"})
+        for r in x.get("data", [])[:6]:
+            f = r["fields"]; items.append({"t": f["date"]["created"][:19] + "Z", "src": "ReliefWeb", "kind": "SUPPORTING", "text": f"{', '.join(s['shortname'] for s in f.get('source', []))}：{f['title']}", "text_en": f"{', '.join(s['shortname'] for s in f.get('source', []))}: {f['title']}", "url": f.get("url")})
+        if not x.get("data"):
+            items.append({"t": iso(t0), "src": "ReliefWeb", "kind": "NEUTRAL", "text": "事件后没有相关人道报告", "text_en": "No related humanitarian report after the event"})
+    except Exception as e:
+        items.append({"t": iso(t0), "src": "ReliefWeb", "kind": "MISSING", "text": f"查询失败（{str(e)[:60]}）", "text_en": f"Query failed ({str(e)[:60]})"})
+
+
+def cfradar(ev, t0, items, pack):
+    """Cloudflare Radar：尼泊尔的网络中断和流量异常记录（和 IODA 互相核对）。需要 API 令牌，放在机密 CF_RADAR_TOKEN。"""
+    tok = os.environ.get("CF_RADAR_TOKEN")
+    if not tok:
+        items.append({"t": iso(NOW), "src": "Cloudflare Radar", "kind": "MISSING", "text": "需要 Cloudflare API 令牌（未配置）", "text_en": "Needs a Cloudflare API token (not configured)"}); return
+    H = {"authorization": "Bearer " + tok}; a, b = iso(t0 - timedelta(days=1)), iso(min(NOW, t0 + timedelta(days=2)))
+    try:
+        n = 0
+        for path, name in (("annotations/outages", "中断记录"), ("traffic_anomalies", "流量异常")):
+            x = get(f"https://api.cloudflare.com/client/v4/radar/{path}?location=NP&dateStart={a}&dateEnd={b}&format=json&limit=20", headers=H)
+            r = x.get("result", {}); L = r.get("annotations") or r.get("trafficAnomalies") or []
+            for o in L:
+                n += 1; t = o.get("startDate") or o.get("startDate")
+                items.append({"t": (t or a)[:19] + "Z", "src": "Cloudflare Radar", "kind": "SUPPORTING", "text": f"尼泊尔{name}：{o.get('description') or o.get('outage', {}).get('outageCause') or o.get('type', '')}",
+                              "text_en": f"Nepal {'outage' if 'outage' in path else 'traffic anomaly'}: {o.get('description') or o.get('outage', {}).get('outageCause') or o.get('type', '')}"})
+        if not n:
+            items.append({"t": iso(t0), "src": "Cloudflare Radar", "kind": "NEUTRAL", "text": "事件前后没有尼泊尔网络中断或流量异常记录", "text_en": "No Nepal outage or traffic anomaly recorded around the event"})
+    except Exception as e:
+        items.append({"t": iso(t0), "src": "Cloudflare Radar", "kind": "MISSING", "text": f"查询失败（{str(e)[:60]}）", "text_en": f"Query failed ({str(e)[:60]})"})
+
+
+def firms(ev, t0, items, pack):
+    """NASA FIRMS 卫星火点（VIIRS）：事件 25 km 内前后各 5 天。需要免费 MAP_KEY，放在机密 FIRMS_MAP_KEY。"""
+    key = os.environ.get("FIRMS_MAP_KEY")
+    if not key:
+        items.append({"t": iso(NOW), "src": "NASA FIRMS 火点", "kind": "MISSING", "text": "需要 FIRMS MAP_KEY（未配置）", "text_en": "Needs a FIRMS MAP_KEY (not configured)"}); return
+    bb = f"{ev['lon'] - 0.25:.3f},{ev['lat'] - 0.25:.3f},{ev['lon'] + 0.25:.3f},{ev['lat'] + 0.25:.3f}"
+    try:
+        cnt = {"before": 0, "after": 0}; first = None
+        for src in ("VIIRS_SNPP_NRT", "VIIRS_NOAA20_NRT"):
+            for which, day in (("before", (t0 - timedelta(days=5)).strftime("%Y-%m-%d")), ("after", t0.strftime("%Y-%m-%d"))):
+                txt = get(f"https://firms.modaps.eosdis.nasa.gov/api/area/csv/{key}/{src}/{bb}/5/{day}", raw=True, timeout=60).decode()
+                rows = [r.split(",") for r in txt.strip().splitlines()[1:] if r]
+                cnt[which] += len(rows)
+                if which == "after":
+                    for r in rows:
+                        t = f"{r[5]}T{r[6].zfill(4)[:2]}:{r[6].zfill(4)[2:]}:00Z"
+                        if first is None or t < first: first = t
+        pack["firms"] = cnt
+        items.append({"t": first or iso(t0), "src": "NASA FIRMS 火点", "kind": "SUPPORTING" if cnt["after"] > cnt["before"] + 3 else "NEUTRAL",
+                      "text": f"事件 25 km 内卫星火点：事件前 5 天 {cnt['before']} 个，之后 5 天 {cnt['after']} 个", "text_en": f"Satellite fire detections within 25 km: {cnt['before']} in the 5 days before, {cnt['after']} in the 5 days after"})
+    except Exception as e:
+        items.append({"t": iso(t0), "src": "NASA FIRMS 火点", "kind": "MISSING", "text": f"查询失败（{str(e)[:60]}）", "text_en": f"Query failed ({str(e)[:60]})"})
+
+
+def blackmarble(ev, t0, items, pack):
+    """NASA Black Marble 每日夜光（VNP46A2）：事件 10 km 内灯光亮度，事件前 7 天中位数和之后每天比较，看是否停电。
+    检索不需要账号；下载需要 Earthdata 令牌，放在机密 EARTHDATA_TOKEN。"""
+    tok = os.environ.get("EARTHDATA_TOKEN")
+    if not tok:
+        items.append({"t": iso(NOW), "src": "NASA 夜间灯光", "kind": "MISSING", "text": "需要 NASA Earthdata 账号令牌（未配置）", "text_en": "Needs a NASA Earthdata token (not configured)"}); return
+    try:
+        import h5py, io, numpy as np
+        bb = f"{ev['lon'] - 0.1},{ev['lat'] - 0.1},{ev['lon'] + 0.1},{ev['lat'] + 0.1}"
+        x = get("https://cmr.earthdata.nasa.gov/search/granules.json?" + urllib.parse.urlencode({"short_name": "VNP46A2", "bounding_box": bb, "temporal": f"{iso(t0 - timedelta(days=8))},{iso(min(NOW, t0 + timedelta(days=5)))}", "page_size": 20, "sort_key": "start_date"}))
+        vals = []
+        for g in x.get("feed", {}).get("entry", []):
+            href = next((l["href"] for l in g.get("links", []) if l.get("href", "").endswith(".h5") and l["href"].startswith("https")), None)
+            if not href: continue
+            b = get(href, raw=True, timeout=180, headers={"authorization": "Bearer " + tok})
+            f = h5py.File(io.BytesIO(b), "r"); grp = f["HDFEOS/GRIDS/VNP_Grid_DNB/Data Fields"]
+            arr = grp["DNB_BRDF-Corrected_NTL"][:].astype(float); fill = grp["DNB_BRDF-Corrected_NTL"].attrs.get("_FillValue", [65535])[0]
+            h, v = re.search(r"h(\d\d)v(\d\d)", href).groups(); lon0 = -180 + int(h) * 10; lat0 = 90 - int(v) * 10
+            r0 = int((lat0 - (ev["lat"] + 0.1)) / (10 / 2400)); r1 = int((lat0 - (ev["lat"] - 0.1)) / (10 / 2400)); c0 = int((ev["lon"] - 0.1 - lon0) / (10 / 2400)); c1 = int((ev["lon"] + 0.1 - lon0) / (10 / 2400))
+            sub = arr[max(0, r0):r1, max(0, c0):c1]; sub = sub[sub != fill]
+            if sub.size: vals.append((g["time_start"][:10], float(np.nanmean(sub)) * 0.1))
+        pre = [v for d, v in vals if d < t0.strftime("%Y-%m-%d")]; post = [(d, v) for d, v in vals if d >= t0.strftime("%Y-%m-%d")]
+        pack["blackmarble"] = vals
+        if pre and post:
+            base = float(np.median(pre)); low = min(post, key=lambda z: z[1])
+            drop = base > 0 and low[1] < 0.6 * base
+            items.append({"t": low[0] + "T20:00:00Z", "src": "NASA 夜间灯光", "kind": "SUPPORTING" if drop else "NEUTRAL",
+                          "text": f"事件 10 km 内夜间灯光：事件前中位数 {base:.1f}，之后最低 {low[1]:.1f}（{low[0]}）" + ("，明显变暗，可能停电" if drop else ""),
+                          "text_en": f"Night lights within 10 km: median before {base:.1f}, lowest after {low[1]:.1f} ({low[0]})" + (", clearly darker, possible outage" if drop else "")})
+        else:
+            items.append({"t": iso(NOW), "src": "NASA 夜间灯光", "kind": "MISSING", "text": "夜光数据还不够（产品滞后几天，或被云遮挡）", "text_en": "Not enough night-light data yet (product lags a few days, or cloud)"})
+    except Exception as e:
+        items.append({"t": iso(t0), "src": "NASA 夜间灯光", "kind": "MISSING", "text": f"处理失败（{str(e)[:60]}）", "text_en": f"Processing failed ({str(e)[:60]})"})
+
+
+def gnss(ev, t0, items, pack):
+    """内华达大学 NGL 的 GNSS 每日解算：只在事件 150 km 内有 M5 以上地震时看，事件前后 5 天平均位置差。"""
+    if not any(i["src"] == "USGS 地震目录" and re.match(r"M([5-9])", i.get("text", "")) for i in items):
+        return
+    try:
+        txt = get("https://geodesy.unr.edu/NGLStationPages/DataHoldings.txt", raw=True, timeout=120).decode(errors="ignore")
+        cands = []
+        for ln in txt.splitlines()[1:]:
+            c = ln.split()
+            try:
+                la, lo = float(c[1]), float(c[2]); lo = lo - 360 if lo > 180 else lo
+            except Exception:
+                continue
+            d = km((ev["lat"], ev["lon"]), (la, lo))
+            if d <= 150: cands.append((d, c[0]))
+        cands.sort(); out = []
+        for d, sta in cands[:3]:
+            series = None
+            for u in (f"https://geodesy.unr.edu/gps_timeseries/rapids/tenv3/IGS20/{sta}.tenv3", f"https://geodesy.unr.edu/gps_timeseries/IGS20/tenv3/IGS20/{sta}.tenv3", f"https://geodesy.unr.edu/gps_timeseries/tenv3/IGS14/{sta}.tenv3"):
+                try: series = get(u, raw=True, timeout=60).decode(); break
+                except Exception: continue
+            if not series: continue
+            rows = []
+            for ln in series.splitlines()[1:]:
+                c = ln.split()
+                try: rows.append((datetime.strptime(c[1], "%y%b%d").replace(tzinfo=timezone.utc), float(c[8]) + float(c[7]), float(c[10]) + float(c[9]), float(c[12])))
+                except Exception: continue
+            pre = [r for r in rows if t0 - timedelta(days=6) <= r[0] < t0]; post = [r for r in rows if t0 < r[0] <= t0 + timedelta(days=6)]
+            if pre and post:
+                m = lambda L, i: sum(r[i] for r in L) / len(L)
+                de, dn, du = [(m(post, i) - m(pre, i)) * 1000 for i in (1, 2, 3)]
+                out.append(sta)
+                items.append({"t": iso(post[0][0]), "src": "GNSS 测站", "kind": "SUPPORTING" if (de * de + dn * dn) ** 0.5 > 10 else "NEUTRAL",
+                              "text": f"{sta}（距约 {d:.0f} km）事件前后 5 天平均位置变化：东 {de:+.0f} mm、北 {dn:+.0f} mm、垂直 {du:+.0f} mm",
+                              "text_en": f"{sta} (about {d:.0f} km): mean position change over 5 days before/after: east {de:+.0f} mm, north {dn:+.0f} mm, up {du:+.0f} mm"})
+            else:
+                items.append({"t": iso(NOW), "src": "GNSS 测站", "kind": "MISSING", "text": f"{sta}（距约 {d:.0f} km）事件后的解算还没出（通常滞后几天到两周）", "text_en": f"{sta} (about {d:.0f} km): post-event solutions not out yet (usually days to two weeks)"})
+        pack["gnss"] = {"stations": [c[1] for c in cands[:3]]}
+        if not cands:
+            items.append({"t": iso(t0), "src": "GNSS 测站", "kind": "MISSING", "text": "事件 150 km 内没有公开 GNSS 站", "text_en": "No public GNSS station within 150 km"})
+    except Exception as e:
+        items.append({"t": iso(t0), "src": "GNSS 测站", "kind": "MISSING", "text": f"查询失败（{str(e)[:60]}）", "text_en": f"Query failed ({str(e)[:60]})"})
+
+
+def spaceweather(ev, t0, items, pack):
+    """太阳活动 / 地磁暴（GFZ Kp 指数）：作为背景记录。地磁暴会影响 GNSS 定位、卫星通信和短波电台，可用来解释同时段的通信或定位异常。"""
+    try:
+        x = get("https://kp.gfz-potsdam.de/app/json/?" + urllib.parse.urlencode({"start": iso(t0 - timedelta(days=1)), "end": iso(min(NOW, t0 + timedelta(days=1))), "index": "Kp"}))
+        L = list(zip(x.get("datetime", []), x.get("Kp", [])))
+        if not L: raise RuntimeError("没有数据")
+        t, k = max(L, key=lambda z: z[1]); pack["kp_max"] = k
+        items.append({"t": t[:19] + "Z", "src": "地磁 Kp（GFZ）", "kind": "NEUTRAL",
+                      "text": f"事件前后一天最大 Kp {k:.1f}" + ("：有地磁暴，同时段 GNSS 和卫星通信可能受影响" if k >= 5 else "：没有地磁暴"),
+                      "text_en": f"Max Kp {k:.1f} within a day of the event" + (": geomagnetic storm; GNSS and satellite links may have been affected" if k >= 5 else ": no geomagnetic storm")})
+    except Exception as e:
+        items.append({"t": iso(t0), "src": "地磁 Kp（GFZ）", "kind": "MISSING", "text": f"查询失败（{str(e)[:60]}）", "text_en": f"Query failed ({str(e)[:60]})"})
+
+
+_VANTOR = []
+
+
+def vantor(ev, t0, items, pack):
+    """Vantor（原 Maxar）开放数据：重大灾害后公开的高分辨率灾前灾后影像（CC BY 4.0），看有没有覆盖这次事件。"""
+    try:
+        if not _VANTOR:   # 目录只取一次，各事件共用
+            cat = get("https://vantor-opendata.s3.amazonaws.com/events/catalog.json")
+            for l in cat.get("links", []):
+                if l.get("rel") != "child": continue
+                href = urllib.parse.urljoin("https://vantor-opendata.s3.amazonaws.com/events/catalog.json", l["href"])
+                try: _VANTOR.append((href, get(href, timeout=30)))
+                except Exception: continue
+        hits = []
+        for href, c in _VANTOR:
+            bb = ((c.get("extent") or {}).get("spatial") or {}).get("bbox") or [[]]
+            tt = ((c.get("extent") or {}).get("temporal") or {}).get("interval") or [[None, None]]
+            for b4 in bb:
+                if len(b4) >= 4 and b4[0] - 0.5 <= ev["lon"] <= b4[2] + 0.5 and b4[1] - 0.5 <= ev["lat"] <= b4[3] + 0.5:
+                    t1 = tt[0][1] or iso(NOW)
+                    if P(t1) >= t0 - timedelta(days=30): hits.append((c.get("title") or c.get("id"), href, tt[0][0])); break
+        for h in hits:
+            items.append({"t": (h[2] or iso(t0))[:19] + "Z", "src": "Vantor 开放影像", "kind": "SUPPORTING", "text": f"高分辨率开放影像覆盖本地：{h[0]}", "text_en": f"Open high-resolution imagery covers this area: {h[0]}",
+                          "url": "https://radiantearth.github.io/stac-browser/#/external/" + h[1].replace("https://", "")})
+        if not hits:
+            items.append({"t": iso(NOW), "src": "Vantor 开放影像", "kind": "NEUTRAL", "text": "这次事件没有启动开放影像", "text_en": "No open imagery released for this event"})
+    except Exception as e:
+        items.append({"t": iso(NOW), "src": "Vantor 开放影像", "kind": "MISSING", "text": f"查询失败（{str(e)[:60]}）", "text_en": f"Query failed ({str(e)[:60]})"})
+
+
 def build(ev):
     t0 = P(ev["t"]); items = []
     m = re.search(r"bipad-([a-z-]+)-\d{4}", ev["id"])
@@ -484,7 +808,11 @@ def build(ev):
     pack = {"id": ev["id"], "title": ev["title"], "title_en": ev.get("title_en") or ev["title"].replace("洪水预警", "flood warning"), "kind": ev.get("kind"), "place": ev.get("place"), "lat": ev["lat"], "lon": ev["lon"], "t": ev["t"]}
     for fn in (lambda: evn(ev, t0, items, pack), lambda: kkn(ev, t0, items, pack), lambda: catalogs(ev, t0, items), lambda: gauges(ev, t0, items, pack),
                lambda: ioda(ev, t0, items, pack), lambda: ems(ev, t0, items), lambda: sentinel(ev, t0, items, pack),
-               lambda: gfm(ev, t0, items, pack), lambda: montandon(ev, t0, items, pack), lambda: manual(ev, t0, items, pack)):
+               lambda: gfm(ev, t0, items, pack), lambda: montandon(ev, t0, items, pack), lambda: manual(ev, t0, items, pack),
+               lambda: rshake(ev, t0, items, pack), lambda: usgs_products(ev, t0, items, pack), lambda: gnss(ev, t0, items, pack),
+               lambda: gdelt(ev, t0, items, pack), lambda: wiki(ev, t0, items, pack), lambda: hdx(ev, t0, items, pack), lambda: reliefweb(ev, t0, items, pack),
+               lambda: cfradar(ev, t0, items, pack), lambda: firms(ev, t0, items, pack), lambda: blackmarble(ev, t0, items, pack),
+               lambda: spaceweather(ev, t0, items, pack), lambda: vantor(ev, t0, items, pack)):
         try:
             fn()
         except Exception:
