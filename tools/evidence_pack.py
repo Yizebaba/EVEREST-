@@ -20,6 +20,7 @@ import urllib.request, urllib.parse
 UA = {"user-agent": "everest-evidence (github.com/Yizebaba/everest-insar-pipeline)"}
 EVN = (27.9587, 86.8117)
 OUT = "events"
+VERSION = 2   # 改了证据包内容时加 1，所有包会重算一次
 NOW = datetime.now(timezone.utc)
 
 # 尼泊尔区县 → IODA 地区（旧 14 区）
@@ -120,8 +121,8 @@ def catalogs(ev, t0, items):
     except Exception as e:
         items.append({"t": iso(t0), "src": "USGS 地震目录", "kind": "MISSING", "text": f"查询失败（{str(e)[:60]}）"})
     try:
-        x = get(f"https://www.seismicportal.eu/fdsnws/event/1/query?format=json&lat={ev['lat']}&lon={ev['lon']}&maxradius=2.7&start={iso(a)[:-1]}&end={iso(b)[:-1]}")
-        fs = x.get("features", [])
+        rawb = get(f"https://www.seismicportal.eu/fdsnws/event/1/query?format=json&lat={ev['lat']}&lon={ev['lon']}&maxradius=2.7&start={iso(a)[:-1]}&end={iso(b)[:-1]}", raw=True)
+        fs = json.loads(rawb).get("features", []) if rawb.strip() else []
         for f in fs:
             p = f["properties"]
             items.append({"t": p["time"][:19] + "Z", "src": "EMSC 地震目录", "kind": "SUPPORTING", "text": f"{p.get('magtype')} {p.get('mag')} · {p.get('flynn_region')}"})
@@ -196,22 +197,26 @@ def ioda(ev, t0, items, pack):
 
 
 def ems(ev, t0, items):
+    """哥白尼应急制图（Copernicus EMS Rapid Mapping）和国际灾害宪章：是否为这次事件启动。"""
     try:
-        x = get("https://emergency.copernicus.eu/mapping/activations-rapid/feed", raw=True).decode("utf8", "ignore")
+        x = get("https://rapidmapping.emergency.copernicus.eu/backend/dashboard-api/public-activations-info/?limit=60")
         hits = []
-        for it in re.findall(r"<item>(.*?)</item>", x, re.S):
-            title = re.search(r"<title>(.*?)</title>", it, re.S); link = re.search(r"<link>(.*?)</link>", it, re.S); pd = re.search(r"<pubDate>(.*?)</pubDate>", it, re.S)
-            if title and "Nepal" in title.group(1):
-                try:
-                    t = datetime.strptime(pd.group(1).strip()[:25], "%a, %d %b %Y %H:%M:%S").replace(tzinfo=timezone.utc)
-                except Exception:
-                    t = None
-                if t and t0 - timedelta(days=2) <= t <= t0 + timedelta(days=14):
-                    hits.append((t, title.group(1).strip(), link.group(1).strip() if link else None))
-        for t, ti, ln in hits:
-            items.append({"t": iso(t), "src": "Copernicus EMS", "kind": "SUPPORTING", "text": "启动应急制图：" + ti, "url": ln})
+        for a in x.get("results", []):
+            cs = " ".join(c.get("name", "") if isinstance(c, dict) else str(c) for c in (a.get("countries") or []))
+            et = a.get("eventTime") or a.get("activationTime")
+            if "Nepal" not in cs and "China" not in cs or not et:
+                continue
+            t = P(et if ("Z" in et or "+" in et[10:]) else et + "Z")
+            if t0 - timedelta(days=2) <= t <= t0 + timedelta(days=14):
+                hits.append(a)
+        for a in hits:
+            ta = a.get("activationTime") or a.get("eventTime")
+            items.append({"t": iso(P(ta if ("Z" in ta or "+" in ta[10:]) else ta + "Z")),
+                          "src": "Copernicus EMS", "kind": "SUPPORTING",
+                          "text": f"{a.get('code')} 启动应急制图：{a.get('name')}" + (f"；国际灾害宪章 {a.get('charterNumber')}" if a.get("charterNumber") else ""),
+                          "url": f"https://rapidmapping.emergency.copernicus.eu/{a.get('code')}"})
         if not hits:
-            items.append({"t": iso(NOW), "src": "Copernicus EMS", "kind": "NEUTRAL", "text": "没有找到涉及这次事件的应急制图启动"})
+            items.append({"t": iso(NOW), "src": "Copernicus EMS", "kind": "NEUTRAL", "text": "没有为这次事件启动应急制图"})
     except Exception as e:
         items.append({"t": iso(NOW), "src": "Copernicus EMS", "kind": "MISSING", "text": f"查询失败（{str(e)[:60]}）"})
 
@@ -236,11 +241,11 @@ def sentinel(ev, t0, items, pack):
             after = srch(f"{iso(t0)}/{iso(NOW)}", "asc")
             res[col] = {"before": before, "after": after}
             if before:
-                items.append({"t": before["t"], "src": name, "kind": "NEUTRAL", "text": f"事件前最近一景 {before['id']}" + (f"（云量 {before['cloud']:.0f}%）" if before.get("cloud") is not None else ""), "url": before.get("preview")})
+                items.append({"t": before["t"], "src": name, "kind": "NEUTRAL", "text": f"第一条公开信号之前最近一景 {before['id']}" + (f"（云量 {before['cloud']:.0f}%）" if before.get("cloud") is not None else ""), "url": before.get("preview")})
             if after:
-                items.append({"t": after["t"], "src": name, "kind": "SUPPORTING", "text": f"事件后第一景 {after['id']}" + (f"（云量 {after['cloud']:.0f}%）" if after.get("cloud") is not None else "") + "，可与事件前对比", "url": after.get("preview")})
+                items.append({"t": after["t"], "src": name, "kind": "SUPPORTING", "text": f"第一条公开信号之后第一景 {after['id']}" + (f"（云量 {after['cloud']:.0f}%）" if after.get("cloud") is not None else "") + "，可与事件前对比", "url": after.get("preview")})
             else:
-                items.append({"t": iso(NOW), "src": name, "kind": "MISSING", "text": "事件后还没有新的一景（下次自动补）"})
+                items.append({"t": iso(NOW), "src": name, "kind": "MISSING", "text": "第一条公开信号之后还没有新的一景（下次自动补）"})
         except Exception as e:
             items.append({"t": iso(NOW), "src": name, "kind": "MISSING", "text": f"目录查询失败（{str(e)[:60]}）"})
     pack["sentinel"] = res
@@ -273,13 +278,13 @@ def main():
     for ev in evs:
         age = (NOW - P(ev["t"])).days
         old = idx["events"].get(ev["id"])
-        fresh = old and old.get("src_n") == len(ev.get("src", [])) and (age > 14 or (NOW - P(old["built"])).total_seconds() < 5 * 3600)
+        fresh = old and old.get("v") == VERSION and old.get("src_n") == len(ev.get("src", [])) and (age > 14 or (NOW - P(old["built"])).total_seconds() < 5 * 3600)
         if fresh:
             continue
         print("build", ev["id"]); pack = build(ev)
         json.dump(pack, open(os.path.join(OUT, ev["id"] + ".json"), "w"), ensure_ascii=False, indent=1)
         idx["events"][ev["id"]] = {"title": ev["title"], "t": ev["t"], "first_seen": ev.get("first_seen"), "kind": ev.get("kind"), "place": ev.get("place"), "lat": ev["lat"], "lon": ev["lon"],
-                                   "n": len(pack["timeline"]), "src_n": len(ev.get("src", [])), "built": pack["built"],
+                                   "v": VERSION, "n": len(pack["timeline"]), "src_n": len(ev.get("src", [])), "built": pack["built"],
                                    "missing": sum(1 for i in pack["timeline"] if i["kind"] == "MISSING")}
     idx["updated"] = iso(NOW)
     json.dump(idx, open(idx_p, "w"), ensure_ascii=False, indent=1)
