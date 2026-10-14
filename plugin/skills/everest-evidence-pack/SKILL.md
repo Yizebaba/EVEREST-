@@ -17,7 +17,8 @@ description: 为喜马拉雅（珠峰、Bhote Koshi、Trishuli、Dudh Koshi、Ar
    - 网络连通：IODA 对应地区的 BGP / 主动探测曲线有无骤降。
    - 卫星：哥白尼目录里事件前后的 Sentinel-1/2 过境；Copernicus EMS 激活号、国际宪章激活号及产品时间。
    - 官方与权威通报：政府灾情通报（伤亡、失踪）、GDACS 等级。
-   - 有 EVEREST 连接器时先用 `everest_quakes`、`everest_water_levels`、`everest_source` 取当前保存的数据。
+   - 有 EVEREST 连接器时先用 `everest_events`（填 `id` 取单个事件的完整时间线）看平台已经自动生成的证据包，再用 `everest_quakes`、`everest_water_levels`、`everest_source` 补当前数据。
+   - 平台证据包里已有：推断边界（`bounds`，每类记录能说明/不能说明什么）、冰湖溃决历史记录（`history`）、取数回执（`receipts`）、存证与独立核对结果（`index.json` 的 `ots`），引用时照用，不要自己改写成更强的结论。
 3. **整理成时间线表**：时间（北京时间 + UTC）｜信号｜数值｜来源链接｜可信度说明。
 4. **写明缺口**：哪些信号没有（例如西藏一侧无公开水文数据）、哪些是推断。
 5. **输出**：默认做成一份文档（Claude Docs）；用户要文件再给 .docx/.pdf。
