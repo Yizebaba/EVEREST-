@@ -101,6 +101,22 @@ C = {
  "rt_bmkg": "https://data.bmkg.go.id/DataMKG/TEWS/autogempa.json",
  "rt_jma_quake": "https://www.jma.go.jp/bosai/quake/data/list.json",
  "rt_cenc": "https://www.ceic.ac.cn/ajax/speedsearch?num=1&page=1",
+ # —— 摄像头候选 ——
+ "cam_evk2_page": "https://evk2minoprio.org/webcam/",
+ "cam_evk2_home": "https://evk2minoprio.org/",
+ "cam_hev_home": "https://hoteleverestview.com/",
+ "cam_oembed_everest_pyramid": "https://www.youtube.com/oembed?url=https://www.youtube.com/watch?v=tz3VTxlq9l4&format=json",
+ "cam_thumb_everest_pyramid": "https://i.ytimg.com/vi/tz3VTxlq9l4/maxresdefault_live.jpg",
+ "cam_oembed_lukla": "https://www.youtube.com/oembed?url=https://www.youtube.com/watch?v=am9KDRSZQ-0&format=json",
+ "cam_thumb_lukla": "https://i.ytimg.com/vi/am9KDRSZQ-0/maxresdefault_live.jpg",
+ "cam_oembed_lobuche": "https://www.youtube.com/oembed?url=https://www.youtube.com/watch?v=AFUTlak8wcA&format=json",
+ "cam_thumb_lobuche": "https://i.ytimg.com/vi/AFUTlak8wcA/maxresdefault_live.jpg",
+ "cam_oembed_namche": "https://www.youtube.com/oembed?url=https://www.youtube.com/watch?v=uQsntMlx8ZY&format=json",
+ "cam_thumb_namche": "https://i.ytimg.com/vi/uQsntMlx8ZY/maxresdefault_live.jpg",
+ "cam_oembed_khare": "https://www.youtube.com/oembed?url=https://www.youtube.com/watch?v=PAIpsIJ_7AE&format=json",
+ "cam_thumb_khare": "https://i.ytimg.com/vi/PAIpsIJ_7AE/maxresdefault_live.jpg",
+ "cam_oembed_everest_yt2": "https://www.youtube.com/oembed?url=https://www.youtube.com/watch?v=AD4-Z-ONsIc&format=json",
+ "cam_thumb_everest_yt2": "https://i.ytimg.com/vi/AD4-Z-ONsIc/maxresdefault_live.jpg",
  "ref_rekor": "https://rekor.sigstore.dev/api/v1/log",
 }
 out = {}
@@ -124,6 +140,10 @@ for k, u in C.items():
                 r["keys"] = list(j.keys())[:20]
         except Exception:
             r["sample"] = txt[:800]
+        if k.startswith("cam_") and "html" in (r.get("ctype") or ""):
+            import re as _re
+            r["imgs"] = sorted(set(_re.findall(r'(?:src|href|data-src)=["\']([^"\']+\.(?:jpe?g|png|webp|m3u8)[^"\']*)', txt)))[:60]
+            r["frames"] = sorted(set(_re.findall(r'<iframe[^>]+src=["\']([^"\']+)', txt)))[:20]
         if k == "bipad_hazard":
             r["all"] = [(h.get("id"), h.get("title")) for h in (json.loads(txt).get("results") or [])]
     except Exception as e:
