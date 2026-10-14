@@ -28,7 +28,8 @@ jobs:
           CF_RADAR_TOKEN: ${{ secrets.CF_RADAR_TOKEN }}
           RELIEFWEB_APPNAME: ${{ secrets.RELIEFWEB_APPNAME }}
           OPENAQ_API_KEY: ${{ secrets.OPENAQ_API_KEY }}
-          ACLED_KEY: ${{ secrets.ACLED_KEY }}
+          ACLED_EMAIL: ${{ secrets.ACLED_EMAIL }}
+          ACLED_PASSWORD: ${{ secrets.ACLED_PASSWORD }}
           GFW_API_KEY: ${{ secrets.GFW_API_KEY }}
         run: |
           mkdir -p out; git fetch -q origin events || true

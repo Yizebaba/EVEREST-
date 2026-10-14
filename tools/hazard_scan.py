@@ -418,10 +418,13 @@ def openaq():
     rec(["EN0103"], iso(NOW), f"尼泊尔 {len(x.get('results', []))} 个空气质量站", 27.7, 85.3, "https://openaq.org/", "openaq-" + NOW.strftime("%Y%m%d%H"), observation=True)
 
 
-@source("ACLED 冲突事件", need="ACLED_KEY")
+@source("ACLED 冲突事件", need="ACLED_PASSWORD")
 def acled():
-    k = os.environ["ACLED_KEY"].split(":")
-    x = get(f"https://api.acleddata.com/acled/read?key={k[0]}&email={k[1] if len(k) > 1 else ''}&country=Nepal&event_date={(NOW - timedelta(days=30)).strftime('%Y-%m-%d')}|{NOW.strftime('%Y-%m-%d')}&event_date_where=BETWEEN&limit=200")
+    # ACLED 2025 起改为账号登录（OAuth 密码模式），旧的 key 方式停用；API 只对研究/合作级别账号开放
+    tok = get("https://acleddata.com/oauth/token", data=urllib.parse.urlencode({"username": os.environ.get("ACLED_EMAIL", ""), "password": os.environ["ACLED_PASSWORD"],
+              "grant_type": "password", "client_id": "acled", "scope": "authenticated"}).encode(), headers={"content-type": "application/x-www-form-urlencoded"})["access_token"]
+    x = get(f"https://acleddata.com/api/acled/read?_format=json&country=Nepal&event_date={(NOW - timedelta(days=30)).strftime('%Y-%m-%d')}|{NOW.strftime('%Y-%m-%d')}&event_date_where=BETWEEN&limit=200",
+            headers={"authorization": "Bearer " + tok})
     T = {"Battles": ["SO0102"], "Violence against civilians": ["SO0301"], "Protests": ["SO0103"], "Riots": ["SO0103"], "Explosions/Remote violence": ["SO0201", "TL0304"]}
     for e in x.get("data", []):
         rec(T.get(e.get("event_type"), ["SO0103"]), e["event_date"] + "T00:00:00Z", f"{e.get('event_type')} · {e.get('location')}", float(e["latitude"]), float(e["longitude"]), "https://acleddata.com/", "acled-" + e["event_id_cnty"])
