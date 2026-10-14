@@ -33,6 +33,7 @@ try:
         e["evn"] = {k: (p.get("evn") or {}).get(k) for k in ("distance_km", "coverage_pct", "peaks", "error")}
         e["sentinel"] = p.get("sentinel"); e["gauges"] = p.get("gauges"); e["ioda"] = p.get("ioda")
         e["kkn"] = p.get("kkn"); e["gfm"] = p.get("gfm"); e["ots"] = m.get("ots", [])[-3:]; e["manual"] = p.get("manual")
+        e["bounds"] = p.get("bounds")   # 推断边界：每类来源能说明什么、不能说明什么
         h = p.get("history")   # 冰湖溃决数据库：事件 30 km 内的历史记录（带数据库版本），只作背景
         if h: e["history"] = {"n": h.get("n"), "radius_km": h.get("radius_km"), "records": (h.get("records") or [])[:8],
                               "source": {k: (h.get("source") or {}).get(k) for k in ("name", "file", "commit", "commit_time", "release_doi", "paper")}}

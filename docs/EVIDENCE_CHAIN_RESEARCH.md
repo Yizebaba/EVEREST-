@@ -52,6 +52,18 @@ openssl ts -verify -in <快照>.json.FreeTSA.tsr -data <快照>.json -CAfile cac
 | **CASE / UCO 导出** | 数字取证工具链（法庭用）能直接读 | 本体复杂 | 有司法用途需求时再做 |
 | **Berkeley Protocol 对照表** | 公开来源调查的国际规程：采集、保存、核实、分析各步骤 | 写文档，不改代码 | 可以做一张对照表放这里 |
 
+## 五、Springer Nature 上的相关工作（2026-10-14 检索）
+
+| 文献 | 内容 | 和 EVEREST 的关系 |
+|---|---|---|
+| Raevskikh，Springer Nature Research Communities 博客，2026（“Institutional Intelligence: Evidence, Judgment and the Capacity to Act”） | 机构从证据走到行动的六种能力；“数据的局限是推断的边界，不是丢掉数据的理由” | 借了这一条 → 证据包 v22 的“推断边界”。后半段（判断、授权、执行）是让机构据此决策，和“只监测、不判断”不符，不借 |
+| Ferreira et al., *International Journal of Disaster Risk Science* 2023, doi:10.1007/s13753-023-00515-9 | 法证式灾害研究的系统综述：主流方法是 FORIN 和 PERC（灾后复盘），缺少让当地人参与的做法 | 对应总览页“人工证据”：当地人上传照片、视频、现场记录，指纹公开存证、核实后进时间线 |
+| Yan et al., *Landslides* 2020, doi:10.1007/s10346-020-01358-x（贵州水城“7·23”滑坡） | 查 14 个台站，选信噪比最高的一台，用带通滤波、短时傅里叶变换识别滑坡信号，再结合现场调查分段重建过程 | 证明“用附近地震台确定崩塌发生时刻”可行；我们只报台站记录到什么，不做分段重建（那是研究，不是监测） |
+| Ghosh et al., *Information Systems Frontiers* 2018, doi:10.1007/s10796-018-9878-z | 社交媒体用于应急的研究综述 | 新闻、社交媒体只作线索，单列，不当权威记录 |
+| *Egyptian Journal of Forensic Sciences*（SpringerOpen）2024, doi:10.1186/s41935-024-00396-z | 区块链监管链综述（全文这次没打开） | 我们用公开时间戳 + 透明日志，不自建区块链 |
+
+同一轮检索里发现、不属于 Springer 的：USGS **Seismogenic Landslides and other Mass Movements**（ESEC 地震可测崩塌目录，v4.0 2026-10，CC0，doi:10.5066/P90VGCSK）——全球被地震台记录到的滑坡、雪崩、冰崩，带台站探测记录。和证据包里的地震台信号直接相关，可以按冰湖溃决数据库的做法接入为“历史记录”。
+
 ## 出处
 
 - W3C PROV-O：<https://www.w3.org/TR/prov-o/>

@@ -256,3 +256,10 @@
   改为：obs 行数用 MAX(rowid)（只增不删，等于行数），日期数从 scene 小表算，结果缓存 5 分钟（meta.status_cache）；scoreOne 找待打分日期改查 scene 小表（以前队列空了以后每分钟扫整张 obs）。
 - hazard_scan：每个来源加时效分级 latency，每种灾害加 rt_tier，汇总 by_latency。
 - 复原：Worker 回退 cf-worker/src/index.js 到这次之前的提交；hazard_scan 删 LATENCY 那段。
+
+---
+# 第三十七次改动（推断边界）
+- 证据包 v22：每条时间线记录标 bound（来源类别），证据包加 bounds（这次用到的每类来源“能说明什么、不能说明什么”，共 32 类，写在 tools/evidence_pack.py 的 BOUNDS）；PROV 记录加 everest:cannotShow。
+- hub_sync 带上 bounds；页面 Version 63：证据包详情加可展开的“推断边界”。
+- 文档：HUB_GUIDE“推断边界”，EVIDENCE_CHAIN_RESEARCH 加 Springer Nature 检索结果。
+- 复原：页面回退 Version 62；证据包回退 VERSION 21（删 BOUNDS、add_bounds 和 PROV 那一行）。

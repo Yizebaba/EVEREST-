@@ -23,7 +23,7 @@ import urllib.request, urllib.parse
 UA = {"user-agent": "everest-evidence (github.com/Yizebaba/EVEREST-)"}
 EVN = (27.9587, 86.8117)
 OUT = "events"
-VERSION = 21   # 改了证据包内容时加 1，所有包会重算一次
+VERSION = 22   # 改了证据包内容时加 1，所有包会重算一次
 NOW = datetime.now(timezone.utc)
 
 # 尼泊尔区县 → IODA 地区（旧 14 区）
@@ -511,7 +511,8 @@ def prov_export(pack):
     for k, it in enumerate(pack.get("timeline", [])):
         import hashlib
         e = f"ev:{eid}.json_item{k}"; a = "src:s" + hashlib.sha1(it["src"].encode()).hexdigest()[:10]
-        doc["entity"][e] = {"everest:kind": it["kind"], "prov:label": it.get("text_en") or it["text"], "prov:generatedAtTime": it["t"], **({"prov:location": it["url"]} if it.get("url") else {})}
+        doc["entity"][e] = {"everest:kind": it["kind"], "prov:label": it.get("text_en") or it["text"], "prov:generatedAtTime": it["t"], **({"prov:location": it["url"]} if it.get("url") else {}),
+                              **({"everest:cannotShow": (pack.get("bounds") or {}).get(it["bound"], {}).get("cannot")} if it.get("bound") else {})}
         doc["agent"].setdefault(a, {"prov:type": "prov:Organization", "prov:label": it["src"]})
         doc["wasAttributedTo"][f"_:a{k}"] = {"prov:entity": e, "prov:agent": a}
         doc["wasDerivedFrom"][f"_:d{k}"] = {"prov:generatedEntity": f"ev:{eid}.json", "prov:usedEntity": e}
@@ -1049,6 +1050,63 @@ def glof_history(ev, t0, items, pack):
                            "note": "数据库里事件 30 km 内历史上收录过的冰湖溃决，每条带数据库编号和原始文献；只是历史记录，不是这次事件的证据，也不用来推测。"}
 
 
+# 推断边界：每类来源的记录“能说明什么、不能说明什么”。数据的局限是推断的边界，不是丢掉数据的理由。
+# 按时间线条目的来源名前缀匹配；证据包里只放这次用到的来源。
+BOUNDS = [
+    ("IO.EVN 地震台", "台站在这一时刻记录到的地面震动强弱（1–5 Hz，相对自身背景）；有数据缺口时说明台站或传输中断。",
+     "不能说明震动的来源（滑坡、雪崩、冰崩、地震、风、人为活动都可能）和发生地点；单台不能定位。"),
+    ("KKN 地震台", "同上：台站记录到的震动强弱和数据缺口。和 IO.EVN 对照，可以看信号是局部的还是区域性的。",
+     "不能说明来源和地点；两台都没有记录不等于没有发生（离得远、频段不同都可能漏掉）。"),
+    ("Raspberry Shake", "民间地震仪在这一时刻是否记录到震动、有没有在线。", "民用设备，噪声大、没有官方校准；不能单独说明发生了什么。"),
+    ("USGS 地震目录", "USGS 测定的地震（或崩塌类事件）的时间、位置、震级。", "目录里的位置和震级会修订；崩塌类事件的位置不精确；不说明是否造成损失。"),
+    ("EMSC 地震目录", "EMSC 汇总的地震时间、位置、震级。", "早期结果会修订；不说明影响和损失。"),
+    ("USGS ShakeMap", "USGS 按模型和观测估算的地面震动分布。", "是模型估计，不是实测；不说明具体建筑或地点的损毁。"),
+    ("USGS 有感报告", "公众提交的“有感”报告数量和分布。", "自愿提交，有人口和网络偏差；没有报告不等于无感。"),
+    ("USGS PAGER", "USGS 按模型估算的伤亡和经济损失等级。", "是模型估计，不是统计结果；不能当作实际伤亡数。"),
+    ("GNSS 测站", "测站坐标在事件前后的变化。", "毫米级变化受季节、设备影响；不能单独说明地表破坏。"),
+    ("BIPAD 水位站", "附近水位站在报还是停报、最后一次数据时间。", "停报可能是洪水冲毁，也可能是断电、通信或维护；不能说明原因。"),
+    ("BIPAD 灾害警报", "尼泊尔政府系统在这一时刻发出了这条警报。", "警报不等于灾害已经发生；不说明影响范围。"),
+    ("BIPAD 灾害事件库", "尼泊尔政府登记的事件、时间、地点和伤亡数字。", "登记有延迟，数字会更新；地点通常只到村镇一级。"),
+    ("哥白尼 GFM", "哥白尼全球洪水监测按 Sentinel-1 雷达自动算出的水体范围。", "自动产品，山区阴影、积雪、植被会误判或漏判；不说明水深和损失。"),
+    ("Sentinel-1 雷达", "这一时间有没有雷达影像覆盖事件地点，可用于前后对比。", "有影像不等于能看出变化；山区几何畸变严重，需人工判读。"),
+    ("Sentinel-2 光学", "这一时间有没有光学影像覆盖、云量多少，可用于前后对比。", "云和阴影会遮挡；有影像不等于能看出变化。"),
+    ("Copernicus EMS", "欧盟应急制图服务是否为这次事件启动、出了哪些图。", "没启动不说明灾害小；图是对某一时刻的判读。"),
+    ("Vantor 开放影像", "是否为这次事件公开了高分辨率影像。", "只说明有没有影像，不说明影像里看到了什么。"),
+    ("IODA 网络连通", "当地网络连通指标在这一时刻是否下降。", "下降可能是断电、线路损坏，也可能是运营商维护；不能说明原因。"),
+    ("Cloudflare Radar", "Cloudflare 观测到的当地网络流量或中断。", "只反映经过 Cloudflare 的流量；不能说明原因。"),
+    ("NASA FIRMS", "卫星在过境时探测到的热异常（火点）。", "云遮挡会漏检；热异常可能是农业烧荒、工业热源；不说明起火原因。"),
+    ("NASA 夜间灯光", "夜间灯光亮度在事件前后的变化。", "受云、月光、季节影响；变暗不一定是停电。"),
+    ("地磁 Kp", "这段时间的地磁活动水平，作为 GNSS 和卫星通信的背景。", "和地面灾害没有因果关系；只用来说明观测条件。"),
+    ("IFRC Montandon", "国际红十字会 Montandon 库里有没有这次事件的记录。", "收录有延迟；没收录不说明没发生。"),
+    ("ReliefWeb", "联合国人道机构网站上关于这次事件的报告。", "报告引用的数字来自各方，会更新；不同报告可能不一致。"),
+    ("OCHA HDX", "人道数据交换平台上有没有相关数据集。", "只说明有数据集，不说明其内容是否准确。"),
+    ("GDELT 新闻", "全球新闻里有没有报道、报道的数量和时间。", "新闻是二手信息，早期报道常有误；报道多少不等于事件大小。"),
+    ("维基百科", "有没有人为这次事件新建或编辑条目。", "任何人可编辑；只说明受到关注，不是事实来源。"),
+    ("WHO 疫情通报", "世卫组织发布的疫情通报内容和时间。", "通报基于各国上报，有延迟；数字会更新。"),
+    ("GDACS", "联合国和欧盟的全球灾害预警系统给出的事件和级别。", "级别是按模型估算的影响，不是实际损失。"),
+    ("冰湖溃决数据库", "高山亚洲冰湖溃决数据库里收录的溃决记录（带编号和文献）。", "收录依赖已有报道和影像；没有收录不说明没发生过。"),
+    ("人工提交", "有人在这个时间提交了这份材料，其指纹（SHA-256）在存证时已经存在。", "提交不等于内容真实；只有所有者核实“已采信”后才进入公开时间线。"),
+    ("灾种扫描", "这个公开来源在这一时间发布了这条记录。", "只是记录本身；不同来源的同一事件可能重复，数字以原始来源为准。"),
+]
+
+
+def bounds_of(src):
+    for k, can, cannot in BOUNDS:
+        if src.startswith(k) or (k == "灾种扫描" and src.startswith("灾种扫描")):
+            return k, can, cannot
+    return None
+
+
+def add_bounds(pack):
+    used = {}
+    for it in pack.get("timeline", []):
+        b = bounds_of(it.get("src", ""))
+        if b:
+            it["bound"] = b[0]
+            used[b[0]] = {"can": b[1], "cannot": b[2]}
+    pack["bounds"] = used
+
+
 _VEN = None
 
 
@@ -1117,6 +1175,7 @@ def build(ev):
         traceback.print_exc()
     items.sort(key=lambda i: i["t"])
     pack["timeline"] = items; pack["built"] = iso(NOW)
+    add_bounds(pack)
     pack["note_en"] = "States only what public sources recorded and when; no attribution of cause, no prediction. A strong seismic signal only means the station recorded strong shaking at that moment."
     pack["note"] = "只陈述公开来源记录了什么、什么时候；不判断成因，不预测。地震台强信号只说明那一刻台站记录到较强震动，来源需要结合其他证据。"
     return pack
