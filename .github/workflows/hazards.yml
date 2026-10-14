@@ -50,6 +50,10 @@ jobs:
                   r=urllib.request.urlopen(urllib.request.Request(u,headers={"user-agent":"everest-probe"}),timeout=60); d=r.read()
                   open(f"out/probe_{k}.jpg","wb").write(d); print(k, r.status, r.headers.get("content-type"), len(d))
               except Exception as e: print(k, "ERR", e)
+          try:
+              c=urllib.request.urlopen("https://view.eumetsat.int/geoserver/ows?service=WMS&version=1.3.0&request=GetCapabilities&namespace=msg_iodc",timeout=90).read().decode("utf-8","ignore")
+              print(sorted(set(re.findall(r"<Name>(msg_iodc:[^<]+)</Name>",c))))
+          except Exception as e: print("eumetsat caps", e)
           PY
           elif [ "$TASK" = "catalog" ]; then python3 tools/catalog.py out 2>&1 | tee out/catalog.log; exit 0
           else python3 tools/hazard_scan.py out > out/run.log 2>&1; python3 tools/webcams.py out > out/cams.log 2>&1 || true; python3 tools/catalog.py out > out/catalog.log 2>&1 || true; fi

@@ -3,13 +3,13 @@
 import { connect } from "cloudflare:sockets";
 
 const LAT = 27.988, LON = 86.925;
-// 珠峰范围卫星图（都是公开 WMS，JPEG 450×420）。可见光是单个波段，本来就是黑白，夜里全黑；彩色看“气团 RGB”（日夜都有）和“自然色增强”（白天）。
+// 珠峰周边卫星图（25.5–31°N、82.5–90.5°E，公开 WMS，JPEG 640×440；静止卫星像元 1–2 km，范围太小会糊成色块）。可见光是单个波段，本来就是黑白，夜里全黑；彩色看“气团 RGB”（日夜都有）和“自然色增强”（白天）。
 export const IMG = {
-  himawari_vis: "https://gibs.earthdata.nasa.gov/wms/epsg4326/best/wms.cgi?SERVICE=WMS&REQUEST=GetMap&VERSION=1.3.0&CRS=EPSG:4326&BBOX=27.3,86.2,28.7,87.7&WIDTH=450&HEIGHT=420&FORMAT=image/jpeg&STYLES=&LAYERS=Himawari_AHI_Band3_Red_Visible_1km",
-  himawari_ir: "https://gibs.earthdata.nasa.gov/wms/epsg4326/best/wms.cgi?SERVICE=WMS&REQUEST=GetMap&VERSION=1.3.0&CRS=EPSG:4326&BBOX=27.3,86.2,28.7,87.7&WIDTH=450&HEIGHT=420&FORMAT=image/jpeg&STYLES=&LAYERS=Himawari_AHI_Band13_Clean_Infrared",
-  himawari_am: "https://gibs.earthdata.nasa.gov/wms/epsg4326/best/wms.cgi?SERVICE=WMS&REQUEST=GetMap&VERSION=1.3.0&CRS=EPSG:4326&BBOX=27.3,86.2,28.7,87.7&WIDTH=450&HEIGHT=420&FORMAT=image/jpeg&STYLES=&LAYERS=Himawari_AHI_Air_Mass",
-  meteosat_natural: "https://view.eumetsat.int/geoserver/ows?service=WMS&version=1.3.0&request=GetMap&styles=&crs=EPSG:4326&BBOX=27.3,86.2,28.7,87.7&WIDTH=450&HEIGHT=420&format=image/jpeg&layers=msg_iodc:rgb_naturalenhncd",
-  meteosat_snow: "https://view.eumetsat.int/geoserver/ows?service=WMS&version=1.3.0&request=GetMap&styles=&crs=EPSG:4326&BBOX=27.3,86.2,28.7,87.7&WIDTH=450&HEIGHT=420&format=image/jpeg&layers=msg_iodc:rgb_snow",
+  himawari_vis: "https://gibs.earthdata.nasa.gov/wms/epsg4326/best/wms.cgi?SERVICE=WMS&REQUEST=GetMap&VERSION=1.3.0&CRS=EPSG:4326&BBOX=25.5,82.5,31.0,90.5&WIDTH=640&HEIGHT=440&FORMAT=image/jpeg&STYLES=&LAYERS=Himawari_AHI_Band3_Red_Visible_1km",
+  himawari_ir: "https://gibs.earthdata.nasa.gov/wms/epsg4326/best/wms.cgi?SERVICE=WMS&REQUEST=GetMap&VERSION=1.3.0&CRS=EPSG:4326&BBOX=25.5,82.5,31.0,90.5&WIDTH=640&HEIGHT=440&FORMAT=image/jpeg&STYLES=&LAYERS=Himawari_AHI_Band13_Clean_Infrared",
+  himawari_am: "https://gibs.earthdata.nasa.gov/wms/epsg4326/best/wms.cgi?SERVICE=WMS&REQUEST=GetMap&VERSION=1.3.0&CRS=EPSG:4326&BBOX=25.5,82.5,31.0,90.5&WIDTH=640&HEIGHT=440&FORMAT=image/jpeg&STYLES=&LAYERS=Himawari_AHI_Air_Mass",
+  meteosat_natural: "https://view.eumetsat.int/geoserver/ows?service=WMS&version=1.3.0&request=GetMap&styles=&crs=EPSG:4326&BBOX=25.5,82.5,31.0,90.5&WIDTH=640&HEIGHT=440&format=image/jpeg&layers=msg_iodc:rgb_naturalenhncd",
+  meteosat_snow: "https://view.eumetsat.int/geoserver/ows?service=WMS&version=1.3.0&request=GetMap&styles=&crs=EPSG:4326&BBOX=25.5,82.5,31.0,90.5&WIDTH=640&HEIGHT=440&format=image/jpeg&layers=msg_iodc:rgb_snow",
 };
 // 各源节奏（分钟）
 const EVERY = { evn: 5, bipad: 10, emsc: 10, gibs: 10, ioda: 10, usgs: 15, alerts: 15, nsc: 30, gdacs: 30, doris: 30, adsb: 30, news: 30 };
