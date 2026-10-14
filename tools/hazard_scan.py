@@ -85,7 +85,7 @@ def bipad_incident():
 
 
 BIPAD_AL = [(r"flood", ["MH0604"]), (r"landslide", ["GH0300"]), (r"avalanche", ["MH0801"]), (r"forest fire|wildfire", ["EN0205"]), (r"lightning|thunderbolt", ["MH0102"]),
-            (r"cold wave", ["MH0502"]), (r"snow", ["MH0405"]), (r"earthquake", ["GH0101"]), (r"heavy rainfall", ["MH0402"]), (r"pollution", ["EN0103"]), (r"road closed", ["TL0405", "TL0207"])]
+            (r"cold wave", ["MH0502"]), (r"snow", ["MH0405"]), (r"earthquake", ["GH0101"]), (r"heavy rainfall", ["MH0402"]), (r"pollution", ["EN0103"]), (r"road closed", ["TL0207"])]
 
 
 @source("BIPAD 警报")
@@ -204,7 +204,7 @@ def who():
         t = (r.get("PublicationDateAndTime") or "")[:19] + "Z"; title = r.get("Title") or ""
         codes = [c for c, pat in DIS.items() if re.search(pat, title, re.I)]
         rec(codes or ["BI0101"], t, title, None, None, "https://www.who.int/emergencies/disease-outbreak-news/item/" + (r.get("UrlName") or ""), "who-" + (r.get("UrlName") or t),
-            local=bool(re.search(r"Nepal|China|India|Bhutan|Bangladesh|Pakistan", title)))
+            local=bool(re.search(r"Nepal|Tibet|Xizang|Bhutan", title)))
 
 
 @source("WHO FluNet（尼泊尔）")
@@ -225,7 +225,7 @@ def wahis():
         name = e.get("disease") or e.get("diseaseName") or ""; ctry = e.get("country") or e.get("countryName") or ""
         codes = [c for c, pat in DIS.items() if re.search(pat, name, re.I)] or ["BI0301"]
         rec(codes, (e.get("startDate") or e.get("eventStartDate") or iso(NOW))[:19] + "Z", f"{ctry} · {name}", None, None, "https://wahis.woah.org/", "wahis-" + str(e.get("eventId") or e.get("id")),
-            local=bool(re.search(r"Nepal|China|India|Bhutan", ctry)))
+            local=bool(re.search(r"Nepal|Bhutan", ctry)))
 
 
 # ---------- 食品药品召回（美国 FDA，公开） ----------
@@ -456,7 +456,7 @@ def news_rss():
             if name.startswith("Google News") and not TOPIC.search(title): continue   # 搜索结果会混进无关地区
             codes = [c for c, k in KW.items() if k.search(text)]
             if codes:
-                rec(codes, t, f"{name}：{title}", None, None, it.findtext("link"), "rss-" + (it.findtext("link") or title)[:200], local=True, news=True)
+                rec(codes, t, f"{name}：{title}", None, None, it.findtext("link"), "rss-" + (it.findtext("link") or title)[:200], local=True, news=True, kwv=2)
     FEEDS.update(ok)
     if not any(isinstance(v, int) for v in ok.values()): raise RuntimeError("全部 RSS 都取不到：" + json.dumps(ok, ensure_ascii=False)[:150])
     return {"feeds": ok}
@@ -502,8 +502,7 @@ def _kw_old(h):
     return k if len(k) >= 4 else h["label"].lower()
 
 
-@source("GDELT 新闻")
-def gdelt():
+def gdelt():   # GitHub 运行器访问 GDELT 一直被限流（429），不在这里跑；GDELT 由 Cloudflare Worker 做事件发现
     KW = {h["code"]: kw_of(h) for h in HIPS}
     items = list(KW.items()); n_q = 0; arts_all = []
     for i in range(0, len(items), 36):
@@ -542,6 +541,9 @@ except Exception:
         prev = json.loads(subprocess.check_output(["git", "show", "origin/events:hazards/records.json"], stderr=subprocess.DEVNULL)).get("records", [])
     except Exception:
         prev = []
+prev = [r for r in prev if not (r.get("news") and r.get("kwv") != 2) and r.get("src") != "GDELT 新闻"]   # 旧版匹配词产生的新闻记录作废
+prev = [r for r in prev if not (r.get("src") == "BIPAD 警报" and "TL0405" in r.get("codes", []))]
+prev = [r for r in prev if not (r.get("src") in ("WHO 疫情通报", "WOAH WAHIS 动物疫情") and r.get("local") and not re.search(r"Nepal|Tibet|Xizang|Bhutan", r.get("title", "")))]
 byid = {r.get("id") or (r["src"] + r["t"] + r["title"]): r for r in prev if r.get("t", "") >= iso(NOW - timedelta(days=90))}
 for r in RECS: byid[r.get("id") or (r["src"] + r["t"] + r["title"])] = r
 allrec = sorted(byid.values(), key=lambda r: r["t"], reverse=True)
@@ -584,7 +586,7 @@ for c in ("BI0301", "BI0302", "BI0303", "BI0304", "BI0305", "BI0306", "BI0307", 
     STATIC.setdefault(c, set()).add("WOAH WAHIS 动物疫情")
 for c in ("GH0101", "GH0300", "GH0301", "TL0304", "TL0307"): STATIC.setdefault(c, set()).add("USGS 地震目录")
 for c in ("GH0101", "MH0600", "MH0309", "MH0401", "EN0205", "GH0201", "MH0705"): STATIC.setdefault(c, set()).add("GDACS")
-for h in HIPS: STATIC.setdefault(h["code"], set()).update({"GDELT 新闻", "新闻 RSS"})
+for h in HIPS: STATIC.setdefault(h["code"], set()).add("新闻 RSS")
 
 hz = []
 for h in HIPS:
