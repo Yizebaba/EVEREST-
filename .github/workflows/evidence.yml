@@ -21,7 +21,7 @@ jobs:
         with: { ref: events }
       - uses: actions/setup-python@v5
         with: { python-version: "3.12" }
-      - run: pip install -q obspy matplotlib opentimestamps-client h5py
+      - run: pip install -q obspy matplotlib opentimestamps-client h5py prov rocrate sigstore
       - uses: sigstore/cosign-installer@v3
       - run: python3 tools/evidence_pack.py
         env:
@@ -31,6 +31,8 @@ jobs:
           CF_RADAR_TOKEN: ${{ secrets.CF_RADAR_TOKEN }}
           FIRMS_MAP_KEY: ${{ secrets.FIRMS_MAP_KEY }}
           EARTHDATA_TOKEN: ${{ secrets.EARTHDATA_TOKEN }}
+      - name: 跨实现核对（sha256 两套、openssl、cosign 与 sigstore-python、ots、prov、rocrate）
+        run: python3 tools/verify_archive.py || true
       - name: Save
         run: |
           git config user.name "evidence"; git config user.email "actions@users.noreply.github.com"
