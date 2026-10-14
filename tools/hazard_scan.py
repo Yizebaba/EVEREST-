@@ -447,9 +447,10 @@ def usgs_volcano():
 # 美国林火：NIFC WFIGS 当前事件（48 小时内新发现的，汇总一条）
 @source("美国林火实时 NIFC")
 def nifc():
-    since = int((NOW - timedelta(hours=48)).timestamp() * 1000)
+    since = (NOW - timedelta(hours=48)).strftime("%Y-%m-%d %H:%M:%S")
     x = get("https://services3.arcgis.com/T4QMspbfLg3qTGWY/arcgis/rest/services/WFIGS_Incident_Locations_Current/FeatureServer/0/query?"
-            + urllib.parse.urlencode({"where": f"FireDiscoveryDateTime >= {since}", "returnCountOnly": "true", "f": "json"}))
+            + urllib.parse.urlencode({"where": f"FireDiscoveryDateTime >= timestamp '{since}'", "returnCountOnly": "true", "f": "json"}))
+    if "error" in x: raise RuntimeError(str(x["error"])[:150])
     n = x.get("count", 0)
     if n: rec(["EN0205"], iso(NOW), f"美国 48 小时内新发现林火 {n} 起（NIFC）", None, None, "https://data-nifc.opendata.arcgis.com/", f"nifc-{NOW.strftime('%Y%m%d%H')}")
     return {"new_48h": n}
