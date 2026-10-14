@@ -263,3 +263,10 @@
 - hub_sync 带上 bounds；页面 Version 63：证据包详情加可展开的“推断边界”。
 - 文档：HUB_GUIDE“推断边界”，EVIDENCE_CHAIN_RESEARCH 加 Springer Nature 检索结果。
 - 复原：页面回退 Version 62；证据包回退 VERSION 21（删 BOUNDS、add_bounds 和 PROV 那一行）。
+
+---
+# 第三十八次改动（实时源扩充）
+- hazard_scan 新增 9 个实时观测源（都只收“已观测到/已发生”的记录，不收预报）：机场天气实况 METAR（全球约 5000 个机场，喜马拉雅范围内逐条带坐标，其余按现象汇总）、国际 SIGMET（只收正文写 OBS 的）、美国 SPC 风暴实况报告、美国 NWS 警报（只收 certainty=Observed）、USGS 火山通告（航空颜色码橙/红）、NIFC 美国林火（48 小时新发现数）、abuse.ch ThreatFox（1 小时新增恶意软件指标）、OpenPhish（免费列表，约 12 小时更新，算准实时）、ADS-B 紧急代码 7700（只算“有观测”，不等于事故）。
+- 补对应：BIPAD 警报的 11 类灾种、GDACS 火山对应火山灰。来源失败时丢弃半截记录。
+- 结果：有实时来源的灾种 35 → 61（气象水文 13 → 34）。实测不通未接：airplanes.live（403）、CEMS 订阅源（404）、Coral Reef Watch（404）、中国地震台网速报（连接被断）。
+- 复原：删 hazard_scan.py 里“实时观测类（2026-10-14 加）”整段和对应的 STATIC、LATENCY 行。

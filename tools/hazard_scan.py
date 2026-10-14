@@ -355,8 +355,8 @@ def metar():
         hits = [(cs, nm) for pat, cs, nm in METAR_WX if wx and re.search(pat, wx)]
         try: ws, gs = float(r.get("wind_speed_kt") or 0), float(r.get("wind_gust_kt") or 0)
         except ValueError: ws = gs = 0
-        if ws >= 34: hits.append((["MH0303"], f"持续风 {ws:.0f} 节"))
-        if gs >= 50: hits.append((["MH0301"], f"阵风 {gs:.0f} 节"))
+        if ws >= 34: hits.append((["MH0303"], "持续风 ≥34 节（烈风）"))
+        if gs >= 50: hits.append((["MH0301"], "阵风 ≥50 节"))
         if re.search(r"BLSN", wx) and ws >= 30: hits.append((["MH0403"], "高吹雪+大风"))
         t = (r.get("observation_time") or iso(NOW))[:19] + "Z"
         for cs, nm in hits:
