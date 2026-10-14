@@ -1,0 +1,189 @@
+{
+ "@context": "https://w3id.org/ro/crate/1.1/context",
+ "@graph": [
+  {
+   "@id": "ro-crate-metadata.json",
+   "@type": "CreativeWork",
+   "conformsTo": {
+    "@id": "https://w3id.org/ro/crate/1.1"
+   },
+   "about": {
+    "@id": "./"
+   }
+  },
+  {
+   "@id": "./",
+   "@type": "Dataset",
+   "name": "EVEREST 事件证据包：USGS 记录的崩塌/滑坡 M3.9",
+   "description": "只陈述公开来源记录了什么、什么时候；不判断成因，不预测。地震台强信号只说明那一刻台站记录到较强震动，来源需要结合其他证据。",
+   "datePublished": "2026-10-14T22:18:17Z",
+   "license": {
+    "@id": "https://creativecommons.org/licenses/by/4.0/"
+   },
+   "keywords": [
+    "GH0300",
+    "MH0604"
+   ],
+   "spatialCoverage": {
+    "@id": "#place"
+   },
+   "temporalCoverage": "2026-10-10T22:38:58.000Z",
+   "publisher": {
+    "@id": "https://github.com/Yizebaba/EVEREST-"
+   },
+   "hasPart": [
+    {
+     "@id": "https://raw.githubusercontent.com/Yizebaba/EVEREST-/events/events/usgs-us6000u1j7.json"
+    },
+    {
+     "@id": "https://raw.githubusercontent.com/Yizebaba/EVEREST-/events/events/usgs-us6000u1j7.prov.json"
+    },
+    {
+     "@id": "https://raw.githubusercontent.com/Yizebaba/EVEREST-/events/events/usgs-us6000u1j7_evn.png"
+    },
+    {
+     "@id": "https://raw.githubusercontent.com/Yizebaba/EVEREST-/events/events/archive/usgs-us6000u1j7_3ec4f18ccbc7.json"
+    },
+    {
+     "@id": "https://raw.githubusercontent.com/Yizebaba/EVEREST-/events/events/archive/usgs-us6000u1j7_3ec4f18ccbc7.json.ots"
+    },
+    {
+     "@id": "https://raw.githubusercontent.com/Yizebaba/EVEREST-/events/events/archive/usgs-us6000u1j7_3ec4f18ccbc7.json.FreeTSA.tsr"
+    },
+    {
+     "@id": "https://raw.githubusercontent.com/Yizebaba/EVEREST-/events/events/archive/usgs-us6000u1j7_3ec4f18ccbc7.json.DigiCert.tsr"
+    },
+    {
+     "@id": "https://raw.githubusercontent.com/Yizebaba/EVEREST-/events/events/archive/usgs-us6000u1j7_3ec4f18ccbc7.json.sigstore.json"
+    }
+   ],
+   "citation": [
+    {
+     "@id": "https://doi.org/10.1038/s41597-025-05948-z"
+    },
+    {
+     "@id": "https://doi.org/10.1038/s41597-023-02847-z"
+    },
+    {
+     "@id": "https://doi.org/10.5194/essd-18-4697-2026"
+    },
+    {
+     "@id": "https://doi.org/10.1038/s41597-026-08000-w"
+    },
+    {
+     "@id": "https://doi.org/10.1016/j.dib.2020.105398"
+    },
+    {
+     "@id": "https://doi.org/10.1016/j.dib.2020.105344"
+    }
+   ]
+  },
+  {
+   "@id": "https://doi.org/10.1038/s41597-025-05948-z",
+   "@type": "ScholarlyArticle",
+   "name": "A new Landslide Investigation and Simulation Archive through downscaled landslide experiments",
+   "datePublished": "2025"
+  },
+  {
+   "@id": "https://doi.org/10.1038/s41597-023-02847-z",
+   "@type": "ScholarlyArticle",
+   "name": "CAS Landslide Dataset: A Large-Scale and Multisensor Dataset for Deep Learning-Based Landslide Detection",
+   "datePublished": "2024"
+  },
+  {
+   "@id": "https://doi.org/10.5194/essd-18-4697-2026",
+   "@type": "ScholarlyArticle",
+   "name": "Unified Global Landslide Catalogue (UGLC): a single, standardised global-scale landslide dataset",
+   "datePublished": "2026"
+  },
+  {
+   "@id": "https://doi.org/10.1038/s41597-026-08000-w",
+   "@type": "ScholarlyArticle",
+   "name": "Data integration of urban surface and river bathymetry to support flood risk management",
+   "datePublished": "2026"
+  },
+  {
+   "@id": "https://doi.org/10.1016/j.dib.2020.105398",
+   "@type": "ScholarlyArticle",
+   "name": "Data on optimization of the non-linear Muskingum flood routing in Kardeh River using Goa algorithm",
+   "datePublished": "2020"
+  },
+  {
+   "@id": "https://doi.org/10.1016/j.dib.2020.105344",
+   "@type": "ScholarlyArticle",
+   "name": "A dataset for the flood vulnerability assessment of the upper Cross River basin using morphometric analysis",
+   "datePublished": "2020"
+  },
+  {
+   "@id": "#place",
+   "@type": "Place",
+   "name": "64 km ENE of Besisahar, Nepal",
+   "geo": {
+    "@id": "#geo"
+   }
+  },
+  {
+   "@id": "#geo",
+   "@type": "GeoCoordinates",
+   "latitude": 28.532,
+   "longitude": 84.942
+  },
+  {
+   "@id": "https://github.com/Yizebaba/EVEREST-",
+   "@type": "Organization",
+   "name": "EVEREST"
+  },
+  {
+   "@id": "https://raw.githubusercontent.com/Yizebaba/EVEREST-/events/events/usgs-us6000u1j7.json",
+   "@type": "File",
+   "name": "证据包（时间线）",
+   "encodingFormat": "application/json"
+  },
+  {
+   "@id": "https://raw.githubusercontent.com/Yizebaba/EVEREST-/events/events/usgs-us6000u1j7.prov.json",
+   "@type": "File",
+   "name": "W3C PROV 溯源记录",
+   "encodingFormat": "application/json",
+   "conformsTo": {
+    "@id": "https://www.w3.org/TR/prov-json/"
+   }
+  },
+  {
+   "@id": "https://raw.githubusercontent.com/Yizebaba/EVEREST-/events/events/usgs-us6000u1j7_evn.png",
+   "@type": "File",
+   "name": "地震台信号图",
+   "encodingFormat": "image/png"
+  },
+  {
+   "@id": "https://raw.githubusercontent.com/Yizebaba/EVEREST-/events/events/archive/usgs-us6000u1j7_3ec4f18ccbc7.json",
+   "@type": "File",
+   "name": "不可变快照",
+   "sha256": "3ec4f18ccbc79b3fb76dbed68f31dc8fb8d6e819b85e3546be1eee39dd2668ce",
+   "dateCreated": "2026-10-14T22:18:17Z"
+  },
+  {
+   "@id": "https://raw.githubusercontent.com/Yizebaba/EVEREST-/events/events/archive/usgs-us6000u1j7_3ec4f18ccbc7.json.ots",
+   "@type": "File",
+   "name": "OpenTimestamps 证明",
+   "encodingFormat": "application/vnd.opentimestamps"
+  },
+  {
+   "@id": "https://raw.githubusercontent.com/Yizebaba/EVEREST-/events/events/archive/usgs-us6000u1j7_3ec4f18ccbc7.json.FreeTSA.tsr",
+   "@type": "File",
+   "name": "RFC 3161 时间戳（FreeTSA）",
+   "encodingFormat": "application/timestamp-reply"
+  },
+  {
+   "@id": "https://raw.githubusercontent.com/Yizebaba/EVEREST-/events/events/archive/usgs-us6000u1j7_3ec4f18ccbc7.json.DigiCert.tsr",
+   "@type": "File",
+   "name": "RFC 3161 时间戳（DigiCert）",
+   "encodingFormat": "application/timestamp-reply"
+  },
+  {
+   "@id": "https://raw.githubusercontent.com/Yizebaba/EVEREST-/events/events/archive/usgs-us6000u1j7_3ec4f18ccbc7.json.sigstore.json",
+   "@type": "File",
+   "name": "Sigstore 签名（含 Rekor 透明日志记录）",
+   "encodingFormat": "application/vnd.dev.sigstore.bundle+json"
+  }
+ ]
+}
