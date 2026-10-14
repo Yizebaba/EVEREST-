@@ -45,17 +45,10 @@ def yt_live():
     except Exception as e: print("streams", e)
     try:
         t = get(f"https://www.youtube.com/channel/{CH}/live")
-        cand = {n: (re.search(p, t) or [None, None])[1] for n, p in (("og", r'<meta property="og:url" content="https://www\.youtube\.com/watch\?v=([\w-]{11})"'),
-                ("canon", r'<link rel="canonical" href="https://www\.youtube\.com/watch\?v=([\w-]{11})"'), ("cur", r'"currentVideoEndpoint":\{[^{}]*(?:\{[^{}]*\}[^{}]*)*?"videoId":"([\w-]{11})"'),
-                ("vd", r'"videoDetails":\{"videoId":"([\w-]{11})"'), ("img", r'<meta property="og:image" content="https://i\.ytimg\.com/vi/([\w-]{11})/'))}
-        print("live id candidates", cand)
-        i = t.find("playerOverlayVideoDetailsRenderer")
-        for m in re.finditer(r'"videoId":"([\w-]{11})"', t): 
-            if abs(m.start() - i) < 20000: print("near", m.group(1), m.start() - i, t[m.start() - 80:m.start() + 30].replace("\n", " "))
-        for kw in ('"liveStreamabilityRenderer"', '"isLiveNow"', 'hlsManifestUrl', '"ownerProfileUrl"', 'ytInitialPlayerResponse'):
-            j = t.find(kw); print(kw, j, t[j:j + 160].replace("\n", " ") if j >= 0 else "")
-        ids = [v for v in cand.values() if v]
-        vid = re.match(r"(.*)", max(set(ids), key=ids.count)) if ids else None   # 多个来源一致的那个
+        # 页面上“这个视频”的编号：updatedMetadataEndpoint 和点赞按钮的 target 指向同一个视频（推荐列表里的编号不算）
+        ids = re.findall(r'"updatedMetadataEndpoint":\{"videoId":"([\w-]{11})"', t) + re.findall(r'"likeEndpoint":\{"status":"LIKE","target":\{"videoId":"([\w-]{11})"', t)
+        vid = re.match(r"(.*)", ids[0]) if ids and len(set(ids)) == 1 else None
+        print("live video id", set(ids))
         ttl = re.search(r'"playerOverlayVideoDetailsRenderer":\{"title":\{"simpleText":"((?:[^"\\]|\\.){3,200})"', t)
         if vid and ttl and re.search(r'"isLive":true', t): cams.setdefault(vid.group(1), _unesc(ttl.group(1)))
     except Exception as e: print("live", e)
