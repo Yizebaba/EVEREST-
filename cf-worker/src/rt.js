@@ -246,9 +246,9 @@ function every(k, s) {
   if (k !== "adsb") return EVERY[k];
   return (s && s.ok) ? 15 : 30;
 }
-// 新闻（GDELT 全球新闻库）：喜马拉雅的雪崩、冰崩、冰湖溃决、滑坡、泥石流、暴雪、山洪报道。只当“线索”，至少两家媒体才成为事件候选。
+// 新闻（GDELT 全球新闻库）：喜马拉雅的雪崩、冰崩、冰湖溃决、滑坡、泥石流、暴雪、山洪、雷击、冰雹、寒潮、森林火灾、地震、溃坝、霍乱/登革热等疫情报道。只当“线索”，至少两家媒体才成为事件候选。
 async function news() {
-  const q = '(avalanche OR landslide OR "glacial lake" OR GLOF OR "flash flood" OR "debris flow" OR rockfall OR snowstorm OR blizzard) (Nepal OR Everest OR Himalaya OR Tibet OR Xizang)';
+  const q = '(avalanche OR landslide OR "glacial lake" OR GLOF OR flood OR "debris flow" OR rockfall OR snowstorm OR blizzard OR hailstorm OR lightning OR "cold wave" OR "forest fire" OR wildfire OR earthquake OR "dam collapse" OR cholera OR dengue OR outbreak) (Nepal OR Everest OR Himalaya OR Tibet OR Xizang) sourcelang:english';
   const r = await fetch("https://api.gdeltproject.org/api/v2/doc/doc?" + new URLSearchParams({ query: q, mode: "artlist", maxrecords: "75", format: "json", timespan: "3d", sort: "datedesc" }), { headers: UA });
   const tx = await r.text(); if (!r.ok) throw new Error(`GDELT ${r.status}`);   // 被限流时这一轮报错，30 分钟后再取
   if (!tx.trim().startsWith("{")) throw new Error("GDELT: " + tx.slice(0, 80));

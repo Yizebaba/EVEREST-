@@ -29,7 +29,7 @@ for f in sorted(os.listdir(src)) if os.path.isdir(src) else []:
         it = {"mid": mid, "ev": v.get("ev") or "", "kind": v.get("kind") or "", "sha256": v.get("sha256"),
               "submitted": v.get("t"), "status": st}
         if st == "accepted":
-            for x in ("title", "when", "place", "src", "url", "desc", "fname", "mime", "size"):
+            for x in ("title", "when", "place", "src", "url", "desc", "fname", "mime", "size", "c2pa", "exif_time"):
                 if v.get(x) not in (None, ""):
                     it[x] = v[x]
             note = (rv.get(f"{uid}:{k}") or {}).get("note")

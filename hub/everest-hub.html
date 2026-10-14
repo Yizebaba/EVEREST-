@@ -526,7 +526,7 @@ const TRC_RESET=()=>{for(const k in TRC)delete TRC[k]};
 /* v51：自动发现的事件 + 证据包（Worker 发现 → GitHub evidence 工作流生成 → 每小时同步到 live/ev）。
    事件按首次发现时间追加到异常列表末尾，序号固定，处理记录不会错位。 */
 const EVK={SUPPORTING:"SUPPORTING",MISSING:"MISSING",NEUTRAL:"NEUTRAL",CONTRADICTORY:"CONTRADICTORY"};
-const SRCEN={"Raspberry Shake 地震仪":"Raspberry Shake seismometer","USGS 有感报告":"USGS felt reports","GNSS 测站":"GNSS station","GDELT 新闻":"GDELT news","新闻（GDELT）":"News (GDELT)","维基百科":"Wikipedia","NASA FIRMS 火点":"NASA FIRMS fires","NASA 夜间灯光":"NASA night lights","地磁 Kp（GFZ）":"Kp index (GFZ)","Vantor 开放影像":"Vantor open imagery","人工提交":"Submitted evidence","IO.EVN 地震台":"IO.EVN seismic station","KKN 地震台":"KKN seismic station","哥白尼 GFM":"Copernicus GFM","IFRC Montandon":"IFRC Montandon","Copernicus EMS":"Copernicus EMS","BIPAD 灾害警报":"BIPAD alerts","BIPAD 水位站":"BIPAD river gauges","USGS 地震目录":"USGS catalogue","EMSC 地震目录":"EMSC catalogue","IODA 网络连通":"IODA connectivity","Sentinel-1 雷达":"Sentinel-1 radar","Sentinel-2 光学":"Sentinel-2 optical"},seN=x=>Z(x,SRCEN[x]||x),teX=x=>Z(x.text,(x.text_en||x.text).replace("（已结束）"," (ended)"));
+const SRCEN={"WHO 疫情通报":"WHO outbreak news","Raspberry Shake 地震仪":"Raspberry Shake seismometer","USGS 有感报告":"USGS felt reports","GNSS 测站":"GNSS station","GDELT 新闻":"GDELT news","新闻（GDELT）":"News (GDELT)","维基百科":"Wikipedia","NASA FIRMS 火点":"NASA FIRMS fires","NASA 夜间灯光":"NASA night lights","地磁 Kp（GFZ）":"Kp index (GFZ)","Vantor 开放影像":"Vantor open imagery","人工提交":"Submitted evidence","IO.EVN 地震台":"IO.EVN seismic station","KKN 地震台":"KKN seismic station","哥白尼 GFM":"Copernicus GFM","IFRC Montandon":"IFRC Montandon","Copernicus EMS":"Copernicus EMS","BIPAD 灾害警报":"BIPAD alerts","BIPAD 水位站":"BIPAD river gauges","USGS 地震目录":"USGS catalogue","EMSC 地震目录":"EMSC catalogue","IODA 网络连通":"IODA connectivity","Sentinel-1 雷达":"Sentinel-1 radar","Sentinel-2 光学":"Sentinel-2 optical"},seN=x=>Z(x,SRCEN[x]||x),teX=x=>Z(x.text,(x.text_en||x.text).replace("（已结束）"," (ended)"));
 let EVLAST=null,EVLANG=null;
 function evApply(d){if(d&&EVLAST&&d!==EVLAST&&d.updated&&EVLAST.updated&&d.updated<EVLAST.updated)return false;/* 旧数据不覆盖新数据 */
  if(d&&EVLAST&&d!==EVLAST){const old={};(EVLAST.events||[]).forEach(e=>{old[e.id]=e});(d.events||[]).forEach(e=>{const o=old[e.id];if(o&&!e.evn_png&&o.evn_png)e.evn_png=o.evn_png});if(!d.manual_ots&&EVLAST.manual_ots)d.manual_ots=EVLAST.manual_ots}
@@ -819,19 +819,34 @@ function chainPanel(){const L=(((EVLAST||{}).events)||[]).slice().sort((a,b)=>b.
  h+=L.map((e,i)=>{const tl=e.timeline||[],n=k=>tl.filter(x=>x.kind===k).length,o=(e.ots||[]).slice(-1)[0];
   return '<div style="padding:8px 0;border-top:1px solid var(--gb)"><div><b style="font-family:ui-monospace,Menlo,monospace">'+lvBJ(e.t)+'</b> <b>'+esc(Z(e.title,e.title_en||e.title))+'</b></div>'
    +'<div class="sub">'+esc(e.place||"")+' · '+Z("证据 ","")+'<span class="ok">'+Z("支持 ","supporting ")+n("SUPPORTING")+'</span> · <span class="unk">'+Z("缺失 ","missing ")+n("MISSING")+'</span> · <span class="bad">'+Z("矛盾 ","contradictory ")+n("CONTRADICTORY")+'</span> · '+Z("生成于 ","built ")+lvBJ(e.built)+'</div>'
-   +'<div style="margin:4px 0">'+otsChip(e)+'</div>'
+   +'<div style="margin:4px 0">'+hipsChip(e)+' '+otsChip(e)+'</div>'
    +'<div style="display:flex;gap:6px;flex-wrap:wrap"><button class="act p" data-ch="'+esc(e.id)+'">'+Z("查看时间线","Open timeline")+'</button>'
    +(o?'<a class="act" style="text-decoration:none" href="'+RAWB+o.file+'" target="_blank" rel="noopener">'+Z("存证快照 ↗","Snapshot ↗")+'</a><a class="act" style="text-decoration:none" href="'+RAWB+o.ots+'" target="_blank" rel="noopener">'+Z(".ots 证明 ↗",".ots proof ↗")+'</a>':'')+'</div></div>'}).join("");
  h+='<div class="sub" style="margin-top:8px">'+ghL("chain",Z("证据链说明 ↗","About the chain ↗"))+ghL("verify",Z("怎么核对存证 ↗","How to verify ↗"))+'</div>';
  return h}
 document.addEventListener("click",e=>{const b=e.target.closest("[data-ch]");if(!b)return;e.preventDefault();const ev=(((EVLAST||{}).events)||[]).find(x=>x.id===b.dataset.ch);if(!ev)return;
- xModal('<b>'+esc(Z(ev.title,ev.title_en||ev.title))+'</b><div class="sub">'+esc(ev.place||"")+' · '+fmtLL(ev.lat,ev.lon)+'</div><div style="margin:4px 0">'+otsChip(ev)+'</div>'+packHTML({pack:ev})+euForEvent(ev.id)+'<div class="sb">'+xBtn("eunew",ev.id,Z("＋ 为这个事件上传证据","＋ Submit evidence for this event"),true)+xBtn("close","",Z("关闭","Close"))+'</div>')});
+ xModal('<b>'+esc(Z(ev.title,ev.title_en||ev.title))+'</b><div class="sub">'+esc(ev.place||"")+' · '+fmtLL(ev.lat,ev.lon)+'</div><div style="margin:4px 0">'+hipsChip(ev)+' '+otsChip(ev)+'</div>'+packHTML({pack:ev})+euForEvent(ev.id)+'<div class="sb">'+xBtn("eunew",ev.id,Z("＋ 为这个事件上传证据","＋ Submit evidence for this event"),true)+xBtn("close","",Z("关闭","Close"))+'</div>')});
 /* v56：证据链可以“添加证据源”和“人工上传证据”。
    证据源：共享库 evsrc/<用户>，所有者在 evsrc/_review 写结论（待评估/计划接入/已接入/不接入）；已接入的进入证据包流程。
    人工证据：共享库 evup/<用户>，文件存本页附件库（assets，只有能编辑本页的人能上传），浏览器里先算 SHA-256 指纹；
    所有者在 evup/_review 核实（待核实/已采信/不采信）。每小时同步任务把清单写到 events 分支 manual.json：
    全部条目公开指纹并用 OpenTimestamps 存证；只有“已采信”的公开内容并进入事件时间线。提交人姓名和文件本身不公开。 */
-const UR=t=>'<span data-raw>'+esc(t)+'</span>';/* 用户写的内容：切英文时不翻译 */
+const UR=t=>'<span data-raw>'+esc(t)+'</span>';
+/* v60：联合国减灾署 2025 灾害编码（UNDRR-ISC HIPs，281 种 / 8 大类）。完整对照见 docs/HAZARDS_281.md */
+const HIPS={"MH0102": ["闪电（雷暴）", "Lightning (electrical storm)"], "MH0309": ["热带气旋", "Tropical Cyclone"], "MH0401": ["干旱", "Drought"], "MH0403": ["暴风雪", "Blizzard"], "MH0404": ["冰雹", "Hail"], "MH0406": ["雪暴", "Snow Storm"], "MH0502": ["寒潮", "Cold Wave"], "MH0600": ["洪水", "Flooding"], "MH0603": ["山洪", "Flash Flooding"], "MH0604": ["河流洪水", "Fluvial (Riverine) Flooding"], "MH0607": ["冰湖溃决洪水", "Glacial Lake Outburst Flooding"], "MH0801": ["雪崩", "Avalanche"], "GH0101": ["地震", "Earthquake"], "GH0300": ["重力块体运动（滑坡）", "Gravitational Mass Movement (Landslide)"], "GH0301": ["崩落（落石、冰崩）", "Falls"], "GH0303": ["流动（泥石流）", "Flows"], "GH0304": ["滑动", "Slides"], "EN0205": ["野火（森林火灾）", "Wildfires"], "BI0110": ["水源性疾病", "Waterborne Diseases (Human)"], "BI0204": ["霍乱", "Cholera (Human)"], "BI0207": ["登革热", "Dengue (Human)"], "TL0205": ["溃坝", "Dam Failure"], "GH0200": ["火山", "Volcanic"]},HIPS_N={"source": 53, "event": 22, "region": 51, "out": 137, "record": 18};
+const hipsChip=e=>(e.hips||[]).map(c=>'<span class="lvc" style="border:1px solid currentColor;opacity:.8;font-family:ui-monospace,Menlo,monospace" title="UNDRR-ISC 2025">'+esc(c)+' '+esc(Z((HIPS[c]||[c])[0],(HIPS[c]||[c,c])[1]))+'</span>').join(" ");
+/* C2PA 来源记录：只检测有没有、读出生成工具名（页面里不验签，核对请用 contentcredentials.org/verify）；EXIF 拍摄时间 */
+function c2paProbe(u8){let s="";const n=Math.min(u8.length,4e6);for(let i=0;i<n;i++)s+=String.fromCharCode(u8[i]);
+ if(s.indexOf("jumb")<0||s.indexOf("c2pa")<0)return{has:false};
+ /* CBOR：键 "claim_generator" 后面是文本串，0x60–0x77 头 1 字节，0x78 头 2 字节 */
+ let gen="",i=s.indexOf("claim_generator");while(i>=0&&!gen){let j=i+15,c=s.charCodeAt(j),n=-1;if(c>=0x60&&c<=0x77){n=c-0x60;j++}else if(c===0x78){n=s.charCodeAt(j+1);j+=2}
+  if(n>2)gen=s.slice(j,j+n).replace(/[^\x20-\x7e]/g,"").slice(0,60);i=s.indexOf("claim_generator",i+15)}
+ return{has:true,gen:gen}}
+function exifTime(u8){try{if(u8[0]!==0xFF||u8[1]!==0xD8)return null;let o=2;while(o<u8.length-4){if(u8[o]!==0xFF)return null;const mk=u8[o+1],len=(u8[o+2]<<8)|u8[o+3];
+  if(mk===0xE1&&String.fromCharCode(...u8.slice(o+4,o+8))==="Exif"){const b=o+10,le=u8[b]===0x49,r16=i=>le?u8[i]|(u8[i+1]<<8):(u8[i]<<8)|u8[i+1],r32=i=>le?(u8[i]|(u8[i+1]<<8)|(u8[i+2]<<16)|(u8[i+3]<<24))>>>0:((u8[i]<<24)|(u8[i+1]<<16)|(u8[i+2]<<8)|u8[i+3])>>>0;
+   const ifd=(off,tag)=>{const n=r16(b+off);for(let k=0;k<n;k++){const e=b+off+2+k*12;if(r16(e)===tag)return r32(e+8)}return null};
+   const ex=ifd(r32(b+4),0x8769);if(ex==null)return null;const p=ifd(ex,0x9003);if(p==null)return null;return String.fromCharCode(...u8.slice(b+p,b+p+19)).replace(/^(\d{4}):(\d\d):(\d\d)/,"$1-$2-$3")}
+  if(mk===0xDA)return null;o+=2+len}}catch(e){}return null}/* 用户写的内容：切英文时不翻译 */
 const EU_K=[["file","文件（照片、视频、文档）","File (photo, video, document)"],["link","链接（新闻、通报、帖子）","Link (news, bulletin, post)"],["note","现场记录（文字）","Field note (text)"]];
 const EU_ST={pending:["lvw","待核实","Awaiting check"],accepted:["lvo","已采信","Accepted"],rejected:["lvd","不采信","Not accepted"]};
 const ES_K=[["地震台网","Seismic network"],["水文站","Hydrology gauges"],["卫星目录 / 产品","Satellite catalogue / product"],["灾害警报接口","Hazard alert feed"],["官方通报","Official bulletins"],["新闻 / 社交媒体","News / social media"],["其他","Other"]];
@@ -847,6 +862,8 @@ function euRow(it,withEv){const rv=(((XDB.evup||{})._review||{}).m||{})[it._u+":
  return xRow('<b style="font-family:ui-monospace,Menlo,monospace">'+lvBJ(it.when||it.t)+'</b> <b>'+UR(it.title||"")+'</b> <span class="lvc '+st[0]+'">'+Z(st[1],st[2])+'</span>'+(euInPack(it)?' <span class="lvc lvo">'+Z("已进证据包","In evidence pack")+'</span>':''),
   links+(it._mine?xDel("eudel",it._id):"")+own,
   (withEv?esc(evName(it.ev))+'<br>':'')+esc(Z(k[1],k[2]))+(it.place?" · "+UR(it.place):"")+(it.src?" · "+Z("来源：","Source: ")+UR(it.src):"")+(it.desc?'<br>'+UR(it.desc):"")
+  +(it.c2pa?'<br>'+(it.c2pa.has?'<span class="lvc lvo">'+Z("带 C2PA 来源记录","Has C2PA provenance")+'</span> '+esc(it.c2pa.gen||"")+' <a href="https://contentcredentials.org/verify" target="_blank" rel="noopener">'+Z("核对 ↗","Verify ↗")+'</a>':'<span class="lvc" style="border:1px solid currentColor;opacity:.7">'+Z("无 C2PA 来源记录","No C2PA provenance")+'</span>'):"")
+  +(it.exif_time?'<br>'+Z("相机记录的拍摄时间：","Camera time: ")+esc(it.exif_time)+(it.when&&Math.abs(Date.parse(it.exif_time.replace(" ","T")+"+05:45")-Date.parse(it.when))>3*3600e3?' <span class="lvc lvw">'+Z("和填写的时间相差超过 3 小时","Differs from stated time by >3 h")+'</span>':""):"")
   +'<br><span style="font-family:ui-monospace,Menlo,monospace;font-size:11px">SHA-256 '+esc((it.sha256||"").slice(0,16))+'…</span>'+(it.fname?" · "+esc(it.fname)+(it.size?" · "+(it.size>=1048576?(it.size/1048576).toFixed(1)+" MB":Math.max(1,Math.round(it.size/1024))+" KB"):""):"")
   +'<br>'+Z("提交：","Submitted: ")+esc(it._by||"—")+" · "+lvBJ(it.t))}
 function euForEvent(id){const L=xAll("evup").filter(x=>x.ev===id);return'<div class="sec">'+Z("人工提交的证据","Submitted evidence")+'</div>'+(L.length?L.map(x=>euRow(x,false)).join(""):'<div class="none">'+Z("还没有人为这个事件上传证据","No one has submitted evidence for this event yet")+'</div>')}
@@ -855,6 +872,9 @@ function euPanel(){const L=xAll("evup");
   +(L.length?L.map(x=>euRow(x,true)).join(""):'<div class="none">'+Z("还没有人工证据。点“上传证据”。","No submitted evidence yet. Click “Submit evidence”.")+'</div>')}
 function esPanel(){const U=xAll("evsrc"),rv=((XDB.evsrc||{})._review||{}).m||{};
  let h='<div class="sub">'+ghL("evsrc")+'</div>';
+ h+='<div class="gt" style="font-size:12px;color:var(--mute);margin:8px 0 4px">'+Z("联合国减灾署 281 种灾害（8 大类）的覆盖","Coverage of UNDRR's 281 hazards (8 types)")+'</div><table class="lvt"><tbody>'
+  +[["event","自动发现 + 证据包","Auto-detected + evidence pack"],["record","证据包里有记录","Recorded in packs"],["source","有公开来源，待接","Public source, not yet added"],["region","本地不适用","Not applicable here"],["out","不在范围","Out of scope"]]
+   .map(r=>'<tr><td>'+Z(r[1],r[2])+'</td><td class="lvn">'+(HIPS_N[r[0]]||0)+'</td></tr>').join("")+'</tbody></table><div class="sub">'+ghL("",Z("281 种逐条对照 ↗","All 281, one by one ↗")).replace("docs/HUB_GUIDE.md#","docs/HAZARDS_281.md")+'</div>';
  h+='<div class="gt" style="font-size:12px;color:var(--mute);margin:8px 0 4px">'+Z("已在证据包里","Already in every pack")+'</div><table class="lvt"><tbody>'+CHAIN_SRC.map(r=>'<tr><td style="white-space:nowrap">'+Z(r[0],r[1])+'</td><td>'+Z(r[2],r[3])+'</td></tr>').join("")+'</tbody></table>';
  h+='<div class="gt" style="font-size:12px;color:var(--mute);margin:10px 0 4px">'+Z("大家登记的来源","Sources people registered")+'</div>'+xNoDb();
  h+=U.length?U.map(r=>{const v=rv[r._u+":"+r._id]||{},st=ES_ST[v.status||"pending"]||ES_ST.pending,kk=ES_K.find(x=>x[0]===r.kind)||[r.kind,r.kind];
@@ -889,7 +909,8 @@ async function euSave(){const g=i=>(($(i)||{}).value||"").trim(),kind=g("eu_k"),
  if(!v.title){say(Z("请写标题。","Please add a title."));return}
  try{if(kind==="file"){const f=$("eu_f")&&$("eu_f").files&&$("eu_f").files[0];if(!ASNS||!f){say(Z("请选择文件。","Please choose a file."));return}
    if(f.size>20*1048576){say(Z("文件超过 20 MB。","The file is over 20 MB."));return}
-   st.textContent=Z("正在计算指纹…","Computing fingerprint…");v.sha256=await sha256hex(await f.arrayBuffer());v.fname=f.name;v.size=f.size;v.mime=f.type||"";
+   st.textContent=Z("正在计算指纹…","Computing fingerprint…");const ab=await f.arrayBuffer(),u8=new Uint8Array(ab);v.sha256=await sha256hex(ab);v.fname=f.name;v.size=f.size;v.mime=f.type||"";
+   v.c2pa=c2paProbe(u8);v.exif_time=exifTime(u8);
    st.textContent=Z("正在上传…","Uploading…");const r=await ASNS.upload(f);v.asset=r.id}
   else if(kind==="link"){v.url=g("eu_u");if(!/^https?:\/\//.test(v.url)){say(Z("链接要以 http:// 或 https:// 开头。","The link must start with http:// or https://."));return}
    v.sha256=await sha256hex(new TextEncoder().encode(JSON.stringify([v.url,v.title,v.when,v.place,v.src,v.desc])))}

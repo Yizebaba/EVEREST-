@@ -172,7 +172,7 @@ async function call(name, args, h) {
       for (const e of E.slice(0, 10)) {
         let p = null; try { const r = await fetch(`https://raw.githubusercontent.com/Yizebaba/EVEREST-/events/events/${e.id}.json`, { cf: { cacheTtl: 60 } }); if (r.ok) p = await r.json(); } catch (x) {}
         if (!p) continue; const m = idx[e.id] || {};
-        L.push({ id: p.id, title: p.title, title_en: p.title_en, kind: p.kind, place: p.place, lat: p.lat, lon: p.lon, t: p.t, built: p.built, note: p.note, note_en: p.note_en, first_seen: m.first_seen || e.first_seen,
+        L.push({ id: p.id, hips: p.hips || e.hips || [], title: p.title, title_en: p.title_en, kind: p.kind, place: p.place, lat: p.lat, lon: p.lon, t: p.t, built: p.built, note: p.note, note_en: p.note_en, first_seen: m.first_seen || e.first_seen,
           timeline: (p.timeline || []).slice(0, 80), evn: p.evn ? { distance_km: p.evn.distance_km, coverage_pct: p.evn.coverage_pct, peaks: p.evn.peaks, error: p.evn.error } : null,
           kkn: p.kkn || null, gfm: p.gfm || null, sentinel: p.sentinel || null, gauges: p.gauges || null, ioda: p.ioda || null, manual: p.manual || null, news: (p.news || []).slice(0, 10), ots: m.ots || [], png: p.png || null });
       }

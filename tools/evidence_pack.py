@@ -23,7 +23,7 @@ import urllib.request, urllib.parse
 UA = {"user-agent": "everest-evidence (github.com/Yizebaba/EVEREST-)"}
 EVN = (27.9587, 86.8117)
 OUT = "events"
-VERSION = 12   # 改了证据包内容时加 1，所有包会重算一次
+VERSION = 13   # 改了证据包内容时加 1，所有包会重算一次
 NOW = datetime.now(timezone.utc)
 
 # 尼泊尔区县 → IODA 地区（旧 14 区）
@@ -416,6 +416,9 @@ def manual(ev, t0, items, pack):
         fp = i.get("sha256") or i.get("url_sha256")
         extra = (f"；指纹 {fp[:12]}…" if fp else "") + ("；已存互联网档案馆" if i.get("wayback") else "")
         extra_en = (f"; fingerprint {fp[:12]}…" if fp else "") + ("; archived on the Wayback Machine" if i.get("wayback") else "")
+        c2 = i.get("c2pa") or {}
+        if c2.get("has"): extra += f"；带 C2PA 来源记录（{c2.get('gen') or '生成工具未知'}）"; extra_en += f"; carries C2PA provenance ({c2.get('gen') or 'generator unknown'})"
+        if i.get("exif_time"): extra += f"；相机记录的拍摄时间 {i['exif_time']}"; extra_en += f"; camera time {i['exif_time']}"
         items.append({"t": i.get("when") or i.get("submitted"), "src": "人工提交", "kind": "SUPPORTING", "mid": i["mid"],
                       "text": f"{k[0]}：{i.get('title', '')}" + (f"（{i['place']}）" if i.get("place") else "") + (f"，来源 {i['src']}" if i.get("src") else "") + f"。已核实{extra}",
                       "text_en": f"{k[1]}: {i.get('title', '')}" + (f" ({i['place']})" if i.get("place") else "") + (f", source {i['src']}" if i.get("src") else "") + f". Verified{extra_en}",
@@ -778,6 +781,25 @@ def spaceweather(ev, t0, items, pack):
         items.append({"t": iso(t0), "src": "地磁 Kp（GFZ）", "kind": "MISSING", "text": f"查询失败（{str(e)[:60]}）", "text_en": f"Query failed ({str(e)[:60]})"})
 
 
+def who_don(ev, t0, items, pack):
+    """世卫组织疫情通报（Disease Outbreak News）：事件前后 60 天内提到尼泊尔或中国的通报。只对疫情类事件运行。"""
+    try:
+        x = get("https://www.who.int/api/news/diseaseoutbreaknews?" + urllib.parse.urlencode({"sf_culture": "en", "$orderby": "PublicationDateAndTime desc", "$top": 50}))
+        hits = []
+        for r in x.get("value", []):
+            t = (r.get("PublicationDateAndTime") or r.get("PublicationDate") or "")[:19]
+            if not t or abs((P(t + "Z") - t0).days) > 60: continue
+            if re.search(r"Nepal|China|India|Bhutan", r.get("Title", "") or ""):
+                hits.append(r)
+        for r in hits[:5]:
+            items.append({"t": r["PublicationDateAndTime"][:19] + "Z", "src": "WHO 疫情通报", "kind": "SUPPORTING", "text": r["Title"], "text_en": r["Title"],
+                          "url": "https://www.who.int/emergencies/disease-outbreak-news/item/" + (r.get("UrlName") or "")})
+        if not hits:
+            items.append({"t": iso(t0), "src": "WHO 疫情通报", "kind": "NEUTRAL", "text": "前后 60 天没有涉及尼泊尔及周边的世卫组织疫情通报", "text_en": "No WHO Disease Outbreak News for Nepal or neighbours within 60 days"})
+    except Exception as e:
+        items.append({"t": iso(t0), "src": "WHO 疫情通报", "kind": "MISSING", "text": f"查询失败（{str(e)[:60]}）", "text_en": f"Query failed ({str(e)[:60]})"})
+
+
 _VANTOR = []
 
 
@@ -817,8 +839,12 @@ def build(ev):
         ev["district"] = next((d for d in DIST if d.lower() == m.group(1).replace("-", " ") or d.lower() == m.group(1)), None)
     for s in ev.get("src", []):
         items.append({"t": s["t"], "src": s["src"], "kind": "SUPPORTING", "text_en": s.get("text_en", s["text"]), "text": s["text"], "url": s.get("url")})
-    pack = {"id": ev["id"], "title": ev["title"], "title_en": ev.get("title_en") or ev["title"].replace("洪水预警", "flood warning"), "kind": ev.get("kind"), "place": ev.get("place"), "lat": ev["lat"], "lon": ev["lon"], "t": ev["t"]}
-    for fn in (lambda: evn(ev, t0, items, pack), lambda: kkn(ev, t0, items, pack), lambda: catalogs(ev, t0, items), lambda: gauges(ev, t0, items, pack),
+    pack = {"id": ev["id"], "hips": ev.get("hips") or [], "title": ev["title"], "title_en": ev.get("title_en") or ev["title"].replace("洪水预警", "flood warning"), "kind": ev.get("kind"), "place": ev.get("place"), "lat": ev["lat"], "lon": ev["lon"], "t": ev["t"]}
+    bio = (ev.get("hips") or []) and all(c.startswith("BI") for c in ev["hips"])
+    if bio:   # 疫情：地震台、水位、卫星这些物理信号不相关，只查新闻、公开记录和世卫通报
+        fns = (lambda: gdelt(ev, t0, items, pack), lambda: wiki(ev, t0, items, pack), lambda: hdx(ev, t0, items, pack), lambda: reliefweb(ev, t0, items, pack),
+               lambda: who_don(ev, t0, items, pack), lambda: manual(ev, t0, items, pack))
+    for fn in fns if bio else (lambda: evn(ev, t0, items, pack), lambda: kkn(ev, t0, items, pack), lambda: catalogs(ev, t0, items), lambda: gauges(ev, t0, items, pack),
                lambda: ioda(ev, t0, items, pack), lambda: ems(ev, t0, items), lambda: sentinel(ev, t0, items, pack),
                lambda: gfm(ev, t0, items, pack), lambda: montandon(ev, t0, items, pack), lambda: manual(ev, t0, items, pack),
                lambda: rshake(ev, t0, items, pack), lambda: usgs_products(ev, t0, items, pack), lambda: gnss(ev, t0, items, pack),

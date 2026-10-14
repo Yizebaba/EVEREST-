@@ -28,7 +28,7 @@ try:
         if time.time() - time.mktime(time.strptime(m["t"][:19], "%Y-%m-%dT%H:%M:%S")) > 60 * 86400: continue
         try: p = json.loads(raw(f"events/{eid}.json", "events"))
         except Exception: continue
-        e = {k: p.get(k) for k in ("id", "title", "title_en", "kind", "place", "lat", "lon", "t", "built", "note", "note_en")}
+        e = {k: p.get(k) for k in ("id", "hips", "title", "title_en", "kind", "place", "lat", "lon", "t", "built", "note", "note_en")}
         e["first_seen"] = m.get("first_seen"); e["timeline"] = p.get("timeline", [])[:60]
         e["evn"] = {k: (p.get("evn") or {}).get(k) for k in ("distance_km", "coverage_pct", "peaks", "error")}
         e["sentinel"] = p.get("sentinel"); e["gauges"] = p.get("gauges"); e["ioda"] = p.get("ioda")

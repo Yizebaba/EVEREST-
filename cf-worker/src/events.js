@@ -21,8 +21,19 @@ const PLACES = Object.assign({}, DISTRICTS, { Everest: [27.99, 86.93], Khumbu: [
   Annapurna: [28.6, 83.82], Langtang: [28.21, 85.56], Dhaulagiri: [28.7, 83.49], Makalu: [27.89, 87.09], Kanchenjunga: [27.7, 88.15], Kangchenjunga: [27.7, 88.15],
   Rolwaling: [27.88, 86.4], Melamchi: [27.83, 85.58], Tingri: [28.66, 87.12], Dingri: [28.66, 87.12], Gyirong: [28.85, 85.3], Kyirong: [28.85, 85.3],
   Nyalam: [28.16, 85.98], Zhangmu: [27.99, 85.98], Rasuwagadhi: [28.27, 85.38], Tatopani: [27.95, 85.94] });
-const NEWS_KIND = [[/avalanche/i, "雪崩", "avalanche"], [/glacial lake|GLOF/i, "冰湖溃决", "glacial lake outburst"], [/debris flow/i, "泥石流", "debris flow"],
-  [/landslide|rockfall/i, "滑坡", "landslide"], [/snowstorm|blizzard/i, "暴雪", "snowstorm"], [/flood/i, "洪水", "flood"]];
+// 新闻灾种 → [正则, 中文, 英文, UNDRR-ISC 2025 灾害编码]（顺序即优先级）
+const NEWS_KIND = [[/glacial lake|GLOF/i, "冰湖溃决", "glacial lake outburst", "MH0607"], [/ice avalanche|rockfall|rock fall/i, "崩落", "rockfall / ice avalanche", "GH0301"],
+  [/avalanche/i, "雪崩", "avalanche", "MH0801"], [/debris flow|mudflow/i, "泥石流", "debris flow", "GH0303"], [/landslide/i, "滑坡", "landslide", "GH0300"],
+  [/dam (breach|burst|collapse|failure)/i, "溃坝", "dam failure", "TL0205"], [/flash flood/i, "山洪", "flash flood", "MH0603"], [/flood/i, "洪水", "flood", "MH0600"],
+  [/blizzard/i, "暴风雪", "blizzard", "MH0403"], [/snowstorm|heavy snow/i, "雪暴", "snowstorm", "MH0406"], [/hailstorm|hail/i, "冰雹", "hail", "MH0404"],
+  [/lightning/i, "雷击", "lightning", "MH0102"], [/cold wave/i, "寒潮", "cold wave", "MH0502"], [/forest fire|wildfire/i, "森林火灾", "wildfire", "EN0205"],
+  [/earthquake|quake/i, "地震", "earthquake", "GH0101"], [/cholera/i, "霍乱", "cholera", "BI0204"], [/dengue/i, "登革热", "dengue", "BI0207"], [/outbreak/i, "疫情", "outbreak", "BI0110"]];
+// BIPAD 警报标题 → 灾种（只取已经发生的灾害；“Heavy Rainfall”这类预报性警报不建事件）
+const BIPAD_KIND = [[/flood/i, "洪水", "flood", "MH0604"], [/landslide/i, "滑坡", "landslide", "GH0300"], [/avalanche/i, "雪崩", "avalanche", "MH0801"],
+  [/forest fire|wildfire/i, "森林火灾", "forest fire", "EN0205"], [/lightning|thunderbolt/i, "雷击", "lightning", "MH0102"], [/cold wave/i, "寒潮", "cold wave", "MH0502"],
+  [/snow/i, "降雪", "snowfall", "MH0405"], [/earthquake/i, "地震", "earthquake", "GH0101"]];
+const GDACS_HIPS = { EQ: "GH0101", FL: "MH0600", TC: "MH0309", DR: "MH0401", WF: "EN0205", VO: "GH0200" };
+const GDACS_ZH = { EQ: "地震", FL: "洪水", TC: "热带气旋", DR: "干旱", WF: "野火", VO: "火山" };
 const BOX = { s: 26.5, n: 31.5, w: 79.5, e: 92.5 };
 const inBox = (lat, lon) => lat != null && lon != null && lat >= BOX.s && lat <= BOX.n && lon >= BOX.w && lon <= BOX.e;
 const npDay = s => new Date(Date.parse(s) + 345 * 60e3).toISOString().slice(0, 10);   // 尼泊尔日期
@@ -32,34 +43,42 @@ export function detect(rt, prev) {
   const S = (rt && rt.sources) || {}, v = k => (S[k] || {}).v || {}, ev = Object.assign({}, prev || {});
   const add = (id, base, item) => {
     const e = ev[id] || Object.assign({ id, first_seen: new Date().toISOString(), src: [] }, base);
+    e.hips = [...new Set([...(e.hips || []), ...(base.hips || [])])];
     if (!e.src.some(x => x.k === item.k || (x.src === item.src && x.t === item.t))) { e.src.push(item); e.src.sort((a, b) => a.t.localeCompare(b.t)); e.updated = new Date().toISOString(); }
     if (item.t < e.t) e.t = item.t;
     ev[id] = e;
   };
   for (const a of v("alerts").alerts || []) {
-    if (a.hazard !== 11 && !/flood/i.test(a.title || "")) continue;
+    const bk = a.hazard === 11 ? BIPAD_KIND[0] : BIPAD_KIND.find(k => k[0].test(a.title || "")); if (!bk) continue;
     const d = districtOf(a.title), pt = a.lat != null ? [a.lat, a.lon] : d ? DISTRICTS[d] : null;
     if (!pt || !inBox(pt[0], pt[1]) || !d) continue;
     const t = new Date(a.started).toISOString();
-    add(`bipad-${d.toLowerCase().replace(/\s+/g, "-")}-${npDay(a.started)}`, { kind: "洪水", title: `${d} 洪水预警`, title_en: `${d} flood warning`, place: (a.title || "").replace(/^Flood warning at\s*/i, ""), lat: pt[0], lon: pt[1], t },
+    add(`bipad-${d.toLowerCase().replace(/\s+/g, "-")}-${npDay(a.started)}` + (bk[3] === "MH0604" ? "" : "-" + bk[2].replace(/\s+/g, "-")),
+      { kind: bk[1], hips: [bk[3]], title: `${d} ${bk[1]}${bk[3] === "MH0604" ? "预警" : "警报"}`, title_en: `${d} ${bk[2]} ${bk[3] === "MH0604" ? "warning" : "alert"}`, place: (a.title || "").replace(/^.*?\bat\s+/i, ""), lat: pt[0], lon: pt[1], t },
       { k: "bipad:" + (a.id || a.started), t, src: "BIPAD 灾害警报", text: a.title + (a.expire ? "（已结束）" : ""), text_en: a.title + (a.expire ? " (ended)" : "") });
   }
   for (const q of v("usgs").events || []) {
-    if (q.type !== "landslide" || !inBox(q.lat, q.lon)) continue;
-    add(`usgs-${q.id}`, { kind: "崩塌", title: `USGS 记录的崩塌/滑坡 M${q.mag}`, title_en: `Landslide/collapse recorded by USGS, M${q.mag}`, place: q.place, lat: q.lat, lon: q.lon, t: q.t },
+    if (!inBox(q.lat, q.lon)) continue;
+    if (q.type !== "landslide") {   // 构造地震：只收 M5 以上
+      if (!(q.mag >= 5)) continue;
+      add(`usgs-${q.id}`, { kind: "地震", hips: ["GH0101"], title: `M${q.mag} 地震`, title_en: `M${q.mag} earthquake`, place: q.place, lat: q.lat, lon: q.lon, t: q.t },
+        { k: "usgs:" + q.id, t: q.t, src: "USGS 地震目录", text: `M${q.mag} 地震 · ${q.place}`, text_en: `M${q.mag} earthquake · ${q.place}`, url: q.url });
+      continue;
+    }
+    add(`usgs-${q.id}`, { kind: "崩塌", hips: ["GH0300"], title: `USGS 记录的崩塌/滑坡 M${q.mag}`, title_en: `Landslide/collapse recorded by USGS, M${q.mag}`, place: q.place, lat: q.lat, lon: q.lon, t: q.t },
       { k: "usgs:" + q.id, t: q.t, src: "USGS 地震目录", text: `M${q.mag} 归类为崩塌/滑坡（非构造）· ${q.place}`, text_en: `M${q.mag} classified as landslide/collapse (non-tectonic) · ${q.place}`, url: q.url });
   }
   for (const g of v("gdacs").events || []) {
     if (!/orange|red/i.test(g.level || "") || !inBox(g.lat, g.lon)) continue;
     const t = new Date(g.from + (/[zZ+]/.test(g.from || "") ? "" : "Z")).toISOString();
-    add(`gdacs-${g.type}-${(g.from || "").slice(0, 10)}`, { kind: g.type === "FL" ? "洪水" : g.type, title: g.name, title_en: g.name, place: g.name, lat: g.lat, lon: g.lon, t },
+    add(`gdacs-${g.type}-${(g.from || "").slice(0, 10)}`, { kind: GDACS_ZH[g.type] || g.type, hips: GDACS_HIPS[g.type] ? [GDACS_HIPS[g.type]] : [], title: g.name, title_en: g.name, place: g.name, lat: g.lat, lon: g.lon, t },
       { k: "gdacs:" + g.type + g.from, t, src: "GDACS", text: `${g.level} 级 · ${g.name}`, text_en: `${g.level} alert · ${g.name}`, url: g.url });
   }
   for (const [id, s] of Object.entries(v("bipad").st || {})) {
     const m = s.meta || {}, now = Date.parse(rt.updated);
     if (!m.status || /BELOW/.test(m.status) || !m.last_on || now - Date.parse(m.last_on) > 6 * 3600e3) continue;
     const t = new Date(m.last_on).toISOString();
-    add(`gauge-${id}-${npDay(m.last_on)}`, { kind: "水位越线", title: `${m.name} 越过${/DANGER/.test(m.status) ? "危险" : "警戒"}水位`, title_en: `${m.title} ${/DANGER/.test(m.status) ? "above danger level" : "above warning level"}`, place: m.title, lat: m.lat, lon: m.lon, t },
+    add(`gauge-${id}-${npDay(m.last_on)}`, { kind: "水位越线", hips: ["MH0604"], title: `${m.name} 越过${/DANGER/.test(m.status) ? "危险" : "警戒"}水位`, title_en: `${m.title} ${/DANGER/.test(m.status) ? "above danger level" : "above warning level"}`, place: m.title, lat: m.lat, lon: m.lon, t },
       { k: "gauge:" + id + ":" + t, t, src: "BIPAD 水位站", text: `${m.name} ${m.status}`, text_en: `${m.title} ${m.status}` });
   }
   const grp = {};
@@ -72,7 +91,7 @@ export function detect(rt, prev) {
     if (new Set(g.arts.map(a => a.domain)).size < 2) continue;
     const t = g.arts.map(a => a.t).sort()[0], [la, lo] = PLACES[g.pl];
     for (const a of g.arts) add(`news-${g.kk[2].replace(/\s+/g, "-")}-${g.pl.toLowerCase()}-${key.split("|")[2]}`,
-      { kind: g.kk[1], title: `${g.pl} ${g.kk[1]}（新闻线索）`, title_en: `${g.pl} ${g.kk[2]} (news lead)`, place: g.pl, lat: la, lon: lo, t },
+      { kind: g.kk[1], hips: [g.kk[3]], title: `${g.pl} ${g.kk[1]}（新闻线索）`, title_en: `${g.pl} ${g.kk[2]} (news lead)`, place: g.pl, lat: la, lon: lo, t },
       { k: "news:" + a.url, t: a.t, src: "新闻（GDELT）", text: `${a.domain}：${a.title}`, text_en: `${a.domain}: ${a.title}`, url: a.url });
   }
   // 清掉同一来源同一时刻的重复（旧版本用时间做键，新版本用警报编号做键）
@@ -82,15 +101,20 @@ export function detect(rt, prev) {
   const L = Object.values(ev).sort((a, b) => a.t.localeCompare(b.t));
   for (let i = 0; i < L.length; i++) for (let j = i + 1; j < L.length; j++) {
     const A = L[i], B = L[j]; if (!ev[A.id] || !ev[B.id]) continue;
+    const bio = E => (E.hips || []).some(c => c.startsWith("BI"));
+    if (bio(A) !== bio(B)) continue;   // 疫情和自然灾害不合并
     if (Math.abs(Date.parse(B.t) - Date.parse(A.t)) < 36 * 3600e3 && km(A, B) < 150) {
       for (const it of B.src) if (!A.src.some(x => x.k === it.k || (x.src === it.src && x.t === it.t))) A.src.push(it);
-      A.src.sort((a, b) => a.t.localeCompare(b.t)); A.also = (A.also || []).concat([B.id], B.also || []);
+      A.src.sort((a, b) => a.t.localeCompare(b.t)); A.also = (A.also || []).concat([B.id], B.also || []); A.hips = [...new Set([...(A.hips || []), ...(B.hips || [])])];
       if (A.kind !== B.kind && !String(A.kind).includes(B.kind)) A.kind = A.kind + "、" + B.kind;
       delete ev[B.id];
     }
   }
   // 合并过的事件，以后新来的同源信号也并进来
   for (const e of Object.values(ev)) for (const o of e.also || []) if (ev[o]) { for (const it of ev[o].src) if (!e.src.some(x => x.k === it.k)) e.src.push(it); delete ev[o]; }
+  // 旧事件补灾害编码（UNDRR-ISC 2025）
+  for (const e of Object.values(ev)) if (!e.hips || !e.hips.length)
+    e.hips = /^gdacs-(\w+)-/.test(e.id) ? [GDACS_HIPS[e.id.split("-")[1]] || "MH0600"] : /^usgs-/.test(e.id) ? [e.kind === "地震" ? "GH0101" : "GH0300"] : ["MH0604"];
   // 只保留 60 天
   for (const k of Object.keys(ev)) if (Date.now() - Date.parse(ev[k].t) > 60 * 864e5) delete ev[k];
   return ev;
