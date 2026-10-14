@@ -613,7 +613,7 @@ for h in HIPS:
 MOUNTAIN = (27.6, 31.5, 80.0, 88.3)
 cand = []
 for r in allrec:
-    if r["t"] < iso(NOW - timedelta(days=30)) or r["src"] != "BIPAD 灾害事件库": continue
+    if r["t"] < iso(NOW - timedelta(days=30)) or r["src"] != "BIPAD 灾害事件库" or r.get("lat") is None or r.get("lon") is None: continue
     dm = (r.get("deaths") or 0) + (r.get("missing") or 0)
     nat = any(c[:2] in ("MH", "GH", "EN") for c in r.get("codes", []))
     mtn = r.get("lat") and MOUNTAIN[0] <= r["lat"] <= MOUNTAIN[1] and MOUNTAIN[2] <= r["lon"] <= MOUNTAIN[3]
