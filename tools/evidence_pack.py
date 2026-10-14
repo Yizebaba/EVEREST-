@@ -458,16 +458,21 @@ def sigstore_sign(path):
     if not shutil.which("cosign") or not os.environ.get("ACTIONS_ID_TOKEN_REQUEST_URL"):
         return None
     b = path + ".sigstore.json"
-    r = subprocess.run(["cosign", "sign-blob", "--yes", "--bundle", b, path], capture_output=True, text=True, timeout=120)
+    # 标准 Sigstore bundle 格式（cosign、sigstore-python 等工具都能核对）；旧版 cosign 不支持时退回旧格式
+    r = subprocess.run(["cosign", "sign-blob", "--yes", "--new-bundle-format", "--bundle", b, path], capture_output=True, text=True, timeout=120)
+    if not os.path.exists(b):
+        r = subprocess.run(["cosign", "sign-blob", "--yes", "--bundle", b, path], capture_output=True, text=True, timeout=120)
     if not os.path.exists(b):
         return {"err": (r.stderr or r.stdout)[-160:]}
+    v = subprocess.run(["cosign", "verify-blob", path, "--bundle", b, "--certificate-identity", SIG_ID,
+                        "--certificate-oidc-issuer", "https://token.actions.githubusercontent.com"], capture_output=True, text=True, timeout=120)
     idx = None
     try:
         j = json.load(open(b))
         idx = ((j.get("verificationMaterial") or {}).get("tlogEntries") or [{}])[0].get("logIndex") or ((j.get("rekorBundle") or {}).get("Payload") or {}).get("logIndex")
     except Exception:
         pass
-    return {"file": "events/archive/" + os.path.basename(b), "identity": SIG_ID, "rekor_log_index": idx,
+    return {"file": "events/archive/" + os.path.basename(b), "identity": SIG_ID, "rekor_log_index": idx, "self_verified": v.returncode == 0,
             "rekor": f"https://search.sigstore.dev/?logIndex={idx}" if idx else None}
 
 
