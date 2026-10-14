@@ -45,7 +45,12 @@ def yt_live():
     except Exception as e: print("streams", e)
     try:
         t = get(f"https://www.youtube.com/channel/{CH}/live")
-        vid = re.search(r'<link rel="canonical" href="https://www\.youtube\.com/watch\?v=([\w-]{11})"', t) or re.search(r'"videoId":"([\w-]{11})"', t)
+        cand = {n: (re.search(p, t) or [None, None])[1] for n, p in (("og", r'<meta property="og:url" content="https://www\.youtube\.com/watch\?v=([\w-]{11})"'),
+                ("canon", r'<link rel="canonical" href="https://www\.youtube\.com/watch\?v=([\w-]{11})"'), ("cur", r'"currentVideoEndpoint":\{[^{}]*(?:\{[^{}]*\}[^{}]*)*?"videoId":"([\w-]{11})"'),
+                ("vd", r'"videoDetails":\{"videoId":"([\w-]{11})"'), ("img", r'<meta property="og:image" content="https://i\.ytimg\.com/vi/([\w-]{11})/'))}
+        print("live id candidates", cand)
+        ids = [v for v in cand.values() if v]
+        vid = re.match(r"(.*)", max(set(ids), key=ids.count)) if ids else None   # 多个来源一致的那个
         ttl = re.search(r'"playerOverlayVideoDetailsRenderer":\{"title":\{"simpleText":"((?:[^"\\]|\\.){3,200})"', t)
         if vid and ttl and re.search(r'"isLive":true', t): cams.setdefault(vid.group(1), _unesc(ttl.group(1)))
     except Exception as e: print("live", e)
