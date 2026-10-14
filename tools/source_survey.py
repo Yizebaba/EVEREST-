@@ -117,6 +117,9 @@ C = {
  "cam_thumb_khare": "https://i.ytimg.com/vi/PAIpsIJ_7AE/maxresdefault_live.jpg",
  "cam_oembed_everest_yt2": "https://www.youtube.com/oembed?url=https://www.youtube.com/watch?v=AD4-Z-ONsIc&format=json",
  "cam_thumb_everest_yt2": "https://i.ytimg.com/vi/AD4-Z-ONsIc/maxresdefault_live.jpg",
+ "cam2_pwc": "https://ftp.mountaingenius.org/PYRCEOP/PWC.jpg",
+ "cam2_dir": "https://ftp.mountaingenius.org/PYRCEOP/",
+ "cam2_root": "https://ftp.mountaingenius.org/",
  "ref_rekor": "https://rekor.sigstore.dev/api/v1/log",
 }
 out = {}
@@ -128,7 +131,7 @@ for k, u in C.items():
     try:
         req = urllib.request.Request(u, headers=UA)
         with urllib.request.urlopen(req, timeout=60) as f:
-            b = f.read(); r["status"] = f.status; r["bytes"] = len(b); r["ctype"] = f.headers.get("content-type")
+            b = f.read(); r["status"] = f.status; r["bytes"] = len(b); r["ctype"] = f.headers.get("content-type"); r["last_modified"] = f.headers.get("last-modified")
         txt = b.decode("utf-8", "ignore")
         try:
             j = json.loads(txt)
@@ -140,7 +143,7 @@ for k, u in C.items():
                 r["keys"] = list(j.keys())[:20]
         except Exception:
             r["sample"] = txt[:800]
-        if k.startswith("cam_") and "html" in (r.get("ctype") or ""):
+        if k.startswith("cam") and "html" in (r.get("ctype") or ""):
             import re as _re
             r["imgs"] = sorted(set(_re.findall(r'(?:src|href|data-src)=["\']([^"\']+\.(?:jpe?g|png|webp|m3u8)[^"\']*)', txt)))[:60]
             r["frames"] = sorted(set(_re.findall(r'<iframe[^>]+src=["\']([^"\']+)', txt)))[:20]
