@@ -1064,7 +1064,8 @@ def references(pack):
         h = _VEN.get(c)
         if not h: continue
         refs.append({"hips": c, "hazard": h.get("label_zh"), "query": h.get("query"),
-                     "data_papers": [{k: x.get(k) for k in ("title", "doi", "journal", "year")} for x in h.get("data_papers", [])],
+                     "data_papers": [{k: x.get(k) for k in ("title", "doi", "journal", "year")} for x in h.get("data_papers", [])
+                                     if any(w[:5] in (x.get("title") or "").lower() for w in re.split(r"[^a-z0-9]+", (h.get("query") or "").lower()) if len(w) >= 4)],
                      "venues": [{"name": v.get("name"), "h": v.get("h")} for v in h.get("top_venues", [])]})
     if refs:
         pack["references"] = refs

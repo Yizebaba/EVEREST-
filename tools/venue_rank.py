@@ -7,7 +7,7 @@
      再去掉综合性大刊（名单见 MULTI，如 PLoS ONE、Scientific Reports、Nature Communications），按来源整体的 h 指数排序取前三
      → “该灾种的专业顶刊顶会”；综合性大刊单独列出（multidisciplinary）；
   （以下两步用 Crossref 公开接口，不占 OpenAlex 额度）
-  3. 同一检索词下，发表在数据期刊（ESSD、Scientific Data、Geoscience Data Journal、Data in Brief）的论文按检索相关度取前三 → 可引用的数据论文；
+  3. 同一检索词下，发表在数据期刊（标题里要出现检索词中的实词，不相关的丢掉）（ESSD、Scientific Data、Geoscience Data Journal、Data in Brief）的论文按检索相关度取前三 → 可引用的数据论文；
   4. 同一检索词下，2020 年以来检索相关度前 20 篇里被引最多的三篇 → 方法参考。
 输出：venues.json
 增量运行：OpenAlex 按额度计费（无密钥每天约 100 次检索，免费密钥约 1000 次；每个灾种 1 次检索）。
@@ -126,6 +126,13 @@ def crossref(q, flt, rows):
                 time.sleep(3 + 5 * i)
 
 
+def on_topic(title, q):
+    """标题里至少出现检索词中的一个实词（取前 5 个字母比，兼顾单复数），否则视为不相关，丢掉。"""
+    t = (title or "").lower()
+    ws = [w for w in re.split(r"[^a-z0-9]+", q.lower()) if len(w) >= 4 and w not in ("disease", "outbreak", "disaster", "with", "from")]
+    return any(w[:5] in t for w in ws) if ws else True
+
+
 def cr_item(w):
     y = ((w.get("issued") or {}).get("date-parts") or [[None]])[0][0]
     return {"title": (w.get("title") or [""])[0], "doi": "https://doi.org/" + w["DOI"], "year": y, "cites": w.get("is-referenced-by-count"),
@@ -146,7 +153,7 @@ def src_batch(ids):
 def one(h):
     c = h["code"]; q = term(c)
     q = f'"{q}"' if " " in q else q
-    r = {"src": "openalex+crossref", "code": c, "label": h["label"], "label_zh": h["label_zh"], "family": h["family"], "family_zh": h["family_zh"], "cluster": h["cluster"], "query": q}
+    r = {"src": "openalex+crossref", "v": 2, "code": c, "label": h["label"], "label_zh": h["label_zh"], "family": h["family"], "family_zh": h["family_zh"], "cluster": h["cluster"], "query": q}
     pv = PREVALL.get(c)
     try:
         if pv and pv.get("query") == q and pv.get("top_venues") is not None and "multidisciplinary" in pv and not pv.get("err"):
@@ -165,14 +172,14 @@ def one(h):
             r["top_venues"] = [v for v in vs if (v.get("name") or "").lower() not in MULTI][:3]
             r["multidisciplinary"] = [v for v in vs if (v.get("name") or "").lower() in MULTI][:3]
             r["most_active"] = sorted(vs, key=lambda v: -v["n"])[:3]
-        r["data_papers"] = [cr_item(w) for w in crossref(q, ",".join("issn:" + i for i in DATA_ISSN), 3)]
-        top = [cr_item(w) for w in crossref(q, "from-pub-date:2020-01-01,type:journal-article", 20)]
+        r["data_papers"] = [x for x in (cr_item(w) for w in crossref(q, ",".join("issn:" + i for i in DATA_ISSN), 10)) if on_topic(x["title"], q)][:3]
+        top = [x for x in (cr_item(w) for w in crossref(q, "from-pub-date:2020-01-01,type:journal-article", 20)) if on_topic(x["title"], q)]
         r["top_papers"] = [{**x, "venue": x.pop("journal")} for x in sorted(top, key=lambda x: -(x["cites"] or 0))[:3]]
     except Budget:
         r["venues_pending"] = True
         try:
-            r["data_papers"] = [cr_item(w) for w in crossref(q, ",".join("issn:" + i for i in DATA_ISSN), 3)]
-            top = [cr_item(w) for w in crossref(q, "from-pub-date:2020-01-01,type:journal-article", 20)]
+            r["data_papers"] = [x for x in (cr_item(w) for w in crossref(q, ",".join("issn:" + i for i in DATA_ISSN), 10)) if on_topic(x["title"], q)][:3]
+            top = [x for x in (cr_item(w) for w in crossref(q, "from-pub-date:2020-01-01,type:journal-article", 20)) if on_topic(x["title"], q)]
             r["top_papers"] = [{**x, "venue": x.pop("journal")} for x in sorted(top, key=lambda x: -(x["cites"] or 0))[:3]]
         except Exception as e:
             r["err"] = str(e)[:200]
@@ -188,7 +195,7 @@ if PREV and os.path.exists(PREV):
     try: PREVALL = {h["code"]: h for h in json.load(open(PREV))["hazards"] if h}
     except Exception: pass
 if PREV and os.path.exists(PREV):
-    try: old = {h["code"]: h for h in json.load(open(PREV))["hazards"] if h.get("src") == "openalex+crossref" and not h.get("err") and not h.get("venues_pending")
+    try: old = {h["code"]: h for h in json.load(open(PREV))["hazards"] if h.get("src") == "openalex+crossref" and h.get("v") == 2 and not h.get("err") and not h.get("venues_pending")
            and h.get("query") == (lambda q: f'"{q}"' if " " in q else q)(term(h["code"]))}   # 检索词改过的重查
     except Exception as e: print("prev unreadable", e)
 todo = [h for h in HIPS if h["code"] not in old]
