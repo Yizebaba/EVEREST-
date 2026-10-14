@@ -1,0 +1,736 @@
+{
+ "bipad_hazard": {
+  "url": "https://bipadportal.gov.np/api/v1/hazard/?format=json&limit=200",
+  "status": 200,
+  "bytes": 11707,
+  "ctype": "application/json",
+  "n": 47,
+  "key": "results",
+  "sample": "[{\"id\": 16, \"title\": \"High Altitude\", \"titleEn\": \"High Altitude\", \"titleNe\": \"उच्च ऊंचाई\", \"order\": 1, \"description\": \"\", \"icon\": \"https://bipadportal.gov.np/mediafiles/hazard-icons/High-altitude.svg\", \"color\": \"#4DD0E1\", \"type\": \"non natural\"}, {\"id\": 17, \"title\": \"Landslide\", \"titleEn\": \"Landslide\", \"titleNe\": \"पहिरो\", \"order\": 1, \"description\": \"\", \"icon\": \"https://bipadportal.gov.np/mediafiles/hazard-icons/landslide_H3Ux6k9.svg\", \"color\": \"#6D4C41\", \"type\": \"natural\"}]",
+  "keys": [
+   "count",
+   "next",
+   "previous",
+   "results"
+  ],
+  "all": [
+   [
+    16,
+    "High Altitude"
+   ],
+   [
+    17,
+    "Landslide"
+   ],
+   [
+    11,
+    "Flood"
+   ],
+   [
+    4,
+    "Boat Capsize"
+   ],
+   [
+    20,
+    "Snake Bite"
+   ],
+   [
+    23,
+    "Thunderbolt"
+   ],
+   [
+    10,
+    "Fire"
+   ],
+   [
+    7,
+    "Drowning"
+   ],
+   [
+    14,
+    "Heavy Rainfall"
+   ],
+   [
+    45,
+    "Others (Non-Natural)"
+   ],
+   [
+    24,
+    "Wind Storm"
+   ],
+   [
+    6,
+    "Cold Wave"
+   ],
+   [
+    8,
+    "Earthquake"
+   ],
+   [
+    15,
+    "Helicopter Crash"
+   ],
+   [
+    43,
+    "Leakage (toxic gas)"
+   ],
+   [
+    47,
+    "Response Accident"
+   ],
+   [
+    13,
+    "Hailstorm"
+   ],
+   [
+    42,
+    "Leakage (radiation)"
+   ],
+   [
+    9,
+    "Epidemic"
+   ],
+   [
+    41,
+    "Leakage (chemical)"
+   ],
+   [
+    5,
+    "Bridge Collapse"
+   ],
+   [
+    3,
+    "Avalanche"
+   ],
+   [
+    1,
+    "Aircraft Accident"
+   ],
+   [
+    28,
+    "Inundation"
+   ],
+   [
+    35,
+    "Animal flu"
+   ],
+   [
+    26,
+    "Glacial lake outburst"
+   ],
+   [
+    40,
+    "Gas explosion"
+   ],
+   [
+    39,
+    "Food poisoning"
+   ],
+   [
+    46,
+    "Water Accident"
+   ],
+   [
+    29,
+    "Soil Erosion"
+   ],
+   [
+    18,
+    "Other (Natural)"
+   ],
+   [
+    2,
+    "Animal Incidents"
+   ],
+   [
+    12,
+    "Forest Fire"
+   ],
+   [
+    30,
+    "Volcanic eruption"
+   ],
+   [
+    38,
+    "Famine"
+   ],
+   [
+    44,
+    "Microorganism attack"
+   ],
+   [
+    37,
+    "Environmental pollution"
+   ],
+   [
+    27,
+    "Heat wave"
+   ],
+   [
+    22,
+    "Storm"
+   ],
+   [
+    32,
+    "Mine disaster"
+   ],
+   [
+    34,
+    "Road accident"
+   ],
+   [
+    31,
+    "Industrial disaster"
+   ],
+   [
+    25,
+    "Drought"
+   ],
+   [
+    33,
+    "Pandemics"
+   ],
+   [
+    21,
+    "Snow Storm"
+   ],
+   [
+    36,
+    "Deforestation"
+   ],
+   [
+    19,
+    "Rainfall"
+   ]
+  ],
+  "sec": 1.1
+ },
+ "bipad_incident": {
+  "url": "https://bipadportal.gov.np/api/v1/incident/?format=json&ordering=-incident_on&limit=100&expand=loss",
+  "status": 200,
+  "bytes": 192737,
+  "ctype": "application/json",
+  "n": 100,
+  "key": "results",
+  "sample": "[{\"id\": 95756, \"title\": \"Fire at Dhankuta Municipality-2\", \"wards\": [463], \"point\": {\"type\": \"Point\", \"coordinates\": [87.36671, 27.00791]}, \"createdOn\": \"2026-10-13T16:45:04.428101+05:45\", \"modifiedOn\": \"2026-10-13T16:45:04.428114+05:45\", \"titleNe\": \"कोशी, धनकुटा, धनकुटा-२ मा आगलागी\", \"description\": null, \"cause\": null, \"verified\": true, \"verificationMessage\": null, \"approved\": true, \"polygon\": null, \"incidentOn\": \"2026-10-13T00:00:00+05:45\", \"reportedOn\": \"2026-10-13T16:25:25+05:45\", \"streetAddress\": \"\", \"detail\": null, \"needFollowup\": false, \"region\": null, \"regionId\": null, \"dataSourceId\": 91778, \"dataSource\": \"drr_api\", \"source\": \"other\", \"event\": null, \"hazard\": 10, \"loss\": {\"id\": 488247, \"peopleDeathCount\": 0, \"peopleDeathMaleCount\": 0, \"peopleDeathFemaleCount\": 0, \"peopleDeathOtherCount\": 0, \"peopleDeathUnknownCount\": 0, \"peopleDeathDisabledCount\": 0, \"peopleMissingCount\": 0, \"peopleMissingMaleCount\": 0, \"peopleMissingFemaleCount\": 0, \"peopleMissingOtherCount\": 0, \"peopleMissingUnknownCount\": 0, \"peopleMissingDisabledCount\": 0, \"peopleInjuredCount\": 0, \"peopleInjuredMaleCount\": 0, \"peopleInjuredFemaleCount\": 0, \"peopleInjuredOtherCount\": 0, \"peopleInjuredUnknownCount\": 0, \"peopleInjuredDisabledCount\": 0, \"peopleAffectedCount\": 0, \"familyAffectedCount\": 1, \"familyRelocatedCount\": 0, \"familyEvacuatedCount\": 0, \"livestockDestroyedCount\": 0, \"infrastructureDestroyedCount\": 1, \"infrastructureDestroyedHouseCount\": 1, \"infrastructureAffectedHouseCount\": 0, \"infrastructureDest",
+  "keys": [
+   "count",
+   "next",
+   "previous",
+   "results"
+  ],
+  "sec": 2.2
+ },
+ "bipad_alert": {
+  "url": "https://bipadportal.gov.np/api/v1/alert/?format=json&ordering=-started_on&limit=50",
+  "status": 200,
+  "bytes": 84097,
+  "ctype": "application/json",
+  "n": 50,
+  "key": "results",
+  "sample": "[{\"id\": 46356, \"title\": \"Pollution Alert at Rapti-3, Dang\", \"wards\": [4012], \"affectedDemography\": {\"maleCount\": 326776, \"femaleCount\": 355217, \"householdCount\": 136679}, \"point\": {\"type\": \"Point\", \"coordinates\": [82.716154, 27.845004]}, \"createdOn\": \"2026-10-14T08:09:03.954276+05:45\", \"titleNe\": \"राप्ती-३, दाङमा वातावरणीय प्रदुषण\", \"source\": \"doe\", \"description\": \"AQI value is greater than 150\", \"verified\": true, \"public\": true, \"startedOn\": \"2026-10-14T07:43:00.010000+05:45\", \"expireOn\": null, \"polygon\": null, \"referenceType\": \"pollution\", \"referenceData\": \"{\\\"model\\\": \\\"realtime.pollution\\\", \\\"pk\\\": null, \\\"fields\\\": {\\\"created_on\\\": null, \\\"modified_on\\\": null, \\\"title\\\": \\\"Deukhuri, Dang\\\", \\\"identifier\\\": \\\"10000150\\\", \\\"date_time\\\": \\\"2026-10-14T07:43:00.010+05:45\\\", \\\"aqi_color\\\": \\\"#FF0000\\\", \\\"aqi\\\": 189.0, \\\"observation\\\": [{\\\"data\\\": {\\\"value\\\": 114.400001526, \\\"datetime\\\": \\\"2026-10-14T01:58:00+00:00\\\"}, \\\"unit\\\": \\\"µg/m³\\\", \\\"series_id\\\": 2728, \\\"series_name\\\": \\\"PM1 Instantenous\\\", \\\"parameter_code\\\": \\\"PM1_I\\\", \\\"parameter_name\\\": \\\"PM1 Instantenous\\\"}, {\\\"data\\\": {\\\"value\\\": 135.5, \\\"datetime\\\": \\\"2026-10-14T01:58:00+00:00\\\"}, \\\"unit\\\": \\\"µg/m³\\\", \\\"series_id\\\": 2727, \\\"series_name\\\": \\\"PM10 Inst\\\", \\\"parameter_code\\\": \\\"PM10_I\\\", \\\"parameter_name\\\": \\\"PM10 Inst\\\"}, {\\\"data\\\": {\\\"value\\\": 129.899993896, \\\"datetime\\\": \\\"2026-10-14T01:58:00+00:00\\\"}, \\\"unit\\\": \\\"µg/m³\\\", \\\"series_id\\\": 2729, \\\"series_name\\\": \\\"PM2.5 Inst\\\", \\\"parameter_code\\\": \\\"PM2.5_I\\\", \\\"pa",
+  "keys": [
+   "count",
+   "next",
+   "previous",
+   "results"
+  ],
+  "sec": 1.7
+ },
+ "bipad_pollution": {
+  "url": "https://bipadportal.gov.np/api/v1/pollution-stations/?format=json&limit=5",
+  "status": 200,
+  "bytes": 11929,
+  "ctype": "application/json",
+  "n": 5,
+  "key": "results",
+  "sample": "[{\"id\": 5, \"createdOn\": \"2020-11-11T17:24:13.379605+05:45\", \"modifiedOn\": \"2026-10-14T08:45:05.154099+05:45\", \"name\": \"Nepalgunj\", \"nepaliName\": \"नेपालगन्ज\", \"identifier\": \"Nepalgunj\", \"dataSource\": \"pollution.gov.np\", \"dataSourceId\": 20, \"dateTime\": \"2026-10-14T07:42:00.010000+05:45\", \"aqiColor\": \"#F7FF00\", \"aqi\": 55.0, \"observation\": [{\"data\": {\"value\": 13.3999996185, \"datetime\": \"2026-10-14T01:57:00+00:00\"}, \"unit\": \"µg/m³\", \"seriesId\": 655, \"seriesName\": \"PM1 Instantenous\", \"parameterCode\": \"PM1_I\", \"parameterName\": \"PM1 Instantenous\"}, {\"data\": {\"value\": 21, \"datetime\": \"2026-10-14T01:57:00+00:00\"}, \"unit\": \"µg/m³\", \"seriesId\": 654, \"seriesName\": \"PM10 Inst\", \"parameterCode\": \"PM10_I\", \"parameterName\": \"PM10 Inst\"}, {\"data\": {\"value\": 14, \"datetime\": \"2026-10-14T01:57:00+00:00\"}, \"unit\": \"µg/m³\", \"seriesId\": 656, \"seriesName\": \"PM2.5 Inst\", \"parameterCode\": \"PM2.5_I\", \"parameterName\": \"PM2.5 Inst\"}, {\"data\": {\"value\": null, \"datetime\": null}, \"unit\": \"°C\", \"seriesId\": null, \"seriesName\": \"Air Temperature Inst\", \"parameterCode\": \"T\", \"parameterName\": \"Air Temperature Inst\"}, {\"data\": {\"value\": null, \"datetime\": null}, \"unit\": \"µg/m³\", \"seriesId\": null, \"seriesName\": \"Total Suspended Particulate Inst\", \"parameterCode\": \"TSP_I\", \"parameterName\": \"Total Suspended Particulate Inst\"}, {\"data\": {\"value\": null, \"datetime\": null}, \"unit\": \"%\", \"seriesId\": null, \"seriesName\": \"Relative Humidity Inst\", \"parameterCode\": \"RH_I\", \"parameterName\": \"Relative Humidity Inst\"}, {\"data\": {\"",
+  "keys": [
+   "count",
+   "next",
+   "previous",
+   "results"
+  ],
+  "sec": 1.1
+ },
+ "bipad_rain": {
+  "url": "https://bipadportal.gov.np/api/v1/rain-stations/?format=json&limit=5",
+  "status": 200,
+  "bytes": 5214,
+  "ctype": "application/json",
+  "n": 5,
+  "key": "results",
+  "sample": "[{\"id\": 358, \"affectedDemography\": {\"maleCount\": 142967, \"femaleCount\": 178161, \"householdCount\": 81671}, \"createdOn\": \"2022-03-10T22:15:15.134429+05:45\", \"modifiedOn\": \"2026-10-14T08:45:06.435793+05:45\", \"title\": \"Arghakhanchi\", \"basin\": \"West Rapti\", \"measuredOn\": \"2026-10-14T08:45:06.411648+05:45\", \"point\": {\"type\": \"Point\", \"coordinates\": [83.1397, 27.885]}, \"elevation\": 1575, \"image\": \"http://daq.hydrology.gov.np/images/8c37c494e43e2c69c4c99c9a2ff3caac\", \"averages\": [{\"value\": 0, \"status\": {\"danger\": false, \"warning\": false}, \"interval\": 1}, {\"value\": 0, \"status\": {\"danger\": false, \"warning\": false}, \"interval\": 3}, {\"value\": 0, \"status\": {\"danger\": false, \"warning\": false}, \"interval\": 6}, {\"value\": 0, \"status\": {\"danger\": false, \"warning\": false}, \"interval\": 12}, {\"value\": 0, \"status\": {\"danger\": false, \"warning\": false}, \"interval\": 24}], \"status\": \"BELOW WARNING LEVEL\", \"description\": \"Arghakhanchi,Sitganga,Nipane,2\", \"stationSeriesId\": 21004, \"dataSource\": \"hydrology.gov.np\", \"dataSourceId\": 304, \"ward\": 55, \"municipality\": 51006, \"district\": 40, \"province\": 5}, {\"id\": 226, \"affectedDemography\": {\"maleCount\": 241110, \"femaleCount\": 260793, \"householdCount\": 116492}, \"createdOn\": \"2020-12-20T02:24:55.928475+05:45\", \"modifiedOn\": \"2022-06-04T16:33:54.659282+05:45\", \"title\": \"Surkhet (Birendra Nagar)\", \"basin\": null, \"measuredOn\": \"2020-08-29T23:50:14.158742+05:45\", \"point\": {\"type\": \"Point\", \"coordinates\": [81.63516111, 28.58786944]}, \"elevation\": 720, \"image\": \"http",
+  "keys": [
+   "count",
+   "next",
+   "previous",
+   "results"
+  ],
+  "sec": 1.1
+ },
+ "eonet": {
+  "url": "https://eonet.gsfc.nasa.gov/api/v3/events?bbox=79.5,31.5,92.5,26.3&days=120&status=all",
+  "status": 200,
+  "bytes": 265523,
+  "ctype": "application/json; charset=utf-8",
+  "n": 4,
+  "key": "events",
+  "sample": "[{\"id\": \"EONET_25241\", \"title\": \"Flood in Nepal 1104225\", \"description\": null, \"link\": \"https://eonet.gsfc.nasa.gov/api/v3/events/EONET_25241\", \"closed\": \"2026-10-12T00:00:00Z\", \"categories\": [{\"id\": \"floods\", \"title\": \"Floods\"}], \"sources\": [{\"id\": \"GDACS\", \"url\": \"https://www.gdacs.org/report.aspx?eventtype=FL&eventid=1104225\"}], \"geometry\": [{\"magnitudeValue\": null, \"magnitudeUnit\": null, \"date\": \"2026-10-10T20:00:00Z\", \"type\": \"Polygon\", \"coordinates\": [[[84.6279988, 27.949908154954958], [84.63020905560033, 27.949962413684453], [84.63241398650133, 27.950125059158914], [84.63460828083132, 27.950395699551137], [84.63678665234306, 27.95077368286472], [84.6389438531488, 27.951258098504752], [84.64107468636281, 27.951847779471525], [84.64317401862127, 27.952541305171938], [84.64523679244888, 27.95333700484184], [84.6472580384428, 27.95423296157102], [84.64923288724441, 27.95522701692125], [84.65115658126996, 27.956316776126116], [84.65302448617206, 27.95749961386025], [84.65483210200416, 27.95877268056394], [84.65657507406142, 27.960132909307987], [84.65824920337148, 27.961577023182212], [84.6598504568102, 27.963101543189797], [84.6613749768178, 27.964702796628515], [84.66281909069201, 27.966376925938576], [84.66417931943606, 27.968119897995837], [84.66545238613975, 27.969927513827948], [84.66663522387388, 27.971795418730036], [84.66772498307876, 27.97371911275559], [84.66871903842899, 27.975693961557198], [84.66961499515817, 27.977715207551125], [84.67041069482806, 27.9797779",
+  "keys": [
+   "title",
+   "description",
+   "link",
+   "events"
+  ],
+  "sec": 0.8
+ },
+ "eonet_global": {
+  "url": "https://eonet.gsfc.nasa.gov/api/v3/events?days=10&status=all&limit=50",
+  "status": 200,
+  "bytes": 375789,
+  "ctype": "application/json; charset=utf-8",
+  "n": 50,
+  "key": "events",
+  "sample": "[{\"id\": \"EONET_25271\", \"title\": \"Wildfire in Botswana 1032764\", \"description\": null, \"link\": \"https://eonet.gsfc.nasa.gov/api/v3/events/EONET_25271\", \"closed\": \"2026-10-11T00:00:00Z\", \"categories\": [{\"id\": \"wildfires\", \"title\": \"Wildfires\"}], \"sources\": [{\"id\": \"GDACS\", \"url\": \"https://www.gdacs.org/report.aspx?eventtype=WF&eventid=1032764\"}], \"geometry\": [{\"magnitudeValue\": 6889.0, \"magnitudeUnit\": \"hectare\", \"date\": \"2026-10-11T19:00:00Z\", \"type\": \"Point\", \"coordinates\": [25.204749772794, -18.243585212786]}]}, {\"id\": \"EONET_25241\", \"title\": \"Flood in Nepal 1104225\", \"description\": null, \"link\": \"https://eonet.gsfc.nasa.gov/api/v3/events/EONET_25241\", \"closed\": \"2026-10-12T00:00:00Z\", \"categories\": [{\"id\": \"floods\", \"title\": \"Floods\"}], \"sources\": [{\"id\": \"GDACS\", \"url\": \"https://www.gdacs.org/report.aspx?eventtype=FL&eventid=1104225\"}], \"geometry\": [{\"magnitudeValue\": null, \"magnitudeUnit\": null, \"date\": \"2026-10-10T20:00:00Z\", \"type\": \"Polygon\", \"coordinates\": [[[84.6279988, 27.949908154954958], [84.63020905560033, 27.949962413684453], [84.63241398650133, 27.950125059158914], [84.63460828083132, 27.950395699551137], [84.63678665234306, 27.95077368286472], [84.6389438531488, 27.951258098504752], [84.64107468636281, 27.951847779471525], [84.64317401862127, 27.952541305171938], [84.64523679244888, 27.95333700484184], [84.6472580384428, 27.95423296157102], [84.64923288724441, 27.95522701692125], [84.65115658126996, 27.956316776126116], [84.65302448617206, 27.95749961386025], [",
+  "keys": [
+   "title",
+   "description",
+   "link",
+   "events"
+  ],
+  "sec": 0.8
+ },
+ "eonet_categories": {
+  "url": "https://eonet.gsfc.nasa.gov/api/v3/categories",
+  "status": 200,
+  "bytes": 4469,
+  "ctype": "application/rss+xml; charset=utf-8",
+  "n": 13,
+  "key": "categories",
+  "sample": "[{\"id\": \"drought\", \"title\": \"Drought\", \"link\": \"https://eonet.gsfc.nasa.gov/api/v3/categories/drought\", \"description\": \"Long lasting absence of precipitation affecting agriculture and livestock, and the overall availability of food and water.\", \"layers\": \"https://eonet.gsfc.nasa.gov/api/v3/layers/drought\"}, {\"id\": \"dustHaze\", \"title\": \"Dust and Haze\", \"link\": \"https://eonet.gsfc.nasa.gov/api/v3/categories/dustHaze\", \"description\": \"Related to dust storms, air pollution and other non-volcanic aerosols. Volcano-related plumes shall be included with the originating eruption event.\", \"layers\": \"https://eonet.gsfc.nasa.gov/api/v3/layers/dustHaze\"}]",
+  "keys": [
+   "title",
+   "description",
+   "link",
+   "categories"
+  ],
+  "sec": 0.2
+ },
+ "swpc_alerts": {
+  "url": "https://services.swpc.noaa.gov/products/alerts.json",
+  "status": 200,
+  "bytes": 56618,
+  "ctype": "application/json",
+  "n": 86,
+  "sample": "[{\"product_id\": \"K04W\", \"issue_datetime\": \"2026-10-13 20:58:58.750\", \"message\": \"Space Weather Message Code: WARK04\\r\\nSerial Number: 5435\\r\\nIssue Time: 2026 Oct 13 2058 UTC\\r\\n\\r\\nEXTENDED WARNING: Geomagnetic K-index of 4 expected\\nExtension to Serial Number: 5434\\nValid From: 2026 Oct 13 0115 UTC\\nNow Valid Until: 2026 Oct 14 1200 UTC\\nWarning Condition: Persistence\\n\\r\\n\\r\\nNOAA Space Weather Scale descriptions can be found at\\r\\nwww.swpc.noaa.gov/noaa-scales-explanation\\r\\n\\r\\nPotential Impacts: Area of impact primarily poleward of 65 degrees Geomagnetic Latitude.\\r\\nInduced Currents - Weak power grid fluctuations can occur.\\r\\nAurora - Aurora may be visible at high latitudes such as Canada and Alaska.\"}, {\"product_id\": \"K04W\", \"issue_datetime\": \"2026-10-13 14:31:37.343\", \"message\": \"Space Weather Message Code: WARK04\\r\\nSerial Number: 5434\\r\\nIssue Time: 2026 Oct 13 1431 UTC\\r\\n\\r\\nEXTENDED WARNING: Geomagnetic K-index of 4 expected\\nExtension to Serial Number: 5433\\nValid From: 2026 Oct 13 0115 UTC\\nNow Valid Until: 2026 Oct 13 2100 UTC\\nWarning Condition: Persistence\\n\\r\\n\\r\\nNOAA Space Weather Scale descriptions can be found at\\r\\nwww.swpc.noaa.gov/noaa-scales-explanation\\r\\n\\r\\nPotential Impacts: Area of impact primarily poleward of 65 degrees Geomagnetic Latitude.\\r\\nInduced Currents - Weak power grid fluctuations can occur.\\r\\nAurora - Aurora may be visible at high latitudes such as Canada and Alaska.\"}]",
+  "sec": 0.2
+ },
+ "swpc_kp": {
+  "url": "https://services.swpc.noaa.gov/json/planetary_k_index_1m.json",
+  "status": 200,
+  "bytes": 27847,
+  "ctype": "application/json",
+  "n": 357,
+  "sample": "[{\"time_tag\": \"2026-10-13T21:07:00\", \"kp_index\": 0, \"estimated_kp\": 0.0, \"kp\": \"0Z\"}, {\"time_tag\": \"2026-10-13T21:08:00\", \"kp_index\": 0, \"estimated_kp\": 0.0, \"kp\": \"0Z\"}]",
+  "sec": 0.0
+ },
+ "swpc_xray_flares": {
+  "url": "https://services.swpc.noaa.gov/json/goes/primary/xray-flares-7-day.json",
+  "status": 200,
+  "bytes": 19064,
+  "ctype": "application/json",
+  "n": 50,
+  "sample": "[{\"time_tag\": \"2026-10-07T05:14:00Z\", \"begin_time\": \"2026-10-07T05:14:00Z\", \"begin_class\": \"C1.0\", \"max_time\": \"2026-10-07T05:20:00Z\", \"max_class\": \"C1.3\", \"max_xrlong\": 1.3954618225398008e-06, \"max_ratio\": 0.43917409279762926, \"max_ratio_time\": \"2026-10-07T05:14:22Z\", \"current_int_xrlong\": 0.0009417274268344045, \"end_time\": \"2026-10-07T05:25:00Z\", \"end_class\": \"C1.1\", \"satellite\": 18}, {\"time_tag\": \"2026-10-07T05:26:00Z\", \"begin_time\": \"2026-10-07T05:26:00Z\", \"begin_class\": \"C1.1\", \"max_time\": \"2026-10-07T05:34:00Z\", \"max_class\": \"C1.6\", \"max_xrlong\": 1.6330786820617504e-06, \"max_ratio\": 0.13418514674528192, \"max_ratio_time\": \"2026-10-07T05:31:29Z\", \"current_int_xrlong\": 0.0016678122337907553, \"end_time\": \"2026-10-07T05:43:00Z\", \"end_class\": \"C1.3\", \"satellite\": 18}]",
+  "sec": 0.0
+ },
+ "swpc_protons": {
+  "url": "https://services.swpc.noaa.gov/json/goes/primary/integral-protons-1-day.json",
+  "status": 200,
+  "bytes": 242222,
+  "ctype": "application/json",
+  "n": 2296,
+  "sample": "[{\"time_tag\": \"2026-10-13T03:10:00Z\", \"satellite\": 18, \"flux\": 9.969053268432617, \"energy\": \">=1 MeV\"}, {\"time_tag\": \"2026-10-13T03:10:00Z\", \"satellite\": 18, \"flux\": 0.2494569569826126, \"energy\": \">=10 MeV\"}]",
+  "sec": 0.1
+ },
+ "cneos_fireball": {
+  "url": "https://ssd-api.jpl.nasa.gov/fireball.api?date-min=2025-10-14",
+  "status": 200,
+  "bytes": 2216,
+  "ctype": "application/json",
+  "n": 28,
+  "key": "data",
+  "sample": "[[\"2026-10-04 03:14:45\", \"5.4\", \"0.18\", \"41.8\", \"S\", \"173.1\", \"W\", \"26.9\", \"13.8\"], [\"2026-09-15 11:26:13\", \"2.2\", \"0.079\", \"37.6\", \"S\", \"161.6\", \"W\", \"37.0\", null]]",
+  "keys": [
+   "signature",
+   "count",
+   "fields",
+   "data"
+  ],
+  "sec": 0.3
+ },
+ "cneos_cad": {
+  "url": "https://ssd-api.jpl.nasa.gov/cad.api?date-min=2026-09-14&date-max=2026-11-13&dist-max=0.05",
+  "status": 200,
+  "bytes": 37103,
+  "ctype": "application/json",
+  "n": 209,
+  "key": "data",
+  "sample": "[[\"2021 SL\", \"2\", \"2461297.630837247\", \"2026-Sep-14 03:08\", \"0.034212890746286\", \"0.0342117746868972\", \"0.0342140068069137\", \"12.9189024516604\", \"12.912872715215\", \"< 00:01\", \"25.62\"], [\"2010 FX9\", \"29\", \"2461297.665446474\", \"2026-Sep-14 03:58\", \"0.0240127992318479\", \"0.0240125798676079\", \"0.0240130185967539\", \"11.0684108958418\", \"11.0583813537708\", \"< 00:01\", \"24.06\"]]",
+  "keys": [
+   "signature",
+   "count",
+   "fields",
+   "data"
+  ],
+  "sec": 0.3
+ },
+ "celestrak_decayed": {
+  "url": "https://celestrak.org/NORAD/elements/gp.php?GROUP=last-30-days&FORMAT=json",
+  "status": 200,
+  "bytes": 94036,
+  "ctype": "application/json; charset=UTF-8",
+  "n": 222,
+  "sample": "[{\"OBJECT_NAME\": \"FLEX\", \"OBJECT_ID\": \"2026-209A\", \"EPOCH\": \"2026-10-08T04:39:50.314176\", \"MEAN_MOTION\": 14.25320952, \"ECCENTRICITY\": 0.00033953, \"INCLINATION\": 98.6279, \"RA_OF_ASC_NODE\": 346.9116, \"ARG_OF_PERICENTER\": 329.733, \"MEAN_ANOMALY\": 30.3653, \"EPHEMERIS_TYPE\": 0, \"CLASSIFICATION_TYPE\": \"U\", \"NORAD_CAT_ID\": 100689, \"ELEMENT_SET_NO\": 999, \"REV_AT_EPOCH\": 328, \"BSTAR\": 4.6493759e-05, \"MEAN_MOTION_DOT\": 6.6e-07, \"MEAN_MOTION_DDOT\": 0}, {\"OBJECT_NAME\": \"SENTINEL-3C\", \"OBJECT_ID\": \"2026-209B\", \"EPOCH\": \"2026-10-13T10:10:31.750176\", \"MEAN_MOTION\": 14.25894238, \"ECCENTRICITY\": 0.00037295, \"INCLINATION\": 98.6331, \"RA_OF_ASC_NODE\": 352.1231, \"ARG_OF_PERICENTER\": 118.0454, \"MEAN_ANOMALY\": 242.1104, \"EPHEMERIS_TYPE\": 0, \"CLASSIFICATION_TYPE\": \"U\", \"NORAD_CAT_ID\": 100690, \"ELEMENT_SET_NO\": 999, \"REV_AT_EPOCH\": 402, \"BSTAR\": 5.1270785e-05, \"MEAN_MOTION_DOT\": 7.8e-07, \"MEAN_MOTION_DDOT\": 0}]",
+  "sec": 0.6
+ },
+ "who_don": {
+  "url": "https://www.who.int/api/news/diseaseoutbreaknews?sf_culture=en&$orderby=PublicationDateAndTime%20desc&$top=20",
+  "status": 200,
+  "bytes": 599566,
+  "ctype": "application/json; odata.metadata=minimal; odata.streaming=true",
+  "n": 20,
+  "key": "value",
+  "sample": "[{\"Id\": \"9cca163d-6ef3-4d3e-b149-2cd7acf408f6\", \"LastModified\": \"2026-10-13T09:22:55Z\", \"PublicationDate\": \"2026-10-10T15:53:19Z\", \"DateCreated\": \"2026-10-10T15:53:19Z\", \"IncludeInSitemap\": true, \"SystemSourceKey\": null, \"UrlName\": \"2026-DON620\", \"ItemDefaultUrl\": \"/2026-DON620\", \"Response\": \"<p><p></p><p>The NFP of the Russian Federation publicly announced that the regional sanitary and anti-epidemic commission convened an extraordinary meeting on 2 October. RPN, the responsible agency, approved an operational action plan of sanitary and anti-epidemic measures, in accordance with national legislation, including contact tracing and medical follow-up, laboratory testing of identified contacts, enhanced epidemiological investigation and risk assessment and implementation of precautionary infection prevention and control measures. Five Rospotrebnadzor organizations, including three research institutions, were involved in the measures. The preventive and anti-epidemic measures were implemented in accordance with the patient's professional activities. No infectious disease-related health concerns were identified. More than 5500 laboratory tests were conducted, and none detected high-consequence or dangerous pathogenic microorganisms. Testing was performed using a broad range of established laboratory methods, including bacteriological, biological, mass spectrometric, and molecular genetic techniques. No high-threat pathogens were detected among contacts, and all follow-up activiti",
+  "keys": [
+   "@odata.context",
+   "value"
+  ],
+  "sec": 0.6
+ },
+ "who_flunet_npl": {
+  "url": "https://xmart-api-public.who.int/FLUMART/VIW_FNT?$filter=COUNTRY_CODE%20eq%20%27NPL%27&$orderby=ISO_WEEKSTARTDATE%20desc&$top=5",
+  "status": 200,
+  "bytes": 5007,
+  "ctype": "application/json; charset=utf-8",
+  "n": 5,
+  "key": "value",
+  "sample": "[{\"WHOREGION\": \"SEAR\", \"FLUSEASON\": \"YR\", \"HEMISPHERE\": \"NH\", \"ITZ\": \"FLU_STH_ASIA\", \"COUNTRY_CODE\": \"NPL\", \"COUNTRY_AREA_TERRITORY\": \"Nepal\", \"ISO_WEEKSTARTDATE\": \"2026-09-28\", \"ISO_YEAR\": 2026, \"ISO_WEEK\": 40, \"MMWR_WEEKSTARTDATE\": \"2026-09-27\", \"MMWR_YEAR\": 2026, \"MMWR_WEEK\": 39, \"ORIGIN_SOURCE\": \"NONSENTINEL\", \"SPEC_PROCESSED_NB\": 37, \"SPEC_RECEIVED_NB\": 37, \"AH1N12009\": 3, \"AH1\": null, \"AH3\": 1, \"AH5\": null, \"AH7N9\": null, \"ANOTSUBTYPED\": 11, \"ANOTSUBTYPABLE\": null, \"AOTHER_SUBTYPE\": null, \"AOTHER_SUBTYPE_DETAILS\": null, \"INF_A\": 15, \"BVIC_2DEL\": null, \"BVIC_3DEL\": null, \"BVIC_NODEL\": 0, \"BVIC_DELUNK\": null, \"BYAM\": null, \"BNOTDETERMINED\": 6, \"INF_B\": 6, \"INF_ALL\": 21, \"INF_NEGATIVE\": 16, \"ILI_ACTIVITY\": null, \"ADENO\": null, \"BOCA\": null, \"HUMAN_CORONA\": null, \"METAPNEUMO\": null, \"PARAINFLUENZA\": null, \"RHINO\": null, \"RSV_PROCESSED\": null, \"RSV\": 0, \"OTHERRESPVIRUS\": null, \"OTHER_RESPVIRUS_DETAILS\": null, \"LAB_RESULT_COMMENT\": null, \"WCR_COMMENT\": null, \"ISO2\": \"NP\", \"ISOYW\": 202640, \"MMWRYW\": 202639, \"PSOURCE_SUBTYPE_INF\": 1, \"PSOURCE_PPOS_INF\": 1, \"PSOURCE_RSV\": 1}, {\"WHOREGION\": \"SEAR\", \"FLUSEASON\": \"YR\", \"HEMISPHERE\": \"NH\", \"ITZ\": \"FLU_STH_ASIA\", \"COUNTRY_CODE\": \"NPL\", \"COUNTRY_AREA_TERRITORY\": \"Nepal\", \"ISO_WEEKSTARTDATE\": \"2026-09-28\", \"ISO_YEAR\": 2026, \"ISO_WEEK\": 40, \"MMWR_WEEKSTARTDATE\": \"2026-09-27\", \"MMWR_YEAR\": 2026, \"MMWR_WEEK\": 39, \"ORIGIN_SOURCE\": \"SENTINEL\", \"SPEC_PROCESSED_NB\": 174, \"SPEC_RECEIVED_NB\": 174, \"AH1N12009\": 1, \"AH1\": null, \"AH3\": 0, \"AH5\": n",
+  "keys": [
+   "@odata.context",
+   "value"
+  ],
+  "sec": 1.0
+ },
+ "wahis_events": {
+  "url": "https://wahis.woah.org/api/v1/pi/event/filtered-list?language=en",
+  "err": "HTTP Error 400: Bad Request",
+  "sec": 0.5
+ },
+ "fao_locust": {
+  "url": "https://services5.arcgis.com/sjP4Ugu5s0dZWLjd/arcgis/rest/services/Swarms_Public/FeatureServer/0/query?where=1%3D1&outFields=*&resultRecordCount=5&orderByFields=STARTDATE%20DESC&f=json",
+  "status": 200,
+  "bytes": 103,
+  "ctype": "application/json; charset=utf-8",
+  "sample": "{\"error\": {\"code\": 499, \"message\": \"Token Required\", \"messageCode\": \"GWM_0003\", \"details\": [\"Token Required\"]}}",
+  "keys": [
+   "error"
+  ],
+  "sec": 0.4
+ },
+ "ghcn_kathmandu": {
+  "url": "https://www.ncei.noaa.gov/access/services/data/v1?dataset=daily-summaries&stations=NPM00044454&startDate=2026-09-04&endDate=2026-10-14&format=json&units=metric",
+  "status": 200,
+  "bytes": 4,
+  "ctype": "application/json;charset=utf-8",
+  "n": 0,
+  "sample": "[]",
+  "sec": 0.5
+ },
+ "ghcn_stations_np": {
+  "url": "https://www.ncei.noaa.gov/access/services/search/v1/data?dataset=daily-summaries&bbox=31.5,79.5,26.3,92.5&startDate=2026-09-14&endDate=2026-10-14&limit=50",
+  "status": 200,
+  "bytes": 10236,
+  "ctype": "application/json",
+  "n": 5,
+  "key": "results",
+  "sample": "[{\"tar\": \"daily-summaries-latest.tar.gz\", \"endDate\": \"2026-10-06T23:59:59\", \"boundingPoints\": [{\"coordinates\": [79.65, 29.467], \"type\": \"point\"}], \"filePath\": \"/data/daily-summaries/access/IN023420800.csv\", \"stations\": [{\"dataTypes\": [{\"coverage\": 79.03476907109497, \"endDate\": \"2026-06-27T23:59:59\", \"dateRange\": {\"start\": \"2015-12-08T00:00:00\", \"end\": \"2026-06-27T23:59:59\"}, \"searchWeight\": 1, \"id\": \"TMAX\", \"startDate\": \"2015-12-08T00:00:00\"}, {\"coverage\": 85.54748313440581, \"endDate\": \"2026-06-27T23:59:59\", \"dateRange\": {\"start\": \"2015-12-08T00:00:00\", \"end\": \"2026-06-27T23:59:59\"}, \"searchWeight\": 1, \"id\": \"TAVG\", \"startDate\": \"2015-12-08T00:00:00\"}, {\"coverage\": 83.86092371562015, \"endDate\": \"2026-06-27T23:59:59\", \"dateRange\": {\"start\": \"2015-12-08T00:00:00\", \"end\": \"2026-06-27T23:59:59\"}, \"searchWeight\": 1, \"id\": \"TMIN\", \"startDate\": \"2015-12-08T00:00:00\"}, {\"coverage\": 57.76548961553534, \"endDate\": \"2026-10-06T23:59:59\", \"dateRange\": {\"start\": \"1901-01-01T00:00:00\", \"end\": \"2026-10-06T23:59:59\"}, \"searchWeight\": 1, \"id\": \"PRCP\", \"startDate\": \"1901-01-01T00:00:00\"}, {\"coverage\": 100.0, \"endDate\": \"2019-06-23T23:59:59\", \"dateRange\": {\"start\": \"2019-06-23T00:00:00\", \"end\": \"2019-06-23T23:59:59\"}, \"searchWeight\": 1, \"id\": \"SNWD\", \"startDate\": \"2019-06-23T00:00:00\"}], \"name\": \"MUKTESHWAR KUMAON, IN\", \"id\": \"IN023420800\", \"platforms\": [{\"endDate\": \"9996-12-31T23:59:59\", \"startDate\": \"0001-01-01T00:00:00\"}]}], \"platforms\": [{\"endDate\": \"9996-12-31T23:59:59\", \"startDate\": \"0001-",
+  "keys": [
+   "dataTypes",
+   "endDate",
+   "count",
+   "bounds",
+   "totalFileSize",
+   "stations",
+   "totalCount",
+   "results",
+   "startDate",
+   "platform"
+  ],
+  "sec": 0.4
+ },
+ "isd_np": {
+  "url": "https://www.ncei.noaa.gov/access/services/data/v1?dataset=global-hourly&stations=44454099999&startDate=2026-10-11&endDate=2026-10-14&format=json",
+  "status": 200,
+  "bytes": 4,
+  "ctype": "application/json;charset=utf-8",
+  "n": 0,
+  "sample": "[]",
+  "sec": 0.4
+ },
+ "ncei_tsunami": {
+  "url": "https://www.ngdc.noaa.gov/hazel/hazard-service/api/v1/tsunamis/events?minYear=2025",
+  "status": 200,
+  "bytes": 16798,
+  "ctype": "application/json",
+  "sample": "{\"items\": [{\"id\": 5948, \"year\": 2025, \"month\": 1, \"day\": 13, \"hour\": 12, \"minute\": 19, \"second\": 32, \"eventValidity\": 4, \"causeCode\": 1, \"eqMagnitude\": 6.8, \"earthquakeEventId\": 10767, \"numDeposits\": 0, \"country\": \"JAPAN\", \"locationName\": \"HYUGANADA SEA\", \"regionCode\": 85, \"latitude\": 31.806, \"longitude\": 131.565, \"maxWaterHeight\": 0.23, \"numRunups\": 9, \"warningStatusId\": 3, \"publish\": true, \"eqDepth\": 36, \"oceanicTsunami\": true}, {\"id\": 5969, \"year\": 2025, \"month\": 2, \"day\": 8, \"hour\": 23, \"minute\": 23, \"second\": 14, \"eventValidity\": 4, \"causeCode\": 1, \"eqMagnitude\": 7.6, \"earthquakeEventId\": 10785, \"numDeposits\": 0, \"country\": \"HONDURAS\", \"locationName\": \"NORTH OF HONDURAS\", \"regionCode\": 74, \"latitude\": 17.702, \"longitude\": -82.456, \"maxWaterHeight\": 0.04, \"numRunups\": 1, \"warningStatusId\": 2, \"publish\": true, \"eqDepth\": 10, \"oceanicTsunami\": true}, {\"id\": 5971, \"year\": 2025, \"month\": 2, \"eventValidity\": 3, \"causeCode\": 8, \"numDeposits\": 0, \"country\": \"ANTARCTICA\", \"locationName\": \"DALK GLACIER\", \"regionCode\": 60, \"latitude\": -69.417, \"longitude\": 76.45, \"maxWaterHeight\": 1, \"numRunups\": 1, \"publish\": true, \"oceanicTsunami\": true}, {\"id\": 5996, \"year\": 2025, \"month\": 3, \"day\": 25, \"hour\": 1, \"minute\": 43, \"second\": 12, \"eventValidity\": 4, \"causeCode\": 1, \"eqMagnitude\": 6.7, \"earthquakeEventId\": 10800, \"numDeposits\": 0, \"country\": \"NEW ZEALAND\", \"locationName\": \"PUYSEGUR TRENCH\", \"regionCode\": 81, \"latitude\": -46.708, \"longitude\": 165.933, \"maxWaterHeight\": 0.1, \"numRunups\"",
+  "keys": [
+   "items",
+   "page",
+   "totalPages",
+   "itemsPerPage",
+   "totalItems"
+  ],
+  "sec": 0.3
+ },
+ "ncei_volcano": {
+  "url": "https://www.ngdc.noaa.gov/hazel/hazard-service/api/v1/volcanoes?minYear=2025",
+  "status": 200,
+  "bytes": 2074,
+  "ctype": "application/json",
+  "sample": "{\"items\": [{\"id\": 7582, \"year\": 2025, \"month\": 7, \"day\": 29, \"tsunamiEventId\": 6044, \"earthquakeEventId\": 10923, \"volcanoLocationId\": 100026, \"volcanoLocationNewNum\": 300260, \"volcanoLocationNum\": \"1000-26=\", \"name\": \"Klyuchevskoy\", \"location\": \"Kamchatka\", \"country\": \"Russia\", \"latitude\": 56.056, \"longitude\": 160.642, \"elevation\": 4754, \"morphology\": \"Stratovolcano\", \"significant\": true, \"publish\": false, \"eruption\": true, \"status\": \"Historical\", \"timeErupt\": \"D1\"}, {\"id\": 7583, \"year\": 2025, \"month\": 11, \"day\": 23, \"volcanoLocationId\": 201091, \"volcanoLocationNewNum\": 221091, \"volcanoLocationNum\": \"0201-091\", \"name\": \"Hayli Gubbi\", \"location\": \"Africa-NE\", \"country\": \"Ethiopia\", \"latitude\": 13.51, \"longitude\": 40.722, \"elevation\": 493, \"morphology\": \"Shield volcano\", \"agent\": \"T\", \"deathsAmountOrder\": 0, \"damageAmountOrder\": 1, \"deathsAmountOrderTotal\": 0, \"damageAmountOrderTotal\": 1, \"significant\": true, \"publish\": false, \"eruption\": true, \"status\": \"Holocene\", \"timeErupt\": \"U\"}, {\"id\": 7586, \"year\": 2025, \"month\": 3, \"day\": 20, \"volcanoLocationId\": 60418, \"volcanoLocationNewNum\": 264180, \"volcanoLocationNum\": \"0604-18=\", \"name\": \"Lewotobi\", \"location\": \"Lesser Sunda Is\", \"country\": \"Indonesia\", \"latitude\": -8.542, \"longitude\": 122.775, \"elevation\": 1703, \"morphology\": \"Stratovolcano\", \"vei\": 2, \"agent\": \"T,P\", \"deaths\": 1, \"deathsAmountOrder\": 1, \"injuries\": 1, \"injuriesAmountOrder\": 1, \"deathsTotal\": 1, \"deathsAmountOrderTotal\": 1, \"injuriesTotal\": 1, \"injuriesAmountOrde",
+  "keys": [
+   "items",
+   "page",
+   "totalPages",
+   "itemsPerPage",
+   "totalItems"
+  ],
+  "sec": 0.2
+ },
+ "ncei_eq": {
+  "url": "https://www.ngdc.noaa.gov/hazel/hazard-service/api/v1/earthquakes?minYear=2025&country=NEPAL",
+  "status": 200,
+  "bytes": 70,
+  "ctype": "application/json",
+  "sample": "{\"items\": [], \"page\": 1, \"totalPages\": 1, \"itemsPerPage\": 200, \"totalItems\": 0}",
+  "keys": [
+   "items",
+   "page",
+   "totalPages",
+   "itemsPerPage",
+   "totalItems"
+  ],
+  "sec": 0.1
+ },
+ "gvp_weekly": {
+  "url": "https://volcano.si.edu/news/WeeklyVolcanoRSS.xml",
+  "err": "HTTP Error 403: Forbidden",
+  "sec": 0.2
+ },
+ "ptwc_atom": {
+  "url": "https://www.tsunami.gov/events/xml/PHEBAtom.xml",
+  "status": 200,
+  "bytes": 1975,
+  "ctype": "text/xml",
+  "sample": "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n    <feed xmlns=\"http://www.w3.org/2005/Atom\" xmlns:geo=\"http://www.w3.org/2003/01/geo/wgs84_pos#\" xmlns:georss=\"http://www.georss.org/georss\">\n    <id>urn:uuid:59ee47c7-2be5-4fa4-8b8f-6758d3980fd1</id><title>        TSUNAMI INFORMATION STATEMENT NUMBER   1        </title>\n    <updated>2026-10-13T12:34:39Z</updated>\n    <author>\n      <name>NWS PACIFIC TSUNAMI WARNING CENTER HONOLULU HI</name>\n<uri>https://www.tsunami.gov/</uri>\n     <email>ntwc@noaa.gov</email>\n    </author>\n<icon>https://www.tsunami.gov/images/favicon.ico</icon>\n<link type=\"application/atom+xml\" rel=\"self\" title=\"self\" href=\"https://www.tsunami.gov/events/xml/PAAQAtom.xml\"/>\n <link rel=\"related\" title=\"Energy Map\" href=\"https://www.tsunami.gov/events/PHEB/2026/10/13/26286001/1/WECA4",
+  "sec": 0.3
+ },
+ "ioc_stations": {
+  "url": "https://www.ioc-sealevelmonitoring.org/service.php?query=stationlist&showall=all",
+  "status": 200,
+  "bytes": 1725063,
+  "ctype": "application/json",
+  "n": 1766,
+  "sample": "[{\"Code\": \"aarh\", \"Location\": \"Aarhus\", \"country\": \"DMK\", \"type\": \"SF\", \"DCP_ID\": null, \"WMO\": null, \"XMtInt\": 10, \"Lat\": 56.15, \"Lon\": 10.22, \"Har\": null, \"GlossID\": null, \"OT12Code\": null, \"Example\": null, \"UTCOffset\": 0, \"OperatorID\": null, \"status\": 1, \"status_description\": null, \"localoperator\": 8, \"performanceoperator1\": null, \"performanceoperator2\": null, \"performanceoperator3\": null, \"date_created\": \"2025-07-15 13:30:01.070\", \"url\": null, \"SysStartTime\": \"1970-01-01 00:00:00.0000000\", \"SysEndTime\": \"9999-12-31 23:59:59.9999999\", \"code\": null, \"sensorid\": 3545, \"statday\": null, \"observations\": null, \"first\": null, \"last\": null, \"updatedata\": null, \"timestampdata\": null, \"timestampupdate\": null, \"sensor\": \"rad\", \"rate\": 10, \"samples\": 1, \"units\": \"M\", \"i\": null, \"offset\": null, \"timeorder\": 1, \"lasttime\": \"2026-10-14 03:00:00.000\", \"lastupdate\": \"2026-10-14 03:06:15.000\", \"lastvalue\": -0.19, \"connect\": \"SF\", \"lat\": 56.15, \"lon\": 10.22, \"countryname\": \"Denmark\"}, {\"Code\": \"abas\", \"Location\": \"Abashiri\", \"country\": \"JAP\", \"type\": \"SL\", \"DCP_ID\": \"ABASHIRI\", \"WMO\": \"SWJP40\", \"XMtInt\": 10, \"Lat\": 44.02, \"Lon\": 144.29, \"Har\": 0, \"GlossID\": \"327\", \"OT12Code\": null, \"Example\": null, \"UTCOffset\": 0, \"OperatorID\": null, \"status\": 1, \"status_description\": null, \"localoperator\": 29, \"performanceoperator1\": null, \"performanceoperator2\": null, \"performanceoperator3\": null, \"date_created\": \"2012-03-21 09:54:59.357\", \"url\": null, \"SysStartTime\": \"2026-07-02 10:11:49.2127285\", \"SysEndT",
+  "sec": 7.1
+ },
+ "ndbc_dart": {
+  "url": "https://www.ndbc.noaa.gov/data/realtime2/21413.dart",
+  "err": "HTTP Error 404: Not Found",
+  "sec": 0.3
+ },
+ "nsidc_seaice": {
+  "url": "https://noaadata.apps.nsidc.org/NOAA/G02135/north/daily/data/N_seaice_extent_daily_v3.0.csv",
+  "err": "HTTP Error 404: Not Found",
+  "sec": 0.3
+ },
+ "ibtracs_active": {
+  "url": "https://www.ncei.noaa.gov/data/international-best-track-archive-for-climate-stewardship-ibtracs/v04r01/access/csv/ibtracs.ACTIVE.list.v04r01.csv",
+  "status": 200,
+  "bytes": 301328,
+  "ctype": "text/csv",
+  "sample": "SID,SEASON,NUMBER,BASIN,SUBBASIN,NAME,ISO_TIME,NATURE,LAT,LON,WMO_WIND,WMO_PRES,WMO_AGENCY,TRACK_TYPE,DIST2LAND,LANDFALL,IFLAG,USA_AGENCY,USA_ATCF_ID,USA_LAT,USA_LON,USA_RECORD,USA_STATUS,USA_WIND,USA_PRES,USA_SSHS,USA_R34_NE,USA_R34_SE,USA_R34_SW,USA_R34_NW,USA_R50_NE,USA_R50_SE,USA_R50_SW,USA_R50_NW,USA_R64_NE,USA_R64_SE,USA_R64_SW,USA_R64_NW,USA_POCI,USA_ROCI,USA_RMW,USA_EYE,TOKYO_LAT,TOKYO_LON,TOKYO_GRADE,TOKYO_WIND,TOKYO_PRES,TOKYO_R50_DIR,TOKYO_R50_LONG,TOKYO_R50_SHORT,TOKYO_R30_DIR,TOKYO_R30_LONG,TOKYO_R30_SHORT,TOKYO_LAND,CMA_LAT,CMA_LON,CMA_CAT,CMA_WIND,CMA_PRES,HKO_LAT,HKO_LON,HKO_CAT,HKO_WIND,HKO_PRES,KMA_LAT,KMA_LON,KMA_CAT,KMA_WIND,KMA_PRES,KMA_R50_DIR,KMA_R50_LONG,KMA_R50_SHORT,KMA_R30_DIR,KMA_R30_LONG,KMA_R30_SHORT,NEWDELHI_LAT,NEWDELHI_LON,NEWDELHI_GRADE,NEWDELHI_WIND,NEWDE",
+  "sec": 1.0
+ },
+ "gbif_np": {
+  "url": "https://api.gbif.org/v1/occurrence/search?country=NP&eventDate=2026-08-15,2026-10-14&limit=1",
+  "status": 200,
+  "bytes": 6632,
+  "ctype": "application/json",
+  "n": 1,
+  "key": "results",
+  "sample": "[{\"key\": 6498161073, \"datasetKey\": \"50c9509d-22c7-4a22-a47d-8c48425ef4a7\", \"publishingOrgKey\": \"28eb1a3f-1c15-4a95-931a-4af90ecb574d\", \"datasetCategory\": [\"CitizenScience\"], \"installationKey\": \"997448a8-f762-11e1-a439-00145eb45e9a\", \"hostingOrganizationKey\": \"28eb1a3f-1c15-4a95-931a-4af90ecb574d\", \"publishingCountry\": \"US\", \"protocol\": \"DWC_ARCHIVE\", \"lastCrawled\": \"2026-10-06T14:25:53.585+00:00\", \"lastParsed\": \"2026-10-07T01:23:49.735+00:00\", \"crawlId\": 608, \"extensions\": {\"http://rs.gbif.org/terms/1.0/Multimedia\": [{\"http://purl.org/dc/terms/license\": \"https://creativecommons.org/licenses/by-nc/4.0/\", \"http://purl.org/dc/terms/created\": \"2026-08-19T18:25:50-07:00\", \"http://purl.org/dc/terms/publisher\": \"iNaturalist\", \"http://purl.org/dc/terms/format\": \"image/jpeg\", \"http://purl.org/dc/terms/identifier\": \"https://inaturalist-open-data.s3.amazonaws.com/photos/719998731/original.jpg\", \"http://rs.tdwg.org/dwc/terms/catalogNumber\": \"719998731\", \"http://purl.org/dc/terms/references\": \"https://www.inaturalist.org/photos/719998731\", \"http://purl.org/dc/terms/rightsHolder\": \"Ramesh Kathariya\", \"http://purl.org/dc/terms/type\": \"StillImage\", \"http://purl.org/dc/terms/creator\": \"Ramesh Kathariya\"}]}, \"basisOfRecord\": \"HUMAN_OBSERVATION\", \"occurrenceStatus\": \"PRESENT\", \"classifications\": {\"7ddf754f-d193-4cc9-b351-99906754a03b\": {\"usage\": {\"key\": \"9KHT\", \"name\": \"Acridotheres tristis (Linnaeus, 1766)\", \"rank\": \"SPECIES\", \"code\": \"ZOOLOGICAL\", \"authorship\": \"(Linnaeus, 1766)\", \"genericNam",
+  "keys": [
+   "offset",
+   "limit",
+   "endOfRecords",
+   "count",
+   "results",
+   "facets"
+  ],
+  "sec": 0.7
+ },
+ "safecast_np": {
+  "url": "https://api.safecast.org/measurements.json?latitude=27.7&longitude=85.3&distance=200000&per_page=5",
+  "status": 200,
+  "bytes": 1623,
+  "ctype": "application/json; charset=utf-8",
+  "n": 5,
+  "sample": "[{\"id\": 75214117, \"user_id\": 671, \"value\": 70.0, \"unit\": \"cpm\", \"location_name\": null, \"device_id\": null, \"original_id\": null, \"measurement_import_id\": 26174, \"captured_at\": \"2016-10-17T06:09:17.000Z\", \"height\": null, \"devicetype_id\": null, \"sensor_id\": null, \"station_id\": null, \"channel_id\": null, \"latitude\": 27.718688333333333, \"longitude\": 86.71573333333333}, {\"id\": 75214118, \"user_id\": 671, \"value\": 71.0, \"unit\": \"cpm\", \"location_name\": null, \"device_id\": null, \"original_id\": null, \"measurement_import_id\": 26174, \"captured_at\": \"2016-10-17T06:09:12.000Z\", \"height\": null, \"devicetype_id\": null, \"sensor_id\": null, \"station_id\": null, \"channel_id\": null, \"latitude\": 27.71869, \"longitude\": 86.71573833333333}]",
+  "sec": 0.5
+ },
+ "cisa_kev": {
+  "url": "https://www.cisa.gov/sites/default/files/feeds/known_exploited_vulnerabilities.json",
+  "status": 200,
+  "bytes": 1780479,
+  "ctype": "application/json",
+  "n": 1741,
+  "key": "vulnerabilities",
+  "sample": "[{\"cveID\": \"CVE-2026-104935\", \"vendorProject\": \"Ivanti\", \"product\": \"Connect Secure\", \"vulnerabilityName\": \"Ivanti Connect Secure Authentication Bypass by Spoofing Vulnerability\", \"dateAdded\": \"2026-10-13\", \"shortDescription\": \"Ivanti Connect Secure contains an authentication bypass by spoofing vulnerability that allows a remote unauthenticated attacker to execute arbitrary commands.\", \"requiredAction\": \"Apply mitigations in accordance with vendor instructions, ensuring compliance with CISA’s BOD 26-04 Prioritizing Security Updates Based on Risk (see URL in Notes) guidance and CISA’s “Forensics Triage Requirements” (see URL in Notes). Follow applicable BOD 26-04 guidance for cloud services or discontinue use of the product if mitigations are unavailable. Stakeholders are responsible for evaluating each asset's internet exposure and ensuring adherence to BOD 26-04 patching guidelines.\", \"dueDate\": \"2026-10-16\", \"knownRansomwareCampaignUse\": \"Unknown\", \"forensicTriage\": \"Yes\", \"notes\": \"https:/forums.ivanti.com/s/article/Security-Advisory-Ivanti-Connect-Secure-CVE-2026-104935 ; https://nvd.nist.gov/vuln/detail/CVE-2026-104935\", \"cwes\": [\"CWE-290\"]}, {\"cveID\": \"CVE-2026-96951\", \"vendorProject\": \"Microsoft\", \"product\": \"Windows\", \"vulnerabilityName\": \"Microsoft Windows Command Injection Vulnerability\", \"dateAdded\": \"2026-10-13\", \"shortDescription\": \"Microsoft Windows Shell contains a command injection vulnerability that allows an unauthorized attacker to bypass a security feature",
+  "keys": [
+   "title",
+   "catalogVersion",
+   "dateReleased",
+   "count",
+   "vulnerabilities"
+  ],
+  "sec": 0.3
+ },
+ "hibp_breaches": {
+  "url": "https://haveibeenpwned.com/api/v3/breaches",
+  "status": 200,
+  "bytes": 1123726,
+  "ctype": "application/json",
+  "n": 1044,
+  "sample": "[{\"Name\": \"000webhost\", \"Title\": \"000webhost\", \"Domain\": \"000webhost.com\", \"BreachDate\": \"2015-03-01\", \"AddedDate\": \"2015-10-26T23:35:45Z\", \"ModifiedDate\": \"2017-12-10T21:44:27Z\", \"PwnCount\": 14936670, \"Description\": \"In approximately March 2015, the free web hosting provider <a href=\\\"http://www.troyhunt.com/2015/10/breaches-traders-plain-text-passwords.html\\\" target=\\\"_blank\\\" rel=\\\"noopener\\\">000webhost suffered a major data breach</a> that exposed almost 15 million customer records. The data was sold and traded before 000webhost was alerted in October. The breach included names, email addresses and plain text passwords.\", \"LogoPath\": \"https://logos.haveibeenpwned.com/000webhost.png\", \"Attribution\": null, \"DisclosureUrl\": null, \"DataClasses\": [\"Email addresses\", \"IP addresses\", \"Names\", \"Passwords\"], \"IsVerified\": true, \"IsFabricated\": false, \"IsSensitive\": false, \"IsRetired\": false, \"IsSpamList\": false, \"IsMalware\": false, \"IsSubscriptionFree\": false, \"IsStealerLog\": false}, {\"Name\": \"123RF\", \"Title\": \"123RF\", \"Domain\": \"123rf.com\", \"BreachDate\": \"2020-03-22\", \"AddedDate\": \"2020-11-15T00:59:50Z\", \"ModifiedDate\": \"2020-11-15T01:07:10Z\", \"PwnCount\": 8661578, \"Description\": \"In March 2020, the stock photo site <a href=\\\"https://www.bleepingcomputer.com/news/security/popular-stock-photo-service-hit-by-data-breach-83m-records-for-sale/\\\" target=\\\"_blank\\\" rel=\\\"noopener\\\">123RF suffered a data breach</a> which impacted over 8 million subscribers and was subsequently sold onlin",
+  "sec": 0.4
+ },
+ "nrb_forex": {
+  "url": "https://www.nrb.org.np/api/forex/v1/rates?from=2026-10-04&to=2026-10-14&per_page=10&page=1",
+  "status": 200,
+  "bytes": 21366,
+  "ctype": "application/json; charset=UTF-8",
+  "sample": "{\"status\": {\"code\": 200}, \"errors\": {\"validation\": null}, \"params\": {\"date\": null, \"from\": \"2026-10-04\", \"to\": \"2026-10-14\", \"post_type\": null, \"per_page\": \"10\", \"page\": \"1\", \"slug\": null, \"q\": null}, \"data\": {\"payload\": [{\"date\": \"2026-10-04\", \"published_on\": \"2026-10-04 00:00:57\", \"modified_on\": \"2026-10-02 15:53:55\", \"rates\": [{\"currency\": {\"iso3\": \"INR\", \"name\": \"Indian Rupee\", \"unit\": 100}, \"buy\": \"160.00\", \"sell\": \"160.15\"}, {\"currency\": {\"iso3\": \"USD\", \"name\": \"U.S. Dollar\", \"unit\": 1}, \"buy\": \"153.81\", \"sell\": \"154.41\"}, {\"currency\": {\"iso3\": \"EUR\", \"name\": \"European Euro\", \"unit\": 1}, \"buy\": \"173.01\", \"sell\": \"173.69\"}, {\"currency\": {\"iso3\": \"GBP\", \"name\": \"UK Pound Sterling\", \"unit\": 1}, \"buy\": \"203.18\", \"sell\": \"203.98\"}, {\"currency\": {\"iso3\": \"CHF\", \"name\": \"Swiss Franc\", \"unit\": 1}, \"buy\": \"185.69\", \"sell\": \"186.42\"}, {\"currency\": {\"iso3\": \"AUD\", \"name\": \"Australian Dollar\", \"unit\": 1}, \"buy\": \"106.72\", \"sell\": \"107.14\"}, {\"currency\": {\"iso3\": \"CAD\", \"name\": \"Canadian Dollar\", \"unit\": 1}, \"buy\": \"108.04\", \"sell\": \"108.46\"}, {\"currency\": {\"iso3\": \"SGD\", \"name\": \"Singapore Dollar\", \"unit\": 1}, \"buy\": \"120.23\", \"sell\": \"120.69\"}, {\"currency\": {\"iso3\": \"JPY\", \"name\": \"Japanese Yen\", \"unit\": 10}, \"buy\": \"9.76\", \"sell\": \"9.80\"}, {\"currency\": {\"iso3\": \"CNY\", \"name\": \"Chinese Yuan\", \"unit\": 1}, \"buy\": \"22.94\", \"sell\": \"23.03\"}, {\"currency\": {\"iso3\": \"SAR\", \"name\": \"Saudi Arabian Riyal\", \"unit\": 1}, \"buy\": \"40.97\", \"sell\": \"41.13\"}, {\"currency\": {\"iso3\": \"QAR\", \"name\": \"Q",
+  "keys": [
+   "status",
+   "errors",
+   "params",
+   "data",
+   "pagination"
+  ],
+  "sec": 3.5
+ },
+ "ucdp_candidate": {
+  "url": "https://ucdpapi.pcr.uu.se/api/gedevents/25.0.10?pagesize=5&Country=779",
+  "err": "HTTP Error 401: Unauthorized",
+  "sec": 1.2
+ },
+ "openfda_food": {
+  "url": "https://api.fda.gov/food/enforcement.json?sort=report_date:desc&limit=3",
+  "status": 200,
+  "bytes": 4196,
+  "ctype": "application/json; charset=utf-8",
+  "n": 3,
+  "key": "results",
+  "sample": "[{\"status\": \"Ongoing\", \"city\": \"Cookeville\", \"state\": \"TN\", \"country\": \"United States\", \"classification\": \"Class I\", \"openfda\": {}, \"product_type\": \"Food\", \"event_id\": \"99887\", \"recalling_firm\": \"TODD'S SEEDS LLC\", \"address_1\": \"1011 Volunteer Dr\", \"address_2\": \"\", \"postal_code\": \"38506-5026\", \"voluntary_mandated\": \"Voluntary: Firm initiated\", \"initial_firm_notification\": \"E-Mail\", \"distribution_pattern\": \"Nationwide; through Amazon or direct to consumer\", \"recall_number\": \"H-1407-2026\", \"product_description\": \"Todd's Seeds Salad Sprouting Mixture - Broccoli, Mustard, Alfalfa and Cabbage, packaged in heat-sealed resealable bags in the following sizes: 1/4 lb., 1/2 lb., and 1 lb.\", \"product_quantity\": \"37,481 retail units (TOTAL)\", \"reason_for_recall\": \"Products contain alfalfa seed recalled by the supplier and may be contaminated with E. coli and/or Salmonella (downstream recall)\", \"recall_initiation_date\": \"20260911\", \"center_classification_date\": \"20260930\", \"report_date\": \"20261007\", \"code_info\": \"Lot No: TS-633-2 Use By: 12/31/2029\", \"more_code_info\": \"\"}, {\"status\": \"Ongoing\", \"city\": \"Hauppauge\", \"state\": \"NY\", \"country\": \"United States\", \"classification\": \"Class II\", \"openfda\": {}, \"product_type\": \"Food\", \"event_id\": \"99954\", \"recalling_firm\": \"Galil Importing Corp\", \"address_1\": \"45 Gilpin Ave\", \"address_2\": \"\", \"postal_code\": \"11788-4755\", \"voluntary_mandated\": \"Voluntary: Firm initiated\", \"initial_firm_notification\": \"Press Release\", \"distribution_pattern\": \"NY, NJ,",
+  "keys": [
+   "meta",
+   "results"
+  ],
+  "sec": 0.4
+ },
+ "openfda_drug": {
+  "url": "https://api.fda.gov/drug/enforcement.json?sort=report_date:desc&limit=3",
+  "status": 200,
+  "bytes": 6568,
+  "ctype": "application/json; charset=utf-8",
+  "n": 3,
+  "key": "results",
+  "sample": "[{\"status\": \"Ongoing\", \"city\": \"Brampton\", \"state\": \"\", \"country\": \"Canada\", \"classification\": \"Class II\", \"openfda\": {}, \"product_type\": \"Drugs\", \"event_id\": \"99866\", \"recalling_firm\": \"SV Labs Toronto Corporation\", \"address_1\": \"296 Orenda Rd\", \"address_2\": \"\", \"postal_code\": \"N/A\", \"voluntary_mandated\": \"Voluntary: Firm initiated\", \"initial_firm_notification\": \"E-Mail\", \"distribution_pattern\": \"IL only\", \"recall_number\": \"D-0879-2026\", \"product_description\": \"Benzoyl Peroxide Wash, USP, 10%, packaged in a)5 FL OZ (148mL) bottles (NDC 0536-1261-63), and b) 8.5 FL OZ (237 mL) bottles (NDC 0536-1351-42), Distributed by: Rugby Laboratories, 17177 N. Laurel Park Drive, Suite 233, Livonia, MI 48152.\", \"product_quantity\": \"\", \"reason_for_recall\": \"Microbial contamination of topical product.\", \"recall_initiation_date\": \"20260901\", \"center_classification_date\": \"20260930\", \"report_date\": \"20261007\", \"code_info\": \"a) Lot #: 0575-01-366, Exp. Date Jan-27; 0565-02-336, Exp. Date FEB-27;  b) Lot #: 0645-02-355,  0575-02-336, Exp. Date Feb-27;  0565-12-317, Exp. Date Dec-26\", \"more_code_info\": \"\"}, {\"status\": \"Ongoing\", \"city\": \"Bridgewater\", \"state\": \"NJ\", \"country\": \"United States\", \"classification\": \"Class II\", \"openfda\": {\"application_number\": [\"ANDA216055\"], \"brand_name\": [\"ESTRADIOL\"], \"generic_name\": [\"ESTRADIOL TRANSDERMAL\"], \"manufacturer_name\": [\"Amneal Pharmaceuticals NY LLC\"], \"product_ndc\": [\"69238-2448\", \"69238-2452\", \"69238-2451\", \"69238-2450\", \"69238-2449\"], \"product_typ",
+  "keys": [
+   "meta",
+   "results"
+  ],
+  "sec": 0.3
+ },
+ "s5p_stac": {
+  "url": "https://planetarycomputer.microsoft.com/api/stac/v1/search?collections=sentinel-5p-l2-netcdf&bbox=79.5,26.3,92.5,31.5&datetime=2026-10-11T00:00:00Z/2026-10-14T23:59:59Z&limit=50",
+  "status": 200,
+  "bytes": 195393,
+  "ctype": "application/geo+json; charset=utf-8",
+  "n": 50,
+  "key": "features",
+  "sample": "[{\"id\": \"S5P_L2_SO2____20261013T080907_20261013T081407_46633\", \"bbox\": [61.792427, 14.614782, 93.22964000000002, 38.153587], \"type\": \"Feature\", \"links\": [{\"rel\": \"collection\", \"type\": \"application/json\", \"href\": \"https://planetarycomputer.microsoft.com/api/stac/v1/collections/sentinel-5p-l2-netcdf\"}, {\"rel\": \"parent\", \"type\": \"application/json\", \"href\": \"https://planetarycomputer.microsoft.com/api/stac/v1/collections/sentinel-5p-l2-netcdf\"}, {\"rel\": \"root\", \"type\": \"application/json\", \"href\": \"https://planetarycomputer.microsoft.com/api/stac/v1/\"}, {\"rel\": \"self\", \"type\": \"application/geo+json\", \"href\": \"https://planetarycomputer.microsoft.com/api/stac/v1/collections/sentinel-5p-l2-netcdf/items/S5P_L2_SO2____20261013T080907_20261013T081407_46633\"}, {\"rel\": \"about\", \"href\": \"http://www.tropomi.eu/data-products/sulphur-dioxide\", \"type\": \"text/html\"}], \"assets\": {\"so2\": {\"href\": \"https://sentinel5euwest.blob.core.windows.net/sentinel-5p/TROPOMI/L2__SO2___/2026/10/13/S5P_NRTI_L2__SO2____20261013T080907_20261013T081407_46633_03_020800_20261013T085001.nc\", \"type\": \"application/x-netcdf\", \"roles\": [\"data\", \"overview\"], \"title\": \"Sulphur Dioxide Total Column\"}}, \"geometry\": {\"type\": \"Polygon\", \"coordinates\": [[[61.792427, 32.20145], [62.44807, 30.804703], [63.078823, 29.403275], [63.68607700000001, 27.997288], [64.27141599999999, 26.587257], [64.83604, 25.173326], [65.38137, 23.755873], [65.90803499999998, 22.335007], [66.4178, 20.911194], [66.91084999999998, 19.484423], [67.38848999",
+  "keys": [
+   "type",
+   "links",
+   "features",
+   "numberReturned"
+  ],
+  "sec": 0.7
+ },
+ "gdacs_all": {
+  "url": "https://www.gdacs.org/gdacsapi/api/events/geteventlist/SEARCH?fromdate=2026-08-15&todate=2026-10-14&alertlevel=green;orange;red",
+  "status": 200,
+  "bytes": 135095,
+  "ctype": "application/json; charset=utf-8",
+  "n": 100,
+  "key": "features",
+  "sample": "[{\"type\": \"Feature\", \"bbox\": [-107.6, 20.1, -107.6, 20.1], \"geometry\": {\"type\": \"Point\", \"coordinates\": [-107.6, 20.1]}, \"properties\": {\"eventtype\": \"TC\", \"eventid\": 1001335, \"episodeid\": 27, \"eventname\": \"SIMON-26\", \"glide\": \"\", \"name\": \"Tropical Cyclone SIMON-26\", \"description\": \"Tropical Cyclone SIMON-26\", \"htmldescription\": \"Orange Tropical Cyclone SIMON-26 in Mexico from: 07 Oct 2026  to: 14 Oct 2026 .\", \"icon\": \"https://www.gdacs.org/images/gdacs_icons/maps/Green/TC.png\", \"iconoverall\": \"https://www.gdacs.org/images/gdacs_icons/maps/Orange/TC.png\", \"url\": {\"geometry\": \"https://www.gdacs.org/gdacsapi/api/polygons/getgeometry?eventtype=TC&eventid=1001335&episodeid=27\", \"report\": \"https://www.gdacs.org/report.aspx?eventid=1001335&episodeid=27&eventtype=TC\", \"details\": \"https://www.gdacs.org/gdacsapi/api/events/geteventdata?eventtype=TC&eventid=1001335\"}, \"alertlevel\": \"Orange\", \"alertscore\": 2, \"episodealertlevel\": \"Green\", \"episodealertscore\": 1.0, \"istemporary\": \"false\", \"iscurrent\": \"true\", \"country\": \"Mexico\", \"fromdate\": \"2026-10-07T15:00:00\", \"todate\": \"2026-10-14T03:00:00\", \"datemodified\": \"2026-10-14T02:46:14\", \"iso3\": \"MEX\", \"source\": \"NOAA\", \"sourceid\": \"\", \"polygonlabel\": \"Centroid\", \"Class\": \"Point_Centroid\", \"countryonland\": \"\", \"affectedcountries\": [{\"iso2\": \"MX\", \"iso3\": \"MEX\", \"countryname\": \"Mexico\"}], \"severitydata\": {\"severity\": 249.9984, \"severitytext\": \"Hurricane/Typhoon > 74 mph (maximum wind speed of 250 km/h)\", \"severityunit\": \"km/h\"}}}, {\"type\": \"F",
+  "keys": [
+   "type",
+   "features",
+   "bbox"
+  ],
+  "sec": 2.5
+ },
+ "reliefweb_noapp": {
+  "url": "https://api.reliefweb.int/v2/disasters?appname=test&limit=1",
+  "err": "HTTP Error 403: Forbidden",
+  "sec": 0.2
+ },
+ "gfw_noauth": {
+  "url": "https://data-api.globalforestwatch.org/datasets",
+  "status": 200,
+  "bytes": 610702,
+  "ctype": "application/json",
+  "n": 382,
+  "key": "data",
+  "sample": "[{\"created_on\": \"2024-08-21T19:47:19.461669\", \"updated_on\": \"2024-08-21T19:47:19.461675\", \"dataset\": \"aqueduct_crop_baseline_2020\", \"is_downloadable\": true, \"metadata\": {\"created_on\": \"2024-08-21T19:47:19.479439\", \"updated_on\": \"2024-08-21T19:47:19.479446\", \"spatial_resolution\": null, \"resolution_description\": null, \"geographic_coverage\": null, \"update_frequency\": null, \"scale\": null, \"citation\": \"TBD\", \"title\": \"Aqueduct Crop Baseline (2020)\", \"subtitle\": null, \"source\": \"TBD\", \"license\": \"TBD\", \"data_language\": \"en\", \"overview\": \"TBD\", \"function\": \"TBD\", \"cautions\": \"TBD\", \"key_restrictions\": null, \"tags\": [\"aqueduct\"], \"why_added\": null, \"learn_more\": \"TBD\", \"id\": \"4305d21c-a410-45a0-a5e6-fcd135891f49\"}, \"versions\": [\"v1.1\", \"v1.3\", \"v1.8\", \"v1.0\", \"v1.4\", \"v1.12\", \"v1.5\", \"v1.2\", \"v1.10\", \"v1.11\", \"v1.9\", \"v1.6\"]}, {\"created_on\": \"2022-12-23T21:05:55.985410\", \"updated_on\": \"2023-02-13T17:33:07.567718\", \"dataset\": \"arg_native_forest_land_plan\", \"is_downloadable\": false, \"metadata\": {\"created_on\": \"2023-05-04T13:11:58.897345\", \"updated_on\": \"2025-01-15T20:49:34.327734\", \"spatial_resolution\": null, \"resolution_description\": \"30 x 30m\", \"geographic_coverage\": \"Argentina\", \"update_frequency\": \"Annual\", \"scale\": null, \"citation\": \"The OTBN is composed of 23 shapefiles, each corresponding to one of the 23 provinces of Argentina. Each province is responsible for updating their OTBN data every 5 years, as established in [the legal article](https://www.argentina.gob.ar/sites/defaul",
+  "keys": [
+   "data",
+   "status"
+  ],
+  "sec": 0.4
+ },
+ "openaq_noauth": {
+  "url": "https://api.openaq.org/v3/locations?countries_id=126&limit=1",
+  "err": "HTTP Error 401: Unauthorized",
+  "sec": 0.1
+ },
+ "gdelt_theme": {
+  "url": "https://api.gdeltproject.org/api/v2/doc/doc?query=theme:NATURAL_DISASTER%20Nepal&mode=artlist&maxrecords=5&format=json&timespan=7d",
+  "status": 200,
+  "bytes": 2,
+  "ctype": "application/json; charset=utf-8",
+  "sample": "{}",
+  "keys": [],
+  "sec": 19.1
+ },
+ "nepse": {
+  "url": "https://www.nepalstock.com/api/nots/nepse-index",
+  "err": "HTTP Error 401: Unauthorized",
+  "sec": 1.6
+ }
+}
