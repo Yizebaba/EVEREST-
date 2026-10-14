@@ -8,6 +8,7 @@
 只记录已经发生、被公开来源记下的事；不预测。
 """
 import csv, io, json, math, os, re, sys, time, urllib.parse, urllib.request
+from collections import Counter
 from datetime import datetime, timedelta, timezone
 
 OUT = sys.argv[1]; os.makedirs(OUT, exist_ok=True)
@@ -331,6 +332,158 @@ def s5p():
     return {"products": sorted(got)}
 
 
+# ---------- 实时观测类（2026-10-14 加）：只收“已观测到/已发生”的记录，不收预报 ----------
+# 机场天气实况 METAR：各机场每小时（有变化时随时）发报，记录当时实际出现的天气现象（WMO 代码）。
+METAR_WX = [(r"(^|\s)[-+]?(VC)?(MI|BC|PR|FZ)?FG\b", ["MH0202"], "雾"), (r"(^|\s)HZ\b", ["MH0203"], "霾"), (r"(^|\s)FU\b", ["MH0205"], "烟"),
+            (r"(^|\s)[-+]?(VC)?(DS|SS)\b", ["MH0201"], "沙尘暴"), (r"(^|\s)(BL|DR)?(SA|DU)\b", ["MH0204"], "扬沙/浮尘"), (r"(^|\s)SQ\b", ["MH0304"], "飑"),
+            (r"(^|\s)[+]?FC\b", ["MH0305"], "漏斗云/龙卷"), (r"TS", ["MH0103", "MH0102"], "雷暴"), (r"GR\b", ["MH0404"], "冰雹"),
+            (r"FZ(RA|DZ)", ["MH0506"], "冻雨/冻毛毛雨"), (r"(^|\s)\+(SH)?SN", ["MH0405"], "大雪"), (r"(^|\s)\+(SH|TS)?RA", ["MH0402"], "大雨"), (r"(^|\s)VA\b", ["GH0202"], "火山灰")]
+
+
+@source("机场天气实况 METAR")
+def metar():
+    import csv, gzip, io
+    txt = gzip.decompress(get("https://aviationweather.gov/data/cache/metars.cache.csv.gz", raw=True)).decode("utf-8", "ignore")
+    lines = txt.splitlines(); i = next(k for k, l in enumerate(lines) if l.startswith("raw_text"))
+    rows = list(csv.DictReader(io.StringIO("\n".join(lines[i:]))))
+    agg = {}
+    for r in rows:
+        wx = r.get("wx_string") or ""
+        try: la, lo = float(r["latitude"]), float(r["longitude"])
+        except (TypeError, ValueError): continue
+        hits = [(cs, nm) for pat, cs, nm in METAR_WX if wx and re.search(pat, wx)]
+        try: ws, gs = float(r.get("wind_speed_kt") or 0), float(r.get("wind_gust_kt") or 0)
+        except ValueError: ws = gs = 0
+        if ws >= 34: hits.append((["MH0303"], f"持续风 {ws:.0f} 节"))
+        if gs >= 50: hits.append((["MH0301"], f"阵风 {gs:.0f} 节"))
+        if re.search(r"BLSN", wx) and ws >= 30: hits.append((["MH0403"], "高吹雪+大风"))
+        t = (r.get("observation_time") or iso(NOW))[:19] + "Z"
+        for cs, nm in hits:
+            if inbox(la, lo):   # 喜马拉雅范围内的机场：逐条记录，带坐标，可挂到附近事件
+                rec(cs, t, f"{r['station_id']} 机场实况：{nm}（{r['raw_text'][:90]}）", la, lo, f"https://aviationweather.gov/data/metar/?ids={r['station_id']}", f"metar-{r['station_id']}-{t}")
+            else:
+                a = agg.setdefault(nm, {"codes": cs, "n": 0, "ex": [], "t": t}); a["n"] += 1; a["t"] = max(a["t"], t)
+                if len(a["ex"]) < 3: a["ex"].append(r["station_id"])
+    for nm, a in agg.items():   # 全球：每种现象一条汇总（不带坐标，不挂事件）
+        rec(a["codes"], a["t"], f"全球 {a['n']} 个机场此刻报告“{nm}”（例：{'、'.join(a['ex'])}）", None, None, "https://aviationweather.gov/data/metar/", f"metar-g-{nm}-{NOW.strftime('%Y%m%d%H')}")
+    return {"stations": len(rows), "phenomena": {k: v["n"] for k, v in agg.items()}}
+
+
+# 国际航空危险天气通报 SIGMET：只收正文写明 OBS（已观测到）的
+SIG_HZ = {"VA": (["GH0202"], "火山灰"), "TC": (["MH0309"], "热带气旋"), "DS": (["MH0201"], "沙尘暴"), "SS": (["MH0201"], "沙尘暴"), "TS": (["MH0103", "MH0102"], "雷暴"),
+          "RDOACT": (["TL0602"], "放射性云")}
+
+
+@source("航空危险天气通报 SIGMET")
+def sigmet():
+    agg = {}
+    for x in get("https://aviationweather.gov/api/data/isigmet?format=json"):
+        hz = (x.get("hazard") or "").split()[0] if x.get("hazard") else ""
+        if hz not in SIG_HZ or not re.search(r"\bOBS\b", x.get("rawSigmet") or ""): continue
+        cs, nm = SIG_HZ[hz]; co = (x.get("coords") or [{}])[0]
+        t = iso(datetime.fromtimestamp(x.get("validTimeFrom") or NOW.timestamp(), timezone.utc))
+        if hz == "TS" and not inbox(co.get("lat"), co.get("lon")):
+            a = agg.setdefault(nm, {"codes": cs, "n": 0, "t": t}); a["n"] += 1; a["t"] = max(a["t"], t); continue
+        rec(cs, t, f"{x.get('firName') or x.get('firId')} SIGMET：已观测到{nm}" + (f"（{x.get('qualifier')}）" if x.get("qualifier") else ""), co.get("lat"), co.get("lon"),
+            "https://aviationweather.gov/gfa/#sigmet", f"sigmet-{x.get('icaoId')}-{x.get('seriesId')}-{t}")
+    for nm, a in agg.items():
+        rec(a["codes"], a["t"], f"全球 {a['n']} 份 SIGMET 写明已观测到{nm}", None, None, "https://aviationweather.gov/gfa/#sigmet", f"sigmet-g-{nm}-{NOW.strftime('%Y%m%d%H')}")
+
+
+# 美国风暴预报中心（SPC）当天和前一天的风暴实况报告：龙卷、≥58 mph 大风、冰雹（目击和测站报告）
+@source("美国风暴实况报告 SPC")
+def spc():
+    day0 = (NOW - timedelta(hours=12)).date()
+    for name, d in (("yesterday", day0 - timedelta(days=1)), ("today", day0)):
+        txt = get(f"https://www.spc.noaa.gov/climo/reports/{name}.csv", raw=True).decode("utf-8", "ignore")
+        kind = None
+        for line in txt.splitlines():
+            if line.startswith("Time,"):
+                kind = {"F_Scale": ("MH0305", "龙卷"), "Speed": ("MH0301", "大风"), "Size": ("MH0404", "冰雹")}.get(line.split(",")[1]); continue
+            f = line.split(",")
+            if not kind or len(f) < 7 or not f[0].isdigit(): continue
+            hh, mm = int(f[0][:2]), int(f[0][2:])
+            day = d if hh >= 12 else d + timedelta(days=1)
+            t = f"{day.isoformat()}T{hh:02d}:{mm:02d}:00Z"
+            try: la, lo = float(f[5]), float(f[6])
+            except ValueError: continue
+            rec([kind[0]], t, f"SPC 实况：{kind[1]} · {f[2]}, {f[4]}（{f[1]}）", la, lo, f"https://www.spc.noaa.gov/climo/reports/{name}.html", f"spc-{t}-{la}-{lo}")
+
+
+# 美国国家气象局警报：只收 certainty=Observed（已观测到正在发生）的
+NWS_HZ = {"Tornado Warning": "MH0305", "Flash Flood Warning": "MH0603", "Flood Warning": "MH0604", "Severe Thunderstorm Warning": "MH0103", "Dust Storm Warning": "MH0201",
+          "Extreme Wind Warning": "MH0301", "Snow Squall Warning": "MH0406", "Ice Storm Warning": "MH0506", "Blizzard Warning": "MH0403", "Coastal Flood Warning": "MH0601",
+          "Lakeshore Flood Warning": "MH0601", "Storm Surge Warning": "MH0703", "Tsunami Warning": "MH0705", "Avalanche Warning": "MH0801", "Fire Warning": "EN0205",
+          "Earthquake Warning": "GH0101", "Dense Fog Advisory": "MH0202", "Dense Smoke Advisory": "MH0205", "Ashfall Warning": "GH0202", "Ashfall Advisory": "GH0202",
+          "Hurricane Warning": "MH0309", "Typhoon Warning": "MH0309", "Extreme Heat Warning": "MH0501", "Excessive Heat Warning": "MH0501", "Extreme Cold Warning": "MH0502",
+          "Freeze Warning": "MH0504", "Frost Advisory": "MH0505", "High Wind Warning": "MH0301", "Air Quality Alert": "EN0103", "Hazardous Materials Warning": "CH0300",
+          "Nuclear Power Plant Warning": "TL0208", "Radiological Hazard Warning": "TL0602", "911 Telephone Outage Emergency": "TL0211", "Blowing Dust Warning": "MH0201"}
+
+
+@source("美国气象局已观测警报 NWS")
+def nws():
+    for f in get("https://api.weather.gov/alerts/active?certainty=Observed", headers={"accept": "application/geo+json"}).get("features", []):
+        p = f["properties"]; c = NWS_HZ.get(p.get("event"))
+        if not c: continue
+        g = f.get("geometry") or {}; co = None
+        if g.get("type") == "Polygon": co = g["coordinates"][0][0]
+        try: t = iso(P(p.get("onset") or p.get("sent")))
+        except Exception: t = iso(NOW)
+        rec([c], t,
+            f"NWS（已观测）{p.get('event')} · {(p.get('areaDesc') or '')[:80]}", co[1] if co else None, co[0] if co else None, p.get("@id"), "nws-" + p.get("id", "")[-40:])
+
+
+# USGS 火山观测站通告：航空颜色码橙色/红色（火山灰排放或明显活动）
+@source("USGS 火山通告")
+def usgs_volcano():
+    for v in get("https://volcanoes.usgs.gov/hans-public/api/volcano/getElevatedVolcanoes"):
+        if v.get("color_code") not in ("ORANGE", "RED"): continue
+        rec(["GH0202"], (v.get("sent_utc") or iso(NOW)).replace(" ", "T")[:19] + "Z", f"{v.get('volcano_name')}：航空颜色码 {v.get('color_code')}、警戒 {v.get('alert_level')}（{v.get('obs_abbr', '').upper()}）",
+            None, None, v.get("notice_url"), f"hans-{v.get('notice_identifier')}")
+
+
+# 美国林火：NIFC WFIGS 当前事件（48 小时内新发现的，汇总一条）
+@source("美国林火实时 NIFC")
+def nifc():
+    since = int((NOW - timedelta(hours=48)).timestamp() * 1000)
+    x = get("https://services3.arcgis.com/T4QMspbfLg3qTGWY/arcgis/rest/services/WFIGS_Incident_Locations_Current/FeatureServer/0/query?"
+            + urllib.parse.urlencode({"where": f"FireDiscoveryDateTime >= {since}", "returnCountOnly": "true", "f": "json"}))
+    n = x.get("count", 0)
+    if n: rec(["EN0205"], iso(NOW), f"美国 48 小时内新发现林火 {n} 起（NIFC）", None, None, "https://data-nifc.opendata.arcgis.com/", f"nifc-{NOW.strftime('%Y%m%d%H')}")
+    return {"new_48h": n}
+
+
+# 恶意软件：abuse.ch ThreatFox 最近新增的威胁指标（1 小时内首次出现的，按家族汇总一条）
+@source("abuse.ch ThreatFox")
+def threatfox():
+    x = get("https://threatfox.abuse.ch/export/json/recent/", timeout=120)
+    cut = (NOW - timedelta(hours=1)).strftime("%Y-%m-%d %H:%M:%S"); fam = Counter()
+    for v in x.values():
+        for e in v:
+            if (e.get("first_seen_utc") or "") >= cut: fam[e.get("malware_printable") or "?"] += 1
+    if fam: rec(["TL0101"], iso(NOW), f"1 小时内新增恶意软件指标 {sum(fam.values())} 条（{'、'.join(f'{k} {n}' for k, n in fam.most_common(4))}）", None, None, "https://threatfox.abuse.ch/browse/", f"tfox-{NOW.strftime('%Y%m%d%H')}")
+    return {"new_1h": sum(fam.values())}
+
+
+# 钓鱼网站：OpenPhish 免费列表（社会工程类；免费列表约 12 小时更新一次）
+@source("OpenPhish 钓鱼列表")
+def openphish():
+    n = len([l for l in get("https://openphish.com/feed.txt", raw=True).decode("utf-8", "ignore").splitlines() if l.startswith("http")])
+    if n: rec(["TL0107"], iso(NOW), f"OpenPhish 当前在列钓鱼网址 {n} 条", None, None, "https://openphish.com/", f"phish-{NOW.strftime('%Y%m%d%H')}")
+    return {"urls": n}
+
+
+# 航空器紧急代码 7700（ADS-B 实时）：只说明飞机宣布紧急状态，不等于事故 → 记为“有观测”
+@source("ADS-B 紧急代码 7700")
+def adsb7700():
+    ac = get("https://api.adsb.lol/v2/sqk/7700").get("ac", [])
+    for a in ac:
+        if a.get("lat") is None: continue
+        rec(["TL0401"], iso(NOW), f"{(a.get('flight') or a.get('hex') or '').strip()} 发出紧急代码 7700（{a.get('t') or ''}）", a.get("lat"), a.get("lon"),
+            f"https://adsb.lol/?icao={a.get('hex')}", f"sq7700-{a.get('hex')}-{NOW.strftime('%Y%m%d%H')}", observation=True)
+    return {"aircraft": len(ac)}
+
+
 # ---------- 海洋与海啸 ----------
 @source("太平洋海啸预警中心")
 def ptwc():
@@ -596,7 +749,21 @@ for c in ("BI0243", "BI0101", "BI0245"): STATIC.setdefault(c, set()).add("WHO Fl
 for c in ("BI0301", "BI0302", "BI0303", "BI0304", "BI0305", "BI0306", "BI0307", "BI0308", "BI0309", "BI0310", "BI0311", "BI0312", "BI0313", "BI0314", "BI0245", "BI0201", "BI0232"):
     STATIC.setdefault(c, set()).add("WOAH WAHIS 动物疫情")
 for c in ("GH0101", "GH0300", "GH0301", "TL0304", "TL0307"): STATIC.setdefault(c, set()).add("USGS 地震目录")
-for c in ("GH0101", "MH0600", "MH0309", "MH0401", "EN0205", "GH0201", "MH0705"): STATIC.setdefault(c, set()).add("GDACS")
+for c in ("GH0101", "MH0600", "MH0309", "MH0401", "EN0205", "GH0201", "GH0202", "MH0705"): STATIC.setdefault(c, set()).add("GDACS")
+# BIPAD 警报：按警报标题分类（见 BIPAD_AL），这些灾种都有过警报
+for c in ("MH0604", "GH0300", "MH0801", "EN0205", "MH0102", "MH0502", "MH0405", "GH0101", "MH0402", "EN0103", "TL0207"): STATIC.setdefault(c, set()).add("BIPAD 警报")
+for _p, cs, _n in METAR_WX:
+    for c in cs: STATIC.setdefault(c, set()).add("机场天气实况 METAR")
+for c in ("MH0303", "MH0301", "MH0403"): STATIC.setdefault(c, set()).add("机场天气实况 METAR")
+for cs, _n in SIG_HZ.values():
+    for c in cs: STATIC.setdefault(c, set()).add("航空危险天气通报 SIGMET")
+for c in ("MH0305", "MH0301", "MH0404"): STATIC.setdefault(c, set()).add("美国风暴实况报告 SPC")
+for c in set(NWS_HZ.values()): STATIC.setdefault(c, set()).add("美国气象局已观测警报 NWS")
+STATIC.setdefault("GH0202", set()).add("USGS 火山通告")
+STATIC.setdefault("EN0205", set()).add("美国林火实时 NIFC")
+STATIC.setdefault("TL0101", set()).add("abuse.ch ThreatFox")
+STATIC.setdefault("TL0107", set()).add("OpenPhish 钓鱼列表")
+STATIC.setdefault("TL0401", set()).add("ADS-B 紧急代码 7700")
 for h in HIPS: STATIC.setdefault(h["code"], set()).add("新闻 RSS")
 
 hz = []
@@ -634,6 +801,8 @@ from collections import Counter
 # 1 实时：分钟到 1 小时；2 准实时：几小时到 1 天；3 定期：每周或更慢（含档案库）
 LATENCY = {"BIPAD 警报": 1, "BIPAD 空气质量站": 1, "USGS 地震目录": 1, "GDACS": 1, "NOAA SWPC 空间天气": 1, "IOC 海平面站": 1, "太平洋海啸预警中心": 1,
            "IODA 网络连通": 1, "Cloudflare Radar": 1, "OpenAQ 空气质量": 1, "Safecast 辐射": 1, "新闻 RSS": 1, "CelesTrak 在轨目标": 1,
+           "机场天气实况 METAR": 1, "航空危险天气通报 SIGMET": 1, "美国风暴实况报告 SPC": 1, "美国气象局已观测警报 NWS": 1, "USGS 火山通告": 1,
+           "美国林火实时 NIFC": 1, "abuse.ch ThreatFox": 1, "ADS-B 紧急代码 7700": 1, "OpenPhish 钓鱼列表": 2,
            "BIPAD 灾害事件库": 2, "NASA EONET": 2, "NASA FIRMS 火点": 2, "Sentinel-5P 大气成分": 2, "WHO 疫情通报": 2, "NASA CNEOS": 2,
            "CISA 已利用漏洞": 2, "Have I Been Pwned 数据泄露": 2, "IBTrACS 活跃气旋": 2, "NSIDC 海冰": 2, "尼泊尔央行汇率": 2, "ReliefWeb": 2,
            "WOAH WAHIS 动物疫情": 2, "Global Forest Watch": 2,
