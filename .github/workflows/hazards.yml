@@ -7,6 +7,7 @@ on:
       task: { description: "survey / scan / venues", default: "scan" }
   schedule:
     - cron: "17 * * * *"
+    - cron: "41 2 * * *"   # 每天一次：增量补齐 281 灾种的期刊排名（OpenAlex 额度按天）
 permissions:
   contents: write
   actions: write
@@ -23,7 +24,8 @@ jobs:
         with: { python-version: "3.12" }
       - name: Run
         env:
-          TASK: ${{ github.event.inputs.task || 'scan' }}
+          TASK: ${{ github.event.inputs.task || (github.event.schedule == '41 2 * * *' && 'venues') || 'scan' }}
+          OPENALEX_API_KEY: ${{ secrets.OPENALEX_API_KEY }}
           FIRMS_MAP_KEY: ${{ secrets.FIRMS_MAP_KEY }}
           CF_RADAR_TOKEN: ${{ secrets.CF_RADAR_TOKEN }}
           RELIEFWEB_APPNAME: ${{ secrets.RELIEFWEB_APPNAME }}
@@ -35,7 +37,7 @@ jobs:
           mkdir -p out; git fetch -q origin events || true
           set +e
           if [ "$TASK" = "survey" ]; then python3 tools/source_survey.py out/survey.json > out/run.log 2>&1
-          elif [ "$TASK" = "venues" ]; then python3 tools/venue_rank.py out/venues.json > out/run.log 2>&1
+          elif [ "$TASK" = "venues" ]; then git show origin/events:hazards/venues.json > prev_venues.json 2>/dev/null; python3 tools/venue_rank.py out/venues.json prev_venues.json > out/venues.log 2>&1; echo "exit=$?" >> out/venues.log; tail -40 out/venues.log; exit 0
           else python3 tools/hazard_scan.py out > out/run.log 2>&1; fi
           echo "exit=$?" >> out/run.log; tail -40 out/run.log
       - name: Save to events branch
@@ -48,5 +50,5 @@ jobs:
           # 有新的事件候选时，立刻让证据包工作流跑一次（推送用的是 GITHUB_TOKEN，不会自动触发别的工作流）
           if git diff --name-only HEAD~1 HEAD 2>/dev/null | grep -q scan_events.json; then gh workflow run evidence.yml --ref events -R "$GITHUB_REPOSITORY" || true; fi
         env:
-          TASK: ${{ github.event.inputs.task || 'scan' }}
+          TASK: ${{ github.event.inputs.task || (github.event.schedule == '41 2 * * *' && 'venues') || 'scan' }}
           GH_TOKEN: ${{ github.token }}
