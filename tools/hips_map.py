@@ -1,4 +1,4 @@
-"""UNDRR-ISC 灾害信息档案（HIPs）2025 版 281 种灾害 → EVEREST 覆盖情况。
+"""UNDRR-ISC 灾害信息档案（HIPs）2025 版 281 种灾害的中文名（覆盖情况由 tools/hazard_scan.py 实测）。
 输入：data/taxonomy/hips2025_source.json（取自 IFRC Montandon 文档的 2025 完整列表）
 输出：data/taxonomy/hips2025_everest.json、docs/HAZARDS_281.md
 状态：
@@ -48,61 +48,7 @@ ZH = {
  "TL0601": "放射性废物", "TL0602": "放射性物质", "TL0603": "核材料",
  "SO0101": "国际武装冲突", "SO0102": "非国际武装冲突", "SO0103": "内乱", "SO0201": "未爆弹药", "SO0202": "冲突造成的环境破坏", "SO0301": "暴力", "SO0302": "踩踏", "SO0303": "自杀聚集", "SO0401": "金融冲击",
 }
-# 已能自动发现事件并做证据包的灾种：发现来源
-EVENT = {
- "MH0600": "BIPAD 洪水警报、GDACS 洪水、水位越线、新闻线索", "MH0603": "BIPAD 洪水警报、新闻线索（flash flood）", "MH0604": "BIPAD 洪水警报、水位越线",
- "MH0607": "新闻线索（glacial lake / GLOF）；冰湖出口水位站（Imja、Tsho Rolpa）", "MH0801": "新闻线索（avalanche）；BIPAD 雪崩警报",
- "MH0403": "新闻线索（blizzard）", "MH0406": "新闻线索（snowstorm）", "MH0102": "BIPAD 雷击警报、新闻线索", "MH0404": "新闻线索（hailstorm）", "MH0502": "BIPAD 寒潮警报、新闻线索",
- "GH0101": "USGS M5 以上、GDACS 地震、新闻线索", "GH0300": "USGS 崩塌/滑坡、BIPAD 滑坡警报、新闻线索", "GH0301": "USGS 崩塌、新闻线索（rockfall / ice avalanche）", "GH0303": "新闻线索（debris flow）", "GH0304": "BIPAD 滑坡警报、新闻线索",
- "EN0205": "BIPAD 森林火灾警报、GDACS 野火、新闻线索", "TL0205": "新闻线索（dam breach / dam collapse）", "MH0401": "GDACS 干旱（慢性，只记录通报）",
- "BI0204": "新闻线索（cholera）", "BI0207": "新闻线索（dengue）", "BI0110": "新闻线索（outbreak）", "MH0309": "GDACS 热带气旋（影响喜马拉雅南麓时）",
-}
-RECORD = {
- "ET0101": "地磁 Kp 指数（GFZ）", "ET0102": "地磁 Kp（电离层扰动的旁证）", "TL0209": "NASA 夜间灯光（需 Earthdata）", "TL0211": "IODA、Cloudflare Radar（需令牌）", "TL0212": "IODA、Cloudflare Radar（需令牌）",
- "MH0402": "卫星和影像前后对比；BIPAD 雨量站（待接）", "MH0610": "水位站", "MH0608": "水位站、卫星影像", "TL0207": "IODA、夜间灯光、水位站停报", "TL0204": "新闻、维基百科、人工证据",
- "TL0309": "同一事件的多源记录（例如洪水冲毁水电站）", "GH0311": "Sentinel-1 干涉（外部计算）", "GH0309": "Sentinel-1 干涉（外部计算）、GNSS", "EN0305": "坡面雷达监测（背景）",
- "TL0405": "BIPAD 道路中断记录（背景）", "TL0401": "ADS-B 航迹（背景）", "EN0103": "BIPAD 空气污染警报（加德满都谷地，背景）", "EN0104": "Sentinel-5P 气溶胶（背景）",
-}
-SOURCE = {
- "MH0101": "闪电定位（Blitzortung，仅非商业）", "MH0103": "闪电定位（Blitzortung）", "MH0201": "Sentinel-5P 气溶胶、MODIS", "MH0202": "Himawari 可见光", "MH0203": "Sentinel-5P、OpenAQ（需密钥）", "MH0205": "FIRMS 火点、Sentinel-5P",
- "MH0301": "地面气象站观测（尼泊尔水文气象局）", "MH0405": "MODIS / VIIRS 积雪", "MH0501": "地面气象站实测", "MH0504": "地面气象站实测", "MH0509": "地面气象站实测",
- "ET0103": "NOAA SWPC GOES X 射线（只保留 7 天）", "ET0104": "NOAA SWPC 质子通量", "ET0202": "Sentinel-5P 紫外指数", "ET0201": "NASA CNEOS 火球数据库", "ET0203": "NASA CNEOS 火球数据库", "ET0206": "Space-Track（需注册）",
- "GH0302": "Sentinel-1/2 影像", "GH0305": "Sentinel-1/2 影像", "GH0307": "地震后影像", "GH0403": "Sentinel-2 影像（慢性）", "GH0404": "Sentinel-2 影像（慢性）",
- "EN0201": "Global Forest Watch 林地损失（周报）", "EN0202": "Global Forest Watch", "EN0203": "Global Forest Watch", "EN0301": "Sentinel-2（慢性）", "EN0304": "Sentinel-2（慢性）", "EN0501": "GBIF 物种记录（慢性）",
- "BI0101": "WHO 疫情通报（Disease Outbreak News）", "BI0103": "WHO 疫情通报", "BI0108": "WHO 疫情通报", "BI0113": "WHO 疫情通报、WOAH 动物疫情（WAHIS）", "BI0219": "WHO 疫情通报", "BI0221": "WHO 疫情通报",
- "BI0243": "WHO FluNet", "BI0245": "WHO 疫情通报、WOAH WAHIS", "BI0302": "WOAH WAHIS", "BI0306": "WOAH WAHIS", "BI0307": "WOAH WAHIS", "BI0310": "WOAH WAHIS", "BI0401": "FAO 虫害通报", "BI0402": "FAO 沙漠蝗通报",
- "BI0604": "新闻线索", "BI0605": "新闻线索", "TL0201": "新闻、人工证据", "TL0203": "新闻、人工证据", "TL0213": "新闻、人工证据", "TL0215": "水位站、新闻", "TL0304": "新闻、地震台（爆炸信号）", "TL0305": "FIRMS 火点、新闻",
- "TL0307": "新闻", "TL0404": "新闻", "TL0402": "新闻",
-}
-REGION = set("MH0302 MH0305 MH0306 MH0307 MH0308 MH0503 MH0601 MH0602 MH0605 MH0609 MH0701 MH0702 MH0703 MH0704 MH0705 MH0706 MH0707 MH0708 MH0204 "
-             "GH0201 GH0202 GH0203 GH0204 GH0205 GH0306 GH0308 GH0310 GH0401 GH0405 GH0406 EN0207 EN0302 EN0303 EN0401 EN0402 EN0404 EN0206 "
-             "BI0215 BI0209 BI0220 BI0241 BI0242 BI0309 BI0311 BI0313 BI0314 BI0238 BI0105 TL0403 TL0308 TL0506".split())
-out = []
-for h in H:
-    c = h["code"]
-    if c in EVENT: st, src = "event", EVENT[c]
-    elif c in RECORD: st, src = "record", RECORD[c]
-    elif c in SOURCE: st, src = "source", SOURCE[c]
-    elif c in REGION: st, src = "region", "喜马拉雅一带不发生或不适用"
-    else: st, src = "out", "不是自然事件，或没有公开、带时间的观测记录"
-    out.append({**h, "label_zh": ZH.get(c, h["label"]), "family_zh": FAM[h["family"]], "status": st, "how": src})
-assert len(out) == 281 and all(o["label_zh"] != o["label"] or o["code"] not in ZH for o in out)
+out = [{**h, "label_zh": ZH.get(h["code"], h["label"]), "family_zh": FAM[h["family"]]} for h in H]
+assert len(out) == 281
 json.dump(out, open(f"{R}/data/taxonomy/hips2025_everest.json", "w"), ensure_ascii=False, indent=1)
-from collections import Counter
-ST = {"event": "自动发现 + 证据包", "record": "证据包里有记录", "source": "有公开来源，待接", "region": "本地不适用", "out": "不在范围"}
-cnt = Counter(o["status"] for o in out)
-md = ["# 281 种灾害的覆盖情况", "", "灾害分类取自联合国减灾署和国际科学理事会《灾害信息档案》（UNDRR-ISC Hazard Information Profiles，2025 版）：281 种灾害，分 8 大类。完整列表取自 IFRC Montandon 的文档（和 Montandon 用的是同一套编码）。机器可读版：[`data/taxonomy/hips2025_everest.json`](../data/taxonomy/hips2025_everest.json)。由 `tools/hips_map.py` 生成。", "",
-      "EVEREST 只记录已经发生、被公开来源测到的事，不预测；所以“不在范围”多是社会、网络、慢性污染这类没有公开观测记录、或不是自然事件的灾种。", "",
-      "| 状态 | 数量 | 含义 |", "|---|---|---|"]
-for k in ST: md.append(f"| {ST[k]} | {cnt[k]} | " + {"event": "能自动发现事件，并生成多源证据包", "record": "不单独成为事件，但证据包里会记录（旁证或背景）", "source": "有公开观测来源，还没接", "region": "喜马拉雅/珠峰一带不会发生（海洋、海岸、热带等）", "out": "不是自然事件，或没有公开、带时间的观测记录"}[k] + " |")
-md.append("")
-fams = []
-for o in out:
-    if o["family"] not in fams: fams.append(o["family"])
-for f in fams:
-    L = [o for o in out if o["family"] == f]; c2 = Counter(o["status"] for o in L)
-    md += [f"## {FAM[f]}（{f}）· {len(L)} 种", "", "· ".join(f"{ST[k]} {c2[k]}" for k in ST if c2[k]), "", "| 编码 | 灾害 | 状态 | 来源 / 说明 |", "|---|---|---|---|"]
-    for o in L: md.append(f"| {o['code']} | {o['label_zh']}（{o['label']}） | {ST[o['status']]} | {o['how']} |")
-    md.append("")
-open(f"{R}/docs/HAZARDS_281.md", "w").write("\n".join(md))
-print(dict(cnt))
+print("281 labels written; coverage is measured by tools/hazard_scan.py and reported by tools/hips_report.py")

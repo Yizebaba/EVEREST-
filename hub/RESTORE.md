@@ -212,3 +212,12 @@
 - 证据包 v13：带 hips；疫情类只查新闻、公开记录、世卫疫情通报；人工证据显示 C2PA 和相机拍摄时间。
 - 页面 Version 60：事件显示灾害编码；证据源页显示 281 种覆盖统计；上传时读 C2PA 来源记录和 EXIF 拍摄时间。
 - 复原：页面回退 Version 59；Worker 回退 events.js、rt.js、mcp.js 到 99a9269；证据包回退 VERSION 12 那次提交。
+
+---
+# 第三十二次改动（281 种灾害逐个实测接入）
+- 新工作流 .github/workflows/hazards.yml（每小时 :17）：tools/hazard_scan.py 逐个请求 33 个公开来源（BIPAD 事件库 47 类、BIPAD 警报和空气质量、NASA EONET、USGS、GDACS、NOAA SWPC、NASA CNEOS、CelesTrak、WHO 疫情通报、WHO FluNet、WOAH WAHIS、openFDA、CISA、HIBP、IODA、尼泊尔央行汇率、Safecast、Sentinel-5P、海啸预警中心、NOAA NCEI、IOC、IBTrACS、NSIDC、GBIF、尼泊尔英文媒体与谷歌新闻 RSS；需密钥 6 个：Cloudflare Radar、GFW、FIRMS、OpenAQ、ACLED、ReliefWeb），281 种灾害逐条匹配词在 tools/hazard_keywords.py。结果写 events 分支 hazards/（scan.json、records.json 90 天、scan_events.json、run.log）。
+- 事件候选：死亡+失踪 3 人以上，或高山区自然灾害有死亡失踪；有新候选时自动触发证据包。
+- 证据包 v15：事件 150 km 内、前 1 天到后 5 天的灾种扫描记录挂到时间线。
+- docs/HAZARDS_281.md 改为实测结果（tools/hips_report.py 生成），旧的手写状态作废。
+- 页面 Version 61：证据链加“灾种 281”子页（按 8 大类、按状态筛选、数据源实测表）；数据随 live/fs 的 hz 和连接器 everest_events 更新。
+- 复原：页面回退 Version 60；删除 hazards.yml 即停止扫描；证据包回退 VERSION 14。

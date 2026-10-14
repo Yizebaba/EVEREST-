@@ -38,6 +38,13 @@ try:
             try: e["evn_png"] = "data:image/png;base64," + base64.b64encode(raw(f"events/{png}", "events")).decode()
             except Exception as x: print("图", eid, x)
         evs.append(e)
+    # 281 种灾害的实测扫描结果（hazards 工作流每小时更新）：精简后放进 live_fs 的 hz 字段
+    try:
+        sc = json.loads(raw("hazards/scan.json", "events"))
+        fs["hz"] = {"updated": sc["updated"], "src": {k: [v.get("state"), v.get("n"), v.get("local"), (v.get("err") or v.get("need") or "")[:60]] for k, v in sc["sources"].items()},
+                    "h": [[h["code"], h["state"], h["n_local_90d"], h["n_90d"], h["latest"], (h["latest_title"] or "")[:90], h.get("latest_url"), len(h["tested_ok"])] for h in sc["hazards"]]}
+    except Exception as x:
+        print("灾种扫描结果暂缺：", x)
     # 数据库单个文档上限 256 KiB：只给最近 3 个事件带图，超了就从最早的开始去掉图
     for e in sorted(evs, key=lambda e: e["t"])[:-3]: e.pop("evn_png", None)
     mi = json.loads(raw("index.json", "events")).get("manual") or {}
@@ -48,13 +55,6 @@ try:
     json.dump(evd, open(f"{out}/live_ev.json", "w"), ensure_ascii=False)
     # 同时并进 live_fs.json 的 ev 字段：定时任务原本就写 live/fs，不用改任务也能把事件送到页面
     fs["ev"] = evd
-    # 281 种灾害的实测扫描结果（hazards 工作流每小时更新）：精简后放进 live_fs 的 hz 字段
-    try:
-        sc = json.loads(raw("hazards/scan.json", "events"))
-        fs["hz"] = {"updated": sc["updated"], "src": {k: [v.get("state"), v.get("n"), v.get("local"), (v.get("err") or v.get("need") or "")[:60]] for k, v in sc["sources"].items()},
-                    "h": [[h["code"], h["state"], h["n_local_90d"], h["n_90d"], h["latest"], (h["latest_title"] or "")[:90], h.get("latest_url"), len(h["tested_ok"])] for h in sc["hazards"]]}
-    except Exception as x:
-        print("灾种扫描结果暂缺：", x)
     json.dump(fs, open(f"{out}/live_fs.json", "w"), ensure_ascii=False)
     print("live_ev", os.path.getsize(f"{out}/live_ev.json"), "bytes,", len(evs), "events；live_fs", os.path.getsize(f"{out}/live_fs.json"), "bytes")
 except Exception as e:
