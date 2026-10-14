@@ -1241,7 +1241,7 @@ def main():
     for ev in evs:
         age = (NOW - P(ev["t"])).days
         old = idx["events"].get(ev["id"])
-        fresh = old and old.get("v") == VERSION and old.get("src_n") == len(ev.get("src", [])) and old.get("man") == manual_sig(ev["id"]) and (age > 14 or (NOW - P(old["built"])).total_seconds() < 5 * 3600)
+        fresh = old and old.get("v") == VERSION and old.get("src_n") == len(ev.get("src", [])) and old.get("man") == manual_sig(ev["id"]) and (age > 14 or (NOW - P(old["built"])).total_seconds() < 50 * 60)
         if fresh:
             continue
         print("build", ev["id"]); RECEIPTS.clear(); pack = build(ev)
