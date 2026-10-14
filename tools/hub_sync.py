@@ -88,3 +88,36 @@ try:
     print("live_ev", os.path.getsize(f"{out}/live_ev.json"), "bytes,", len(evs), "events；live_fs", os.path.getsize(f"{out}/live_fs.json"), "bytes")
 except Exception as e:
     print("事件证据包暂缺：", e)
+
+# 全部灾种扫描记录（不只珠峰）：最近 30 天、按时间倒序，精简后写 live_hzr.json（→ live/hzr），底部事件栏“全部记录”用。
+try:
+    rec = json.loads(raw("hazards/records.json", "events"))
+    R = [r for r in rec.get("records", []) if r.get("t") and not r.get("observation")]
+    cut = time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime(time.time() - 30 * 86400))
+    R = sorted([r for r in R if r["t"] >= cut], key=lambda r: r["t"], reverse=True)
+    def row(r):
+        x = [r["t"], (r.get("title") or "")[:140], r.get("src") or "", r.get("url") or "", r.get("lat"), r.get("lon"), (r.get("codes") or [])[:3], 1 if r.get("local") else 0]
+        if "deaths" in r: x.append([r.get("deaths"), r.get("injured"), r.get("missing")])
+        return x
+    rows = []; size = 200
+    for r in R:
+        x = row(r); size += len(json.dumps(x, ensure_ascii=False).encode()) + 1
+        if size > 225000: break
+        rows.append(x)
+    json.dump({"updated": rec.get("updated"), "total": len(R), "n": len(rows), "r": rows}, open(f"{out}/live_hzr.json", "w"), ensure_ascii=False)
+    print("live_hzr", os.path.getsize(f"{out}/live_hzr.json"), "bytes,", len(rows), "/", len(R), "records")
+except Exception as e:
+    print("灾种扫描记录暂缺：", e)
+
+# 外部工具库目录（tools/catalog.py，随灾种扫描每小时更新）→ live_lib.json（→ live/lib）
+try:
+    cat = json.loads(raw("hazards/catalog.json", "events"))
+    lib = {"updated": cat.get("updated"),
+           "skills": [{k: s.get(k) for k in ("name", "desc", "url", "raw", "src", "license")} for s in cat.get("skills", [])],
+           "plugins": [{k: p.get(k) for k in ("name", "desc", "cat", "src", "repo", "url", "install")} for p in cat.get("plugins", [])],
+           "mcp": [{k: m.get(k) for k in ("name", "title", "desc", "version", "repo", "remote", "pkg", "site")} for m in cat.get("mcp", [])]}
+    while len(json.dumps(lib, ensure_ascii=False).encode()) > 225000 and lib["mcp"]: lib["mcp"] = lib["mcp"][:int(len(lib["mcp"]) * .8)]
+    json.dump(lib, open(f"{out}/live_lib.json", "w"), ensure_ascii=False)
+    print("live_lib", os.path.getsize(f"{out}/live_lib.json"), "bytes;", len(lib["skills"]), "skills", len(lib["plugins"]), "plugins", len(lib["mcp"]), "mcp")
+except Exception as e:
+    print("外部工具库目录暂缺：", e)

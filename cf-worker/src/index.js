@@ -240,11 +240,11 @@ async function pushStatus(env, log) {
   log.gh_status = await pushFile(env, "facet_status.json", { t: nowIso(), ...st }, `facet status ${nowIso().slice(0, 16)}`, log);
   const rt = await getMeta(env, "rt");
   if (rt) log.gh_rt = await pushFile(env, "rt.json", rtPublic(JSON.parse(rt)), `rt ${nowIso().slice(0, 16)}`, log);
-  // 卫星图像每 3 小时存一张到 GitHub（平台页面不能直接加载外部图片）
+  // 卫星图像每 30 分钟存一份到 GitHub（平台页面不能直接加载外部图片）
   const li = await getMeta(env, "gh_img_at");
-  if (!li || Date.now() - Date.parse(li) > 3 * 3600e3) {
+  if (!li || Date.now() - Date.parse(li) > 30 * 60e3) {
     await setMeta(env, "gh_img_at", nowIso());
-    for (const [k, path] of [["himawari_vis", "img/himawari_vis.png"], ["meteosat_snow", "img/meteosat_snow.png"]]) {
+    for (const [k, path] of [["himawari_vis", "img/himawari_vis.jpg"], ["himawari_ir", "img/himawari_ir.jpg"], ["himawari_am", "img/himawari_am.jpg"], ["meteosat_natural", "img/meteosat_natural.jpg"], ["meteosat_snow", "img/meteosat_snow.jpg"]]) {
       try { const r = await fetch(IMG[k]); log.fetches++; if (r.ok) log["gh_" + k] = await pushFile(env, path, new Uint8Array(await r.arrayBuffer()), `img ${k} ${nowIso().slice(0, 16)}`, log); }
       catch (e) { log["gh_" + k] = String(e).slice(0, 80); }
     }
