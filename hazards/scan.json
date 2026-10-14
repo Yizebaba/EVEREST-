@@ -1,241 +1,285 @@
 {
- "updated": "2026-10-14T07:42:33Z",
+ "updated": "2026-10-14T08:37:46Z",
  "sources": {
   "BIPAD 灾害事件库": {
    "state": "ok",
    "n": 500,
    "local": 500,
    "latest": "2026-10-13T18:15:00Z",
-   "sec": 4.5,
+   "sec": 5.0,
    "window_days": 30,
-   "hazard_types": 47
+   "hazard_types": 47,
+   "latency": "准实时"
   },
   "BIPAD 警报": {
    "state": "ok",
    "n": 100,
    "local": 100,
    "latest": "2026-10-11T02:45:00Z",
-   "sec": 2.4
+   "sec": 2.5,
+   "latency": "实时"
   },
   "BIPAD 空气质量站": {
    "state": "ok",
    "n": 0,
    "local": 0,
    "latest": null,
-   "sec": 1.6,
-   "stations": 31
+   "sec": 2.0,
+   "stations": 31,
+   "latency": "实时"
   },
   "NASA EONET": {
    "state": "ok",
-   "n": 209,
+   "n": 208,
    "local": 1,
    "latest": "2026-10-14T00:00:00Z",
-   "sec": 0.6
+   "sec": 2.5,
+   "latency": "准实时"
   },
   "USGS 地震目录": {
    "state": "ok",
    "n": 14,
    "local": 5,
    "latest": "2026-10-13T18:45:03Z",
-   "sec": 0.5
+   "sec": 0.8,
+   "latency": "实时"
   },
   "GDACS": {
    "state": "ok",
    "n": 100,
    "local": 1,
-   "latest": "2026-10-14T05:09:35Z",
-   "sec": 1.9
+   "latest": "2026-10-14T06:27:06Z",
+   "sec": 3.3,
+   "latency": "实时"
   },
   "NOAA SWPC 空间天气": {
    "state": "ok",
    "n": 90,
    "local": 90,
    "latest": "2026-10-13T20:58:58Z",
-   "sec": 0.2
+   "sec": 0.1,
+   "latency": "实时"
   },
   "NASA CNEOS": {
    "state": "ok",
    "n": 82,
    "local": 0,
    "latest": "2026-10-13T18:30:00Z",
-   "sec": 0.6
+   "sec": 0.3,
+   "latency": "准实时"
   },
   "CelesTrak 在轨目标": {
    "state": "ok",
    "n": 245,
    "local": 0,
-   "latest": "2026-10-14T07:42:33Z",
-   "sec": 3.7
+   "latest": "2026-10-14T08:37:46Z",
+   "sec": 56.2,
+   "latency": "实时"
   },
   "WHO 疫情通报": {
    "state": "ok",
    "n": 100,
    "local": 0,
    "latest": "2026-10-10T15:00:00Z",
-   "sec": 1.0
+   "sec": 1.3,
+   "latency": "准实时"
   },
   "WHO FluNet（尼泊尔）": {
    "state": "ok",
    "n": 8,
    "local": 8,
    "latest": "2026-09-28T00:00:00Z",
-   "sec": 0.6
+   "sec": 0.2,
+   "latency": "定期"
   },
   "WOAH WAHIS 动物疫情": {
    "state": "ok",
    "n": 50,
    "local": 0,
    "latest": "2026-10-08T00:00:00Z",
-   "sec": 3.1
+   "sec": 3.1,
+   "latency": "准实时"
   },
   "openFDA 食品药品召回": {
    "state": "ok",
    "n": 100,
    "local": 0,
    "latest": "2026-10-07T00:00:00Z",
-   "sec": 1.2
+   "sec": 0.5,
+   "latency": "定期"
   },
   "CISA 已利用漏洞": {
    "state": "ok",
    "n": 32,
    "local": 0,
    "latest": "2026-10-13T00:00:00Z",
-   "sec": 0.1
+   "sec": 0.1,
+   "latency": "准实时"
   },
   "Have I Been Pwned 数据泄露": {
    "state": "ok",
    "n": 9,
    "local": 0,
    "latest": "2026-10-14T06:01:26Z",
-   "sec": 0.5
+   "sec": 0.1,
+   "latency": "准实时"
   },
   "Cloudflare Radar": {
    "state": "key",
-   "need": "CF_RADAR_TOKEN"
+   "need": "CF_RADAR_TOKEN",
+   "latency": "实时"
   },
   "IODA 网络连通": {
    "state": "ok",
    "n": 0,
    "local": 0,
    "latest": null,
-   "sec": 0.2
+   "sec": 0.7,
+   "latency": "实时"
   },
   "尼泊尔央行汇率": {
-   "state": "fail",
-   "err": "<urlopen error timed out>",
-   "sec": 60.8
+   "state": "ok",
+   "n": 0,
+   "local": 0,
+   "latest": null,
+   "sec": 3.3,
+   "usd_latest": [
+    "2026-10-14",
+    152.76
+   ],
+   "latency": "准实时"
   },
   "Safecast 辐射": {
    "state": "ok",
    "n": 0,
    "local": 0,
    "latest": null,
-   "sec": 7.7,
-   "measurements_1y": 100
+   "sec": 0.4,
+   "measurements_1y": 100,
+   "latency": "实时"
   },
   "Sentinel-5P 大气成分": {
    "state": "ok",
-   "n": 7,
-   "local": 7,
+   "n": 6,
+   "local": 6,
    "latest": "2026-10-13T08:11:37Z",
-   "sec": 0.8,
+   "sec": 0.9,
    "products": [
     "L2__AER_AI",
     "L2__CH4___",
-    "L2__CO____",
     "L2__HCHO__",
     "L2__NO2___",
     "L2__O3____",
     "L2__SO2___"
-   ]
+   ],
+   "latency": "准实时"
   },
   "太平洋海啸预警中心": {
    "state": "ok",
    "n": 2,
    "local": 0,
    "latest": "2026-10-13T12:36:06Z",
-   "sec": 0.2
+   "sec": 0.2,
+   "latency": "实时"
   },
   "NOAA NCEI 历史灾害库": {
    "state": "ok",
    "n": 42,
    "local": 0,
    "latest": "2026-10-09T00:00:00Z",
-   "sec": 0.9
+   "sec": 0.4,
+   "latency": "定期"
   },
   "IOC 海平面站": {
    "state": "ok",
    "n": 1,
    "local": 0,
-   "latest": "2026-10-14T07:42:33Z",
-   "sec": 6.4,
+   "latest": "2026-10-14T08:37:46Z",
+   "sec": 6.5,
    "stations": 2373,
-   "reporting_6h": 1767
+   "reporting_6h": 1768,
+   "latency": "实时"
   },
   "IBTrACS 活跃气旋": {
    "state": "ok",
    "n": 7,
    "local": 0,
    "latest": "2026-10-13T00:00:00Z",
-   "sec": 0.3
+   "sec": 0.7,
+   "latency": "准实时"
   },
   "NSIDC 海冰": {
    "state": "ok",
    "n": 2,
    "local": 0,
    "latest": "2026-10-12T00:00:00Z",
-   "sec": 1.6
+   "sec": 2.0,
+   "latency": "准实时"
   },
   "史密森尼火山周报": {
    "state": "fail",
    "err": "HTTP Error 403: Forbidden",
-   "sec": 0.1
+   "sec": 0.1,
+   "latency": "定期"
   },
   "GBIF 物种记录（尼泊尔）": {
    "state": "ok",
    "n": 2,
    "local": 2,
-   "latest": "2026-10-14T07:42:33Z",
-   "sec": 1.4
+   "latest": "2026-10-14T08:37:46Z",
+   "sec": 1.6,
+   "latency": "定期"
   },
   "Global Forest Watch": {
    "state": "key",
-   "need": "GFW_API_KEY"
+   "need": "GFW_API_KEY",
+   "latency": "准实时"
   },
   "NASA FIRMS 火点": {
    "state": "key",
-   "need": "FIRMS_MAP_KEY"
+   "need": "FIRMS_MAP_KEY",
+   "latency": "准实时"
   },
   "OpenAQ 空气质量": {
    "state": "key",
-   "need": "OPENAQ_API_KEY"
+   "need": "OPENAQ_API_KEY",
+   "latency": "实时"
   },
   "ACLED 冲突事件": {
    "state": "key",
-   "need": "ACLED_PASSWORD"
+   "need": "ACLED_PASSWORD",
+   "latency": "定期"
   },
   "ReliefWeb": {
    "state": "key",
-   "need": "RELIEFWEB_APPNAME"
+   "need": "RELIEFWEB_APPNAME",
+   "latency": "准实时"
   },
   "新闻 RSS": {
    "state": "ok",
-   "n": 27,
-   "local": 27,
-   "latest": "2026-10-14T07:42:33Z",
-   "sec": 57.3,
+   "n": 153,
+   "local": 153,
+   "latest": "2026-10-14T08:37:46Z",
+   "sec": 4.4,
    "feeds": {
     "Kathmandu Post": 40,
     "OnlineKhabar English": 20,
-    "The Himalayan Times": "失败：<urlopen error timed out>",
+    "The Himalayan Times": 50,
     "Republica": "失败：HTTP Error 404: Not Found",
     "Nepali Times": 30,
     "Rising Nepal": 10,
     "ReliefWeb（尼泊尔）": "失败：no element found: line 1, column 0",
-    "Google News（尼泊尔灾害）": "失败：HTTP Error 503: Service Unavailable",
-    "Google News（西藏灾害）": "失败：HTTP Error 503: Service Unavailable"
-   }
+    "Google News（尼泊尔灾害）": 100,
+    "Google News（西藏灾害）": 46
+   },
+   "latency": "实时"
   }
+ },
+ "by_latency": {
+  "只有新闻": 122,
+  "准实时": 116,
+  "实时": 35,
+  "定期": 8
  },
  "by_state": {
   "ok_none": 177,
@@ -307,7 +351,8 @@
    "latest_title": null,
    "latest_url": null,
    "observed": null,
-   "state": "ok_none"
+   "state": "ok_none",
+   "rt_tier": "只有新闻"
   },
   {
    "code": "MH0102",
@@ -329,7 +374,8 @@
    "latest_title": "Thunderbolt at Bhojpur Municipality-11",
    "latest_url": "https://bipadportal.gov.np/incidents/95715",
    "observed": null,
-   "state": "local"
+   "state": "local",
+   "rt_tier": "准实时"
   },
   {
    "code": "MH0103",
@@ -351,7 +397,8 @@
    "latest_title": null,
    "latest_url": null,
    "observed": null,
-   "state": "ok_none"
+   "state": "ok_none",
+   "rt_tier": "准实时"
   },
   {
    "code": "MH0201",
@@ -375,7 +422,8 @@
    "latest_title": null,
    "latest_url": null,
    "observed": "Sentinel-5P __AER_AI 覆盖喜马拉雅（有观测，未计算数值）",
-   "state": "observed"
+   "state": "observed",
+   "rt_tier": "准实时"
   },
   {
    "code": "MH0202",
@@ -395,7 +443,8 @@
    "latest_title": null,
    "latest_url": null,
    "observed": null,
-   "state": "ok_none"
+   "state": "ok_none",
+   "rt_tier": "只有新闻"
   },
   {
    "code": "MH0203",
@@ -421,7 +470,8 @@
    "latest_title": "Dang AQI 152.0",
    "latest_url": null,
    "observed": "Sentinel-5P __AER_AI 覆盖喜马拉雅（有观测，未计算数值）",
-   "state": "local"
+   "state": "local",
+   "rt_tier": "实时"
   },
   {
    "code": "MH0204",
@@ -443,7 +493,8 @@
    "latest_title": null,
    "latest_url": null,
    "observed": null,
-   "state": "ok_none"
+   "state": "ok_none",
+   "rt_tier": "准实时"
   },
   {
    "code": "MH0205",
@@ -468,7 +519,8 @@
    "latest_title": null,
    "latest_url": null,
    "observed": "Sentinel-5P __AER_AI 覆盖喜马拉雅（有观测，未计算数值）",
-   "state": "observed"
+   "state": "observed",
+   "rt_tier": "准实时"
   },
   {
    "code": "MH0301",
@@ -490,7 +542,8 @@
    "latest_title": "Wind storm at Parsagadhi Municipality-1",
    "latest_url": "https://bipadportal.gov.np/incidents/95709",
    "observed": null,
-   "state": "local"
+   "state": "local",
+   "rt_tier": "准实时"
   },
   {
    "code": "MH0302",
@@ -510,7 +563,8 @@
    "latest_title": null,
    "latest_url": null,
    "observed": null,
-   "state": "ok_none"
+   "state": "ok_none",
+   "rt_tier": "只有新闻"
   },
   {
    "code": "MH0303",
@@ -530,7 +584,8 @@
    "latest_title": null,
    "latest_url": null,
    "observed": null,
-   "state": "ok_none"
+   "state": "ok_none",
+   "rt_tier": "只有新闻"
   },
   {
    "code": "MH0304",
@@ -552,7 +607,8 @@
    "latest_title": "Wind storm at Parsagadhi Municipality-1",
    "latest_url": "https://bipadportal.gov.np/incidents/95709",
    "observed": null,
-   "state": "local"
+   "state": "local",
+   "rt_tier": "准实时"
   },
   {
    "code": "MH0305",
@@ -572,7 +628,8 @@
    "latest_title": null,
    "latest_url": null,
    "observed": null,
-   "state": "ok_none"
+   "state": "ok_none",
+   "rt_tier": "只有新闻"
   },
   {
    "code": "MH0306",
@@ -596,7 +653,8 @@
    "latest_title": "Hurricane Simon",
    "latest_url": "https://eonet.gsfc.nasa.gov/api/v3/events/EONET_25094",
    "observed": null,
-   "state": "global"
+   "state": "global",
+   "rt_tier": "准实时"
   },
   {
    "code": "MH0307",
@@ -620,7 +678,8 @@
    "latest_title": "Hurricane Simon",
    "latest_url": "https://eonet.gsfc.nasa.gov/api/v3/events/EONET_25094",
    "observed": null,
-   "state": "global"
+   "state": "global",
+   "rt_tier": "准实时"
   },
   {
    "code": "MH0308",
@@ -644,7 +703,8 @@
    "latest_title": "Hurricane Simon",
    "latest_url": "https://eonet.gsfc.nasa.gov/api/v3/events/EONET_25094",
    "observed": null,
-   "state": "global"
+   "state": "global",
+   "rt_tier": "准实时"
   },
   {
    "code": "MH0309",
@@ -670,7 +730,8 @@
    "latest_title": "Hurricane Simon",
    "latest_url": "https://eonet.gsfc.nasa.gov/api/v3/events/EONET_25094",
    "observed": null,
-   "state": "global"
+   "state": "global",
+   "rt_tier": "实时"
   },
   {
    "code": "MH0401",
@@ -696,7 +757,8 @@
    "latest_title": null,
    "latest_url": null,
    "observed": null,
-   "state": "ok_none"
+   "state": "ok_none",
+   "rt_tier": "实时"
   },
   {
    "code": "MH0402",
@@ -720,7 +782,8 @@
    "latest_title": "OnlineKhabar English：More than 2,500 EVs stranded in Mustang",
    "latest_url": "https://english.onlinekhabar.com/more-than-2500-evs-stranded-in-mustang.html",
    "observed": null,
-   "state": "local"
+   "state": "local",
+   "rt_tier": "实时"
   },
   {
    "code": "MH0403",
@@ -740,7 +803,8 @@
    "latest_title": null,
    "latest_url": null,
    "observed": null,
-   "state": "ok_none"
+   "state": "ok_none",
+   "rt_tier": "只有新闻"
   },
   {
    "code": "MH0404",
@@ -762,7 +826,8 @@
    "latest_title": null,
    "latest_url": null,
    "observed": null,
-   "state": "ok_none"
+   "state": "ok_none",
+   "rt_tier": "准实时"
   },
   {
    "code": "MH0405",
@@ -784,7 +849,8 @@
    "latest_title": "Rising Nepal：Light rainfall likely in Bagmati, Gandaki and Lumbini",
    "latest_url": "https://risingnepaldaily.com/news/87787",
    "observed": null,
-   "state": "local"
+   "state": "local",
+   "rt_tier": "准实时"
   },
   {
    "code": "MH0406",
@@ -806,7 +872,8 @@
    "latest_title": null,
    "latest_url": null,
    "observed": null,
-   "state": "ok_none"
+   "state": "ok_none",
+   "rt_tier": "准实时"
   },
   {
    "code": "MH0501",
@@ -830,7 +897,8 @@
    "latest_title": null,
    "latest_url": null,
    "observed": null,
-   "state": "ok_none"
+   "state": "ok_none",
+   "rt_tier": "准实时"
   },
   {
    "code": "MH0502",
@@ -854,7 +922,8 @@
    "latest_title": null,
    "latest_url": null,
    "observed": null,
-   "state": "ok_none"
+   "state": "ok_none",
+   "rt_tier": "准实时"
   },
   {
    "code": "MH0503",
@@ -874,7 +943,8 @@
    "latest_title": null,
    "latest_url": null,
    "observed": null,
-   "state": "ok_none"
+   "state": "ok_none",
+   "rt_tier": "只有新闻"
   },
   {
    "code": "MH0504",
@@ -894,7 +964,8 @@
    "latest_title": null,
    "latest_url": null,
    "observed": null,
-   "state": "ok_none"
+   "state": "ok_none",
+   "rt_tier": "只有新闻"
   },
   {
    "code": "MH0505",
@@ -914,7 +985,8 @@
    "latest_title": null,
    "latest_url": null,
    "observed": null,
-   "state": "ok_none"
+   "state": "ok_none",
+   "rt_tier": "只有新闻"
   },
   {
    "code": "MH0506",
@@ -934,7 +1006,8 @@
    "latest_title": null,
    "latest_url": null,
    "observed": null,
-   "state": "ok_none"
+   "state": "ok_none",
+   "rt_tier": "只有新闻"
   },
   {
    "code": "MH0507",
@@ -954,7 +1027,8 @@
    "latest_title": null,
    "latest_url": null,
    "observed": null,
-   "state": "ok_none"
+   "state": "ok_none",
+   "rt_tier": "只有新闻"
   },
   {
    "code": "MH0508",
@@ -974,7 +1048,8 @@
    "latest_title": null,
    "latest_url": null,
    "observed": null,
-   "state": "ok_none"
+   "state": "ok_none",
+   "rt_tier": "只有新闻"
   },
   {
    "code": "MH0509",
@@ -994,7 +1069,8 @@
    "latest_title": null,
    "latest_url": null,
    "observed": null,
-   "state": "ok_none"
+   "state": "ok_none",
+   "rt_tier": "只有新闻"
   },
   {
    "code": "MH0510",
@@ -1014,7 +1090,8 @@
    "latest_title": null,
    "latest_url": null,
    "observed": null,
-   "state": "ok_none"
+   "state": "ok_none",
+   "rt_tier": "只有新闻"
   },
   {
    "code": "MH0600",
@@ -1034,13 +1111,14 @@
     "NASA EONET",
     "新闻 RSS"
    ],
-   "n_90d": 209,
-   "n_local_90d": 182,
-   "latest": "2026-10-14T07:42:33Z",
+   "n_90d": 213,
+   "n_local_90d": 186,
+   "latest": "2026-10-14T08:37:46Z",
    "latest_title": "Kathmandu Post：Flood cuts off northern Gorkha’s lifeline, disrupts Manaslu trekking season",
    "latest_url": "https://kathmandupost.com/national/2026/10/14/flood-cuts-off-northern-gorkha-s-lifeline-disrupts-manaslu-trekking-season",
    "observed": null,
-   "state": "local"
+   "state": "local",
+   "rt_tier": "实时"
   },
   {
    "code": "MH0601",
@@ -1056,13 +1134,14 @@
     "IOC 海平面站",
     "新闻 RSS"
    ],
-   "n_90d": 3,
+   "n_90d": 4,
    "n_local_90d": 0,
-   "latest": "2026-10-14T07:42:33Z",
-   "latest_title": "全球 2373 个潮位站，最近 6 小时在报 1767 个",
+   "latest": "2026-10-14T08:37:46Z",
+   "latest_title": "全球 2373 个潮位站，最近 6 小时在报 1768 个",
    "latest_url": "https://www.ioc-sealevelmonitoring.org/",
    "observed": null,
-   "state": "global"
+   "state": "global",
+   "rt_tier": "实时"
   },
   {
    "code": "MH0602",
@@ -1078,13 +1157,14 @@
     "IOC 海平面站",
     "新闻 RSS"
    ],
-   "n_90d": 3,
+   "n_90d": 4,
    "n_local_90d": 0,
-   "latest": "2026-10-14T07:42:33Z",
-   "latest_title": "全球 2373 个潮位站，最近 6 小时在报 1767 个",
+   "latest": "2026-10-14T08:37:46Z",
+   "latest_title": "全球 2373 个潮位站，最近 6 小时在报 1768 个",
    "latest_url": "https://www.ioc-sealevelmonitoring.org/",
    "observed": null,
-   "state": "global"
+   "state": "global",
+   "rt_tier": "实时"
   },
   {
    "code": "MH0603",
@@ -1098,13 +1178,14 @@
    "tested_ok": [
     "新闻 RSS"
    ],
-   "n_90d": 34,
-   "n_local_90d": 34,
-   "latest": "2026-10-14T03:53:53Z",
-   "latest_title": "Google News（尼泊尔灾害）：Nepal: Gorkha–Budhi Gandaki Flash Flood - Humanitarian Snapshot (As of 12 October 2026) - ReliefWeb",
-   "latest_url": "https://news.google.com/rss/articles/CBMisAFBVV95cUxNQnZnWlU0Q3k0ZHpfOTFnczFrVHBlYjJ1WWcyZHd2VmZzOENrbEpndktvM0NLalFMeDJnaXd6SGN6OVR6OXFPRllnRnBNSlhGb1F3S1B0eFdBWTRidzB3X01zbTRjVDhrd3RUY0o0UkFDSmFfeTFBX1o2SC13NmlaTlhMXzNaQ1pkRl81Tk1sWUktRzV4VjdrTTFhdVo2MDhCRWY2eDM1bnd0NDlLRzJvMw?oc=5",
+   "n_90d": 36,
+   "n_local_90d": 36,
+   "latest": "2026-10-14T08:12:24Z",
+   "latest_title": "Google News（尼泊尔灾害）：Landslide-triggered flash flood sweeps through Nepal's Himalayan valleys - https://eu-space.europa.eu/",
+   "latest_url": "https://news.google.com/rss/articles/CBMi6wFBVV95cUxNX29yM3ByLXlmdXhISDZLcVc1UTBTUm5scXZocmNHMExHUko2X1RZSHdLVlctUjR6VUt2QXpCUUpUcUhSdUhPek9nLTFILVJJV0loN05LcEh1WWZfckIxYl9wYVJjNGUwR3FIbloxREhRSVpSX204ZnlCZXkxbFFJNk9SdVhkUUpPaEM4SWczNFJwMXlvdEhXWlRMZURKNjY0WWRrdU5ZLUZRdWRQOHVxVFFFZUxWMFFiMzZMTFhMTVFZUE1YMW9SNjZMNmxhMG81R2dXd0VhZEFZSVRXTHFxM2MzUzh6al9lQUU0?oc=5",
    "observed": null,
-   "state": "local"
+   "state": "local",
+   "rt_tier": "只有新闻"
   },
   {
    "code": "MH0604",
@@ -1128,7 +1209,8 @@
    "latest_title": "Google News（尼泊尔灾害）：What caused Nepal’s Budhi Gandaki river flood? Officials examine landslide dam and ice avalanche theories - IndulgExpress",
    "latest_url": "https://news.google.com/rss/articles/CBMi6gFBVV95cUxNWU5YenhldC1iakk5XzNZb2FXMXdnRF9hTGk5aENHQkFLZzBzYW80OF9iQU1rOUUxN202Si1pTkNmMzBRRnBxRmVFZ0FGMjN3YWhtUUg4SkJlYkw1VDBSOVBzNXNDMGJvNU04Ml9pU3VjNFgxeHBycDRIdklobV95Q0I4SGFIVWg1WExmUDRqNkt4TmIwZlpKZkp6R1R1S3J6WlFCRGpPLXdtRnFBbmhTYnBFTDRsWGp2YW9HX3RhTjRwMGU4dWhnajY0X2pjZkJ5VC1Ta0lGbDZpRVRoZ2dTR25XRUprdXpZUkHSAfcBQVVfeXFMUGtFcmhhZGFLSE1yYUdDdlQxWVdVSW1RdU5WX2g3YWpQVjR2UUVHX2xSbnhUcWg0c2VpaDVZSThidk0yLTRHRWU3VGpLQ2Qxak9vR09HeW9Md1JoSXMxTFZTLVJpZU5fcEZYUWlQVFFKNkNia01FeHFJbmhWWlVDTkljUHU3ZmU2eFBoZ2s1aEhHMV9Za3FyMkk5YXFaeW5xdDJLMF9Fb0VaR1JmWjFLYUxRRTQ3WUtGQWQxSXZudGw3REdsVzdJeEktUlMzM2NoZzV1S0l1NS1Tb1dxeGdIRnBSWDVTV1N1enNidjc4V2JqOEVUNTNIcw?oc=5",
    "observed": null,
-   "state": "local"
+   "state": "local",
+   "rt_tier": "实时"
   },
   {
    "code": "MH0605",
@@ -1148,7 +1230,8 @@
    "latest_title": null,
    "latest_url": null,
    "observed": null,
-   "state": "ok_none"
+   "state": "ok_none",
+   "rt_tier": "只有新闻"
   },
   {
    "code": "MH0606",
@@ -1170,7 +1253,8 @@
    "latest_title": "Google News（尼泊尔灾害）：GMA News. . AERIAL FOOTAGE NG BAHA SA NEPAL Aerial footage released by the Nepali Army on Sunday, Oct. 11, showed a village in Gandaki province inundated after floodwaters tore thro",
    "latest_url": "https://news.google.com/rss/articles/CBMi1AFBVV95cUxOSm5sX1dyZnFEQzYxUFZ4RGNJWWxwUmtYMl9RZ2xXRWMzbHRSbE05WjRHb0pzVm1Xang3Z0FFVE9mT0FxZTdYUTFkUkJ2T1RHTm5RQUIwbkhYekIyQmpEVE15X1l4SUNxNTI2Y3hGeG1KOG4ybndwRXJWMnN4NlVFZ2ljcDc5eUd3djFTQ05fcGxEXzdLMld2c3hOV19tV3h2MEFxTk9Ueldsd2xicXFKaDhvTF9KZHAtU2xEc1hxcm9YakpRUFR2YXhOQURxeXBKeFo2VA?oc=5",
    "observed": null,
-   "state": "local"
+   "state": "local",
+   "rt_tier": "准实时"
   },
   {
    "code": "MH0607",
@@ -1192,7 +1276,8 @@
    "latest_title": null,
    "latest_url": null,
    "observed": null,
-   "state": "ok_none"
+   "state": "ok_none",
+   "rt_tier": "准实时"
   },
   {
    "code": "MH0608",
@@ -1212,7 +1297,8 @@
    "latest_title": null,
    "latest_url": null,
    "observed": null,
-   "state": "ok_none"
+   "state": "ok_none",
+   "rt_tier": "只有新闻"
   },
   {
    "code": "MH0609",
@@ -1232,7 +1318,8 @@
    "latest_title": null,
    "latest_url": null,
    "observed": null,
-   "state": "ok_none"
+   "state": "ok_none",
+   "rt_tier": "只有新闻"
   },
   {
    "code": "MH0610",
@@ -1252,7 +1339,8 @@
    "latest_title": null,
    "latest_url": null,
    "observed": null,
-   "state": "ok_none"
+   "state": "ok_none",
+   "rt_tier": "只有新闻"
   },
   {
    "code": "MH0701",
@@ -1268,13 +1356,14 @@
     "IOC 海平面站",
     "新闻 RSS"
    ],
-   "n_90d": 3,
+   "n_90d": 4,
    "n_local_90d": 0,
-   "latest": "2026-10-14T07:42:33Z",
-   "latest_title": "全球 2373 个潮位站，最近 6 小时在报 1767 个",
+   "latest": "2026-10-14T08:37:46Z",
+   "latest_title": "全球 2373 个潮位站，最近 6 小时在报 1768 个",
    "latest_url": "https://www.ioc-sealevelmonitoring.org/",
    "observed": null,
-   "state": "global"
+   "state": "global",
+   "rt_tier": "实时"
   },
   {
    "code": "MH0702",
@@ -1290,13 +1379,14 @@
     "IOC 海平面站",
     "新闻 RSS"
    ],
-   "n_90d": 3,
+   "n_90d": 4,
    "n_local_90d": 0,
-   "latest": "2026-10-14T07:42:33Z",
-   "latest_title": "全球 2373 个潮位站，最近 6 小时在报 1767 个",
+   "latest": "2026-10-14T08:37:46Z",
+   "latest_title": "全球 2373 个潮位站，最近 6 小时在报 1768 个",
    "latest_url": "https://www.ioc-sealevelmonitoring.org/",
    "observed": null,
-   "state": "global"
+   "state": "global",
+   "rt_tier": "实时"
   },
   {
    "code": "MH0703",
@@ -1312,13 +1402,14 @@
     "IOC 海平面站",
     "新闻 RSS"
    ],
-   "n_90d": 3,
+   "n_90d": 4,
    "n_local_90d": 0,
-   "latest": "2026-10-14T07:42:33Z",
-   "latest_title": "全球 2373 个潮位站，最近 6 小时在报 1767 个",
+   "latest": "2026-10-14T08:37:46Z",
+   "latest_title": "全球 2373 个潮位站，最近 6 小时在报 1768 个",
    "latest_url": "https://www.ioc-sealevelmonitoring.org/",
    "observed": null,
-   "state": "global"
+   "state": "global",
+   "rt_tier": "实时"
   },
   {
    "code": "MH0704",
@@ -1334,13 +1425,14 @@
     "IOC 海平面站",
     "新闻 RSS"
    ],
-   "n_90d": 3,
+   "n_90d": 4,
    "n_local_90d": 0,
-   "latest": "2026-10-14T07:42:33Z",
-   "latest_title": "全球 2373 个潮位站，最近 6 小时在报 1767 个",
+   "latest": "2026-10-14T08:37:46Z",
+   "latest_title": "全球 2373 个潮位站，最近 6 小时在报 1768 个",
    "latest_url": "https://www.ioc-sealevelmonitoring.org/",
    "observed": null,
-   "state": "global"
+   "state": "global",
+   "rt_tier": "实时"
   },
   {
    "code": "MH0705",
@@ -1366,7 +1458,8 @@
    "latest_title": "Nepali Times：Stop calling the Nepal flood a ‘Himalayan Tsunami’",
    "latest_url": "https://nepalitimes.com/stop-calling-the-nepal-flood-a-himalayan-tsunami",
    "observed": null,
-   "state": "local"
+   "state": "local",
+   "rt_tier": "实时"
   },
   {
    "code": "MH0706",
@@ -1390,7 +1483,8 @@
    "latest_title": "Iceberg D35",
    "latest_url": "https://eonet.gsfc.nasa.gov/api/v3/events/EONET_6474",
    "observed": "北极海冰范围 6.297 百万平方公里",
-   "state": "global"
+   "state": "global",
+   "rt_tier": "准实时"
   },
   {
    "code": "MH0707",
@@ -1414,7 +1508,8 @@
    "latest_title": "Iceberg D35",
    "latest_url": "https://eonet.gsfc.nasa.gov/api/v3/events/EONET_6474",
    "observed": "北极海冰范围 6.297 百万平方公里",
-   "state": "global"
+   "state": "global",
+   "rt_tier": "准实时"
   },
   {
    "code": "MH0708",
@@ -1434,7 +1529,8 @@
    "latest_title": null,
    "latest_url": null,
    "observed": null,
-   "state": "ok_none"
+   "state": "ok_none",
+   "rt_tier": "只有新闻"
   },
   {
    "code": "MH0801",
@@ -1456,7 +1552,8 @@
    "latest_title": "OnlineKhabar English：An avalanche and massive landslide triggered the devastating Budhi Gandaki flood, report finds",
    "latest_url": "https://english.onlinekhabar.com/avalanche-landslide-budhi-gandaki-flood.html",
    "observed": null,
-   "state": "local"
+   "state": "local",
+   "rt_tier": "准实时"
   },
   {
    "code": "ET0101",
@@ -1478,7 +1575,8 @@
    "latest_title": "Space Weather Message Code: WARK04 Serial Number: 5435 Issue Time: 2026 Oct 13 2058 UTC EXTENDED WARNING: Geomagnetic K-index of 4 expected Extension to Serial ",
    "latest_url": "https://www.swpc.noaa.gov/products/alerts-watches-and-warnings",
    "observed": null,
-   "state": "local"
+   "state": "local",
+   "rt_tier": "实时"
   },
   {
    "code": "ET0102",
@@ -1500,7 +1598,8 @@
    "latest_title": "Space Weather Message Code: SUMXM5 Serial Number: 328 Issue Time: 2026 Oct 10 1527 UTC SUMMARY: X-ray Event exceeded M5 Begin Time: 2026 Oct 10 1458 UTC Maximum",
    "latest_url": "https://www.swpc.noaa.gov/products/alerts-watches-and-warnings",
    "observed": null,
-   "state": "local"
+   "state": "local",
+   "rt_tier": "实时"
   },
   {
    "code": "ET0103",
@@ -1522,7 +1621,8 @@
    "latest_title": "Space Weather Message Code: SUMXM5 Serial Number: 328 Issue Time: 2026 Oct 10 1527 UTC SUMMARY: X-ray Event exceeded M5 Begin Time: 2026 Oct 10 1458 UTC Maximum",
    "latest_url": "https://www.swpc.noaa.gov/products/alerts-watches-and-warnings",
    "observed": null,
-   "state": "local"
+   "state": "local",
+   "rt_tier": "实时"
   },
   {
    "code": "ET0104",
@@ -1544,7 +1644,8 @@
    "latest_title": "Space Weather Message Code: ALTEF3 Serial Number: 3753 Issue Time: 2026 Oct 10 1453 UTC ALERT: Electron 2MeV Integral Flux exceeded 1,000pfu Threshold Reached: ",
    "latest_url": "https://www.swpc.noaa.gov/products/alerts-watches-and-warnings",
    "observed": null,
-   "state": "local"
+   "state": "local",
+   "rt_tier": "实时"
   },
   {
    "code": "ET0201",
@@ -1566,7 +1667,8 @@
    "latest_title": "火球 能量 5.4e10 J",
    "latest_url": "https://cneos.jpl.nasa.gov/fireballs/",
    "observed": null,
-   "state": "global"
+   "state": "global",
+   "rt_tier": "准实时"
   },
   {
    "code": "ET0202",
@@ -1588,7 +1690,8 @@
    "latest_title": null,
    "latest_url": null,
    "observed": "Sentinel-5P __O3 覆盖喜马拉雅（有观测，未计算数值）",
-   "state": "observed"
+   "state": "observed",
+   "rt_tier": "准实时"
   },
   {
    "code": "ET0203",
@@ -1610,7 +1713,8 @@
    "latest_title": "火球 能量 5.4e10 J",
    "latest_url": "https://cneos.jpl.nasa.gov/fireballs/",
    "observed": null,
-   "state": "global"
+   "state": "global",
+   "rt_tier": "准实时"
   },
   {
    "code": "ET0204",
@@ -1632,7 +1736,8 @@
    "latest_title": "新入轨 STARLINK-38398",
    "latest_url": null,
    "observed": null,
-   "state": "global"
+   "state": "global",
+   "rt_tier": "实时"
   },
   {
    "code": "ET0205",
@@ -1654,7 +1759,8 @@
    "latest_title": "2026 TM35 近地掠过 3.9 倍月距",
    "latest_url": "https://cneos.jpl.nasa.gov/ca/",
    "observed": null,
-   "state": "global"
+   "state": "global",
+   "rt_tier": "准实时"
   },
   {
    "code": "ET0206",
@@ -1670,13 +1776,14 @@
     "CelesTrak 在轨目标",
     "新闻 RSS"
    ],
-   "n_90d": 3,
+   "n_90d": 4,
    "n_local_90d": 0,
-   "latest": "2026-10-14T07:42:33Z",
+   "latest": "2026-10-14T08:37:46Z",
    "latest_title": "跟踪中的碎片（四次大型解体事件）2681 个",
    "latest_url": null,
    "observed": null,
-   "state": "global"
+   "state": "global",
+   "rt_tier": "实时"
   },
   {
    "code": "GH0101",
@@ -1698,13 +1805,14 @@
     "USGS 地震目录",
     "新闻 RSS"
    ],
-   "n_90d": 42,
+   "n_90d": 43,
    "n_local_90d": 7,
-   "latest": "2026-10-14T05:09:35Z",
+   "latest": "2026-10-14T06:27:06Z",
    "latest_title": "Google News（西藏灾害）：Light mag. 3.9 earthquake - 86 km east of Maizhokunggar, Tibet, China, on Monday, Oct 12, 2026, at 04:27 pm (GMT +8) - Volcano Discovery",
    "latest_url": "https://news.google.com/rss/articles/CBMisgFBVV95cUxQS3dXRVlnNGg2T3FIWktuTEM2S0tjd3h5MDBzMUtTVlU4MzE2R053MFItclA2c1Y5WTdfVVhzekg2WEVtYmszazBta3pQQ3ZfTHRBcHpmQXdqbTZSS1d4eU1FWFBLZzhlLU44dWZSYnZnU1dtdVBuWGxJSlV3VHlwb1FOV1dGT1dPdFJMem9zamZaSzcxSTV0T1g4a1NtYnQwNW5XZTRpMzNkM0l6eElxd21R?oc=5",
    "observed": null,
-   "state": "local"
+   "state": "local",
+   "rt_tier": "实时"
   },
   {
    "code": "GH0201",
@@ -1733,7 +1841,8 @@
    "latest_title": "Indonesia Dukono",
    "latest_url": "https://www.ngdc.noaa.gov/hazel/",
    "observed": null,
-   "state": "global"
+   "state": "global",
+   "rt_tier": "实时"
   },
   {
    "code": "GH0202",
@@ -1758,7 +1867,8 @@
    "latest_title": "Indonesia Dukono",
    "latest_url": "https://www.ngdc.noaa.gov/hazel/",
    "observed": null,
-   "state": "global"
+   "state": "global",
+   "rt_tier": "准实时"
   },
   {
    "code": "GH0203",
@@ -1783,7 +1893,8 @@
    "latest_title": null,
    "latest_url": null,
    "observed": null,
-   "state": "ok_none"
+   "state": "ok_none",
+   "rt_tier": "准实时"
   },
   {
    "code": "GH0204",
@@ -1808,7 +1919,8 @@
    "latest_title": null,
    "latest_url": null,
    "observed": null,
-   "state": "ok_none"
+   "state": "ok_none",
+   "rt_tier": "准实时"
   },
   {
    "code": "GH0205",
@@ -1835,7 +1947,8 @@
    "latest_title": null,
    "latest_url": null,
    "observed": "Sentinel-5P __SO2 覆盖喜马拉雅（有观测，未计算数值）",
-   "state": "observed"
+   "state": "observed",
+   "rt_tier": "准实时"
   },
   {
    "code": "GH0300",
@@ -1855,13 +1968,14 @@
     "USGS 地震目录",
     "新闻 RSS"
    ],
-   "n_90d": 153,
-   "n_local_90d": 153,
-   "latest": "2026-10-14T07:42:33Z",
+   "n_90d": 154,
+   "n_local_90d": 154,
+   "latest": "2026-10-14T08:37:46Z",
    "latest_title": "Kathmandu Post：Nepal, India discuss border security, transnational crime and disaster response",
    "latest_url": "https://kathmandupost.com/national/2026/10/13/nepal-india-discuss-border-security-transnational-crime-and-disaster-response",
    "observed": null,
-   "state": "local"
+   "state": "local",
+   "rt_tier": "实时"
   },
   {
    "code": "GH0301",
@@ -1883,7 +1997,8 @@
    "latest_title": "Google News（尼泊尔灾害）：What caused Nepal’s Budhi Gandaki river flood? Officials examine landslide dam and ice avalanche theories - IndulgExpress",
    "latest_url": "https://news.google.com/rss/articles/CBMi6gFBVV95cUxNWU5YenhldC1iakk5XzNZb2FXMXdnRF9hTGk5aENHQkFLZzBzYW80OF9iQU1rOUUxN202Si1pTkNmMzBRRnBxRmVFZ0FGMjN3YWhtUUg4SkJlYkw1VDBSOVBzNXNDMGJvNU04Ml9pU3VjNFgxeHBycDRIdklobV95Q0I4SGFIVWg1WExmUDRqNkt4TmIwZlpKZkp6R1R1S3J6WlFCRGpPLXdtRnFBbmhTYnBFTDRsWGp2YW9HX3RhTjRwMGU4dWhnajY0X2pjZkJ5VC1Ta0lGbDZpRVRoZ2dTR25XRUprdXpZUkHSAfcBQVVfeXFMUGtFcmhhZGFLSE1yYUdDdlQxWVdVSW1RdU5WX2g3YWpQVjR2UUVHX2xSbnhUcWg0c2VpaDVZSThidk0yLTRHRWU3VGpLQ2Qxak9vR09HeW9Md1JoSXMxTFZTLVJpZU5fcEZYUWlQVFFKNkNia01FeHFJbmhWWlVDTkljUHU3ZmU2eFBoZ2s1aEhHMV9Za3FyMkk5YXFaeW5xdDJLMF9Fb0VaR1JmWjFLYUxRRTQ3WUtGQWQxSXZudGw3REdsVzdJeEktUlMzM2NoZzV1S0l1NS1Tb1dxeGdIRnBSWDVTV1N1enNidjc4V2JqOEVUNTNIcw?oc=5",
    "observed": null,
-   "state": "local"
+   "state": "local",
+   "rt_tier": "实时"
   },
   {
    "code": "GH0302",
@@ -1903,7 +2018,8 @@
    "latest_title": null,
    "latest_url": null,
    "observed": null,
-   "state": "ok_none"
+   "state": "ok_none",
+   "rt_tier": "只有新闻"
   },
   {
    "code": "GH0303",
@@ -1923,7 +2039,8 @@
    "latest_title": "Google News（西藏灾害）：The 11 October 2026 landslide and debris flow/flood on the Budhi Gandaki River in Gorkha district, Nepal - eos.org",
    "latest_url": "https://news.google.com/rss/articles/CBMi0gFBVV95cUxNNXlFcGJ6b3FJZnd3YUJDMloteDR4SWJBOHpLNUkwb1FhcTJ3UFdXSGJtUHhhQ3R1WjJEZ3FTaVF2MmYyeW14Z2NkMWNKeFJiSkdyZHlrNDFRLWh6YkFnU1hLT2lEWEh3eTZmV2d2SzV6ZmI0dHlVLW04YndDYmFjZk9rTWhNQmxwM3dORDV6N2lYN053NTk0ajV0bVlpQXo0UWtRcEJHVjZoYUxZTHNwUDJwVjFnN0RJWkl4dkpON242UWpSUERfYjFLMWFwb1cwYmc?oc=5",
    "observed": null,
-   "state": "local"
+   "state": "local",
+   "rt_tier": "只有新闻"
   },
   {
    "code": "GH0304",
@@ -1939,13 +2056,14 @@
     "BIPAD 灾害事件库",
     "新闻 RSS"
    ],
-   "n_90d": 148,
-   "n_local_90d": 148,
-   "latest": "2026-10-13T15:31:04Z",
-   "latest_title": "OnlineKhabar English：An avalanche and massive landslide triggered the devastating Budhi Gandaki flood, report finds",
-   "latest_url": "https://english.onlinekhabar.com/avalanche-landslide-budhi-gandaki-flood.html",
+   "n_90d": 149,
+   "n_local_90d": 149,
+   "latest": "2026-10-14T08:12:24Z",
+   "latest_title": "Google News（尼泊尔灾害）：Landslide-triggered flash flood sweeps through Nepal's Himalayan valleys - https://eu-space.europa.eu/",
+   "latest_url": "https://news.google.com/rss/articles/CBMi6wFBVV95cUxNX29yM3ByLXlmdXhISDZLcVc1UTBTUm5scXZocmNHMExHUko2X1RZSHdLVlctUjR6VUt2QXpCUUpUcUhSdUhPek9nLTFILVJJV0loN05LcEh1WWZfckIxYl9wYVJjNGUwR3FIbloxREhRSVpSX204ZnlCZXkxbFFJNk9SdVhkUUpPaEM4SWczNFJwMXlvdEhXWlRMZURKNjY0WWRrdU5ZLUZRdWRQOHVxVFFFZUxWMFFiMzZMTFhMTVFZUE1YMW9SNjZMNmxhMG81R2dXd0VhZEFZSVRXTHFxM2MzUzh6al9lQUU0?oc=5",
    "observed": null,
-   "state": "local"
+   "state": "local",
+   "rt_tier": "准实时"
   },
   {
    "code": "GH0305",
@@ -1965,7 +2083,8 @@
    "latest_title": null,
    "latest_url": null,
    "observed": null,
-   "state": "ok_none"
+   "state": "ok_none",
+   "rt_tier": "只有新闻"
   },
   {
    "code": "GH0306",
@@ -1985,7 +2104,8 @@
    "latest_title": null,
    "latest_url": null,
    "observed": null,
-   "state": "ok_none"
+   "state": "ok_none",
+   "rt_tier": "只有新闻"
   },
   {
    "code": "GH0307",
@@ -2005,7 +2125,8 @@
    "latest_title": null,
    "latest_url": null,
    "observed": null,
-   "state": "ok_none"
+   "state": "ok_none",
+   "rt_tier": "只有新闻"
   },
   {
    "code": "GH0308",
@@ -2025,7 +2146,8 @@
    "latest_title": null,
    "latest_url": null,
    "observed": null,
-   "state": "ok_none"
+   "state": "ok_none",
+   "rt_tier": "只有新闻"
   },
   {
    "code": "GH0309",
@@ -2045,7 +2167,8 @@
    "latest_title": null,
    "latest_url": null,
    "observed": null,
-   "state": "ok_none"
+   "state": "ok_none",
+   "rt_tier": "只有新闻"
   },
   {
    "code": "GH0310",
@@ -2065,7 +2188,8 @@
    "latest_title": null,
    "latest_url": null,
    "observed": null,
-   "state": "ok_none"
+   "state": "ok_none",
+   "rt_tier": "只有新闻"
   },
   {
    "code": "GH0311",
@@ -2085,7 +2209,8 @@
    "latest_title": null,
    "latest_url": null,
    "observed": null,
-   "state": "ok_none"
+   "state": "ok_none",
+   "rt_tier": "只有新闻"
   },
   {
    "code": "GH0401",
@@ -2105,7 +2230,8 @@
    "latest_title": null,
    "latest_url": null,
    "observed": null,
-   "state": "ok_none"
+   "state": "ok_none",
+   "rt_tier": "只有新闻"
   },
   {
    "code": "GH0402",
@@ -2125,7 +2251,8 @@
    "latest_title": null,
    "latest_url": null,
    "observed": null,
-   "state": "ok_none"
+   "state": "ok_none",
+   "rt_tier": "只有新闻"
   },
   {
    "code": "GH0403",
@@ -2147,7 +2274,8 @@
    "latest_title": null,
    "latest_url": null,
    "observed": null,
-   "state": "ok_none"
+   "state": "ok_none",
+   "rt_tier": "准实时"
   },
   {
    "code": "GH0404",
@@ -2167,7 +2295,8 @@
    "latest_title": null,
    "latest_url": null,
    "observed": null,
-   "state": "ok_none"
+   "state": "ok_none",
+   "rt_tier": "只有新闻"
   },
   {
    "code": "GH0405",
@@ -2187,7 +2316,8 @@
    "latest_title": null,
    "latest_url": null,
    "observed": null,
-   "state": "ok_none"
+   "state": "ok_none",
+   "rt_tier": "只有新闻"
   },
   {
    "code": "GH0406",
@@ -2207,7 +2337,8 @@
    "latest_title": null,
    "latest_url": null,
    "observed": null,
-   "state": "ok_none"
+   "state": "ok_none",
+   "rt_tier": "只有新闻"
   },
   {
    "code": "GH0407",
@@ -2229,7 +2360,8 @@
    "latest_title": null,
    "latest_url": null,
    "observed": "Sentinel-5P __CH4 覆盖喜马拉雅（有观测，未计算数值）",
-   "state": "observed"
+   "state": "observed",
+   "rt_tier": "准实时"
   },
   {
    "code": "EN0101",
@@ -2249,7 +2381,8 @@
    "latest_title": null,
    "latest_url": null,
    "observed": null,
-   "state": "ok_none"
+   "state": "ok_none",
+   "rt_tier": "只有新闻"
   },
   {
    "code": "EN0102",
@@ -2271,7 +2404,8 @@
    "latest_title": null,
    "latest_url": null,
    "observed": "Sentinel-5P __NO2 覆盖喜马拉雅（有观测，未计算数值）",
-   "state": "observed"
+   "state": "observed",
+   "rt_tier": "准实时"
   },
   {
    "code": "EN0103",
@@ -2300,7 +2434,8 @@
    "latest_title": "Pollution Alert at Ghorahi-2, Dang",
    "latest_url": null,
    "observed": "Sentinel-5P __NO2 覆盖喜马拉雅（有观测，未计算数值）",
-   "state": "local"
+   "state": "local",
+   "rt_tier": "实时"
   },
   {
    "code": "EN0104",
@@ -2324,7 +2459,8 @@
    "latest_title": "Dang AQI 152.0",
    "latest_url": null,
    "observed": "Sentinel-5P __AER_AI 覆盖喜马拉雅（有观测，未计算数值）",
-   "state": "local"
+   "state": "local",
+   "rt_tier": "实时"
   },
   {
    "code": "EN0105",
@@ -2346,7 +2482,8 @@
    "latest_title": null,
    "latest_url": null,
    "observed": "Sentinel-5P __SO2 覆盖喜马拉雅（有观测，未计算数值）",
-   "state": "observed"
+   "state": "observed",
+   "rt_tier": "准实时"
   },
   {
    "code": "EN0106",
@@ -2366,7 +2503,8 @@
    "latest_title": null,
    "latest_url": null,
    "observed": null,
-   "state": "ok_none"
+   "state": "ok_none",
+   "rt_tier": "只有新闻"
   },
   {
    "code": "EN0201",
@@ -2389,7 +2527,8 @@
    "latest_title": null,
    "latest_url": null,
    "observed": null,
-   "state": "ok_none"
+   "state": "ok_none",
+   "rt_tier": "准实时"
   },
   {
    "code": "EN0202",
@@ -2409,7 +2548,8 @@
    "latest_title": null,
    "latest_url": null,
    "observed": null,
-   "state": "ok_none"
+   "state": "ok_none",
+   "rt_tier": "只有新闻"
   },
   {
    "code": "EN0203",
@@ -2430,7 +2570,8 @@
    "latest_title": null,
    "latest_url": null,
    "observed": null,
-   "state": "ok_none"
+   "state": "ok_none",
+   "rt_tier": "只有新闻"
   },
   {
    "code": "EN0204",
@@ -2452,7 +2593,8 @@
    "latest_title": null,
    "latest_url": null,
    "observed": "尼泊尔近一年外来物种记录 0 条",
-   "state": "observed"
+   "state": "observed",
+   "rt_tier": "定期"
   },
   {
    "code": "EN0205",
@@ -2481,7 +2623,8 @@
    "latest_title": "Forest Fire at Bhairabi-1, Dailekh",
    "latest_url": null,
    "observed": null,
-   "state": "local"
+   "state": "local",
+   "rt_tier": "实时"
   },
   {
    "code": "EN0206",
@@ -2501,7 +2644,8 @@
    "latest_title": null,
    "latest_url": null,
    "observed": null,
-   "state": "ok_none"
+   "state": "ok_none",
+   "rt_tier": "只有新闻"
   },
   {
    "code": "EN0207",
@@ -2521,7 +2665,8 @@
    "latest_title": null,
    "latest_url": null,
    "observed": null,
-   "state": "ok_none"
+   "state": "ok_none",
+   "rt_tier": "只有新闻"
   },
   {
    "code": "EN0301",
@@ -2541,7 +2686,8 @@
    "latest_title": null,
    "latest_url": null,
    "observed": null,
-   "state": "ok_none"
+   "state": "ok_none",
+   "rt_tier": "只有新闻"
   },
   {
    "code": "EN0302",
@@ -2561,7 +2707,8 @@
    "latest_title": null,
    "latest_url": null,
    "observed": null,
-   "state": "ok_none"
+   "state": "ok_none",
+   "rt_tier": "只有新闻"
   },
   {
    "code": "EN0303",
@@ -2581,7 +2728,8 @@
    "latest_title": null,
    "latest_url": null,
    "observed": null,
-   "state": "ok_none"
+   "state": "ok_none",
+   "rt_tier": "只有新闻"
   },
   {
    "code": "EN0304",
@@ -2601,7 +2749,8 @@
    "latest_title": null,
    "latest_url": null,
    "observed": null,
-   "state": "ok_none"
+   "state": "ok_none",
+   "rt_tier": "只有新闻"
   },
   {
    "code": "EN0305",
@@ -2621,7 +2770,8 @@
    "latest_title": null,
    "latest_url": null,
    "observed": null,
-   "state": "ok_none"
+   "state": "ok_none",
+   "rt_tier": "只有新闻"
   },
   {
    "code": "EN0401",
@@ -2641,7 +2791,8 @@
    "latest_title": null,
    "latest_url": null,
    "observed": null,
-   "state": "ok_none"
+   "state": "ok_none",
+   "rt_tier": "只有新闻"
   },
   {
    "code": "EN0402",
@@ -2657,13 +2808,14 @@
     "IOC 海平面站",
     "新闻 RSS"
    ],
-   "n_90d": 3,
+   "n_90d": 4,
    "n_local_90d": 0,
-   "latest": "2026-10-14T07:42:33Z",
-   "latest_title": "全球 2373 个潮位站，最近 6 小时在报 1767 个",
+   "latest": "2026-10-14T08:37:46Z",
+   "latest_title": "全球 2373 个潮位站，最近 6 小时在报 1768 个",
    "latest_url": "https://www.ioc-sealevelmonitoring.org/",
    "observed": null,
-   "state": "global"
+   "state": "global",
+   "rt_tier": "实时"
   },
   {
    "code": "EN0403",
@@ -2685,7 +2837,8 @@
    "latest_title": null,
    "latest_url": null,
    "observed": null,
-   "state": "ok_none"
+   "state": "ok_none",
+   "rt_tier": "准实时"
   },
   {
    "code": "EN0404",
@@ -2705,7 +2858,8 @@
    "latest_title": null,
    "latest_url": null,
    "observed": null,
-   "state": "ok_none"
+   "state": "ok_none",
+   "rt_tier": "只有新闻"
   },
   {
    "code": "EN0405",
@@ -2725,7 +2879,8 @@
    "latest_title": null,
    "latest_url": null,
    "observed": null,
-   "state": "ok_none"
+   "state": "ok_none",
+   "rt_tier": "只有新闻"
   },
   {
    "code": "EN0501",
@@ -2747,7 +2902,8 @@
    "latest_title": null,
    "latest_url": null,
    "observed": "尼泊尔近 30 天 376 条物种观测记录",
-   "state": "observed"
+   "state": "observed",
+   "rt_tier": "定期"
   },
   {
    "code": "CH0100",
@@ -2767,7 +2923,8 @@
    "latest_title": null,
    "latest_url": null,
    "observed": null,
-   "state": "ok_none"
+   "state": "ok_none",
+   "rt_tier": "只有新闻"
   },
   {
    "code": "CH0101",
@@ -2787,7 +2944,8 @@
    "latest_title": null,
    "latest_url": null,
    "observed": null,
-   "state": "ok_none"
+   "state": "ok_none",
+   "rt_tier": "只有新闻"
   },
   {
    "code": "CH0102",
@@ -2807,7 +2965,8 @@
    "latest_title": null,
    "latest_url": null,
    "observed": null,
-   "state": "ok_none"
+   "state": "ok_none",
+   "rt_tier": "只有新闻"
   },
   {
    "code": "CH0103",
@@ -2829,7 +2988,8 @@
    "latest_title": "Galil Importing Corp：Product contains elevated levels of lead.",
    "latest_url": null,
    "observed": null,
-   "state": "global"
+   "state": "global",
+   "rt_tier": "定期"
   },
   {
    "code": "CH0104",
@@ -2849,7 +3009,8 @@
    "latest_title": null,
    "latest_url": null,
    "observed": null,
-   "state": "ok_none"
+   "state": "ok_none",
+   "rt_tier": "只有新闻"
   },
   {
    "code": "CH0105",
@@ -2869,7 +3030,8 @@
    "latest_title": null,
    "latest_url": null,
    "observed": null,
-   "state": "ok_none"
+   "state": "ok_none",
+   "rt_tier": "只有新闻"
   },
   {
    "code": "CH0201",
@@ -2891,7 +3053,8 @@
    "latest_title": null,
    "latest_url": null,
    "observed": null,
-   "state": "ok_none"
+   "state": "ok_none",
+   "rt_tier": "定期"
   },
   {
    "code": "CH0202",
@@ -2911,7 +3074,8 @@
    "latest_title": null,
    "latest_url": null,
    "observed": null,
-   "state": "ok_none"
+   "state": "ok_none",
+   "rt_tier": "只有新闻"
   },
   {
    "code": "CH0203",
@@ -2931,7 +3095,8 @@
    "latest_title": null,
    "latest_url": null,
    "observed": null,
-   "state": "ok_none"
+   "state": "ok_none",
+   "rt_tier": "只有新闻"
   },
   {
    "code": "CH0300",
@@ -2953,7 +3118,8 @@
    "latest_title": null,
    "latest_url": null,
    "observed": null,
-   "state": "ok_none"
+   "state": "ok_none",
+   "rt_tier": "准实时"
   },
   {
    "code": "CH0301",
@@ -2973,7 +3139,8 @@
    "latest_title": null,
    "latest_url": null,
    "observed": null,
-   "state": "ok_none"
+   "state": "ok_none",
+   "rt_tier": "只有新闻"
   },
   {
    "code": "CH0302",
@@ -2995,7 +3162,8 @@
    "latest_title": null,
    "latest_url": null,
    "observed": "Sentinel-5P __CO 覆盖喜马拉雅（有观测，未计算数值）",
-   "state": "observed"
+   "state": "observed",
+   "rt_tier": "准实时"
   },
   {
    "code": "CH0303",
@@ -3015,7 +3183,8 @@
    "latest_title": null,
    "latest_url": null,
    "observed": null,
-   "state": "ok_none"
+   "state": "ok_none",
+   "rt_tier": "只有新闻"
   },
   {
    "code": "CH0400",
@@ -3035,7 +3204,8 @@
    "latest_title": null,
    "latest_url": null,
    "observed": null,
-   "state": "ok_none"
+   "state": "ok_none",
+   "rt_tier": "只有新闻"
   },
   {
    "code": "CH0500",
@@ -3055,7 +3225,8 @@
    "latest_title": null,
    "latest_url": null,
    "observed": null,
-   "state": "ok_none"
+   "state": "ok_none",
+   "rt_tier": "只有新闻"
   },
   {
    "code": "CH0501",
@@ -3075,7 +3246,8 @@
    "latest_title": null,
    "latest_url": null,
    "observed": null,
-   "state": "ok_none"
+   "state": "ok_none",
+   "rt_tier": "只有新闻"
   },
   {
    "code": "CH0502",
@@ -3095,7 +3267,8 @@
    "latest_title": null,
    "latest_url": null,
    "observed": null,
-   "state": "ok_none"
+   "state": "ok_none",
+   "rt_tier": "只有新闻"
   },
   {
    "code": "CH0503",
@@ -3115,7 +3288,8 @@
    "latest_title": null,
    "latest_url": null,
    "observed": null,
-   "state": "ok_none"
+   "state": "ok_none",
+   "rt_tier": "只有新闻"
   },
   {
    "code": "CH0504",
@@ -3135,7 +3309,8 @@
    "latest_title": null,
    "latest_url": null,
    "observed": null,
-   "state": "ok_none"
+   "state": "ok_none",
+   "rt_tier": "只有新闻"
   },
   {
    "code": "CH0601",
@@ -3159,7 +3334,8 @@
    "latest_title": "TODD'S SEEDS LLC：Products contain alfalfa seed recalled by the supplier and may be contaminated with E. coli and/or Salmonella (downstrea",
    "latest_url": null,
    "observed": null,
-   "state": "global"
+   "state": "global",
+   "rt_tier": "准实时"
   },
   {
    "code": "CH0602",
@@ -3181,7 +3357,8 @@
    "latest_title": "Aurobindo Pharma USA Inc：Discoloration: consumer complaints received for discolored tablets",
    "latest_url": null,
    "observed": null,
-   "state": "global"
+   "state": "global",
+   "rt_tier": "定期"
   },
   {
    "code": "CH0603",
@@ -3203,7 +3380,8 @@
    "latest_title": null,
    "latest_url": null,
    "observed": null,
-   "state": "ok_none"
+   "state": "ok_none",
+   "rt_tier": "定期"
   },
   {
    "code": "CH0604",
@@ -3223,7 +3401,8 @@
    "latest_title": null,
    "latest_url": null,
    "observed": null,
-   "state": "ok_none"
+   "state": "ok_none",
+   "rt_tier": "只有新闻"
   },
   {
    "code": "CH0605",
@@ -3243,7 +3422,8 @@
    "latest_title": null,
    "latest_url": null,
    "observed": null,
-   "state": "ok_none"
+   "state": "ok_none",
+   "rt_tier": "只有新闻"
   },
   {
    "code": "CH0901",
@@ -3265,7 +3445,8 @@
    "latest_title": null,
    "latest_url": null,
    "observed": null,
-   "state": "ok_none"
+   "state": "ok_none",
+   "rt_tier": "准实时"
   },
   {
    "code": "CH0902",
@@ -3285,7 +3466,8 @@
    "latest_title": null,
    "latest_url": null,
    "observed": null,
-   "state": "ok_none"
+   "state": "ok_none",
+   "rt_tier": "只有新闻"
   },
   {
    "code": "CH0903",
@@ -3305,7 +3487,8 @@
    "latest_title": null,
    "latest_url": null,
    "observed": null,
-   "state": "ok_none"
+   "state": "ok_none",
+   "rt_tier": "只有新闻"
   },
   {
    "code": "BI0101",
@@ -3331,7 +3514,8 @@
    "latest_title": "尼泊尔流感监测第 40 周：检测 37 份，阳性 21",
    "latest_url": "https://www.who.int/tools/flunet",
    "observed": null,
-   "state": "local"
+   "state": "local",
+   "rt_tier": "准实时"
   },
   {
    "code": "BI0102",
@@ -3351,7 +3535,8 @@
    "latest_title": null,
    "latest_url": null,
    "observed": null,
-   "state": "ok_none"
+   "state": "ok_none",
+   "rt_tier": "只有新闻"
   },
   {
    "code": "BI0103",
@@ -3373,7 +3558,8 @@
    "latest_title": "OnlineKhabar English：Dashain Travel: Essential medicines and first-aid supplies to carry",
    "latest_url": "https://english.onlinekhabar.com/dashain-travel-essential-medicines-and-first-aid-supplies-to-carry.html",
    "observed": null,
-   "state": "local"
+   "state": "local",
+   "rt_tier": "准实时"
   },
   {
    "code": "BI0104",
@@ -3397,7 +3583,8 @@
    "latest_title": "TODD'S SEEDS LLC：Products contain alfalfa seed recalled by the supplier and may be contaminated with E. coli and/or Salmonella (downstrea",
    "latest_url": null,
    "observed": null,
-   "state": "global"
+   "state": "global",
+   "rt_tier": "准实时"
   },
   {
    "code": "BI0105",
@@ -3417,7 +3604,8 @@
    "latest_title": null,
    "latest_url": null,
    "observed": null,
-   "state": "ok_none"
+   "state": "ok_none",
+   "rt_tier": "只有新闻"
   },
   {
    "code": "BI0106",
@@ -3437,7 +3625,8 @@
    "latest_title": null,
    "latest_url": null,
    "observed": null,
-   "state": "ok_none"
+   "state": "ok_none",
+   "rt_tier": "只有新闻"
   },
   {
    "code": "BI0107",
@@ -3457,7 +3646,8 @@
    "latest_title": null,
    "latest_url": null,
    "observed": null,
-   "state": "ok_none"
+   "state": "ok_none",
+   "rt_tier": "只有新闻"
   },
   {
    "code": "BI0108",
@@ -3477,11 +3667,12 @@
    ],
    "n_90d": 2,
    "n_local_90d": 2,
-   "latest": "2026-10-14T07:42:33Z",
+   "latest": "2026-10-14T08:37:46Z",
    "latest_title": "Kathmandu Post：Scrub typhus fears cast a shadow over Dashain in Salyan",
    "latest_url": "https://kathmandupost.com/karnali-province/2026/10/13/scrub-typhus-fears-cast-a-shadow-over-dashain-in-salyan",
    "observed": null,
-   "state": "local"
+   "state": "local",
+   "rt_tier": "准实时"
   },
   {
    "code": "BI0109",
@@ -3505,7 +3696,8 @@
    "latest_title": "Norway · Pathogenic rabbit lagoviruses (Inf. with) (Rabbit haemorrhagic disease)",
    "latest_url": "https://wahis.woah.org/",
    "observed": null,
-   "state": "global"
+   "state": "global",
+   "rt_tier": "准实时"
   },
   {
    "code": "BI0110",
@@ -3527,7 +3719,8 @@
    "latest_title": null,
    "latest_url": null,
    "observed": null,
-   "state": "ok_none"
+   "state": "ok_none",
+   "rt_tier": "准实时"
   },
   {
    "code": "BI0111",
@@ -3547,7 +3740,8 @@
    "latest_title": null,
    "latest_url": null,
    "observed": null,
-   "state": "ok_none"
+   "state": "ok_none",
+   "rt_tier": "只有新闻"
   },
   {
    "code": "BI0112",
@@ -3567,7 +3761,8 @@
    "latest_title": null,
    "latest_url": null,
    "observed": null,
-   "state": "ok_none"
+   "state": "ok_none",
+   "rt_tier": "只有新闻"
   },
   {
    "code": "BI0113",
@@ -3589,7 +3784,8 @@
    "latest_title": null,
    "latest_url": null,
    "observed": null,
-   "state": "ok_none"
+   "state": "ok_none",
+   "rt_tier": "准实时"
   },
   {
    "code": "BI0201",
@@ -3613,7 +3809,8 @@
    "latest_title": "Anthrax – Thailand",
    "latest_url": "https://www.who.int/emergencies/disease-outbreak-news/item/2025-DON573",
    "observed": null,
-   "state": "global"
+   "state": "global",
+   "rt_tier": "准实时"
   },
   {
    "code": "BI0202",
@@ -3635,7 +3832,8 @@
    "latest_title": null,
    "latest_url": null,
    "observed": null,
-   "state": "ok_none"
+   "state": "ok_none",
+   "rt_tier": "准实时"
   },
   {
    "code": "BI0203",
@@ -3657,7 +3855,8 @@
    "latest_title": "Chikungunya virus disease- Global situation",
    "latest_url": "https://www.who.int/emergencies/disease-outbreak-news/item/2025-DON581",
    "observed": null,
-   "state": "global"
+   "state": "global",
+   "rt_tier": "准实时"
   },
   {
    "code": "BI0204",
@@ -3679,7 +3878,8 @@
    "latest_title": "Cholera – Multi-country with a focus on countries experiencing current surges",
    "latest_url": "https://www.who.int/emergencies/disease-outbreak-news/item/2025-DON579",
    "observed": null,
-   "state": "global"
+   "state": "global",
+   "rt_tier": "准实时"
   },
   {
    "code": "BI0205",
@@ -3703,7 +3903,8 @@
    "latest_title": "COVID-19 - Global Situation",
    "latest_url": "https://www.who.int/emergencies/disease-outbreak-news/item/2025-DON572",
    "observed": null,
-   "state": "global"
+   "state": "global",
+   "rt_tier": "准实时"
   },
   {
    "code": "BI0206",
@@ -3725,7 +3926,8 @@
    "latest_title": null,
    "latest_url": null,
    "observed": null,
-   "state": "ok_none"
+   "state": "ok_none",
+   "rt_tier": "准实时"
   },
   {
    "code": "BI0207",
@@ -3747,7 +3949,8 @@
    "latest_title": "Dengue – Iran (Islamic Republic of)",
    "latest_url": "https://www.who.int/emergencies/disease-outbreak-news/item/2024-DON526",
    "observed": null,
-   "state": "global"
+   "state": "global",
+   "rt_tier": "准实时"
   },
   {
    "code": "BI0208",
@@ -3769,7 +3972,8 @@
    "latest_title": "Diphtheria - African Region (AFRO)",
    "latest_url": "https://www.who.int/emergencies/disease-outbreak-news/item/DON588",
    "observed": null,
-   "state": "global"
+   "state": "global",
+   "rt_tier": "准实时"
   },
   {
    "code": "BI0209",
@@ -3791,7 +3995,8 @@
    "latest_title": "Ebola disease caused by Bundibugyo virus - Democratic Republic of the Congo",
    "latest_url": "https://www.who.int/emergencies/disease-outbreak-news/item/2026-DON619",
    "observed": null,
-   "state": "global"
+   "state": "global",
+   "rt_tier": "准实时"
   },
   {
    "code": "BI0210",
@@ -3815,7 +4020,8 @@
    "latest_title": "TODD'S SEEDS LLC：Products contain alfalfa seed recalled by the supplier and may be contaminated with E. coli and/or Salmonella (downstrea",
    "latest_url": null,
    "observed": null,
-   "state": "global"
+   "state": "global",
+   "rt_tier": "准实时"
   },
   {
    "code": "BI0211",
@@ -3837,7 +4043,8 @@
    "latest_title": null,
    "latest_url": null,
    "observed": null,
-   "state": "ok_none"
+   "state": "ok_none",
+   "rt_tier": "准实时"
   },
   {
    "code": "BI0212",
@@ -3859,7 +4066,8 @@
    "latest_title": null,
    "latest_url": null,
    "observed": null,
-   "state": "ok_none"
+   "state": "ok_none",
+   "rt_tier": "准实时"
   },
   {
    "code": "BI0213",
@@ -3881,7 +4089,8 @@
    "latest_title": null,
    "latest_url": null,
    "observed": null,
-   "state": "ok_none"
+   "state": "ok_none",
+   "rt_tier": "准实时"
   },
   {
    "code": "BI0214",
@@ -3901,7 +4110,8 @@
    "latest_title": "OnlineKhabar English：Chitwan records 80 new HIV infections in nine months",
    "latest_url": "https://english.onlinekhabar.com/chitwan-records-80-new-hiv-infections-in-nine-months.html",
    "observed": null,
-   "state": "local"
+   "state": "local",
+   "rt_tier": "只有新闻"
   },
   {
    "code": "BI0215",
@@ -3923,7 +4133,8 @@
    "latest_title": null,
    "latest_url": null,
    "observed": null,
-   "state": "ok_none"
+   "state": "ok_none",
+   "rt_tier": "准实时"
   },
   {
    "code": "BI0216",
@@ -3945,7 +4156,8 @@
    "latest_title": null,
    "latest_url": null,
    "observed": null,
-   "state": "ok_none"
+   "state": "ok_none",
+   "rt_tier": "准实时"
   },
   {
    "code": "BI0217",
@@ -3967,7 +4179,8 @@
    "latest_title": null,
    "latest_url": null,
    "observed": null,
-   "state": "ok_none"
+   "state": "ok_none",
+   "rt_tier": "准实时"
   },
   {
    "code": "BI0218",
@@ -3991,7 +4204,8 @@
    "latest_title": "GIAS FOOD INC.：Contamination with Listeria monocytogenes",
    "latest_url": null,
    "observed": null,
-   "state": "global"
+   "state": "global",
+   "rt_tier": "准实时"
   },
   {
    "code": "BI0219",
@@ -4013,7 +4227,8 @@
    "latest_title": "Acute respiratory infections complicated by malaria (previously undiagnosed disease) - Democratic Republic of the Congo",
    "latest_url": "https://www.who.int/emergencies/disease-outbreak-news/item/2024-DON547",
    "observed": null,
-   "state": "global"
+   "state": "global",
+   "rt_tier": "准实时"
   },
   {
    "code": "BI0220",
@@ -4035,7 +4250,8 @@
    "latest_title": "Marburg virus disease- Ethiopia",
    "latest_url": "https://www.who.int/emergencies/disease-outbreak-news/item/2026-DON592",
    "observed": null,
-   "state": "global"
+   "state": "global",
+   "rt_tier": "准实时"
   },
   {
    "code": "BI0221",
@@ -4057,7 +4273,8 @@
    "latest_title": "Measles - Bangladesh",
    "latest_url": "https://www.who.int/emergencies/disease-outbreak-news/item/2026-DON598",
    "observed": null,
-   "state": "global"
+   "state": "global",
+   "rt_tier": "准实时"
   },
   {
    "code": "BI0222",
@@ -4079,7 +4296,8 @@
    "latest_title": "Invasive meningococcal disease - Kingdom of Saudi Arabia",
    "latest_url": "https://www.who.int/emergencies/disease-outbreak-news/item/2025-DON563",
    "observed": null,
-   "state": "global"
+   "state": "global",
+   "rt_tier": "准实时"
   },
   {
    "code": "BI0223",
@@ -4101,7 +4319,8 @@
    "latest_title": null,
    "latest_url": null,
    "observed": null,
-   "state": "ok_none"
+   "state": "ok_none",
+   "rt_tier": "准实时"
   },
   {
    "code": "BI0224",
@@ -4123,7 +4342,8 @@
    "latest_title": "Mpox: recombinant virus with genomic elements of clades Ib and IIb – Global situation",
    "latest_url": "https://www.who.int/emergencies/disease-outbreak-news/item/2026-DON595",
    "observed": null,
-   "state": "global"
+   "state": "global",
+   "rt_tier": "准实时"
   },
   {
    "code": "BI0225",
@@ -4143,7 +4363,8 @@
    "latest_title": null,
    "latest_url": null,
    "observed": null,
-   "state": "ok_none"
+   "state": "ok_none",
+   "rt_tier": "只有新闻"
   },
   {
    "code": "BI0226",
@@ -4165,7 +4386,8 @@
    "latest_title": null,
    "latest_url": null,
    "observed": null,
-   "state": "ok_none"
+   "state": "ok_none",
+   "rt_tier": "准实时"
   },
   {
    "code": "BI0227",
@@ -4187,7 +4409,8 @@
    "latest_title": null,
    "latest_url": null,
    "observed": null,
-   "state": "ok_none"
+   "state": "ok_none",
+   "rt_tier": "准实时"
   },
   {
    "code": "BI0228",
@@ -4211,7 +4434,8 @@
    "latest_title": "Czech Republic · Aphanomyces astaci (Inf. with)(Crayfish plague) ",
    "latest_url": "https://wahis.woah.org/",
    "observed": null,
-   "state": "global"
+   "state": "global",
+   "rt_tier": "准实时"
   },
   {
    "code": "BI0229",
@@ -4233,7 +4457,8 @@
    "latest_title": "Circulating vaccine-derived poliovirus type 1- Israel",
    "latest_url": "https://www.who.int/emergencies/disease-outbreak-news/item/2025-DON578",
    "observed": null,
-   "state": "global"
+   "state": "global",
+   "rt_tier": "准实时"
   },
   {
    "code": "BI0230",
@@ -4255,7 +4480,8 @@
    "latest_title": null,
    "latest_url": null,
    "observed": null,
-   "state": "ok_none"
+   "state": "ok_none",
+   "rt_tier": "准实时"
   },
   {
    "code": "BI0231",
@@ -4277,7 +4503,8 @@
    "latest_title": null,
    "latest_url": null,
    "observed": null,
-   "state": "ok_none"
+   "state": "ok_none",
+   "rt_tier": "准实时"
   },
   {
    "code": "BI0232",
@@ -4301,7 +4528,8 @@
    "latest_title": "Moldova · Rabies virus (Inf. with) ",
    "latest_url": "https://wahis.woah.org/",
    "observed": null,
-   "state": "global"
+   "state": "global",
+   "rt_tier": "准实时"
   },
   {
    "code": "BI0233",
@@ -4321,7 +4549,8 @@
    "latest_title": null,
    "latest_url": null,
    "observed": null,
-   "state": "ok_none"
+   "state": "ok_none",
+   "rt_tier": "只有新闻"
   },
   {
    "code": "BI0234",
@@ -4341,7 +4570,8 @@
    "latest_title": null,
    "latest_url": null,
    "observed": null,
-   "state": "ok_none"
+   "state": "ok_none",
+   "rt_tier": "只有新闻"
   },
   {
    "code": "BI0235",
@@ -4361,7 +4591,8 @@
    "latest_title": null,
    "latest_url": null,
    "observed": null,
-   "state": "ok_none"
+   "state": "ok_none",
+   "rt_tier": "只有新闻"
   },
   {
    "code": "BI0236",
@@ -4383,7 +4614,8 @@
    "latest_title": null,
    "latest_url": null,
    "observed": null,
-   "state": "ok_none"
+   "state": "ok_none",
+   "rt_tier": "准实时"
   },
   {
    "code": "BI0237",
@@ -4405,7 +4637,8 @@
    "latest_title": null,
    "latest_url": null,
    "observed": null,
-   "state": "ok_none"
+   "state": "ok_none",
+   "rt_tier": "准实时"
   },
   {
    "code": "BI0238",
@@ -4425,7 +4658,8 @@
    "latest_title": null,
    "latest_url": null,
    "observed": null,
-   "state": "ok_none"
+   "state": "ok_none",
+   "rt_tier": "只有新闻"
   },
   {
    "code": "BI0239",
@@ -4445,7 +4679,8 @@
    "latest_title": null,
    "latest_url": null,
    "observed": null,
-   "state": "ok_none"
+   "state": "ok_none",
+   "rt_tier": "只有新闻"
   },
   {
    "code": "BI0240",
@@ -4469,7 +4704,8 @@
    "latest_title": "Slovenia · West Nile Fever ",
    "latest_url": "https://wahis.woah.org/",
    "observed": null,
-   "state": "global"
+   "state": "global",
+   "rt_tier": "准实时"
   },
   {
    "code": "BI0241",
@@ -4491,7 +4727,8 @@
    "latest_title": "Yellow fever - Global",
    "latest_url": "https://www.who.int/emergencies/disease-outbreak-news/item/2026-DON610",
    "observed": null,
-   "state": "global"
+   "state": "global",
+   "rt_tier": "准实时"
   },
   {
    "code": "BI0242",
@@ -4513,7 +4750,8 @@
    "latest_title": "Zika virus disease – India",
    "latest_url": "https://www.who.int/emergencies/disease-outbreak-news/item/2025-DON549",
    "observed": null,
-   "state": "global"
+   "state": "global",
+   "rt_tier": "准实时"
   },
   {
    "code": "BI0243",
@@ -4535,7 +4773,8 @@
    "latest_title": "尼泊尔流感监测第 40 周：检测 37 份，阳性 21",
    "latest_url": "https://www.who.int/tools/flunet",
    "observed": null,
-   "state": "local"
+   "state": "local",
+   "rt_tier": "定期"
   },
   {
    "code": "BI0244",
@@ -4559,7 +4798,8 @@
    "latest_title": null,
    "latest_url": null,
    "observed": null,
-   "state": "ok_none"
+   "state": "ok_none",
+   "rt_tier": "准实时"
   },
   {
    "code": "BI0245",
@@ -4587,7 +4827,8 @@
    "latest_title": "Peru · High pathogenicity avian influenza viruses (Inf. with) (poultry)",
    "latest_url": "https://wahis.woah.org/",
    "observed": null,
-   "state": "global"
+   "state": "global",
+   "rt_tier": "准实时"
   },
   {
    "code": "BI0301",
@@ -4609,7 +4850,8 @@
    "latest_title": "Poland · Newcastle disease virus (Inf. with) ",
    "latest_url": "https://wahis.woah.org/",
    "observed": null,
-   "state": "global"
+   "state": "global",
+   "rt_tier": "准实时"
   },
   {
    "code": "BI0302",
@@ -4633,7 +4875,8 @@
    "latest_title": "Finland · African swine fever virus (Inf. with) ",
    "latest_url": "https://wahis.woah.org/",
    "observed": null,
-   "state": "global"
+   "state": "global",
+   "rt_tier": "准实时"
   },
   {
    "code": "BI0303",
@@ -4655,7 +4898,8 @@
    "latest_title": null,
    "latest_url": null,
    "observed": null,
-   "state": "ok_none"
+   "state": "ok_none",
+   "rt_tier": "准实时"
   },
   {
    "code": "BI0304",
@@ -4677,7 +4921,8 @@
    "latest_title": null,
    "latest_url": null,
    "observed": null,
-   "state": "ok_none"
+   "state": "ok_none",
+   "rt_tier": "准实时"
   },
   {
    "code": "BI0305",
@@ -4699,7 +4944,8 @@
    "latest_title": null,
    "latest_url": null,
    "observed": null,
-   "state": "ok_none"
+   "state": "ok_none",
+   "rt_tier": "准实时"
   },
   {
    "code": "BI0306",
@@ -4723,7 +4969,8 @@
    "latest_title": "Namibia · Foot and mouth disease virus (Inf. with) ",
    "latest_url": "https://wahis.woah.org/",
    "observed": null,
-   "state": "global"
+   "state": "global",
+   "rt_tier": "准实时"
   },
   {
    "code": "BI0307",
@@ -4745,7 +4992,8 @@
    "latest_title": null,
    "latest_url": null,
    "observed": null,
-   "state": "ok_none"
+   "state": "ok_none",
+   "rt_tier": "准实时"
   },
   {
    "code": "BI0308",
@@ -4767,7 +5015,8 @@
    "latest_title": null,
    "latest_url": null,
    "observed": null,
-   "state": "ok_none"
+   "state": "ok_none",
+   "rt_tier": "准实时"
   },
   {
    "code": "BI0309",
@@ -4789,7 +5038,8 @@
    "latest_title": null,
    "latest_url": null,
    "observed": null,
-   "state": "ok_none"
+   "state": "ok_none",
+   "rt_tier": "准实时"
   },
   {
    "code": "BI0310",
@@ -4811,7 +5061,8 @@
    "latest_title": null,
    "latest_url": null,
    "observed": null,
-   "state": "ok_none"
+   "state": "ok_none",
+   "rt_tier": "准实时"
   },
   {
    "code": "BI0311",
@@ -4835,7 +5086,8 @@
    "latest_title": "Rift Valley fever- Mauritania and Senegal",
    "latest_url": "https://www.who.int/emergencies/disease-outbreak-news/item/2025-DON584",
    "observed": null,
-   "state": "global"
+   "state": "global",
+   "rt_tier": "准实时"
   },
   {
    "code": "BI0312",
@@ -4857,7 +5109,8 @@
    "latest_title": null,
    "latest_url": null,
    "observed": null,
-   "state": "ok_none"
+   "state": "ok_none",
+   "rt_tier": "准实时"
   },
   {
    "code": "BI0313",
@@ -4879,7 +5132,8 @@
    "latest_title": null,
    "latest_url": null,
    "observed": null,
-   "state": "ok_none"
+   "state": "ok_none",
+   "rt_tier": "准实时"
   },
   {
    "code": "BI0314",
@@ -4901,7 +5155,8 @@
    "latest_title": null,
    "latest_url": null,
    "observed": null,
-   "state": "ok_none"
+   "state": "ok_none",
+   "rt_tier": "准实时"
   },
   {
    "code": "BI0401",
@@ -4921,7 +5176,8 @@
    "latest_title": null,
    "latest_url": null,
    "observed": null,
-   "state": "ok_none"
+   "state": "ok_none",
+   "rt_tier": "只有新闻"
   },
   {
    "code": "BI0402",
@@ -4941,7 +5197,8 @@
    "latest_title": null,
    "latest_url": null,
    "observed": null,
-   "state": "ok_none"
+   "state": "ok_none",
+   "rt_tier": "只有新闻"
   },
   {
    "code": "BI0403",
@@ -4963,7 +5220,8 @@
    "latest_title": null,
    "latest_url": null,
    "observed": "尼泊尔近一年外来物种记录 0 条",
-   "state": "observed"
+   "state": "observed",
+   "rt_tier": "定期"
   },
   {
    "code": "BI0501",
@@ -4985,7 +5243,8 @@
    "latest_title": null,
    "latest_url": null,
    "observed": null,
-   "state": "ok_none"
+   "state": "ok_none",
+   "rt_tier": "准实时"
   },
   {
    "code": "BI0502",
@@ -5007,7 +5266,8 @@
    "latest_title": null,
    "latest_url": null,
    "observed": null,
-   "state": "ok_none"
+   "state": "ok_none",
+   "rt_tier": "准实时"
   },
   {
    "code": "BI0503",
@@ -5029,7 +5289,8 @@
    "latest_title": null,
    "latest_url": null,
    "observed": null,
-   "state": "ok_none"
+   "state": "ok_none",
+   "rt_tier": "准实时"
   },
   {
    "code": "BI0601",
@@ -5049,7 +5310,8 @@
    "latest_title": null,
    "latest_url": null,
    "observed": null,
-   "state": "ok_none"
+   "state": "ok_none",
+   "rt_tier": "只有新闻"
   },
   {
    "code": "BI0602",
@@ -5069,7 +5331,8 @@
    "latest_title": null,
    "latest_url": null,
    "observed": null,
-   "state": "ok_none"
+   "state": "ok_none",
+   "rt_tier": "只有新闻"
   },
   {
    "code": "BI0603",
@@ -5091,7 +5354,8 @@
    "latest_title": null,
    "latest_url": null,
    "observed": null,
-   "state": "ok_none"
+   "state": "ok_none",
+   "rt_tier": "准实时"
   },
   {
    "code": "BI0604",
@@ -5113,7 +5377,8 @@
    "latest_title": "Animal Incidents at Solududhkunda Municipality-5",
    "latest_url": "https://bipadportal.gov.np/incidents/95742",
    "observed": null,
-   "state": "local"
+   "state": "local",
+   "rt_tier": "准实时"
   },
   {
    "code": "BI0605",
@@ -5135,7 +5400,8 @@
    "latest_title": "OnlineKhabar English：Probe committee formed to investigate Mahesh Yadav’s death from snakebite",
    "latest_url": "https://english.onlinekhabar.com/probe-committee-formed-to-investigate-mahesh-yadavs-death-from-snakebite.html",
    "observed": null,
-   "state": "local"
+   "state": "local",
+   "rt_tier": "准实时"
   },
   {
    "code": "TL0101",
@@ -5157,7 +5423,8 @@
    "latest_title": "Ivanti Connect Secure：Ivanti Connect Secure Authentication Bypass by Spoofing Vulnerability",
    "latest_url": "https://www.cisa.gov/known-exploited-vulnerabilities-catalog",
    "observed": null,
-   "state": "global"
+   "state": "global",
+   "rt_tier": "准实时"
   },
   {
    "code": "TL0102",
@@ -5179,7 +5446,8 @@
    "latest_title": "Crunchbase 泄露 559908 个账号",
    "latest_url": "https://haveibeenpwned.com/PwnedWebsites",
    "observed": null,
-   "state": "global"
+   "state": "global",
+   "rt_tier": "准实时"
   },
   {
    "code": "TL0103",
@@ -5201,7 +5469,8 @@
    "latest_title": "Ivanti Connect Secure：Ivanti Connect Secure Authentication Bypass by Spoofing Vulnerability",
    "latest_url": "https://www.cisa.gov/known-exploited-vulnerabilities-catalog",
    "observed": null,
-   "state": "global"
+   "state": "global",
+   "rt_tier": "准实时"
   },
   {
    "code": "TL0104",
@@ -5222,7 +5491,8 @@
    "latest_title": null,
    "latest_url": null,
    "observed": null,
-   "state": "ok_none"
+   "state": "ok_none",
+   "rt_tier": "只有新闻"
   },
   {
    "code": "TL0105",
@@ -5244,7 +5514,8 @@
    "latest_title": null,
    "latest_url": null,
    "observed": null,
-   "state": "ok_none"
+   "state": "ok_none",
+   "rt_tier": "准实时"
   },
   {
    "code": "TL0106",
@@ -5264,7 +5535,8 @@
    "latest_title": null,
    "latest_url": null,
    "observed": null,
-   "state": "ok_none"
+   "state": "ok_none",
+   "rt_tier": "只有新闻"
   },
   {
    "code": "TL0107",
@@ -5284,7 +5556,8 @@
    "latest_title": null,
    "latest_url": null,
    "observed": null,
-   "state": "ok_none"
+   "state": "ok_none",
+   "rt_tier": "只有新闻"
   },
   {
    "code": "TL0201",
@@ -5304,7 +5577,8 @@
    "latest_title": null,
    "latest_url": null,
    "observed": null,
-   "state": "ok_none"
+   "state": "ok_none",
+   "rt_tier": "只有新闻"
   },
   {
    "code": "TL0202",
@@ -5324,7 +5598,8 @@
    "latest_title": null,
    "latest_url": null,
    "observed": null,
-   "state": "ok_none"
+   "state": "ok_none",
+   "rt_tier": "只有新闻"
   },
   {
    "code": "TL0203",
@@ -5344,7 +5619,8 @@
    "latest_title": null,
    "latest_url": null,
    "observed": null,
-   "state": "ok_none"
+   "state": "ok_none",
+   "rt_tier": "只有新闻"
   },
   {
    "code": "TL0204",
@@ -5366,7 +5642,8 @@
    "latest_title": "OnlineKhabar English：Body of missing Armed Police Force ASI Tharu found in Mahakali River",
    "latest_url": "https://english.onlinekhabar.com/missing-armed-police-mahakali-river.html",
    "observed": null,
-   "state": "local"
+   "state": "local",
+   "rt_tier": "准实时"
   },
   {
    "code": "TL0205",
@@ -5386,7 +5663,8 @@
    "latest_title": "Google News（尼泊尔灾害）：Nepal flash floods: 5 missing as surge sweeps away houses in Gorkha; landslide-dam breach likely cause | World News - Hindustan Times",
    "latest_url": "https://news.google.com/rss/articles/CBMi6AFBVV95cUxObE9ZbUlCR0VsQnY2WGJnTHRUcVhReUcxZ3IyVjY0WTdwR0hGNnAzdHhJREE5QkJoR1phZUlPSmdQbVZjWDN4TTVCYW1UOFFVTmYyejIxVjk1QXZSQ0hKcEh0RXA5c2pmSHIwb0lvajRHd1luWFFheVJ1TWN2UU5fUEJGZGNtN2dIYndQaFdSN1NNdGxLdXp6d21iZUdnLVN5THBUbldQZWF3WGpBQ2lXQ3VfOU9YQ0hCanJ6VlUzUWVZdjlEZjJMZUJHWUdMOVFaQTNJUzdkcWlzcXFjcWZpLWRlWXdlNGc30gHuAUFVX3lxTE9ObVk2WDRDbllTd2k2WDR2T1FhZzJUMUlqcGpEeXQ5YVZ4WFowVHc5ZnlLd2xkUzZabmNLVl9CdHI2VHJUZ09qc1lBTGlGWkF2SDlTendjQllta3F4QWlfdUJWUFhER3NDc2JGd25YbFEyOGZ4NWRXSEJfaUl5M1cwTjNQZExjX2kyOHZ6dThzWUdaODlXRENlU1ZFMEIxNThDSFpZTTRQRjYzTjAwdElNNzlKMWFGWE83YzhmUFNHcExCelo5UlZDVzAwbEx2VjFrWGU5VHR4MVdwOVRLSEtWZTcwOEc4bVZMUmhBLUE?oc=5",
    "observed": null,
-   "state": "local"
+   "state": "local",
+   "rt_tier": "只有新闻"
   },
   {
    "code": "TL0206",
@@ -5406,7 +5684,8 @@
    "latest_title": "Rising Nepal：No Shortage of Petroleum Products in Jhapa, says NOC",
    "latest_url": "https://risingnepaldaily.com/news/87791",
    "observed": null,
-   "state": "local"
+   "state": "local",
+   "rt_tier": "只有新闻"
   },
   {
    "code": "TL0207",
@@ -5430,7 +5709,8 @@
    "latest_title": "Road closed in Siddhalek-3, Dhading",
    "latest_url": null,
    "observed": null,
-   "state": "local"
+   "state": "local",
+   "rt_tier": "实时"
   },
   {
    "code": "TL0208",
@@ -5450,7 +5730,8 @@
    "latest_title": null,
    "latest_url": null,
    "observed": null,
-   "state": "ok_none"
+   "state": "ok_none",
+   "rt_tier": "只有新闻"
   },
   {
    "code": "TL0209",
@@ -5471,7 +5752,8 @@
    "latest_title": null,
    "latest_url": null,
    "observed": null,
-   "state": "ok_none"
+   "state": "ok_none",
+   "rt_tier": "只有新闻"
   },
   {
    "code": "TL0210",
@@ -5491,7 +5773,8 @@
    "latest_title": null,
    "latest_url": null,
    "observed": null,
-   "state": "ok_none"
+   "state": "ok_none",
+   "rt_tier": "只有新闻"
   },
   {
    "code": "TL0211",
@@ -5514,7 +5797,8 @@
    "latest_title": null,
    "latest_url": null,
    "observed": null,
-   "state": "ok_none"
+   "state": "ok_none",
+   "rt_tier": "实时"
   },
   {
    "code": "TL0212",
@@ -5537,7 +5821,8 @@
    "latest_title": null,
    "latest_url": null,
    "observed": null,
-   "state": "ok_none"
+   "state": "ok_none",
+   "rt_tier": "实时"
   },
   {
    "code": "TL0213",
@@ -5557,7 +5842,8 @@
    "latest_title": null,
    "latest_url": null,
    "observed": null,
-   "state": "ok_none"
+   "state": "ok_none",
+   "rt_tier": "只有新闻"
   },
   {
    "code": "TL0214",
@@ -5577,7 +5863,8 @@
    "latest_title": null,
    "latest_url": null,
    "observed": null,
-   "state": "ok_none"
+   "state": "ok_none",
+   "rt_tier": "只有新闻"
   },
   {
    "code": "TL0215",
@@ -5597,7 +5884,8 @@
    "latest_title": null,
    "latest_url": null,
    "observed": null,
-   "state": "ok_none"
+   "state": "ok_none",
+   "rt_tier": "只有新闻"
   },
   {
    "code": "TL0301",
@@ -5619,7 +5907,8 @@
    "latest_title": null,
    "latest_url": null,
    "observed": null,
-   "state": "ok_none"
+   "state": "ok_none",
+   "rt_tier": "准实时"
   },
   {
    "code": "TL0302",
@@ -5643,7 +5932,8 @@
    "latest_title": "Nepali Times：Breathing should not be killing us",
    "latest_url": "https://nepalitimes.com/breathing-should-not-be-killing-us",
    "observed": "Sentinel-5P __SO2 覆盖喜马拉雅（有观测，未计算数值）",
-   "state": "local"
+   "state": "local",
+   "rt_tier": "准实时"
   },
   {
    "code": "TL0303",
@@ -5663,7 +5953,8 @@
    "latest_title": null,
    "latest_url": null,
    "observed": null,
-   "state": "ok_none"
+   "state": "ok_none",
+   "rt_tier": "只有新闻"
   },
   {
    "code": "TL0304",
@@ -5689,7 +5980,8 @@
    "latest_title": null,
    "latest_url": null,
    "observed": null,
-   "state": "ok_none"
+   "state": "ok_none",
+   "rt_tier": "实时"
   },
   {
    "code": "TL0305",
@@ -5714,7 +6006,8 @@
    "latest_title": "Fire at Kageshwori Manahora Municipality-9",
    "latest_url": "https://bipadportal.gov.np/incidents/95761",
    "observed": null,
-   "state": "local"
+   "state": "local",
+   "rt_tier": "准实时"
   },
   {
    "code": "TL0306",
@@ -5734,7 +6027,8 @@
    "latest_title": "Google News（西藏灾害）：Tranche Update on Xizang Gaozheng Civil Explosives Co., Ltd.'s Equity Buyback Plan announced on May 11, 2026. - www.marketscreener.com",
    "latest_url": "https://news.google.com/rss/articles/CBMi4wFBVV95cUxPQXVTY0g1bnVsZ0VjRHdiNFdEdHlqR3lGd0xJVVYzZWRvLVp5TDg0R0NkX0pHd3diNC12QndzN0hxNXYzN2FwSklZUFF3WnhNVWljRDA2X0xfOW4xa3lualFUYnctYUVhVWJpSDNCUU0ySmtSckJiR1dfNHgwNmxGazdjazBFbEc1dUlIZlZTV0JXSFR3a3FWX1ZRemJfdE8xZTM4Z3hZcHh6QzZGQ241dlNZSkdudEZ1ZlNndWxWRTFnZWVUZlBlN0N0eUF0YWlBMzNDWGxUaktSUUhkTXcyUTE2RQ?oc=5",
    "observed": null,
-   "state": "local"
+   "state": "local",
+   "rt_tier": "只有新闻"
   },
   {
    "code": "TL0307",
@@ -5758,7 +6052,8 @@
    "latest_title": null,
    "latest_url": null,
    "observed": null,
-   "state": "ok_none"
+   "state": "ok_none",
+   "rt_tier": "实时"
   },
   {
    "code": "TL0308",
@@ -5778,7 +6073,8 @@
    "latest_title": null,
    "latest_url": null,
    "observed": null,
-   "state": "ok_none"
+   "state": "ok_none",
+   "rt_tier": "只有新闻"
   },
   {
    "code": "TL0309",
@@ -5800,7 +6096,8 @@
    "latest_title": null,
    "latest_url": null,
    "observed": null,
-   "state": "ok_none"
+   "state": "ok_none",
+   "rt_tier": "准实时"
   },
   {
    "code": "TL0401",
@@ -5822,7 +6119,8 @@
    "latest_title": null,
    "latest_url": null,
    "observed": null,
-   "state": "ok_none"
+   "state": "ok_none",
+   "rt_tier": "准实时"
   },
   {
    "code": "TL0402",
@@ -5844,7 +6142,8 @@
    "latest_title": null,
    "latest_url": null,
    "observed": null,
-   "state": "ok_none"
+   "state": "ok_none",
+   "rt_tier": "准实时"
   },
   {
    "code": "TL0403",
@@ -5864,7 +6163,8 @@
    "latest_title": null,
    "latest_url": null,
    "observed": null,
-   "state": "ok_none"
+   "state": "ok_none",
+   "rt_tier": "只有新闻"
   },
   {
    "code": "TL0404",
@@ -5884,7 +6184,8 @@
    "latest_title": null,
    "latest_url": null,
    "observed": null,
-   "state": "ok_none"
+   "state": "ok_none",
+   "rt_tier": "只有新闻"
   },
   {
    "code": "TL0405",
@@ -5906,7 +6207,8 @@
    "latest_title": null,
    "latest_url": null,
    "observed": null,
-   "state": "ok_none"
+   "state": "ok_none",
+   "rt_tier": "准实时"
   },
   {
    "code": "TL0501",
@@ -5926,7 +6228,8 @@
    "latest_title": null,
    "latest_url": null,
    "observed": null,
-   "state": "ok_none"
+   "state": "ok_none",
+   "rt_tier": "只有新闻"
   },
   {
    "code": "TL0502",
@@ -5946,7 +6249,8 @@
    "latest_title": null,
    "latest_url": null,
    "observed": null,
-   "state": "ok_none"
+   "state": "ok_none",
+   "rt_tier": "只有新闻"
   },
   {
    "code": "TL0503",
@@ -5966,7 +6270,8 @@
    "latest_title": null,
    "latest_url": null,
    "observed": null,
-   "state": "ok_none"
+   "state": "ok_none",
+   "rt_tier": "只有新闻"
   },
   {
    "code": "TL0504",
@@ -5986,7 +6291,8 @@
    "latest_title": null,
    "latest_url": null,
    "observed": null,
-   "state": "ok_none"
+   "state": "ok_none",
+   "rt_tier": "只有新闻"
   },
   {
    "code": "TL0505",
@@ -6006,7 +6312,8 @@
    "latest_title": null,
    "latest_url": null,
    "observed": null,
-   "state": "ok_none"
+   "state": "ok_none",
+   "rt_tier": "只有新闻"
   },
   {
    "code": "TL0506",
@@ -6026,7 +6333,8 @@
    "latest_title": null,
    "latest_url": null,
    "observed": null,
-   "state": "ok_none"
+   "state": "ok_none",
+   "rt_tier": "只有新闻"
   },
   {
    "code": "TL0507",
@@ -6046,7 +6354,8 @@
    "latest_title": null,
    "latest_url": null,
    "observed": null,
-   "state": "ok_none"
+   "state": "ok_none",
+   "rt_tier": "只有新闻"
   },
   {
    "code": "TL0508",
@@ -6066,7 +6375,8 @@
    "latest_title": null,
    "latest_url": null,
    "observed": null,
-   "state": "ok_none"
+   "state": "ok_none",
+   "rt_tier": "只有新闻"
   },
   {
    "code": "TL0509",
@@ -6086,7 +6396,8 @@
    "latest_title": null,
    "latest_url": null,
    "observed": null,
-   "state": "ok_none"
+   "state": "ok_none",
+   "rt_tier": "只有新闻"
   },
   {
    "code": "TL0510",
@@ -6106,7 +6417,8 @@
    "latest_title": null,
    "latest_url": null,
    "observed": null,
-   "state": "ok_none"
+   "state": "ok_none",
+   "rt_tier": "只有新闻"
   },
   {
    "code": "TL0511",
@@ -6126,7 +6438,8 @@
    "latest_title": null,
    "latest_url": null,
    "observed": null,
-   "state": "ok_none"
+   "state": "ok_none",
+   "rt_tier": "只有新闻"
   },
   {
    "code": "TL0601",
@@ -6148,7 +6461,8 @@
    "latest_title": null,
    "latest_url": null,
    "observed": null,
-   "state": "ok_none"
+   "state": "ok_none",
+   "rt_tier": "实时"
   },
   {
    "code": "TL0602",
@@ -6172,7 +6486,8 @@
    "latest_title": null,
    "latest_url": null,
    "observed": null,
-   "state": "ok_none"
+   "state": "ok_none",
+   "rt_tier": "实时"
   },
   {
    "code": "TL0603",
@@ -6194,7 +6509,8 @@
    "latest_title": null,
    "latest_url": null,
    "observed": null,
-   "state": "ok_none"
+   "state": "ok_none",
+   "rt_tier": "实时"
   },
   {
    "code": "SO0101",
@@ -6215,7 +6531,8 @@
    "latest_title": null,
    "latest_url": null,
    "observed": null,
-   "state": "ok_none"
+   "state": "ok_none",
+   "rt_tier": "只有新闻"
   },
   {
    "code": "SO0102",
@@ -6236,7 +6553,8 @@
    "latest_title": null,
    "latest_url": null,
    "observed": null,
-   "state": "ok_none"
+   "state": "ok_none",
+   "rt_tier": "只有新闻"
   },
   {
    "code": "SO0103",
@@ -6257,7 +6575,8 @@
    "latest_title": "OnlineKhabar English：Mothers of Gen Z protest detainees stage sit-in outside Singha Durbar",
    "latest_url": "https://english.onlinekhabar.com/mother-gen-z-protest-detain-sit-in.html",
    "observed": null,
-   "state": "local"
+   "state": "local",
+   "rt_tier": "只有新闻"
   },
   {
    "code": "SO0201",
@@ -6278,7 +6597,8 @@
    "latest_title": null,
    "latest_url": null,
    "observed": null,
-   "state": "ok_none"
+   "state": "ok_none",
+   "rt_tier": "只有新闻"
   },
   {
    "code": "SO0202",
@@ -6298,7 +6618,8 @@
    "latest_title": null,
    "latest_url": null,
    "observed": null,
-   "state": "ok_none"
+   "state": "ok_none",
+   "rt_tier": "只有新闻"
   },
   {
    "code": "SO0301",
@@ -6315,11 +6636,12 @@
    ],
    "n_90d": 2,
    "n_local_90d": 2,
-   "latest": "2026-10-14T07:42:33Z",
+   "latest": "2026-10-14T08:37:46Z",
    "latest_title": "Kathmandu Post：Envoy nominees face abuse, extortion and conflict-of-interest complaints",
    "latest_url": "https://kathmandupost.com/national/2026/10/13/envoy-nominees-face-abuse-extortion-and-conflict-of-interest-complaints",
    "observed": null,
-   "state": "local"
+   "state": "local",
+   "rt_tier": "只有新闻"
   },
   {
    "code": "SO0302",
@@ -6339,7 +6661,8 @@
    "latest_title": null,
    "latest_url": null,
    "observed": null,
-   "state": "ok_none"
+   "state": "ok_none",
+   "rt_tier": "只有新闻"
   },
   {
    "code": "SO0303",
@@ -6359,7 +6682,8 @@
    "latest_title": null,
    "latest_url": null,
    "observed": null,
-   "state": "ok_none"
+   "state": "ok_none",
+   "rt_tier": "只有新闻"
   },
   {
    "code": "SO0401",
@@ -6372,6 +6696,7 @@
     "新闻 RSS"
    ],
    "tested_ok": [
+    "尼泊尔央行汇率",
     "新闻 RSS"
    ],
    "n_90d": 0,
@@ -6380,7 +6705,8 @@
    "latest_title": null,
    "latest_url": null,
    "observed": null,
-   "state": "ok_none"
+   "state": "ok_none",
+   "rt_tier": "准实时"
   }
  ]
 }
