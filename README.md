@@ -63,6 +63,7 @@ flowchart LR
 | 新闻与公开记录 | GDELT 全球新闻；维基百科新建条目；OCHA HDX；ReliefWeb（需 appname） |
 | 断电、火点 | NASA 夜间灯光（需 Earthdata）、Cloudflare Radar（需令牌）、NASA FIRMS（需 MAP_KEY） |
 | 太阳活动 | 地磁 Kp 指数（GFZ）：作为背景，地磁暴时 GNSS 和卫星通信可能受影响 |
+| 281 种灾害扫描 | 每小时逐个请求 33 个公开来源（BIPAD 事件库 47 类、EONET、WHO、WOAH、SWPC、CNEOS、openFDA、CISA、新闻 RSS 等），附近记录挂到事件时间线，重大伤亡单独成事件。见 [`docs/HAZARDS_281.md`](docs/HAZARDS_281.md) |
 | 人工证据 | 总览页上传的照片、视频、链接、现场记录。全部公开指纹并存证；所有者核实为“已采信”后才公开内容、进入时间线；提交人和文件本身不公开 |
 | 存证 | 每一版证据包和人工证据清单都存快照并加 OpenTimestamps 时间戳，之后自动升级为比特币区块确认 |
 

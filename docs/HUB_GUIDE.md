@@ -69,6 +69,18 @@
 
 判定标记：**支持**（这个来源记录到了），**缺失**（该有记录但没有，或来源断了），**矛盾**（和其他来源对不上），**中性**（相关记录，但不直接支持或反对）。
 
+<a name="hazards"></a>
+## 灾种 281
+
+联合国减灾署 2025 版 281 种灾害，每小时逐个实测一次（`hazards` 工作流）：
+
+- **33 个公开来源**：尼泊尔政府 BIPAD 事件库（47 类，含交通、火灾、蛇咬、食物中毒、疫情、毒气和辐射泄漏等）、BIPAD 警报和空气质量站、NASA EONET、USGS、GDACS、NOAA 空间天气、NASA 近地天体与火球、CelesTrak、WHO 疫情通报与 FluNet、WOAH 动物疫情、openFDA 召回、CISA 已利用漏洞、Have I Been Pwned、IODA、尼泊尔央行汇率、Safecast、Sentinel-5P、海啸预警中心、NOAA NCEI、IOC 潮位站、IBTrACS、NSIDC 海冰、GBIF、尼泊尔英文媒体和谷歌新闻 RSS。6 个需要密钥（Cloudflare Radar、Global Forest Watch、FIRMS、OpenAQ、ACLED、ReliefWeb），没配置时标“需密钥”。
+- **新闻匹配**：每种灾害一组人工写的英文匹配词（`tools/hazard_keywords.py`），谷歌新闻的结果要求标题里有尼泊尔或西藏的地名。
+- **状态**：本地有记录 / 外地有记录 / 有持续观测（只有卫星或站网在测，没有“发生了”的记录）/ 来源正常但 90 天无记录 / 需密钥 / 来源失败。
+- **和事件的关系**：尼泊尔死亡加失踪 3 人以上，或高山区自然灾害有人死亡失踪，单独做证据包；其余记录按距离（150 km）和时间（前 1 天到后 5 天）挂到附近事件的时间线上，按伤亡、同类、距离排序取前 25 条。
+
+逐条对照：[`docs/HAZARDS_281.md`](HAZARDS_281.md)；原始结果在 events 分支 `hazards/`。
+
 <a name="verify"></a>
 ## 核对存证
 
