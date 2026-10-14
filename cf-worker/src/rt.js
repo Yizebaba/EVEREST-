@@ -12,7 +12,7 @@ export const IMG = {
   meteosat_snow: "https://view.eumetsat.int/geoserver/ows?service=WMS&version=1.3.0&request=GetMap&styles=&crs=EPSG:4326&BBOX=25.5,82.5,31.0,90.5&WIDTH=640&HEIGHT=440&format=image/jpeg&layers=msg_iodc:rgb_snow",
 };
 // 各源节奏（分钟）
-const EVERY = { evn: 5, bipad: 10, emsc: 10, gibs: 10, ioda: 10, usgs: 15, alerts: 15, nsc: 30, gdacs: 30, doris: 30, adsb: 30, news: 30 };
+const EVERY = { evn: 5, bipad: 10, emsc: 10, gibs: 10, ioda: 10, usgs: 15, alerts: 15, nsc: 30, gdacs: 30, doris: 30, adsb: 30, news: 30, cams: 10 };
 const MAX_PER_ROUND = 5;   // 每轮最多跑 5 个源（按最久没更新的先跑），控制单次计算量
 // 南坡关键水文站（BIPAD stationSeriesId）
 export const SERIES = { 5385: "Imja 冰湖出口", 5378: "Imja 湖下游（疑似故障）", 12378: "Imja 河 Dingboche", 5287: "Imja 河 Pangboche",
@@ -260,7 +260,24 @@ async function news() {
   const s2 = d => `${d.slice(0, 4)}-${d.slice(4, 6)}-${d.slice(6, 8)}T${d.slice(9, 11)}:${d.slice(11, 13)}:${d.slice(13, 15)}Z`;
   return { arts: (JSON.parse(tx).articles || []).map(x => ({ t: s2(x.seendate), title: String(x.title || "").slice(0, 200), url: x.url, domain: x.domain, lang: x.language })) };
 }
-const JOBS = { evn, bipad, emsc, gibs, ioda, usgs, alerts, nsc, gdacs, doris, adsb, news };
+// 珠峰摄像头缩略图：哪些摄像头在播由 hazards 工作流每小时查（events 分支 hazards/webcams.json）；这里每 10 分钟取一次 YouTube 生成的直播缩略图，
+// 连接器每分钟把它带给页面。YouTube 不保证缩略图是这一刻的画面，记下取图时间和服务器给的修改时间。
+async function cams(prev) {
+  const wc = await j("https://raw.githubusercontent.com/Yizebaba/EVEREST-/events/hazards/webcams.json");
+  const out = [];
+  for (const c of (wc.cams || []).filter(c => c.kind === "youtube" && c.live).slice(0, 4)) {
+    const vid = (c.url.match(/v=([\w-]{11})/) || [])[1]; if (!vid) continue;
+    try {
+      const r = await fetch(`https://i.ytimg.com/vi/${vid}/mqdefault_live.jpg?t=${Date.now()}`, { headers: UA });
+      if (!r.ok) { out.push({ id: c.id, err: "HTTP " + r.status }); continue; }
+      const b = new Uint8Array(await r.arrayBuffer()); let s = "";
+      for (let i = 0; i < b.length; i += 0x8000) s += String.fromCharCode.apply(null, b.subarray(i, i + 0x8000));
+      out.push({ id: c.id, title: c.title, url: c.url, fetched: iso(Date.now()), modified: r.headers.get("last-modified") ? iso(Date.parse(r.headers.get("last-modified"))) : null, bytes: b.length, img: "data:image/jpeg;base64," + btoa(s) });
+    } catch (e) { out.push({ id: c.id, err: String(e).slice(0, 80) }); }
+  }
+  return { list: out, checked: wc.updated };
+}
+const JOBS = { evn, bipad, emsc, gibs, ioda, usgs, alerts, nsc, gdacs, doris, adsb, news, cams };
 
 // 每轮：取状态，跑到点的源，存回。返回本轮日志。
 export async function rtTick(env, getMeta, setMeta) {
