@@ -23,7 +23,7 @@ import urllib.request, urllib.parse
 UA = {"user-agent": "everest-evidence (github.com/Yizebaba/EVEREST-)"}
 EVN = (27.9587, 86.8117)
 OUT = "events"
-VERSION = 13   # 改了证据包内容时加 1，所有包会重算一次
+VERSION = 14   # 改了证据包内容时加 1，所有包会重算一次
 NOW = datetime.now(timezone.utc)
 
 # 尼泊尔区县 → IODA 地区（旧 14 区）
@@ -832,7 +832,20 @@ def vantor(ev, t0, items, pack):
         items.append({"t": iso(NOW), "src": "Vantor 开放影像", "kind": "MISSING", "text": f"查询失败（{str(e)[:60]}）", "text_en": f"Query failed ({str(e)[:60]})"})
 
 
+GDACS_HIPS = {"EQ": "GH0101", "FL": "MH0600", "TC": "MH0309", "DR": "MH0401", "WF": "EN0205", "VO": "GH0200"}
+
+
+def hips_of(ev):
+    """事件的联合国减灾署 2025 灾害编码；Worker 还没补上时按编号推断。"""
+    if ev.get("hips"): return ev["hips"]
+    m = re.match(r"gdacs-(\w+)-", ev["id"])
+    if m: return [GDACS_HIPS.get(m.group(1), "MH0600")]
+    if ev["id"].startswith("usgs-"): return ["GH0101" if ev.get("kind") == "地震" else "GH0300"]
+    return ["MH0604"]
+
+
 def build(ev):
+    ev["hips"] = hips_of(ev)
     t0 = P(ev["t"]); items = []
     m = re.search(r"bipad-([a-z-]+)-\d{4}", ev["id"])
     if m:
