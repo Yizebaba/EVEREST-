@@ -7,9 +7,9 @@
 
 | 主线 | 核心问题 | 代表性工作（顶刊顶会 / 标准） | 成熟工具 | EVEREST 现状 |
 |---|---|---|---|---|
-| **1. 时间戳与防篡改** | 证明“这份文件最晚在某时刻已存在、之后没改过” | Haber & Stornetta, *J. Cryptology* 1991（链式时间戳）；Crosby & Wallach, **USENIX Security 2009**（防篡改日志）；IETF **RFC 3161**（可信时间戳协议）；RFC 6962 证书透明（Certificate Transparency） | OpenTimestamps；RFC 3161 时间戳机构（FreeTSA、DigiCert）；Trillian / Tessera 透明日志（transparency.dev） | ✅ OpenTimestamps（比特币）+ ✅ RFC 3161 双机构（v17 新增）。透明日志未接 |
+| **1. 时间戳与防篡改** | 证明“这份文件最晚在某时刻已存在、之后没改过” | Haber & Stornetta, *J. Cryptology* 1991（链式时间戳）；Crosby & Wallach, **USENIX Security 2009**（防篡改日志）；IETF **RFC 3161**（可信时间戳协议）；RFC 6962 证书透明（Certificate Transparency） | OpenTimestamps；RFC 3161 时间戳机构（FreeTSA、DigiCert）；Trillian / Tessera 透明日志（transparency.dev） | ✅ OpenTimestamps（比特币）+ ✅ RFC 3161 双机构（v17）+ ✅ Sigstore Rekor 透明日志（v19） |
 | **2. 来源与派生（provenance）** | 每条记录从哪来、谁发布、经过什么处理变成结论 | **W3C PROV-O / PROV-DM**（2013 推荐标准）；**RO-Crate**（Soiland-Reyes et al., *Data Science* 2022, arXiv 2108.06503）；Workflow Run Crate（arXiv 2312.07852） | `prov`（Python）、`rocrate`（Python）、ro-crate-validator | ✅ 每个证据包导出 PROV-JSON + RO-Crate（v17 新增，已用两个库校验） |
-| **3. 数字取证与监管链（chain of custody）** | 证据从采集到出庭，经手人和状态可追溯 | **DFRWS** 会议 + *Forensic Science International: Digital Investigation*；**CASE / UCO** 本体（Linux Foundation 项目，DFRWS 发表）；B-CoC（区块链监管链，arXiv 1807.10359）；**Berkeley Protocol**（OHCHR + 伯克利人权中心，2020/2022，公开来源数字调查规程） | CASE 导出工具（case-utils）；Sigstore（**ACM CCS 2022**）和 in-toto（**USENIX Security 2019**）做软件供应链签名，可借来签“证据包是哪段代码生成的” | 部分：人工证据有指纹、提交时间、采信状态；未导出 CASE，未做 Sigstore 签名 |
+| **3. 数字取证与监管链（chain of custody）** | 证据从采集到出庭，经手人和状态可追溯 | **DFRWS** 会议 + *Forensic Science International: Digital Investigation*；**CASE / UCO** 本体（Linux Foundation 项目，DFRWS 发表）；B-CoC（区块链监管链，arXiv 1807.10359）；**Berkeley Protocol**（OHCHR + 伯克利人权中心，2020/2022，公开来源数字调查规程） | CASE 导出工具（case-utils）；Sigstore（**ACM CCS 2022**）和 in-toto（**USENIX Security 2019**）做软件供应链签名，可借来签“证据包是哪段代码生成的” | ✅ Sigstore 无密钥签名（v19 新增，签名记入 Rekor 透明日志）；人工证据有指纹、提交时间、采信状态；未导出 CASE |
 | **4. 现场媒体可信度** | 手机拍的照片/视频是不是现场、有没有被改 | **C2PA** 内容凭证（Adobe、微软、BBC 等发起）；ProofMode（Guardian Project，SHA-256 + PGP 旁路证明）；Starling Lab（斯坦福 + USC Shoah 基金会，2022 年向国际刑事法院提交的数字档案） | c2patool、ProofMode App | ✅ 总览页上传时读 C2PA 标记和 EXIF 拍摄时间，记进人工证据 |
 
 国内司法实践：最高人民法院《关于互联网法院审理案件若干问题的规定》（2018）第十一条认可电子数据经区块链、可信时间戳等技术核验后的证明力；杭州互联网法院 2018 年起用司法区块链，腾讯至信链、蚂蚁链等都接入过司法存证。这些是“机构背书的存证”，EVEREST 用的是不依赖单一机构的公开时间戳（比特币 + 两家 RFC 3161 机构），任何人可独立核对。
@@ -31,6 +31,8 @@
 3. **RO-Crate**：每个证据包一个 `ro-crate-metadata.json`，列出文件、来源、地点、时间、生成代码。可直接上传 Zenodo / WorkflowHub。
 4. **“谁没记录到”同等重要**：FORIN 的回溯思路，缺失和矛盾都写进时间线。
 5. **C2PA / EXIF**：人工上传的照片视频先查内容凭证和拍摄时间。
+6. **Sigstore 签名 + Rekor 透明日志**（v19）：每个快照用 GitHub Actions 身份无密钥签名，证明是本仓库工作流生成的；签名追加进公开日志，事后删改会被发现。
+7. **同行评审过的历史数据库**（v19）：高山亚洲冰湖溃决数据库（Steiner & Shrestha，ESSD 2023），每次现取开发版、记提交号；只用作者确认过的条目。
 
 ### 自己核对 RFC 3161 时间戳
 
@@ -47,8 +49,6 @@ openssl ts -verify -in <快照>.json.FreeTSA.tsr -data <快照>.json -CAfile cac
 | 做法 | 价值 | 代价 | 建议 |
 |---|---|---|---|
 | **Zenodo 存档拿 DOI**（RO-Crate 直接上传） | 证据包可被论文引用，有永久标识 | 需要 Zenodo 令牌；每个事件一个 DOI | 值得做：重大事件手动或自动存档 |
-| **Sigstore 签名**（GitHub Actions 自带 OIDC，无需密钥） | 证明证据包是仓库里某次提交的代码生成的，不是人手改的 | 小：加一步 `cosign sign-blob` | 值得做 |
-| **透明日志**（Tessera / Rekor） | 所有版本追加进公开日志，删除会被发现 | 自己维护日志服务；或直接用 Sigstore 的 Rekor | 和上一条一起做就有了 |
 | **CASE / UCO 导出** | 数字取证工具链（法庭用）能直接读 | 本体复杂 | 有司法用途需求时再做 |
 | **Berkeley Protocol 对照表** | 公开来源调查的国际规程：采集、保存、核实、分析各步骤 | 写文档，不改代码 | 可以做一张对照表放这里 |
 

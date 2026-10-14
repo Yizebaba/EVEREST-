@@ -6,10 +6,11 @@
   2. 取论文数最多的 25 个来源里、该主题论文不少于 5 篇的期刊或会议（排除 Zenodo 这类存储库），
      再去掉综合性大刊（名单见 MULTI，如 PLoS ONE、Scientific Reports、Nature Communications），按来源整体的 h 指数排序取前三
      → “该灾种的专业顶刊顶会”；综合性大刊单独列出（multidisciplinary）；
+  （以下两步用 Crossref 公开接口，不占 OpenAlex 额度）
   3. 同一检索词下，发表在数据期刊（ESSD、Scientific Data、Geoscience Data Journal、Data in Brief）的论文按检索相关度取前三 → 可引用的数据论文；
-  4. 同一检索词下，2020 年以来被引最多的三篇论文 → 方法参考。
+  4. 同一检索词下，2020 年以来检索相关度前 20 篇里被引最多的三篇 → 方法参考。
 输出：venues.json
-增量运行：OpenAlex 按额度计费（无密钥每天约 100 次检索，免费密钥约 1000 次；每个灾种 3 次检索）。
+增量运行：OpenAlex 按额度计费（无密钥每天约 100 次检索，免费密钥约 1000 次；每个灾种 1 次检索）。
 已有结果的灾种跳过；额度用完（HTTP 429）就停，下次接着跑。可选环境变量 OPENALEX_API_KEY（openalex.org/settings/api）。
 """
 import json, os, re, sys, time, urllib.parse, urllib.request
@@ -103,6 +104,34 @@ def works(q, flt, sort="cited_by_count:desc", n=5, select="id,doi,display_name,p
     return get(u).get("results", [])
 
 
+import threading
+_CR_LOCK = threading.Lock()
+_CR_LAST = [0.0]
+DATA_ISSN = ("1866-3516", "1866-3508", "2052-4463", "2049-6060", "2352-3409")
+
+
+def crossref(q, flt, rows):
+    """Crossref 公开接口（免费、无需密钥）。公共池要求串行、每秒不超过几次，这里加锁并间隔 0.5 秒。"""
+    with _CR_LOCK:
+        wait = 0.5 - (time.time() - _CR_LAST[0])
+        if wait > 0: time.sleep(wait)
+        u = "https://api.crossref.org/works?" + urllib.parse.urlencode({"query.bibliographic": q.strip('"'), "filter": flt, "rows": rows,
+                                                                          "select": "DOI,title,container-title,issued,is-referenced-by-count"})
+        for i in range(4):
+            try:
+                with urllib.request.urlopen(urllib.request.Request(u, headers=UA), timeout=60) as r:
+                    _CR_LAST[0] = time.time(); return json.loads(r.read())["message"]["items"]
+            except Exception as e:
+                if i == 3: raise
+                time.sleep(3 + 5 * i)
+
+
+def cr_item(w):
+    y = ((w.get("issued") or {}).get("date-parts") or [[None]])[0][0]
+    return {"title": (w.get("title") or [""])[0], "doi": "https://doi.org/" + w["DOI"], "year": y, "cites": w.get("is-referenced-by-count"),
+            "journal": (w.get("container-title") or [""])[0]}
+
+
 def src_batch(ids):
     need = [x for x in ids if x not in SRC_CACHE]
     for k in range(0, len(need), 50):
@@ -117,22 +146,36 @@ def src_batch(ids):
 def one(h):
     c = h["code"]; q = term(c)
     q = f'"{q}"' if " " in q else q
-    r = {"dp_sort": "relevance", "code": c, "label": h["label"], "label_zh": h["label_zh"], "family": h["family"], "family_zh": h["family_zh"], "cluster": h["cluster"], "query": q}
+    r = {"src": "openalex+crossref", "code": c, "label": h["label"], "label_zh": h["label_zh"], "family": h["family"], "family_zh": h["family_zh"], "cluster": h["cluster"], "query": q}
+    pv = PREVALL.get(c)
     try:
-        g = get("https://api.openalex.org/works?" + urllib.parse.urlencode({"search": q, "filter": "from_publication_date:2020-01-01,type:article|review", "group_by": "primary_location.source.id", "per-page": 25}))
-        r["papers_2020"] = g.get("meta", {}).get("count")
-        cand = [x for x in g.get("group_by", []) if x.get("key") and x["key"] != "unknown" and x["count"] >= 5][:25]
-        src_batch([x["key"] for x in cand])
-        vs = [{**SRC_CACHE.get(x["key"], {"name": x.get("key_display_name"), "h": None}), "id": x["key"], "n": x["count"]} for x in cand]
-        vs = [v for v in vs if v.get("type") in VENUE_TYPES]
-        vs.sort(key=lambda v: (v.get("h") or 0), reverse=True)
-        r["top_venues"] = [v for v in vs if (v.get("name") or "").lower() not in MULTI][:3]
-        r["multidisciplinary"] = [v for v in vs if (v.get("name") or "").lower() in MULTI][:3]; r["most_active"] = sorted(vs, key=lambda v: -v["n"])[:3]
-        r["data_papers"] = [{"title": w["display_name"], "doi": w.get("doi"), "year": w.get("publication_year"), "cites": w.get("cited_by_count"),
-                             "journal": ((w.get("primary_location") or {}).get("source") or {}).get("display_name")}
-                            for w in works(q, "primary_location.source.issn:1866-3516|1866-3508|2052-4463|2049-6060|2352-3409", sort="relevance_score:desc", n=3, select="id,doi,display_name,publication_year,cited_by_count,primary_location")]
-        r["top_papers"] = [{"title": w["display_name"], "doi": w.get("doi"), "year": w.get("publication_year"), "cites": w.get("cited_by_count"),
-                            "venue": ((w.get("primary_location") or {}).get("source") or {}).get("display_name")} for w in works(q, "from_publication_date:2020-01-01,type:article|review", n=3)]
+        if pv and pv.get("query") == q and pv.get("top_venues") is not None and "multidisciplinary" in pv and not pv.get("err"):
+            # 期刊排名已有、检索词没变：沿用，不再占 OpenAlex 额度
+            for k in ("papers_2020", "top_venues", "multidisciplinary", "most_active"): r[k] = pv.get(k)
+        elif STOP:
+            r["venues_pending"] = True   # OpenAlex 当日额度已用完：期刊排名明天续跑，数据论文照查
+        else:
+            g = get("https://api.openalex.org/works?" + urllib.parse.urlencode({"search": q, "filter": "from_publication_date:2020-01-01,type:article|review", "group_by": "primary_location.source.id", "per-page": 25}))
+            r["papers_2020"] = g.get("meta", {}).get("count")
+            cand = [x for x in g.get("group_by", []) if x.get("key") and x["key"] != "unknown" and x["count"] >= 5][:25]
+            src_batch([x["key"] for x in cand])
+            vs = [{**SRC_CACHE.get(x["key"], {"name": x.get("key_display_name"), "h": None}), "id": x["key"], "n": x["count"]} for x in cand]
+            vs = [v for v in vs if v.get("type") in VENUE_TYPES]
+            vs.sort(key=lambda v: (v.get("h") or 0), reverse=True)
+            r["top_venues"] = [v for v in vs if (v.get("name") or "").lower() not in MULTI][:3]
+            r["multidisciplinary"] = [v for v in vs if (v.get("name") or "").lower() in MULTI][:3]
+            r["most_active"] = sorted(vs, key=lambda v: -v["n"])[:3]
+        r["data_papers"] = [cr_item(w) for w in crossref(q, ",".join("issn:" + i for i in DATA_ISSN), 3)]
+        top = [cr_item(w) for w in crossref(q, "from-pub-date:2020-01-01,type:journal-article", 20)]
+        r["top_papers"] = [{**x, "venue": x.pop("journal")} for x in sorted(top, key=lambda x: -(x["cites"] or 0))[:3]]
+    except Budget:
+        r["venues_pending"] = True
+        try:
+            r["data_papers"] = [cr_item(w) for w in crossref(q, ",".join("issn:" + i for i in DATA_ISSN), 3)]
+            top = [cr_item(w) for w in crossref(q, "from-pub-date:2020-01-01,type:journal-article", 20)]
+            r["top_papers"] = [{**x, "venue": x.pop("journal")} for x in sorted(top, key=lambda x: -(x["cites"] or 0))[:3]]
+        except Exception as e:
+            r["err"] = str(e)[:200]
     except Exception as e:
         r["err"] = str(e)[:200]
     print(c, q, r.get("papers_2020"), [v.get("name") for v in r.get("top_venues", [])], r.get("err", ""), flush=True)
@@ -140,8 +183,12 @@ def one(h):
 
 
 old = {}
+PREVALL = {}
 if PREV and os.path.exists(PREV):
-    try: old = {h["code"]: h for h in json.load(open(PREV))["hazards"] if h.get("dp_sort") == "relevance" and not h.get("err")
+    try: PREVALL = {h["code"]: h for h in json.load(open(PREV))["hazards"] if h}
+    except Exception: pass
+if PREV and os.path.exists(PREV):
+    try: old = {h["code"]: h for h in json.load(open(PREV))["hazards"] if h.get("src") == "openalex+crossref" and not h.get("err") and not h.get("venues_pending")
            and h.get("query") == (lambda q: f'"{q}"' if " " in q else q)(term(h["code"]))}   # 检索词改过的重查
     except Exception as e: print("prev unreadable", e)
 todo = [h for h in HIPS if h["code"] not in old]
@@ -150,7 +197,7 @@ from concurrent.futures import ThreadPoolExecutor
 with ThreadPoolExecutor(3) as ex:
     new = {r["code"]: r for r in ex.map(one, todo)}
 res = [old.get(h["code"]) or new.get(h["code"]) for h in HIPS]
-done = sum(1 for r in res if r and not r.get("err"))
+done = sum(1 for r in res if r and not r.get("err") and not r.get("venues_pending"))
 json.dump({"generated": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime()), "method": __doc__, "done": done, "total": len(HIPS), "hazards": res},
           open(OUT, "w"), ensure_ascii=False, indent=1)
 print(f"完成 {done}/{len(HIPS)}", flush=True)

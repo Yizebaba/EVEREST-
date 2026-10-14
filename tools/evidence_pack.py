@@ -23,7 +23,7 @@ import urllib.request, urllib.parse
 UA = {"user-agent": "everest-evidence (github.com/Yizebaba/EVEREST-)"}
 EVN = (27.9587, 86.8117)
 OUT = "events"
-VERSION = 18   # 改了证据包内容时加 1，所有包会重算一次
+VERSION = 19   # 改了证据包内容时加 1，所有包会重算一次
 NOW = datetime.now(timezone.utc)
 
 # 尼泊尔区县 → IODA 地区（旧 14 区）
@@ -444,7 +444,31 @@ def ots_stamp(eid, path, idx_entry):
     ok = os.path.exists(snap + ".ots")
     stamps.append({"sha256": h, "file": f"events/archive/{os.path.basename(snap)}", "ots": f"events/archive/{os.path.basename(snap)}.ots",
                    "stamped": iso(NOW), "status": "pending" if ok else "failed", "err": None if ok else (r.stderr or r.stdout)[-200:],
-                   "tsa": tsa_stamp(snap)})
+                   "tsa": tsa_stamp(snap), "sigstore": sigstore_sign(snap)})
+
+
+SIG_ID = "https://github.com/Yizebaba/EVEREST-/.github/workflows/evidence.yml@refs/heads/events"
+
+
+def sigstore_sign(path):
+    """Sigstore 无密钥签名（GitHub Actions 的身份令牌）：证明这份快照是本仓库 evidence.yml 生成的，签名同时记入公开透明日志 Rekor。
+    存 <快照>.sigstore.json。核对：cosign verify-blob --bundle 快照.sigstore.json --certificate-identity <SIG_ID>
+      --certificate-oidc-issuer https://token.actions.githubusercontent.com 快照"""
+    import shutil, subprocess
+    if not shutil.which("cosign") or not os.environ.get("ACTIONS_ID_TOKEN_REQUEST_URL"):
+        return None
+    b = path + ".sigstore.json"
+    r = subprocess.run(["cosign", "sign-blob", "--yes", "--bundle", b, path], capture_output=True, text=True, timeout=120)
+    if not os.path.exists(b):
+        return {"err": (r.stderr or r.stdout)[-160:]}
+    idx = None
+    try:
+        j = json.load(open(b))
+        idx = ((j.get("verificationMaterial") or {}).get("tlogEntries") or [{}])[0].get("logIndex") or ((j.get("rekorBundle") or {}).get("Payload") or {}).get("logIndex")
+    except Exception:
+        pass
+    return {"file": "events/archive/" + os.path.basename(b), "identity": SIG_ID, "rekor_log_index": idx,
+            "rekor": f"https://search.sigstore.dev/?logIndex={idx}" if idx else None}
 
 
 TSA = {"FreeTSA": "https://freetsa.org/tsr", "DigiCert": "http://timestamp.digicert.com"}
@@ -500,6 +524,8 @@ def rocrate_export(pack, idx_entry):
         parts.append({"@id": base + st["ots"], "@type": "File", "name": "OpenTimestamps 证明", "encodingFormat": "application/vnd.opentimestamps"})
         for t in st.get("tsa") or []:
             if t.get("file"): parts.append({"@id": base + t["file"], "@type": "File", "name": f"RFC 3161 时间戳（{t['tsa']}）", "encodingFormat": "application/timestamp-reply"})
+        if (st.get("sigstore") or {}).get("file"):
+            parts.append({"@id": base + st["sigstore"]["file"], "@type": "File", "name": "Sigstore 签名（含 Rekor 透明日志记录）", "encodingFormat": "application/vnd.dev.sigstore.bundle+json"})
     crate = {"@context": "https://w3id.org/ro/crate/1.1/context", "@graph": [
         {"@id": "ro-crate-metadata.json", "@type": "CreativeWork", "conformsTo": {"@id": "https://w3id.org/ro/crate/1.1"}, "about": {"@id": "./"}},
         {"@id": "./", "@type": "Dataset", "name": f"EVEREST 事件证据包：{pack.get('title')}", "description": pack.get("note"), "datePublished": pack["built"],
@@ -941,6 +967,83 @@ def vantor(ev, t0, items, pack):
 GDACS_HIPS = {"EQ": "GH0101", "FL": "MH0600", "TC": "MH0309", "DR": "MH0401", "WF": "EN0205", "VO": "GH0200"}
 
 
+_GLOF = None
+GLOF_REPO = "fidelsteiner/HMAGLOFDB"
+GLOF_FILE = "Database/GLOFs/HMAGLOFDB.csv"
+
+
+def glof_db():
+    """高山亚洲冰湖溃决数据库（Steiner & Shrestha，ICIMOD / 乌得勒支大学；ESSD 2023, doi:10.5194/essd-15-3941-2023）。
+    读 GitHub 上滚动更新的开发版（新事件核对后先进这里，再发 Zenodo 正式版），每次生成证据包现取，记下当时的提交号。
+    已被作者判为可疑或不是冰湖溃决的条目在另一个文件（HMAGLOFDB_removed.csv），这里不读。"""
+    global _GLOF
+    if _GLOF is not None: return _GLOF
+    import csv, io
+    _GLOF = {"rows": [], "src": None}
+    tok = os.environ.get("GITHUB_TOKEN")
+    try:
+        c = get(f"https://api.github.com/repos/{GLOF_REPO}/commits?path={GLOF_FILE}&per_page=1", headers={"authorization": f"Bearer {tok}"} if tok else None)[0]
+        sha, when = c["sha"], c["commit"]["committer"]["date"]
+    except Exception:
+        sha, when = "main", None
+    txt = get(f"https://raw.githubusercontent.com/{GLOF_REPO}/{sha}/{GLOF_FILE}", raw=True, timeout=60).decode("utf-8", "ignore")
+    for r in csv.DictReader(io.StringIO(txt)):
+        r = {k: ("" if (v or "").strip() in ("NA", "NaN", "nan", "-") else (v or "").strip()) for k, v in r.items()}
+        def f(k):
+            try: return float(r.get(k) or "nan")
+            except ValueError: return float("nan")
+        la, lo = f("Lat_impact"), f("Lon_impact")
+        if la != la: la, lo = f("Lat_lake"), f("Lon_lake")
+        if la != la or lo != lo: continue
+        y = (r.get("Year_exact") or "").strip()
+        _GLOF["rows"].append({"id": r.get("GF_ID"), "year": y or (r.get("Year_approx") or "").strip(), "exact": bool(y),
+                              "month": (r.get("Month") or "").strip(), "day": (r.get("Day") or "").strip(),
+                              "lake": (r.get("Lake_name") or r.get("GL_ID") or "").strip(), "country": (r.get("Country") or "").strip(),
+                              "lat": la, "lon": lo, "lat_lake": f("Lat_lake"), "lon_lake": f("Lon_lake"),
+                              "lives": (r.get("Lives_total") or "").strip(), "mechanism": (r.get("Mechanism") or "").strip(),
+                              "ref": (r.get("Ref_scientific") or r.get("Ref_other") or "").strip()[:160]})
+    _GLOF["src"] = {"name": "HMAGLOFDB（高山亚洲冰湖溃决数据库）", "repo": f"https://github.com/{GLOF_REPO}", "commit": sha, "commit_time": when,
+                    "file": f"https://github.com/{GLOF_REPO}/blob/{sha}/{GLOF_FILE}", "release_doi": "https://doi.org/10.5281/zenodo.7271187",
+                    "paper": "https://doi.org/10.5194/essd-15-3941-2023", "n": len(_GLOF["rows"]), "fetched": iso(NOW)}
+    return _GLOF
+
+
+def glof_history(ev, t0, items, pack):
+    """冰湖溃决数据库：①事件前 1 天到后 5 天、80 km 内有收录的溃决 → 进时间线（支持）；
+    ②事件 30 km 内历史上收录过的溃决 → pack["history"]，只是数据库记录（带出处），不是这次事件的证据，不进时间线。"""
+    if not (25 <= ev["lat"] <= 50 and 60 <= ev["lon"] <= 105): return
+    try:
+        db = glof_db()
+    except Exception as e:
+        items.append({"t": iso(NOW), "src": "冰湖溃决数据库", "kind": "MISSING", "text": f"读取失败（{str(e)[:60]}）", "text_en": f"Fetch failed ({str(e)[:60]})"}); return
+    def dist(r):
+        d = km((ev["lat"], ev["lon"]), (r["lat"], r["lon"]))
+        if r["lat_lake"] == r["lat_lake"]: d = min(d, km((ev["lat"], ev["lon"]), (r["lat_lake"], r["lon_lake"])))
+        return d
+    a, b = t0 - timedelta(days=1), t0 + timedelta(days=5)
+    hist = []
+    for r in db["rows"]:
+        d = dist(r)
+        if d > 80: continue
+        when = None
+        if r["exact"] and r["month"] and r["day"]:
+            try: when = datetime(int(float(r["year"])), int(float(r["month"])), int(float(r["day"])), tzinfo=timezone.utc)
+            except ValueError: when = None
+        lives = f"，死亡 {r['lives']}" if r["lives"] and r["lives"] not in ("0", "NA", "nan") else ""
+        if when and a <= when <= b:
+            items.append({"t": iso(when), "src": "冰湖溃决数据库 HMAGLOFDB", "kind": "SUPPORTING", "hips": ["MH0607"],
+                          "text": f"数据库收录：{r['lake'] or '未命名冰湖'} 溃决（{r['country']}，距事件 {d:.0f} km{lives}；编号 {r['id']}）",
+                          "text_en": f"Database record: outburst of {r['lake'] or 'unnamed lake'} ({r['country']}, {d:.0f} km; ID {r['id']})",
+                          "url": db["src"]["file"]})
+        elif d <= 30:
+            hist.append({"id": r["id"], "year": r["year"], "date": "-".join(x for x in (r["year"], r["month"], r["day"]) if x) if r["exact"] else (f"约 {r['year']}" if r["year"] else "年份不详"),
+                         "lake": r["lake"], "country": r["country"], "km": round(d, 1), "lives": r["lives"] or None, "mechanism": r["mechanism"] or None, "ref": r["ref"] or None})
+    if hist:
+        hist.sort(key=lambda h: (h["year"] != "", str(h["year"])), reverse=True)
+        pack["history"] = {"source": db["src"], "radius_km": 30, "n": len(hist), "records": hist[:20],
+                           "note": "数据库里事件 30 km 内历史上收录过的冰湖溃决，每条带数据库编号和原始文献；只是历史记录，不是这次事件的证据，也不用来推测。"}
+
+
 _VEN = None
 
 
@@ -991,7 +1094,8 @@ def build(ev):
                lambda: rshake(ev, t0, items, pack), lambda: usgs_products(ev, t0, items, pack), lambda: gnss(ev, t0, items, pack),
                lambda: gdelt(ev, t0, items, pack), lambda: wiki(ev, t0, items, pack), lambda: hdx(ev, t0, items, pack), lambda: reliefweb(ev, t0, items, pack),
                lambda: cfradar(ev, t0, items, pack), lambda: firms(ev, t0, items, pack), lambda: blackmarble(ev, t0, items, pack),
-               lambda: spaceweather(ev, t0, items, pack), lambda: vantor(ev, t0, items, pack), lambda: hazard_records(ev, t0, items, pack)):
+               lambda: spaceweather(ev, t0, items, pack), lambda: vantor(ev, t0, items, pack), lambda: hazard_records(ev, t0, items, pack),
+               lambda: glof_history(ev, t0, items, pack)):
         try:
             fn()
         except Exception:

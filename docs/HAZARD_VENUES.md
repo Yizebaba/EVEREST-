@@ -10,8 +10,8 @@
 
 ## 怎么生成
 
-`tools/venue_rank.py` 在 GitHub Actions 上查 OpenAlex（公开学术数据库，免费），`tools/venues_report.py` 生成表格。每天 02:41 UTC 自动续跑。
-OpenAlex 按天计额度：不配密钥每天约 30 种，配了免费密钥（GitHub Secret `OPENALEX_API_KEY`，在 <https://openalex.org/settings/api> 取）一次跑完 281 种。
+`tools/venue_rank.py` 在 GitHub Actions 上查 OpenAlex（期刊排名）和 Crossref（数据论文、方法论文，免费不限额），`tools/venues_report.py` 生成表格。每天 02:41 UTC 自动续跑。
+期刊排名受 OpenAlex 每日额度限制：不配密钥每天约 90 种（每种只查一次），配了免费密钥（GitHub Secret `OPENALEX_API_KEY`，在 <https://openalex.org/settings/api> 取）一次跑完 281 种。
 
 ## 怎么用到证据链里
 

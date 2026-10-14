@@ -230,3 +230,15 @@
 - hazard_scan：ACLED 改为账号认证（ACLED_EMAIL、ACLED_PASSWORD）。
 - 文档：docs/EVIDENCE_CHAIN_RESEARCH.md、docs/HAZARD_VENUES.md；README、HUB_GUIDE 加 RFC 3161 核对方法。
 - 复原：证据包回退 VERSION 16（v17 之前的提交）；删 hazards.yml 里 "41 2 * * *" 那行即停止期刊排名；页面未改（仍 Version 61）。
+
+---
+# 第三十四次改动（Sigstore 签名、冰湖溃决数据库实时接入、Crossref）
+- 证据包 v19（events 分支 tools/evidence_pack.py 和 .github/workflows/evidence.yml）：
+  - 每个新快照用 Sigstore 无密钥签名（工作流加 id-token: write 和 sigstore/cosign-installer@v3），存 .sigstore.json，记 Rekor 透明日志编号；
+  - 高山亚洲冰湖溃决数据库 HMAGLOFDB（github.com/fidelsteiner/HMAGLOFDB，开发版，每次现取并记提交号）：窗口内 80 km 的收录进时间线，30 km 内的历史记录放 history 字段；
+  - references：按灾害编码附数据论文和专业期刊（来自 hazards/venues.json）。
+- tools/venue_rank.py：数据论文和方法论文改用 Crossref（不占 OpenAlex 额度）；OpenAlex 每种只查一次期刊分组，已有排名且检索词没变的沿用。
+- tools/source_survey.py：加参考数据候选（ref_、ref2_），可用 only 参数只测某前缀。NASA COOLR 滑坡目录从 GitHub 运行器 404，暂未接入。
+- tools/hub_sync.py：事件带 history、references，ots 只留最近 3 条。
+- 页面 Version 62：证据包详情加“历史记录”“可引用的数据和期刊”；事件卡片加 RFC 3161 和 Sigstore 链接。
+- 复原：页面回退 Version 61；events 分支证据包回退到 e609e22 之前的 tools/evidence_pack.py 和 evidence.yml（VERSION 17）；venue_rank 回退到第三十三次的提交。

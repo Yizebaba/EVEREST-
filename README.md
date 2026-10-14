@@ -14,7 +14,7 @@ EVEREST 不产生新数据，它做三件事：
 |---|---|---|
 | **真实度审计** | 持续记录每个公开来源是否在线、延迟多少、哪里断档 | 停报本身就是一条证据：哪个站在什么时候没了数据 |
 | **事件证据包** | 自动发现事件，把各来源对齐到同一条时间线，标出“支持 / 缺失 / 矛盾” | 每个事件一份 JSON + 两台站地震信号图 |
-| **存证** | 每一版证据包存不可变快照，加 OpenTimestamps（比特币）和 RFC 3161（FreeTSA、DigiCert）两种时间戳，导出 W3C PROV 和 RO-Crate | 任何人都能核对：这份文件最晚在什么时间已经存在、之后没被改过 |
+| **存证** | 每一版证据包存不可变快照，加 OpenTimestamps（比特币）和 RFC 3161（FreeTSA、DigiCert）两种时间戳、Sigstore 签名（记入公开透明日志），导出 W3C PROV 和 RO-Crate | 任何人都能核对：这份文件最晚在什么时间已经存在、之后没被改过 |
 
 **只监测，不预测。** 不发预警、不给风险概率、不做天气预报、不判断责任或成因。
 
@@ -65,7 +65,8 @@ flowchart LR
 | 太阳活动 | 地磁 Kp 指数（GFZ）：作为背景，地磁暴时 GNSS 和卫星通信可能受影响 |
 | 281 种灾害扫描 | 每小时逐个请求 33 个公开来源（BIPAD 事件库 47 类、EONET、WHO、WOAH、SWPC、CNEOS、openFDA、CISA、新闻 RSS 等），附近记录挂到事件时间线，重大伤亡单独成事件。见 [`docs/HAZARDS_281.md`](docs/HAZARDS_281.md) |
 | 人工证据 | 总览页上传的照片、视频、链接、现场记录。全部公开指纹并存证；所有者核实为“已采信”后才公开内容、进入时间线；提交人和文件本身不公开 |
-| 存证 | 每一版证据包和人工证据清单都存快照并加 OpenTimestamps 时间戳，之后自动升级为比特币区块确认 |
+| 历史记录 | 高山亚洲冰湖溃决数据库（ICIMOD / 乌得勒支大学，同行评审，GitHub 开发版现取并记提交号）：窗口内的收录进时间线，30 km 内历史记录单列，不用于推测 |
+| 存证 | 每一版证据包和人工证据清单都存快照，加 OpenTimestamps、RFC 3161 时间戳和 Sigstore 签名 |
 
 在总览页“证据链 → 证据源”里可以登记新的来源，所有者评估后决定是否接入。各灾种能留下哪些公开记录，见 [`docs/EVIDENCE_SOURCES.md`](docs/EVIDENCE_SOURCES.md)；联合国减灾署 281 种灾害逐条对照见 [`docs/HAZARDS_281.md`](docs/HAZARDS_281.md)，每个事件都带这套灾害编码；各灾种的专业顶刊和可引用数据见 [`docs/HAZARD_VENUES.md`](docs/HAZARD_VENUES.md)。证据链方法的学术出处（时间戳、PROV、RO-Crate、数字取证、法证式灾害调查）见 [`docs/EVIDENCE_CHAIN_RESEARCH.md`](docs/EVIDENCE_CHAIN_RESEARCH.md)。
 

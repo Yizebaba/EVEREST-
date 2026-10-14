@@ -81,6 +81,15 @@
 
 逐条对照：[`docs/HAZARDS_281.md`](HAZARDS_281.md)；原始结果在 events 分支 `hazards/`。
 
+<a name="venues"></a>
+**各灾种的专业期刊和可引用数据**：[`docs/HAZARD_VENUES.md`](HAZARD_VENUES.md)。证据包详情里的“可引用的数据和期刊”就来自这里，只作背景参考。
+
+<a name="history"></a>
+**历史记录**：事件在高山亚洲范围内时，证据包现取高山亚洲冰湖溃决数据库（HMAGLOFDB，ICIMOD 和乌得勒支大学维护，GitHub 开发版滚动更新），记下取数时的提交号：
+- 事件前 1 天到后 5 天、80 km 内有收录的溃决 → 进时间线，标“支持”，链接到那一版数据库文件；
+- 事件 30 km 内历史上收录过的溃决 → 证据包详情“历史记录”，每条带数据库编号和原始文献。只是数据库记录，不是这次事件的证据，不用来推测。
+- 作者判为可疑、已剔除的条目（`HMAGLOFDB_removed.csv`）不读。
+
 <a name="verify"></a>
 ## 核对存证
 
@@ -95,6 +104,14 @@
 ```bash
 curl -sO https://freetsa.org/files/cacert.pem && curl -sO https://freetsa.org/files/tsa.crt
 openssl ts -verify -in 快照.json.FreeTSA.tsr -data 快照.json -CAfile cacert.pem -untrusted tsa.crt   # 显示 Verification: OK
+```
+
+**Sigstore 签名**（证据包 v19 起）：快照旁的 `.sigstore.json` 证明这份文件是本仓库 `evidence.yml` 工作流生成的，签名同时记入公开透明日志 Rekor（总览页“Sigstore 透明日志 ↗”）。核对：
+
+```bash
+cosign verify-blob 快照.json --bundle 快照.json.sigstore.json \
+  --certificate-identity https://github.com/Yizebaba/EVEREST-/.github/workflows/evidence.yml@refs/heads/events \
+  --certificate-oidc-issuer https://token.actions.githubusercontent.com    # 显示 Verified OK
 ```
 
 每个证据包还导出 W3C PROV 溯源记录（`events/<编号>.prov.json`）和 RO-Crate 描述（`events/crates/<编号>/ro-crate-metadata.json`），任何标准工具都能读。思路和出处见 [`EVIDENCE_CHAIN_RESEARCH.md`](EVIDENCE_CHAIN_RESEARCH.md)。

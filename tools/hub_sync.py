@@ -32,7 +32,12 @@ try:
         e["first_seen"] = m.get("first_seen"); e["timeline"] = p.get("timeline", [])[:60]
         e["evn"] = {k: (p.get("evn") or {}).get(k) for k in ("distance_km", "coverage_pct", "peaks", "error")}
         e["sentinel"] = p.get("sentinel"); e["gauges"] = p.get("gauges"); e["ioda"] = p.get("ioda")
-        e["kkn"] = p.get("kkn"); e["gfm"] = p.get("gfm"); e["ots"] = m.get("ots", []); e["manual"] = p.get("manual")
+        e["kkn"] = p.get("kkn"); e["gfm"] = p.get("gfm"); e["ots"] = m.get("ots", [])[-3:]; e["manual"] = p.get("manual")
+        h = p.get("history")   # 冰湖溃决数据库：事件 30 km 内的历史记录（带数据库版本），只作背景
+        if h: e["history"] = {"n": h.get("n"), "radius_km": h.get("radius_km"), "records": (h.get("records") or [])[:8],
+                              "source": {k: (h.get("source") or {}).get(k) for k in ("name", "file", "commit", "commit_time", "release_doi", "paper")}}
+        if p.get("references"): e["references"] = [{"hips": r.get("hips"), "hazard": r.get("hazard"), "data_papers": (r.get("data_papers") or [])[:3],
+                                                   "venues": [v.get("name") for v in (r.get("venues") or [])][:3]} for r in p["references"][:2]]
         png = p.get("png") or (p.get("evn") or {}).get("png")
         if png and time.time() - time.mktime(time.strptime(m["t"][:19], "%Y-%m-%dT%H:%M:%S")) < 21 * 86400:
             try: e["evn_png"] = "data:image/png;base64," + base64.b64encode(raw(f"events/{png}", "events")).decode()
