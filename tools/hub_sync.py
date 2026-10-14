@@ -13,6 +13,18 @@ img = {"at": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime())}
 for k in ("himawari_vis", "meteosat_snow"):
     try: img[k] = "data:image/png;base64," + base64.b64encode(raw(f"img/{k}.png")).decode()
     except Exception as e: print("图像", k, e)
+# 珠峰地区摄像头（hazards 工作流每小时检查，tools/webcams.py）：是否在播、源地址、一张小图
+try:
+    wc = json.loads(raw("hazards/webcams.json", "events")); cams = []
+    for c in wc.get("cams", []):
+        x = {k: c.get(k) for k in ("id", "kind", "title", "operator", "url", "channel", "live", "last_image", "fetched", "note")}
+        if c.get("file") and (c.get("bytes") or 0) <= 60000:
+            try: x["img"] = "data:image/jpeg;base64," + base64.b64encode(raw(c["file"], "events")).decode()
+            except Exception as e: print("cam img", c["id"], e)
+        cams.append(x)
+    img["cams"] = {"updated": wc.get("updated"), "list": cams}
+except Exception as e:
+    print("webcams", e)
 json.dump(img, open(f"{out}/live_img.json", "w"))
 sys.path.insert(0, os.path.dirname(__file__))
 from monitor_sync import build

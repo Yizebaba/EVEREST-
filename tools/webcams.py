@@ -48,7 +48,6 @@ def yt_live():
         # 页面上“这个视频”的编号：updatedMetadataEndpoint 和点赞按钮的 target 指向同一个视频（推荐列表里的编号不算）
         ids = re.findall(r'"updatedMetadataEndpoint":\{"videoId":"([\w-]{11})"', t) + re.findall(r'"likeEndpoint":\{"status":"LIKE","target":\{"videoId":"([\w-]{11})"', t)
         vid = re.match(r"(.*)", ids[0]) if ids and len(set(ids)) == 1 else None
-        print("live video id", set(ids))
         ttl = re.search(r'"playerOverlayVideoDetailsRenderer":\{"title":\{"simpleText":"((?:[^"\\]|\\.){3,200})"', t)
         if vid and ttl and re.search(r'"isLive":true', t): cams.setdefault(vid.group(1), _unesc(ttl.group(1)))
     except Exception as e: print("live", e)
@@ -83,7 +82,7 @@ def main():
     for c in cams:
         try:
             b = c.pop("_bytes", None) or get(c["thumb"], raw=True)[0]
-            if c["kind"] == "image" and len(b) > 120000:   # 原图太大：用 Pillow 缩到 480 宽
+            if len(b) > 40000:   # 原图太大：用 Pillow 缩到 480 宽，总览页数据库放得下
                 try:
                     from PIL import Image; import io
                     im = Image.open(io.BytesIO(b)); im.thumbnail((480, 480)); o = io.BytesIO(); im.convert("RGB").save(o, "JPEG", quality=70); b = o.getvalue()
