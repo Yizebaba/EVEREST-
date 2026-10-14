@@ -242,3 +242,10 @@
 - tools/hub_sync.py：事件带 history、references，ots 只留最近 3 条。
 - 页面 Version 62：证据包详情加“历史记录”“可引用的数据和期刊”；事件卡片加 RFC 3161 和 Sigstore 链接。
 - 复原：页面回退 Version 61；events 分支证据包回退到 e609e22 之前的 tools/evidence_pack.py 和 evidence.yml（VERSION 17）；venue_rank 回退到第三十三次的提交。
+
+---
+# 第三十五次改动（扫描改为 Worker 实时触发、期刊排名规则、Sigstore 标准格式）
+- GitHub 自带定时任务实测几小时不跑：Worker 每小时改 events 分支 hazards/tick.txt（第一行 scan 或 venues，每天 02:40 UTC 后第一次是 venues），events 分支新工作流 .github/workflows/hazards-tick.yml 收到后启动 main 上的 hazards 工作流。状态在 /api/events.json 的 hz_kick。hazards.yml 自带 cron 保留作后备。
+- 证据包 v20：Sigstore 改用标准 bundle（application/vnd.dev.sigstore.bundle.v0.3+json），签完在运行器上立即 cosign verify-blob 自核对，结果记 self_verified。
+- 期刊排名：按 h 指数 × ln(1+该主题篇数) 排序；扩充综合刊名单；雪崩、爆炸、苯、砷、镉检索词改为不歧义的说法；保存全部候选期刊（candidates）；数据论文和方法论文要求标题含检索实词。
+- 复原：删 events 分支 hazards-tick.yml 即停止 Worker 触发（Worker 只会继续改 tick.txt，无副作用）；Worker 回退 cf-worker/src/events.js、index.js 到 e9ebae0 之前；证据包回退 VERSION 19。

@@ -72,7 +72,7 @@
 <a name="hazards"></a>
 ## 灾种 281
 
-联合国减灾署 2025 版 281 种灾害，每小时逐个实测一次（`hazards` 工作流）：
+联合国减灾署 2025 版 281 种灾害，每小时逐个实测一次（`hazards` 工作流；由 Worker 每小时触发，GitHub 自带的定时任务常延迟几小时，只作后备）：
 
 - **33 个公开来源**：尼泊尔政府 BIPAD 事件库（47 类，含交通、火灾、蛇咬、食物中毒、疫情、毒气和辐射泄漏等）、BIPAD 警报和空气质量站、NASA EONET、USGS、GDACS、NOAA 空间天气、NASA 近地天体与火球、CelesTrak、WHO 疫情通报与 FluNet、WOAH 动物疫情、openFDA 召回、CISA 已利用漏洞、Have I Been Pwned、IODA、尼泊尔央行汇率、Safecast、Sentinel-5P、海啸预警中心、NOAA NCEI、IOC 潮位站、IBTrACS、NSIDC 海冰、GBIF、尼泊尔英文媒体和谷歌新闻 RSS。6 个需要密钥（Cloudflare Radar、Global Forest Watch、FIRMS、OpenAQ、ACLED、ReliefWeb），没配置时标“需密钥”。
 - **新闻匹配**：每种灾害一组人工写的英文匹配词（`tools/hazard_keywords.py`），谷歌新闻的结果要求标题里有尼泊尔或西藏的地名。
