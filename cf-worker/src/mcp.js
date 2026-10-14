@@ -177,6 +177,8 @@ async function call(name, args, h) {
         L.push({ id: p.id, hips: p.hips || e.hips || [], title: p.title, title_en: p.title_en, kind: p.kind, place: p.place, lat: p.lat, lon: p.lon, t: p.t, built: p.built, note: p.note, note_en: p.note_en, first_seen: m.first_seen || e.first_seen,
           timeline: (p.timeline || []).slice(0, 80), evn: p.evn ? { distance_km: p.evn.distance_km, coverage_pct: p.evn.coverage_pct, peaks: p.evn.peaks, error: p.evn.error } : null,
           kkn: p.kkn || null, gfm: p.gfm || null, sentinel: p.sentinel || null, gauges: p.gauges || null, ioda: p.ioda || null, manual: p.manual || null, news: (p.news || []).slice(0, 10), ots: (m.ots || []).slice(-3), png: p.png || null,
+          last_t: (p.timeline || []).filter(x => (x.kind === "SUPPORTING" || x.kind === "CONTRADICTORY") && x.t && x.t <= (p.built || "9")).map(x => x.t).concat([p.t || ""]).sort().pop() || null,
+          receipts_n: (p.receipts || []).length,
           bounds: p.bounds || null, references: p.references || null, hazard_links: p.hazard_links || null,
           history: p.history ? { n: p.history.n, radius_km: p.history.radius_km, records: (p.history.records || []).slice(0, 8), source: p.history.source } : null });
       }

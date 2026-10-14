@@ -30,9 +30,13 @@ try:
         except Exception: continue
         e = {k: p.get(k) for k in ("id", "hips", "title", "title_en", "kind", "place", "lat", "lon", "t", "built", "note", "note_en")}
         e["first_seen"] = m.get("first_seen"); e["timeline"] = p.get("timeline", [])[:60]
+        # 最新一条记录的时间（在完整时间线上算，时间线后面会被截短）
+        ts = [x["t"] for x in p.get("timeline", []) if x.get("kind") in ("SUPPORTING", "CONTRADICTORY") and x.get("t") and x["t"] <= (p.get("built") or "9")]
+        e["last_t"] = max(ts + [p.get("t") or ""]) or None
         e["evn"] = {k: (p.get("evn") or {}).get(k) for k in ("distance_km", "coverage_pct", "peaks", "error")}
         e["sentinel"] = p.get("sentinel"); e["gauges"] = p.get("gauges"); e["ioda"] = p.get("ioda")
         e["kkn"] = p.get("kkn"); e["gfm"] = p.get("gfm"); e["ots"] = m.get("ots", [])[-3:]; e["manual"] = p.get("manual")
+        e["receipts_n"] = len(p.get("receipts") or [])
         e["bounds"] = p.get("bounds")   # 推断边界：每类来源能说明什么、不能说明什么
         h = p.get("history")   # 冰湖溃决数据库：事件 30 km 内的历史记录（带数据库版本），只作背景
         if h: e["history"] = {"n": h.get("n"), "radius_km": h.get("radius_km"), "records": (h.get("records") or [])[:8],

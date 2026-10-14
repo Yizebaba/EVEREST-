@@ -23,7 +23,7 @@ import urllib.request, urllib.parse
 UA = {"user-agent": "everest-evidence (github.com/Yizebaba/EVEREST-)"}
 EVN = (27.9587, 86.8117)
 OUT = "events"
-VERSION = 22   # 改了证据包内容时加 1，所有包会重算一次
+VERSION = 23   # 改了证据包内容时加 1，所有包会重算一次
 NOW = datetime.now(timezone.utc)
 
 # 尼泊尔区县 → IODA 地区（旧 14 区）
@@ -39,10 +39,40 @@ DIST = {"Taplejung": (27.62, 87.78), "Sankhuwasabha": (27.6, 87.3), "Solukhumbu"
         "Bajura": (29.5, 81.5), "Bajhang": (29.7, 81.2), "Darchula": (29.85, 80.75)}
 
 
+RECEIPTS = []   # 本次生成证据包时的取数回执（见 receipt()）
+SECRET_ENV = ("MONTANDON_API_TOKEN", "RELIEFWEB_APPNAME", "CF_RADAR_TOKEN", "FIRMS_MAP_KEY", "EARTHDATA_TOKEN", "GITHUB_TOKEN")
+
+
+def redact(url):
+    """回执里的网址去掉密钥：环境变量里的密钥值、以及 key/token/appname 一类参数的值。"""
+    for k in SECRET_ENV:
+        v = os.environ.get(k)
+        if v and len(v) > 3: url = url.replace(v, "***")
+    return re.sub(r"(?i)([?&](?:api_?key|key|token|access_token|appname|map_key)=)[^&]+", r"\1***", url)
+
+
+def receipt(url, status, body, ctype, method):
+    """取数回执：什么时间、向哪个网址、拿到了什么（SHA-256、字节数、类型）。
+    小于 64 KB 的文本响应原样存一份（按哈希命名、gzip，同样内容只存一次），以后能拿出来对照；
+    回执写进证据包，和证据包一起加时间戳、签名，证明“这个来源在那一刻返回过这些内容”。"""
+    import hashlib, gzip
+    h = hashlib.sha256(body).hexdigest()
+    r = {"t": datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ"), "method": method, "url": redact(url), "status": status, "bytes": len(body), "sha256": h, "type": (ctype or "")[:60]}
+    if len(body) <= 65536 and re.search(r"json|text|xml|csv|javascript", ctype or ""):
+        d = os.path.join(OUT, "raw"); os.makedirs(d, exist_ok=True)
+        f = os.path.join(d, h + ".gz")
+        if not os.path.exists(f):
+            with gzip.open(f, "wb") as g: g.write(body)
+        r["body"] = "events/raw/" + h + ".gz"
+    RECEIPTS.append(r)
+
+
 def get(url, data=None, timeout=60, raw=False, headers=None):
     req = urllib.request.Request(url, data=data, headers={**UA, **(headers or {})})
     with urllib.request.urlopen(req, timeout=timeout) as r:
         b = r.read()
+        try: receipt(url, r.status, b, r.headers.get("content-type"), "POST" if data else "GET")
+        except Exception: pass
     return b if raw else json.loads(b)
 
 
@@ -1214,7 +1244,9 @@ def main():
         fresh = old and old.get("v") == VERSION and old.get("src_n") == len(ev.get("src", [])) and old.get("man") == manual_sig(ev["id"]) and (age > 14 or (NOW - P(old["built"])).total_seconds() < 5 * 3600)
         if fresh:
             continue
-        print("build", ev["id"]); pack = build(ev)
+        print("build", ev["id"]); RECEIPTS.clear(); pack = build(ev)
+        pack["receipts"] = list({r["url"] + r["sha256"]: r for r in RECEIPTS}.values())
+        pack["receipts_note"] = "取数回执：生成这份证据包时向各来源发出的请求、时间和返回内容的 SHA-256；小的文本响应原样存在 events/raw/。回执随证据包一起存证。"
         json.dump(pack, open(os.path.join(OUT, ev["id"] + ".json"), "w"), ensure_ascii=False, indent=1)
         json.dump(ev, open(os.path.join(OUT, ev["id"] + ".event.json"), "w"), ensure_ascii=False, indent=1)
         ots_prev = (idx["events"].get(ev["id"]) or {}).get("ots", [])

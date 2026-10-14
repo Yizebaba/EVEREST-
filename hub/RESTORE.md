@@ -290,3 +290,11 @@
 - 页面 Version 66：链接颜色改为浅蓝（原来没设，用浏览器默认深蓝/紫色，在深色底上看不清）；v65 把面板宽度写死后，左侧面板“拖动调整宽度”失效，改回由拖动宽度（--sideW）决定，默认 min(560px, 44vw)；“运行状态 → 需要注意”在 D1 当天读取超过 50% 时提示。
 - Worker：所有 D1 查询经计量包装，累加 meta.rows_read，按 UTC 日写进 meta 表 d1r:<日期>；status() 带 d1_rows_read_today，连接器总览、每小时同步都能看到。
 - 复原：页面回退 Version 65；Worker 回退 cf-worker/src/index.js 里 meterDB、meterSave 和 route 包装（export default 恢复为直接处理请求）。
+
+---
+# 第四十二次改动（取数回执、独立核对、事件显示）
+- 证据包 v23（events 分支 tools/evidence_pack.py）：取数回执 receipts（时间、去掉密钥的网址、状态、SHA-256、字节数；≤64 KB 文本响应存 events/raw/<哈希>.gz）。
+- 新 tools/verify_archive.py + evidence.yml 新步骤：每个新快照用 9 项独立核对（sha256 两套、openssl×2、cosign、sigstore-python、ots、prov、rocrate），结果写 index.json 的 ots[-1].verify；首轮 8 个事件全部 9/9 通过。
+- 页面 Version 67：中文模式下 BIPAD 英文标题改为“地点 · 灾种中文名”（英文模式仍用原标题）；事件来源去重；事件详情里的来源和坐标可点击，跳到“证据链 → 证据源”并高亮对应来源（新增灾种扫描来源表）；底部一排按最新记录时间排序并显示最新时间，附首个信号时间；英文模式下灾种扫描生成的中文记录按句式翻译（新闻原文标题不改）；“证据链”导航英文名修正；事件卡片显示独立核对结果和取数回执条数。
+- hub_sync、连接器：事件带 last_t（完整时间线上最新一条“支持/矛盾”记录的时间）和 receipts_n。
+- 复原：页面回退 Version 66；证据包回退 VERSION 22（删 RECEIPTS、receipt()、redact() 和 main 里两行）；evidence.yml 删“跨实现核对”一步。

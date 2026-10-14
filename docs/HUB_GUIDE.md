@@ -119,6 +119,10 @@ cosign verify-blob 快照.json --bundle 快照.json.sigstore.json \
   --certificate-oidc-issuer https://token.actions.githubusercontent.com    # 显示 Verified OK
 ```
 
+**取数回执**（证据包 v23 起）：证据包里的 `receipts` 记下生成时向每个来源发出的请求：时间、网址（密钥已去掉）、HTTP 状态、返回内容的 SHA-256 和字节数；64 KB 以下的文本响应原样存在 events 分支 `events/raw/<哈希>.gz`。回执随证据包一起加时间戳和签名，所以能证明“这个来源在那一刻返回过这些内容”，来源事后改数据也能对出来。
+
+**独立核对**（证据包 v23 起）：每个新快照生成后，工作流用互不相干的工具各核一遍——SHA-256（Python 和系统 sha256sum）、RFC 3161（openssl，FreeTSA 和 DigiCert）、Sigstore（cosign 和 sigstore-python 两套实现）、OpenTimestamps（ots）、PROV（prov 库）、RO-Crate（rocrate 库）。结果写进 index.json，总览页事件卡片显示“独立核对 9/9”；有失败的会标出是哪一项，下次运行再核。
+
 每个证据包还导出 W3C PROV 溯源记录（`events/<编号>.prov.json`）和 RO-Crate 描述（`events/crates/<编号>/ro-crate-metadata.json`），任何标准工具都能读。思路和出处见 [`EVIDENCE_CHAIN_RESEARCH.md`](EVIDENCE_CHAIN_RESEARCH.md)。
 
 <a name="upload"></a>
