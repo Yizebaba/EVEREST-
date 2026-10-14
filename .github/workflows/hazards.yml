@@ -39,6 +39,7 @@ jobs:
           else python3 tools/hazard_scan.py out > out/run.log 2>&1; fi
           echo "exit=$?" >> out/run.log; tail -40 out/run.log
       - name: Save to events branch
+        if: always()
         run: |
           git config user.name "hazards"; git config user.email "actions@users.noreply.github.com"
           git fetch -q origin events && git worktree add -q ev origin/events && mkdir -p ev/hazards && cp out/* ev/hazards/
