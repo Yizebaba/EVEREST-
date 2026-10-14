@@ -176,12 +176,14 @@ async function call(name, args, h) {
         if (!p) continue; const m = idx[e.id] || {};
         L.push({ id: p.id, hips: p.hips || e.hips || [], title: p.title, title_en: p.title_en, kind: p.kind, place: p.place, lat: p.lat, lon: p.lon, t: p.t, built: p.built, note: p.note, note_en: p.note_en, first_seen: m.first_seen || e.first_seen,
           timeline: (p.timeline || []).slice(0, 80), evn: p.evn ? { distance_km: p.evn.distance_km, coverage_pct: p.evn.coverage_pct, peaks: p.evn.peaks, error: p.evn.error } : null,
-          kkn: p.kkn || null, gfm: p.gfm || null, sentinel: p.sentinel || null, gauges: p.gauges || null, ioda: p.ioda || null, manual: p.manual || null, news: (p.news || []).slice(0, 10), ots: m.ots || [], png: p.png || null });
+          kkn: p.kkn || null, gfm: p.gfm || null, sentinel: p.sentinel || null, gauges: p.gauges || null, ioda: p.ioda || null, manual: p.manual || null, news: (p.news || []).slice(0, 10), ots: (m.ots || []).slice(-3), png: p.png || null,
+          bounds: p.bounds || null, references: p.references || null, hazard_links: p.hazard_links || null,
+          history: p.history ? { n: p.history.n, radius_km: p.history.radius_km, records: (p.history.records || []).slice(0, 8), source: p.history.source } : null });
       }
       let hz = null;   // 281 种灾害的实测扫描（hazards 工作流每小时更新）
       try { const r = await fetch("https://raw.githubusercontent.com/Yizebaba/EVEREST-/events/hazards/scan.json", { cf: { cacheTtl: 120 } }); if (r.ok) { const sc = await r.json();
-        hz = { updated: sc.updated, src: Object.fromEntries(Object.entries(sc.sources).map(([k, v]) => [k, [v.state, v.n, v.local, String(v.err || v.need || "").slice(0, 60)]])),
-          h: sc.hazards.map(h => [h.code, h.state, h.n_local_90d, h.n_90d, h.latest, String(h.latest_title || "").slice(0, 90), h.latest_url || null, (h.tested_ok || []).length]) }; } } catch (x) {}
+        hz = { updated: sc.updated, by_latency: sc.by_latency || null, src: Object.fromEntries(Object.entries(sc.sources).map(([k, v]) => [k, [v.state, v.n, v.local, String(v.err || v.need || "").slice(0, 60), v.latency || null]])),
+          h: sc.hazards.map(h => [h.code, h.state, h.n_local_90d, h.n_90d, h.latest, String(h.latest_title || "").slice(0, 90), h.latest_url || null, (h.tested_ok || []).length, h.rt_tier || null]) }; } } catch (x) {}
       return { text: `${L.length} 个事件的完整证据包`, data: { updated: new Date().toISOString(), events: L, hz } };
     }
     return { text: E.length ? E.map(e => `${BJ(e.t)} ${e.kind} · ${e.title} · ${e.src.length} 条信号` + (idx[e.id] ? ` · 证据包 ${idx[e.id].n} 条` : " · 证据包待生成") + `（编号 ${e.id}）`).join("\n") : `最近 ${days} 天没有自动发现的事件。`, data: { events: E, packs: idx } };

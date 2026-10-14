@@ -47,8 +47,9 @@ try:
     # 281 种灾害的实测扫描结果（hazards 工作流每小时更新）：精简后放进 live_fs 的 hz 字段
     try:
         sc = json.loads(raw("hazards/scan.json", "events"))
-        fs["hz"] = {"updated": sc["updated"], "src": {k: [v.get("state"), v.get("n"), v.get("local"), (v.get("err") or v.get("need") or "")[:60]] for k, v in sc["sources"].items()},
-                    "h": [[h["code"], h["state"], h["n_local_90d"], h["n_90d"], h["latest"], (h["latest_title"] or "")[:90], h.get("latest_url"), len(h["tested_ok"])] for h in sc["hazards"]]}
+        fs["hz"] = {"updated": sc["updated"], "by_latency": sc.get("by_latency"),
+                    "src": {k: [v.get("state"), v.get("n"), v.get("local"), (v.get("err") or v.get("need") or "")[:60], v.get("latency")] for k, v in sc["sources"].items()},
+                    "h": [[h["code"], h["state"], h["n_local_90d"], h["n_90d"], h["latest"], (h["latest_title"] or "")[:90], h.get("latest_url"), len(h["tested_ok"]), h.get("rt_tier")] for h in sc["hazards"]]}
     except Exception as x:
         print("灾种扫描结果暂缺：", x)
     # 数据库单个文档上限 256 KiB：只给最近 3 个事件带图，超了就从最早的开始去掉图
