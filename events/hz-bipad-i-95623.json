@@ -16,7 +16,21 @@
  },
  "kkn": {
   "distance_km": 460,
-  "error": "HTTP Error 502: Bad Gateway"
+  "coverage_pct": 100,
+  "peaks": [
+   [
+    "2026-10-06T16:55:00Z",
+    71.7
+   ],
+   [
+    "2026-10-05T22:55:00Z",
+    33.4
+   ],
+   [
+    "2026-10-06T09:25:00Z",
+    20.2
+   ]
+  ]
  },
  "gauges": [
   {
@@ -56,8 +70,8 @@
    "id": 25246,
    "title": "Sakayal Gad at Dadaban",
    "km": 19,
-   "level": 0.833,
-   "at": "2026-10-14T12:00:00+05:45",
+   "level": 0.835,
+   "at": "2026-10-14T12:40:00+05:45",
    "warning": 3.0,
    "danger": null,
    "status": "BELOW WARNING LEVEL",
@@ -67,8 +81,8 @@
    "id": 28887,
    "title": "Sailigad River(259.1)",
    "km": 20,
-   "level": 0.683660507202,
-   "at": "2026-10-14T12:00:00+05:45",
+   "level": 0.679362297058,
+   "at": "2026-10-14T12:40:00+05:45",
    "warning": 2.5,
    "danger": null,
    "status": "BELOW WARNING LEVEL",
@@ -78,8 +92,8 @@
    "id": 29257,
    "title": "Dhungad River (258)",
    "km": 23,
-   "level": 1.72294187546,
-   "at": "2026-10-14T11:50:00+05:45",
+   "level": 1.71589183807,
+   "at": "2026-10-14T12:40:00+05:45",
    "warning": null,
    "danger": null,
    "status": "BELOW WARNING LEVEL",
@@ -100,8 +114,8 @@
    "id": 25306,
    "title": "Kalanga Gad",
    "km": 33,
-   "level": 1.97,
-   "at": "2026-10-14T11:50:00+05:45",
+   "level": 1.95,
+   "at": "2026-10-14T12:40:00+05:45",
    "warning": 3.3,
    "danger": null,
    "status": "BELOW WARNING LEVEL",
@@ -111,8 +125,8 @@
    "id": 3487,
    "title": "West Seti at Banga",
    "km": 35,
-   "level": 3.10900020599,
-   "at": "2026-10-14T12:00:00+05:45",
+   "level": 3.1108007431,
+   "at": "2026-10-14T12:50:00+05:45",
    "warning": 8.4,
    "danger": 9.0,
    "status": "BELOW WARNING LEVEL",
@@ -133,8 +147,8 @@
    "id": 21372,
    "title": "Budhiganga River at Kakarsant",
    "km": 36,
-   "level": 1.93299865723,
-   "at": "2026-10-14T11:40:00+05:45",
+   "level": 1.93899917603,
+   "at": "2026-10-14T12:40:00+05:45",
    "warning": 4.3,
    "danger": null,
    "status": "BELOW WARNING LEVEL",
@@ -144,8 +158,8 @@
    "id": 21335,
    "title": "Karnali at Benighat",
    "km": 37,
-   "level": 4.25939941406,
-   "at": "2026-10-14T11:50:00+05:45",
+   "level": 4.26369953156,
+   "at": "2026-10-14T12:40:00+05:45",
    "warning": 9.0,
    "danger": 10.0,
    "status": "BELOW WARNING LEVEL",
@@ -270,6 +284,7 @@
    "TL0305"
   ]
  },
+ "png": "hz-bipad-i-95623_evn.png",
  "references": [
   {
    "hips": "MH0102",
@@ -277,22 +292,22 @@
    "query": "lightning",
    "data_papers": [
     {
-     "title": "The WGLC global gridded lightning climatology and time series",
-     "doi": "https://doi.org/10.5194/essd-13-3219-2021",
-     "journal": "Earth system science data",
-     "year": 2021
-    },
-    {
      "title": "World Wide Lightning Location Network (WWLLN) Global Lightning Climatology (WGLC) and time series, 2022 update",
      "doi": "https://doi.org/10.5194/essd-14-5665-2022",
-     "journal": "Earth system science data",
+     "journal": "Earth System Science Data",
      "year": 2022
     },
     {
-     "title": "A global database on holdover time of lightning-ignited wildfires",
-     "doi": "https://doi.org/10.5194/essd-15-1151-2023",
-     "journal": "Earth system science data",
-     "year": 2023
+     "title": "Geolocated Lightning Network topology snapshots: A dataset covering 2019–2023",
+     "doi": "https://doi.org/10.1038/s41597-025-06413-7",
+     "journal": "Scientific Data",
+     "year": 2025
+    },
+    {
+     "title": "The WGLC global gridded lightning climatology and time series",
+     "doi": "https://doi.org/10.5194/essd-13-3219-2021",
+     "journal": "Earth System Science Data",
+     "year": 2021
     }
    ],
    "venues": [
@@ -301,12 +316,12 @@
      "h": 652
     },
     {
-     "name": "International Journal of Molecular Sciences",
-     "h": 424
-    },
-    {
      "name": "Geophysical Research Letters",
      "h": 418
+    },
+    {
+     "name": "Atmospheric chemistry and physics",
+     "h": 330
     }
    ]
   }
@@ -359,6 +374,20 @@
    "text_en": "Max Kp 3.7 within a day of the event: no geomagnetic storm"
   },
   {
+   "t": "2026-10-05T22:55:00Z",
+   "src": "KKN 地震台",
+   "kind": "SUPPORTING",
+   "text": "1–5 Hz 信号约为背景的 33 倍（台站距事件约 460 km）；IO.EVN 这一时刻没有强信号",
+   "text_en": "1–5 Hz signal about 33× background (station about 460 km away); IO.EVN not strong at this time"
+  },
+  {
+   "t": "2026-10-06T09:25:00Z",
+   "src": "KKN 地震台",
+   "kind": "SUPPORTING",
+   "text": "1–5 Hz 信号约为背景的 20 倍（台站距事件约 460 km）；IO.EVN 这一时刻没有强信号",
+   "text_en": "1–5 Hz signal about 20× background (station about 460 km away); IO.EVN not strong at this time"
+  },
+  {
    "t": "2026-10-06T16:53:11Z",
    "src": "EMSC 地震目录",
    "kind": "SUPPORTING",
@@ -398,6 +427,13 @@
    "url": "https://earthquake.usgs.gov/earthquakes/eventpage/us6000u0hz/pager"
   },
   {
+   "t": "2026-10-06T16:55:00Z",
+   "src": "KKN 地震台",
+   "kind": "SUPPORTING",
+   "text": "1–5 Hz 信号约为背景的 72 倍（台站距事件约 460 km）；IO.EVN 这一时刻没有强信号",
+   "text_en": "1–5 Hz signal about 72× background (station about 460 km away); IO.EVN not strong at this time"
+  },
+  {
    "t": "2026-10-06T18:15:00Z",
    "src": "BIPAD 灾害事件库",
    "kind": "SUPPORTING",
@@ -411,13 +447,6 @@
    "kind": "MISSING",
    "text_en": "Waveform not available (GEOFON 没有返回数据)",
    "text": "取不到这段波形（GEOFON 没有返回数据）"
-  },
-  {
-   "t": "2026-10-06T18:15:00Z",
-   "src": "KKN 地震台",
-   "kind": "MISSING",
-   "text": "取不到这段波形（HTTP Error 502: Bad Gateway）",
-   "text_en": "Waveform not available (HTTP Error 502: Bad Gateway)"
   },
   {
    "t": "2026-10-06T18:15:00Z",
@@ -788,98 +817,98 @@
    "url": "https://bipadportal.gov.np/incidents/95750"
   },
   {
-   "t": "2026-10-14T06:12:35Z",
+   "t": "2026-10-14T07:05:50Z",
    "src": "BIPAD 水位站",
    "kind": "MISSING",
    "text_en": "12 public gauges within 80 km, 7 reporting now; not reporting: West Seti at Dipayal, Seti River at Gopaghat, Gandi Gad HS, Thuli Gad at Khanayatal, Budiganga at Chitreghat",
    "text": "事件 80 km 内 12 个公开水位站，现在在报 7 个；停报：West Seti at Dipayal、Seti River at Gopaghat、Gandi Gad HS、Thuli Gad at Khanayatal、Budiganga at Chitreghat"
   },
   {
-   "t": "2026-10-14T06:12:35Z",
+   "t": "2026-10-14T07:05:50Z",
    "src": "Copernicus EMS",
    "kind": "NEUTRAL",
    "text_en": "No rapid mapping activated for this event",
    "text": "没有为这次事件启动应急制图"
   },
   {
-   "t": "2026-10-14T06:12:35Z",
+   "t": "2026-10-14T07:05:50Z",
    "src": "Sentinel-1 雷达",
    "kind": "MISSING",
    "text_en": "No new scene after the first public signal yet (filled in automatically)",
    "text": "第一条公开信号之后还没有新的一景（下次自动补）"
   },
   {
-   "t": "2026-10-14T06:12:35Z",
+   "t": "2026-10-14T07:05:50Z",
    "src": "Sentinel-2 光学",
    "kind": "MISSING",
    "text_en": "No new scene after the first public signal yet (filled in automatically)",
    "text": "第一条公开信号之后还没有新的一景（下次自动补）"
   },
   {
-   "t": "2026-10-14T06:12:35Z",
+   "t": "2026-10-14T07:05:50Z",
    "src": "IFRC Montandon",
    "kind": "MISSING",
    "text": "需要 IFRC GO 账号令牌才能查询（未配置）",
    "text_en": "Needs an IFRC GO account token (not configured)"
   },
   {
-   "t": "2026-10-14T06:12:35Z",
+   "t": "2026-10-14T07:05:50Z",
    "src": "GNSS 测站",
    "kind": "MISSING",
    "text": "GNTW（距约 21 km）事件后的解算还没出（通常滞后几天到两周）",
    "text_en": "GNTW (about 21 km): post-event solutions not out yet (usually days to two weeks)"
   },
   {
-   "t": "2026-10-14T06:12:35Z",
+   "t": "2026-10-14T07:05:50Z",
    "src": "GNSS 测站",
    "kind": "MISSING",
    "text": "BYNA（距约 48 km）事件后的解算还没出（通常滞后几天到两周）",
    "text_en": "BYNA (about 48 km): post-event solutions not out yet (usually days to two weeks)"
   },
   {
-   "t": "2026-10-14T06:12:35Z",
+   "t": "2026-10-14T07:05:50Z",
    "src": "GNSS 测站",
    "kind": "MISSING",
    "text": "DNGD（距约 54 km）事件后的解算还没出（通常滞后几天到两周）",
    "text_en": "DNGD (about 54 km): post-event solutions not out yet (usually days to two weeks)"
   },
   {
-   "t": "2026-10-14T06:12:35Z",
+   "t": "2026-10-14T07:05:50Z",
    "src": "ReliefWeb",
    "kind": "MISSING",
    "text": "需要申请 ReliefWeb appname（未配置）",
    "text_en": "Needs a ReliefWeb appname (not configured)"
   },
   {
-   "t": "2026-10-14T06:12:35Z",
+   "t": "2026-10-14T07:05:50Z",
    "src": "Cloudflare Radar",
    "kind": "MISSING",
    "text": "需要 Cloudflare API 令牌（未配置）",
    "text_en": "Needs a Cloudflare API token (not configured)"
   },
   {
-   "t": "2026-10-14T06:12:35Z",
+   "t": "2026-10-14T07:05:50Z",
    "src": "NASA FIRMS 火点",
    "kind": "MISSING",
    "text": "需要 FIRMS MAP_KEY（未配置）",
    "text_en": "Needs a FIRMS MAP_KEY (not configured)"
   },
   {
-   "t": "2026-10-14T06:12:35Z",
+   "t": "2026-10-14T07:05:50Z",
    "src": "NASA 夜间灯光",
    "kind": "MISSING",
    "text": "需要 NASA Earthdata 账号令牌（未配置）",
    "text_en": "Needs a NASA Earthdata token (not configured)"
   },
   {
-   "t": "2026-10-14T06:12:35Z",
+   "t": "2026-10-14T07:05:50Z",
    "src": "Vantor 开放影像",
    "kind": "NEUTRAL",
    "text": "这次事件没有启动开放影像",
    "text_en": "No open imagery released for this event"
   }
  ],
- "built": "2026-10-14T06:12:35Z",
+ "built": "2026-10-14T07:05:50Z",
  "note_en": "States only what public sources recorded and when; no attribution of cause, no prediction. A strong seismic signal only means the station recorded strong shaking at that moment.",
  "note": "只陈述公开来源记录了什么、什么时候；不判断成因，不预测。地震台强信号只说明那一刻台站记录到较强震动，来源需要结合其他证据。"
 }
