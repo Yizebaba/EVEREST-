@@ -218,8 +218,16 @@ def flunet():
 
 @source("WOAH WAHIS 动物疫情")
 def wahis():
-    body = json.dumps({"pageNumber": 1, "pageSize": 50, "searchText": "", "sortColumn": "startDate", "sortOrder": "desc", "eventStatuses": [], "reportTypes": [], "countries": [], "firstDiseases": [], "secondDiseases": [], "typeStatuses": [], "reasons": [], "eventStartDate": None}).encode()
-    x = get("https://wahis.woah.org/api/v1/pi/event/filtered-list?language=en", data=body, headers={"content-type": "application/json", "accept": "application/json", "env": "PRD", "accept-language": "en"})
+    bodies = [{"eventIds": [], "reportIds": [], "countries": [], "firstDiseases": [], "secondDiseases": [], "typeStatuses": [], "reasons": [], "eventStatuses": [],
+               "reportTypes": [], "reportStatuses": [], "eventStartDate": None, "submissionDate": None, "animalTypes": [], "sortColumn": None, "sortOrder": None, "pageSize": 50, "pageNumber": 0},
+              {"pageNumber": 1, "pageSize": 50}]
+    x, err = None, None
+    for b in bodies:   # WAHIS 公开接口没有文档，按网站自己用的请求格式试
+        try:
+            x = get("https://wahis.woah.org/api/v1/pi/event/filtered-list?language=en", data=json.dumps(b).encode(),
+                    headers={"content-type": "application/json", "accept": "application/json, text/plain, */*", "env": "PRD", "accept-language": "en", "origin": "https://wahis.woah.org", "referer": "https://wahis.woah.org/"}); break
+        except Exception as e: err = e
+    if x is None: raise err
     L = x.get("list") or x.get("events") or x.get("content") or []
     for e in L:
         name = e.get("disease") or e.get("diseaseName") or ""; ctry = e.get("country") or e.get("countryName") or ""
@@ -601,18 +609,23 @@ for h in HIPS:
                "latest_title": (loc or mine)[0]["title"] if mine else None, "latest_url": (loc or mine)[0].get("url") if mine else None,
                "observed": obs[0]["title"] if obs else None, "state": state})
 
-# 事件候选：喜马拉雅高山区的自然灾害（BIPAD 事件库、EONET），或尼泊尔造成 3 人以上死亡的事件
-MOUNTAIN = (27.3, 31.5, 80.0, 88.3)
+# 事件候选（单独做证据包）：尼泊尔任何地方死亡+失踪 3 人以上；或喜马拉雅高山区的自然灾害（气象水文、地质、环境）有人死亡或失踪
+MOUNTAIN = (27.6, 31.5, 80.0, 88.3)
 cand = []
 for r in allrec:
-    if r["t"] < iso(NOW - timedelta(days=30)): continue
+    if r["t"] < iso(NOW - timedelta(days=30)) or r["src"] != "BIPAD 灾害事件库": continue
+    dm = (r.get("deaths") or 0) + (r.get("missing") or 0)
     nat = any(c[:2] in ("MH", "GH", "EN") for c in r.get("codes", []))
     mtn = r.get("lat") and MOUNTAIN[0] <= r["lat"] <= MOUNTAIN[1] and MOUNTAIN[2] <= r["lon"] <= MOUNTAIN[3]
-    if r["src"] in ("BIPAD 灾害事件库",) and ((nat and mtn and r["lat"] >= 27.6) or (r.get("deaths") or 0) >= 3):
-        cand.append({"id": "hz-" + r["id"], "kind": r.get("hazard_name") or "", "hips": r["codes"], "title": r["title"], "title_en": r["title"], "place": r["title"].split(" at ")[-1],
-                     "lat": r["lat"], "lon": r["lon"], "t": r["t"], "first_seen": iso(NOW),
-                     "src": [{"k": r["id"], "t": r["t"], "src": "BIPAD 灾害事件库", "text": f"{r['title']}（死亡 {r.get('deaths', 0)}、受伤 {r.get('injured', 0)}、失踪 {r.get('missing', 0)}）",
-                              "text_en": f"{r['title']} (dead {r.get('deaths', 0)}, injured {r.get('injured', 0)}, missing {r.get('missing', 0)})", "url": r.get("url")}]})
+    if not (dm >= 3 or (nat and mtn and dm >= 1)): continue
+    item = {"k": r["id"], "t": r["t"], "src": "BIPAD 灾害事件库", "text": f"{r['title']}（死亡 {r.get('deaths', 0)}、受伤 {r.get('injured', 0)}、失踪 {r.get('missing', 0)}）",
+            "text_en": f"{r['title']} (dead {r.get('deaths', 0)}, injured {r.get('injured', 0)}, missing {r.get('missing', 0)})", "url": r.get("url")}
+    same = next((c for c in cand if c["hips"] == r["codes"] and c["t"][:10] == r["t"][:10] and abs(c["lat"] - r["lat"]) + abs(c["lon"] - r["lon"]) < 0.2), None)
+    if same:   # 同一天、同一灾种、20 km 内的多条记录合成一个
+        same["src"].append(item); continue
+    hz = r.get("hazard_name") or ""
+    cand.append({"id": "hz-" + r["id"], "kind": hz, "hips": r["codes"], "title": f"{r['title']}", "title_en": r["title"], "place": r["title"].split(" at ")[-1],
+                 "lat": r["lat"], "lon": r["lon"], "t": r["t"], "first_seen": iso(NOW), "src": [item]})
 
 from collections import Counter
 summary = {"updated": iso(NOW), "sources": RES, "by_state": Counter(h["state"] for h in hz),
