@@ -24,28 +24,36 @@ def get(url, raw=False):
     return (b, h) if raw else b.decode("utf-8", "ignore")
 
 
+def _unesc(t):
+    try: return json.loads('"' + t + '"')
+    except Exception: return t
+
+
 def yt_live():
-    """频道当前在播的直播：/streams 页里带“直播中”标记的条目；再逐个打开确认 isLiveNow。"""
-    cams, seen = [], set()
-    for url in (f"https://www.youtube.com/channel/{CH}/streams", f"https://www.youtube.com/channel/{CH}/live"):
-        try: t = get(url)
-        except Exception as e: print("yt", url, e); continue
-        for m in re.finditer(r'"videoId":"([\w-]{11})"', t):
-            vid = m.group(1)
-            if vid in seen: continue
-            seen.add(vid)
-        if len(seen) > 40: break
-    for vid in list(seen)[:40]:
-        try: p = get(f"https://www.youtube.com/watch?v={vid}")
-        except Exception: continue
-        live = re.search(r'"isLiveNow":true', p) is not None or re.search(r'"isLive":true', p) is not None
-        title = (re.search(r'"title":"([^"]{5,200})"', p) or [None, ""])[1] if re.search(r'"title":"([^"]{5,200})"', p) else ""
-        owner = re.search(r'"channelId":"([\w-]+)"', p)
-        if not live or (owner and owner.group(1) != CH) or not KEEP.search(title): continue
-        cams.append({"id": "yt-" + vid, "kind": "youtube", "title": title.encode().decode("unicode_escape", "ignore") if "\\u" in title else title,
-                     "operator": "WEBCAM NEPAL LIVE（YouTube）", "url": f"https://www.youtube.com/watch?v={vid}", "live": True,
-                     "thumb": f"https://i.ytimg.com/vi/{vid}/hqdefault_live.jpg", "note": "缩略图由 YouTube 生成，更新时间由 YouTube 决定，不保证是这一刻的画面"})
-    return cams
+    """频道当前在播的直播。事实依据：/streams 页里带 LIVE_NOW 标记的条目，和 /live 页播放器信息里 isLive=true 的那一个。"""
+    cams = {}
+    try:
+        t = get(f"https://www.youtube.com/channel/{CH}/streams")
+        for blk in re.split(r'"videoRenderer":', t)[1:]:
+            blk = blk[:6000]
+            vid = re.search(r'"videoId":"([\w-]{11})"', blk)
+            title = re.search(r'"title":\{"runs":\[\{"text":"((?:[^"\\]|\\.){3,200})"', blk)
+            if vid and title and "BADGE_STYLE_TYPE_LIVE_NOW" in blk:
+                cams[vid.group(1)] = _unesc(title.group(1))
+    except Exception as e: print("streams", e)
+    try:
+        t = get(f"https://www.youtube.com/channel/{CH}/live")
+        m = re.search(r'"videoDetails":\{"videoId":"([\w-]{11})","title":"((?:[^"\\]|\\.){3,200})"', t)
+        if m and re.search(r'"isLive":true', t[m.start():m.start() + 4000]): cams.setdefault(m.group(1), _unesc(m.group(2)))
+    except Exception as e: print("live", e)
+    out = []
+    for vid, title in cams.items():
+        if not KEEP.search(title): continue
+        out.append({"id": "yt-" + vid, "kind": "youtube", "title": title, "operator": "WEBCAM NEPAL LIVE（YouTube）", "url": f"https://www.youtube.com/watch?v={vid}",
+                    "channel": f"https://www.youtube.com/channel/{CH}", "live": True, "thumb": f"https://i.ytimg.com/vi/{vid}/hqdefault_live.jpg",
+                    "note": "YouTube 标为“直播中”；缩略图由 YouTube 生成，更新时间由 YouTube 决定，不保证是这一刻的画面"})
+    print("youtube live:", len(cams), "kept:", len(out))
+    return out
 
 
 def evk2():
