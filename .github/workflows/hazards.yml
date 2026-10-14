@@ -4,7 +4,7 @@ name: hazards
 on:
   workflow_dispatch:
     inputs:
-      task: { description: "survey / scan / venues", default: "scan" }
+      task: { description: "survey / scan / venues / cams", default: "scan" }
       only: { description: "survey 只测这个前缀的来源（可空）", default: "" }
   schedule:
     - cron: "17 * * * *"
@@ -40,7 +40,8 @@ jobs:
           set +e
           if [ "$TASK" = "survey" ]; then python3 tools/source_survey.py out/survey.json > out/run.log 2>&1
           elif [ "$TASK" = "venues" ]; then git show origin/events:hazards/venues.json > prev_venues.json 2>/dev/null; python3 tools/venue_rank.py out/venues.json prev_venues.json > out/venues.log 2>&1; echo "exit=$?" >> out/venues.log; python3 tools/venues_report.py out/venues.json out/HAZARD_VENUES.md >> out/venues.log 2>&1; tail -40 out/venues.log; exit 0
-          else python3 tools/hazard_scan.py out > out/run.log 2>&1; fi
+          elif [ "$TASK" = "cams" ]; then python3 tools/webcams.py out > out/cams.log 2>&1; cat out/cams.log; exit 0
+          else python3 tools/hazard_scan.py out > out/run.log 2>&1; python3 tools/webcams.py out > out/cams.log 2>&1 || true; fi
           echo "exit=$?" >> out/run.log; tail -40 out/run.log
       - name: Save to events branch
         if: always()
