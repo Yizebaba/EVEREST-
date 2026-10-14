@@ -49,6 +49,11 @@ def yt_live():
                 ("canon", r'<link rel="canonical" href="https://www\.youtube\.com/watch\?v=([\w-]{11})"'), ("cur", r'"currentVideoEndpoint":\{[^{}]*(?:\{[^{}]*\}[^{}]*)*?"videoId":"([\w-]{11})"'),
                 ("vd", r'"videoDetails":\{"videoId":"([\w-]{11})"'), ("img", r'<meta property="og:image" content="https://i\.ytimg\.com/vi/([\w-]{11})/'))}
         print("live id candidates", cand)
+        i = t.find("playerOverlayVideoDetailsRenderer")
+        for m in re.finditer(r'"videoId":"([\w-]{11})"', t): 
+            if abs(m.start() - i) < 20000: print("near", m.group(1), m.start() - i, t[m.start() - 80:m.start() + 30].replace("\n", " "))
+        for kw in ('"liveStreamabilityRenderer"', '"isLiveNow"', 'hlsManifestUrl', '"ownerProfileUrl"', 'ytInitialPlayerResponse'):
+            j = t.find(kw); print(kw, j, t[j:j + 160].replace("\n", " ") if j >= 0 else "")
         ids = [v for v in cand.values() if v]
         vid = re.match(r"(.*)", max(set(ids), key=ids.count)) if ids else None   # 多个来源一致的那个
         ttl = re.search(r'"playerOverlayVideoDetailsRenderer":\{"title":\{"simpleText":"((?:[^"\\]|\\.){3,200})"', t)
