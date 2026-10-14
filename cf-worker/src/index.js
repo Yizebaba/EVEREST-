@@ -113,8 +113,9 @@ async function work(env, log) {
 
 // 3 给一个日期（同轨）算 z：同坡面、同轨、其他年份、同季（±12 天）的均值和标准差；减去当景所有坡面 z 的中位数（区域对照）
 async function scoreOne(env, log) {
-  const d = await env.DB.prepare(`SELECT o.date, o.orbit, MIN(o.t) t FROM obs o LEFT JOIN scored s ON s.date=o.date AND s.orbit=o.orbit
-     WHERE s.date IS NULL GROUP BY o.date, o.orbit ORDER BY o.date LIMIT 1`).first();
+  // 找还没打分的日期：从小表 scene 找（以前扫整张 obs 表，队列空了以后每分钟读 5 万多行）
+  const d = await env.DB.prepare(`SELECT c.date, c.orbit, MIN(c.t) t FROM scene c LEFT JOIN scored s ON s.date=c.date AND s.orbit=c.orbit
+     WHERE c.status='done' AND s.date IS NULL GROUP BY c.date, c.orbit ORDER BY c.date LIMIT 1`).first();
   if (!d) return false;
   // 每个坡面的满覆盖像元数（OCHA：像元 < 80% 的景视为部分覆盖，不用）。每批新影像后重建一次，省写入额度
   const lastDone = (await env.DB.prepare("SELECT MAX(done_at) a FROM scene").first()).a || "";
@@ -290,15 +291,23 @@ async function tick(env) {
 const CORS = { "access-control-allow-origin": "*", "cache-control": "public, max-age=300" };
 const json = (o, s = 200) => new Response(JSON.stringify(o), { status: s, headers: { "content-type": "application/json; charset=utf-8", ...CORS } });
 
+// D1 免费额度每天 500 万行读取。总览页开着时连接器每分钟调一次 everest_snapshot → status()，
+// 以前每次都 COUNT(*) 整张 obs 表并按日期分组（每次读 11 万行），一小时就是几百万行。
+// 现在：只读小表（scene、scored）和 obs 的最大 rowid（观测只增不删，等于行数），结果缓存 5 分钟。
 async function status(env) {
   await init(env);
+  const c = JSON.parse((await getMeta(env, "status_cache")) || "null");
+  if (c && Date.now() - Date.parse(c.at) < 5 * 60e3) return { ...c.data, cached_at: c.at, last_tick: JSON.parse((await getMeta(env, "last_tick")) || "null") };
   const s = await env.DB.prepare(`SELECT COUNT(*) n, SUM(status='done') d, MIN(t) first, MAX(t) last,
       MAX(CASE WHEN status='done' THEN t END) last_done FROM scene`).first();
-  const o = await env.DB.prepare("SELECT COUNT(*) n FROM obs").first();
+  const o = await env.DB.prepare("SELECT MAX(rowid) n FROM obs").first();
   const sc = await env.DB.prepare("SELECT COUNT(*) n FROM scored").first();
-  const dates = await env.DB.prepare("SELECT COUNT(*) n FROM (SELECT 1 FROM obs GROUP BY date, orbit)").first();
-  return { code: "v5-rt-south", gh_token_set: !!env.GH_TOKEN, gh_status_at: await getMeta(env, "gh_status_at"), scenes: s, obs_rows: o.n, dates_scored: sc.n, dates_total: dates.n, live_at: await getMeta(env, "live_at"),
-    last_tick: JSON.parse((await getMeta(env, "last_tick")) || "null"), facets: FACETS.length };
+  const dates = await env.DB.prepare("SELECT COUNT(*) n FROM (SELECT 1 FROM scene WHERE next_idx > 0 OR status='done' GROUP BY date, orbit)").first();
+  const data = { code: "v5-rt-south", gh_token_set: !!env.GH_TOKEN, gh_status_at: await getMeta(env, "gh_status_at"), scenes: s, obs_rows: o.n || 0,
+    dates_scored: sc.n, dates_total: dates.n, live_at: await getMeta(env, "live_at"), facets: FACETS.length };
+  const at = nowIso();
+  await setMeta(env, "status_cache", JSON.stringify({ at, data }));
+  return { ...data, cached_at: at, last_tick: JSON.parse((await getMeta(env, "last_tick")) || "null") };
 }
 
 export default {
