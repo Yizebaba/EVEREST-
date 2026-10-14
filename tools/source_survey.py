@@ -66,6 +66,15 @@ C = {
  "ref_datacite": "https://api.datacite.org/dois?query=%22glacial%20lake%20outburst%22&resource-type-id=dataset&page%5Bsize%5D=5",
  "ref_openalex_ratelimit": "https://api.openalex.org/rate-limit",
  "ref_emdat_doc": "https://doc.emdat.be/docs/",
+ "ref2_hma_glof_csv": "https://raw.githubusercontent.com/fidelsteiner/HMAGLOFDB/main/Database/GLOFs/HMAGLOFDB.csv",
+ "ref2_hma_glof_meta": "https://raw.githubusercontent.com/fidelsteiner/HMAGLOFDB/main/Database/GLOFs/HMAGLOFDB_Metadata.yml",
+ "ref2_hma_glof_zenodo": "https://zenodo.org/api/records/7271187/versions/latest",
+ "ref2_glof_global_files": "https://zenodo.org/api/records/7924369/files",
+ "ref2_coolr_q1": "https://gis.earthdata.nasa.gov/gis05/rest/services/Landslides/COOLR_Events_Points/FeatureServer/0/query?where=country_code%3D%27NP%27&outFields=event_date,event_title,landslide_category,landslide_trigger,latitude,longitude,source_name,source_link&resultRecordCount=3&f=json",
+ "ref2_coolr_q2": "https://gis.earthdata.nasa.gov/gis05/rest/services/Landslides/COOLR_Events_Points/FeatureServer/0/query?where=1%3D1&returnCountOnly=true&f=json",
+ "ref2_coolr_nccs": "https://maps.nccs.nasa.gov/mapping/rest/services/COOLR/COOLR_Events_Point/FeatureServer/0/query?where=1%3D1&returnCountOnly=true&f=json",
+ "ref2_glc_disasters": "https://maps.disasters.nasa.gov/ags01/rest/services/Hosted/nasa_glc_poly_point/FeatureServer/0/query?where=1%3D1&returnCountOnly=true&f=json",
+ "ref2_crossref_top": "https://api.crossref.org/works?query.bibliographic=glacial+lake+outburst+flood&filter=from-pub-date:2020-01-01,type:journal-article&rows=20&select=DOI,title,container-title,issued,is-referenced-by-count",
  "ref_rekor": "https://rekor.sigstore.dev/api/v1/log",
 }
 out = {}
@@ -95,5 +104,5 @@ for k, u in C.items():
         r["err"] = str(e)[:200]
     r["sec"] = round(time.time() - t, 1); out[k] = r
     print(k, r.get("status"), r.get("n"), r.get("err", "")[:80], flush=True)
-    if k.startswith("gdelt"): time.sleep(6)
+    if k.startswith("gdelt") or k.startswith("ref"): time.sleep(3)
 json.dump(out, open(sys.argv[1] if len(sys.argv) > 1 else "survey.json", "w"), ensure_ascii=False, indent=1)
