@@ -14,9 +14,18 @@ openFDA 食品药品召回 ok 100
 CISA 已利用漏洞 ok 32 
 Have I Been Pwned 数据泄露 ok 9 
 IODA 网络连通 ok 0 
-尼泊尔央行汇率 ok 0 
+尼泊尔央行汇率 fail None Remote end closed connection without response
 Safecast 辐射 ok 0 
 Sentinel-5P 大气成分 ok 6 
+机场天气实况 METAR ok 19 
+航空危险天气通报 SIGMET fail None 'list' object has no attribute 'get'
+美国风暴实况报告 SPC ok 102 
+美国气象局已观测警报 NWS ok 5 
+USGS 火山通告 ok 2 
+美国林火实时 NIFC ok 0 
+abuse.ch ThreatFox ok 1 
+OpenPhish 钓鱼列表 ok 1 
+ADS-B 紧急代码 7700 ok 0 
 太平洋海啸预警中心 ok 2 
 NOAA NCEI 历史灾害库 ok 42 
 IOC 海平面站 ok 1 
@@ -25,5 +34,9 @@ NSIDC 海冰 ok 2
 史密森尼火山周报 fail None HTTP Error 403: Forbidden
 GBIF 物种记录（尼泊尔） ok 2 
 新闻 RSS ok 155 
-{"ok_none": 176, "local": 41, "observed": 11, "global": 53} 1933 records 10 candidates
-exit=0
+Traceback (most recent call last):
+  File "/home/runner/work/EVEREST-/EVEREST-/tools/hazard_scan.py", line 718, in <module>
+    for c in r.get("codes", []): SRC_OF.setdefault(c, set()).add(r["src"])
+                                                                 ~^^^^^^^
+KeyError: 'src'
+exit=1
