@@ -23,7 +23,7 @@ import urllib.request, urllib.parse
 UA = {"user-agent": "everest-evidence (github.com/Yizebaba/EVEREST-)"}
 EVN = (27.9587, 86.8117)
 OUT = "events"
-VERSION = 15   # 改了证据包内容时加 1，所有包会重算一次
+VERSION = 16   # 改了证据包内容时加 1，所有包会重算一次
 NOW = datetime.now(timezone.utc)
 
 # 尼泊尔区县 → IODA 地区（旧 14 区）
@@ -824,9 +824,14 @@ def hazard_records(ev, t0, items, pack):
         elif not (r.get("news") and place and place != "nepal" and place in r.get("title", "").lower()):
             continue
         hits.append(r)
-    hits.sort(key=lambda r: r["t"])
-    for r in hits[:25]:
-        extra = f"（死亡 {r['deaths']}）" if r.get("deaths") else ""
+    fam = {c[:2] for c in (ev.get("hips") or [])}
+    def score(r):   # 伤亡多、同一大类、离得近、新闻点名本地的优先
+        d = km((ev["lat"], ev["lon"]), (r["lat"], r["lon"])) if r.get("lat") is not None else 60
+        return ((r.get("deaths") or 0) + (r.get("missing") or 0)) * 10 + (5 if fam & {c[:2] for c in r.get("codes", [])} else 0) + (3 if d < 30 else 1 if d < 80 else 0) + (4 if r.get("news") else 0)
+    top = sorted(hits, key=score, reverse=True)[:25]
+    top.sort(key=lambda r: r["t"])
+    for r in top:
+        extra = (f"（死亡 {r['deaths']}" + (f"、失踪 {r['missing']}" if r.get("missing") else "") + "）") if r.get("deaths") else (f"（失踪 {r['missing']}）" if r.get("missing") else "")
         items.append({"t": r["t"], "src": "灾种扫描 · " + r["src"], "kind": "SUPPORTING", "hips": r.get("codes", []),
                       "text": r["title"] + extra, "text_en": r["title"] + extra, "url": r.get("url")})
     pack["hazard_links"] = {"n": len(hits), "codes": sorted({c for r in hits for c in r.get("codes", [])})}
