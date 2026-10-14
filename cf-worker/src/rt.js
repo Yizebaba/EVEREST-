@@ -249,8 +249,11 @@ function every(k, s) {
 // 新闻（GDELT 全球新闻库）：喜马拉雅的雪崩、冰崩、冰湖溃决、滑坡、泥石流、暴雪、山洪、雷击、冰雹、寒潮、森林火灾、地震、溃坝、霍乱/登革热等疫情报道。只当“线索”，至少两家媒体才成为事件候选。
 async function news() {
   const q = '(avalanche OR landslide OR "glacial lake" OR GLOF OR flood OR "debris flow" OR rockfall OR snowstorm OR blizzard OR hailstorm OR lightning OR "cold wave" OR "forest fire" OR wildfire OR earthquake OR "dam collapse" OR cholera OR dengue OR outbreak) (Nepal OR Everest OR Himalaya OR Tibet OR Xizang) sourcelang:english';
-  const r = await fetch("https://api.gdeltproject.org/api/v2/doc/doc?" + new URLSearchParams({ query: q, mode: "artlist", maxrecords: "75", format: "json", timespan: "3d", sort: "datedesc" }), { headers: UA });
-  const tx = await r.text(); if (!r.ok) throw new Error(`GDELT ${r.status}`);   // 被限流时这一轮报错，30 分钟后再取
+  const url = "https://api.gdeltproject.org/api/v2/doc/doc?" + new URLSearchParams({ query: q, mode: "artlist", maxrecords: "75", format: "json", timespan: "3d", sort: "datedesc" });
+  // GDELT 限每个 IP 5 秒一次，Cloudflare 出口 IP 是共享的，常被 429：等 6 秒再试一次；还不行这一轮报错，30 分钟后再取（上次结果保留）
+  let r = await fetch(url, { headers: UA });
+  if (r.status === 429) { await new Promise(f => setTimeout(f, 6000)); r = await fetch(url, { headers: UA }); }
+  const tx = await r.text(); if (!r.ok) throw new Error(`GDELT ${r.status}`);
   if (!tx.trim().startsWith("{")) throw new Error("GDELT: " + tx.slice(0, 80));
   const s2 = d => `${d.slice(0, 4)}-${d.slice(4, 6)}-${d.slice(6, 8)}T${d.slice(9, 11)}:${d.slice(11, 13)}:${d.slice(13, 15)}Z`;
   return { arts: (JSON.parse(tx).articles || []).map(x => ({ t: s2(x.seendate), title: String(x.title || "").slice(0, 200), url: x.url, domain: x.domain, lang: x.language })) };
