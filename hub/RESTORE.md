@@ -249,3 +249,10 @@
 - 证据包 v20：Sigstore 改用标准 bundle（application/vnd.dev.sigstore.bundle.v0.3+json），签完在运行器上立即 cosign verify-blob 自核对，结果记 self_verified。
 - 期刊排名：按 h 指数 × ln(1+该主题篇数) 排序；扩充综合刊名单；雪崩、爆炸、苯、砷、镉检索词改为不歧义的说法；保存全部候选期刊（candidates）；数据论文和方法论文要求标题含检索实词。
 - 复原：删 events 分支 hazards-tick.yml 即停止 Worker 触发（Worker 只会继续改 tick.txt，无副作用）；Worker 回退 cf-worker/src/events.js、index.js 到 e9ebae0 之前；证据包回退 VERSION 19。
+
+---
+# 第三十六次改动（D1 读取额度、时效分级）
+- Cloudflare 邮件：D1 免费额度每天 500 万行读取已用 75%。原因：总览页开着时连接器每分钟调 everest_snapshot → status()，每次 COUNT(*) 整张 obs 表并按日期分组（约 11 万行）。
+  改为：obs 行数用 MAX(rowid)（只增不删，等于行数），日期数从 scene 小表算，结果缓存 5 分钟（meta.status_cache）；scoreOne 找待打分日期改查 scene 小表（以前队列空了以后每分钟扫整张 obs）。
+- hazard_scan：每个来源加时效分级 latency，每种灾害加 rt_tier，汇总 by_latency。
+- 复原：Worker 回退 cf-worker/src/index.js 到这次之前的提交；hazard_scan 删 LATENCY 那段。

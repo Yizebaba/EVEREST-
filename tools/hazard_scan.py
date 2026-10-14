@@ -630,7 +630,20 @@ for r in allrec:
                  "lat": r["lat"], "lon": r["lon"], "t": r["t"], "first_seen": iso(NOW), "src": [item]})
 
 from collections import Counter
-summary = {"updated": iso(NOW), "sources": RES, "by_state": Counter(h["state"] for h in hz),
+# 时效分级（按发布方的更新频率，见各来源文档；新闻 RSS 单列，因为它只是线索、不是权威记录）
+# 1 实时：分钟到 1 小时；2 准实时：几小时到 1 天；3 定期：每周或更慢（含档案库）
+LATENCY = {"BIPAD 警报": 1, "BIPAD 空气质量站": 1, "USGS 地震目录": 1, "GDACS": 1, "NOAA SWPC 空间天气": 1, "IOC 海平面站": 1, "太平洋海啸预警中心": 1,
+           "IODA 网络连通": 1, "Cloudflare Radar": 1, "OpenAQ 空气质量": 1, "Safecast 辐射": 1, "新闻 RSS": 1, "CelesTrak 在轨目标": 1,
+           "BIPAD 灾害事件库": 2, "NASA EONET": 2, "NASA FIRMS 火点": 2, "Sentinel-5P 大气成分": 2, "WHO 疫情通报": 2, "NASA CNEOS": 2,
+           "CISA 已利用漏洞": 2, "Have I Been Pwned 数据泄露": 2, "IBTrACS 活跃气旋": 2, "NSIDC 海冰": 2, "尼泊尔央行汇率": 2, "ReliefWeb": 2,
+           "WOAH WAHIS 动物疫情": 2, "Global Forest Watch": 2,
+           "openFDA 食品药品召回": 3, "ACLED 冲突事件": 3, "WHO FluNet（尼泊尔）": 3, "NOAA NCEI 历史灾害库": 3, "史密森尼火山周报": 3, "GBIF 物种记录（尼泊尔）": 3}
+TIER = {1: "实时", 2: "准实时", 3: "定期", 9: "只有新闻"}
+for k, v in RES.items(): v["latency"] = TIER.get(LATENCY.get(k, 3))
+for h in hz:   # 每种灾害：除新闻外、这次实测可用的来源里最快的一级
+    ok = [x for x in h.get("sources", []) if x != "新闻 RSS" and (RES.get(x) or {}).get("state") == "ok"]
+    h["rt_tier"] = TIER[min([LATENCY.get(x, 3) for x in ok], default=9)]
+summary = {"updated": iso(NOW), "sources": RES, "by_latency": Counter(h["rt_tier"] for h in hz), "by_state": Counter(h["state"] for h in hz),
            "by_family": {f: Counter(h["state"] for h in hz if h["family_zh"] == f) for f in dict.fromkeys(h["family_zh"] for h in hz)}}
 json.dump({**summary, "hazards": hz}, open(f"{OUT}/scan.json", "w"), ensure_ascii=False, indent=1)
 json.dump({"updated": iso(NOW), "records": allrec[:20000]}, open(f"{OUT}/records.json", "w"), ensure_ascii=False)

@@ -76,6 +76,7 @@
 
 - **33 个公开来源**：尼泊尔政府 BIPAD 事件库（47 类，含交通、火灾、蛇咬、食物中毒、疫情、毒气和辐射泄漏等）、BIPAD 警报和空气质量站、NASA EONET、USGS、GDACS、NOAA 空间天气、NASA 近地天体与火球、CelesTrak、WHO 疫情通报与 FluNet、WOAH 动物疫情、openFDA 召回、CISA 已利用漏洞、Have I Been Pwned、IODA、尼泊尔央行汇率、Safecast、Sentinel-5P、海啸预警中心、NOAA NCEI、IOC 潮位站、IBTrACS、NSIDC 海冰、GBIF、尼泊尔英文媒体和谷歌新闻 RSS。6 个需要密钥（Cloudflare Radar、Global Forest Watch、FIRMS、OpenAQ、ACLED、ReliefWeb），没配置时标“需密钥”。
 - **新闻匹配**：每种灾害一组人工写的英文匹配词（`tools/hazard_keywords.py`），谷歌新闻的结果要求标题里有尼泊尔或西藏的地名。
+- **时效**：每个来源按发布方更新频率分三级——实时（分钟到 1 小时）、准实时（几小时到 1 天）、定期（每周或更慢、档案库）；每种灾害取除新闻外实测可用来源里最快的一级（scan.json 的 `rt_tier`、`by_latency`）。新闻 RSS 是实时的，但只算线索，单列。
 - **状态**：本地有记录 / 外地有记录 / 有持续观测（只有卫星或站网在测，没有“发生了”的记录）/ 来源正常但 90 天无记录 / 需密钥 / 来源失败。
 - **和事件的关系**：尼泊尔死亡加失踪 3 人以上，或高山区自然灾害有人死亡失踪，单独做证据包；其余记录按距离（150 km）和时间（前 1 天到后 5 天）挂到附近事件的时间线上，按伤亡、同类、距离排序取前 25 条。
 
