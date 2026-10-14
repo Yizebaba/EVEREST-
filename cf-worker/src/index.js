@@ -5,7 +5,7 @@
 import FACETS from "./facets.json";
 import { searchScenes, facetStat, STAC, DATA } from "./pc.js";
 import { rtTick, rtPublic, IMG } from "./rt.js";
-import { detect, kick } from "./events.js";
+import { detect, kick, hazardsKick } from "./events.js";
 import { handleMcp } from "./mcp.js";
 
 const BBOX = [86.54, 27.746, 87.257, 28.23];
@@ -258,6 +258,10 @@ async function tick(env) {
         if (k) { await setMeta(env, "events_kick", JSON.stringify(k)); log.kick = k.status || k.skip; }
         log.events = Object.keys(ev).length;
       } catch (e) { log.events_err = String(e && e.message || e).slice(0, 200); }
+      try {   // 灾种扫描每小时、期刊排名每天：由 Worker 触发（GitHub cron 不可靠）
+        const hk = await hazardsKick(env, JSON.parse((await getMeta(env, "hz_kick")) || "null"));
+        if (hk) { await setMeta(env, "hz_kick", JSON.stringify(hk)); log.hz_kick = hk.scan_status || hk.venues_status || hk.skip; }
+      } catch (e) { log.hz_kick_err = String(e && e.message || e).slice(0, 200); }
       await setMeta(env, "last_tick", JSON.stringify(log)); return log;
     }
     await discover(env, log);
@@ -303,7 +307,7 @@ export default {
     const u = new URL(req.url);
     if (u.pathname === "/api/live.json") { await init(env); const v = await getMeta(env, "live"); return v ? new Response(v, { headers: { "content-type": "application/json; charset=utf-8", ...CORS } }) : json({ building: true, status: await status(env) }, 202); }
     if (u.pathname === "/api/status.json") return json(await status(env));
-    if (u.pathname === "/api/events.json") { await init(env); const ev = JSON.parse((await getMeta(env, "events")) || "{}"); return json({ events: Object.values(ev).sort((x, y) => y.t.localeCompare(x.t)), kick: JSON.parse((await getMeta(env, "events_kick")) || "null") }); }
+    if (u.pathname === "/api/events.json") { await init(env); const ev = JSON.parse((await getMeta(env, "events")) || "{}"); return json({ events: Object.values(ev).sort((x, y) => y.t.localeCompare(x.t)), kick: JSON.parse((await getMeta(env, "events_kick")) || "null"), hz_kick: JSON.parse((await getMeta(env, "hz_kick")) || "null") }); }
     if (u.pathname === "/api/facets.json") return json(FACETS);
     if (u.pathname === "/api/rt.json") { await init(env); const v = await getMeta(env, "rt"); return json(v ? rtPublic(JSON.parse(v)) : { building: true }); }
     if (u.pathname === "/mcp") {   // EVEREST 连接器（MCP），只读

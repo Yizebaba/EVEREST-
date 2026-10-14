@@ -135,3 +135,21 @@ export async function kick(env, events, lastKick, sig) {
     body: JSON.stringify({ message: "evidence trigger " + now, content: btoa(now + "\n" + sig + "\n"), branch: "events", sha }) });
   return { at: now, sig, status: put.status };
 }
+
+
+// GitHub 的定时任务（cron）常常延迟甚至几小时不跑。灾种扫描要“实时”，改由 Worker 每小时主动触发 hazards 工作流（workflow_dispatch）；
+// 每天 02:40 以后第一次再触发一次期刊排名（venues）。需要 GH_TOKEN 有 Actions 写权限；没有时返回状态码，记在 /api/events.json 的 hz_kick 里。
+export async function hazardsKick(env, last) {
+  if (!env.GH_TOKEN || !env.GH_REPO) return { skip: "没有 GH_TOKEN" };
+  const now = new Date(), L = last || {};
+  const due = (t, ms) => !t || now - Date.parse(t) >= ms;
+  let task = null;
+  if (now.getUTCHours() === 2 && now.getUTCMinutes() >= 40 && due(L.venues_at, 20 * 3600e3)) task = "venues";
+  else if (due(L.scan_at, 55 * 60e3)) task = "scan";
+  if (!task) return null;
+  const r = await fetch(`https://api.github.com/repos/${env.GH_REPO}/actions/workflows/hazards.yml/dispatches`, { method: "POST",
+    headers: { "user-agent": "everest-facets-worker", accept: "application/vnd.github+json", authorization: "Bearer " + env.GH_TOKEN, "content-type": "application/json" },
+    body: JSON.stringify({ ref: "main", inputs: { task } }) });
+  // 成功是 204；失败也记时间（避免每 5 分钟重复请求），状态码留着排查
+  return { ...L, [task + "_status"]: r.status, [task + "_at"]: now.toISOString() };
+}
