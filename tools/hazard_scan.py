@@ -296,7 +296,7 @@ def nrb():
 # ---------- 辐射：Safecast ----------
 @source("Safecast 辐射")
 def safecast():
-    x = get(f"https://api.safecast.org/measurements.json?latitude=27.7&longitude=85.3&distance=500000&captured_after={(NOW - timedelta(days=365)).strftime('%Y-%m-%d')}&per_page=100")
+    x = get("https://api.safecast.org/measurements.json?latitude=27.7&longitude=85.3&distance=500000&per_page=100")
     hi = [m for m in x if (m.get("value") or 0) > 300 and m.get("unit") == "cpm"]
     for m in hi:
         rec(["TL0602"], m["captured_at"][:19] + "Z", f"辐射读数 {m['value']} cpm", m.get("latitude"), m.get("longitude"), "https://map.safecast.org/", "sc-" + str(m["id"]))
@@ -372,7 +372,11 @@ def nsidc():
 @source("史密森尼火山周报")
 def gvp():
     import xml.etree.ElementTree as ET
-    b = get("https://volcano.si.edu/news/WeeklyVolcanoRSS.xml", raw=True, headers={"user-agent": "Mozilla/5.0 (compatible; everest-hazard-scan)"})
+    b = None
+    for u in ("https://volcano.si.edu/news/WeeklyVolcanoRSS.xml", "https://volcano.si.edu/news/WeeklyVolcanoCAP.xml"):
+        try: b = get(u, raw=True, headers={"user-agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124 Safari/537.36", "accept": "application/rss+xml, application/xml, */*"}); break
+        except Exception as e: err = e
+    if b is None: raise err
     for it in ET.fromstring(b).iter("item"):
         rec(["GH0201", "GH0202", "GH0205"], iso(NOW), it.findtext("title") or "", None, None, it.findtext("link"), "gvp-" + (it.findtext("guid") or it.findtext("title") or ""))
 
@@ -422,12 +426,49 @@ def reliefweb():
         f = d["fields"]; rec([], f["date"]["created"][:19] + "Z", f["name"], 28.0, 84.0, f.get("url"), "rw-" + str(d["id"]))
 
 
+# ---------- 新闻 RSS：尼泊尔英文媒体 + ReliefWeb + 谷歌新闻搜索，每种灾害关键词匹配标题和摘要 ----------
+RSS = {"Kathmandu Post": "https://kathmandupost.com/rss", "OnlineKhabar English": "https://english.onlinekhabar.com/feed",
+       "The Himalayan Times": "https://thehimalayantimes.com/rssFeed/15", "Republica": "https://myrepublica.nagariknetwork.com/rss",
+       "Nepali Times": "https://nepalitimes.com/feed", "Rising Nepal": "https://risingnepaldaily.com/rss",
+       "ReliefWeb（尼泊尔）": "https://reliefweb.int/updates/rss.xml?primary_country=165",
+       "Google News（尼泊尔灾害）": "https://news.google.com/rss/search?q=Nepal+(disaster+OR+accident+OR+outbreak+OR+flood+OR+landslide+OR+avalanche+OR+fire)+when:7d&hl=en-US&gl=US&ceid=US:en",
+       "Google News（西藏灾害）": "https://news.google.com/rss/search?q=(Tibet+OR+Xizang)+(earthquake+OR+avalanche+OR+flood+OR+landslide+OR+snowstorm)+when:7d&hl=en-US&gl=US&ceid=US:en"}
+FEEDS = {}
+
+
+@source("新闻 RSS")
+def news_rss():
+    import xml.etree.ElementTree as ET
+    from email.utils import parsedate_to_datetime
+    KW = {h["code"]: kw_of(h) for h in HIPS}; ok = {}
+    for name, u in RSS.items():
+        try:
+            b = get(u, raw=True, timeout=40, headers={"user-agent": "Mozilla/5.0 (compatible; everest-hazard-scan; +https://github.com/Yizebaba/EVEREST-)", "accept": "application/rss+xml, application/xml, */*"})
+            items = list(ET.fromstring(b).iter("item")); ok[name] = len(items)
+        except Exception as e:
+            ok[name] = "失败：" + str(e)[:60]; continue
+        for it in items:
+            title = (it.findtext("title") or "").strip(); desc = re.sub(r"<[^>]+>", " ", it.findtext("description") or "")
+            try: t = iso(parsedate_to_datetime(it.findtext("pubDate")))
+            except Exception: t = iso(NOW)
+            text = title + " " + desc[:400]
+            codes = [c for c, k in KW.items() if re.search(r"\b" + re.escape(k) + r"s?\b", text, re.I)]
+            if codes:
+                rec(codes, t, f"{name}：{title}", None, None, it.findtext("link"), "rss-" + (it.findtext("link") or title)[:200], local=True, news=True)
+    FEEDS.update(ok)
+    if not any(isinstance(v, int) for v in ok.values()): raise RuntimeError("全部 RSS 都取不到：" + json.dumps(ok, ensure_ascii=False)[:150])
+    return {"feeds": ok}
+
+
 # ---------- 新闻：GDELT，每种灾害一个关键词，按批 OR 查询，限定喜马拉雅 ----------
 def kw_of(h):
     over = {"MH0102": "lightning", "MH0201": "dust storm", "MH0306": "cyclone", "MH0503": "dzud", "MH0600": "flood", "MH0607": "glacial lake outburst", "MH0801": "avalanche",
             "GH0101": "earthquake", "GH0300": "landslide", "GH0301": "rockfall", "GH0303": "debris flow", "EN0205": "forest fire", "TL0205": "dam collapse", "TL0209": "blackout",
             "TL0405": "road accident", "TL0401": "plane crash", "TL0402": "boat capsize", "SO0302": "stampede", "SO0103": "protest", "BI0605": "snakebite", "BI0604": "wildlife attack",
-            "CH0302": "carbon monoxide", "TL0104": "DDoS", "TL0102": "data breach", "TL0101": "malware", "SO0401": "financial crisis", "TL0204": "bridge collapse", "TL0201": "building collapse"}
+            "CH0302": "carbon monoxide", "MH0301": "windstorm", "MH0402": "heavy rain", "MH0405": "snowfall", "MH0501": "heatwave", "MH0502": "cold wave", "MH0404": "hailstorm",
+            "MH0103": "thunderstorm", "MH0603": "flash flood", "MH0606": "inundation", "GH0403": "soil erosion", "EN0201": "deforestation", "EN0103": "air pollution", "TL0305": "fire",
+            "TL0304": "explosion", "TL0307": "mine accident", "TL0309": "industrial accident", "BI0103": "diarrhoea", "BI0104": "food poisoning", "BI0110": "waterborne", "SO0301": "violence",
+            "SO0303": "suicide", "MH0401": "drought", "TL0210": "water supply", "TL0206": "supply shortage", "TL0213": "tunnel", "TL0502": "garbage", "SO0101": "armed conflict", "TL0104": "DDoS", "TL0102": "data breach", "TL0101": "malware", "SO0401": "financial crisis", "TL0204": "bridge collapse", "TL0201": "building collapse"}
     if h["code"] in over: return over[h["code"]]
     k = re.sub(r"\(.*?\)", "", h["label"]).split("/")[0].split(",")[0].strip().lower()
     k = re.sub(r"\b(human|animal|and|including|other)\b", "", k).strip()
@@ -438,17 +479,17 @@ def kw_of(h):
 def gdelt():
     KW = {h["code"]: kw_of(h) for h in HIPS}
     items = list(KW.items()); n_q = 0; arts_all = []
-    for i in range(0, len(items), 10):
-        grp = items[i:i + 10]
+    for i in range(0, len(items), 36):
+        grp = items[i:i + 36]
         terms = " OR ".join(f'"{k}"' if " " in k else k for _, k in grp)
         q = f"({terms}) (Nepal OR Himalaya OR Everest OR Tibet) sourcelang:english"
         u = "https://api.gdeltproject.org/api/v2/doc/doc?" + urllib.parse.urlencode({"query": q, "mode": "artlist", "maxrecords": 250, "format": "json", "timespan": "7d"})
-        for wait in (7, 30, 90):
+        for wait in (12, 40):
             time.sleep(wait)
             try:
                 raw = get(u, raw=True, timeout=60); break
             except Exception as e:
-                if "429" not in str(e) or wait == 90: raise
+                if "429" not in str(e) or wait == 40: raise
         n_q += 1
         arts = json.loads(raw).get("articles", []) if raw.strip().startswith(b"{") else []
         for a in arts:
@@ -516,7 +557,7 @@ for c in ("BI0301", "BI0302", "BI0303", "BI0304", "BI0305", "BI0306", "BI0307", 
     STATIC.setdefault(c, set()).add("WOAH WAHIS 动物疫情")
 for c in ("GH0101", "GH0300", "GH0301", "TL0304", "TL0307"): STATIC.setdefault(c, set()).add("USGS 地震目录")
 for c in ("GH0101", "MH0600", "MH0309", "MH0401", "EN0205", "GH0201", "MH0705"): STATIC.setdefault(c, set()).add("GDACS")
-for h in HIPS: STATIC.setdefault(h["code"], set()).add("GDELT 新闻")
+for h in HIPS: STATIC.setdefault(h["code"], set()).update({"GDELT 新闻", "新闻 RSS"})
 
 hz = []
 for h in HIPS:
