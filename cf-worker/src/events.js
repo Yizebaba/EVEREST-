@@ -137,8 +137,9 @@ export async function kick(env, events, lastKick, sig) {
 }
 
 
-// GitHub 的定时任务（cron）常常延迟甚至几小时不跑。灾种扫描要“实时”，改由 Worker 每小时主动触发 hazards 工作流（workflow_dispatch）；
-// 每天 02:40 以后第一次再触发一次期刊排名（venues）。需要 GH_TOKEN 有 Actions 写权限；没有时返回状态码，记在 /api/events.json 的 hz_kick 里。
+// GitHub 的定时任务（cron）常常延迟甚至几小时不跑。灾种扫描要“实时”，改由 Worker 每小时触发：
+// 改 events 分支的 hazards/tick.txt（和证据包的 trigger.txt 同一种做法，只需要内容写权限）→ events 分支的 hazards-tick 工作流
+// 用 GITHUB_TOKEN 启动 main 上的 hazards 工作流。每天 02:40 以后第一次是期刊排名（venues），其余是扫描（scan）。
 export async function hazardsKick(env, last) {
   if (!env.GH_TOKEN || !env.GH_REPO) return { skip: "没有 GH_TOKEN" };
   const now = new Date(), L = last || {};
@@ -147,9 +148,12 @@ export async function hazardsKick(env, last) {
   if (now.getUTCHours() === 2 && now.getUTCMinutes() >= 40 && due(L.venues_at, 20 * 3600e3)) task = "venues";
   else if (due(L.scan_at, 55 * 60e3)) task = "scan";
   if (!task) return null;
-  const r = await fetch(`https://api.github.com/repos/${env.GH_REPO}/actions/workflows/hazards.yml/dispatches`, { method: "POST",
-    headers: { "user-agent": "everest-facets-worker", accept: "application/vnd.github+json", authorization: "Bearer " + env.GH_TOKEN, "content-type": "application/json" },
-    body: JSON.stringify({ ref: "main", inputs: { task } }) });
-  // 成功是 204；失败也记时间（避免每 5 分钟重复请求），状态码留着排查
+  const H = { "user-agent": "everest-facets-worker", accept: "application/vnd.github+json", authorization: "Bearer " + env.GH_TOKEN };
+  const path = `https://api.github.com/repos/${env.GH_REPO}/contents/hazards/tick.txt`;
+  const cur = await fetch(path + "?ref=events", { headers: H });
+  const sha = cur.ok ? (await cur.json()).sha : undefined;
+  const r = await fetch(path, { method: "PUT", headers: { ...H, "content-type": "application/json" },
+    body: JSON.stringify({ message: `hazards ${task} tick ${now.toISOString()}`, content: btoa(task + "\n" + now.toISOString() + "\n"), branch: "events", sha }) });
+  // 成功是 200/201；失败也记时间（避免每 5 分钟重复请求），状态码留着排查
   return { ...L, [task + "_status"]: r.status, [task + "_at"]: now.toISOString() };
 }
