@@ -49,6 +49,7 @@ def source(name, need=None):
                 for r in new: r["src"] = name
                 RES[name] = {"state": "ok", "n": len(new), "local": sum(1 for r in new if r.get("local")), "latest": max((r["t"] for r in new), default=None), "sec": round(time.time() - t, 1), **info}
             except Exception as e:
+                del RECS[n0:]   # 失败的来源：已取到的半截记录不要
                 RES[name] = {"state": "fail", "err": str(e)[:200], "sec": round(time.time() - t, 1)}
             print(name, RES[name].get("state"), RES[name].get("n"), RES[name].get("err", "")[:80], flush=True)
         run.name = name; SOURCES.append(run); return run
@@ -380,7 +381,8 @@ def sigmet():
     for x in get("https://aviationweather.gov/api/data/isigmet?format=json"):
         hz = (x.get("hazard") or "").split()[0] if x.get("hazard") else ""
         if hz not in SIG_HZ or not re.search(r"\bOBS\b", x.get("rawSigmet") or ""): continue
-        cs, nm = SIG_HZ[hz]; co = (x.get("coords") or [{}])[0]
+        cs, nm = SIG_HZ[hz]; co = x.get("coords") or [{}]
+        while isinstance(co, list): co = co[0] if co else {}
         t = iso(datetime.fromtimestamp(x.get("validTimeFrom") or NOW.timestamp(), timezone.utc))
         if hz == "TS" and not inbox(co.get("lat"), co.get("lon")):
             a = agg.setdefault(nm, {"codes": cs, "n": 0, "t": t}); a["n"] += 1; a["t"] = max(a["t"], t); continue
