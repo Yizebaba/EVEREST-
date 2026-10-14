@@ -570,12 +570,12 @@ def gdelt(ev, t0, items, pack):
         u = "https://api.gdeltproject.org/api/v2/doc/doc?" + urllib.parse.urlencode({"query": q, "mode": "artlist", "maxrecords": 75, "format": "json", "sort": "dateasc",
                                                                                      "startdatetime": a.strftime("%Y%m%d%H%M%S"), "enddatetime": b.strftime("%Y%m%d%H%M%S")})
         raw = b""
-        for wait in (15, 45, 120):   # GDELT 要求每 5 秒最多一次；共用的 GitHub 运行器容易被限流，退避重试
+        for wait in (8, 30):   # GDELT 要求每 5 秒最多一次；共用的 GitHub 运行器常被限流，只退避一次，取不到就标缺失（附近新闻已由灾种扫描的 RSS 挂进来）
             time.sleep(wait)
             try:
                 raw = get(u, raw=True, timeout=60); break
             except Exception as e:
-                if "429" not in str(e) or wait == 120: raise
+                if "429" not in str(e) or wait == 30: raise
         if not raw.strip().startswith(b"{"):
             print("GDELT 返回：", q, raw[:300])
             if raw.strip(): raise RuntimeError("GDELT：" + raw[:80].decode(errors="ignore"))
