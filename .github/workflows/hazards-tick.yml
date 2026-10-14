@@ -1,0 +1,23 @@
+# Worker 每小时改 hazards/tick.txt（第一行是任务：scan 或 venues）→ 启动 main 分支上的 hazards 工作流。
+# GitHub 自带的定时任务经常延迟几小时，这样扫描能按时跑。用 GITHUB_TOKEN 启动 workflow_dispatch 是 GitHub 允许的。
+name: hazards-tick
+on:
+  push:
+    branches: [events]
+    paths: [hazards/tick.txt]
+permissions:
+  actions: write
+  contents: read
+jobs:
+  go:
+    runs-on: ubuntu-latest
+    timeout-minutes: 3
+    steps:
+      - uses: actions/checkout@v4
+        with: { ref: events, sparse-checkout: hazards/tick.txt }
+      - run: |
+          task=$(head -1 hazards/tick.txt | tr -cd 'a-z')
+          case "$task" in scan|venues) ;; *) task=scan ;; esac
+          gh workflow run hazards.yml --ref main -f task=$task -R "$GITHUB_REPOSITORY"
+        env:
+          GH_TOKEN: ${{ github.token }}
