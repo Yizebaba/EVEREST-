@@ -120,6 +120,12 @@ C = {
  "cam2_pwc": "https://ftp.mountaingenius.org/PYRCEOP/PWC.jpg",
  "cam2_dir": "https://ftp.mountaingenius.org/PYRCEOP/",
  "cam2_root": "https://ftp.mountaingenius.org/",
+ "cam3_everest_pyramid": "https://www.youtube.com/watch?v=tz3VTxlq9l4",
+ "cam3_lukla": "https://www.youtube.com/watch?v=am9KDRSZQ-0",
+ "cam3_lobuche": "https://www.youtube.com/watch?v=AFUTlak8wcA",
+ "cam3_namche": "https://www.youtube.com/watch?v=uQsntMlx8ZY",
+ "cam3_khare": "https://www.youtube.com/watch?v=PAIpsIJ_7AE",
+ "cam3_everest_yt2": "https://www.youtube.com/watch?v=AD4-Z-ONsIc",
  "ref_rekor": "https://rekor.sigstore.dev/api/v1/log",
 }
 out = {}
@@ -147,6 +153,14 @@ for k, u in C.items():
             import re as _re
             r["imgs"] = sorted(set(_re.findall(r'(?:src|href|data-src)=["\']([^"\']+\.(?:jpe?g|png|webp|m3u8)[^"\']*)', txt)))[:60]
             r["frames"] = sorted(set(_re.findall(r'<iframe[^>]+src=["\']([^"\']+)', txt)))[:20]
+        if k.startswith("cam3_"):
+            import re as _re
+            for f in ("isLiveNow", "isLive", "playableInEmbed", "isLiveContent"):
+                m = _re.search('"' + f + '":(true|false)', txt); r[f] = m.group(1) if m else None
+            for f in ("title", "ownerChannelName", "channelId", "startTimestamp", "endTimestamp", "uploadDate"):
+                m = _re.search('"' + f + '":"([^"]{0,120})"', txt); r[f] = m.group(1) if m else None
+            m = _re.search('"status":"(OK|UNPLAYABLE|ERROR|LOGIN_REQUIRED|LIVE_STREAM_OFFLINE)"', txt); r["play_status"] = m.group(1) if m else None
+            r["sample"] = ""
         if k == "bipad_hazard":
             r["all"] = [(h.get("id"), h.get("title")) for h in (json.loads(txt).get("results") or [])]
     except Exception as e:
