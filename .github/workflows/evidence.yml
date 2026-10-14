@@ -8,6 +8,7 @@ on:
   workflow_dispatch:
 permissions:
   contents: write
+  id-token: write   # Sigstore 无密钥签名用（GitHub 签发的身份令牌，不需要密钥）
 concurrency:
   group: evidence
   cancel-in-progress: false
@@ -21,9 +22,11 @@ jobs:
       - uses: actions/setup-python@v5
         with: { python-version: "3.12" }
       - run: pip install -q obspy matplotlib opentimestamps-client h5py
+      - uses: sigstore/cosign-installer@v3
       - run: python3 tools/evidence_pack.py
         env:
           MONTANDON_API_TOKEN: ${{ secrets.MONTANDON_API_TOKEN }}
+          GITHUB_TOKEN: ${{ github.token }}
           RELIEFWEB_APPNAME: ${{ secrets.RELIEFWEB_APPNAME }}
           CF_RADAR_TOKEN: ${{ secrets.CF_RADAR_TOKEN }}
           FIRMS_MAP_KEY: ${{ secrets.FIRMS_MAP_KEY }}
