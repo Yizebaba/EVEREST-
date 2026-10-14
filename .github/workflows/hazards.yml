@@ -30,7 +30,7 @@ jobs:
           ACLED_KEY: ${{ secrets.ACLED_KEY }}
           GFW_API_KEY: ${{ secrets.GFW_API_KEY }}
         run: |
-          mkdir -p out
+          mkdir -p out; git fetch -q origin events || true
           if [ "$TASK" = "survey" ]; then python3 tools/source_survey.py out/survey.json; else python3 tools/hazard_scan.py out; fi
       - name: Save to events branch
         run: |
