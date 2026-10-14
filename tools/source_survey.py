@@ -126,6 +126,20 @@ C = {
  "cam3_namche": "https://www.youtube.com/watch?v=uQsntMlx8ZY",
  "cam3_khare": "https://www.youtube.com/watch?v=PAIpsIJ_7AE",
  "cam3_everest_yt2": "https://www.youtube.com/watch?v=AD4-Z-ONsIc",
+ "cam4_everest_pyramid": "https://i.ytimg.com/vi/tz3VTxlq9l4/maxresdefault_live.jpg",
+ "cam4_hq_everest_pyramid": "https://i.ytimg.com/vi/tz3VTxlq9l4/hqdefault_live.jpg",
+ "cam4_lukla": "https://i.ytimg.com/vi/am9KDRSZQ-0/maxresdefault_live.jpg",
+ "cam4_hq_lukla": "https://i.ytimg.com/vi/am9KDRSZQ-0/hqdefault_live.jpg",
+ "cam4_lobuche": "https://i.ytimg.com/vi/AFUTlak8wcA/maxresdefault_live.jpg",
+ "cam4_hq_lobuche": "https://i.ytimg.com/vi/AFUTlak8wcA/hqdefault_live.jpg",
+ "cam4_namche": "https://i.ytimg.com/vi/uQsntMlx8ZY/maxresdefault_live.jpg",
+ "cam4_hq_namche": "https://i.ytimg.com/vi/uQsntMlx8ZY/hqdefault_live.jpg",
+ "cam4_khare": "https://i.ytimg.com/vi/PAIpsIJ_7AE/maxresdefault_live.jpg",
+ "cam4_hq_khare": "https://i.ytimg.com/vi/PAIpsIJ_7AE/hqdefault_live.jpg",
+ "cam4_everest_yt2": "https://i.ytimg.com/vi/AD4-Z-ONsIc/maxresdefault_live.jpg",
+ "cam4_hq_everest_yt2": "https://i.ytimg.com/vi/AD4-Z-ONsIc/hqdefault_live.jpg",
+ "cam4_channel_streams": "https://www.youtube.com/@webcamnepallive/streams",
+ "cam4_channel_live": "https://www.youtube.com/channel/UCCCVkU6r9ZTD8E4z7AtuOIw/live",
  "ref_rekor": "https://rekor.sigstore.dev/api/v1/log",
 }
 out = {}
@@ -153,6 +167,12 @@ for k, u in C.items():
             import re as _re
             r["imgs"] = sorted(set(_re.findall(r'(?:src|href|data-src)=["\']([^"\']+\.(?:jpe?g|png|webp|m3u8)[^"\']*)', txt)))[:60]
             r["frames"] = sorted(set(_re.findall(r'<iframe[^>]+src=["\']([^"\']+)', txt)))[:20]
+        if k.startswith("cam4_channel"):
+            import re as _re
+            r["video_ids"] = list(dict.fromkeys(_re.findall(r'"videoId":"([\w-]{11})"', txt)))[:30]
+            r["titles"] = list(dict.fromkeys(_re.findall(r'"title":\{"runs":\[\{"text":"([^"]{5,120})"', txt)))[:30]
+            r["live_badges"] = len(_re.findall(r'BADGE_STYLE_TYPE_LIVE_NOW|"LIVE"', txt))
+            r["sample"] = ""
         if k.startswith("cam3_"):
             import re as _re
             for f in ("isLiveNow", "isLive", "playableInEmbed", "isLiveContent"):
