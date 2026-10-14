@@ -32,7 +32,9 @@ jobs:
           GFW_API_KEY: ${{ secrets.GFW_API_KEY }}
         run: |
           mkdir -p out; git fetch -q origin events || true
-          if [ "$TASK" = "survey" ]; then python3 tools/source_survey.py out/survey.json; else python3 tools/hazard_scan.py out; fi
+          set +e
+          if [ "$TASK" = "survey" ]; then python3 tools/source_survey.py out/survey.json > out/run.log 2>&1; else python3 tools/hazard_scan.py out > out/run.log 2>&1; fi
+          echo "exit=$?" >> out/run.log; tail -40 out/run.log
       - name: Save to events branch
         run: |
           git config user.name "hazards"; git config user.email "actions@users.noreply.github.com"
