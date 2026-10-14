@@ -105,13 +105,14 @@ export function detect(rt, prev) {
     if (bio(A) !== bio(B)) continue;   // 疫情和自然灾害不合并
     if (Math.abs(Date.parse(B.t) - Date.parse(A.t)) < 36 * 3600e3 && km(A, B) < 150) {
       for (const it of B.src) if (!A.src.some(x => x.k === it.k || (x.src === it.src && x.t === it.t))) A.src.push(it);
-      A.src.sort((a, b) => a.t.localeCompare(b.t)); A.also = (A.also || []).concat([B.id], B.also || []); A.hips = [...new Set([...(A.hips || []), ...(B.hips || [])])];
+      A.src.sort((a, b) => a.t.localeCompare(b.t)); A.also = [...new Set([...(A.also || []), B.id, ...(B.also || [])])]; A.hips = [...new Set([...(A.hips || []), ...(B.hips || [])])];
       if (A.kind !== B.kind && !String(A.kind).includes(B.kind)) A.kind = A.kind + "、" + B.kind;
       delete ev[B.id];
     }
   }
   // 合并过的事件，以后新来的同源信号也并进来
   for (const e of Object.values(ev)) for (const o of e.also || []) if (ev[o]) { for (const it of ev[o].src) if (!e.src.some(x => x.k === it.k)) e.src.push(it); delete ev[o]; }
+  for (const e of Object.values(ev)) if (e.also) e.also = [...new Set(e.also)];   // 清掉旧版本重复累积的合并记录
   // 旧事件补灾害编码（UNDRR-ISC 2025）
   for (const e of Object.values(ev)) if (!e.hips || !e.hips.length)
     e.hips = /^gdacs-(\w+)-/.test(e.id) ? [GDACS_HIPS[e.id.split("-")[1]] || "MH0600"] : /^usgs-/.test(e.id) ? [e.kind === "地震" ? "GH0101" : "GH0300"] : ["MH0604"];

@@ -168,8 +168,10 @@ async function call(name, args, h) {
       return { text: `${e.title}（${e.place || ""}）\n事件时间（最早信号）：${BJ(e.t)} 北京时间\n` + (pack ? `证据包生成于 ${BJ(pack.built)}\n` : "证据包还没生成\n") + tl.map(x => `  ${BJ(x.t)} [${x.src}] ${x.text}` + (x.status ? `（${x.status}）` : "")).join("\n") + "\n只陈述公开来源记录，不判断成因。", data: { event: e, pack } };
     }
     if (args.full) {   // 总览页用：完整证据包（不含图），页面有更新就拉
-      const L = [];
-      for (const e of E.slice(0, 10)) {
+      const L = [], ids = new Set(E.map(e => e.id));
+      for (const [k, m] of Object.entries(idx)) if (!ids.has(k) && now - Date.parse(m.t) <= days * 864e5) E.push({ id: k, t: m.t, first_seen: m.first_seen, hips: [] });   // 灾种扫描发现的事件
+      E.sort((a, b) => b.t.localeCompare(a.t));
+      for (const e of E.slice(0, 16)) {
         let p = null; try { const r = await fetch(`https://raw.githubusercontent.com/Yizebaba/EVEREST-/events/events/${e.id}.json`, { cf: { cacheTtl: 60 } }); if (r.ok) p = await r.json(); } catch (x) {}
         if (!p) continue; const m = idx[e.id] || {};
         L.push({ id: p.id, hips: p.hips || e.hips || [], title: p.title, title_en: p.title_en, kind: p.kind, place: p.place, lat: p.lat, lon: p.lon, t: p.t, built: p.built, note: p.note, note_en: p.note_en, first_seen: m.first_seen || e.first_seen,
