@@ -1,305 +1,162 @@
 {
- "rt_metar_np": {
-  "url": "https://aviationweather.gov/api/data/metar?ids=VNKT,VNLK,VNPK,VNBW,ZULS&format=json&hours=3",
+ "cam_evk2_page": {
+  "url": "https://evk2minoprio.org/webcam/",
   "status": 200,
-  "bytes": 436,
-  "ctype": "application/json; charset=utf-8",
-  "n": 1,
-  "sample": "[{\"icaoId\": \"VNKT\", \"receiptTime\": \"2026-10-14T06:57:56.707Z\", \"obsTime\": 1791961200, \"reportTime\": \"2026-10-14T07:00:00.000Z\", \"temp\": 26, \"dewp\": 14, \"wdir\": 200, \"wspd\": 3, \"visib\": 4.97, \"altim\": 1023, \"qcField\": 16, \"metarType\": \"METAR\", \"rawOb\": \"METAR VNKT 140700Z 20003KT 8000 FEW020 26/14 Q1023 NOSIG\", \"lat\": 27.697, \"lon\": 85.359, \"elev\": 1334, \"name\": \"Kathmandu/Tribhuvan Intl, BA, NP\", \"cover\": \"FEW\", \"clouds\": [{\"cover\": \"FEW\", \"base\": 2000}], \"fltCat\": \"MVFR\"}]",
-  "sec": 0.1
- },
- "rt_metar_cache": {
-  "url": "https://aviationweather.gov/data/cache/metars.cache.csv.gz",
-  "status": 200,
-  "bytes": 244591,
-  "ctype": "application/octet-stream",
-  "sample": "\u001f\b\b\u0007Mj\u0000\u0003metars.cache.csv\u0000\\R\u001cI}_Q6o7Ib_歪X\nT@\u000bFKjl$$\u0003ꞯ\u001e\u0011\u0019+C]\f\u0001\u0012T\u0012'};~S\u000f?ov>UOOwo>U~}=\u0011tuW}~|/\u000e_=~X}\tywͧ1Ϳ>x|¿qxݗnx|nosc\u0003įo\u000f\u000fOO폧o&\u001ez\u000b5>}}p\u0003߸|r7GoUa\u0000\u0017(x\u0007~n~='\u0007xQn>~cP}ǧ_o\u001fw7=~\b\r}W;\u001c|\u001e|\u000b?/4_\u0013M(/Kxǻp˪\u001fKi/\u001fp\u001b \u001c{}yځ|_Vtx?y?o/g0N/gmW1=\u000bl:/\u0015\u0012L=dR1VFjϋZ\tkV8J[!o4co'GxUds}l\u0019g˳L}*|vvy<;خ/g|}0[_.P\u0001\u0015\\s\u0002綂ok+jWq\u000f\fetj\u0000]z\u001aekp]\\.:\u0010\u0012\u0017w<X7.\u0019q\u0001\u0005\\a\u0002cڳT\\׼_TɌ¿\u00146\u0019A\u001b\u0004÷\u0004bd',\u0003\t.P\t\u0000DTg\u0007\u0014sN9R+D%+V\u0015\u0003\u0018\u0002/3#O\\q\u0010pAzz1bL%s\u000b\u001eẍ́\\\r\u000e\tnf]͔\u0006\u0014\u0006Ვ\u000eIps]:bj%~>7nܲZs\b\u000f(0$Te*\u001f\u001c\u0016\\7~\u0013slx!ج!-4\u0000+LƷe@\u0002\u001fR\u0016\u0001\u0007\u001cI#P|֠xuMK̶\u001b\n&\u0002\\2%\u0004 LvP[<<\u0018\u0002<\u0018D\u0017>ņ@4x5D|t\u0000\u0019lQ?8f)[p\r\u0017\u0014\u0012\u0014\u001b6D7\u0018\u0000D\fGh\u0000Y\t\u001bҲ\bi3*h8a\u000ekͤ\fej\u0000ҁ(ڽ8>\u0014o=?$]4\u00102\u001d],@4\u0004\\d2rf Ɲ\rf\u0002!xx\u0011C`m\"BiʧW1*\u000b`\n@\u00072RR%X1Q\u0016ɕ|yPn\u0011߇T\fw4\u0006\u0017;\u0005+L,o%\u001ck\u001e\u001c\u0016>ȾWA4l/\u000e'>\u001fA\u0014\u0006@mכlE>q5;Z\u0019`+Hh A\u0000g\u0017\\_*82\r\u00180q̶B32\t\u0013\u0000e,\u0000\u0014l\fI\u0004y^X9~\u0001'ۂw\u0004rL5;8;<!ACe\b1_`6\u001azjaJy,\u0016\u0012\u0019/\b\u00004\u001fI\u001c7L=\u00177\u0000\u0002^wxd8aq6,)DKZ/=.r9\u001f>\tu\u0011=h,\u000bPO\u0004kWz|kLJ̀u(BFG\u0017C\u0019:\u0013r\u0015?QdVM\u0004.\u0015+LC0\u00071r\u0001",
-  "sec": 0.1
- },
- "rt_isigmet": {
-  "url": "https://aviationweather.gov/api/data/isigmet?format=json",
-  "status": 200,
-  "bytes": 112641,
-  "ctype": "application/json; charset=utf-8",
-  "n": 148,
-  "sample": "[{\"icaoId\": \"SEQU\", \"firId\": \"SEFG\", \"firName\": \"SEFG GUAYAQUIL\", \"receiptTime\": \"2026-10-14T06:48:47.749Z\", \"validTimeFrom\": 1791949440, \"validTimeTo\": 1791971040, \"seriesId\": \"A1\", \"hazard\": \"VA\", \"qualifier\": \"ERUPTION MT REVENTADOR\", \"base\": 0, \"top\": 14000, \"geom\": \"AREA\", \"coords\": [{\"lon\": -77.667, \"lat\": -0.067}, {\"lon\": -77.633, \"lat\": -0.083}, {\"lon\": -77.717, \"lat\": -0.133}, {\"lon\": -77.733, \"lat\": -0.083}, {\"lon\": -77.667, \"lat\": -0.067}], \"dir\": \"SW\", \"spd\": \"5\", \"chng\": null, \"rawSigmet\": \"WVEQ31 SEQU 140648 CCA\\nSEFG SIGMET A1 VALID 140344/140944 SEGU-\\nSEFG GUAYAQUIL FIR VA ERUPTION MT REVENTADOR PSN S0004 W07739\\nVA CLD OBS AT 0310Z WI S0004 W07740 - S0005 W07738 - S0008 W07743 - \\nS0005 W07744 - S0004 W07740  SFC/FL140 MOV SW 5KT \\nFCST AT 1900Z WI S0004 W07740 - S0005 W07738 - S0012 W07743 - S0011 \\nW07746 - S0004 W07740=\"}, {\"icaoId\": \"SEQU\", \"firId\": \"SEFG\", \"firName\": \"SEFG GUAYAQUIL\", \"receiptTime\": \"2026-10-14T06:48:47.754Z\", \"validTimeFrom\": 1791949440, \"validTimeTo\": 1791971040, \"seriesId\": \"A1F\", \"hazard\": \"VA\", \"qualifier\": \"ERUPTION MT REVENTADOR\", \"base\": 0, \"top\": 14000, \"geom\": \"AREA\", \"coords\": [{\"lon\": -77.667, \"lat\": -0.067}, {\"lon\": -77.633, \"lat\": -0.083}, {\"lon\": -77.717, \"lat\": -0.2}, {\"lon\": -77.767, \"lat\": -0.183}, {\"lon\": -77.667, \"lat\": -0.067}], \"dir\": \"SW\", \"spd\": \"5\", \"chng\": null, \"rawSigmet\": \"WVEQ31 SEQU 140648 CCA\\nSEFG SIGMET A1 VALID 140344/140944 SEGU-\\nSEFG GUAYAQUIL FIR VA ERUPTION MT REVENTADOR PSN S0004 W07739\\nVA CLD O",
-  "sec": 0.1
- },
- "rt_spc_today": {
-  "url": "https://www.spc.noaa.gov/climo/reports/today.csv",
-  "status": 200,
-  "bytes": 11104,
-  "ctype": "text/csv",
-  "sample": "Time,F_Scale,Location,County,State,Lat,Lon,Comments\nTime,Speed,Location,County,State,Lat,Lon,Comments\n2140,58,1 NW Moundridge,McPherson,KS,38.21,-97.52,(ICT)\n2231,63,3 NNW Mcadoo,Dickens,TX,33.77,-101.04,Measured by the TTU mesonet. (LUB)\n2253,70,1 NW Grantville,Jefferson,KS,39.1,-95.58,power pole reported down. (TOP)\n2255,59,6 NW White River Lake,Crosby,TX,33.53,-101.17,Measured by the TTU mesonet. (LUB)\n2307,59,3 ENE Topeka,Shawnee,KS,39.07,-95.63,(TOP)\n2310,61,1 W Buffalo,Harper,OK,36.83,-99.64,(OUN)\n2310,UNK,Hazelton,Barber,KS,37.09,-98.4,NWS employee reported 6 inch diameter live tree limbs down. (DDC)\n2313,75,2 E Flomot,Motley,TX,34.23,-100.96,Measured by the TTU mesonet. (LUB)\n2317,60,5 SW Attica,Harper,KS,37.19,-98.29,(ICT)\n2320,58,2 W Wheeler,Wheeler,TX,35.44,-100.31,Measured by X",
-  "sec": 0.1
- },
- "rt_spc_yday": {
-  "url": "https://www.spc.noaa.gov/climo/reports/yesterday.csv",
-  "status": 200,
-  "bytes": 204,
-  "ctype": "text/csv",
-  "sample": "Time,F_Scale,Location,County,State,Lat,Lon,Comments\nTime,Speed,Location,County,State,Lat,Lon,Comments\n0353,58,2 SSW Muleshoe,Bailey,TX,34.21,-102.74,(LUB)\nTime,Size,Location,County,State,Lat,Lon,Comments\n",
-  "sec": 0.1
- },
- "rt_nws_observed": {
-  "url": "https://api.weather.gov/alerts/active?certainty=Observed",
-  "status": 200,
-  "bytes": 80694,
-  "ctype": "application/geo+json",
-  "n": 14,
-  "key": "features",
-  "sample": "[{\"id\": \"https://api.weather.gov/alerts/urn:oid:2.49.0.1.840.0.5deb63b3de8a0bb088cc5fe104db0916edf0d75c.001.1\", \"type\": \"Feature\", \"geometry\": {\"type\": \"Polygon\", \"coordinates\": [[[-98.88, 35.67], [-98.62, 35.46], [-98.62, 35.41], [-99.05, 35.2], [-99.19, 35.35], [-98.88, 35.67]]]}, \"properties\": {\"@id\": \"https://api.weather.gov/alerts/urn:oid:2.49.0.1.840.0.5deb63b3de8a0bb088cc5fe104db0916edf0d75c.001.1\", \"@type\": \"wx:Alert\", \"id\": \"urn:oid:2.49.0.1.840.0.5deb63b3de8a0bb088cc5fe104db0916edf0d75c.001.1\", \"areaDesc\": \"Custer; Washita\", \"geocode\": {\"SAME\": [\"040039\", \"040149\"], \"UGC\": [\"OKZ016\", \"OKZ022\"]}, \"affectedZones\": [\"https://api.weather.gov/zones/forecast/OKZ016\", \"https://api.weather.gov/zones/forecast/OKZ022\"], \"references\": [], \"sent\": \"2026-10-14T04:17:00-05:00\", \"effective\": \"2026-10-14T04:17:00-05:00\", \"onset\": \"2026-10-14T04:17:00-05:00\", \"expires\": \"2026-10-14T04:45:00-05:00\", \"ends\": null, \"status\": \"Actual\", \"messageType\": \"Alert\", \"category\": \"Met\", \"severity\": \"Moderate\", \"certainty\": \"Observed\", \"urgency\": \"Expected\", \"event\": \"Special Weather Statement\", \"sender\": \"w-nws.webmaster@noaa.gov\", \"senderName\": \"NWS Norman OK\", \"headline\": \"Special Weather Statement issued October 14 at 4:17AM CDT by NWS Norman OK\", \"description\": \"At 417 AM CDT, Doppler radar was tracking a strong thunderstorm near\\nBessie, moving northeast at 35 mph.\\n\\nHAZARD...Wind gusts of 40 mph and half inch hail.\\n\\nSOURCE...Radar indicated.\\n\\nIMPACT...Gusty winds could knock down tree",
-  "keys": [
-   "@context",
-   "type",
-   "features",
-   "title",
-   "updated"
+  "bytes": 149530,
+  "ctype": "text/html; charset=UTF-8",
+  "sample": "<!DOCTYPE html>\n<html lang=\"it-IT\">\n<head>\n\t<meta charset=\"UTF-8\">\n\t\t<meta name='robots' content='index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1' />\n<link rel=\"alternate\" href=\"https://evk2minoprio.org/en/webcam-en/\" hreflang=\"en\" />\n<link rel=\"alternate\" href=\"https://evk2minoprio.org/webcam/\" hreflang=\"it\" />\n\n\t<!-- This site is optimized with the Yoast SEO plugin v26.0 - https://yoast.com/wordpress/plugins/seo/ -->\n\t<title>WEBCAM - EvK2 Minoprio</title>\n\t<link rel=\"canonical\" href=\"https://evk2minoprio.org/webcam/\" />\n\t<meta property=\"og:locale\" content=\"it_IT\" />\n\t<meta property=\"og:locale:alternate\" content=\"en_GB\" />\n\t<meta property=\"og:type\" content=\"article\" />\n\t<meta property=\"og:title\" content=\"WEBCAM - EvK2 Minoprio\" />\n\t<meta property=\"og:descripti",
+  "imgs": [
+   "https://evk2minoprio.org/wp-content/uploads/2021/05/EvK2Minoprio_orizzontale_Piramide-albero-rgb-1024x260.png",
+   "https://evk2minoprio.org/wp-content/uploads/2021/05/EvK2Minoprio_vert3-rgb_albero2-1.png",
+   "https://evk2minoprio.org/wp-content/uploads/2021/05/EvK2Minoprio_vert3-rgb_albero2-300x174.png",
+   "https://evk2minoprio.org/wp-content/uploads/2021/05/cropped-EvK2Minoprio_orizzontale_Piramide-albero-rgb.png",
+   "https://evk2minoprio.org/wp-content/uploads/2021/05/cropped-EvK2Minoprio_vert3-rgb_albero2-180x180.png",
+   "https://evk2minoprio.org/wp-content/uploads/2021/05/cropped-EvK2Minoprio_vert3-rgb_albero2-192x192.png",
+   "https://evk2minoprio.org/wp-content/uploads/2021/05/cropped-EvK2Minoprio_vert3-rgb_albero2-32x32.png",
+   "https://ftp.mountaingenius.org/PYRCEOP/PWC.jpg"
   ],
-  "sec": 0.3
+  "frames": [],
+  "sec": 3.3
  },
- "rt_usgs_volcano": {
-  "url": "https://volcanoes.usgs.gov/hans-public/api/volcano/getElevatedVolcanoes",
+ "cam_evk2_home": {
+  "url": "https://evk2minoprio.org/",
   "status": 200,
-  "bytes": 2614,
-  "ctype": "application/json",
-  "n": 4,
-  "sample": "[{\"obs_fullname\": \"Alaska Volcano Observatory\", \"obs_abbr\": \"avo\", \"volcano_name\": \"Great Sitkin\", \"vnum\": \"311120\", \"notice_type_cd\": \"DU\", \"notice_identifier\": \"DOI-USGS-AVO-2026-10-13T20:29:18+00:00\", \"sent_utc\": \"2026-10-13 20:31:20\", \"sent_unixtime\": 1791923480, \"color_code\": \"ORANGE\", \"alert_level\": \"WATCH\", \"notice_url\": \"https://volcanoes.usgs.gov/hans-public/notice/DOI-USGS-AVO-2026-10-13T20:29:18+00:00\", \"notice_data\": \"https://volcanoes.usgs.gov/hans-public/api/notice/getNotice/DOI-USGS-AVO-2026-10-13T20:29:18+00:00\"}, {\"obs_fullname\": \"Alaska Volcano Observatory\", \"obs_abbr\": \"avo\", \"volcano_name\": \"Shishaldin\", \"vnum\": \"311360\", \"notice_type_cd\": \"DU\", \"notice_identifier\": \"DOI-USGS-AVO-2026-10-13T20:29:18+00:00\", \"sent_utc\": \"2026-10-13 20:31:20\", \"sent_unixtime\": 1791923480, \"color_code\": \"YELLOW\", \"alert_level\": \"ADVISORY\", \"notice_url\": \"https://volcanoes.usgs.gov/hans-public/notice/DOI-USGS-AVO-2026-10-13T20:29:18+00:00\", \"notice_data\": \"https://volcanoes.usgs.gov/hans-public/api/notice/getNotice/DOI-USGS-AVO-2026-10-13T20:29:18+00:00\"}]",
+  "bytes": 199579,
+  "ctype": "text/html; charset=UTF-8",
+  "sample": "<!DOCTYPE html>\n<html lang=\"it-IT\">\n<head>\n\t<meta charset=\"UTF-8\">\n\t\t<meta name='robots' content='index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1' />\n<link rel=\"alternate\" href=\"https://evk2minoprio.org/en/home-en/\" hreflang=\"en\" />\n<link rel=\"alternate\" href=\"https://evk2minoprio.org/\" hreflang=\"it\" />\n\n\t<!-- This site is optimized with the Yoast SEO plugin v26.0 - https://yoast.com/wordpress/plugins/seo/ -->\n\t<title>HOME - EvK2 Minoprio</title>\n\t<link rel=\"canonical\" href=\"https://evk2minoprio.org/\" />\n\t<meta property=\"og:locale\" content=\"it_IT\" />\n\t<meta property=\"og:locale:alternate\" content=\"en_GB\" />\n\t<meta property=\"og:type\" content=\"website\" />\n\t<meta property=\"og:title\" content=\"HOME - EvK2 Minoprio\" />\n\t<meta property=\"og:description\" content=\"ABOUT P",
+  "imgs": [
+   "https://evk2minoprio.org/wp-content/uploads/2021/05/EvK2Minoprio_orizzontale_Piramide-albero-rgb-1024x260.png",
+   "https://evk2minoprio.org/wp-content/uploads/2021/05/EvK2Minoprio_vert3-rgb_albero2-1-1024x594.png",
+   "https://evk2minoprio.org/wp-content/uploads/2021/05/EvK2Minoprio_vert3-rgb_albero2-1.png",
+   "https://evk2minoprio.org/wp-content/uploads/2021/05/EvK2Minoprio_vert3-rgb_albero2-300x174.png",
+   "https://evk2minoprio.org/wp-content/uploads/2021/05/Piramide-4.jpg",
+   "https://evk2minoprio.org/wp-content/uploads/2021/05/cropped-EvK2Minoprio_orizzontale_Piramide-albero-rgb.png",
+   "https://evk2minoprio.org/wp-content/uploads/2021/05/cropped-EvK2Minoprio_vert3-rgb_albero2-180x180.png",
+   "https://evk2minoprio.org/wp-content/uploads/2021/05/cropped-EvK2Minoprio_vert3-rgb_albero2-192x192.png",
+   "https://evk2minoprio.org/wp-content/uploads/2021/05/cropped-EvK2Minoprio_vert3-rgb_albero2-32x32.png",
+   "https://evk2minoprio.org/wp-content/uploads/2021/05/pexels-trace-hudson-2365457.jpg",
+   "https://evk2minoprio.org/wp-content/uploads/2021/05/piramide.jpg",
+   "https://evk2minoprio.org/wp-content/uploads/2025/10/VITALITY__DAY_25-09-25_Pagina_1.jpg",
+   "https://ftp.mountaingenius.org/PYRCEOP/PWC.jpg"
+  ],
+  "frames": [],
+  "sec": 2.2
+ },
+ "cam_hev_home": {
+  "url": "https://hoteleverestview.com/",
+  "status": 200,
+  "bytes": 40002,
+  "ctype": "text/html; charset=UTF-8",
+  "sample": "<!doctype html>\n<html><head>\n\n<meta charset=\"utf-8\">\n<meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">\n<title>Hotel Everest View - One of the Highest Placed Hotel in The World, Hotel in Everest Region </title>\n\n<meta name=\"keywords\" content=\"Hotel Everest View, The Highest Hotel in The World, Everest View Hotel, Namche Bazaar Hotel\">\n\n<meta name=\"description\" content=\"Hotel Everest View is located within the Everest National Park in Nepal and offers a mesmerizing view of Mt.Everest and the surrounding Himalayas.\">\n\n<link href=\"css/hev.min.css\" rel=\"stylesheet\"> \n<link href=\"css/fonts/css/font-awesome.min.css\" rel=\"stylesheet\">\n<link href=\"css/hev.css\" rel=\"stylesheet\">\n<link rel=\"stylesheet\" href=\"css/bliss-slider.css\">\n <link rel=\"stylesheet\" href=\"css/formValidation.",
+  "imgs": [
+   "../images/dnilogo.png",
+   "../images/hcclogo_2017.png",
+   "../images/hev_excellenceaward_2018.png",
+   "https://www.tripadvisor.co.uk/img/cdsi/img2/awards/CoE2017_WidgetAsset-14348-2.png",
+   "https://www.tripadvisor.com/img/cdsi/img2/awards/CoE2017_WidgetAsset-14348-2.png",
+   "images/ac2.jpg",
+   "images/diningimg.jpg",
+   "images/expereince_trekking.jpg",
+   "images/fav.jpg",
+   "images/fb.jpg",
+   "images/fish_with_tartarsauce_at_hev.jpg",
+   "images/flag.png",
+   "images/google-earth.jpg",
+   "images/helicopterto_everestviewhotel.jpg",
+   "images/hev-email-text.jpg",
+   "images/hev-room2tn.jpg",
+   "images/hev-room3tn.jpg",
+   "images/khumjung_and_namchevillage.jpg",
+   "images/khundepeak_4200m_dayhike_hev.jpg",
+   "images/leaf.jpg",
+   "images/mongla1.jpg",
+   "images/reelmain2.jpg",
+   "images/room_main2.jpg",
+   "images/ss.jpg",
+   "images/tripadvisor.png",
+   "slider/images/hev1.jpg",
+   "slider/images/hev2.jpg",
+   "slider/images/hev3.jpg"
+  ],
+  "frames": [],
   "sec": 0.2
  },
- "rt_nifc_fires": {
-  "url": "https://services3.arcgis.com/T4QMspbfLg3qTGWY/arcgis/rest/services/WFIGS_Incident_Locations_Current/FeatureServer/0/query?where=1%3D1&outFields=IncidentName,FireDiscoveryDateTime,IncidentSize,POOState&resultRecordCount=3&orderByFields=FireDiscoveryDateTime%20DESC&f=json",
+ "cam_oembed_everest_pyramid": {
+  "url": "https://www.youtube.com/oembed?url=https://www.youtube.com/watch?v=tz3VTxlq9l4&format=json",
+  "err": "HTTP Error 401: Unauthorized",
+  "sec": 0.1
+ },
+ "cam_thumb_everest_pyramid": {
+  "url": "https://i.ytimg.com/vi/tz3VTxlq9l4/maxresdefault_live.jpg",
   "status": 200,
-  "bytes": 1332,
-  "ctype": "application/json; charset=utf-8",
-  "n": 3,
-  "key": "features",
-  "sample": "[{\"attributes\": {\"IncidentName\": \"LAC-370863\", \"FireDiscoveryDateTime\": 1791967928000, \"IncidentSize\": null, \"POOState\": \"US-CA\"}, \"geometry\": {\"x\": -118.16618, \"y\": 34.71876}}, {\"attributes\": {\"IncidentName\": \"ROLAND\", \"FireDiscoveryDateTime\": 1791964880000, \"IncidentSize\": 0.01, \"POOState\": \"US-CA\"}, \"geometry\": {\"x\": -122.305568, \"y\": 41.565167}}]",
-  "keys": [
-   "objectIdFieldName",
-   "uniqueIdField",
-   "globalIdFieldName",
-   "geometryType",
-   "spatialReference",
-   "fields",
-   "exceededTransferLimit",
-   "features"
-  ],
+  "bytes": 156576,
+  "ctype": "image/jpeg",
+  "sample": "\u0000\u0010JFIF\u0000\u0001\u0001\u0000\u0000\u0001\u0000\u0001\u0000\u0000\u0000\u0000\u0003\u0002\u0002\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\n\b\b\b\b\t\t\t\b\b\u000b\r\n\b\r\b\b\t\b\u0001\u0003\u0004\u0004\u0006\u0005\u0006\b\u0006\u0006\n\r\r\n\r\r\r\r\b\r\r\r\r\r\r\b\r\r\b\r\b\b\b\b\b\b\r\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\u0000\u0011\b\u0002\u0005\u0000\u0003\u0001\"\u0000\u0002\u0011\u0001\u0003\u0011\u0001\u0000\u001e\u0000\u0000\u0001\u0005\u0001\u0001\u0001\u0001\u0001\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0004\u0001\u0002\u0003\u0005\u0006\u0000\u0007\b\t\n\u0000`\u0010\u0000\u0002\u0001\u0003\u0003\u0002\u0003\u0004\u0005\u0006\n\u0007\u0004\u0006\u0002\u0013\u0001\u0002\u0003\u0000\u0004\u0011\u0005\u0012!\u00131\u0006\"A\u0007\u0014Qa\b#2qBU\u0015\u0017RTV\u0016\u0018$3brs\t4Cu%&6tESc5eFdv\u0000\u001c\u0001\u0000\u0003\u0001\u0001\u0001\u0001\u0001\u0001\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0001\u0002\u0003\u0004\u0005\u0006\u0007\b\u0000>\u0011\u0000\u0002\u0002\u0001\u0003\u0004\u0000\u0003\u0003\b\t\u0004\u0003\u0001\u0000\u0000\u0000\u0001\u0002\u0011\u0003\u0012!1\u0004\u0013AQ\u0005\u0014a\"2q\u0006\u0007\u0015R\u00174BSs#$C\u0016\u0000\f\u0003\u0001\u0000\u0002\u0011\u0003\u0011\u0000?\u0000hdǼ\r!Lg\u001c9\u0004\tP\u0018۹v7;\r&\"\u00039!k$$v\\##A1\u0006\u00062N\u0002DI,Ĵ\u001afb$\b\u0005ZZHB,\u0014ec\u001cQ\u0017osM6\u0001^^Lǅ-$\\{阭$Y\u0018fcI\u0011R5sL!Z,jʐR5Wp\u0000&\u0001M%u!j\u0002ǅ\u001a{0I[ًdFڠeCPkDc2<WSYj\"\\\u001aCJI&j\u0004҅QOW\u0016cJS=\"\u001d\u000ee+)X(P)i*M\u0010\u001bSn\u0015Y\npjq\tF*\u0013}*l PUsP\t\u0014j\u0011al\\MEGdRXDTYI\u0010\\\u0005MѦEF`Q\u001bii\u0002\u0014\u0010Qjx`\u0006\u0000ޚ~c\u0000|)V\u0005WFX(֖\u0005OiJ&\u0006N*ԑ1Iҭ\rƟUY\u001c+\t\u001crUQ>i#ZɑQ-\u0011\u0015\u0013\n^܉\u0011Q\\Ehً\u001b\"\u0015y@aJI\"\u0019)\u0015sHRh3\fVRd.-ӔT+=,nF\u0005.)+Pd\u0006+1P(p`\u0019]Ԅ$ScV\u0005p\u00141%u)\u0014%؄Rm&u\u00143Me)\b{\r.a4\u00188Xө\nU1\u000bSHJ\u0005E\\ԠR51)qH\r#\u001aZTJԘp5\u001aB2Ԋii\u0017vC.iM\u0012D\u001a\u001d75ҙ\u001cZM4MԵKTdӉѩ0fLfI\u0013R\u0010Ԋj\u0013ib)\u0015HNaW\u001aR@iiȵ&<\u0003\u00020M\u0005\u0010m\u0005b\n\u0000B)6i",
   "sec": 0.2
  },
- "rt_urlhaus": {
-  "url": "https://urlhaus.abuse.ch/downloads/json_recent/",
+ "cam_oembed_lukla": {
+  "url": "https://www.youtube.com/oembed?url=https://www.youtube.com/watch?v=am9KDRSZQ-0&format=json",
+  "err": "HTTP Error 401: Unauthorized",
+  "sec": 0.1
+ },
+ "cam_thumb_lukla": {
+  "url": "https://i.ytimg.com/vi/am9KDRSZQ-0/maxresdefault_live.jpg",
   "status": 200,
-  "bytes": 18211065,
-  "ctype": "application/json",
-  "sample": "{\"3950001\": [{\"dateadded\": \"2026-10-14 09:33:07 UTC\", \"url\": \"http://221.14.174.24:40978/i\", \"url_status\": \"online\", \"last_online\": \"2026-10-14 09:33:07 UTC\", \"threat\": \"malware_download\", \"tags\": null, \"urlhaus_link\": \"https://urlhaus.abuse.ch/url/3950001/\", \"reporter\": \"adliwahid\"}], \"3950000\": [{\"dateadded\": \"2026-10-14 09:32:08 UTC\", \"url\": \"http://219.157.208.27:54359/i\", \"url_status\": \"online\", \"last_online\": \"2026-10-14 09:32:08 UTC\", \"threat\": \"malware_download\", \"tags\": null, \"urlhaus_link\": \"https://urlhaus.abuse.ch/url/3950000/\", \"reporter\": \"adliwahid\"}], \"3949999\": [{\"dateadded\": \"2026-10-14 09:28:17 UTC\", \"url\": \"http://120.28.144.161:49267/i\", \"url_status\": \"online\", \"last_online\": \"2026-10-14 09:28:17 UTC\", \"threat\": \"malware_download\", \"tags\": [\"32-bit\", \"arm\", \"elf\", \"Mozi\"], \"urlhaus_link\": \"https://urlhaus.abuse.ch/url/3949999/\", \"reporter\": \"geenensp\"}], \"3949998\": [{\"dateadded\": \"2026-10-14 09:28:15 UTC\", \"url\": \"http://82.23.246.75/zljll.zip\", \"url_status\": \"online\", \"last_online\": \"2026-10-14 09:28:15 UTC\", \"threat\": \"malware_download\", \"tags\": [\"rat\", \"ValleyRAT\"], \"urlhaus_link\": \"https://urlhaus.abuse.ch/url/3949998/\", \"reporter\": \"abuse_ch\"}], \"3949997\": [{\"dateadded\": \"2026-10-14 09:28:07 UTC\", \"url\": \"http://82.23.246.75/X.jpg\", \"url_status\": \"online\", \"last_online\": \"2026-10-14 09:28:07 UTC\", \"threat\": \"malware_download\", \"tags\": [\"rat\", \"ValleyRAT\"], \"urlhaus_link\": \"https://urlhaus.abuse.ch/url/3949997/\", \"reporter\": \"abuse_ch\"}], \"3949996\": [",
-  "keys": [
-   "3950001",
-   "3950000",
-   "3949999",
-   "3949998",
-   "3949997",
-   "3949996",
-   "3949995",
-   "3949994",
-   "3949993",
-   "3949992",
-   "3949991",
-   "3949990",
-   "3949987",
-   "3949988",
-   "3949989",
-   "3949986",
-   "3949985",
-   "3949984",
-   "3949983",
-   "3949982"
-  ],
+  "bytes": 108915,
+  "ctype": "image/jpeg",
+  "sample": "\u0000\u0010JFIF\u0000\u0001\u0001\u0000\u0000\u0001\u0000\u0001\u0000\u0000\u0000\u0000\u0003\u0002\u0002\t\t\t\u0006\t\t\b\t\b\t\b\b\b\b\u0006\b\b\b\b\b\b\b\b\u0007\b\u0007\u0007\u0007\b\u0007\b\u0007\u0007\u0007\u0007\u0007\u0007\u0007\u0007\u0007\u0007\u0007\n\b\u0007\u0007\b\t\t\t\u0007\u0007\r\r\n\b\r\u0007\b\t\b\u0001\u0003\u0004\u0004\u0006\u0005\u0006\b\u0006\u0006\b\b\u0007\u0007\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\u0000\u0011\b\u0002\u0005\u0000\u0003\u0001\"\u0000\u0002\u0011\u0001\u0003\u0011\u0001\u0000\u001d\u0000\u0000\u0001\u0005\u0001\u0001\u0001\u0001\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0004\u0000\u0002\u0003\u0005\u0006\u0007\b\t\u0001\u0000m\u0010\u0000\u0002\u0001\u0002\u0003\u0003\u0006\u0007\u0006\u0010\u0006\r\t\u0006\u0005\u0005\u0002\u0003\u0000\u0004\u0012\u0005\u0013\"\u00062B\u0007\u0014#3Rb\u0001\bCSr\u0015\u0016Ucs\t\u0011\u0017\u0018$4!1T\u001956AQtu%&DVadqEve\u0000\u001c\u0001\u0001\u0001\u0001\u0001\u0001\u0001\u0001\u0001\u0001\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0002\u0003\u0004\u0001\u0005\u0006\u0007\b\u0000I\u0011\u0001\u0001\u0000\u0002\u0000\u0005\u0001\u0003\u0005\t\f\n\u0002\u0003\u0000\u0000\u0000\u0002\u0003\u0012\u0001\u0004\u0013\"2B\u0005\u0011R\u0014!#1Q\u00063ACSbs\u0015$acqr\u0007\u001745\u0000\f\u0003\u0001\u0000\u0002\u0011\u0003\u0011\u0000?\u0000䚒ޅj\u001b\u000643~,\u001e,\u00185f\r=ϩ]ԹC/R\u00163c\u0018}s眗Nc\u0007/YYx\u00184\u0013>f\u001b;ouF}f;;ouO/gK?GK''ōӪ \tS+߃+/f\u000bc|N->}e\u001b9_u\u0000'ĻgG\u0000fW_uS\u0000gH\u0000\u001a?rr|P~\u0000\"]1:nRĻg~\r\u0010 .߃+y<\u0000\u001fW^O\u001bOm&}FvwzS|R0\u0014aՇ\u0014\u0015mg9+X\tZuYggV\u001fg\u0018}\u0011$׳2kd`'T NqI\u0004{\u0003,6KfXJd\b\u0005\b\u000e\u0005j@cHaؖ\u0002\u0013TՒڲ!h3?2B\u0010\"Hv\u0006\u0011Z>j`\u0004Q\u0014P\u00020G)w\u0014\nP\u000e\u0014bn\u0018uT\u0012\u0002dQ$\u0007҆F!/\brJ,\u0002-]EHAm\u0003crdG\u0000}KҺX\u0004y\u0015醦E`\b\u0000z\u0004Xtp*jW{\u00125C`\u0011G5\"ބ#FEaCM\u0007kLpe6*\\Z]\u001e%n\u001bH`'\u0007q͑\u0004G\u0018i߶,\bPܑKو\u0003T`R8\nuCB\u000f\u0002\u0013\u000bwdFv<\u0015!:b+#J\u0011|Z\u000e>y\u0001\u0001e\u001bRW\u001c`@zj{P;}\u0018)p\u001c Gn秆\u0012\u000eݓooKJ>tnvt\u0011[ٖ\u0015\u001bU\u0011zB@\u0011d\u001c\u0002J\u0010&;{=+%lns\u0014e\u0007A!8Z\r-,\u000e\u0014\u000b뻲J",
+  "sec": 0.2
+ },
+ "cam_oembed_lobuche": {
+  "url": "https://www.youtube.com/oembed?url=https://www.youtube.com/watch?v=AFUTlak8wcA&format=json",
+  "err": "HTTP Error 401: Unauthorized",
+  "sec": 0.1
+ },
+ "cam_thumb_lobuche": {
+  "url": "https://i.ytimg.com/vi/AFUTlak8wcA/maxresdefault_live.jpg",
+  "status": 200,
+  "bytes": 83171,
+  "ctype": "image/jpeg",
+  "sample": "\u0000\u0010JFIF\u0000\u0001\u0001\u0000\u0000\u0001\u0000\u0001\u0000\u0000\u0000\u0000\u0003\u0002\u0002\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\u0007\b\b\u0007\b\b\u0007\b\u0007\b\b\b\b\u0007\u0007\u0007\u0007\u0007\b\b\u0007\u0007\u0007\u0007\n\u0007\u0007\u0007\b\t\t\t\u0007\u0007\u000b\r\n\b\r\u0007\b\t\b\u0001\u0003\u0004\u0004\u0006\u0005\u0006\n\u0006\u0006\n\r\r\n\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\b\r\r\b\r\r\b\r\b\r\r\b\b\r\b\b\b\b\b\b\u0000\u0011\b\u0002\u0005\u0000\u0003\u0001\"\u0000\u0002\u0011\u0001\u0003\u0011\u0001\u0000\u001e\u0000\u0000\u0002\u0003\u0001\u0001\u0001\u0001\u0001\u0001\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0002\u0003\u0000\u0001\u0004\u0005\u0006\u0007\b\t\n\u0000b\u0010\u0000\u0001\u0003\u0002\u0004\u0004\u0001\b\u0006\u0006\u0006\u0005\u0005\u000b\n\u0007\u0001\u0000\u0002\u0003\u0004\u0011\u0005\u0012!1\u0006\u0013AQa\u0007\b\u0014\"q2UV\u0015\u0018B\u0017#R\t\u0016$3b%Ers&45FSd\u00196ctuCD\u0000\u001c\u0001\u0000\u0003\u0001\u0001\u0001\u0001\u0001\u0001\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0001\u0002\u0003\u0004\u0005\u0006\b\u0007\u0000G\u0011\u0000\u0002\u0002\u0001\u0004\u0000\u0005\u0002\u0003\u0004\u0006\u0006\u0006\u000b\u0000\u0000\u0000\u0001\u0002\u0011!\u0003\u00121A\u0004\u0013\"Qa\u0005q2\u0006\u0007\u0015BR\u0014\u0017#STb\u0016$34Drs\u0000\f\u0003\u0001\u0000\u0002\u0011\u0003\u0011\u0000?\u0000b'N\t\u0011שj\u0014ՠFn-\b圥YG\u0005\nrHӲ4Lko]efK`dmu\u0016\"(Gk~i\u001b cGeVװ\u000bIKMLLzz\u0017;U\u0010TNDo{\f.\u00025E9τCCGMӒMҶ[sV<y1\u0006\u001bs#Yg\u0010Eq;\u000f\u0000g\u0013.ntXhxkKN~o\u0011\u0015/\u0007vIrʵNcY)\u0006u\u0005\u001b\u0006vI3\u0010mc]*{^\u000f\r\u001aH\u00077`?\u0012\u0012\u0004cS5ippM1@s\\t3\u000fZw\n\u0007܋xt>TW\u0015`\u001b ڱ>t˛\"[XjI;\u0000:\u0012^?\u0005ɾC \u0001aIn\u001azpo\u0005olK\u0001(\\]G\u0018P-om\u0019FK\u0006NlA=5yt8:9C{ײ\u000b}\u0002h*nd\u000fKq#\u000bHs/q|N9{\u0016\ftz1-\u0013a\\4\u000b\u0000/}=wky\u001eS[wUTa)ouwBS\t=83},e*e\u0000\u0013#\u0004!.Kmz\u000eU%yT\u001cFrYTLN\u000f˯u\u0007_\u0010!6e\u0000\r\u0011׵¥&\rn!\u0012n8a~C]hn\"d&噎[˵f\u0013{Jqkܪ\u001cttQ\u000bxXiݵ.\r\u001aTB5V\u00101M+3Mܽ\bTlFT,\u0001ӥ\u0005b`zY&0WL5\u000b\u001fvCf<\u0016\u0002(\u0013:W9FaK\u0001c\u0006+\f)\\rRiț,\u001aJGH\u0004\u0012m\u0001r} _ohI\u0014",
+  "sec": 0.1
+ },
+ "cam_oembed_namche": {
+  "url": "https://www.youtube.com/oembed?url=https://www.youtube.com/watch?v=uQsntMlx8ZY&format=json",
+  "err": "HTTP Error 401: Unauthorized",
+  "sec": 0.1
+ },
+ "cam_thumb_namche": {
+  "url": "https://i.ytimg.com/vi/uQsntMlx8ZY/maxresdefault_live.jpg",
+  "status": 200,
+  "bytes": 107417,
+  "ctype": "image/jpeg",
+  "sample": "\u0000\u0010JFIF\u0000\u0001\u0001\u0000\u0000\u0001\u0000\u0001\u0000\u0000\u0000\u0000\u0003\u0002\u0002\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\u0007\b\b\b\b\b\b\b\b\b\b\b\u0007\b\b\u0007\n\b\u0007\b\b\t\t\t\u0007\u0007\r\r\n\b\r\u0007\b\t\b\u0001\u0003\u0004\u0004\u0006\u0005\u0006\u0007\u0006\u0006\u0007\b\u0007\u0007\u0007\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\u0000\u0011\b\u0002\u0005\u0000\u0003\u0001\"\u0000\u0002\u0011\u0001\u0003\u0011\u0001\u0000\u001e\u0000\u0000\u0001\u0004\u0003\u0001\u0001\u0001\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0003\u0001\u0002\u0004\u0005\u0000\u0006\u0007\b\t\n\u0000`\u0010\u0000\u0001\u0003\u0002\u0004\u0003\u0005\u0004\u0004\t\u0007\u0006\n\t\u0001\t\u0001\u0000\u0002\u0003\u0004\u0011\u0005\u0012!1\u0006AQ\u0007\u0013\"aq\b2\u0014\u0015#BRU\u0017Vb\u0016\u00183r\t$6CESs%&5FcuDTtd\u0000\u001b\u0001\u0001\u0001\u0001\u0001\u0001\u0001\u0001\u0001\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0001\u0002\u0003\u0004\u0005\u0006\u0007\u0000@\u0011\u0001\u0001\u0000\u0002\u0002\u0002\u0001\u0002\u0002\u0005\u0006\f\u0006\u0003\u0000\u0000\u0000\u0001\u0002\u0011\u0003!\u00121A\u0004Q\u0013a\u0005\"2q\u0006\u0007\u0017Ts\u0014\u0015#4RSrB3b\u0000\f\u0003\u0001\u0000\u0002\u0011\u0003\u0011\u0000?\u0000pu\u0011\u00110]9\u001ax\t˦\u0000\u0012\u0007`i7\u001fg\u0013`7\"_\u00138T\u0000*yCqqqqq~'\u001fܷ+'R\u000f8ru|o\u001e\\H\u0005\u0002^c9Xkt=\u001b\u0016m}\u000b\u0002Gո?\u0000/l?_'\u0012\u0002׃qb\u0001;G\r_\u001e\b姾%H\u001f?\u000f\u0007\u001fRRo\u0016\u0000l\"{'5\u0016Ѳt_c$gn\u000f\u0000SK/d$\u0000\u0002W\r-=E|AI<\u0011\u00048H^\u000b_\u001b-p\u0007B.?/E\u0000㟵\u0012}Ms\u000f+/%<\u00009xx\u001f\u001c\\.^:պ_3~\u001f\u001cmV||9A\\R:0Bcz#F\u0017\u0012jEI˶\u0001\u0015\u001a\u0001\u0004zx\u001dJ#m\u0000\u0000\n;\b\u0006\fmY\tǸ XX'\rr艱)m\tD:nsM\u0017\rJƸ&,-E$Xǧwi(\u0011\u0019\rҦ\u001dP\u0013&X֠\bŵG!a\u0002,2\u0014Nf\u0015\u001c Sf\r\u001cdH%1,\"\u001bL˪s\u001046ɭЋ]\u001a\u001d䣗\"C\u00191D\u001d'5S\u0002)ͩXj]\u0012\tr4O\u001b]t\u0017=do\u0004RwLtgL|>\bн\rz,7pQ\rҴ\u001cȧ\u00172&=,\u0004HsҾD]ɝ\u0006I):&\u0010\u0001{Y\fo4ے\u0016D5Egd\u001b'B\u0010\u0003V1\u0000%\u0017@\u001c!%^H\u001fX5vCn\u0011@׍Q\u0005\u000e\u000eW p\u0005\u0013\u000e\u0011㩲M|Ф31\bz@\u0013H\u0005Cl$V){P6I\u0002\u0003u\u001b8",
   "sec": 0.4
  },
- "rt_threatfox": {
-  "url": "https://threatfox.abuse.ch/export/json/recent/",
+ "cam_oembed_khare": {
+  "url": "https://www.youtube.com/oembed?url=https://www.youtube.com/watch?v=PAIpsIJ_7AE&format=json",
+  "err": "HTTP Error 401: Unauthorized",
+  "sec": 0.1
+ },
+ "cam_thumb_khare": {
+  "url": "https://i.ytimg.com/vi/PAIpsIJ_7AE/maxresdefault_live.jpg",
   "status": 200,
-  "bytes": 5160726,
-  "ctype": "application/json",
-  "sample": "{\"1965239\": [{\"ioc_value\": \"https://k8y.777wins.org/ozi\", \"ioc_type\": \"url\", \"threat_type\": \"botnet_cc\", \"malware\": \"win.vidar\", \"malware_alias\": null, \"malware_printable\": \"Vidar\", \"first_seen_utc\": \"2026-10-14 09:29:07\", \"last_seen_utc\": \"2026-10-14 09:29:52\", \"confidence_level\": 100, \"is_compromised\": false, \"reference\": null, \"tags\": \"c2,c7a50169dbc6d842a7e7d349513f88f1,loader,stealer,Vidar\", \"anonymous\": 0, \"reporter\": \"Bitsight\"}], \"1965238\": [{\"ioc_value\": \"https://k8y.777wins.org/vx\", \"ioc_type\": \"url\", \"threat_type\": \"botnet_cc\", \"malware\": \"win.vidar\", \"malware_alias\": null, \"malware_printable\": \"Vidar\", \"first_seen_utc\": \"2026-10-14 09:27:14\", \"last_seen_utc\": \"2026-10-14 09:27:55\", \"confidence_level\": 100, \"is_compromised\": false, \"reference\": null, \"tags\": \"c2,c7a50169dbc6d842a7e7d349513f88f1,loader,stealer,Vidar\", \"anonymous\": 0, \"reporter\": \"Bitsight\"}], \"1965237\": [{\"ioc_value\": \"https://k8y.777wins.org/sy/\", \"ioc_type\": \"url\", \"threat_type\": \"botnet_cc\", \"malware\": \"win.vidar\", \"malware_alias\": null, \"malware_printable\": \"Vidar\", \"first_seen_utc\": \"2026-10-14 09:25:48\", \"last_seen_utc\": null, \"confidence_level\": 100, \"is_compromised\": true, \"reference\": null, \"tags\": \"vidar\", \"anonymous\": 0, \"reporter\": \"crep1x\"}], \"1965236\": [{\"ioc_value\": \"https://k8y.777wins.org/sy\", \"ioc_type\": \"url\", \"threat_type\": \"botnet_cc\", \"malware\": \"win.vidar\", \"malware_alias\": null, \"malware_printable\": \"Vidar\", \"first_seen_utc\": \"2026-10-14 09:24:26\", \"last_seen_utc\": \"2026-10-1",
-  "keys": [
-   "1965239",
-   "1965238",
-   "1965237",
-   "1965236",
-   "1965235",
-   "1965234",
-   "1965233",
-   "1965232",
-   "1965231",
-   "1965230",
-   "1965229",
-   "1965228",
-   "1965227",
-   "1965226",
-   "1965225",
-   "1965224",
-   "1965223",
-   "1965222",
-   "1965221",
-   "1965220"
-  ],
+  "bytes": 161797,
+  "ctype": "image/jpeg",
+  "sample": "\u0000\u0010JFIF\u0000\u0001\u0001\u0000\u0000\u0001\u0000\u0001\u0000\u0000\u0000\u0000\u0003\u0002\u0002\u0005\u0005\t\t\t\t\t\u0006\t\u0005\t\u0006\u0007\u0006\u0006\u0006\u0006\u0007\u0007\u0006\u0007\u0007\u0007\u0007\u0007\u0007\u0007\u0007\u0007\u0007\u0007\u0007\u0007\u0007\b\u0007\u0007\u0007\u0007\u0007\u0007\u0007\n\b\u0007\u0007\b\t\t\t\u0007\u0007\u000b\r\n\b\r\u0007\b\t\b\u0001\u0003\u0004\u0004\u0006\u0005\u0006\b\u0006\u0006\b\b\u0007\u0007\u0007\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\u0000\u0011\b\u0002\u0005\u0000\u0003\u0001\"\u0000\u0002\u0011\u0001\u0003\u0011\u0001\u0000\u001d\u0000\u0000\u0001\u0005\u0001\u0001\u0001\u0001\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0002\u0003\u0004\u0005\u0006\u0007\b\u0001\t\u0000k\u0010\u0000\u0002\u0000\u0004\u0002\u0005\u0006\b\b\b\n\u0007\u0005\u0005\u0001\u0011\u0002\u0003\u0000\u0004\u0012\u0013\u0005#\u0006\"23C\u0014BRSc\u0007$brs\u0001\u00154\b\u0016DT\u0011\u0017Udt!%1A\u00185Equ\tQae6v\u0000\u001b\u0001\u0001\u0001\u0001\u0001\u0001\u0001\u0001\u0001\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0002\u0003\u0004\u0001\u0005\u0006\u0007\u0000:\u0011\u0001\u0001\u0000\u0002\u0002\u0002\u0001\u0004\u0001\u0003\u0001\u0006\u0001\r\u0001\u0000\u0000\u0002\u0003\u0012\u0004\u0013\"2B\u0001\u0005\u0014R#\u00113S\u0006\u00151brC$4ADacs!\u0000\f\u0003\u0001\u0000\u0002\u0011\u0003\u0011\u0000?\u0000\f_<\u0010A\u0000 \u0001XB!a\u0000\u0010A\u0000\u0010A\u0000B\u0011\u000b\b\u0005\u0013\n\b\t\u0010A\u0004KSA\u0004\u0001\n¢$A\u0004\u0010\u000b\b \u001d\b \bXB!a\u0000 \u0001\\\"\u0017\u0000\u0010A\u0016Ԉ\\\"\u0017\u0010\u0017\u0004\u0010DA\u0004\u0010Y \u0000\b \b\u0002\b \\\u0010A\u0000A\u0004\u0010\u0004\u0010A\u0000 \u0000\b \u0015\u0004\u0010@.\b  \b(\u0010A\u0000A\u0004\u0010\u000fA\u0004\u0011 \b\"\b  \b\u0005\u0004\u0010\u0004\u0010 \u0017\u0004\u0010@;\u00045\u0004\u0003\\5\u0004\u0003CP@*\b  \b\u0010A\u0004d\b!0@\u0010A\u0004\u0001\u0004\u0010@\u0010A\u0004\u0001\n\u0000\u0001{$_Pt\u0001\u0000\u001f\u001c/dS:\u000f\n>YX\u0007\u000emkD\u000b<\txL\u0014E\u00000WКMs\\j2\u001e:~\u0015ld\u0010ׯ</Qt3C\u001e\u0019Zo\\:~0Y\u0019\tSzh\u0007h\u001f:giYs,;\fƺ\u0011z\u0011D.\u000e\u0011\\\u00142\u0013D\u0018\u001d?ߊdfGUk\u0002.9IH\u001e+}\u001d@l\u000731N4fcpH\"%_\b\u001e\u000f|$rfmӗao\u0019H<=V_`\u0014P\u0000\u0006aAh\b\u0006-$6MP?P\u0015\u001fgpZzq(^z|W=-F ty`|,֦>\u001b&''\u001fVMJϢQd\u0012cl\bǱa&4k\u001ey<.<_mu\rf\u001c:iret\u0000Ty2+]+\rJˮ&vPwg\u0017\\\\rv?G]8\u0000\".La!^G\u0006L\u00192zJc\\e\"iKsΰ5C*In1B\u001etl",
   "sec": 0.2
  },
- "rt_feodo": {
-  "url": "https://feodotracker.abuse.ch/downloads/ipblocklist.json",
-  "status": 200,
-  "bytes": 1763,
-  "ctype": "application/json",
-  "n": 5,
-  "sample": "[{\"ip_address\": \"162.243.103.246\", \"port\": 8080, \"status\": \"offline\", \"hostname\": null, \"as_number\": 14061, \"as_name\": \"DIGITALOCEAN-ASN\", \"country\": \"US\", \"first_seen\": \"2022-06-04 21:24:53\", \"last_online\": \"2026-03-07\", \"malware\": \"Emotet\"}, {\"ip_address\": \"50.16.16.211\", \"port\": 443, \"status\": \"online\", \"hostname\": \"ec2-50-16-16-211.compute-1.amazonaws.com\", \"as_number\": 14618, \"as_name\": \"AMAZON-AES\", \"country\": \"US\", \"first_seen\": \"2025-12-30 13:56:31\", \"last_online\": \"2026-03-12\", \"malware\": \"QakBot\"}]",
+ "cam_oembed_everest_yt2": {
+  "url": "https://www.youtube.com/oembed?url=https://www.youtube.com/watch?v=AD4-Z-ONsIc&format=json",
+  "err": "HTTP Error 401: Unauthorized",
   "sec": 0.1
  },
- "rt_openphish": {
-  "url": "https://openphish.com/feed.txt",
+ "cam_thumb_everest_yt2": {
+  "url": "https://i.ytimg.com/vi/AD4-Z-ONsIc/maxresdefault_live.jpg",
   "status": 200,
-  "bytes": 15627,
-  "ctype": "text/plain; charset=utf-8",
-  "sample": "https://handel.mobile.fahrzeuge.details.83477383.wm.sjqgvy.com/anfrangen/fahrzeug/\nhttp://cp188.xyz/ww/\nhttp://notaria11medellin.com/chulo/index.html\nhttps://sk.yndssh.com/auth/\nhttps://crownhillconsults.com/rfq\nhttps://seeker-snake-burn-influences.trycloudflare.com/apps/pubgmobile/?i=322701\nhttp://bermexa-vrk-belxavi-p9t5fc68.pages.dev/\nhttps://recompensasexclusivasparamiembros25.ink/E7cE3mR9w\nhttps://bucolic-faun-45e170.netlify.app/\nhttp://security-server-landing-page--vanguardmusk.replit.app/\nhttps://facebooksecure.blogspot.com/\nhttps://amazon-ui-clone-green.vercel.app/\nhttps://metamask-docs-ldkp21iks-consensys-ddffed67.vercel.app/\nhttps://shifatsb.github.io/Attack/\nhttps://servicioenlineadeayuda--solucionesec.replit.app/\nhttps://satyamkumar9304.github.io/Spotify-clone/\nhttps://ecuador-",
-  "sec": 0.4
- },
- "rt_adsb_7700": {
-  "url": "https://api.adsb.lol/v2/sqk/7700",
-  "status": 200,
-  "bytes": 101,
-  "ctype": "application/json",
-  "sample": "{\"ac\": [], \"msg\": \"No error\", \"now\": 1791970620500, \"total\": 0, \"ctime\": 1791970620500, \"ptime\": 0}",
-  "keys": [
-   "ac",
-   "msg",
-   "now",
-   "total",
-   "ctime",
-   "ptime"
-  ],
-  "sec": 0.4
- },
- "rt_airplaneslive_7700": {
-  "url": "https://api.airplanes.live/v2/sqk/7700",
-  "err": "HTTP Error 403: Forbidden",
+  "bytes": 54495,
+  "ctype": "image/jpeg",
+  "sample": "\u0000\u0010JFIF\u0000\u0001\u0001\u0000\u0000\u0001\u0000\u0001\u0000\u0000\u0000\u0000\u0003\u0002\u0002\b\b\b\u0007\b\b\u0007\b\u0007\b\u0007\b\u0007\u0007\u0007\u0007\u0007\b\u0007\u0007\u0007\u0006\u0007\u0007\u0007\u0007\u0007\u0007\u0007\u0007\u0007\u0007\u0007\u0007\u0006\u0007\u0007\u0006\u0006\u0007\u0007\u0006\n\u0007\u0006\u0007\b\t\t\t\u0007\u0007\u000b\r\n\b\r\u0007\b\t\b\u0001\u0003\u0004\u0004\u0006\u0005\u0006\t\u0006\u0006\t\b\b\u0007\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\u0014\b\b\b\b\b\b\u0014\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\u0000\u0011\b\u0002\u0005\u0000\u0003\u0001\"\u0000\u0002\u0011\u0001\u0003\u0011\u0001\u0000\u001e\u0000\u0000\u0003\u0001\u0000\u0003\u0001\u0001\u0001\u0001\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0001\u0002\u0003\u0000\u0004\u0007\b\u0006\u0005\t\n\u0000]\u0010\u0000\u0002\u0002\u0001\u0003\u0002\u0003\u0002\n\u0005\u0004\u000e\u0005\n\u0004\u0007\u0000\u0001\u0002\u0003\u0004\u0005\u0011\u0012\u0006!\u0007\u00131\bA\u0014\u0015\"QUV\u0017\u0018#a2Sq\t\u0016%3BERt$6T4Frsu5C\u0019bcd\u0000\u001c\u0001\u0001\u0000\u0002\u0003\u0001\u0001\u0001\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0005\u0006\u0003\u0004\u0007\u0001\b\u0002\u0000B\u0011\u0001\u0000\u0002\u0001\u0002\u0003\u0003\u0005\u000b\n\u0006\u0003\u0000\u0000\u0000\u0000\u0000\u0001\u0002\u0003\u0004\u0011\u0005\u0012!\u00131A\u0006\"Qa\u0007\u0014\u0017#RSqr\u0015234Bt$bs\u0016%\u0000\f\u0003\u0001\u0000\u0002\u0011\u0003\u0011\u0000?\u0000ΉۑmtQ\\(UUky7\u0018۷}:ٿd\u0011\u001fg\u0019w_ڿG\u001bCySN~\u000f\u001e,X^/o3yڿ1\u001eևA\\Zf6?\u0010z~%kB}Gp\u0014mgi\u0012Fx>?okB}A~\u0000\u0012}G\u0003\u000fmgi\u0011\u001f\u001fʷ^κٿd\u0011W]w\\߳_\rpF|Ɵۗ\u001f{_%%մ(nTT-u/g\u0019/sl]S?'\u0000u*s1eǊL|4g5c\u0019WOZڳ3Gb\u0004*{\t$t96\u0006\u00115\u0005A\r\u00142`2n-c\u0003\u0013Q<)V/ \u000044S\u000264-\u0019 ER\u0003$e\u0010FC\u0000uE(ہ1\u0000\u0019]\u0000[\u0015n \u0013\u0003S\u0003\u0018l\r\u0010#\u0001\u0004\u0006lɂF\r)0q0\u000f\u001eaiI\u0000S3`Ĺ\u0001\u0005$\u0015;\u0013\u0000!h\u001c\bmmdLT\u0019\u0000y$\u001e ,\u0016r\u0002F\u0000\u0018\u0002\u0001X\u0016\u0003\bٚ\u0000\u0005#oR\u0005\u0001)\t\b\nc04< \u0002\u0018ۅ \u0006\u001bp\u00019@x\u000f1\u001b\u00017\u0011w-\u0006\u0002A\u0013F0\f\u0006\u0016`L\n!d\u0004\u0016\u00060\u001b\u00012@3\u0016\u0016d\u0019\u0006(\u0001d\u0005&fL\u0006h5\u0001L\u0005\u0002\u0016\u00004d\u0011]T`1\u0004\u0012\t\u0000( IA'\u00129\u0004Y!\u0001r3\n\u0001Oq\u0012R\u001fb+Գ`cr\u0013\u00123(=\n6\u0014d\u0001AdZ\u0004\u0012l\u0014&V2\u00071!vޡ\u0000&:BT4,Яq\\4d!g\"r<.\u0002",
   "sec": 0.1
- },
- "rt_cems_rapid": {
-  "url": "https://emergency.copernicus.eu/mapping/activations-rapid/feed",
-  "err": "HTTP Error 404: Not Found",
-  "sec": 1.0
- },
- "rt_cems_api": {
-  "url": "https://rapidmapping.emergency.copernicus.eu/backend/dashboard-api/public-activations/?limit=3",
-  "status": 200,
-  "bytes": 49,
-  "ctype": "application/json",
-  "sample": "{\"code\": \"Activation code parameter is mandatory\"}",
-  "keys": [
-   "code"
-  ],
-  "sec": 0.6
- },
- "rt_coralreef": {
-  "url": "https://coralreefwatch.noaa.gov/product/5km/v3.1_op/data/",
-  "err": "HTTP Error 404: Not Found",
-  "sec": 0.1
- },
- "rt_eurdep": {
-  "url": "https://remap.jrc.ec.europa.eu/api/maps/RadiationLevels",
-  "status": 200,
-  "bytes": 335738,
-  "ctype": "application/json; charset=utf-8",
-  "n": 6259,
-  "sample": "[{\"lat\": 48.73, \"lng\": 16.39, \"cnt\": \"AT\", \"code\": \"AT0001\"}, {\"lat\": 48.77, \"lng\": 14.99, \"cnt\": \"AT\", \"code\": \"AT0002\"}]",
-  "sec": 2.4
- },
- "rt_waqi_demo": {
-  "url": "https://api.waqi.info/feed/kathmandu/?token=demo",
-  "status": 200,
-  "bytes": 1946,
-  "ctype": "application/json; charset=UTF-8",
-  "sample": "{\"status\": \"ok\", \"data\": {\"aqi\": 40, \"idx\": 1437, \"attributions\": [{\"url\": \"http://106.37.208.233:20035/emcpublish/\", \"name\": \"China National Urban air quality real-time publishing platform (全国城市空气质量实时发布平台)\"}, {\"url\": \"https://china.usembassy-china.org.cn/embassy-consulates/shanghai/air-quality-monitor-stateair/\", \"name\": \"U.S. Consulate Shanghai Air Quality Monitor\"}, {\"url\": \"https://sthj.sh.gov.cn/\", \"name\": \"Shanghai Environment Monitoring Center(上海市环境监测中心)\"}, {\"url\": \"https://waqi.info/\", \"name\": \"World Air Quality Index Project\"}], \"city\": {\"geo\": [31.2047372, 121.4489017], \"name\": \"Shanghai (上海)\", \"url\": \"https://aqicn.org/city/shanghai\", \"location\": \"\"}, \"dominentpol\": \"o3\", \"iaqi\": {\"co\": {\"v\": 5.5}, \"h\": {\"v\": 39}, \"no2\": {\"v\": 7.4}, \"o3\": {\"v\": 39.8}, \"p\": {\"v\": 1020}, \"pm10\": {\"v\": 18}, \"pm25\": {\"v\": 34}, \"so2\": {\"v\": 4.6}, \"t\": {\"v\": 23.5}, \"w\": {\"v\": 3}}, \"time\": {\"s\": \"2026-10-14 16:00:00\", \"tz\": \"+08:00\", \"v\": 1791993600, \"iso\": \"2026-10-14T16:00:00+08:00\"}, \"forecast\": {\"daily\": {\"o3\": [{\"avg\": 1, \"day\": \"2025-04-05\", \"max\": 1, \"min\": 1}], \"pm10\": [{\"avg\": 103, \"day\": \"2026-10-13\", \"max\": 174, \"min\": 46}, {\"avg\": 56, \"day\": \"2026-10-14\", \"max\": 76, \"min\": 26}, {\"avg\": 49, \"day\": \"2026-10-15\", \"max\": 59, \"min\": 19}, {\"avg\": 41, \"day\": \"2026-10-16\", \"max\": 59, \"min\": 19}, {\"avg\": 48, \"day\": \"2026-10-17\", \"max\": 59, \"min\": 28}, {\"avg\": 54, \"day\": \"2026-10-18\", \"max\": 58, \"min\": 47}, {\"avg\": 62, \"day\": \"2026-10-19\", \"max\": 76, \"min\": 46}, {\"avg\": 87, \"day\": \"2026",
-  "keys": [
-   "status",
-   "data"
-  ],
-  "sec": 0.7
- },
- "rt_noaa_coops": {
-  "url": "https://api.tidesandcurrents.noaa.gov/api/prod/datagetter?date=latest&station=8518750&product=water_level&datum=MLLW&units=metric&time_zone=gmt&format=json",
-  "status": 200,
-  "bytes": 168,
-  "ctype": "application/json;charset=UTF-8",
-  "n": 1,
-  "key": "data",
-  "sample": "[{\"t\": \"2026-10-14 09:30\", \"v\": \"0.478\", \"s\": \"0.02\", \"f\": \"1,0,0,0\", \"q\": \"p\"}]",
-  "keys": [
-   "metadata",
-   "data"
-  ],
-  "sec": 0.2
- },
- "rt_usgs_water_flood": {
-  "url": "https://waterservices.usgs.gov/nwis/iv/?format=json&stateCd=ny&parameterCd=00065&siteStatus=active&period=PT1H",
-  "status": 200,
-  "bytes": 482938,
-  "ctype": "application/json",
-  "sample": "{\"name\": \"ns1:timeSeriesResponseType\", \"declaredType\": \"org.cuahsi.waterml.TimeSeriesResponseType\", \"scope\": \"javax.xml.bind.JAXBElement$GlobalScope\", \"value\": {\"queryInfo\": {\"queryURL\": \"http://waterservices.usgs.gov/nwis/iv/format=json&stateCd=ny&parameterCd=00065&siteStatus=active&period=PT1H\", \"criteria\": {\"locationParam\": \"[]\", \"variableParam\": \"[00065]\", \"parameter\": []}, \"note\": [{\"value\": \"[ny]\", \"title\": \"filter:stateCd\"}, {\"value\": \"[mode=PERIOD, period=PT1H, modifiedSince=null]\", \"title\": \"filter:timeRange\"}, {\"value\": \"methodIds=[ALL]\", \"title\": \"filter:methodId\"}, {\"value\": \"2026-10-14T09:37:06.485Z\", \"title\": \"requestDT\"}, {\"value\": \"d1ccc4c0-c7b2-11f1-868a-005056beda50\", \"title\": \"requestId\"}, {\"value\": \"Provisional data are subject to revision. Go to http://waterdata.usgs.gov/nwis/help/?provisional for more information.\", \"title\": \"disclaimer\"}, {\"value\": \"caas01\", \"title\": \"server\"}]}, \"timeSeries\": [{\"sourceInfo\": {\"siteName\": \"TENMILE RIVER NEAR GAYLORDSVILLE, CT\", \"siteCode\": [{\"value\": \"01200000\", \"network\": \"NWIS\", \"agencyCode\": \"USGS\"}], \"timeZoneInfo\": {\"defaultTimeZone\": {\"zoneOffset\": \"-05:00\", \"zoneAbbreviation\": \"EST\"}, \"daylightSavingsTimeZone\": {\"zoneOffset\": \"-04:00\", \"zoneAbbreviation\": \"EDT\"}, \"siteUsesDaylightSavingsTime\": true}, \"geoLocation\": {\"geogLocation\": {\"srs\": \"EPSG:4326\", \"latitude\": 41.65876389, \"longitude\": -73.52868333}, \"localSiteXY\": []}, \"note\": [], \"siteType\": [], \"siteProperty\": [{\"value\": \"ST\", \"name\": \"siteTypeCd\"}, {\"valu",
-  "keys": [
-   "name",
-   "declaredType",
-   "scope",
-   "value",
-   "nil",
-   "globalScope",
-   "typeSubstituted"
-  ],
-  "sec": 1.2
- },
- "rt_ga_quakes": {
-  "url": "https://earthquakes.ga.gov.au/geoserver/earthquakes/wfs?service=WFS&request=getfeature&typeNames=earthquakes:earthquakes_seven_days&outputFormat=application/json&count=2",
-  "status": 200,
-  "bytes": 3000,
-  "ctype": "application/json;charset=utf-8",
-  "n": 2,
-  "key": "features",
-  "sample": "[{\"type\": \"Feature\", \"id\": \"earthquakes_seven_days.fid--6e739598_1a139ac43b0_-b3b\", \"geometry\": {\"type\": \"Point\", \"coordinates\": [25.5, 35.5]}, \"geometry_name\": \"geometry\", \"properties\": {\"earthquake_id\": 479, \"azimuthal_gap\": 186.86, \"azimuth_horizontal_uncertainty\": null, \"depth\": 0, \"depth_uncertainty\": null, \"description\": \"Greece: Crete 10 0 0 230\", \"display_flag\": \"N\", \"earth_model_id\": null, \"epicentral_time\": null, \"evaluation_mode\": null, \"evaluation_status\": \"FINL\", \"event_creation_time\": \"2013-10-10T12:14:56Z\", \"event_id\": null, \"event_modification_time\": \"2012-03-06T14:34:31Z\", \"felt_report_url\": \"https://earthquakes.ga.gov.au/feltreport/\", \"hours_since_quake\": -641798.3810456267, \"latitude\": 35.5, \"longitude\": 25.5, \"located_in_australia\": \"N\", \"mb\": null, \"md\": null, \"mla\": null, \"mla01\": null, \"mla05\": null, \"mla075\": null, \"ms\": 0, \"mw\": null, \"mww\": null, \"mwp\": null, \"mwmwp\": null, \"mb_idc\": null, \"minimum_distance\": null, \"maximum_distance\": null, \"nearest_station\": null, \"origin_id\": \"904213\", \"origin_time\": \"2100-01-01T00:00:00Z\", \"origin_time_uncertainty\": null, \"phase_count\": 0, \"preferred_magnitude\": 0, \"preferred_magnitude_type\": null, \"original_mla_magnitude\": null, \"published_version\": null, \"max_horizontal_uncertainty\": null, \"min_horizontal_uncertainty\": null, \"reported_felt\": null, \"source\": \"AUST\", \"standard_error\": null, \"station_count\": 0, \"felt_reports_count\": 0, \"nearby_place1\": null, \"nearby_place2\": null, \"nearby_place3\": null, \"nearby_pla",
-  "keys": [
-   "type",
-   "features",
-   "totalFeatures",
-   "numberMatched",
-   "numberReturned",
-   "timeStamp",
-   "crs"
-  ],
-  "sec": 1.3
- },
- "rt_bmkg": {
-  "url": "https://data.bmkg.go.id/DataMKG/TEWS/autogempa.json",
-  "status": 200,
-  "bytes": 408,
-  "ctype": "application/json",
-  "sample": "{\"Infogempa\": {\"gempa\": {\"Tanggal\": \"13 Okt 2026\", \"Jam\": \"17:22:02 WIB\", \"DateTime\": \"2026-10-13T10:22:02+00:00\", \"Coordinates\": \"-9.06,111.37\", \"Lintang\": \"9.06 LS\", \"Bujur\": \"111.37 BT\", \"Magnitude\": \"4.5\", \"Kedalaman\": \"10 km\", \"Wilayah\": \"Pusat gempa berada di laut 103 km selatan Pacitan\", \"Potensi\": \"Gempa ini dirasakan untuk diteruskan pada masyarakat\", \"Dirasakan\": \"III Trenggalek\", \"Shakemap\": \"20261013172202.mmi.jpg\"}}}",
-  "keys": [
-   "Infogempa"
-  ],
-  "sec": 0.1
- },
- "rt_jma_quake": {
-  "url": "https://www.jma.go.jp/bosai/quake/data/list.json",
-  "status": 200,
-  "bytes": 251632,
-  "ctype": "application/json",
-  "n": 231,
-  "sample": "[{\"ctt\": \"20261014161109\", \"eid\": \"20261014160731\", \"rdt\": \"2026-10-14T16:11:00+09:00\", \"ttl\": \"震源・震度情報\", \"ift\": \"発表\", \"ser\": \"1\", \"at\": \"2026-10-14T16:07:00+09:00\", \"anm\": \"熊本県天草・芦北地方\", \"acd\": \"743\", \"cod\": \"+32.2+130.4-10000/\", \"mag\": \"1.4\", \"maxi\": \"1\", \"int\": [{\"code\": \"43\", \"maxi\": \"1\", \"city\": [{\"code\": \"4320500\", \"maxi\": \"1\"}]}], \"json\": \"20261014161109_20261014160731_VXSE5k_1.json\", \"en_ttl\": \"Earthquake and Seismic Intensity Information\", \"en_anm\": \"Amakusa and Ashikita Region,  Kumamoto Prefecture\"}, {\"ctt\": \"20261014075932\", \"eid\": \"20261014075649\", \"rdt\": \"2026-10-14T07:59:00+09:00\", \"ttl\": \"震源・震度情報\", \"ift\": \"発表\", \"ser\": \"1\", \"at\": \"2026-10-14T07:56:00+09:00\", \"anm\": \"熊本県天草・芦北地方\", \"acd\": \"743\", \"cod\": \"+32.4+130.5-10000/\", \"mag\": \"2.8\", \"maxi\": \"1\", \"int\": [{\"code\": \"43\", \"maxi\": \"1\", \"city\": [{\"code\": \"4351300\", \"maxi\": \"1\"}, {\"code\": \"4321200\", \"maxi\": \"1\"}, {\"code\": \"4348200\", \"maxi\": \"1\"}]}], \"json\": \"20261014075932_20261014075649_VXSE5k_1.json\", \"en_ttl\": \"Earthquake and Seismic Intensity Information\", \"en_anm\": \"Amakusa and Ashikita Region,  Kumamoto Prefecture\"}]",
-  "sec": 0.2
- },
- "rt_cenc": {
-  "url": "https://www.ceic.ac.cn/ajax/speedsearch?num=1&page=1",
-  "err": "Remote end closed connection without response",
-  "sec": 31.5
  }
 }
