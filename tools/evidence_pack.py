@@ -23,7 +23,7 @@ import urllib.request, urllib.parse
 UA = {"user-agent": "everest-evidence (github.com/Yizebaba/EVEREST-)"}
 EVN = (27.9587, 86.8117)
 OUT = "events"
-VERSION = 14   # 改了证据包内容时加 1，所有包会重算一次
+VERSION = 15   # 改了证据包内容时加 1，所有包会重算一次
 NOW = datetime.now(timezone.utc)
 
 # 尼泊尔区县 → IODA 地区（旧 14 区）
@@ -800,6 +800,38 @@ def who_don(ev, t0, items, pack):
         items.append({"t": iso(t0), "src": "WHO 疫情通报", "kind": "MISSING", "text": f"查询失败（{str(e)[:60]}）", "text_en": f"Query failed ({str(e)[:60]})"})
 
 
+_HZREC = None
+
+
+def hazard_records(ev, t0, items, pack):
+    """灾种扫描（hazards/records.json，281 种灾害、20 多个公开来源，每小时更新）里，事件 150 km 内、前 1 天到后 5 天的记录挂到时间线上。
+    没有坐标的新闻，标题里要出现事件所在地名。"""
+    global _HZREC
+    if _HZREC is None:
+        try: _HZREC = json.load(open("hazards/records.json")).get("records", [])
+        except Exception: _HZREC = []
+    a, b = t0 - timedelta(days=1), t0 + timedelta(days=5)
+    place = (ev.get("district") or place_word(ev) or "").lower()
+    skip = {"USGS 地震目录", "GDACS", "BIPAD 警报"}   # 证据包里已经单独查过
+    hits = []
+    for r in _HZREC:
+        if r.get("src") in skip or not r.get("t"): continue
+        try: tr = P(r["t"])
+        except Exception: continue
+        if not (a <= tr <= b): continue
+        if r.get("lat") is not None and r.get("lon") is not None:
+            if km((ev["lat"], ev["lon"]), (r["lat"], r["lon"])) > 150 or r.get("observation"): continue
+        elif not (r.get("news") and place and place != "nepal" and place in r.get("title", "").lower()):
+            continue
+        hits.append(r)
+    hits.sort(key=lambda r: r["t"])
+    for r in hits[:25]:
+        extra = f"（死亡 {r['deaths']}）" if r.get("deaths") else ""
+        items.append({"t": r["t"], "src": "灾种扫描 · " + r["src"], "kind": "SUPPORTING", "hips": r.get("codes", []),
+                      "text": r["title"] + extra, "text_en": r["title"] + extra, "url": r.get("url")})
+    pack["hazard_links"] = {"n": len(hits), "codes": sorted({c for r in hits for c in r.get("codes", [])})}
+
+
 _VANTOR = []
 
 
@@ -856,14 +888,14 @@ def build(ev):
     bio = (ev.get("hips") or []) and all(c.startswith("BI") for c in ev["hips"])
     if bio:   # 疫情：地震台、水位、卫星这些物理信号不相关，只查新闻、公开记录和世卫通报
         fns = (lambda: gdelt(ev, t0, items, pack), lambda: wiki(ev, t0, items, pack), lambda: hdx(ev, t0, items, pack), lambda: reliefweb(ev, t0, items, pack),
-               lambda: who_don(ev, t0, items, pack), lambda: manual(ev, t0, items, pack))
+               lambda: who_don(ev, t0, items, pack), lambda: manual(ev, t0, items, pack), lambda: hazard_records(ev, t0, items, pack))
     for fn in fns if bio else (lambda: evn(ev, t0, items, pack), lambda: kkn(ev, t0, items, pack), lambda: catalogs(ev, t0, items), lambda: gauges(ev, t0, items, pack),
                lambda: ioda(ev, t0, items, pack), lambda: ems(ev, t0, items), lambda: sentinel(ev, t0, items, pack),
                lambda: gfm(ev, t0, items, pack), lambda: montandon(ev, t0, items, pack), lambda: manual(ev, t0, items, pack),
                lambda: rshake(ev, t0, items, pack), lambda: usgs_products(ev, t0, items, pack), lambda: gnss(ev, t0, items, pack),
                lambda: gdelt(ev, t0, items, pack), lambda: wiki(ev, t0, items, pack), lambda: hdx(ev, t0, items, pack), lambda: reliefweb(ev, t0, items, pack),
                lambda: cfradar(ev, t0, items, pack), lambda: firms(ev, t0, items, pack), lambda: blackmarble(ev, t0, items, pack),
-               lambda: spaceweather(ev, t0, items, pack), lambda: vantor(ev, t0, items, pack)):
+               lambda: spaceweather(ev, t0, items, pack), lambda: vantor(ev, t0, items, pack), lambda: hazard_records(ev, t0, items, pack)):
         try:
             fn()
         except Exception:
@@ -901,6 +933,12 @@ def main():
                 src = [x for x in p["timeline"] if x["src"] in ("BIPAD 灾害警报", "GDACS", "BIPAD 水位站", "新闻（GDELT）") or (x["src"] == "USGS 地震目录" and "崩塌" in x["text"])]
                 evs.append({"id": k, "title": p["title"], "title_en": p.get("title_en"), "kind": p.get("kind"), "place": p.get("place"), "lat": p["lat"], "lon": p["lon"],
                             "t": p["t"], "first_seen": m.get("first_seen"), "src": src[:m.get("src_n", len(src))]})
+    try:   # 灾种扫描发现的事件候选：和已有事件 36 小时 / 150 km 内重复的不另做
+        for c in json.load(open("hazards/scan_events.json")).get("events", []):
+            if not any(abs((P(c["t"]) - P(e["t"])).total_seconds()) < 36 * 3600 and km((c["lat"], c["lon"]), (e["lat"], e["lon"])) < 150 for e in evs):
+                evs.append(c)
+    except Exception as e:
+        print("没有灾种扫描候选：", e)
     for ev in evs:
         age = (NOW - P(ev["t"])).days
         old = idx["events"].get(ev["id"])

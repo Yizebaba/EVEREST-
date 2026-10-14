@@ -440,7 +440,8 @@ FEEDS = {}
 def news_rss():
     import xml.etree.ElementTree as ET
     from email.utils import parsedate_to_datetime
-    KW = {h["code"]: kw_of(h) for h in HIPS}; ok = {}
+    KW = {h["code"]: re.compile(r"\b(?:" + KWRE[h["code"]] + r")\b", re.I) for h in HIPS}; ok = {}
+    TOPIC = re.compile(r"Nepal|Tibet|Xizang|Himalaya|Everest|Kathmandu|Pokhara|Gorkha|Solukhumbu|Sindhupalchok|Rasuwa|Mustang|Manang|Dolakha|Lalitpur|Bhaktapur|Terai|Province", re.I)
     for name, u in RSS.items():
         try:
             b = get(u, raw=True, timeout=40, headers={"user-agent": "Mozilla/5.0 (compatible; everest-hazard-scan; +https://github.com/Yizebaba/EVEREST-)", "accept": "application/rss+xml, application/xml, */*"})
@@ -452,7 +453,8 @@ def news_rss():
             try: t = iso(parsedate_to_datetime(it.findtext("pubDate")))
             except Exception: t = iso(NOW)
             text = title + " " + desc[:400]
-            codes = [c for c, k in KW.items() if re.search(r"\b" + re.escape(k) + r"s?\b", text, re.I)]
+            if name.startswith("Google News") and not TOPIC.search(title): continue   # 搜索结果会混进无关地区
+            codes = [c for c, k in KW.items() if k.search(text)]
             if codes:
                 rec(codes, t, f"{name}：{title}", None, None, it.findtext("link"), "rss-" + (it.findtext("link") or title)[:200], local=True, news=True)
     FEEDS.update(ok)
@@ -461,7 +463,32 @@ def news_rss():
 
 
 # ---------- 新闻：GDELT，每种灾害一个关键词，按批 OR 查询，限定喜马拉雅 ----------
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+from hazard_keywords import KW as KWRE
+
+
 def kw_of(h):
+    """GDELT 查询用的单个词：取匹配正则的第一个选项，括号里的分支也取第一个。"""
+    def first(p):
+        out, depth, buf = [], 0, ""
+        for ch in p:
+            if ch == "(": depth += 1
+            elif ch == ")": depth -= 1
+            if ch == "|" and depth == 0: break
+            buf += ch
+        while "(" in buf:
+            a = buf.index("("); depth = 0
+            for k in range(a, len(buf)):
+                depth += buf[k] == "("; depth -= buf[k] == ")"
+                if depth == 0: break
+            inner = buf[a + 1:k]; inner = first(inner.lstrip("?:"))
+            buf = buf[:a] + inner + buf[k + 1:]
+        return buf
+    k = re.sub(r"\\b|\\w[+*]|[?\\]", "", first(KWRE[h["code"]])).replace("-", " ").strip()
+    return k if len(k) >= 3 else _kw_old(h)
+
+
+def _kw_old(h):
     over = {"MH0102": "lightning", "MH0201": "dust storm", "MH0306": "cyclone", "MH0503": "dzud", "MH0600": "flood", "MH0607": "glacial lake outburst", "MH0801": "avalanche",
             "GH0101": "earthquake", "GH0300": "landslide", "GH0301": "rockfall", "GH0303": "debris flow", "EN0205": "forest fire", "TL0205": "dam collapse", "TL0209": "blackout",
             "TL0405": "road accident", "TL0401": "plane crash", "TL0402": "boat capsize", "SO0302": "stampede", "SO0103": "protest", "BI0605": "snakebite", "BI0604": "wildlife attack",
@@ -494,7 +521,7 @@ def gdelt():
         arts = json.loads(raw).get("articles", []) if raw.strip().startswith(b"{") else []
         for a in arts:
             title = a.get("title", "")
-            codes = [c for c, k in grp if re.search(r"\b" + re.escape(k) + r"\b", title, re.I)]
+            codes = [c for c, k in grp if re.search(r"\b(?:" + KWRE[c] + r")\b", title, re.I)]
             if not codes: continue
             t = datetime.strptime(a["seendate"], "%Y%m%dT%H%M%SZ").replace(tzinfo=timezone.utc)
             rec(codes, iso(t), f"{a.get('domain')}：{title}", None, None, a.get("url"), "gdelt-" + a.get("url", "")[:200], local=True, news=True)
@@ -562,13 +589,15 @@ for h in HIPS: STATIC.setdefault(h["code"], set()).update({"GDELT 新闻", "新�
 hz = []
 for h in HIPS:
     c = h["code"]; srcs = sorted(STATIC.get(c, set()) | SRC_OF.get(c, set()))
-    mine = [r for r in allrec if c in r.get("codes", [])]
+    obs = [r for r in allrec if c in r.get("codes", []) and r.get("observation")]
+    mine = [r for r in allrec if c in r.get("codes", []) and not r.get("observation")]
     loc = [r for r in mine if r.get("local")]
     tested = [s for s in srcs if RES.get(s, {}).get("state") == "ok"]
-    state = ("local" if loc else "global" if mine else "ok_none" if tested else "key" if any(RES.get(s, {}).get("state") == "key" for s in srcs) else "fail")
+    state = ("local" if loc else "global" if mine else "observed" if obs and tested else "ok_none" if tested else "key" if any(RES.get(s, {}).get("state") == "key" for s in srcs) else "fail")
     hz.append({"code": c, "label": h["label"], "label_zh": h["label_zh"], "family": h["family"], "family_zh": h["family_zh"], "sources": srcs,
                "tested_ok": tested, "n_90d": len(mine), "n_local_90d": len(loc), "latest": mine[0]["t"] if mine else None,
-               "latest_title": (loc or mine)[0]["title"] if mine else None, "state": state})
+               "latest_title": (loc or mine)[0]["title"] if mine else None, "latest_url": (loc or mine)[0].get("url") if mine else None,
+               "observed": obs[0]["title"] if obs else None, "state": state})
 
 # 事件候选：喜马拉雅高山区的自然灾害（BIPAD 事件库、EONET），或尼泊尔造成 3 人以上死亡的事件
 MOUNTAIN = (27.3, 31.5, 80.0, 88.3)

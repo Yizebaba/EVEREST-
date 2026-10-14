@@ -9,6 +9,7 @@ on:
     - cron: "17 * * * *"
 permissions:
   contents: write
+  actions: write
 concurrency:
   group: hazards
   cancel-in-progress: false
@@ -38,5 +39,8 @@ jobs:
           git fetch -q origin events && git worktree add -q ev origin/events && mkdir -p ev/hazards && cp out/* ev/hazards/
           cd ev && git add hazards && git commit -qm "hazards $TASK $(date -u +%FT%TZ)" || exit 0
           for i in 1 2 3; do git pull -q --rebase origin events && git push -q origin HEAD:events && break; sleep 3; done
+          # 有新的事件候选时，立刻让证据包工作流跑一次（推送用的是 GITHUB_TOKEN，不会自动触发别的工作流）
+          if git diff --name-only HEAD~1 HEAD 2>/dev/null | grep -q scan_events.json; then gh workflow run evidence.yml --ref events -R "$GITHUB_REPOSITORY" || true; fi
         env:
           TASK: ${{ github.event.inputs.task || 'scan' }}
+          GH_TOKEN: ${{ github.token }}
