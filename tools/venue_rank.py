@@ -4,7 +4,8 @@
 方法（可复现）：
   1. 用 tools/hazard_keywords.py 里每种灾害的第一个匹配词检索 2020 年以来的论文（article/review），按发表期刊或会议分组计数；
   2. 取论文数最多的 25 个来源里、该主题论文不少于 5 篇的期刊或会议（排除 Zenodo 这类存储库），
-     再去掉综合性大刊（名单见 MULTI，如 PLoS ONE、Scientific Reports、Nature Communications），按来源整体的 h 指数排序取前三
+     再去掉综合性大刊（名单见 MULTI，如 PLoS ONE、Scientific Reports、Nature Communications），
+     按“期刊 h 指数 × ln(1 + 该主题论文数)”排序取前三（既看影响力，也看在这个主题上发得多不多）
      → “该灾种的专业顶刊顶会”；综合性大刊单独列出（multidisciplinary）；
   （以下两步用 Crossref 公开接口，不占 OpenAlex 额度）
   3. 同一检索词下，发表在数据期刊（标题里要出现检索词中的实词，不相关的丢掉）（ESSD、Scientific Data、Geoscience Data Journal、Data in Brief）的论文按检索相关度取前三 → 可引用的数据论文；
@@ -30,10 +31,22 @@ STOP = []
 class Budget(Exception): pass
 
 
+def score(v):
+    """影响力（h 指数）× 专注度（该主题论文数取对数）。只看 h 指数会把物理、分子期刊排进灾害主题（同名词），只看篇数会偏向低影响力期刊。"""
+    import math
+    return (v.get("h") or 0) * math.log1p(v.get("n") or 0)
+
+
+def rank(vs):
+    vs = sorted([v for v in vs if v.get("type") in VENUE_TYPES], key=score, reverse=True)
+    return [v for v in vs if (v.get("name") or "").lower() not in MULTI][:3], [v for v in vs if (v.get("name") or "").lower() in MULTI][:3]
+
+
 MULTI = {"plos one", "scientific reports", "nature communications", "nature", "science", "proceedings of the national academy of sciences",
          "science advances", "ieee access", "sustainability", "heliyon", "cureus", "peerj", "royal society open science", "frontiers in public health",
          "international journal of environmental research and public health", "applied sciences", "sensors", "remote sensing", "the lancet",
-         "bmj", "bmj open", "communications earth & environment", "nature sustainability", "environmental research letters", "plos medicine", "elife"}
+         "bmj", "bmj open", "international journal of molecular sciences", "molecules", "materials", "polymers", "nutrients", "energies",
+         "frontiers in immunology", "frontiers in microbiology", "journal of cleaner production", "chemosphere", "environmental science and pollution research", "communications earth & environment", "nature sustainability", "environmental research letters", "plos medicine", "elife"}
 VENUE_TYPES = {"journal", "conference", "book series"}
 
 
@@ -66,7 +79,8 @@ QUERY = {"MH0204": "sand haze", "MH0307": "extratropical cyclone", "MH0308": "su
          "TL0210": "water supply interruption", "TL0214": "sewer overflow", "TL0302": "environmental pollution", "TL0305": "fire disaster",
          "TL0502": "solid waste", "TL0507": "e-waste", "TL0602": "radioactive contamination", "TL0603": "uranium mining",
          "SO0101": "armed conflict", "SO0102": "insurgency", "SO0201": "unexploded ordnance", "SO0202": "conflict pollution", "SO0301": "violence",
-         "SO0302": "crowd crush", "MH0203": "haze pollution", "MH0303": "gale wind", "MH0306": "cyclone disaster", "MH0509": "atmospheric icing", "MH0403": "blizzard snowstorm"}
+         "SO0302": "crowd crush", "MH0203": "haze pollution", "MH0303": "gale wind", "MH0306": "cyclone disaster", "MH0509": "atmospheric icing", "MH0403": "blizzard snowstorm", "MH0801": "snow avalanche", "TL0304": "industrial explosion",
+         "CH0203": "benzene exposure", "CH0101": "arsenic contamination", "CH0102": "cadmium contamination"}
 
 
 def term(code):
@@ -153,12 +167,21 @@ def src_batch(ids):
 def one(h):
     c = h["code"]; q = term(c)
     q = f'"{q}"' if " " in q else q
-    r = {"src": "openalex+crossref", "v": 2, "code": c, "label": h["label"], "label_zh": h["label_zh"], "family": h["family"], "family_zh": h["family_zh"], "cluster": h["cluster"], "query": q}
+    r = {"src": "openalex+crossref", "v": 3, "code": c, "label": h["label"], "label_zh": h["label_zh"], "family": h["family"], "family_zh": h["family_zh"], "cluster": h["cluster"], "query": q}
     pv = PREVALL.get(c)
     try:
+        reuse = False
         if pv and pv.get("query") == q and pv.get("top_venues") is not None and "multidisciplinary" in pv and not pv.get("err"):
-            # 期刊排名已有、检索词没变：沿用，不再占 OpenAlex 额度
-            for k in ("papers_2020", "top_venues", "multidisciplinary", "most_active"): r[k] = pv.get(k)
+            # 期刊排名已有、检索词没变：用保存的候选按现在的规则重排，不占 OpenAlex 额度；
+            # 旧结果没存全部候选、重排后不足三本的，重新查一次
+            cands = pv.get("candidates") or list({v["id"]: v for v in (pv.get("top_venues") or []) + (pv.get("most_active") or []) + (pv.get("multidisciplinary") or [])}.values())
+            tv, mv = rank(cands)
+            if pv.get("candidates") or len(tv) >= 3:
+                reuse = True
+                for k in ("papers_2020", "most_active"): r[k] = pv.get(k)
+                r["candidates"] = cands; r["top_venues"], r["multidisciplinary"] = tv, mv
+        if reuse:
+            pass
         elif STOP:
             r["venues_pending"] = True   # OpenAlex 当日额度已用完：期刊排名明天续跑，数据论文照查
         else:
@@ -167,10 +190,8 @@ def one(h):
             cand = [x for x in g.get("group_by", []) if x.get("key") and x["key"] != "unknown" and x["count"] >= 5][:25]
             src_batch([x["key"] for x in cand])
             vs = [{**SRC_CACHE.get(x["key"], {"name": x.get("key_display_name"), "h": None}), "id": x["key"], "n": x["count"]} for x in cand]
-            vs = [v for v in vs if v.get("type") in VENUE_TYPES]
-            vs.sort(key=lambda v: (v.get("h") or 0), reverse=True)
-            r["top_venues"] = [v for v in vs if (v.get("name") or "").lower() not in MULTI][:3]
-            r["multidisciplinary"] = [v for v in vs if (v.get("name") or "").lower() in MULTI][:3]
+            r["candidates"] = [v for v in vs if v.get("type") in VENUE_TYPES]
+            r["top_venues"], r["multidisciplinary"] = rank(vs)
             r["most_active"] = sorted(vs, key=lambda v: -v["n"])[:3]
         r["data_papers"] = [x for x in (cr_item(w) for w in crossref(q, ",".join("issn:" + i for i in DATA_ISSN), 10)) if on_topic(x["title"], q)][:3]
         top = [x for x in (cr_item(w) for w in crossref(q, "from-pub-date:2020-01-01,type:journal-article", 20)) if on_topic(x["title"], q)]
@@ -195,7 +216,7 @@ if PREV and os.path.exists(PREV):
     try: PREVALL = {h["code"]: h for h in json.load(open(PREV))["hazards"] if h}
     except Exception: pass
 if PREV and os.path.exists(PREV):
-    try: old = {h["code"]: h for h in json.load(open(PREV))["hazards"] if h.get("src") == "openalex+crossref" and h.get("v") == 2 and not h.get("err") and not h.get("venues_pending")
+    try: old = {h["code"]: h for h in json.load(open(PREV))["hazards"] if h.get("src") == "openalex+crossref" and h.get("v") == 3 and not h.get("err") and not h.get("venues_pending")
            and h.get("query") == (lambda q: f'"{q}"' if " " in q else q)(term(h["code"]))}   # 检索词改过的重查
     except Exception as e: print("prev unreadable", e)
 todo = [h for h in HIPS if h["code"] not in old]

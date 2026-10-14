@@ -14,10 +14,10 @@ w(f"自动生成于 {d['generated']}，数据论文已查 **{len(done)}/{d.get('
 w("## 方法\n")
 w("1. 每种灾害一个英文检索词（多数取自 `tools/hazard_keywords.py` 的匹配词，部分手工改成学术常用说法，见 `venue_rank.py` 的 `QUERY`）。")
 w("2. 在 OpenAlex 检索 2020 年以来的论文和综述，按发表的期刊/会议分组计数，取该主题论文 ≥ 5 篇的期刊或会议（排除 Zenodo 等存储库）。")
-w("3. 去掉综合性大刊（PLoS ONE、Scientific Reports、Nature Communications、Nature、Science、PNAS 等，单独列出），按期刊整体 h 指数排前三 → **专业顶刊**。")
+w("3. 去掉综合性大刊（PLoS ONE、Scientific Reports、Nature Communications、Nature、Science、PNAS 等，单独列出），按“期刊 h 指数 × ln(1 + 该主题篇数)”排前三 → **专业顶刊**（既看影响力，也看在该主题上发得多不多）。之前已查过的灾种用保存的候选期刊重新排序。")
 w("4. 数据论文（Crossref）：标题里要出现检索词中的实词；同一检索词在 ESSD、Scientific Data、Geoscience Data Journal、Data in Brief 四本数据期刊里检索相关度最高的三篇 → **可作数据源或引用的数据集**。")
 w("5. 方法论文（Crossref）：同一检索词 2020 年以来相关度前 20 篇里被引最多的三篇。\n")
-w("**局限**：h 指数衡量期刊整体影响力，不是该灾种的专业排名；检索词有歧义时会混进无关期刊（例如 lightning 混进分子科学期刊）。"
+w("**局限**：这是公式排序，不是学界公认的排名；检索词有歧义时会混进无关期刊（例如 lightning 混进分子科学期刊）。"
   "这份表是找文献和数据的起点，用到具体期刊或数据前请人工确认。会议（如 AGU、EGU、ISCRAM）在 OpenAlex 里收录不全，排名以期刊为主。\n")
 
 fams = []
