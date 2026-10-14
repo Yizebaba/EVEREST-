@@ -623,8 +623,7 @@ for r in allrec:
     same = next((c for c in cand if c["hips"] == r["codes"] and c["t"][:10] == r["t"][:10] and abs(c["lat"] - r["lat"]) + abs(c["lon"] - r["lon"]) < 0.2), None)
     if same:   # 同一天、同一灾种、20 km 内的多条记录合成一个
         same["src"].append(item); continue
-    hz = r.get("hazard_name") or ""
-    cand.append({"id": "hz-" + r["id"], "kind": hz, "hips": r["codes"], "title": f"{r['title']}", "title_en": r["title"], "place": r["title"].split(" at ")[-1],
+    cand.append({"id": "hz-" + r["id"], "kind": r.get("hazard_name") or "", "hips": r["codes"], "title": f"{r['title']}", "title_en": r["title"], "place": r["title"].split(" at ")[-1],
                  "lat": r["lat"], "lon": r["lon"], "t": r["t"], "first_seen": iso(NOW), "src": [item]})
 
 from collections import Counter
