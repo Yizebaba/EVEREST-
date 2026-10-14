@@ -17,10 +17,6 @@ for k in ("himawari_vis", "himawari_ir", "himawari_am", "meteosat_natural", "met
         try: img[k] = f"data:{mime};base64," + base64.b64encode(raw(f"img/{k}.{ext}")).decode(); break
         except Exception as e: pass
     if k not in img: print("图像暂缺", k)
-if len(json.dumps(img).encode()) > 235000: img.pop("cams", None)
-for k in ("meteosat_snow", "himawari_vis", "meteosat_natural", "himawari_ir"):
-    if len(json.dumps(img).encode()) <= 235000: break
-    img.pop(k, None); print("图像太大，去掉", k)
 # 珠峰地区摄像头（hazards 工作流每小时检查，tools/webcams.py）：是否在播、源地址、一张小图
 try:
     wc = json.loads(raw("hazards/webcams.json", "events")); cams = []
@@ -34,6 +30,10 @@ try:
     img["cams"] = {"updated": wc.get("updated"), "list": cams}   # 旧版页面从 live/img 读摄像头；放得下就也放一份
 except Exception as e:
     print("webcams", e)
+if len(json.dumps(img).encode()) > 235000: img.pop("cams", None)
+for k in ("meteosat_snow", "himawari_vis", "meteosat_natural", "himawari_ir"):
+    if len(json.dumps(img).encode()) <= 235000: break
+    img.pop(k, None); print("图像太大，去掉", k)
 json.dump(img, open(f"{out}/live_img.json", "w"))
 sys.path.insert(0, os.path.dirname(__file__))
 from monitor_sync import build
