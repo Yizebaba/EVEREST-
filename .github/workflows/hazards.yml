@@ -1,0 +1,42 @@
+# 灾种扫描：按联合国减灾署 281 种灾害逐个查公开数据源（小量取数，不做重计算）。
+# survey = 实测候选接口；scan = 每小时扫描并更新覆盖结果。结果写到 events 分支 hazards/ 目录。
+name: hazards
+on:
+  workflow_dispatch:
+    inputs:
+      task: { description: "survey 或 scan", default: "scan" }
+  schedule:
+    - cron: "17 * * * *"
+permissions:
+  contents: write
+concurrency:
+  group: hazards
+  cancel-in-progress: false
+jobs:
+  run:
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: { python-version: "3.12" }
+      - name: Run
+        env:
+          TASK: ${{ github.event.inputs.task || 'scan' }}
+          FIRMS_MAP_KEY: ${{ secrets.FIRMS_MAP_KEY }}
+          CF_RADAR_TOKEN: ${{ secrets.CF_RADAR_TOKEN }}
+          RELIEFWEB_APPNAME: ${{ secrets.RELIEFWEB_APPNAME }}
+          OPENAQ_API_KEY: ${{ secrets.OPENAQ_API_KEY }}
+          ACLED_KEY: ${{ secrets.ACLED_KEY }}
+          GFW_API_KEY: ${{ secrets.GFW_API_KEY }}
+        run: |
+          mkdir -p out
+          if [ "$TASK" = "survey" ]; then python3 tools/source_survey.py out/survey.json; else python3 tools/hazard_scan.py out; fi
+      - name: Save to events branch
+        run: |
+          git config user.name "hazards"; git config user.email "actions@users.noreply.github.com"
+          git fetch -q origin events && git worktree add -q ev origin/events && mkdir -p ev/hazards && cp out/* ev/hazards/
+          cd ev && git add hazards && git commit -qm "hazards $TASK $(date -u +%FT%TZ)" || exit 0
+          for i in 1 2 3; do git pull -q --rebase origin events && git push -q origin HEAD:events && break; sleep 3; done
+        env:
+          TASK: ${{ github.event.inputs.task || 'scan' }}
