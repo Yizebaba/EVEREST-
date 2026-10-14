@@ -1,0 +1,40 @@
+BIPAD 灾害事件库 ok 500 
+BIPAD 警报 ok 100 
+BIPAD 空气质量站 ok 2 
+NASA EONET ok 209 
+USGS 地震目录 ok 14 
+GDACS ok 100 
+NOAA SWPC 空间天气 ok 90 
+NASA CNEOS ok 82 
+CelesTrak 在轨目标 ok 223 
+WHO 疫情通报 ok 100 
+WHO FluNet（尼泊尔） ok 8 
+WOAH WAHIS 动物疫情 ok 50 
+openFDA 食品药品召回 ok 100 
+CISA 已利用漏洞 ok 32 
+Have I Been Pwned 数据泄露 ok 8 
+IODA 网络连通 ok 0 
+尼泊尔央行汇率 ok 0 
+Safecast 辐射 ok 0 
+Sentinel-5P 大气成分 ok 7 
+太平洋海啸预警中心 ok 2 
+NOAA NCEI 历史灾害库 ok 42 
+IOC 海平面站 ok 1 
+IBTrACS 活跃气旋 ok 7 
+NSIDC 海冰 ok 2 
+史密森尼火山周报 fail None HTTP Error 403: Forbidden
+GBIF 物种记录（尼泊尔） ok 2 
+新闻 RSS ok 150 
+Traceback (most recent call last):
+  File "/home/runner/work/EVEREST-/EVEREST-/tools/hazard_scan.py", line 631, in <module>
+    summary = {"updated": iso(NOW), "sources": RES, "by_state": Counter(h["state"] for h in hz),
+                                                                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/hostedtoolcache/Python/3.12.15/x64/lib/python3.12/collections/__init__.py", line 607, in __init__
+    self.update(iterable, **kwds)
+  File "/opt/hostedtoolcache/Python/3.12.15/x64/lib/python3.12/collections/__init__.py", line 699, in update
+    _count_elements(self, iterable)
+  File "/home/runner/work/EVEREST-/EVEREST-/tools/hazard_scan.py", line 631, in <genexpr>
+    summary = {"updated": iso(NOW), "sources": RES, "by_state": Counter(h["state"] for h in hz),
+                                                                        ~^^^^^^^^^
+TypeError: string indices must be integers, not 'str'
+exit=1
