@@ -41,7 +41,7 @@ Worker 从 BIPAD 洪水警报里自动发现事件（Aarughat-9, Gorkha），证
 ```mermaid
 flowchart LR
   A[公开来源<br>BIPAD · USGS · GDACS · 水位站] -->|每 5 分钟| W[Cloudflare Worker<br>发现事件 · 合并去重]
-  W -->|新事件或每 6 小时| T[events 分支<br>trigger.txt]
+  W -->|新事件或每小时| T[events 分支<br>trigger.txt]
   H[总览页 · 人工证据<br>浏览器算 SHA-256] -->|每小时同步| M[events 分支<br>manual.json]
   T --> G[GitHub Actions<br>evidence_pack.py]
   M --> G

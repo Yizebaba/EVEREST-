@@ -121,11 +121,11 @@ export function detect(rt, prev) {
   return ev;
 }
 
-// 证据包由 GitHub 工作流 evidence（events 分支）生成。新事件或有新信号时立刻触发；有 14 天内的事件时每 6 小时补一次（补卫星“事后”影像）。
+// 证据包由 GitHub 工作流 evidence（events 分支）生成。新事件或有新信号时立刻触发；有 14 天内的事件时每小时补一次（取新的卫星影像、扫描记录、存证确认）（补卫星“事后”影像）。
 export async function kick(env, events, lastKick, sig) {
   if (!env.GH_TOKEN || !env.GH_REPO) return { skip: "没有 GH_TOKEN" };
   const recent = Object.values(events).some(e => Date.now() - Date.parse(e.t) < 14 * 864e5);
-  const due = sig !== (lastKick && lastKick.sig) || (recent && Date.now() - Date.parse((lastKick && lastKick.at) || 0) > 6 * 3600e3);
+  const due = sig !== (lastKick && lastKick.sig) || (recent && Date.now() - Date.parse((lastKick && lastKick.at) || 0) > 3600e3);
   if (!due) return null;
   const H = { "user-agent": "everest-facets-worker", accept: "application/vnd.github+json", authorization: "Bearer " + env.GH_TOKEN };
   const cur = await fetch(`https://api.github.com/repos/${env.GH_REPO}/contents/trigger.txt?ref=events`, { headers: H });
