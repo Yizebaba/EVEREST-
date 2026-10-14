@@ -54,9 +54,25 @@ C = {
  "openaq_noauth": "https://api.openaq.org/v3/locations?countries_id=126&limit=1",
  "gdelt_theme": "https://api.gdeltproject.org/api/v2/doc/doc?query=theme:NATURAL_DISASTER%20Nepal&mode=artlist&maxrecords=5&format=json&timespan=7d",
  "nepse": "https://www.nepalstock.com/api/nots/nepse-index",
+ # —— 参考数据（历史同类事件、文献数据检索），2026-10-14 加 ——
+ "ref_zenodo_glof": "https://zenodo.org/api/records/7330344",
+ "ref_zenodo_glof_latest": "https://zenodo.org/api/records/7330344/versions/latest",
+ "ref_coolr_points": "https://gis.earthdata.nasa.gov/gis05/rest/services/Landslides/COOLR_Events_Points/FeatureServer/0/query?where=1%3D1&geometry=79.5,26.3,92.5,31.5&geometryType=esriGeometryEnvelope&inSR=4326&outFields=*&resultRecordCount=3&f=json",
+ "ref_coolr_count": "https://gis.earthdata.nasa.gov/gis05/rest/services/Landslides/COOLR_Events_Points/FeatureServer/0/query?where=1%3D1&geometry=79.5,26.3,92.5,31.5&geometryType=esriGeometryEnvelope&inSR=4326&returnCountOnly=true&f=json",
+ "ref_coolr_layers": "https://gis.earthdata.nasa.gov/gis05/rest/services/Landslides/COOLR_Events_Points/FeatureServer/layers?f=json",
+ "ref_icimod_ckan": "https://rds.icimod.org/api/3/action/package_search?q=glacial%20lake&rows=5",
+ "ref_crossref_datajournal": "https://api.crossref.org/works?query.bibliographic=glacial+lake+outburst+flood&filter=issn:1866-3516,issn:2052-4463,issn:2049-6060,issn:2352-3409,issn:1866-3508&rows=3&select=DOI,title,container-title,issued,is-referenced-by-count",
+ "ref_crossref_top": "https://api.crossref.org/works?query.bibliographic=glacial+lake+outburst+flood&filter=from-pub-date:2020-01-01,type:journal-article&rows=20&select=DOI,title,container-title,issued,is-referenced-by-count",
+ "ref_datacite": "https://api.datacite.org/dois?query=%22glacial%20lake%20outburst%22&resource-type-id=dataset&page%5Bsize%5D=5",
+ "ref_openalex_ratelimit": "https://api.openalex.org/rate-limit",
+ "ref_emdat_doc": "https://doc.emdat.be/docs/",
+ "ref_rekor": "https://rekor.sigstore.dev/api/v1/log",
 }
 out = {}
+import os
+ONLY = os.environ.get("SURVEY_ONLY", "")
 for k, u in C.items():
+    if ONLY and not k.startswith(ONLY): continue
     t = time.time(); r = {"url": u}
     try:
         req = urllib.request.Request(u, headers=UA)

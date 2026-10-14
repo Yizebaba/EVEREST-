@@ -5,6 +5,7 @@ on:
   workflow_dispatch:
     inputs:
       task: { description: "survey / scan / venues", default: "scan" }
+      only: { description: "survey 只测这个前缀的来源（可空）", default: "" }
   schedule:
     - cron: "17 * * * *"
     - cron: "41 2 * * *"   # 每天一次：增量补齐 281 灾种的期刊排名（OpenAlex 额度按天）
@@ -25,6 +26,7 @@ jobs:
       - name: Run
         env:
           TASK: ${{ github.event.inputs.task || (github.event.schedule == '41 2 * * *' && 'venues') || 'scan' }}
+          SURVEY_ONLY: ${{ github.event.inputs.only }}
           OPENALEX_API_KEY: ${{ secrets.OPENALEX_API_KEY }}
           FIRMS_MAP_KEY: ${{ secrets.FIRMS_MAP_KEY }}
           CF_RADAR_TOKEN: ${{ secrets.CF_RADAR_TOKEN }}
