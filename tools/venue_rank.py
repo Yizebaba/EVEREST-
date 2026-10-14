@@ -65,7 +65,7 @@ QUERY = {"MH0204": "sand haze", "MH0307": "extratropical cyclone", "MH0308": "su
          "TL0210": "water supply interruption", "TL0214": "sewer overflow", "TL0302": "environmental pollution", "TL0305": "fire disaster",
          "TL0502": "solid waste", "TL0507": "e-waste", "TL0602": "radioactive contamination", "TL0603": "uranium mining",
          "SO0101": "armed conflict", "SO0102": "insurgency", "SO0201": "unexploded ordnance", "SO0202": "conflict pollution", "SO0301": "violence",
-         "SO0302": "crowd crush", "MH0203": "haze pollution", "MH0303": "gale wind", "MH0306": "cyclone disaster", "MH0509": "atmospheric icing"}
+         "SO0302": "crowd crush", "MH0203": "haze pollution", "MH0303": "gale wind", "MH0306": "cyclone disaster", "MH0509": "atmospheric icing", "MH0403": "blizzard snowstorm"}
 
 
 def term(code):
@@ -141,7 +141,8 @@ def one(h):
 
 old = {}
 if PREV and os.path.exists(PREV):
-    try: old = {h["code"]: h for h in json.load(open(PREV))["hazards"] if h.get("dp_sort") == "relevance" and not h.get("err")}
+    try: old = {h["code"]: h for h in json.load(open(PREV))["hazards"] if h.get("dp_sort") == "relevance" and not h.get("err")
+           and h.get("query") == (lambda q: f'"{q}"' if " " in q else q)(term(h["code"]))}   # 检索词改过的重查
     except Exception as e: print("prev unreadable", e)
 todo = [h for h in HIPS if h["code"] not in old]
 print(f"已有 {len(old)}，待查 {len(todo)}，密钥 {'有' if KEY else '无'}", flush=True)
