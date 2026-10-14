@@ -34,6 +34,8 @@ def yt_live():
     cams = {}
     try:
         t = get(f"https://www.youtube.com/channel/{CH}/streams")
+        print("streams page", len(t), t.count("videoRenderer"), t.count("LIVE_NOW"), t[:120].replace("\n", " "))
+        i = t.find("LIVE_NOW"); print("ctx", t[max(0, i - 1500):i + 200].replace("\n", " ")[:1700] if i >= 0 else "-")
         for blk in re.split(r'"videoRenderer":', t)[1:]:
             blk = blk[:6000]
             vid = re.search(r'"videoId":"([\w-]{11})"', blk)
@@ -43,6 +45,8 @@ def yt_live():
     except Exception as e: print("streams", e)
     try:
         t = get(f"https://www.youtube.com/channel/{CH}/live")
+        i = t.find('"videoDetails"'); print("live page", len(t), "videoDetails at", i, t[i:i + 400].replace("\n", " ") if i >= 0 else "-")
+        j = t.find('"isLive'); print("isLive ctx", t[j - 50:j + 80] if j >= 0 else "-")
         m = re.search(r'"videoDetails":\{"videoId":"([\w-]{11})","title":"((?:[^"\\]|\\.){3,200})"', t)
         if m and re.search(r'"isLive":true', t[m.start():m.start() + 4000]): cams.setdefault(m.group(1), _unesc(m.group(2)))
     except Exception as e: print("live", e)
