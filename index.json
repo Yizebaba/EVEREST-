@@ -321,7 +321,7 @@
      "file": "events/archive/bipad-gorkha-2026-10-11_4acc0bcbe0c0.json",
      "ots": "events/archive/bipad-gorkha-2026-10-11_4acc0bcbe0c0.json.ots",
      "stamped": "2026-10-14T15:28:11Z",
-     "status": "pending",
+     "status": "confirmed",
      "err": null,
      "tsa": [
       {
@@ -359,6 +359,53 @@
       "failed": [],
       "why": {},
       "at": "2026-10-14T15:38:08Z"
+     },
+     "bitcoin_block": 971422,
+     "confirmed_checked": "2026-10-14T16:33:11Z"
+    },
+    {
+     "sha256": "27f36d5429692cb708e096dca31d2c0f5ee36db393a42c74972d0acc467995f0",
+     "file": "events/archive/bipad-gorkha-2026-10-11_27f36d542969.json",
+     "ots": "events/archive/bipad-gorkha-2026-10-11_27f36d542969.json.ots",
+     "stamped": "2026-10-14T16:33:11Z",
+     "status": "pending",
+     "err": null,
+     "tsa": [
+      {
+       "tsa": "FreeTSA",
+       "file": "events/archive/bipad-gorkha-2026-10-11_27f36d542969.json.FreeTSA.tsr",
+       "time": "Oct 14 16:34:59 2026 GMT"
+      },
+      {
+       "tsa": "DigiCert",
+       "file": "events/archive/bipad-gorkha-2026-10-11_27f36d542969.json.DigiCert.tsr",
+       "time": "Oct 14 16:35:00 2026 GMT"
+      }
+     ],
+     "sigstore": {
+      "file": "events/archive/bipad-gorkha-2026-10-11_27f36d542969.json.sigstore.json",
+      "identity": "https://github.com/Yizebaba/EVEREST-/.github/workflows/evidence.yml@refs/heads/events",
+      "rekor_log_index": "3252203420",
+      "self_verified": true,
+      "rekor": "https://search.sigstore.dev/?logIndex=3252203420"
+     },
+     "verify": {
+      "checks": {
+       "sha256_python": true,
+       "sha256_coreutils": true,
+       "rfc3161_FreeTSA": true,
+       "rfc3161_DigiCert": true,
+       "sigstore_cosign": true,
+       "sigstore_python": true,
+       "ots_parse": true,
+       "prov": true,
+       "rocrate": true
+      },
+      "passed": 9,
+      "total": 9,
+      "failed": [],
+      "why": {},
+      "at": "2026-10-14T16:41:56Z"
      }
     }
    ],
@@ -371,10 +418,10 @@
    "lon": 84.63,
    "v": 23,
    "man": "4f53cda18c2baa0c",
-   "n": 65,
+   "n": 64,
    "src_n": 2,
-   "built": "2026-10-14T15:28:11Z",
-   "missing": 9
+   "built": "2026-10-14T16:33:11Z",
+   "missing": 11
   },
   "bipad-dolpa-2026-10-09": {
    "ots": [
@@ -697,7 +744,7 @@
      "file": "events/archive/bipad-dolpa-2026-10-09_d84760a66f90.json",
      "ots": "events/archive/bipad-dolpa-2026-10-09_d84760a66f90.json.ots",
      "stamped": "2026-10-14T15:28:11Z",
-     "status": "pending",
+     "status": "confirmed",
      "err": null,
      "tsa": [
       {
@@ -735,6 +782,53 @@
       "failed": [],
       "why": {},
       "at": "2026-10-14T15:38:09Z"
+     },
+     "bitcoin_block": 971423,
+     "confirmed_checked": "2026-10-14T16:33:11Z"
+    },
+    {
+     "sha256": "d050b35d1454326909d122e6d126564714c08074d465da767de4cf68a0b4cbc9",
+     "file": "events/archive/bipad-dolpa-2026-10-09_d050b35d1454.json",
+     "ots": "events/archive/bipad-dolpa-2026-10-09_d050b35d1454.json.ots",
+     "stamped": "2026-10-14T16:33:11Z",
+     "status": "pending",
+     "err": null,
+     "tsa": [
+      {
+       "tsa": "FreeTSA",
+       "file": "events/archive/bipad-dolpa-2026-10-09_d050b35d1454.json.FreeTSA.tsr",
+       "time": "Oct 14 16:36:10 2026 GMT"
+      },
+      {
+       "tsa": "DigiCert",
+       "file": "events/archive/bipad-dolpa-2026-10-09_d050b35d1454.json.DigiCert.tsr",
+       "time": "Oct 14 16:36:10 2026 GMT"
+      }
+     ],
+     "sigstore": {
+      "file": "events/archive/bipad-dolpa-2026-10-09_d050b35d1454.json.sigstore.json",
+      "identity": "https://github.com/Yizebaba/EVEREST-/.github/workflows/evidence.yml@refs/heads/events",
+      "rekor_log_index": "3252218222",
+      "self_verified": true,
+      "rekor": "https://search.sigstore.dev/?logIndex=3252218222"
+     },
+     "verify": {
+      "checks": {
+       "sha256_python": true,
+       "sha256_coreutils": true,
+       "rfc3161_FreeTSA": true,
+       "rfc3161_DigiCert": true,
+       "sigstore_cosign": true,
+       "sigstore_python": true,
+       "ots_parse": true,
+       "prov": true,
+       "rocrate": true
+      },
+      "passed": 9,
+      "total": 9,
+      "failed": [],
+      "why": {},
+      "at": "2026-10-14T16:41:57Z"
      }
     }
    ],
@@ -749,7 +843,7 @@
    "man": "4f53cda18c2baa0c",
    "n": 62,
    "src_n": 1,
-   "built": "2026-10-14T15:28:11Z",
+   "built": "2026-10-14T16:33:11Z",
    "missing": 11
   },
   "bipad-manang-2026-09-27": {
@@ -1605,7 +1699,7 @@
      "file": "events/archive/hz-bipad-i-95744_7c70b176ef4f.json",
      "ots": "events/archive/hz-bipad-i-95744_7c70b176ef4f.json.ots",
      "stamped": "2026-10-14T15:28:11Z",
-     "status": "pending",
+     "status": "confirmed",
      "err": null,
      "tsa": [
       {
@@ -1643,6 +1737,53 @@
       "failed": [],
       "why": {},
       "at": "2026-10-14T15:38:10Z"
+     },
+     "bitcoin_block": 971423,
+     "confirmed_checked": "2026-10-14T16:33:11Z"
+    },
+    {
+     "sha256": "cc7883376b05e473788d44d3442120f302e7703eb3168dc62db523bdaf2b5f27",
+     "file": "events/archive/hz-bipad-i-95744_cc7883376b05.json",
+     "ots": "events/archive/hz-bipad-i-95744_cc7883376b05.json.ots",
+     "stamped": "2026-10-14T16:33:11Z",
+     "status": "pending",
+     "err": null,
+     "tsa": [
+      {
+       "tsa": "FreeTSA",
+       "file": "events/archive/hz-bipad-i-95744_cc7883376b05.json.FreeTSA.tsr",
+       "time": "Oct 14 16:37:46 2026 GMT"
+      },
+      {
+       "tsa": "DigiCert",
+       "file": "events/archive/hz-bipad-i-95744_cc7883376b05.json.DigiCert.tsr",
+       "time": "Oct 14 16:37:46 2026 GMT"
+      }
+     ],
+     "sigstore": {
+      "file": "events/archive/hz-bipad-i-95744_cc7883376b05.json.sigstore.json",
+      "identity": "https://github.com/Yizebaba/EVEREST-/.github/workflows/evidence.yml@refs/heads/events",
+      "rekor_log_index": "3252239838",
+      "self_verified": true,
+      "rekor": "https://search.sigstore.dev/?logIndex=3252239838"
+     },
+     "verify": {
+      "checks": {
+       "sha256_python": true,
+       "sha256_coreutils": true,
+       "rfc3161_FreeTSA": true,
+       "rfc3161_DigiCert": true,
+       "sigstore_cosign": true,
+       "sigstore_python": true,
+       "ots_parse": true,
+       "prov": true,
+       "rocrate": true
+      },
+      "passed": 9,
+      "total": 9,
+      "failed": [],
+      "why": {},
+      "at": "2026-10-14T16:41:58Z"
      }
     }
    ],
@@ -1657,7 +1798,7 @@
    "man": "4f53cda18c2baa0c",
    "n": 44,
    "src_n": 1,
-   "built": "2026-10-14T15:28:11Z",
+   "built": "2026-10-14T16:33:11Z",
    "missing": 13
   },
   "hz-bipad-i-95688": {
@@ -1871,7 +2012,7 @@
      "file": "events/archive/hz-bipad-i-95688_a9ce9082524c.json",
      "ots": "events/archive/hz-bipad-i-95688_a9ce9082524c.json.ots",
      "stamped": "2026-10-14T15:28:11Z",
-     "status": "pending",
+     "status": "confirmed",
      "err": null,
      "tsa": [
       {
@@ -1909,6 +2050,53 @@
       "failed": [],
       "why": {},
       "at": "2026-10-14T15:38:12Z"
+     },
+     "bitcoin_block": 971423,
+     "confirmed_checked": "2026-10-14T16:33:11Z"
+    },
+    {
+     "sha256": "51f211f71b4641be6e9aea0a24ec72ab319ef95520926936c7261c2185c4d6e7",
+     "file": "events/archive/hz-bipad-i-95688_51f211f71b46.json",
+     "ots": "events/archive/hz-bipad-i-95688_51f211f71b46.json.ots",
+     "stamped": "2026-10-14T16:33:11Z",
+     "status": "pending",
+     "err": null,
+     "tsa": [
+      {
+       "tsa": "FreeTSA",
+       "file": "events/archive/hz-bipad-i-95688_51f211f71b46.json.FreeTSA.tsr",
+       "time": "Oct 14 16:39:19 2026 GMT"
+      },
+      {
+       "tsa": "DigiCert",
+       "file": "events/archive/hz-bipad-i-95688_51f211f71b46.json.DigiCert.tsr",
+       "time": "Oct 14 16:39:19 2026 GMT"
+      }
+     ],
+     "sigstore": {
+      "file": "events/archive/hz-bipad-i-95688_51f211f71b46.json.sigstore.json",
+      "identity": "https://github.com/Yizebaba/EVEREST-/.github/workflows/evidence.yml@refs/heads/events",
+      "rekor_log_index": "3252256571",
+      "self_verified": true,
+      "rekor": "https://search.sigstore.dev/?logIndex=3252256571"
+     },
+     "verify": {
+      "checks": {
+       "sha256_python": true,
+       "sha256_coreutils": true,
+       "rfc3161_FreeTSA": true,
+       "rfc3161_DigiCert": true,
+       "sigstore_cosign": true,
+       "sigstore_python": true,
+       "ots_parse": true,
+       "prov": true,
+       "rocrate": true
+      },
+      "passed": 9,
+      "total": 9,
+      "failed": [],
+      "why": {},
+      "at": "2026-10-14T16:41:59Z"
      }
     }
    ],
@@ -1923,7 +2111,7 @@
    "man": "4f53cda18c2baa0c",
    "n": 61,
    "src_n": 1,
-   "built": "2026-10-14T15:28:11Z",
+   "built": "2026-10-14T16:33:11Z",
    "missing": 11
   },
   "hz-bipad-i-95623": {
@@ -2137,7 +2325,7 @@
      "file": "events/archive/hz-bipad-i-95623_5c9891cc84b0.json",
      "ots": "events/archive/hz-bipad-i-95623_5c9891cc84b0.json.ots",
      "stamped": "2026-10-14T15:28:11Z",
-     "status": "pending",
+     "status": "confirmed",
      "err": null,
      "tsa": [
       {
@@ -2175,6 +2363,53 @@
       "failed": [],
       "why": {},
       "at": "2026-10-14T15:38:13Z"
+     },
+     "bitcoin_block": 971423,
+     "confirmed_checked": "2026-10-14T16:33:11Z"
+    },
+    {
+     "sha256": "1163f473a61f382bb7ca6da36d2453399ba3f50a166ad63f6e9d8270095b0b0d",
+     "file": "events/archive/hz-bipad-i-95623_1163f473a61f.json",
+     "ots": "events/archive/hz-bipad-i-95623_1163f473a61f.json.ots",
+     "stamped": "2026-10-14T16:33:11Z",
+     "status": "pending",
+     "err": null,
+     "tsa": [
+      {
+       "tsa": "FreeTSA",
+       "file": "events/archive/hz-bipad-i-95623_1163f473a61f.json.FreeTSA.tsr",
+       "time": "Oct 14 16:40:28 2026 GMT"
+      },
+      {
+       "tsa": "DigiCert",
+       "file": "events/archive/hz-bipad-i-95623_1163f473a61f.json.DigiCert.tsr",
+       "time": "Oct 14 16:40:28 2026 GMT"
+      }
+     ],
+     "sigstore": {
+      "file": "events/archive/hz-bipad-i-95623_1163f473a61f.json.sigstore.json",
+      "identity": "https://github.com/Yizebaba/EVEREST-/.github/workflows/evidence.yml@refs/heads/events",
+      "rekor_log_index": "3252263848",
+      "self_verified": true,
+      "rekor": "https://search.sigstore.dev/?logIndex=3252263848"
+     },
+     "verify": {
+      "checks": {
+       "sha256_python": true,
+       "sha256_coreutils": true,
+       "rfc3161_FreeTSA": true,
+       "rfc3161_DigiCert": true,
+       "sigstore_cosign": true,
+       "sigstore_python": true,
+       "ots_parse": true,
+       "prov": true,
+       "rocrate": true
+      },
+      "passed": 9,
+      "total": 9,
+      "failed": [],
+      "why": {},
+      "at": "2026-10-14T16:42:00Z"
      }
     }
    ],
@@ -2189,7 +2424,7 @@
    "man": "4f53cda18c2baa0c",
    "n": 65,
    "src_n": 1,
-   "built": "2026-10-14T15:28:11Z",
+   "built": "2026-10-14T16:33:11Z",
    "missing": 14
   },
   "hz-bipad-i-95546": {
@@ -2403,7 +2638,7 @@
      "file": "events/archive/hz-bipad-i-95546_7c9cba6ecafd.json",
      "ots": "events/archive/hz-bipad-i-95546_7c9cba6ecafd.json.ots",
      "stamped": "2026-10-14T15:28:11Z",
-     "status": "pending",
+     "status": "confirmed",
      "err": null,
      "tsa": [
       {
@@ -2441,6 +2676,53 @@
       "failed": [],
       "why": {},
       "at": "2026-10-14T15:38:14Z"
+     },
+     "bitcoin_block": 971424,
+     "confirmed_checked": "2026-10-14T16:33:11Z"
+    },
+    {
+     "sha256": "d5bf411b3b358b2459683c1b566939b0615c7ff770a36795dbb20ba518502807",
+     "file": "events/archive/hz-bipad-i-95546_d5bf411b3b35.json",
+     "ots": "events/archive/hz-bipad-i-95546_d5bf411b3b35.json.ots",
+     "stamped": "2026-10-14T16:33:11Z",
+     "status": "pending",
+     "err": null,
+     "tsa": [
+      {
+       "tsa": "FreeTSA",
+       "file": "events/archive/hz-bipad-i-95546_d5bf411b3b35.json.FreeTSA.tsr",
+       "time": "Oct 14 16:41:32 2026 GMT"
+      },
+      {
+       "tsa": "DigiCert",
+       "file": "events/archive/hz-bipad-i-95546_d5bf411b3b35.json.DigiCert.tsr",
+       "time": "Oct 14 16:41:33 2026 GMT"
+      }
+     ],
+     "sigstore": {
+      "file": "events/archive/hz-bipad-i-95546_d5bf411b3b35.json.sigstore.json",
+      "identity": "https://github.com/Yizebaba/EVEREST-/.github/workflows/evidence.yml@refs/heads/events",
+      "rekor_log_index": "3252269875",
+      "self_verified": true,
+      "rekor": "https://search.sigstore.dev/?logIndex=3252269875"
+     },
+     "verify": {
+      "checks": {
+       "sha256_python": true,
+       "sha256_coreutils": true,
+       "rfc3161_FreeTSA": true,
+       "rfc3161_DigiCert": true,
+       "sigstore_cosign": true,
+       "sigstore_python": true,
+       "ots_parse": true,
+       "prov": true,
+       "rocrate": true
+      },
+      "passed": 9,
+      "total": 9,
+      "failed": [],
+      "why": {},
+      "at": "2026-10-14T16:42:02Z"
      }
     }
    ],
@@ -2455,9 +2737,9 @@
    "man": "4f53cda18c2baa0c",
    "n": 62,
    "src_n": 1,
-   "built": "2026-10-14T15:28:11Z",
+   "built": "2026-10-14T16:33:11Z",
    "missing": 8
   }
  },
- "updated": "2026-10-14T15:28:11Z"
+ "updated": "2026-10-14T16:33:11Z"
 }
