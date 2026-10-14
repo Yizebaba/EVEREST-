@@ -225,7 +225,15 @@ async function pushGitHub(env, doc, log) {
 async function pushStatus(env, log) {
   if (!env.GH_TOKEN) return false;
   const last = await getMeta(env, "gh_status_at");
-  if (last && Date.now() - Date.parse(last) < 60 * 60e3) return false;
+  if (last && Date.now() - Date.parse(last) < 60 * 60e3) {
+    // 实时快照每 10 分钟推一次到 GitHub（总览页同步任务和没装连接器的读者从这里取；以前每小时一次，最多晚两小时）
+    const lr = await getMeta(env, "gh_rt_at");
+    if (lr && Date.now() - Date.parse(lr) < 10 * 60e3) return false;
+    await setMeta(env, "gh_rt_at", nowIso());
+    const rt = await getMeta(env, "rt");
+    if (rt) log.gh_rt = await pushFile(env, "rt.json", rtPublic(JSON.parse(rt)), `rt ${nowIso().slice(0, 16)}`, log);
+    return true;
+  }
   await setMeta(env, "gh_status_at", nowIso());
   const st = await status(env);
   delete st.last_tick;
