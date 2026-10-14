@@ -30,25 +30,24 @@ def _unesc(t):
 
 
 def yt_live():
-    """频道当前在播的直播。事实依据：/streams 页里带 LIVE_NOW 标记的条目，和 /live 页播放器信息里 isLive=true 的那一个。"""
+    """频道当前在播的直播。事实依据：/live 页播放器信息里 isLive=true（“N watching now”）；/streams 页里标 LIVE 的条目。"""
     cams = {}
     try:
         t = get(f"https://www.youtube.com/channel/{CH}/streams")
-        print("streams page", len(t), t.count("videoRenderer"), t.count("LIVE_NOW"), t[:120].replace("\n", " "))
-        i = t.find("LIVE_NOW"); print("ctx", t[max(0, i - 1500):i + 200].replace("\n", " ")[:1700] if i >= 0 else "-")
-        for blk in re.split(r'"videoRenderer":', t)[1:]:
-            blk = blk[:6000]
-            vid = re.search(r'"videoId":"([\w-]{11})"', blk)
-            title = re.search(r'"title":\{"runs":\[\{"text":"((?:[^"\\]|\\.){3,200})"', blk)
-            if vid and title and "BADGE_STYLE_TYPE_LIVE_NOW" in blk:
-                cams[vid.group(1)] = _unesc(title.group(1))
+        parts = t.split('"videoId":"')
+        for k in range(1, len(parts)):
+            vid = parts[k][:11]; blk = parts[k][:5000]
+            if vid in cams: continue
+            if re.search(r'"style":"LIVE"|BADGE_STYLE_TYPE_LIVE_NOW|"label":"LIVE"', blk):
+                m = re.search(r'"title":\{"runs":\[\{"text":"((?:[^"\\]|\\.){3,200})"', blk) or re.search(r'"title":\{"content":"((?:[^"\\]|\\.){3,200})"', blk) or re.search(r'"accessibilityText":"((?:[^"\\]|\\.){3,200})"', blk)
+                if m: cams[vid] = _unesc(m.group(1))
+        print("streams live items:", len(cams))
     except Exception as e: print("streams", e)
     try:
         t = get(f"https://www.youtube.com/channel/{CH}/live")
-        i = t.find('"videoDetails"'); print("live page", len(t), "videoDetails at", i, t[i:i + 400].replace("\n", " ") if i >= 0 else "-")
-        j = t.find('"isLive'); print("isLive ctx", t[j - 50:j + 80] if j >= 0 else "-")
-        m = re.search(r'"videoDetails":\{"videoId":"([\w-]{11})","title":"((?:[^"\\]|\\.){3,200})"', t)
-        if m and re.search(r'"isLive":true', t[m.start():m.start() + 4000]): cams.setdefault(m.group(1), _unesc(m.group(2)))
+        vid = re.search(r'<link rel="canonical" href="https://www\.youtube\.com/watch\?v=([\w-]{11})"', t) or re.search(r'"videoId":"([\w-]{11})"', t)
+        ttl = re.search(r'"playerOverlayVideoDetailsRenderer":\{"title":\{"simpleText":"((?:[^"\\]|\\.){3,200})"', t)
+        if vid and ttl and re.search(r'"isLive":true', t): cams.setdefault(vid.group(1), _unesc(ttl.group(1)))
     except Exception as e: print("live", e)
     out = []
     for vid, title in cams.items():
