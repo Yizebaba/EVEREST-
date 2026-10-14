@@ -23,7 +23,7 @@ import urllib.request, urllib.parse
 UA = {"user-agent": "everest-evidence (github.com/Yizebaba/EVEREST-)"}
 EVN = (27.9587, 86.8117)
 OUT = "events"
-VERSION = 16   # 改了证据包内容时加 1，所有包会重算一次
+VERSION = 17   # 改了证据包内容时加 1，所有包会重算一次
 NOW = datetime.now(timezone.utc)
 
 # 尼泊尔区县 → IODA 地区（旧 14 区）
@@ -443,7 +443,73 @@ def ots_stamp(eid, path, idx_entry):
     r = subprocess.run(["ots", "stamp", snap], capture_output=True, text=True, timeout=120)
     ok = os.path.exists(snap + ".ots")
     stamps.append({"sha256": h, "file": f"events/archive/{os.path.basename(snap)}", "ots": f"events/archive/{os.path.basename(snap)}.ots",
-                   "stamped": iso(NOW), "status": "pending" if ok else "failed", "err": None if ok else (r.stderr or r.stdout)[-200:]})
+                   "stamped": iso(NOW), "status": "pending" if ok else "failed", "err": None if ok else (r.stderr or r.stdout)[-200:],
+                   "tsa": tsa_stamp(snap)})
+
+
+TSA = {"FreeTSA": "https://freetsa.org/tsr", "DigiCert": "http://timestamp.digicert.com"}
+
+
+def tsa_stamp(path):
+    """RFC 3161 可信时间戳（两家时间戳机构，几秒内返回；和比特币时间戳互为备份）。存 <快照>.<机构>.tsr，返回机构签出的时间。
+    核对：openssl ts -verify -in 快照.FreeTSA.tsr -data 快照 -CAfile freetsa_cacert.pem -untrusted freetsa_tsa.crt"""
+    import subprocess
+    out = []
+    q = path + ".tsq"
+    subprocess.run(["openssl", "ts", "-query", "-data", path, "-sha256", "-cert", "-no_nonce", "-out", q], capture_output=True, timeout=30)
+    if not os.path.exists(q): return out
+    for name, url in TSA.items():
+        try:
+            rep = get(url, data=open(q, "rb").read(), raw=True, timeout=30, headers={"content-type": "application/timestamp-query"})
+            f = f"{path}.{name}.tsr"; open(f, "wb").write(rep)
+            txt = subprocess.run(["openssl", "ts", "-reply", "-in", f, "-text"], capture_output=True, text=True, timeout=30).stdout
+            m = re.search(r"Time stamp: (.+)", txt)
+            out.append({"tsa": name, "file": "events/archive/" + os.path.basename(f), "time": m.group(1).strip() if m else None})
+        except Exception as e:
+            out.append({"tsa": name, "err": str(e)[:80]})
+    os.remove(q)
+    return out
+
+
+def prov_export(pack):
+    """W3C PROV-JSON：每条证据是一个实体，归属到发布它的来源（代理），带生成时间；证据包由这些实体派生。"""
+    eid = pack["id"]; doc = {"prefix": {"ev": "https://github.com/Yizebaba/EVEREST-/blob/events/events/", "src": "https://github.com/Yizebaba/EVEREST-/source/", "everest": "https://github.com/Yizebaba/EVEREST-#"},
+                            "entity": {}, "agent": {}, "activity": {}, "wasAttributedTo": {}, "wasDerivedFrom": {}, "wasGeneratedBy": {}}
+    act = f"ev:{eid}#build-{pack['built']}"
+    doc["activity"][act] = {"prov:startTime": pack["built"], "prov:type": "EVEREST evidence pack build", "prov:label": f"evidence_pack.py v{VERSION}"}
+    doc["entity"][f"ev:{eid}.json"] = {"prov:type": "EvidencePack", "prov:label": pack.get("title"), "everest:hips": " ".join(pack.get("hips") or [])}
+    doc["wasGeneratedBy"]["_:g0"] = {"prov:entity": f"ev:{eid}.json", "prov:activity": act, "prov:time": pack["built"]}
+    for k, it in enumerate(pack.get("timeline", [])):
+        import hashlib
+        e = f"ev:{eid}.json_item{k}"; a = "src:s" + hashlib.sha1(it["src"].encode()).hexdigest()[:10]
+        doc["entity"][e] = {"everest:kind": it["kind"], "prov:label": it.get("text_en") or it["text"], "prov:generatedAtTime": it["t"], **({"prov:location": it["url"]} if it.get("url") else {})}
+        doc["agent"].setdefault(a, {"prov:type": "prov:Organization", "prov:label": it["src"]})
+        doc["wasAttributedTo"][f"_:a{k}"] = {"prov:entity": e, "prov:agent": a}
+        doc["wasDerivedFrom"][f"_:d{k}"] = {"prov:generatedEntity": f"ev:{eid}.json", "prov:usedEntity": e}
+    json.dump(doc, open(os.path.join(OUT, eid + ".prov.json"), "w"), ensure_ascii=False, indent=1)
+
+
+def rocrate_export(pack, idx_entry):
+    """RO-Crate 1.1 描述：把证据包、信号图、PROV、存证快照和时间戳文件打成一个标准研究对象（以后可整包存 Zenodo 拿 DOI）。"""
+    eid = pack["id"]; base = "https://raw.githubusercontent.com/Yizebaba/EVEREST-/events/"
+    parts = [{"@id": base + f"events/{eid}.json", "@type": "File", "name": "证据包（时间线）", "encodingFormat": "application/json"},
+             {"@id": base + f"events/{eid}.prov.json", "@type": "File", "name": "W3C PROV 溯源记录", "encodingFormat": "application/json", "conformsTo": {"@id": "https://www.w3.org/TR/prov-json/"}}]
+    if pack.get("png"): parts.append({"@id": base + f"events/{pack['png']}", "@type": "File", "name": "地震台信号图", "encodingFormat": "image/png"})
+    for st in (idx_entry.get("ots") or [])[-3:]:
+        parts.append({"@id": base + st["file"], "@type": "File", "name": "不可变快照", "sha256": st["sha256"], "dateCreated": st["stamped"]})
+        parts.append({"@id": base + st["ots"], "@type": "File", "name": "OpenTimestamps 证明", "encodingFormat": "application/vnd.opentimestamps"})
+        for t in st.get("tsa") or []:
+            if t.get("file"): parts.append({"@id": base + t["file"], "@type": "File", "name": f"RFC 3161 时间戳（{t['tsa']}）", "encodingFormat": "application/timestamp-reply"})
+    crate = {"@context": "https://w3id.org/ro/crate/1.1/context", "@graph": [
+        {"@id": "ro-crate-metadata.json", "@type": "CreativeWork", "conformsTo": {"@id": "https://w3id.org/ro/crate/1.1"}, "about": {"@id": "./"}},
+        {"@id": "./", "@type": "Dataset", "name": f"EVEREST 事件证据包：{pack.get('title')}", "description": pack.get("note"), "datePublished": pack["built"],
+         "license": {"@id": "https://creativecommons.org/licenses/by/4.0/"}, "keywords": pack.get("hips") or [], "spatialCoverage": {"@id": "#place"},
+         "temporalCoverage": pack["t"], "publisher": {"@id": "https://github.com/Yizebaba/EVEREST-"}, "hasPart": [{"@id": p["@id"]} for p in parts]},
+        {"@id": "#place", "@type": "Place", "name": pack.get("place") or "", "geo": {"@id": "#geo"}},
+        {"@id": "#geo", "@type": "GeoCoordinates", "latitude": pack["lat"], "longitude": pack["lon"]},
+        {"@id": "https://github.com/Yizebaba/EVEREST-", "@type": "Organization", "name": "EVEREST"}] + parts}
+    os.makedirs(os.path.join(OUT, "crates", eid), exist_ok=True)
+    json.dump(crate, open(os.path.join(OUT, "crates", eid, "ro-crate-metadata.json"), "w"), ensure_ascii=False, indent=1)
 
 
 def ots_upgrade(idx):
@@ -958,9 +1024,17 @@ def main():
                                    "v": VERSION, "man": manual_sig(ev["id"]), "n": len(pack["timeline"]), "src_n": len(ev.get("src", [])), "built": pack["built"],
                                    "missing": sum(1 for i in pack["timeline"] if i["kind"] == "MISSING")}
         try:
+            prov_export(pack)
+        except Exception as e:
+            print("PROV 导出失败：", e)
+        try:
             ots_stamp(ev["id"], os.path.join(OUT, ev["id"] + ".json"), idx["events"][ev["id"]])
         except Exception as e:
             print("OpenTimestamps 失败：", e)
+        try:
+            rocrate_export(pack, idx["events"][ev["id"]])
+        except Exception as e:
+            print("RO-Crate 导出失败：", e)
     live = {e["id"] for e in evs}
     for k in list(idx["events"]):
         if k not in live:   # 已并入别的事件或超过 60 天
