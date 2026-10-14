@@ -4,7 +4,7 @@ name: hazards
 on:
   workflow_dispatch:
     inputs:
-      task: { description: "survey 或 scan", default: "scan" }
+      task: { description: "survey / scan / venues", default: "scan" }
   schedule:
     - cron: "17 * * * *"
 permissions:
@@ -34,7 +34,9 @@ jobs:
         run: |
           mkdir -p out; git fetch -q origin events || true
           set +e
-          if [ "$TASK" = "survey" ]; then python3 tools/source_survey.py out/survey.json > out/run.log 2>&1; else python3 tools/hazard_scan.py out > out/run.log 2>&1; fi
+          if [ "$TASK" = "survey" ]; then python3 tools/source_survey.py out/survey.json > out/run.log 2>&1
+          elif [ "$TASK" = "venues" ]; then python3 tools/venue_rank.py out/venues.json > out/run.log 2>&1
+          else python3 tools/hazard_scan.py out > out/run.log 2>&1; fi
           echo "exit=$?" >> out/run.log; tail -40 out/run.log
       - name: Save to events branch
         run: |
