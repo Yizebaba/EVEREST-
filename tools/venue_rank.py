@@ -6,7 +6,7 @@
   2. 取论文数最多的 25 个来源里、该主题论文不少于 5 篇的期刊或会议（排除 Zenodo 这类存储库），
      再去掉综合性大刊（名单见 MULTI，如 PLoS ONE、Scientific Reports、Nature Communications），按来源整体的 h 指数排序取前三
      → “该灾种的专业顶刊顶会”；综合性大刊单独列出（multidisciplinary）；
-  3. 同一检索词下，发表在数据期刊（ESSD、Scientific Data、Geoscience Data Journal、Data in Brief）的论文按被引取前三 → 可引用的数据论文；
+  3. 同一检索词下，发表在数据期刊（ESSD、Scientific Data、Geoscience Data Journal、Data in Brief）的论文按检索相关度取前三 → 可引用的数据论文；
   4. 同一检索词下，2020 年以来被引最多的三篇论文 → 方法参考。
 输出：venues.json
 增量运行：OpenAlex 按额度计费（无密钥每天约 100 次检索，免费密钥约 1000 次；每个灾种 3 次检索）。
@@ -117,7 +117,7 @@ def src_batch(ids):
 def one(h):
     c = h["code"]; q = term(c)
     q = f'"{q}"' if " " in q else q
-    r = {"code": c, "label": h["label"], "label_zh": h["label_zh"], "family": h["family"], "family_zh": h["family_zh"], "cluster": h["cluster"], "query": q}
+    r = {"dp_sort": "relevance", "code": c, "label": h["label"], "label_zh": h["label_zh"], "family": h["family"], "family_zh": h["family_zh"], "cluster": h["cluster"], "query": q}
     try:
         g = get("https://api.openalex.org/works?" + urllib.parse.urlencode({"search": q, "filter": "from_publication_date:2020-01-01,type:article|review", "group_by": "primary_location.source.id", "per-page": 25}))
         r["papers_2020"] = g.get("meta", {}).get("count")
@@ -130,7 +130,7 @@ def one(h):
         r["multidisciplinary"] = [v for v in vs if (v.get("name") or "").lower() in MULTI][:3]; r["most_active"] = sorted(vs, key=lambda v: -v["n"])[:3]
         r["data_papers"] = [{"title": w["display_name"], "doi": w.get("doi"), "year": w.get("publication_year"), "cites": w.get("cited_by_count"),
                              "journal": ((w.get("primary_location") or {}).get("source") or {}).get("display_name")}
-                            for w in works(q, "primary_location.source.issn:1866-3516|1866-3508|2052-4463|2049-6060|2352-3409", n=3, select="id,doi,display_name,publication_year,cited_by_count,primary_location")]
+                            for w in works(q, "primary_location.source.issn:1866-3516|1866-3508|2052-4463|2049-6060|2352-3409", sort="relevance_score:desc", n=3, select="id,doi,display_name,publication_year,cited_by_count,primary_location")]
         r["top_papers"] = [{"title": w["display_name"], "doi": w.get("doi"), "year": w.get("publication_year"), "cites": w.get("cited_by_count"),
                             "venue": ((w.get("primary_location") or {}).get("source") or {}).get("display_name")} for w in works(q, "from_publication_date:2020-01-01,type:article|review", n=3)]
     except Exception as e:
@@ -141,7 +141,7 @@ def one(h):
 
 old = {}
 if PREV and os.path.exists(PREV):
-    try: old = {h["code"]: h for h in json.load(open(PREV))["hazards"] if "multidisciplinary" in h and not h.get("err")}
+    try: old = {h["code"]: h for h in json.load(open(PREV))["hazards"] if h.get("dp_sort") == "relevance" and not h.get("err")}
     except Exception as e: print("prev unreadable", e)
 todo = [h for h in HIPS if h["code"] not in old]
 print(f"已有 {len(old)}，待查 {len(todo)}，密钥 {'有' if KEY else '无'}", flush=True)

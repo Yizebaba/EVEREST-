@@ -90,6 +90,15 @@
 
 刚生成的存证显示“等待区块确认”，通常几小时后由证据包流程自动升级为“已上链”。
 
+**RFC 3161 时间戳**（证据包 v17 起，和比特币时间戳互为备份，几秒内就有）：同一快照旁边还有 `.FreeTSA.tsr` 和 `.DigiCert.tsr`。用 FreeTSA 的核对：
+
+```bash
+curl -sO https://freetsa.org/files/cacert.pem && curl -sO https://freetsa.org/files/tsa.crt
+openssl ts -verify -in 快照.json.FreeTSA.tsr -data 快照.json -CAfile cacert.pem -untrusted tsa.crt   # 显示 Verification: OK
+```
+
+每个证据包还导出 W3C PROV 溯源记录（`events/<编号>.prov.json`）和 RO-Crate 描述（`events/crates/<编号>/ro-crate-metadata.json`），任何标准工具都能读。思路和出处见 [`EVIDENCE_CHAIN_RESEARCH.md`](EVIDENCE_CHAIN_RESEARCH.md)。
+
 <a name="upload"></a>
 ## 人工证据
 

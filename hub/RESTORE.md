@@ -221,3 +221,12 @@
 - docs/HAZARDS_281.md 改为实测结果（tools/hips_report.py 生成），旧的手写状态作废。
 - 页面 Version 61：证据链加“灾种 281”子页（按 8 大类、按状态筛选、数据源实测表）；数据随 live/fs 的 hz 和连接器 everest_events 更新。
 - 复原：页面回退 Version 60；删除 hazards.yml 即停止扫描；证据包回退 VERSION 14。
+
+---
+# 第三十三次改动（证据链学术方法、281 灾种期刊排名、ACLED 新认证）
+- 证据包 v17：每个快照加 RFC 3161 时间戳（FreeTSA、DigiCert，存 .tsr）；导出 W3C PROV-JSON（events/<编号>.prov.json）和 RO-Crate 1.1（events/crates/<编号>/ro-crate-metadata.json），均用 prov、rocrate 库校验通过。
+- 证据包 v18：按灾害编码附该灾种的数据论文和专业期刊（references 字段、RO-Crate citation），只作背景参考。
+- tools/venue_rank.py + tools/venues_report.py：OpenAlex 查 281 灾种的专业顶刊前三和数据论文；hazards.yml 每天 02:41 UTC 增量续跑（task=venues），结果 events 分支 hazards/venues.json、HAZARD_VENUES.md、venues.log。可选密钥 OPENALEX_API_KEY。
+- hazard_scan：ACLED 改为账号认证（ACLED_EMAIL、ACLED_PASSWORD）。
+- 文档：docs/EVIDENCE_CHAIN_RESEARCH.md、docs/HAZARD_VENUES.md；README、HUB_GUIDE 加 RFC 3161 核对方法。
+- 复原：证据包回退 VERSION 16（v17 之前的提交）；删 hazards.yml 里 "41 2 * * *" 那行即停止期刊排名；页面未改（仍 Version 61）。

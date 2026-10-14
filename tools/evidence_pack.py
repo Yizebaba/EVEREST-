@@ -23,7 +23,7 @@ import urllib.request, urllib.parse
 UA = {"user-agent": "everest-evidence (github.com/Yizebaba/EVEREST-)"}
 EVN = (27.9587, 86.8117)
 OUT = "events"
-VERSION = 17   # 改了证据包内容时加 1，所有包会重算一次
+VERSION = 18   # 改了证据包内容时加 1，所有包会重算一次
 NOW = datetime.now(timezone.utc)
 
 # 尼泊尔区县 → IODA 地区（旧 14 区）
@@ -504,7 +504,10 @@ def rocrate_export(pack, idx_entry):
         {"@id": "ro-crate-metadata.json", "@type": "CreativeWork", "conformsTo": {"@id": "https://w3id.org/ro/crate/1.1"}, "about": {"@id": "./"}},
         {"@id": "./", "@type": "Dataset", "name": f"EVEREST 事件证据包：{pack.get('title')}", "description": pack.get("note"), "datePublished": pack["built"],
          "license": {"@id": "https://creativecommons.org/licenses/by/4.0/"}, "keywords": pack.get("hips") or [], "spatialCoverage": {"@id": "#place"},
-         "temporalCoverage": pack["t"], "publisher": {"@id": "https://github.com/Yizebaba/EVEREST-"}, "hasPart": [{"@id": p["@id"]} for p in parts]},
+         "temporalCoverage": pack["t"], "publisher": {"@id": "https://github.com/Yizebaba/EVEREST-"}, "hasPart": [{"@id": p["@id"]} for p in parts],
+         "citation": [{"@id": d} for d in dict.fromkeys(x["doi"] for r in pack.get("references", []) for x in r["data_papers"] if x.get("doi"))]},
+        *{x["doi"]: {"@id": x["doi"], "@type": "ScholarlyArticle", "name": x.get("title"), "datePublished": str(x.get("year") or "")}
+          for r in pack.get("references", []) for x in r["data_papers"] if x.get("doi")}.values(),
         {"@id": "#place", "@type": "Place", "name": pack.get("place") or "", "geo": {"@id": "#geo"}},
         {"@id": "#geo", "@type": "GeoCoordinates", "latitude": pack["lat"], "longitude": pack["lon"]},
         {"@id": "https://github.com/Yizebaba/EVEREST-", "@type": "Organization", "name": "EVEREST"}] + parts}
@@ -938,6 +941,28 @@ def vantor(ev, t0, items, pack):
 GDACS_HIPS = {"EQ": "GH0101", "FL": "MH0600", "TC": "MH0309", "DR": "MH0401", "WF": "EN0205", "VO": "GH0200"}
 
 
+_VEN = None
+
+
+def references(pack):
+    """按事件的灾害编码，从 hazards/venues.json（281 灾种期刊排名，OpenAlex）挂上该灾种的数据论文和专业期刊，作为背景引用。
+    只是“这类灾害可参考的公开数据和文献”，不是这次事件的证据，不进时间线。"""
+    global _VEN
+    if _VEN is None:
+        try: _VEN = {h["code"]: h for h in json.load(open("hazards/venues.json"))["hazards"] if h and not h.get("err")}
+        except Exception: _VEN = {}
+    refs = []
+    for c in (pack.get("hips") or [])[:3]:
+        h = _VEN.get(c)
+        if not h: continue
+        refs.append({"hips": c, "hazard": h.get("label_zh"), "query": h.get("query"),
+                     "data_papers": [{k: x.get(k) for k in ("title", "doi", "journal", "year")} for x in h.get("data_papers", [])],
+                     "venues": [{"name": v.get("name"), "h": v.get("h")} for v in h.get("top_venues", [])]})
+    if refs:
+        pack["references"] = refs
+        pack["references_note"] = "该灾种可引用的公开数据论文和专业期刊（OpenAlex 自动检索，见 docs/HAZARD_VENUES.md），是背景参考，不是本次事件的证据。"
+
+
 def hips_of(ev):
     """事件的联合国减灾署 2025 灾害编码；Worker 还没补上时按编号推断。"""
     if ev.get("hips"): return ev["hips"]
@@ -976,6 +1001,10 @@ def build(ev):
     except Exception:
         traceback.print_exc()
     pack.pop("_series_evn", None); pack.pop("_series_kkn", None); pack.pop("_evn_gaps", None)
+    try:
+        references(pack)
+    except Exception:
+        traceback.print_exc()
     items.sort(key=lambda i: i["t"])
     pack["timeline"] = items; pack["built"] = iso(NOW)
     pack["note_en"] = "States only what public sources recorded and when; no attribution of cause, no prediction. A strong seismic signal only means the station recorded strong shaking at that moment."

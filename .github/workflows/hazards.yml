@@ -37,7 +37,7 @@ jobs:
           mkdir -p out; git fetch -q origin events || true
           set +e
           if [ "$TASK" = "survey" ]; then python3 tools/source_survey.py out/survey.json > out/run.log 2>&1
-          elif [ "$TASK" = "venues" ]; then git show origin/events:hazards/venues.json > prev_venues.json 2>/dev/null; python3 tools/venue_rank.py out/venues.json prev_venues.json > out/venues.log 2>&1; echo "exit=$?" >> out/venues.log; tail -40 out/venues.log; exit 0
+          elif [ "$TASK" = "venues" ]; then git show origin/events:hazards/venues.json > prev_venues.json 2>/dev/null; python3 tools/venue_rank.py out/venues.json prev_venues.json > out/venues.log 2>&1; echo "exit=$?" >> out/venues.log; python3 tools/venues_report.py out/venues.json out/HAZARD_VENUES.md >> out/venues.log 2>&1; tail -40 out/venues.log; exit 0
           else python3 tools/hazard_scan.py out > out/run.log 2>&1; fi
           echo "exit=$?" >> out/run.log; tail -40 out/run.log
       - name: Save to events branch
