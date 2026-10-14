@@ -24,17 +24,6 @@ IBTrACS 活跃气旋 ok 7
 NSIDC 海冰 ok 2 
 史密森尼火山周报 fail None HTTP Error 403: Forbidden
 GBIF 物种记录（尼泊尔） ok 2 
-新闻 RSS ok 150 
-Traceback (most recent call last):
-  File "/home/runner/work/EVEREST-/EVEREST-/tools/hazard_scan.py", line 631, in <module>
-    summary = {"updated": iso(NOW), "sources": RES, "by_state": Counter(h["state"] for h in hz),
-                                                                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/opt/hostedtoolcache/Python/3.12.15/x64/lib/python3.12/collections/__init__.py", line 607, in __init__
-    self.update(iterable, **kwds)
-  File "/opt/hostedtoolcache/Python/3.12.15/x64/lib/python3.12/collections/__init__.py", line 699, in update
-    _count_elements(self, iterable)
-  File "/home/runner/work/EVEREST-/EVEREST-/tools/hazard_scan.py", line 631, in <genexpr>
-    summary = {"updated": iso(NOW), "sources": RES, "by_state": Counter(h["state"] for h in hz),
-                                                                        ~^^^^^^^^^
-TypeError: string indices must be integers, not 'str'
-exit=1
+新闻 RSS ok 151 
+{"ok_none": 182, "local": 35, "observed": 11, "global": 53} 1830 records 10 candidates
+exit=0
