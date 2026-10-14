@@ -17,7 +17,7 @@ ISS = "https://token.actions.githubusercontent.com"
 
 def sh(*a, timeout=120):
     r = subprocess.run(list(a), capture_output=True, text=True, timeout=timeout)
-    return r.returncode, (r.stdout + r.stderr)[-300:]
+    return r.returncode, r.stdout + "\n" + r.stderr
 
 
 def fetch(url, path):
@@ -42,16 +42,20 @@ def check(eid, st):
         else:
             c, o = sh("openssl", "ts", "-verify", "-in", t["file"], "-data", f, "-CAfile", "/etc/ssl/certs/ca-certificates.crt")
         out["rfc3161_" + t["tsa"]] = c == 0 and "Verification: OK" in o
+        if not out["rfc3161_" + t["tsa"]]: out.setdefault("_why", {})["rfc3161_" + t["tsa"]] = o.strip()[-200:]
     sg = (st.get("sigstore") or {}).get("file")
     if sg and os.path.exists(sg):
         c, o = sh("cosign", "verify-blob", f, "--bundle", sg, "--certificate-identity", ID, "--certificate-oidc-issuer", ISS)
         out["sigstore_cosign"] = c == 0
+        if c: out.setdefault("_why", {})["sigstore_cosign"] = o.strip()[-200:]
         c, o = sh(sys.executable, "-m", "sigstore", "verify", "identity", "--bundle", sg, "--cert-identity", ID, "--cert-oidc-issuer", ISS, f)
         out["sigstore_python"] = c == 0
+        if c: out.setdefault("_why", {})["sigstore_python"] = o.strip()[-200:]
     if st.get("ots") and os.path.exists(st["ots"]):
         c, o = sh("ots", "info", st["ots"])
         m = re.search(r"File sha256 hash: ([0-9a-f]{64})", o)
         out["ots_parse"] = c == 0 and bool(m) and m.group(1) == st["sha256"]
+        if not out["ots_parse"]: out.setdefault("_why", {})["ots_parse"] = o.strip()[:200]
     pj = os.path.join("events", eid + ".prov.json")
     if os.path.exists(pj):
         try:
@@ -72,10 +76,10 @@ def main():
     items = list(idx.get("events", {}).items()) + ([("manual", idx["manual"])] if idx.get("manual") else [])
     for eid, e in items:
         for st in (e.get("ots") or [])[-1:]:
-            if "verify" in st: continue
-            v = check(eid, st)
+            if "verify" in st and not st["verify"].get("failed"): continue   # 已全部通过的不再核；有失败的每次重核
+            v = check(eid, st); why = v.pop("_why", {})
             ok = [k for k, x in v.items() if x is True]; bad = [k for k, x in v.items() if x is not True]
-            st["verify"] = {"checks": v, "passed": len(ok), "total": len(v), "failed": bad}
+            st["verify"] = {"checks": v, "passed": len(ok), "total": len(v), "failed": bad, "why": why, "at": __import__("time").strftime("%Y-%m-%dT%H:%M:%SZ", __import__("time").gmtime())}
             n += 1; print(eid, f"{len(ok)}/{len(v)}", "失败：" + "、".join(bad) if bad else "全部通过", flush=True)
     json.dump(idx, open(IDX, "w"), ensure_ascii=False, indent=1)
     print("核对了", n, "个新快照")
