@@ -1,144 +1,94 @@
 {
- "ref_zenodo_glof": {
-  "url": "https://zenodo.org/api/records/7330344",
+ "ref2_hma_glof_csv": {
+  "url": "https://raw.githubusercontent.com/fidelsteiner/HMAGLOFDB/main/Database/GLOFs/HMAGLOFDB.csv",
   "status": 200,
-  "bytes": 5066,
-  "ctype": "application/json",
-  "sample": "{\"created\": \"2023-05-11T10:42:34.550888+00:00\", \"modified\": \"2023-05-11T14:26:53.061077+00:00\", \"id\": 7924369, \"conceptrecid\": \"7330344\", \"doi\": \"10.5281/zenodo.7924369\", \"conceptdoi\": \"10.5281/zenodo.7330344\", \"doi_url\": \"https://doi.org/10.5281/zenodo.7924369\", \"metadata\": {\"title\": \"Glacier Lake Outburst Flood Database\", \"doi\": \"10.5281/zenodo.7924369\", \"publication_date\": \"2023-05-11\", \"description\": \"<p>This&nbsp;dataset is an inventory of globally occurred&nbsp;Glacier Lake Outburst Floods (GLOFs).&nbsp;Our database encompasses data from&nbsp;769&nbsp;different sources including satellite and aerial images,&nbsp;reports from local authorities,&nbsp;scientific publications, news outlets,&nbsp;workshop proceedings,&nbsp;social media posts,&nbsp;and unpublished work.</p>\\n\\n<p><strong>Files:&nbsp;</strong><br>\\n<em>glofdatabase_V3.ods</em>: Database spreadsheet (OpenOffice file)&nbsp;containing all reported GLOFs.<br>\\n<em>Parameter_Readme.ods:</em>&nbsp;Readme file describing all database parameters (i.e. columns in glofdatabase_V3.ods)&nbsp;and their units.</p>\\n\\n<p>Our database is an ongoing project&nbsp;and we offer a web-based, interactive map that grants access to the most recent state of the database (<a href=\\\"http://glofs.geoecology.uni-potsdam.de/\\\">http://glofs.geoecology.uni-potsdam.de</a>). Users can also download all previous versions of the database from this interface.</p>\", \"access_right\": \"open\", \"creators\": [{\"name\": \"Lützow, Natalie\", \"affiliation\": \"I",
-  "keys": [
-   "created",
-   "modified",
-   "id",
-   "conceptrecid",
-   "doi",
-   "conceptdoi",
-   "doi_url",
-   "metadata",
-   "title",
-   "links",
-   "updated",
-   "recid",
-   "revision",
-   "files",
-   "swh",
-   "owners",
-   "status",
-   "stats",
-   "state",
-   "submitted"
-  ],
-  "sec": 2.2
- },
- "ref_zenodo_glof_latest": {
-  "url": "https://zenodo.org/api/records/7330344/versions/latest",
-  "status": 200,
-  "bytes": 5066,
-  "ctype": "application/json",
-  "sample": "{\"created\": \"2023-05-11T10:42:34.550888+00:00\", \"modified\": \"2023-05-11T14:26:53.061077+00:00\", \"id\": 7924369, \"conceptrecid\": \"7330344\", \"doi\": \"10.5281/zenodo.7924369\", \"conceptdoi\": \"10.5281/zenodo.7330344\", \"doi_url\": \"https://doi.org/10.5281/zenodo.7924369\", \"metadata\": {\"title\": \"Glacier Lake Outburst Flood Database\", \"doi\": \"10.5281/zenodo.7924369\", \"publication_date\": \"2023-05-11\", \"description\": \"<p>This&nbsp;dataset is an inventory of globally occurred&nbsp;Glacier Lake Outburst Floods (GLOFs).&nbsp;Our database encompasses data from&nbsp;769&nbsp;different sources including satellite and aerial images,&nbsp;reports from local authorities,&nbsp;scientific publications, news outlets,&nbsp;workshop proceedings,&nbsp;social media posts,&nbsp;and unpublished work.</p>\\n\\n<p><strong>Files:&nbsp;</strong><br>\\n<em>glofdatabase_V3.ods</em>: Database spreadsheet (OpenOffice file)&nbsp;containing all reported GLOFs.<br>\\n<em>Parameter_Readme.ods:</em>&nbsp;Readme file describing all database parameters (i.e. columns in glofdatabase_V3.ods)&nbsp;and their units.</p>\\n\\n<p>Our database is an ongoing project&nbsp;and we offer a web-based, interactive map that grants access to the most recent state of the database (<a href=\\\"http://glofs.geoecology.uni-potsdam.de/\\\">http://glofs.geoecology.uni-potsdam.de</a>). Users can also download all previous versions of the database from this interface.</p>\", \"access_right\": \"open\", \"creators\": [{\"name\": \"Lützow, Natalie\", \"affiliation\": \"I",
-  "keys": [
-   "created",
-   "modified",
-   "id",
-   "conceptrecid",
-   "doi",
-   "conceptdoi",
-   "doi_url",
-   "metadata",
-   "title",
-   "links",
-   "updated",
-   "recid",
-   "revision",
-   "files",
-   "swh",
-   "owners",
-   "status",
-   "stats",
-   "state",
-   "submitted"
-  ],
-  "sec": 5.6
- },
- "ref_coolr_points": {
-  "url": "https://gis.earthdata.nasa.gov/gis05/rest/services/Landslides/COOLR_Events_Points/FeatureServer/0/query?where=1%3D1&geometry=79.5,26.3,92.5,31.5&geometryType=esriGeometryEnvelope&inSR=4326&outFields=*&resultRecordCount=3&f=json",
-  "err": "HTTP Error 404: Not Found",
+  "bytes": 451573,
+  "ctype": "application/octet-stream",
+  "sample": "GF_ID,Year_approx,Year_exact,Month,Day,Lake_name,Glacier_name,GL_ID,LakeDB_ID,G_ID,Lat_lake,Lon_lake,Elev_lake,Lat_impact,Lon_impact,Elev_impact,Impact_type,Lake_type,Transboundary,Repeat,Region_RGI,Region_HiMAP,Country,Province,River_Basin,Driver_lake,Driver_GLOF,Mechanism,Area,Volume,Discharge_water,Discharge_solid,Impact,Lives_total,Lives_male,Lives_female,Lives_disabilities,Injured_total,Injured_male,Injured_female,Injured_disabilities,Displaced_total,Displaced_male,Displaced_female,Displaced_disabilities,Livestock,Residential_destroyed,Commerical_destroyed,Residential_damaged,Commerical_damaged,Infra,Agricultural,Hydropower,Econ_damage,Sat_evidence,Ref_scientific,Ref_scientific_full,Ref_other,Remarks\n458,2013,2013,9,9,Gandukh,Gandukh,GL071128E36474N,\"2, 3, 4\",G071128E36474N,36.474746,",
   "sec": 0.2
  },
- "ref_coolr_count": {
-  "url": "https://gis.earthdata.nasa.gov/gis05/rest/services/Landslides/COOLR_Events_Points/FeatureServer/0/query?where=1%3D1&geometry=79.5,26.3,92.5,31.5&geometryType=esriGeometryEnvelope&inSR=4326&returnCountOnly=true&f=json",
+ "ref2_hma_glof_meta": {
+  "url": "https://raw.githubusercontent.com/fidelsteiner/HMAGLOFDB/main/Database/GLOFs/HMAGLOFDB_Metadata.yml",
+  "err": "HTTP Error 404: Not Found",
+  "sec": 0.1
+ },
+ "ref2_hma_glof_zenodo": {
+  "url": "https://zenodo.org/api/records/7271187/versions/latest",
+  "status": 200,
+  "bytes": 4257,
+  "ctype": "application/json",
+  "sample": "{\"created\": \"2026-01-15T13:08:03.370881+00:00\", \"modified\": \"2026-01-19T09:52:43.501930+00:00\", \"id\": 18257243, \"conceptrecid\": \"7271187\", \"doi\": \"10.5281/zenodo.18257243\", \"conceptdoi\": \"10.5281/zenodo.7271187\", \"doi_url\": \"https://doi.org/10.5281/zenodo.18257243\", \"metadata\": {\"title\": \"fidelsteiner/HMAGLOFDB: HMAGLOFDB v1.3.0\", \"doi\": \"10.5281/zenodo.18257243\", \"publication_date\": \"2026-01-15\", \"description\": \"<p>Release with events from 2025 updated as well as previously unknown past events added.</p>\", \"access_right\": \"open\", \"creators\": [{\"name\": \"Steiner, Jakob\", \"affiliation\": \"Utrecht University\", \"orcid\": \"0000-0002-0063-0067\"}, {\"name\": \"Shrestha, Finu\", \"affiliation\": \"International Centre for Integrated Mountain Development\", \"orcid\": \"0000-0002-7362-3175\"}], \"related_identifiers\": [{\"identifier\": \"https://github.com/fidelsteiner/HMAGLOFDB/tree/v1.3.0\", \"relation\": \"isSupplementTo\", \"resource_type\": \"software\", \"scheme\": \"url\"}], \"version\": \"v1.3.0\", \"custom\": {\"code:codeRepository\": \"https://github.com/fidelsteiner/HMAGLOFDB\"}, \"resource_type\": {\"title\": \"Software\", \"type\": \"software\"}, \"license\": {\"id\": \"cc-zero\"}, \"relations\": {\"version\": [{\"index\": 4, \"is_last\": true, \"parent\": {\"pid_type\": \"recid\", \"pid_value\": \"7271187\"}}]}}, \"title\": \"fidelsteiner/HMAGLOFDB: HMAGLOFDB v1.3.0\", \"links\": {\"self\": \"https://zenodo.org/api/records/18257243\", \"self_html\": \"https://zenodo.org/records/18257243\", \"preview_html\": \"https://zenodo.org/records/18257243?preview=1\", \"doi",
+  "keys": [
+   "created",
+   "modified",
+   "id",
+   "conceptrecid",
+   "doi",
+   "conceptdoi",
+   "doi_url",
+   "metadata",
+   "title",
+   "links",
+   "updated",
+   "recid",
+   "revision",
+   "files",
+   "swh",
+   "owners",
+   "status",
+   "stats",
+   "state",
+   "submitted"
+  ],
+  "sec": 5.4
+ },
+ "ref2_glof_global_files": {
+  "url": "https://zenodo.org/api/records/7924369/files",
+  "status": 200,
+  "bytes": 1557,
+  "ctype": "application/json",
+  "sample": "{\"enabled\": true, \"links\": {\"self\": \"https://zenodo.org/api/records/7924369/files\"}, \"entries\": [{\"created\": \"2023-05-11T10:42:34.550888+00:00\", \"updated\": \"2023-05-11T14:26:53.061077+00:00\", \"mimetype\": \"application/vnd.oasis.opendocument.spreadsheet\", \"version_id\": \"9f4c3572-7cf1-483b-9fbb-d78914bdb1ce\", \"file_id\": \"294b8047-b7b2-407e-b330-40e2dcf84fe9\", \"bucket_id\": \"c1230fe5-6e07-4cc8-8d76-cd8e8c679a74\", \"metadata\": null, \"access\": {\"hidden\": false}, \"links\": {\"self\": \"https://zenodo.org/api/records/7924369/files/glofdatabase_V3-1.ods\", \"content\": \"https://zenodo.org/api/records/7924369/files/glofdatabase_V3-1.ods/content\"}, \"key\": \"glofdatabase_V3-1.ods\", \"transfer\": {\"type\": \"L\"}, \"status\": \"completed\", \"checksum\": \"md5:6e2437028b3d7eccba2ab8ca5082d128\", \"size\": 685048, \"storage_class\": \"L\"}, {\"created\": \"2023-05-11T10:42:34.550888+00:00\", \"updated\": \"2023-05-11T14:26:53.061077+00:00\", \"mimetype\": \"application/vnd.oasis.opendocument.spreadsheet\", \"version_id\": \"bae2bc8c-c440-4fbf-b0a5-f0c7eb80b2a3\", \"file_id\": \"cc7d1e69-7e72-4746-8684-88c5e23b81c2\", \"bucket_id\": \"c1230fe5-6e07-4cc8-8d76-cd8e8c679a74\", \"metadata\": null, \"access\": {\"hidden\": false}, \"links\": {\"self\": \"https://zenodo.org/api/records/7924369/files/Parameter_Readme.ods\", \"content\": \"https://zenodo.org/api/records/7924369/files/Parameter_Readme.ods/content\"}, \"key\": \"Parameter_Readme.ods\", \"transfer\": {\"type\": \"L\"}, \"status\": \"completed\", \"checksum\": \"md5:78c7afb917bd76b756aa0944e09ada51\", \"size\": 17094, \"sto",
+  "keys": [
+   "enabled",
+   "links",
+   "entries",
+   "default_preview",
+   "order"
+  ],
+  "sec": 2.9
+ },
+ "ref2_coolr_q1": {
+  "url": "https://gis.earthdata.nasa.gov/gis05/rest/services/Landslides/COOLR_Events_Points/FeatureServer/0/query?where=country_code%3D%27NP%27&outFields=event_date,event_title,landslide_category,landslide_trigger,latitude,longitude,source_name,source_link&resultRecordCount=3&f=json",
   "err": "HTTP Error 404: Not Found",
   "sec": 0.3
  },
- "ref_coolr_layers": {
-  "url": "https://gis.earthdata.nasa.gov/gis05/rest/services/Landslides/COOLR_Events_Points/FeatureServer/layers?f=json",
+ "ref2_coolr_q2": {
+  "url": "https://gis.earthdata.nasa.gov/gis05/rest/services/Landslides/COOLR_Events_Points/FeatureServer/0/query?where=1%3D1&returnCountOnly=true&f=json",
+  "err": "HTTP Error 404: Not Found",
+  "sec": 0.2
+ },
+ "ref2_coolr_nccs": {
+  "url": "https://maps.nccs.nasa.gov/mapping/rest/services/COOLR/COOLR_Events_Point/FeatureServer/0/query?where=1%3D1&returnCountOnly=true&f=json",
+  "err": "<urlopen error [Errno 101] Network is unreachable>",
+  "sec": 0.0
+ },
+ "ref2_glc_disasters": {
+  "url": "https://maps.disasters.nasa.gov/ags01/rest/services/Hosted/nasa_glc_poly_point/FeatureServer/0/query?where=1%3D1&returnCountOnly=true&f=json",
   "err": "HTTP Error 404: Not Found",
   "sec": 0.4
  },
- "ref_icimod_ckan": {
-  "url": "https://rds.icimod.org/api/3/action/package_search?q=glacial%20lake&rows=5",
-  "err": "HTTP Error 404: Not Found",
-  "sec": 0.8
- },
- "ref_crossref_datajournal": {
-  "url": "https://api.crossref.org/works?query.bibliographic=glacial+lake+outburst+flood&filter=issn:1866-3516,issn:2052-4463,issn:2049-6060,issn:2352-3409,issn:1866-3508&rows=3&select=DOI,title,container-title,issued,is-referenced-by-count",
+ "ref2_crossref_top": {
+  "url": "https://api.crossref.org/works?query.bibliographic=glacial+lake+outburst+flood&filter=from-pub-date:2020-01-01,type:journal-article&rows=20&select=DOI,title,container-title,issued,is-referenced-by-count",
   "status": 200,
-  "bytes": 1034,
+  "bytes": 5411,
   "ctype": "application/json",
-  "sample": "{\"status\": \"ok\", \"message-type\": \"work-list\", \"message-version\": \"1.0.0\", \"message\": {\"facets\": {}, \"total-results\": 209, \"items\": [{\"DOI\": \"10.5194/essd-15-3941-2023\", \"title\": [\"A comprehensive and version-controlled database of glacial lake outburst floods in High Mountain Asia\"], \"container-title\": [\"Earth System Science Data\"], \"issued\": {\"date-parts\": [[2023, 9, 5]]}, \"is-referenced-by-count\": 134}, {\"DOI\": \"10.5194/essd-13-5293-2021\", \"title\": [\"Baseline data for monitoring geomorphological effects of glacier lake outburst flood: a very-high-resolution image and GIS datasets of the distal part of the  Zackenberg River, northeast Greenland\"], \"container-title\": [\"Earth System Science Data\"], \"issued\": {\"date-parts\": [[2021, 11, 12]]}, \"is-referenced-by-count\": 9}, {\"DOI\": \"10.5194/essd-15-2983-2023\", \"title\": [\"A global database of historic glacier lake outburst floods\"], \"container-title\": [\"Earth System Science Data\"], \"issued\": {\"date-parts\": [[2023, 7, 12]]}, \"is-referenced-by-count\": 88}], \"items-per-page\": 3, \"query\": {\"start-index\": 0, \"search-terms\": null}}}",
+  "sample": "{\"status\": \"ok\", \"message-type\": \"work-list\", \"message-version\": \"1.0.0\", \"message\": {\"facets\": {}, \"total-results\": 75372, \"items\": [{\"DOI\": \"10.5194/piahs-387-59-2024\", \"title\": [\"Glacial lake outburst flood (GLOF) modeling of  Tsho Rolpa glacial lake, Nepal\"], \"container-title\": [\"Proceedings of IAHS\"], \"issued\": {\"date-parts\": [[2024, 11, 18]]}, \"is-referenced-by-count\": 9}, {\"DOI\": \"10.3389/feart.2022.819526\", \"title\": [\"Simulation of Glacial Lake Outburst Flood in Southeastern Qinghai-Tibet Plateau—A Case Study of JiwenCo Glacial Lake\"], \"container-title\": [\"Frontiers in Earth Science\"], \"issued\": {\"date-parts\": [[2022, 3, 1]]}, \"is-referenced-by-count\": 6}, {\"DOI\": \"10.1007/s43621-025-00967-7\", \"title\": [\"From vulnerability to resilience: community-based approaches in glacial lake outburst flood (GLOF) risk mitigation\"], \"container-title\": [\"Discover Sustainability\"], \"issued\": {\"date-parts\": [[2025, 4, 28]]}, \"is-referenced-by-count\": 13}, {\"DOI\": \"10.25296/1997-8669-2020-14-3-58-67\", \"title\": [\"GLACIAL LAKE OUTBURST FLOOD AND ITS CASCADE\\nEFFECT ON THE COMMUNITY OF BADSWAT\\n(GILGIT-BALTISTAN, PAKISTAN)\"], \"container-title\": [\"Геориск\"], \"issued\": {\"date-parts\": [[2020, 9, 30]]}, \"is-referenced-by-count\": 0}, {\"DOI\": \"10.1038/s41598-026-70477-7\", \"title\": [\"Quantum generative intelligence for rare hydroclimatic anomaly screening of glacial lake outburst flood risk\"], \"container-title\": [\"Scientific Reports\"], \"issued\": {\"date-parts\": [[2026, 9, 12]]}, \"is-referenced-b",
   "keys": [
    "status",
    "message-type",
    "message-version",
    "message"
   ],
-  "sec": 0.2
- },
- "ref_crossref_top": {
-  "url": "https://api.crossref.org/works?query.bibliographic=glacial+lake+outburst+flood&filter=from-pub-date:2020-01-01,type:journal-article&rows=20&select=DOI,title,container-title,issued,is-referenced-by-count",
-  "err": "HTTP Error 429: Too Many Requests",
-  "sec": 0.1
- },
- "ref_datacite": {
-  "url": "https://api.datacite.org/dois?query=%22glacial%20lake%20outburst%22&resource-type-id=dataset&page%5Bsize%5D=5",
-  "status": 200,
-  "bytes": 20357,
-  "ctype": "application/json; charset=utf-8",
-  "n": 5,
-  "key": "data",
-  "sample": "[{\"id\": \"10.5281/zenodo.23300271\", \"type\": \"dois\", \"attributes\": {\"doi\": \"10.5281/zenodo.23300271\", \"identifiers\": [], \"creators\": [{\"nameType\": \"Personal\", \"affiliation\": [\"Keio University\"], \"givenName\": \"YINAN\", \"familyName\": \"GAO\", \"name\": \"GAO, YINAN\", \"nameIdentifiers\": []}, {\"nameType\": \"Personal\", \"affiliation\": [\"Keio University\"], \"givenName\": \"Rajib\", \"familyName\": \"Shaw\", \"name\": \"Shaw, Rajib\", \"nameIdentifiers\": []}], \"titles\": [{\"title\": \"Data and code for \\\"How many times has it happened? Recurrence counts of mountain floods depend on decisions made before counting\\\"\"}], \"publisher\": \"Zenodo\", \"container\": {}, \"publicationYear\": 2026, \"subjects\": [{\"subject\": \"glacial lake outburst flood;inventory;recurrence;pre-registration;High Mountain Asia;record linkage\"}], \"contributors\": [], \"dates\": [{\"date\": \"2026-10-11\", \"dateType\": \"Issued\"}], \"language\": \"en\", \"types\": {\"schemaOrg\": \"Dataset\", \"resourceTypeGeneral\": \"Dataset\", \"citeproc\": \"dataset\", \"bibtex\": \"misc\", \"ris\": \"DATA\", \"resourceType\": \"\"}, \"relatedIdentifiers\": [{\"relationType\": \"IsDerivedFrom\", \"resourceTypeGeneral\": \"Dataset\", \"relatedIdentifier\": \"10.5281/zenodo.18257243\", \"relatedIdentifierType\": \"DOI\"}, {\"relationType\": \"IsDerivedFrom\", \"resourceTypeGeneral\": \"Dataset\", \"relatedIdentifier\": \"10.5281/zenodo.10807405\", \"relatedIdentifierType\": \"DOI\"}, {\"relationType\": \"IsDerivedFrom\", \"resourceTypeGeneral\": \"Dataset\", \"relatedIdentifier\": \"10.5281/zenodo.3523213\", \"relatedIdentifierType\": \"DOI\"}, {\"r",
-  "keys": [
-   "data",
-   "meta",
-   "links"
-  ],
-  "sec": 0.6
- },
- "ref_openalex_ratelimit": {
-  "url": "https://api.openalex.org/rate-limit",
-  "err": "HTTP Error 401: Unauthorized",
-  "sec": 0.2
- },
- "ref_emdat_doc": {
-  "url": "https://doc.emdat.be/docs/",
-  "status": 200,
-  "bytes": 77722,
-  "ctype": "text/html",
-  "sample": "<!doctype html>\n<html itemscope itemtype=\"http://schema.org/WebPage\" lang=\"en\" class=\"no-js\">\n  <head>\n    <meta charset=\"utf-8\">\n<meta name=\"viewport\" content=\"width=device-width, initial-scale=1, shrink-to-fit=no\">\n<link rel=\"alternate\" type=\"text/html\" href=\"/_print/docs/\">\n<link rel=\"alternate\" type=\"application/rss&#43;xml\" href=\"/docs/index.xml\">\n<meta name=\"robots\" content=\"index, follow\">\n\n\n<link rel=\"shortcut icon\" href=\"/favicons/favicon.ico\" >\n<link rel=\"apple-touch-icon\" href=\"/favicons/apple-touch-icon-180x180.png\" sizes=\"180x180\">\n<link rel=\"icon\" type=\"image/png\" href=\"/favicons/favicon-16x16.png\" sizes=\"16x16\">\n<link rel=\"icon\" type=\"image/png\" href=\"/favicons/favicon-32x32.png\" sizes=\"32x32\">\n<link rel=\"icon\" type=\"image/png\" href=\"/favicons/android-36x36.png\" sizes=\"36x36",
-  "sec": 0.6
- },
- "ref_rekor": {
-  "url": "https://rekor.sigstore.dev/api/v1/log",
-  "status": 200,
-  "bytes": 1151,
-  "ctype": "application/json",
-  "sample": "{\"inactiveShards\": [{\"rootHash\": \"4d006aa46efcb607dd51d900b1213754c50cc9251c3405c6c2561d9d6a2f3239\", \"signedTreeHead\": \"rekor.sigstore.dev - 3904496407287907110\\n4163431\\nTQBqpG78tgfdUdkAsSE3VMUMySUcNAXGwlYdnWovMjk=\\n\\n— rekor.sigstore.dev wNI9ajBEAiB4ZI49cKCNWdO1X9J9NCv7DsZ5qcYsLlKVO4UADe8n+AIgSFKk/u/TPOBroBRFDbU1CZLYy8yfCjjLdLfVrLINarg=\\n\", \"treeID\": \"3904496407287907110\", \"treeSize\": 4163431}, {\"rootHash\": \"2b9c578071e120aa84c9858783daa671565e4165f3a7dfa199aad81940299d8e\", \"signedTreeHead\": \"rekor.sigstore.dev - 2605736670972794746\\n117740831\\nK5xXgHHhIKqEyYWHg9qmcVZeQWXzp9+hmarYGUApnY4=\\n\\n— rekor.sigstore.dev wNI9ajBFAiBDq3jFr6qWuTn9B6B76x6ohLZnE65vTtKOnP8h+jdeqAIhAN90HcRrApCNak2RbWg2+Ox1olhOHr8mFeRwrwM9Lwz3\\n\", \"treeID\": \"2605736670972794746\", \"treeSize\": 117740831}], \"rootHash\": \"97b9628e73c02dfa543461bafb85fd8c810b57ed06fed3069bc476b25ce35b22\", \"signedTreeHead\": \"rekor.sigstore.dev - 1193050959916656506\\n3126896152\\nl7lijnPALfpUNGG6+4X9jIELV+0G/tMGm8R2slzjWyI=\\n\\n— rekor.sigstore.dev wNI9ajBEAiB14joezmeBfA2id0udwTCQbT/leD+I37cejI1F7etNJgIgEWzB8x47caPVhqXlx7JxbAtfgd2fWifsnJPYHocUnAQ=\\n\", \"treeID\": \"1193050959916656506\", \"treeSize\": 3126896152}",
-  "keys": [
-   "inactiveShards",
-   "rootHash",
-   "signedTreeHead",
-   "treeID",
-   "treeSize"
-  ],
-  "sec": 0.1
+  "sec": 0.5
  }
 }
