@@ -1,0 +1,6349 @@
+{
+ "generated": "2026-10-14T05:35:00Z",
+ "method": "281 种灾害：每种找研究最集中、影响力最高的前三个期刊/会议，以及可作数据源或引用的数据集和数据论文。\n数据来自 OpenAlex（公开学术数据库，2 亿多篇论文，api.openalex.org，免费、无需密钥）。在 GitHub 运行器上跑。\n\n方法（可复现）：\n  1. 用 tools/hazard_keywords.py 里每种灾害的第一个匹配词检索 2020 年以来的论文（article/review），按发表期刊或会议分组计数；\n  2. 取论文数最多的 25 个来源里、该主题论文不少于 5 篇的，再按来源整体的 h 指数排序，取前三 → “该灾种的顶刊顶会”；\n  3. 同一检索词下，类型为 dataset 的条目按被引次数取前五 → 可直接作数据源的公开数据集；\n  4. 同一检索词下，发表在数据期刊（ESSD、Scientific Data、Geoscience Data Journal、Data in Brief）的论文按被引取前三 → 可引用的数据论文；\n  5. 同一检索词下，2020 年以来被引最多的三篇论文 → 方法参考。\n输出：venues.json\n",
+ "hazards": [
+  {
+   "code": "MH0101",
+   "label": "Downburst",
+   "label_zh": "下击暴流",
+   "family": "Meteorological & Hydrological",
+   "family_zh": "气象与水文",
+   "cluster": "MH-CONV",
+   "query": "downburst",
+   "papers_2020": 1038,
+   "top_venues": [
+    {
+     "name": "Journal of Geophysical Research Atmospheres",
+     "type": "journal",
+     "h": 652,
+     "if2": 3.29,
+     "publisher": "American Geophysical Union",
+     "url": "http://www.agu.org/journals/jgr/",
+     "oa": false,
+     "id": "https://openalex.org/S207178839",
+     "n": 12
+    },
+    {
+     "name": "Scientific Reports",
+     "type": "journal",
+     "h": 461,
+     "if2": 5.23,
+     "publisher": "Nature Portfolio",
+     "url": "http://www.nature.com/srep/index.html",
+     "oa": true,
+     "id": "https://openalex.org/S196734849",
+     "n": 9
+    },
+    {
+     "name": "Geophysical Research Letters",
+     "type": "journal",
+     "h": 418,
+     "if2": 4.81,
+     "publisher": "American Geophysical Union",
+     "url": "http://onlinelibrary.wiley.com/journal/10.1002/(ISSN)1944-8007",
+     "oa": true,
+     "id": "https://openalex.org/S36624081",
+     "n": 11
+    }
+   ],
+   "most_active": [
+    {
+     "name": "Journal of Wind Engineering and Industrial Aerodynamics",
+     "type": "journal",
+     "h": 166,
+     "if2": 5.59,
+     "publisher": "Elsevier BV",
+     "url": "https://www.journals.elsevier.com/journal-of-wind-engineering-and-industrial-aerodynamics",
+     "oa": false,
+     "id": "https://openalex.org/S22685659",
+     "n": 58
+    },
+    {
+     "name": "Atmosphere",
+     "type": "journal",
+     "h": 107,
+     "if2": 3.63,
+     "publisher": "Multidisciplinary Digital Publishing Institute",
+     "url": "http://www.mdpi.com/journal/atmosphere",
+     "oa": true,
+     "id": "https://openalex.org/S946213959",
+     "n": 57
+    },
+    {
+     "name": "Applied Sciences",
+     "type": "journal",
+     "h": 228,
+     "if2": 4.16,
+     "publisher": "Multidisciplinary Digital Publishing Institute",
+     "url": "http://www.mdpi.com/journal/applsci",
+     "oa": true,
+     "id": "https://openalex.org/S4210205812",
+     "n": 29
+    }
+   ],
+   "datasets": [
+    {
+     "title": "Characterisation and modelling of downburst wind fields using smooth-wall impinging jets and field measurements over rough terrain",
+     "doi": "https://doi.org/10.6084/m9.figshare.34041729",
+     "year": 2026,
+     "cites": 0,
+     "repo": "Figshare"
+    },
+    {
+     "title": "The Implementation and Application of the Enhanced Fujita Scale in Canada: An Update",
+     "doi": "https://doi.org/10.5683/sp4/g6knty",
+     "year": 2026,
+     "cites": 0,
+     "repo": "Borealis"
+    },
+    {
+     "title": "The data of the article \"Three-dimensional structure of momentum flux and its downward transport mechanism during a downburst\"",
+     "doi": "https://doi.org/10.57760/sciencedb.010ls",
+     "year": 2026,
+     "cites": 0,
+     "repo": "ScienceDB"
+    },
+    {
+     "title": "ERIES TRANSWindS: TRansient Aerodynamics induced by Non-Synoptic Winds on Structures",
+     "doi": "https://doi.org/10.5281/zenodo.20397937",
+     "year": 2026,
+     "cites": 0,
+     "repo": "Zenodo (CERN European Organization for Nuclear Research)"
+    },
+    {
+     "title": "Wind Field and Aerodynamic Data for BARC in Downburst-like Flows (ERIES-TFCA - Volume 3)",
+     "doi": "https://doi.org/10.5281/zenodo.19959040",
+     "year": 2026,
+     "cites": 0,
+     "repo": "Zenodo (CERN European Organization for Nuclear Research)"
+    }
+   ],
+   "data_papers": [
+    {
+     "title": "Downburst-like experimental impinging jet measurements at the WindEEE Dome",
+     "doi": "https://doi.org/10.1038/s41597-022-01342-1",
+     "year": 2022,
+     "cites": 35,
+     "journal": "Scientific Data"
+    },
+    {
+     "title": "CanCPLD: Convective Parameters and Lightning Data to Support Future Thunderstorm Projections in North America",
+     "doi": "https://doi.org/10.1038/s41597-025-05924-7",
+     "year": 2025,
+     "cites": 3,
+     "journal": "Scientific Data"
+    },
+    {
+     "title": "Aerodynamic dataset for selected doubly curved membrane canopy structures",
+     "doi": "https://doi.org/10.1038/s41597-025-06046-w",
+     "year": 2025,
+     "cites": 3,
+     "journal": "Scientific Data"
+    }
+   ],
+   "top_papers": [
+    {
+     "title": "Climate change induces multiple risks to boreal forests and forestry in Finland: A literature review",
+     "doi": "https://doi.org/10.1111/gcb.15183",
+     "year": 2020,
+     "cites": 297,
+     "venue": "Global Change Biology"
+    },
+    {
+     "title": "Wind farm flow control: prospects and challenges",
+     "doi": "https://doi.org/10.5194/wes-7-2271-2022",
+     "year": 2022,
+     "cites": 286,
+     "venue": "Wind energy science"
+    },
+    {
+     "title": "Investigation of near-global daytime boundary layer height using high-resolution radiosondes: first results and comparison with ERA5, MERRA-2, JRA-55, and NCEP-2 reanalyses",
+     "doi": "https://doi.org/10.5194/acp-21-17079-2021",
+     "year": 2021,
+     "cites": 235,
+     "venue": "Atmospheric chemistry and physics"
+    }
+   ]
+  },
+  {
+   "code": "MH0102",
+   "label": "Lightning (electrical storm)",
+   "label_zh": "闪电（雷暴）",
+   "family": "Meteorological & Hydrological",
+   "family_zh": "气象与水文",
+   "cluster": "MH-CONV",
+   "query": "lightning",
+   "papers_2020": 77203,
+   "top_venues": [
+    {
+     "name": "Nature Communications",
+     "type": "journal",
+     "h": 744,
+     "if2": 18.31,
+     "publisher": "Nature Portfolio",
+     "url": "http://www.nature.com/ncomms/index.html",
+     "oa": true,
+     "id": "https://openalex.org/S64187185",
+     "n": 671
+    },
+    {
+     "name": "Journal of Geophysical Research Atmospheres",
+     "type": "journal",
+     "h": 652,
+     "if2": 3.29,
+     "publisher": "American Geophysical Union",
+     "url": "http://www.agu.org/journals/jgr/",
+     "oa": false,
+     "id": "https://openalex.org/S207178839",
+     "n": 538
+    },
+    {
+     "name": "PLoS ONE",
+     "type": "journal",
+     "h": 593,
+     "if2": 3.41,
+     "publisher": "Public Library of Science",
+     "url": "http://www.plosone.org/",
+     "oa": true,
+     "id": "https://openalex.org/S202381698",
+     "n": 356
+    }
+   ],
+   "most_active": [
+    {
+     "name": "Zenodo (CERN European Organization for Nuclear Research)",
+     "type": "repository",
+     "h": 199,
+     "if2": 0.04,
+     "publisher": "European Organization for Nuclear Research",
+     "url": "https://zenodo.org",
+     "oa": true,
+     "id": "https://openalex.org/S4306400562",
+     "n": 1029
+    },
+    {
+     "name": "Energies",
+     "type": "journal",
+     "h": 231,
+     "if2": 5.3,
+     "publisher": "Multidisciplinary Digital Publishing Institute",
+     "url": "http://www.mdpi.com/journal/energies",
+     "oa": true,
+     "id": "https://openalex.org/S198098182",
+     "n": 972
+    },
+    {
+     "name": "Scientific Reports",
+     "type": "journal",
+     "h": 461,
+     "if2": 5.23,
+     "publisher": "Nature Portfolio",
+     "url": "http://www.nature.com/srep/index.html",
+     "oa": true,
+     "id": "https://openalex.org/S196734849",
+     "n": 915
+    }
+   ],
+   "datasets": [
+    {
+     "title": "Complex adaptive systems",
+     "doi": "https://doi.org/10.1036/1097-8542.yb020185",
+     "year": 2015,
+     "cites": 131,
+     "repo": "AccessScience"
+    },
+    {
+     "title": "Drugs and human performance fact sheets",
+     "doi": "https://doi.org/10.1037/e438332008-001",
+     "year": 2004,
+     "cites": 98,
+     "repo": "PsycEXTRA Dataset"
+    },
+    {
+     "title": "missRanger: Fast Imputation of Missing Values",
+     "doi": "https://doi.org/10.32614/cran.package.missranger",
+     "year": 2017,
+     "cites": 55,
+     "repo": null
+    },
+    {
+     "title": "Education as Liberation?",
+     "doi": "https://doi.org/10.1257/rct.1183-1.0",
+     "year": 2016,
+     "cites": 36,
+     "repo": "AEA Randomized Controlled Trials"
+    },
+    {
+     "title": "The Translational Regulators GCN-1 and ABCF-3 Act Together to Promote Apoptosis in C. elegans",
+     "doi": "https://doi.org/10.1371/journal.pgen.1004512",
+     "year": 2016,
+     "cites": 31,
+     "repo": "Figshare"
+    }
+   ],
+   "data_papers": [
+    {
+     "title": "The Global Methane Budget 2000–2017",
+     "doi": "https://doi.org/10.5194/essd-12-1561-2020",
+     "year": 2020,
+     "cites": 2687,
+     "journal": "Earth system science data"
+    },
+    {
+     "title": "The global methane budget 2000–2012",
+     "doi": "https://doi.org/10.5194/essd-8-697-2016",
+     "year": 2016,
+     "cites": 1059,
+     "journal": "Earth system science data"
+    },
+    {
+     "title": "Global Methane Budget 2000–2020",
+     "doi": "https://doi.org/10.5194/essd-17-1873-2025",
+     "year": 2025,
+     "cites": 427,
+     "journal": "Earth system science data"
+    }
+   ],
+   "top_papers": [
+    {
+     "title": "Highly accurate protein structure prediction with AlphaFold",
+     "doi": "https://doi.org/10.1038/s41586-021-03819-2",
+     "year": 2021,
+     "cites": 43299,
+     "venue": "Nature"
+    },
+    {
+     "title": "Dictionary learning for integrative, multimodal and scalable single-cell analysis",
+     "doi": "https://doi.org/10.1038/s41587-023-01767-y",
+     "year": 2023,
+     "cites": 5424,
+     "venue": "Nature Biotechnology"
+    },
+    {
+     "title": "Improved protein structure prediction using potentials from deep learning",
+     "doi": "https://doi.org/10.1038/s41586-019-1923-7",
+     "year": 2020,
+     "cites": 3368,
+     "venue": "Nature"
+    }
+   ]
+  },
+  {
+   "code": "MH0103",
+   "label": "Thunderstorm",
+   "label_zh": "雷暴",
+   "family": "Meteorological & Hydrological",
+   "family_zh": "气象与水文",
+   "cluster": "MH-CONV",
+   "query": "thunderstorms",
+   "papers_2020": 21993,
+   "top_venues": [
+    {
+     "name": "Nature Communications",
+     "type": "journal",
+     "h": 744,
+     "if2": 18.31,
+     "publisher": "Nature Portfolio",
+     "url": "http://www.nature.com/ncomms/index.html",
+     "oa": true,
+     "id": "https://openalex.org/S64187185",
+     "n": 129
+    },
+    {
+     "name": "Journal of Geophysical Research Atmospheres",
+     "type": "journal",
+     "h": 652,
+     "if2": 3.29,
+     "publisher": "American Geophysical Union",
+     "url": "http://www.agu.org/journals/jgr/",
+     "oa": false,
+     "id": "https://openalex.org/S207178839",
+     "n": 490
+    },
+    {
+     "name": "PLoS ONE",
+     "type": "journal",
+     "h": 593,
+     "if2": 3.41,
+     "publisher": "Public Library of Science",
+     "url": "http://www.plosone.org/",
+     "oa": true,
+     "id": "https://openalex.org/S202381698",
+     "n": 105
+    }
+   ],
+   "most_active": [
+    {
+     "name": "Atmosphere",
+     "type": "journal",
+     "h": 107,
+     "if2": 3.63,
+     "publisher": "Multidisciplinary Digital Publishing Institute",
+     "url": "http://www.mdpi.com/journal/atmosphere",
+     "oa": true,
+     "id": "https://openalex.org/S946213959",
+     "n": 675
+    },
+    {
+     "name": "Remote Sensing",
+     "type": "journal",
+     "h": 275,
+     "if2": 5.25,
+     "publisher": "Multidisciplinary Digital Publishing Institute",
+     "url": "http://www.mdpi.com/journal/remotesensing",
+     "oa": true,
+     "id": "https://openalex.org/S43295729",
+     "n": 512
+    },
+    {
+     "name": "Journal of Geophysical Research Atmospheres",
+     "type": "journal",
+     "h": 652,
+     "if2": 3.29,
+     "publisher": "American Geophysical Union",
+     "url": "http://www.agu.org/journals/jgr/",
+     "oa": false,
+     "id": "https://openalex.org/S207178839",
+     "n": 490
+    }
+   ],
+   "datasets": [
+    {
+     "title": "CLIMATE CHANGE AND SOCIAL VULNERABILITY IN THE UNITED STATES - A focus on Six Impacts",
+     "doi": "https://doi.org/10.1163/9789004322714_cclc_2021-0166-513",
+     "year": 2022,
+     "cites": 98,
+     "repo": "Climate Change and Law Collection"
+    },
+    {
+     "title": "A human error analysis of general aviation controlled flight into terrain accidents occurring between 1990-1998",
+     "doi": "https://doi.org/10.1037/e427202005-001",
+     "year": 2003,
+     "cites": 67,
+     "repo": "PsycEXTRA Dataset"
+    },
+    {
+     "title": "StockDistFit: Fit Stock Price Distributions",
+     "doi": "https://doi.org/10.32614/cran.package.stockdistfit",
+     "year": 2023,
+     "cites": 30,
+     "repo": null
+    },
+    {
+     "title": "Cognitive Task Analysis of Business Jet Pilots' Weather Flying Behaviors: Preliminary Results",
+     "doi": "https://doi.org/10.1037/e587602011-001",
+     "year": 2001,
+     "cites": 20,
+     "repo": "PsycEXTRA Dataset"
+    },
+    {
+     "title": "Map data showing concentration of landslides caused by Hurricane Maria in Puerto Rico",
+     "doi": "https://doi.org/10.5066/f7jd4vrf",
+     "year": 2017,
+     "cites": 18,
+     "repo": "USGS DOI Tool Production Environment"
+    }
+   ],
+   "data_papers": [
+    {
+     "title": "ERA5-based global meteorological wildfire danger maps",
+     "doi": "https://doi.org/10.1038/s41597-020-0554-z",
+     "year": 2020,
+     "cites": 216,
+     "journal": "Scientific Data"
+    },
+    {
+     "title": "Updated tropospheric chemistry reanalysis and emission estimates, TCR-2, for 2005–2018",
+     "doi": "https://doi.org/10.5194/essd-12-2223-2020",
+     "year": 2020,
+     "cites": 168,
+     "journal": "Earth system science data"
+    },
+    {
+     "title": "seNorge2 daily precipitation, an observational gridded dataset over Norway from 1957 to the present day",
+     "doi": "https://doi.org/10.5194/essd-10-235-2018",
+     "year": 2018,
+     "cites": 147,
+     "journal": "Earth system science data"
+    }
+   ],
+   "top_papers": [
+    {
+     "title": "GW190814: Gravitational Waves from the Coalescence of a 23 Solar Mass Black Hole with a 2.6 Solar Mass Compact Object",
+     "doi": "https://doi.org/10.3847/2041-8213/ab960f",
+     "year": 2020,
+     "cites": 1816,
+     "venue": "The Astrophysical Journal Letters"
+    },
+    {
+     "title": "Pervasive shifts in forest dynamics in a changing world",
+     "doi": "https://doi.org/10.1126/science.aaz9463",
+     "year": 2020,
+     "cites": 1343,
+     "venue": "Science"
+    },
+    {
+     "title": "Various Natural and Anthropogenic Factors Responsible for Water Quality Degradation: A Review",
+     "doi": "https://doi.org/10.3390/w13192660",
+     "year": 2021,
+     "cites": 1336,
+     "venue": "Water"
+    }
+   ]
+  },
+  {
+   "code": "MH0201",
+   "label": "Dust Storm or Sandstorm",
+   "label_zh": "沙尘暴",
+   "family": "Meteorological & Hydrological",
+   "family_zh": "气象与水文",
+   "cluster": "MH-PART",
+   "query": "\"dust storm\"",
+   "papers_2020": 15466,
+   "top_venues": [
+    {
+     "name": "Journal of Geophysical Research Atmospheres",
+     "type": "journal",
+     "h": 652,
+     "if2": 3.29,
+     "publisher": "American Geophysical Union",
+     "url": "http://www.agu.org/journals/jgr/",
+     "oa": false,
+     "id": "https://openalex.org/S207178839",
+     "n": 150
+    },
+    {
+     "name": "PLoS ONE",
+     "type": "journal",
+     "h": 593,
+     "if2": 3.41,
+     "publisher": "Public Library of Science",
+     "url": "http://www.plosone.org/",
+     "oa": true,
+     "id": "https://openalex.org/S202381698",
+     "n": 76
+    },
+    {
+     "name": "The Science of The Total Environment",
+     "type": "journal",
+     "h": 492,
+     "if2": 12.17,
+     "publisher": "Elsevier BV",
+     "url": "https://www.journals.elsevier.com/science-of-the-total-environment",
+     "oa": false,
+     "id": "https://openalex.org/S86852077",
+     "n": 175
+    }
+   ],
+   "most_active": [
+    {
+     "name": "Atmosphere",
+     "type": "journal",
+     "h": 107,
+     "if2": 3.63,
+     "publisher": "Multidisciplinary Digital Publishing Institute",
+     "url": "http://www.mdpi.com/journal/atmosphere",
+     "oa": true,
+     "id": "https://openalex.org/S946213959",
+     "n": 539
+    },
+    {
+     "name": "Remote Sensing",
+     "type": "journal",
+     "h": 275,
+     "if2": 5.25,
+     "publisher": "Multidisciplinary Digital Publishing Institute",
+     "url": "http://www.mdpi.com/journal/remotesensing",
+     "oa": true,
+     "id": "https://openalex.org/S43295729",
+     "n": 408
+    },
+    {
+     "name": "Scientific Reports",
+     "type": "journal",
+     "h": 461,
+     "if2": 5.23,
+     "publisher": "Nature Portfolio",
+     "url": "http://www.nature.com/srep/index.html",
+     "oa": true,
+     "id": "https://openalex.org/S196734849",
+     "n": 351
+    }
+   ],
+   "datasets": [
+    {
+     "title": "Pleistocene glaciation in Kurdistan",
+     "doi": "https://doi.org/10.3285/eg.12.1.12",
+     "year": 2018,
+     "cites": 70,
+     "repo": null
+    },
+    {
+     "title": "ground-based air quality measurements during the 2021 spring super dust storms",
+     "doi": "https://doi.org/10.5281/zenodo.6459865",
+     "year": 2022,
+     "cites": 7,
+     "repo": "Zenodo (CERN European Organization for Nuclear Research)"
+    },
+    {
+     "title": "The effect of dust storms on some meteorological elements over Baghdad , Iraq: Study Cases",
+     "doi": "https://doi.org/10.6084/m9.figshare.1377407",
+     "year": 2015,
+     "cites": 6,
+     "repo": "Figshare"
+    },
+    {
+     "title": "Natural Disaster Trends",
+     "doi": "https://doi.org/10.5281/zenodo.7930539",
+     "year": 2023,
+     "cites": 5,
+     "repo": "Zenodo (CERN European Organization for Nuclear Research)"
+    },
+    {
+     "title": "YinXin2021/WRF-LES-DustDepositionScheme: v1.0.0",
+     "doi": "https://doi.org/10.5281/zenodo.6390431",
+     "year": 2022,
+     "cites": 5,
+     "repo": "Zenodo (CERN European Organization for Nuclear Research)"
+    }
+   ],
+   "data_papers": [
+    {
+     "title": "A 6-year-long (2013–2018) high-resolution air quality reanalysis dataset in China based on the assimilation of surface observations from CNEMC",
+     "doi": "https://doi.org/10.5194/essd-13-529-2021",
+     "year": 2021,
+     "cites": 260,
+     "journal": "Earth system science data"
+    },
+    {
+     "title": "A dataset of energy, water vapor, and carbon exchange observations in oasis–desert areas from 2012 to 2021 in a typical endorheic basin",
+     "doi": "https://doi.org/10.5194/essd-15-4959-2023",
+     "year": 2023,
+     "cites": 84,
+     "journal": "Earth system science data"
+    },
+    {
+     "title": "Meteorological and evaluation datasets for snow modelling at 10 reference sites: description of in situ and bias-corrected reanalysis data",
+     "doi": "https://doi.org/10.5194/essd-11-865-2019",
+     "year": 2019,
+     "cites": 84,
+     "journal": "Earth system science data"
+    }
+   ],
+   "top_papers": [
+    {
+     "title": "Environmental and Health Impacts of Air Pollution: A Review",
+     "doi": "https://doi.org/10.3389/fpubh.2020.00014",
+     "year": 2020,
+     "cites": 5227,
+     "venue": "Frontiers in Public Health"
+    },
+    {
+     "title": "Getting the message right on nature‐based solutions to climate change",
+     "doi": "https://doi.org/10.1111/gcb.15513",
+     "year": 2021,
+     "cites": 1071,
+     "venue": "Global Change Biology"
+    },
+    {
+     "title": "The 2024 report of the Lancet Countdown on health and climate change: facing record-breaking threats from delayed action",
+     "doi": "https://doi.org/10.1016/s0140-6736(24)01822-1",
+     "year": 2024,
+     "cites": 856,
+     "venue": "The Lancet"
+    }
+   ]
+  },
+  {
+   "code": "MH0202",
+   "label": "Fog",
+   "label_zh": "雾",
+   "family": "Meteorological & Hydrological",
+   "family_zh": "气象与水文",
+   "cluster": "MH-PART",
+   "query": "\"dense fog\"",
+   "papers_2020": 2327,
+   "top_venues": [
+    {
+     "name": "PLoS ONE",
+     "type": "journal",
+     "h": 593,
+     "if2": 3.41,
+     "publisher": "Public Library of Science",
+     "url": "http://www.plosone.org/",
+     "oa": true,
+     "id": "https://openalex.org/S202381698",
+     "n": 20
+    },
+    {
+     "name": "Scientific Reports",
+     "type": "journal",
+     "h": 461,
+     "if2": 5.23,
+     "publisher": "Nature Portfolio",
+     "url": "http://www.nature.com/srep/index.html",
+     "oa": true,
+     "id": "https://openalex.org/S196734849",
+     "n": 63
+    },
+    {
+     "name": "IEEE Access",
+     "type": "journal",
+     "h": 377,
+     "if2": 6.45,
+     "publisher": "Institute of Electrical and Electronics Engineers",
+     "url": "http://ieeexplore.ieee.org/servlet/opac?punumber=6287639",
+     "oa": true,
+     "id": "https://openalex.org/S2485537415",
+     "n": 34
+    }
+   ],
+   "most_active": [
+    {
+     "name": "Sensors",
+     "type": "journal",
+     "h": 337,
+     "if2": 5.78,
+     "publisher": "Multidisciplinary Digital Publishing Institute",
+     "url": "http://www.mdpi.com/journal/sensors",
+     "oa": true,
+     "id": "https://openalex.org/S101949793",
+     "n": 100
+    },
+    {
+     "name": "Applied Sciences",
+     "type": "journal",
+     "h": 228,
+     "if2": 4.16,
+     "publisher": "Multidisciplinary Digital Publishing Institute",
+     "url": "http://www.mdpi.com/journal/applsci",
+     "oa": true,
+     "id": "https://openalex.org/S4210205812",
+     "n": 70
+    },
+    {
+     "name": "Scientific Reports",
+     "type": "journal",
+     "h": 461,
+     "if2": 5.23,
+     "publisher": "Nature Portfolio",
+     "url": "http://www.nature.com/srep/index.html",
+     "oa": true,
+     "id": "https://openalex.org/S196734849",
+     "n": 63
+    }
+   ],
+   "datasets": [
+    {
+     "title": "Cognitive Task Analysis of Business Jet Pilots' Weather Flying Behaviors: Preliminary Results",
+     "doi": "https://doi.org/10.1037/e587602011-001",
+     "year": 2001,
+     "cites": 20,
+     "repo": "PsycEXTRA Dataset"
+    },
+    {
+     "title": "GLCMTextures: GLCM Textures of Raster Layers",
+     "doi": "https://doi.org/10.32614/cran.package.glcmtextures",
+     "year": 2022,
+     "cites": 2,
+     "repo": null
+    },
+    {
+     "title": "Physical oceanography during cruise M85/1 with METEOR in the subpolar North Atlantic in June-August 2011",
+     "doi": "https://doi.org/10.1594/pangaea.844877",
+     "year": 2011,
+     "cites": 1,
+     "repo": "Publishing Network for Geoscientific and Environmental Data (PANGAEA) (Alfred Wegener Institute for Polar and Marine Research)"
+    },
+    {
+     "title": "\"LOLO&LOLO-Real\"",
+     "doi": "https://doi.org/10.21227/t9ha-fe42",
+     "year": 2026,
+     "cites": 0,
+     "repo": "IEEE DataPort"
+    },
+    {
+     "title": "\"Identification of South China Sea Fog from FY-4A AGRI Imaging Using Multi-Task Learning with Physical Constraints and Cross-Scale Consistency\"",
+     "doi": "https://doi.org/10.21227/ymxc-mf97",
+     "year": 2026,
+     "cites": 0,
+     "repo": "IEEE DataPort"
+    }
+   ],
+   "data_papers": [
+    {
+     "title": "OpenMesh: wireless signal dataset for opportunistic urban weather sensing in New York City",
+     "doi": "https://doi.org/10.5194/essd-18-5817-2026",
+     "year": 2026,
+     "cites": 4,
+     "journal": "Earth system science data"
+    },
+    {
+     "title": "Atmospheric Radiation Measurement (ARM) airborne field campaign data products between 2013 and 2018",
+     "doi": "https://doi.org/10.5194/essd-16-5429-2024",
+     "year": 2024,
+     "cites": 2,
+     "journal": "Earth system science data"
+    },
+    {
+     "title": "Dataset of dual-camera close-range photogrammetry for marker-based slope surface monitoring",
+     "doi": "https://doi.org/10.1016/j.dib.2026.113176",
+     "year": 2026,
+     "cites": 0,
+     "journal": "Data in Brief"
+    }
+   ],
+   "top_papers": [
+    {
+     "title": "Terahertz Communications and Sensing for 6G and Beyond: A Comprehensive Review",
+     "doi": "https://doi.org/10.1109/comst.2024.3385908",
+     "year": 2024,
+     "cites": 549,
+     "venue": "IEEE Communications Surveys & Tutorials"
+    },
+    {
+     "title": "Fast sulfate formation from oxidation of SO2 by NO2 and HONO observed in Beijing haze",
+     "doi": "https://doi.org/10.1038/s41467-020-16683-x",
+     "year": 2020,
+     "cites": 357,
+     "venue": "Nature Communications"
+    },
+    {
+     "title": "Terahertz Wireless Channels: A Holistic Survey on Measurement, Modeling, and Analysis",
+     "doi": "https://doi.org/10.1109/comst.2022.3182539",
+     "year": 2022,
+     "cites": 352,
+     "venue": "IEEE Communications Surveys & Tutorials"
+    }
+   ]
+  },
+  {
+   "code": "MH0203",
+   "label": "Haze",
+   "label_zh": "霾",
+   "family": "Meteorological & Hydrological",
+   "family_zh": "气象与水文",
+   "cluster": "MH-PART",
+   "query": "haze",
+   "papers_2020": 66147,
+   "top_venues": [
+    {
+     "name": "Nature Communications",
+     "type": "journal",
+     "h": 744,
+     "if2": 18.31,
+     "publisher": "Nature Portfolio",
+     "url": "http://www.nature.com/ncomms/index.html",
+     "oa": true,
+     "id": "https://openalex.org/S64187185",
+     "n": 241
+    },
+    {
+     "name": "Journal of Geophysical Research Atmospheres",
+     "type": "journal",
+     "h": 652,
+     "if2": 3.29,
+     "publisher": "American Geophysical Union",
+     "url": "http://www.agu.org/journals/jgr/",
+     "oa": false,
+     "id": "https://openalex.org/S207178839",
+     "n": 323
+    },
+    {
+     "name": "PLoS ONE",
+     "type": "journal",
+     "h": 593,
+     "if2": 3.41,
+     "publisher": "Public Library of Science",
+     "url": "http://www.plosone.org/",
+     "oa": true,
+     "id": "https://openalex.org/S202381698",
+     "n": 454
+    }
+   ],
+   "most_active": [
+    {
+     "name": "Sustainability",
+     "type": "journal",
+     "h": 306,
+     "if2": 5.81,
+     "publisher": "Multidisciplinary Digital Publishing Institute",
+     "url": "http://www.mdpi.com/journal/sustainability",
+     "oa": true,
+     "id": "https://openalex.org/S10134376",
+     "n": 1252
+    },
+    {
+     "name": "Atmosphere",
+     "type": "journal",
+     "h": 107,
+     "if2": 3.63,
+     "publisher": "Multidisciplinary Digital Publishing Institute",
+     "url": "http://www.mdpi.com/journal/atmosphere",
+     "oa": true,
+     "id": "https://openalex.org/S946213959",
+     "n": 1158
+    },
+    {
+     "name": "Atmospheric chemistry and physics",
+     "type": "journal",
+     "h": 330,
+     "if2": 6.13,
+     "publisher": "Copernicus Publications",
+     "url": "http://www.atmospheric-chemistry-and-physics.net/",
+     "oa": true,
+     "id": "https://openalex.org/S162708223",
+     "n": 1130
+    }
+   ],
+   "datasets": [
+    {
+     "title": "Complex adaptive systems",
+     "doi": "https://doi.org/10.1036/1097-8542.yb020185",
+     "year": 2015,
+     "cites": 131,
+     "repo": "AccessScience"
+    },
+    {
+     "title": "CURE-TSR: Challenging Unreal and Real Environments for Traffic Sign Recognition",
+     "doi": "https://doi.org/10.5281/zenodo.3903065",
+     "year": 2020,
+     "cites": 26,
+     "repo": "Zenodo (CERN European Organization for Nuclear Research)"
+    },
+    {
+     "title": "Crystal structure of QueE from Escherichia coli",
+     "doi": "https://doi.org/10.2210/pdb6nhl/pdb",
+     "year": 2018,
+     "cites": 13,
+     "repo": "Worldwide Protein Data Bank"
+    },
+    {
+     "title": "RStoolbox: Remote Sensing Data Analysis",
+     "doi": "https://doi.org/10.32614/cran.package.rstoolbox",
+     "year": 2015,
+     "cites": 13,
+     "repo": null
+    },
+    {
+     "title": "Understanding Sensory Integration",
+     "doi": "https://doi.org/10.1037/e586832011-001",
+     "year": 2003,
+     "cites": 12,
+     "repo": "PsycEXTRA Dataset"
+    }
+   ],
+   "data_papers": [
+    {
+     "title": "GLC_FCS30: global land-cover product with fine classification system at 30 m using time-series Landsat imagery",
+     "doi": "https://doi.org/10.5194/essd-13-2753-2021",
+     "year": 2021,
+     "cites": 1094,
+     "journal": "Earth system science data"
+    },
+    {
+     "title": "The Global Fire Atlas of individual fire size, duration, speed and direction",
+     "doi": "https://doi.org/10.5194/essd-11-529-2019",
+     "year": 2019,
+     "cites": 498,
+     "journal": "Earth system science data"
+    },
+    {
+     "title": "Changes in China's anthropogenic emissions and air quality during the COVID-19 pandemic in 2020",
+     "doi": "https://doi.org/10.5194/essd-13-2895-2021",
+     "year": 2021,
+     "cites": 363,
+     "journal": "Earth system science data"
+    }
+   ],
+   "top_papers": [
+    {
+     "title": "Immediate Psychological Responses and Associated Factors during the Initial Stage of the 2019 Coronavirus Disease (COVID-19) Epidemic among the General Population in China",
+     "doi": "https://doi.org/10.3390/ijerph17051729",
+     "year": 2020,
+     "cites": 9917,
+     "venue": "International Journal of Environmental Research and Public Health"
+    },
+    {
+     "title": "A review on genetic algorithm: past, present, and future",
+     "doi": "https://doi.org/10.1007/s11042-020-10139-6",
+     "year": 2020,
+     "cites": 4609,
+     "venue": "Multimedia Tools and Applications"
+    },
+    {
+     "title": "Hospitalization Rates and Characteristics of Patients Hospitalized with Laboratory-Confirmed Coronavirus Disease 2019 — COVID-NET, 14 States, March 1–30, 2020",
+     "doi": "https://doi.org/10.15585/mmwr.mm6915e3",
+     "year": 2020,
+     "cites": 2333,
+     "venue": "MMWR Morbidity and Mortality Weekly Report"
+    }
+   ]
+  },
+  {
+   "code": "MH0204",
+   "label": "Sand Haze",
+   "label_zh": "沙霾",
+   "family": "Meteorological & Hydrological",
+   "family_zh": "气象与水文",
+   "cluster": "MH-PART",
+   "query": "\"sand haze\"",
+   "papers_2020": 12,
+   "top_venues": [],
+   "most_active": [],
+   "err": "HTTP Error 429: Too Many Requests"
+  },
+  {
+   "code": "MH0205",
+   "label": "Smoke",
+   "label_zh": "烟",
+   "family": "Meteorological & Hydrological",
+   "family_zh": "气象与水文",
+   "cluster": "MH-PART",
+   "query": "\"wildfire smoke\"",
+   "papers_2020": 7179,
+   "top_venues": [
+    {
+     "name": "Proceedings of the National Academy of Sciences",
+     "type": "journal",
+     "h": 1165,
+     "if2": 8.84,
+     "publisher": "National Academy of Sciences",
+     "url": "http://www.pnas.org/",
+     "oa": false,
+     "id": "https://openalex.org/S125754415",
+     "n": 56
+    },
+    {
+     "name": "Nature Communications",
+     "type": "journal",
+     "h": 744,
+     "if2": 18.31,
+     "publisher": "Nature Portfolio",
+     "url": "http://www.nature.com/ncomms/index.html",
+     "oa": true,
+     "id": "https://openalex.org/S64187185",
+     "n": 40
+    },
+    {
+     "name": "Journal of Geophysical Research Atmospheres",
+     "type": "journal",
+     "h": 652,
+     "if2": 3.29,
+     "publisher": "American Geophysical Union",
+     "url": "http://www.agu.org/journals/jgr/",
+     "oa": false,
+     "id": "https://openalex.org/S207178839",
+     "n": 157
+    }
+   ],
+   "most_active": [
+    {
+     "name": "Atmospheric chemistry and physics",
+     "type": "journal",
+     "h": 330,
+     "if2": 6.13,
+     "publisher": "Copernicus Publications",
+     "url": "http://www.atmospheric-chemistry-and-physics.net/",
+     "oa": true,
+     "id": "https://openalex.org/S162708223",
+     "n": 272
+    },
+    {
+     "name": "Journal of Geophysical Research Atmospheres",
+     "type": "journal",
+     "h": 652,
+     "if2": 3.29,
+     "publisher": "American Geophysical Union",
+     "url": "http://www.agu.org/journals/jgr/",
+     "oa": false,
+     "id": "https://openalex.org/S207178839",
+     "n": 157
+    },
+    {
+     "name": "Atmosphere",
+     "type": "journal",
+     "h": 107,
+     "if2": 3.63,
+     "publisher": "Multidisciplinary Digital Publishing Institute",
+     "url": "http://www.mdpi.com/journal/atmosphere",
+     "oa": true,
+     "id": "https://openalex.org/S946213959",
+     "n": 147
+    }
+   ],
+   "datasets": [
+    {
+     "title": "GEOS CCM free-running simulation data of the Pacific-Northwest pyrocumulonimbus Event-like aerosol injection, SWIRL selection",
+     "doi": "https://doi.org/10.5281/zenodo.6366105",
+     "year": 2022,
+     "cites": 5,
+     "repo": "Zenodo (CERN European Organization for Nuclear Research)"
+    },
+    {
+     "title": "Missoula Fire Lab Emission Inventory (MFLEI) for CONUS",
+     "doi": "https://doi.org/10.2737/rds-2017-0039",
+     "year": 2017,
+     "cites": 5,
+     "repo": "Forest Service Research Data Archive"
+    },
+    {
+     "title": "RxCADRE 2012: Airborne measurements of smoke emission and dispersion from prescribed fires",
+     "doi": "https://doi.org/10.2737/rds-2014-0015",
+     "year": 2014,
+     "cites": 5,
+     "repo": "Forest Service Research Data Archive"
+    },
+    {
+     "title": "Data for paper publication 'Extreme 2019-2020 Australian wildfires substantially perturbed Earth's radiation budget'",
+     "doi": "https://doi.org/10.5281/zenodo.4550845",
+     "year": 2021,
+     "cites": 3,
+     "repo": "Zenodo (CERN European Organization for Nuclear Research)"
+    },
+    {
+     "title": "Median Grain Diameter of Beaches in the Pacific North West, February 2021 to December 2023",
+     "doi": "https://doi.org/10.5281/zenodo.10467330",
+     "year": 2024,
+     "cites": 2,
+     "repo": "Zenodo (CERN European Organization for Nuclear Research)"
+    }
+   ],
+   "data_papers": [
+    {
+     "title": "Generation and analysis of a new global burned area product based on MODIS 250 m reflectance bands and thermal anomalies",
+     "doi": "https://doi.org/10.5194/essd-10-2015-2018",
+     "year": 2018,
+     "cites": 303,
+     "journal": "Earth system science data"
+    },
+    {
+     "title": "Daily PM2.5 concentration estimates by county, ZIP code, and census tract in 11 western states 2008–2018",
+     "doi": "https://doi.org/10.1038/s41597-021-00891-1",
+     "year": 2021,
+     "cites": 59,
+     "journal": "Scientific Data"
+    },
+    {
+     "title": "Atmospheric temperature, water vapour and liquid water path from two microwave radiometers during MOSAiC",
+     "doi": "https://doi.org/10.1038/s41597-022-01504-1",
+     "year": 2022,
+     "cites": 42,
+     "journal": "Scientific Data"
+    }
+   ],
+   "top_papers": [
+    {
+     "title": "The 2020 report of The Lancet Countdown on health and climate change: responding to converging crises",
+     "doi": "https://doi.org/10.1016/s0140-6736(20)32290-x",
+     "year": 2020,
+     "cites": 1926,
+     "venue": "The Lancet"
+    },
+    {
+     "title": "The 2022 report of the Lancet Countdown on health and climate change: health at the mercy of fossil fuels",
+     "doi": "https://doi.org/10.1016/s0140-6736(22)01540-9",
+     "year": 2022,
+     "cites": 1646,
+     "venue": "The Lancet"
+    },
+    {
+     "title": "2023 AHA/ACC/ACCP/ASPC/NLA/PCNA Guideline for the Management of Patients With Chronic Coronary Disease: A Report of the American Heart Association/American College of Cardiology Joint Committee on Clinical Practice Guidelines",
+     "doi": "https://doi.org/10.1161/cir.0000000000001168",
+     "year": 2023,
+     "cites": 1561,
+     "venue": "Circulation"
+    }
+   ]
+  },
+  {
+   "code": "MH0301",
+   "label": "Wind",
+   "label_zh": "大风",
+   "family": "Meteorological & Hydrological",
+   "family_zh": "气象与水文",
+   "cluster": "MH-WIND",
+   "query": "windstorm",
+   "papers_2020": 6624,
+   "top_venues": [
+    {
+     "name": "Journal of Geophysical Research Atmospheres",
+     "type": "journal",
+     "h": 652,
+     "if2": 3.29,
+     "publisher": "American Geophysical Union",
+     "url": "http://www.agu.org/journals/jgr/",
+     "oa": false,
+     "id": "https://openalex.org/S207178839",
+     "n": 44
+    },
+    {
+     "name": "PLoS ONE",
+     "type": "journal",
+     "h": 593,
+     "if2": 3.41,
+     "publisher": "Public Library of Science",
+     "url": "http://www.plosone.org/",
+     "oa": true,
+     "id": "https://openalex.org/S202381698",
+     "n": 28
+    },
+    {
+     "name": "Scientific Reports",
+     "type": "journal",
+     "h": 461,
+     "if2": 5.23,
+     "publisher": "Nature Portfolio",
+     "url": "http://www.nature.com/srep/index.html",
+     "oa": true,
+     "id": "https://openalex.org/S196734849",
+     "n": 69
+    }
+   ],
+   "most_active": [
+    {
+     "name": "Forests",
+     "type": "journal",
+     "h": 117,
+     "if2": 3.75,
+     "publisher": "Multidisciplinary Digital Publishing Institute",
+     "url": "http://www.mdpi.com/journal/forests/",
+     "oa": true,
+     "id": "https://openalex.org/S71324801",
+     "n": 214
+    },
+    {
+     "name": "Sustainability",
+     "type": "journal",
+     "h": 306,
+     "if2": 5.81,
+     "publisher": "Multidisciplinary Digital Publishing Institute",
+     "url": "http://www.mdpi.com/journal/sustainability",
+     "oa": true,
+     "id": "https://openalex.org/S10134376",
+     "n": 145
+    },
+    {
+     "name": "Atmosphere",
+     "type": "journal",
+     "h": 107,
+     "if2": 3.63,
+     "publisher": "Multidisciplinary Digital Publishing Institute",
+     "url": "http://www.mdpi.com/journal/atmosphere",
+     "oa": true,
+     "id": "https://openalex.org/S946213959",
+     "n": 93
+    }
+   ],
+   "datasets": [
+    {
+     "title": "hurricaneexposure: Explore and Map County-Level Hurricane Exposure in the United States",
+     "doi": "https://doi.org/10.32614/cran.package.hurricaneexposure",
+     "year": 2017,
+     "cites": 14,
+     "repo": null
+    },
+    {
+     "title": "Data for a Greener World",
+     "doi": "https://doi.org/10.5089/9798400217296.071",
+     "year": 2023,
+     "cites": 6,
+     "repo": "International Monetary Fund eBooks"
+    },
+    {
+     "title": "Probabilistic Windstorm Hazard Event Set for Europe",
+     "doi": "https://doi.org/10.3929/ethz-b-000406567",
+     "year": 2020,
+     "cites": 3,
+     "repo": "Repository for Publications and Research Data (ETH Zurich)"
+    },
+    {
+     "title": "Data for WISSDOM Synthesis in A Strong Wind Event 13-14 Feb. 2018",
+     "doi": "https://doi.org/10.5281/zenodo.6537507",
+     "year": 2022,
+     "cites": 2,
+     "repo": "Zenodo (CERN European Organization for Nuclear Research)"
+    },
+    {
+     "title": "Search strategies for: \"Climate action for health and wellbeing in cities: a protocol for the systematic development of a database of peer-reviewed studies using machine learning methods\"",
+     "doi": "https://doi.org/10.17037/data.00002094",
+     "year": 2021,
+     "cites": 2,
+     "repo": "London School of Hygiene & Tropical Medicine"
+    }
+   ],
+   "data_papers": [
+    {
+     "title": "EU-Forest, a high-resolution tree occurrence dataset for Europe",
+     "doi": "https://doi.org/10.1038/sdata.2016.123",
+     "year": 2017,
+     "cites": 194,
+     "journal": "Scientific Data"
+    },
+    {
+     "title": "A spatially explicit database of wind disturbances in European forests over the period 2000–2018",
+     "doi": "https://doi.org/10.5194/essd-12-257-2020",
+     "year": 2020,
+     "cites": 115,
+     "journal": "Earth system science data"
+    },
+    {
+     "title": "HANZE: a pan-European database of exposure to natural hazards and damaging historical floods since 1870",
+     "doi": "https://doi.org/10.5194/essd-10-565-2018",
+     "year": 2018,
+     "cites": 107,
+     "journal": "Earth system science data"
+    }
+   ],
+   "top_papers": [
+    {
+     "title": "The Arctic has warmed nearly four times faster than the globe since 1979",
+     "doi": "https://doi.org/10.1038/s43247-022-00498-3",
+     "year": 2022,
+     "cites": 3023,
+     "venue": "Communications Earth & Environment"
+    },
+    {
+     "title": "A review of the global climate change impacts, adaptation, and sustainable mitigation measures",
+     "doi": "https://doi.org/10.1007/s11356-022-19718-6",
+     "year": 2022,
+     "cites": 2337,
+     "venue": "Environmental Science and Pollution Research"
+    },
+    {
+     "title": "The Impact of Climate Change on Mental Health: A Systematic Descriptive Review",
+     "doi": "https://doi.org/10.3389/fpsyt.2020.00074",
+     "year": 2020,
+     "cites": 1307,
+     "venue": "Frontiers in Psychiatry"
+    }
+   ]
+  },
+  {
+   "code": "MH0302",
+   "label": "Derecho",
+   "label_zh": "德雷乔风暴",
+   "family": "Meteorological & Hydrological",
+   "family_zh": "气象与水文",
+   "cluster": "MH-WIND",
+   "query": "derecho",
+   "papers_2020": 458809,
+   "top_venues": [
+    {
+     "name": "Dialnet (Universidad de la Rioja)",
+     "type": "repository",
+     "h": 219,
+     "if2": 0.0,
+     "publisher": "Universidad Internacional de La Rioja",
+     "url": "https://dialnet.unirioja.es",
+     "oa": false,
+     "id": "https://openalex.org/S4306401293",
+     "n": 13842
+    },
+    {
+     "name": "Zenodo (CERN European Organization for Nuclear Research)",
+     "type": "repository",
+     "h": 199,
+     "if2": 0.04,
+     "publisher": "European Organization for Nuclear Research",
+     "url": "https://zenodo.org",
+     "oa": true,
+     "id": "https://openalex.org/S4306400562",
+     "n": 4118
+    },
+    {
+     "name": "LA Referencia (Red Federada de Repositorios Institucionales de Publicaciones Científicas)",
+     "type": "repository",
+     "h": 198,
+     "if2": 0.0,
+     "publisher": "LA Referencia",
+     "url": "http://www.lareferencia.info",
+     "oa": false,
+     "id": "https://openalex.org/S4306402641",
+     "n": 2444
+    }
+   ],
+   "most_active": [
+    {
+     "name": "Dialnet (Universidad de la Rioja)",
+     "type": "repository",
+     "h": 219,
+     "if2": 0.0,
+     "publisher": "Universidad Internacional de La Rioja",
+     "url": "https://dialnet.unirioja.es",
+     "oa": false,
+     "id": "https://openalex.org/S4306401293",
+     "n": 13842
+    },
+    {
+     "name": "Ciencia Latina Revista Científica Multidisciplinar",
+     "type": "journal",
+     "h": 36,
+     "if2": 0.61,
+     "publisher": "Latin American Association for the Advancement of Sciences",
+     "url": "http://ciencialatina.org",
+     "oa": true,
+     "id": "https://openalex.org/S4210182600",
+     "n": 5115
+    },
+    {
+     "name": "Zenodo (CERN European Organization for Nuclear Research)",
+     "type": "repository",
+     "h": 199,
+     "if2": 0.04,
+     "publisher": "European Organization for Nuclear Research",
+     "url": "https://zenodo.org",
+     "oa": true,
+     "id": "https://openalex.org/S4306400562",
+     "n": 4118
+    }
+   ],
+   "datasets": [
+    {
+     "title": "COMISIÓN NACIONAL DE LOS DERECHOS HUMANOS",
+     "doi": "https://doi.org/10.1163/2210-7975_hrd-9949-20190001",
+     "year": 2020,
+     "cites": 72,
+     "repo": "Human Rights Documents online"
+    },
+    {
+     "title": "human-rights-watch-world-report-2011",
+     "doi": "https://doi.org/10.1163/2210-7975_hrd-2156-0685",
+     "year": 2016,
+     "cites": 48,
+     "repo": "Human Rights Documents online"
+    },
+    {
+     "title": "Derechos humanos en la Argentina Informe 2019",
+     "doi": "https://doi.org/10.1163/2210-7975_hrd-0382-20190002",
+     "year": 2020,
+     "cites": 46,
+     "repo": "Human Rights Documents online"
+    },
+    {
+     "title": "Global labour recruitment in a supply chain context",
+     "doi": "https://doi.org/10.1163/2210-7975_hrd-4022-2015033",
+     "year": 2018,
+     "cites": 46,
+     "repo": "Human Rights Documents online"
+    },
+    {
+     "title": "Procedimiento para incrementar la gestión competitiva de las pequeñas y medianas empresas (PYMES) comerciales ecuatorianas",
+     "doi": "https://doi.org/10.23857/dom.cien.pocaip.2017.3.4.oct.364-383",
+     "year": 2017,
+     "cites": 25,
+     "repo": null
+    }
+   ],
+   "data_papers": [
+    {
+     "title": "Global Carbon Budget 2024",
+     "doi": "https://doi.org/10.5194/essd-17-965-2025",
+     "year": 2025,
+     "cites": 789,
+     "journal": "Earth system science data"
+    },
+    {
+     "title": "Minute Sea-Level Analysis (MISELA): a high-frequency sea-level analysis global dataset",
+     "doi": "https://doi.org/10.5194/essd-13-4121-2021",
+     "year": 2021,
+     "cites": 28,
+     "journal": "Earth system science data"
+    },
+    {
+     "title": "A socio-environmental geodatabase for integrative research in the transboundary Rio Grande/Río Bravo basin",
+     "doi": "https://doi.org/10.1038/s41597-020-0410-1",
+     "year": 2020,
+     "cites": 19,
+     "journal": "Scientific Data"
+    }
+   ],
+   "top_papers": [
+    {
+     "title": "Isolation, quarantine, social distancing and community containment: pivotal role for old-style public health measures in the novel coronavirus (2019-nCoV) outbreak",
+     "doi": "https://doi.org/10.1093/jtm/taaa020",
+     "year": 2020,
+     "cites": 2725,
+     "venue": "Journal of Travel Medicine"
+    },
+    {
+     "title": "The Impact of Climate Change on Mental Health: A Systematic Descriptive Review",
+     "doi": "https://doi.org/10.3389/fpsyt.2020.00074",
+     "year": 2020,
+     "cites": 1307,
+     "venue": "Frontiers in Psychiatry"
+    },
+    {
+     "title": "Policy Brief: Education during COVID-19 and beyond",
+     "doi": "https://doi.org/10.24215/18509959.26.e12",
+     "year": 2020,
+     "cites": 1003,
+     "venue": "Revista Iberoamericana de Tecnología en Educación y Educación en Tecnología"
+    }
+   ]
+  },
+  {
+   "code": "MH0303",
+   "label": "Gale",
+   "label_zh": "烈风",
+   "family": "Meteorological & Hydrological",
+   "family_zh": "气象与水文",
+   "cluster": "MH-WIND",
+   "query": "gales",
+   "papers_2020": 168433,
+   "top_venues": [
+    {
+     "name": "Nature Communications",
+     "type": "journal",
+     "h": 744,
+     "if2": 18.31,
+     "publisher": "Nature Portfolio",
+     "url": "http://www.nature.com/ncomms/index.html",
+     "oa": true,
+     "id": "https://openalex.org/S64187185",
+     "n": 641
+    },
+    {
+     "name": "PLoS ONE",
+     "type": "journal",
+     "h": 593,
+     "if2": 3.41,
+     "publisher": "Public Library of Science",
+     "url": "http://www.plosone.org/",
+     "oa": true,
+     "id": "https://openalex.org/S202381698",
+     "n": 1567
+    },
+    {
+     "name": "Scientific Reports",
+     "type": "journal",
+     "h": 461,
+     "if2": 5.23,
+     "publisher": "Nature Portfolio",
+     "url": "http://www.nature.com/srep/index.html",
+     "oa": true,
+     "id": "https://openalex.org/S196734849",
+     "n": 1349
+    }
+   ],
+   "most_active": [
+    {
+     "name": "International Journal of Molecular Sciences",
+     "type": "journal",
+     "h": 424,
+     "if2": 6.99,
+     "publisher": "Multidisciplinary Digital Publishing Institute",
+     "url": "http://www.mdpi.com/journal/ijms/",
+     "oa": true,
+     "id": "https://openalex.org/S10623703",
+     "n": 1996
+    },
+    {
+     "name": "PLoS ONE",
+     "type": "journal",
+     "h": 593,
+     "if2": 3.41,
+     "publisher": "Public Library of Science",
+     "url": "http://www.plosone.org/",
+     "oa": true,
+     "id": "https://openalex.org/S202381698",
+     "n": 1567
+    },
+    {
+     "name": "Scientific Reports",
+     "type": "journal",
+     "h": 461,
+     "if2": 5.23,
+     "publisher": "Nature Portfolio",
+     "url": "http://www.nature.com/srep/index.html",
+     "oa": true,
+     "id": "https://openalex.org/S196734849",
+     "n": 1349
+    }
+   ],
+   "datasets": [
+    {
+     "title": "Observing Unobservables: Identifying Information Asymmetries with a Consumer Credit Field Experiment",
+     "doi": "https://doi.org/10.1257/rct.1241",
+     "year": 2016,
+     "cites": 143,
+     "repo": "AEA Randomized Controlled Trials"
+    },
+    {
+     "title": "NADA2: Data Analysis for Censored Environmental Data",
+     "doi": "https://doi.org/10.32614/cran.package.nada2",
+     "year": 2021,
+     "cites": 50,
+     "repo": null
+    },
+    {
+     "title": "Impact of Enterobius vermicularis infection and mebendazole treatment on intestinal microbiota and host immune response",
+     "doi": "https://doi.org/10.1371/journal.pntd.0005963",
+     "year": 2017,
+     "cites": 45,
+     "repo": "Figshare"
+    },
+    {
+     "title": "Research review of potential safety effects of electronic billboards on driver attention and distraction",
+     "doi": "https://doi.org/10.1037/e439682008-001",
+     "year": 2004,
+     "cites": 43,
+     "repo": "PsycEXTRA Dataset"
+    },
+    {
+     "title": "Gale Cengage Learning",
+     "doi": "https://doi.org/10.1163/1872-9037_afco_asc_2259",
+     "year": 2014,
+     "cites": 33,
+     "repo": "African Studies Companion Online"
+    }
+   ],
+   "data_papers": [
+    {
+     "title": "Charting the complete elastic properties of inorganic crystalline compounds",
+     "doi": "https://doi.org/10.1038/sdata.2015.9",
+     "year": 2015,
+     "cites": 1005,
+     "journal": "Scientific Data"
+    },
+    {
+     "title": "The CHRS Data Portal, an easily accessible public repository for PERSIANN global satellite precipitation data",
+     "doi": "https://doi.org/10.1038/sdata.2018.296",
+     "year": 2019,
+     "cites": 319,
+     "journal": "Scientific Data"
+    },
+    {
+     "title": "AiiDA 1.0, a scalable computational infrastructure for automated reproducible workflows and data provenance",
+     "doi": "https://doi.org/10.1038/s41597-020-00638-4",
+     "year": 2020,
+     "cites": 313,
+     "journal": "Scientific Data"
+    }
+   ],
+   "top_papers": [
+    {
+     "title": "LAMMPS - a flexible simulation tool for particle-based materials modeling at the atomic, meso, and continuum scales",
+     "doi": "https://doi.org/10.1016/j.cpc.2021.108171",
+     "year": 2021,
+     "cites": 12368,
+     "venue": "Computer Physics Communications"
+    },
+    {
+     "title": "ChatGPT for good? On opportunities and challenges of large language models for education",
+     "doi": "https://doi.org/10.1016/j.lindif.2023.102274",
+     "year": 2023,
+     "cites": 7204,
+     "venue": "Learning and Individual Differences"
+    },
+    {
+     "title": "2021 ESC Guidelines on cardiovascular disease prevention in clinical practice",
+     "doi": "https://doi.org/10.1093/eurheartj/ehab484",
+     "year": 2021,
+     "cites": 6494,
+     "venue": "European Heart Journal"
+    }
+   ]
+  },
+  {
+   "code": "MH0304",
+   "label": "Squall",
+   "label_zh": "飑",
+   "family": "Meteorological & Hydrological",
+   "family_zh": "气象与水文",
+   "cluster": "MH-WIND",
+   "query": "squall",
+   "papers_2020": 4133,
+   "top_venues": [
+    {
+     "name": "Journal of Geophysical Research Atmospheres",
+     "type": "journal",
+     "h": 652,
+     "if2": 3.29,
+     "publisher": "American Geophysical Union",
+     "url": "http://www.agu.org/journals/jgr/",
+     "oa": false,
+     "id": "https://openalex.org/S207178839",
+     "n": 208
+    },
+    {
+     "name": "Scientific Reports",
+     "type": "journal",
+     "h": 461,
+     "if2": 5.23,
+     "publisher": "Nature Portfolio",
+     "url": "http://www.nature.com/srep/index.html",
+     "oa": true,
+     "id": "https://openalex.org/S196734849",
+     "n": 40
+    },
+    {
+     "name": "Geophysical Research Letters",
+     "type": "journal",
+     "h": 418,
+     "if2": 4.81,
+     "publisher": "American Geophysical Union",
+     "url": "http://onlinelibrary.wiley.com/journal/10.1002/(ISSN)1944-8007",
+     "oa": true,
+     "id": "https://openalex.org/S36624081",
+     "n": 107
+    }
+   ],
+   "most_active": [
+    {
+     "name": "Atmosphere",
+     "type": "journal",
+     "h": 107,
+     "if2": 3.63,
+     "publisher": "Multidisciplinary Digital Publishing Institute",
+     "url": "http://www.mdpi.com/journal/atmosphere",
+     "oa": true,
+     "id": "https://openalex.org/S946213959",
+     "n": 241
+    },
+    {
+     "name": "Journal of Geophysical Research Atmospheres",
+     "type": "journal",
+     "h": 652,
+     "if2": 3.29,
+     "publisher": "American Geophysical Union",
+     "url": "http://www.agu.org/journals/jgr/",
+     "oa": false,
+     "id": "https://openalex.org/S207178839",
+     "n": 208
+    },
+    {
+     "name": "Remote Sensing",
+     "type": "journal",
+     "h": 275,
+     "if2": 5.25,
+     "publisher": "Multidisciplinary Digital Publishing Institute",
+     "url": "http://www.mdpi.com/journal/remotesensing",
+     "oa": true,
+     "id": "https://openalex.org/S43295729",
+     "n": 166
+    }
+   ],
+   "datasets": [
+    {
+     "title": "Output data and namelist - README file of \"Evolution of squall line variability and error growth in an ensemble of LES'",
+     "doi": "https://doi.org/10.5281/zenodo.6619312",
+     "year": 2022,
+     "cites": 6,
+     "repo": "Zenodo (CERN European Organization for Nuclear Research)"
+    },
+    {
+     "title": "WRF model fields for TITAN tracking of simulated storms, Morrison microphysics scheme",
+     "doi": "https://doi.org/10.5281/zenodo.4784819",
+     "year": 2021,
+     "cites": 4,
+     "repo": "Figshare"
+    },
+    {
+     "title": "Convective cloud mergers and their impact on lightning activity in a severe squall-line system",
+     "doi": "https://doi.org/10.5281/zenodo.3381326",
+     "year": 2019,
+     "cites": 2,
+     "repo": "Figshare"
+    },
+    {
+     "title": "Vertical coupling of gusts in the lower boundary layer during super typhoons and squall lines",
+     "doi": "https://doi.org/10.5281/zenodo.6856703",
+     "year": 2022,
+     "cites": 1,
+     "repo": "Zenodo (CERN European Organization for Nuclear Research)"
+    },
+    {
+     "title": "Windthrow events in the forest zone of Western Siberia in 2001-2020",
+     "doi": "https://doi.org/10.6084/m9.figshare.19582786",
+     "year": 2022,
+     "cites": 1,
+     "repo": "Figshare"
+    }
+   ],
+   "data_papers": [
+    {
+     "title": "A labelled ocean SAR imagery dataset of ten geophysical phenomena from Sentinel‐1 wave mode",
+     "doi": "https://doi.org/10.1002/gdj3.73",
+     "year": 2019,
+     "cites": 76,
+     "journal": "Geoscience Data Journal"
+    },
+    {
+     "title": "OceanRAIN, a new in-situ shipboard global ocean surface-reference dataset of all water cycle components",
+     "doi": "https://doi.org/10.1038/sdata.2018.122",
+     "year": 2018,
+     "cites": 55,
+     "journal": "Scientific Data"
+    },
+    {
+     "title": "High-resolution gridded soil moisture and soil temperature datasets for the Indian monsoon region",
+     "doi": "https://doi.org/10.1038/sdata.2018.264",
+     "year": 2018,
+     "cites": 54,
+     "journal": "Scientific Data"
+    }
+   ],
+   "top_papers": [
+    {
+     "title": "Loneliness around the world: Age, gender, and cultural differences in loneliness",
+     "doi": "https://doi.org/10.1016/j.paid.2020.110066",
+     "year": 2020,
+     "cites": 821,
+     "venue": "Personality and Individual Differences"
+    },
+    {
+     "title": "Confronting the Challenge of Modeling Cloud and Precipitation Microphysics",
+     "doi": "https://doi.org/10.1029/2019ms001689",
+     "year": 2020,
+     "cites": 614,
+     "venue": "Journal of Advances in Modeling Earth Systems"
+    },
+    {
+     "title": "Skilful nowcasting of extreme precipitation with NowcastNet",
+     "doi": "https://doi.org/10.1038/s41586-023-06184-4",
+     "year": 2023,
+     "cites": 451,
+     "venue": "Nature"
+    }
+   ]
+  },
+  {
+   "code": "MH0305",
+   "label": "Tornado",
+   "label_zh": "龙卷",
+   "family": "Meteorological & Hydrological",
+   "family_zh": "气象与水文",
+   "cluster": "MH-WIND",
+   "query": "tornado",
+   "papers_2020": 87164,
+   "top_venues": [
+    {
+     "name": "PLoS ONE",
+     "type": "journal",
+     "h": 593,
+     "if2": 3.41,
+     "publisher": "Public Library of Science",
+     "url": "http://www.plosone.org/",
+     "oa": true,
+     "id": "https://openalex.org/S202381698",
+     "n": 298
+    },
+    {
+     "name": "Scientific Reports",
+     "type": "journal",
+     "h": 461,
+     "if2": 5.23,
+     "publisher": "Nature Portfolio",
+     "url": "http://www.nature.com/srep/index.html",
+     "oa": true,
+     "id": "https://openalex.org/S196734849",
+     "n": 288
+    },
+    {
+     "name": "Bulletin of the American Meteorological Society",
+     "type": "journal",
+     "h": 311,
+     "if2": 4.92,
+     "publisher": "American Meteorological Society",
+     "url": "http://www.ametsoc.org/pubs/bams/",
+     "oa": false,
+     "id": "https://openalex.org/S140302479",
+     "n": 187
+    }
+   ],
+   "most_active": [
+    {
+     "name": "Research Society and Development",
+     "type": "journal",
+     "h": 37,
+     "if2": 0.36,
+     "publisher": "Grupo de Pesquisa Metodologias em Ensino e Aprendizagem em Ciências",
+     "url": "http://rsd.unifei.edu.br/index.php/rsd/index",
+     "oa": true,
+     "id": "https://openalex.org/S2739064124",
+     "n": 1203
+    },
+    {
+     "name": "LA Referencia (Red Federada de Repositorios Institucionales de Publicaciones Científicas)",
+     "type": "repository",
+     "h": 198,
+     "if2": 0.0,
+     "publisher": "LA Referencia",
+     "url": "http://www.lareferencia.info",
+     "oa": false,
+     "id": "https://openalex.org/S4306402641",
+     "n": 999
+    },
+    {
+     "name": "Revista Ibero-Americana de Humanidades, Ciências e Educação",
+     "type": "journal",
+     "h": 19,
+     "if2": 0.16,
+     "publisher": "Arche Scientific and Editorial Consultancy",
+     "url": "https://periodicorease.pro.br/rease/pt_BR",
+     "oa": true,
+     "id": "https://openalex.org/S4210238184",
+     "n": 921
+    }
+   ],
+   "datasets": [
+    {
+     "title": "fda: Functional Data Analysis",
+     "doi": "https://doi.org/10.32614/cran.package.fda",
+     "year": 2003,
+     "cites": 100,
+     "repo": null
+    },
+    {
+     "title": "Climatological Data National Summary",
+     "doi": null,
+     "year": 2018,
+     "cites": 56,
+     "repo": null
+    },
+    {
+     "title": "verification: Weather Forecast Verification",
+     "doi": "https://doi.org/10.32614/cran.package.verification",
+     "year": 2004,
+     "cites": 35,
+     "repo": null
+    },
+    {
+     "title": "Global Surface Summary of the Day - GSOD",
+     "doi": null,
+     "year": 2018,
+     "cites": 28,
+     "repo": null
+    },
+    {
+     "title": "The Surgeon General's Call to Action To Promote Healthy Homes",
+     "doi": "https://doi.org/10.1037/e511812010-001",
+     "year": 2013,
+     "cites": 21,
+     "repo": "PsycEXTRA Dataset"
+    }
+   ],
+   "data_papers": [
+    {
+     "title": "A monthly global paleo-reanalysis of the atmosphere from 1600 to 2005 for studying past climatic variations",
+     "doi": "https://doi.org/10.1038/sdata.2017.76",
+     "year": 2017,
+     "cites": 123,
+     "journal": "Scientific Data"
+    },
+    {
+     "title": "A spatially explicit database of wind disturbances in European forests over the period 2000–2018",
+     "doi": "https://doi.org/10.5194/essd-12-257-2020",
+     "year": 2020,
+     "cites": 115,
+     "journal": "Earth system science data"
+    },
+    {
+     "title": "Hourly weather observations from the Scottish Highlands (1883–1904) rescued by volunteer citizen scientists",
+     "doi": "https://doi.org/10.1002/gdj3.79",
+     "year": 2019,
+     "cites": 112,
+     "journal": "Geoscience Data Journal"
+    }
+   ],
+   "top_papers": [
+    {
+     "title": "Emergency remote teaching in a time of global crisis due to CoronaVirus pandemic",
+     "doi": "https://doi.org/10.5281/zenodo.3778082",
+     "year": 2020,
+     "cites": 1662,
+     "venue": "Zenodo (CERN European Organization for Nuclear Research)"
+    },
+    {
+     "title": "The 2022 report of the Lancet Countdown on health and climate change: health at the mercy of fossil fuels",
+     "doi": "https://doi.org/10.1016/s0140-6736(22)01540-9",
+     "year": 2022,
+     "cites": 1646,
+     "venue": "The Lancet"
+    },
+    {
+     "title": "Accurate medium-range global weather forecasting with 3D neural networks",
+     "doi": "https://doi.org/10.1038/s41586-023-06185-3",
+     "year": 2023,
+     "cites": 1631,
+     "venue": "Nature"
+    }
+   ]
+  },
+  {
+   "code": "MH0306",
+   "label": "Depression or Cyclone",
+   "label_zh": "低压或气旋",
+   "family": "Meteorological & Hydrological",
+   "family_zh": "气象与水文",
+   "cluster": "MH-WIND",
+   "query": "cyclone",
+   "papers_2020": 96242,
+   "top_venues": [
+    {
+     "name": "Nature Communications",
+     "type": "journal",
+     "h": 744,
+     "if2": 18.31,
+     "publisher": "Nature Portfolio",
+     "url": "http://www.nature.com/ncomms/index.html",
+     "oa": true,
+     "id": "https://openalex.org/S64187185",
+     "n": 548
+    },
+    {
+     "name": "Journal of Geophysical Research Atmospheres",
+     "type": "journal",
+     "h": 652,
+     "if2": 3.29,
+     "publisher": "American Geophysical Union",
+     "url": "http://www.agu.org/journals/jgr/",
+     "oa": false,
+     "id": "https://openalex.org/S207178839",
+     "n": 1120
+    },
+    {
+     "name": "PLoS ONE",
+     "type": "journal",
+     "h": 593,
+     "if2": 3.41,
+     "publisher": "Public Library of Science",
+     "url": "http://www.plosone.org/",
+     "oa": true,
+     "id": "https://openalex.org/S202381698",
+     "n": 532
+    }
+   ],
+   "most_active": [
+    {
+     "name": "Remote Sensing",
+     "type": "journal",
+     "h": 275,
+     "if2": 5.25,
+     "publisher": "Multidisciplinary Digital Publishing Institute",
+     "url": "http://www.mdpi.com/journal/remotesensing",
+     "oa": true,
+     "id": "https://openalex.org/S43295729",
+     "n": 1784
+    },
+    {
+     "name": "Atmosphere",
+     "type": "journal",
+     "h": 107,
+     "if2": 3.63,
+     "publisher": "Multidisciplinary Digital Publishing Institute",
+     "url": "http://www.mdpi.com/journal/atmosphere",
+     "oa": true,
+     "id": "https://openalex.org/S946213959",
+     "n": 1705
+    },
+    {
+     "name": "Geophysical Research Letters",
+     "type": "journal",
+     "h": 418,
+     "if2": 4.81,
+     "publisher": "American Geophysical Union",
+     "url": "http://onlinelibrary.wiley.com/journal/10.1002/(ISSN)1944-8007",
+     "oa": true,
+     "id": "https://openalex.org/S36624081",
+     "n": 1514
+    }
+   ],
+   "datasets": [
+    {
+     "title": "Guidelines For Use Of Climate Scenarios Developed From Statistical Downscaling Methods.",
+     "doi": "https://doi.org/10.5281/zenodo.1438319",
+     "year": 2004,
+     "cites": 795,
+     "repo": "Figshare"
+    },
+    {
+     "title": "The International Surface Pressure Databank version 4",
+     "doi": "https://doi.org/10.5065/9eyr-ty90",
+     "year": 2019,
+     "cites": 77,
+     "repo": null
+    },
+    {
+     "title": "Pleistocene glaciation in Kurdistan",
+     "doi": "https://doi.org/10.3285/eg.12.1.12",
+     "year": 2018,
+     "cites": 70,
+     "repo": null
+    },
+    {
+     "title": "NCDC International Best Track Archive for Climate Stewardship (IBTrACS) Project, Version 3",
+     "doi": null,
+     "year": 2018,
+     "cites": 30,
+     "repo": null
+    },
+    {
+     "title": "Multilocus Bayesian Estimates of Intra-Oceanic Genetic Differentiation, Connectivity, and Admixture in Atlantic Swordfish (Xiphias gladius L.)",
+     "doi": "https://doi.org/10.1371/journal.pone.0127979",
+     "year": 2016,
+     "cites": 28,
+     "repo": "Figshare"
+    }
+   ],
+   "data_papers": [
+    {
+     "title": "Gridded emissions of air pollutants for the period 1970–2012 within EDGAR v4.3.2",
+     "doi": "https://doi.org/10.5194/essd-10-1987-2018",
+     "year": 2018,
+     "cites": 886,
+     "journal": "Earth system science data"
+    },
+    {
+     "title": "Satellite-based time-series of sea-surface temperature since 1981 for climate applications",
+     "doi": "https://doi.org/10.1038/s41597-019-0236-x",
+     "year": 2019,
+     "cites": 520,
+     "journal": "Scientific Data"
+    },
+    {
+     "title": "Heat stored in the Earth system: where does the energy go?",
+     "doi": "https://doi.org/10.5194/essd-12-2013-2020",
+     "year": 2020,
+     "cites": 386,
+     "journal": "Earth system science data"
+    }
+   ],
+   "top_papers": [
+    {
+     "title": "The Arctic has warmed nearly four times faster than the globe since 1979",
+     "doi": "https://doi.org/10.1038/s43247-022-00498-3",
+     "year": 2022,
+     "cites": 3023,
+     "venue": "Communications Earth & Environment"
+    },
+    {
+     "title": "A review of the global climate change impacts, adaptation, and sustainable mitigation measures",
+     "doi": "https://doi.org/10.1007/s11356-022-19718-6",
+     "year": 2022,
+     "cites": 2337,
+     "venue": "Environmental Science and Pollution Research"
+    },
+    {
+     "title": "Metal additive manufacturing in aerospace: A review",
+     "doi": "https://doi.org/10.1016/j.matdes.2021.110008",
+     "year": 2021,
+     "cites": 2240,
+     "venue": "Materials & Design"
+    }
+   ]
+  },
+  {
+   "code": "MH0307",
+   "label": "Extra-tropical Cyclone",
+   "label_zh": "温带气旋",
+   "family": "Meteorological & Hydrological",
+   "family_zh": "气象与水文",
+   "cluster": "MH-WIND",
+   "query": "\"extra tropical cyclone\"",
+   "papers_2020": 859,
+   "top_venues": [
+    {
+     "name": "Nature Communications",
+     "type": "journal",
+     "h": 744,
+     "if2": 18.31,
+     "publisher": "Nature Portfolio",
+     "url": "http://www.nature.com/ncomms/index.html",
+     "oa": true,
+     "id": "https://openalex.org/S64187185",
+     "n": 10
+    },
+    {
+     "name": "Journal of Geophysical Research Atmospheres",
+     "type": "journal",
+     "h": 652,
+     "if2": 3.29,
+     "publisher": "American Geophysical Union",
+     "url": "http://www.agu.org/journals/jgr/",
+     "oa": false,
+     "id": "https://openalex.org/S207178839",
+     "n": 21
+    },
+    {
+     "name": "Scientific Reports",
+     "type": "journal",
+     "h": 461,
+     "if2": 5.23,
+     "publisher": "Nature Portfolio",
+     "url": "http://www.nature.com/srep/index.html",
+     "oa": true,
+     "id": "https://openalex.org/S196734849",
+     "n": 17
+    }
+   ],
+   "most_active": [
+    {
+     "name": "Climate Dynamics",
+     "type": "journal",
+     "h": 241,
+     "if2": 2.95,
+     "publisher": "Springer Science+Business Media",
+     "url": "http://www.springer.com/earth+sciences/geophysics/journal/382",
+     "oa": false,
+     "id": "https://openalex.org/S93478396",
+     "n": 34
+    },
+    {
+     "name": "Atmosphere",
+     "type": "journal",
+     "h": 107,
+     "if2": 3.63,
+     "publisher": "Multidisciplinary Digital Publishing Institute",
+     "url": "http://www.mdpi.com/journal/atmosphere",
+     "oa": true,
+     "id": "https://openalex.org/S946213959",
+     "n": 32
+    },
+    {
+     "name": "Weather and Climate Dynamics",
+     "type": "journal",
+     "h": 41,
+     "if2": 4.31,
+     "publisher": null,
+     "url": "https://www.weather-climate-dynamics.net/",
+     "oa": true,
+     "id": "https://openalex.org/S4210178013",
+     "n": 32
+    }
+   ],
+   "datasets": [
+    {
+     "title": "Extra-tropical cyclone statistics from OpenIFS aquaplanet simulations",
+     "doi": "https://doi.org/10.5281/zenodo.8027866",
+     "year": 2023,
+     "cites": 1,
+     "repo": "Zenodo (CERN European Organization for Nuclear Research)"
+    },
+    {
+     "title": "Southern Hemisphere cyclones tracks 1979-2013",
+     "doi": "https://doi.org/10.5281/zenodo.2559458",
+     "year": 2019,
+     "cites": 1,
+     "repo": "Figshare"
+    },
+    {
+     "title": "WRF Model namelist",
+     "doi": "https://doi.org/10.5281/zenodo.10080777",
+     "year": 2023,
+     "cites": 0,
+     "repo": "Zenodo (CERN European Organization for Nuclear Research)"
+    },
+    {
+     "title": "Coastal hazard field investigations in response to the November 2011 Bering Sea storm, Norton Sound, Alaska",
+     "doi": null,
+     "year": 2015,
+     "cites": 0,
+     "repo": null
+    }
+   ],
+   "data_papers": [
+    {
+     "title": "16 years of topographic surveys of rip-channelled high-energy meso-macrotidal sandy beach",
+     "doi": "https://doi.org/10.1038/s41597-020-00750-5",
+     "year": 2020,
+     "cites": 97,
+     "journal": "Scientific Data"
+    },
+    {
+     "title": "Digitizing observations from the Met Office Daily Weather Reports for 1900–1910 using citizen scientist volunteers",
+     "doi": "https://doi.org/10.1002/gdj3.93",
+     "year": 2020,
+     "cites": 72,
+     "journal": "Geoscience Data Journal"
+    },
+    {
+     "title": "Sub-seasonal forecasts of demand and wind power and solar power generation for 28 European countries",
+     "doi": "https://doi.org/10.5194/essd-13-2259-2021",
+     "year": 2021,
+     "cites": 51,
+     "journal": "Earth system science data"
+    }
+   ],
+   "top_papers": [
+    {
+     "title": "Why We Can No Longer Ignore Consecutive Disasters",
+     "doi": "https://doi.org/10.1029/2019ef001425",
+     "year": 2020,
+     "cites": 386,
+     "venue": "Earth s Future"
+    },
+    {
+     "title": "Nonstationary weather and water extremes: a review of methods for their detection, attribution, and management",
+     "doi": "https://doi.org/10.5194/hess-25-3897-2021",
+     "year": 2021,
+     "cites": 356,
+     "venue": "Hydrology and earth system sciences"
+    },
+    {
+     "title": "Extreme weather and climate events in northern areas: A review",
+     "doi": "https://doi.org/10.1016/j.earscirev.2020.103324",
+     "year": 2020,
+     "cites": 352,
+     "venue": "Earth-Science Reviews"
+    }
+   ]
+  },
+  {
+   "code": "MH0308",
+   "label": "Sub-tropical Cyclone",
+   "label_zh": "副热带气旋",
+   "family": "Meteorological & Hydrological",
+   "family_zh": "气象与水文",
+   "cluster": "MH-WIND",
+   "query": "\"sub tropical cyclone\"",
+   "papers_2020": 23,
+   "top_venues": [],
+   "most_active": [],
+   "datasets": [],
+   "data_papers": [],
+   "err": "HTTP Error 429: Too Many Requests"
+  },
+  {
+   "code": "MH0309",
+   "label": "Tropical Cyclone",
+   "label_zh": "热带气旋",
+   "family": "Meteorological & Hydrological",
+   "family_zh": "气象与水文",
+   "cluster": "MH-WIND",
+   "query": "\"tropical cyclone\"",
+   "err": "HTTP Error 429: Too Many Requests"
+  },
+  {
+   "code": "MH0401",
+   "label": "Drought",
+   "label_zh": "干旱",
+   "family": "Meteorological & Hydrological",
+   "family_zh": "气象与水文",
+   "cluster": "MH-PRECIP",
+   "query": "drought",
+   "err": "HTTP Error 429: Too Many Requests"
+  },
+  {
+   "code": "MH0402",
+   "label": "Rain",
+   "label_zh": "降雨",
+   "family": "Meteorological & Hydrological",
+   "family_zh": "气象与水文",
+   "cluster": "MH-PRECIP",
+   "query": "\"heavy rainfall\"",
+   "papers_2020": 64929,
+   "top_venues": [
+    {
+     "name": "Journal of Geophysical Research Atmospheres",
+     "type": "journal",
+     "h": 652,
+     "if2": 3.29,
+     "publisher": "American Geophysical Union",
+     "url": "http://www.agu.org/journals/jgr/",
+     "oa": false,
+     "id": "https://openalex.org/S207178839",
+     "n": 468
+    },
+    {
+     "name": "PLoS ONE",
+     "type": "journal",
+     "h": 593,
+     "if2": 3.41,
+     "publisher": "Public Library of Science",
+     "url": "http://www.plosone.org/",
+     "oa": true,
+     "id": "https://openalex.org/S202381698",
+     "n": 352
+    },
+    {
+     "name": "The Science of The Total Environment",
+     "type": "journal",
+     "h": 492,
+     "if2": 12.17,
+     "publisher": "Elsevier BV",
+     "url": "https://www.journals.elsevier.com/science-of-the-total-environment",
+     "oa": false,
+     "id": "https://openalex.org/S86852077",
+     "n": 419
+    }
+   ],
+   "most_active": [
+    {
+     "name": "Water",
+     "type": "journal",
+     "h": 173,
+     "if2": 4.52,
+     "publisher": "Multidisciplinary Digital Publishing Institute",
+     "url": "http://www.mdpi.com/journal/water/",
+     "oa": true,
+     "id": "https://openalex.org/S134216166",
+     "n": 1919
+    },
+    {
+     "name": "Sustainability",
+     "type": "journal",
+     "h": 306,
+     "if2": 5.81,
+     "publisher": "Multidisciplinary Digital Publishing Institute",
+     "url": "http://www.mdpi.com/journal/sustainability",
+     "oa": true,
+     "id": "https://openalex.org/S10134376",
+     "n": 1435
+    },
+    {
+     "name": "Remote Sensing",
+     "type": "journal",
+     "h": 275,
+     "if2": 5.25,
+     "publisher": "Multidisciplinary Digital Publishing Institute",
+     "url": "http://www.mdpi.com/journal/remotesensing",
+     "oa": true,
+     "id": "https://openalex.org/S43295729",
+     "n": 1301
+    }
+   ],
+   "datasets": [
+    {
+     "title": "GPCC Full Data Daily Version 1.0: Daily Land-Surface Precipitation from Rain Gauges built on GTS based and Historic Data",
+     "doi": "https://doi.org/10.5065/d6v69grt",
+     "year": 2016,
+     "cites": 166,
+     "repo": null
+    },
+    {
+     "title": "NASA GPM-Ground Validation: Integrated Precipitation and Hydrology Experiment 2014 Science Plan",
+     "doi": "https://doi.org/10.7924/g8cc0xmr",
+     "year": 2014,
+     "cites": 48,
+     "repo": null
+    },
+    {
+     "title": "Climate Change and Displacement",
+     "doi": "https://doi.org/10.1163/9789004322714_cclc_2019-0181-686",
+     "year": 2022,
+     "cites": 18,
+     "repo": "Climate Change and Law Collection"
+    },
+    {
+     "title": "Map data showing concentration of landslides caused by Hurricane Maria in Puerto Rico",
+     "doi": "https://doi.org/10.5066/f7jd4vrf",
+     "year": 2017,
+     "cites": 18,
+     "repo": "USGS DOI Tool Production Environment"
+    },
+    {
+     "title": "Protecting Electricity Networks from Natural Hazards",
+     "doi": "https://doi.org/10.1163/2210-7975_hrd-4007-2016023",
+     "year": 2018,
+     "cites": 14,
+     "repo": "Human Rights Documents online"
+    }
+   ],
+   "data_papers": [
+    {
+     "title": "High‐resolution polarimetric X‐band weather radar observations at the C abauw E xperimental S ite for A tmospheric R esearch",
+     "doi": "https://doi.org/10.1002/gdj3.5",
+     "year": 2013,
+     "cites": 2420,
+     "journal": "Geoscience Data Journal"
+    },
+    {
+     "title": "A description of the global land-surface precipitation data products of the Global Precipitation Climatology Centre with sample applications including centennial (trend) analysis from 1901–present",
+     "doi": "https://doi.org/10.5194/essd-5-71-2013",
+     "year": 2013,
+     "cites": 917,
+     "journal": "Earth system science data"
+    },
+    {
+     "title": "Historical nitrogen fertilizer use in agricultural ecosystems of the contiguous United States during 1850–2015: application rate, timing, and fertilizer types",
+     "doi": "https://doi.org/10.5194/essd-10-969-2018",
+     "year": 2018,
+     "cites": 263,
+     "journal": "Earth system science data"
+    }
+   ],
+   "top_papers": [
+    {
+     "title": "The 2022 report of the Lancet Countdown on health and climate change: health at the mercy of fossil fuels",
+     "doi": "https://doi.org/10.1016/s0140-6736(22)01540-9",
+     "year": 2022,
+     "cites": 1646,
+     "venue": "The Lancet"
+    },
+    {
+     "title": "Climate change impact on flood and extreme precipitation increases with water availability",
+     "doi": "https://doi.org/10.1038/s41598-020-70816-2",
+     "year": 2020,
+     "cites": 1559,
+     "venue": "Scientific Reports"
+    },
+    {
+     "title": "Impact of Climate Change on Agriculture and Its Mitigation Strategies: A Review",
+     "doi": "https://doi.org/10.3390/su13031318",
+     "year": 2021,
+     "cites": 1511,
+     "venue": "Sustainability"
+    }
+   ]
+  },
+  {
+   "code": "MH0403",
+   "label": "Blizzard",
+   "label_zh": "暴风雪",
+   "family": "Meteorological & Hydrological",
+   "family_zh": "气象与水文",
+   "cluster": "MH-PRECIP",
+   "query": "blizzard",
+   "papers_2020": 12016,
+   "top_venues": [
+    {
+     "name": "PLoS ONE",
+     "type": "journal",
+     "h": 593,
+     "if2": 3.41,
+     "publisher": "Public Library of Science",
+     "url": "http://www.plosone.org/",
+     "oa": true,
+     "id": "https://openalex.org/S202381698",
+     "n": 106
+    },
+    {
+     "name": "Scientific Reports",
+     "type": "journal",
+     "h": 461,
+     "if2": 5.23,
+     "publisher": "Nature Portfolio",
+     "url": "http://www.nature.com/srep/index.html",
+     "oa": true,
+     "id": "https://openalex.org/S196734849",
+     "n": 75
+    },
+    {
+     "name": "International Journal of Molecular Sciences",
+     "type": "journal",
+     "h": 424,
+     "if2": 6.99,
+     "publisher": "Multidisciplinary Digital Publishing Institute",
+     "url": "http://www.mdpi.com/journal/ijms/",
+     "oa": true,
+     "id": "https://openalex.org/S10623703",
+     "n": 101
+    }
+   ],
+   "most_active": [
+    {
+     "name": "Nutrients",
+     "type": "journal",
+     "h": 330,
+     "if2": 6.45,
+     "publisher": "Multidisciplinary Digital Publishing Institute",
+     "url": "http://www.mdpi.com/journal/nutrients/",
+     "oa": true,
+     "id": "https://openalex.org/S110785341",
+     "n": 144
+    },
+    {
+     "name": "International Journal of Environmental Research and Public Health",
+     "type": "journal",
+     "h": 320,
+     "if2": 3.78,
+     "publisher": "Multidisciplinary Digital Publishing Institute",
+     "url": "http://www.mdpi.com/journal/ijerph/",
+     "oa": true,
+     "id": "https://openalex.org/S15239247",
+     "n": 136
+    },
+    {
+     "name": "PLoS ONE",
+     "type": "journal",
+     "h": 593,
+     "if2": 3.41,
+     "publisher": "Public Library of Science",
+     "url": "http://www.plosone.org/",
+     "oa": true,
+     "id": "https://openalex.org/S202381698",
+     "n": 106
+    }
+   ],
+   "datasets": [
+    {
+     "title": "Cocaine Use in the United States: In a Blizzard or Just Being Snowed?",
+     "doi": "https://doi.org/10.1037/e496912006-002",
+     "year": 1985,
+     "cites": 40,
+     "repo": "PsycEXTRA Dataset"
+    },
+    {
+     "title": "The Surgeon General's Call to Action To Promote Healthy Homes",
+     "doi": "https://doi.org/10.1037/e511812010-001",
+     "year": 2013,
+     "cites": 21,
+     "repo": "PsycEXTRA Dataset"
+    },
+    {
+     "title": "Rbeast: Bayesian Change-Point Detection and Time Series Decomposition",
+     "doi": "https://doi.org/10.32614/cran.package.rbeast",
+     "year": 2019,
+     "cites": 9,
+     "repo": null
+    },
+    {
+     "title": "The Blizzard Challenge 2017",
+     "doi": "https://doi.org/10.7488/ds/2220",
+     "year": 2017,
+     "cites": 7,
+     "repo": "University of Edinburgh"
+    },
+    {
+     "title": "Natural Disaster Trends",
+     "doi": "https://doi.org/10.5281/zenodo.7930539",
+     "year": 2023,
+     "cites": 5,
+     "repo": "Zenodo (CERN European Organization for Nuclear Research)"
+    }
+   ],
+   "data_papers": [
+    {
+     "title": "An improved database of coastal flooding in the United Kingdom from 1915 to 2016",
+     "doi": "https://doi.org/10.1038/sdata.2017.100",
+     "year": 2017,
+     "cites": 103,
+     "journal": "Scientific Data"
+    },
+    {
+     "title": "Construction of the REACHES climate database based on historical documents of China",
+     "doi": "https://doi.org/10.1038/sdata.2018.288",
+     "year": 2018,
+     "cites": 58,
+     "journal": "Scientific Data"
+    },
+    {
+     "title": "A high-speed railway network dataset from train operation records and weather data",
+     "doi": "https://doi.org/10.1038/s41597-022-01349-8",
+     "year": 2022,
+     "cites": 39,
+     "journal": "Scientific Data"
+    }
+   ],
+   "top_papers": [
+    {
+     "title": "Sex and gender: modifiers of health, disease, and medicine",
+     "doi": "https://doi.org/10.1016/s0140-6736(20)31561-0",
+     "year": 2020,
+     "cites": 1977,
+     "venue": "The Lancet"
+    },
+    {
+     "title": "Global Initiative for Chronic Obstructive Lung Disease 2023 Report: GOLD Executive Summary",
+     "doi": "https://doi.org/10.1183/13993003.00239-2023",
+     "year": 2023,
+     "cites": 1302,
+     "venue": "European Respiratory Journal"
+    },
+    {
+     "title": "2023 Guideline for the Management of Patients With Aneurysmal Subarachnoid Hemorrhage: A Guideline From the American Heart Association/American Stroke Association",
+     "doi": "https://doi.org/10.1161/str.0000000000000436",
+     "year": 2023,
+     "cites": 997,
+     "venue": "Stroke"
+    }
+   ]
+  },
+  {
+   "code": "MH0404",
+   "label": "Hail",
+   "label_zh": "冰雹",
+   "family": "Meteorological & Hydrological",
+   "family_zh": "气象与水文",
+   "cluster": "MH-PRECIP",
+   "query": "\"hail storm\"",
+   "papers_2020": 1426,
+   "top_venues": [
+    {
+     "name": "Nature",
+     "type": "journal",
+     "h": 1839,
+     "if2": 19.29,
+     "publisher": "Nature Portfolio",
+     "url": "https://www.nature.com/nature/",
+     "oa": false,
+     "id": "https://openalex.org/S137773608",
+     "n": 7
+    },
+    {
+     "name": "Journal of Geophysical Research Atmospheres",
+     "type": "journal",
+     "h": 652,
+     "if2": 3.29,
+     "publisher": "American Geophysical Union",
+     "url": "http://www.agu.org/journals/jgr/",
+     "oa": false,
+     "id": "https://openalex.org/S207178839",
+     "n": 14
+    },
+    {
+     "name": "Scientific Reports",
+     "type": "journal",
+     "h": 461,
+     "if2": 5.23,
+     "publisher": "Nature Portfolio",
+     "url": "http://www.nature.com/srep/index.html",
+     "oa": true,
+     "id": "https://openalex.org/S196734849",
+     "n": 9
+    }
+   ],
+   "most_active": [
+    {
+     "name": "Bulletin of the American Meteorological Society",
+     "type": "journal",
+     "h": 311,
+     "if2": 4.92,
+     "publisher": "American Meteorological Society",
+     "url": "http://www.ametsoc.org/pubs/bams/",
+     "oa": false,
+     "id": "https://openalex.org/S140302479",
+     "n": 31
+    },
+    {
+     "name": "Atmospheric Research",
+     "type": "journal",
+     "h": 176,
+     "if2": 4.05,
+     "publisher": "Elsevier BV",
+     "url": "http://www.elsevier.com/wps/find/journaldescription.cws_home/503323/description",
+     "oa": false,
+     "id": "https://openalex.org/S171488675",
+     "n": 25
+    },
+    {
+     "name": "Monthly Weather Review",
+     "type": "journal",
+     "h": 318,
+     "if2": 1.77,
+     "publisher": "American Meteorological Society",
+     "url": "http://www2.ametsoc.org/ams/index.cfm/publications/journals/monthly-weather-review/",
+     "oa": false,
+     "id": "https://openalex.org/S90791864",
+     "n": 24
+    }
+   ],
+   "datasets": [
+    {
+     "title": "Site report: Wichita, Kansas field test of combined speed, alcohol, and safety belt enforcement strategies",
+     "doi": "https://doi.org/10.1037/e476962008-001",
+     "year": 1995,
+     "cites": 9,
+     "repo": "PsycEXTRA Dataset"
+    },
+    {
+     "title": "NCDC Storm Events Database",
+     "doi": null,
+     "year": 2018,
+     "cites": 7,
+     "repo": null
+    },
+    {
+     "title": "WRF model fields for TITAN tracking of simulated storms, Morrison microphysics scheme",
+     "doi": "https://doi.org/10.5281/zenodo.4784819",
+     "year": 2021,
+     "cites": 4,
+     "repo": "Figshare"
+    },
+    {
+     "title": "HailPixel Survey Data and Analysis from 26 November 2018, San Rafael, Argentina",
+     "doi": "https://doi.org/10.5281/zenodo.3383226",
+     "year": 2019,
+     "cites": 2,
+     "repo": "Zenodo (CERN European Organization for Nuclear Research)"
+    },
+    {
+     "title": "MYRORSS Storm Cluster Dataset for Tornado Detection and Climatology (2005–2011)",
+     "doi": "https://doi.org/10.5281/zenodo.19644585",
+     "year": 2026,
+     "cites": 1,
+     "repo": "Zenodo (CERN European Organization for Nuclear Research)"
+    }
+   ],
+   "data_papers": [
+    {
+     "title": "Brazilian disaster datasets and real-world instances for optimization and machine learning",
+     "doi": "https://doi.org/10.1016/j.dib.2022.108012",
+     "year": 2022,
+     "cites": 8,
+     "journal": "Data in Brief"
+    },
+    {
+     "title": "GOES ABI-derived hailstorm polygons and tracking dataset for Brazil",
+     "doi": "https://doi.org/10.1016/j.dib.2024.110736",
+     "year": 2024,
+     "cites": 2,
+     "journal": "Data in Brief"
+    },
+    {
+     "title": "A new dataset of rain cells based on observations of Tropical Rainfall Measuring Mission (TRMM) precipitation radar, visible/infrared scanner and microwave imager",
+     "doi": "https://doi.org/10.5194/essd-17-5137-2025",
+     "year": 2025,
+     "cites": 1,
+     "journal": "Earth system science data"
+    }
+   ],
+   "top_papers": [
+    {
+     "title": "Extreme weather events risk to crop-production and the adaptation of innovative management strategies to mitigate the risk: A retrospective survey of rural Punjab, Pakistan",
+     "doi": "https://doi.org/10.1016/j.technovation.2021.102255",
+     "year": 2021,
+     "cites": 418,
+     "venue": "Technovation"
+    },
+    {
+     "title": "The environmental factors affecting solar photovoltaic output",
+     "doi": "https://doi.org/10.1016/j.rser.2024.115073",
+     "year": 2024,
+     "cites": 327,
+     "venue": "Renewable and Sustainable Energy Reviews"
+    },
+    {
+     "title": "The effects of climate change on hailstorms",
+     "doi": "https://doi.org/10.1038/s43017-020-00133-9",
+     "year": 2021,
+     "cites": 223,
+     "venue": "Nature Reviews Earth & Environment"
+    }
+   ]
+  },
+  {
+   "code": "MH0405",
+   "label": "Snow",
+   "label_zh": "降雪",
+   "family": "Meteorological & Hydrological",
+   "family_zh": "气象与水文",
+   "cluster": "MH-PRECIP",
+   "query": "\"heavy snowfall\"",
+   "papers_2020": 3717,
+   "top_venues": [
+    {
+     "name": "Journal of Geophysical Research Atmospheres",
+     "type": "journal",
+     "h": 652,
+     "if2": 3.29,
+     "publisher": "American Geophysical Union",
+     "url": "http://www.agu.org/journals/jgr/",
+     "oa": false,
+     "id": "https://openalex.org/S207178839",
+     "n": 34
+    },
+    {
+     "name": "PLoS ONE",
+     "type": "journal",
+     "h": 593,
+     "if2": 3.41,
+     "publisher": "Public Library of Science",
+     "url": "http://www.plosone.org/",
+     "oa": true,
+     "id": "https://openalex.org/S202381698",
+     "n": 22
+    },
+    {
+     "name": "Scientific Reports",
+     "type": "journal",
+     "h": 461,
+     "if2": 5.23,
+     "publisher": "Nature Portfolio",
+     "url": "http://www.nature.com/srep/index.html",
+     "oa": true,
+     "id": "https://openalex.org/S196734849",
+     "n": 51
+    }
+   ],
+   "most_active": [
+    {
+     "name": "Remote Sensing",
+     "type": "journal",
+     "h": 275,
+     "if2": 5.25,
+     "publisher": "Multidisciplinary Digital Publishing Institute",
+     "url": "http://www.mdpi.com/journal/remotesensing",
+     "oa": true,
+     "id": "https://openalex.org/S43295729",
+     "n": 63
+    },
+    {
+     "name": "Atmosphere",
+     "type": "journal",
+     "h": 107,
+     "if2": 3.63,
+     "publisher": "Multidisciplinary Digital Publishing Institute",
+     "url": "http://www.mdpi.com/journal/atmosphere",
+     "oa": true,
+     "id": "https://openalex.org/S946213959",
+     "n": 62
+    },
+    {
+     "name": "Sustainability",
+     "type": "journal",
+     "h": 306,
+     "if2": 5.81,
+     "publisher": "Multidisciplinary Digital Publishing Institute",
+     "url": "http://www.mdpi.com/journal/sustainability",
+     "oa": true,
+     "id": "https://openalex.org/S10134376",
+     "n": 60
+    }
+   ],
+   "datasets": [
+    {
+     "title": "Northeast Snowfall Impact Scale (NESIS)",
+     "doi": null,
+     "year": 2018,
+     "cites": 2,
+     "repo": null
+    },
+    {
+     "title": "Data from: Road salt application increases sodium levels in roadside plants and ants, reshaping tritrophic interactions",
+     "doi": "https://doi.org/10.5061/dryad.sn02v6xk5",
+     "year": 2026,
+     "cites": 0,
+     "repo": "DRYAD"
+    },
+    {
+     "title": "北見工業大学 雪氷・気象防災研究室 研究資料 2026年1月24日からの札幌圏大雪および新千歳空港滞留に関するアンケート調査（データ集：2026年）",
+     "doi": null,
+     "year": 2026,
+     "cites": 0,
+     "repo": "Institutional Repositories DataBase (IRDB)"
+    },
+    {
+     "title": "SnowRef-Drive: A Global Instruction-Driven Traffic Video Segmentation Dataset for Adverse Winter Driving Scenarios",
+     "doi": "https://doi.org/10.5281/zenodo.20356224",
+     "year": 2026,
+     "cites": 0,
+     "repo": "Zenodo (CERN European Organization for Nuclear Research)"
+    },
+    {
+     "title": "Nunatak Monitoring by the Southwest Alaska Network (SWAN): 2005-2016 — Data Package",
+     "doi": "https://doi.org/10.57830/2316553",
+     "year": 2026,
+     "cites": 0,
+     "repo": "National Park Service"
+    }
+   ],
+   "data_papers": [
+    {
+     "title": "CAS Landslide Dataset: A Large-Scale and Multisensor Dataset for Deep Learning-Based Landslide Detection",
+     "doi": "https://doi.org/10.1038/s41597-023-02847-z",
+     "year": 2024,
+     "cites": 111,
+     "journal": "Scientific Data"
+    },
+    {
+     "title": "MOSAiC-ACA and AFLUX - Arctic airborne campaigns characterizing the exit area of MOSAiC",
+     "doi": "https://doi.org/10.1038/s41597-022-01900-7",
+     "year": 2022,
+     "cites": 42,
+     "journal": "Scientific Data"
+    },
+    {
+     "title": "The Guadalfeo Monitoring Network (Sierra Nevada, Spain): 14 years of measurements to understand the complexity of snow dynamics in semiarid regions",
+     "doi": "https://doi.org/10.5194/essd-11-393-2019",
+     "year": 2019,
+     "cites": 28,
+     "journal": "Earth system science data"
+    }
+   ],
+   "top_papers": [
+    {
+     "title": "A Review of the Measures to Enhance Power Systems Resilience",
+     "doi": "https://doi.org/10.1109/jsyst.2020.2965993",
+     "year": 2020,
+     "cites": 384,
+     "venue": "IEEE Systems Journal"
+    },
+    {
+     "title": "Extreme weather and climate events in northern areas: A review",
+     "doi": "https://doi.org/10.1016/j.earscirev.2020.103324",
+     "year": 2020,
+     "cites": 352,
+     "venue": "Earth-Science Reviews"
+    },
+    {
+     "title": "Tundra vegetation change and impacts on permafrost",
+     "doi": "https://doi.org/10.1038/s43017-021-00233-0",
+     "year": 2022,
+     "cites": 351,
+     "venue": "Nature Reviews Earth & Environment"
+    }
+   ]
+  },
+  {
+   "code": "MH0406",
+   "label": "Snow Storm",
+   "label_zh": "雪暴",
+   "family": "Meteorological & Hydrological",
+   "family_zh": "气象与水文",
+   "cluster": "MH-PRECIP",
+   "query": "\"snow storm\"",
+   "papers_2020": 1568,
+   "top_venues": [
+    {
+     "name": "Journal of Geophysical Research Atmospheres",
+     "type": "journal",
+     "h": 652,
+     "if2": 3.29,
+     "publisher": "American Geophysical Union",
+     "url": "http://www.agu.org/journals/jgr/",
+     "oa": false,
+     "id": "https://openalex.org/S207178839",
+     "n": 13
+    },
+    {
+     "name": "PLoS ONE",
+     "type": "journal",
+     "h": 593,
+     "if2": 3.41,
+     "publisher": "Public Library of Science",
+     "url": "http://www.plosone.org/",
+     "oa": true,
+     "id": "https://openalex.org/S202381698",
+     "n": 7
+    },
+    {
+     "name": "Scientific Reports",
+     "type": "journal",
+     "h": 461,
+     "if2": 5.23,
+     "publisher": "Nature Portfolio",
+     "url": "http://www.nature.com/srep/index.html",
+     "oa": true,
+     "id": "https://openalex.org/S196734849",
+     "n": 9
+    }
+   ],
+   "most_active": [
+    {
+     "name": "Digital Commons - University of South Florida (University of South Florida)",
+     "type": "repository",
+     "h": 130,
+     "if2": 0.18,
+     "publisher": "University of South Florida",
+     "url": null,
+     "oa": false,
+     "id": "https://openalex.org/S4377196272",
+     "n": 40
+    },
+    {
+     "name": "Atmosphere",
+     "type": "journal",
+     "h": 107,
+     "if2": 3.63,
+     "publisher": "Multidisciplinary Digital Publishing Institute",
+     "url": "http://www.mdpi.com/journal/atmosphere",
+     "oa": true,
+     "id": "https://openalex.org/S946213959",
+     "n": 21
+    },
+    {
+     "name": "FOX6 News Milwaukee",
+     "type": "journal",
+     "h": 1,
+     "if2": 0,
+     "publisher": null,
+     "url": null,
+     "oa": false,
+     "id": "https://openalex.org/S4306510855",
+     "n": 17
+    }
+   ],
+   "datasets": [
+    {
+     "title": "NCDC Storm Events Database",
+     "doi": null,
+     "year": 2018,
+     "cites": 7,
+     "repo": null
+    },
+    {
+     "title": "Trace chemical evaluation of cloud seeding in the Payette Basin",
+     "doi": "https://doi.org/10.18122/b2901s",
+     "year": 2018,
+     "cites": 3,
+     "repo": "Boise State Data Sets"
+    },
+    {
+     "title": "RESCCUE (RESilience to cope with Climate Change in Urban arEas) EU Project - WP1 Data",
+     "doi": "https://doi.org/10.5281/zenodo.3688401",
+     "year": 2020,
+     "cites": 2,
+     "repo": "Figshare"
+    },
+    {
+     "title": "Assessment Datasets of major agricultural disasters and disaster losses in China, 1949-2015",
+     "doi": "https://doi.org/10.11922/sciencedb.537",
+     "year": 2022,
+     "cites": 1,
+     "repo": "Science Data Bank Datasets"
+    },
+    {
+     "title": "A dataset of major agricultural disasters and disaster losses in China (1949 – 2015)",
+     "doi": "https://doi.org/10.11922/sciencedb.540",
+     "year": 2022,
+     "cites": 1,
+     "repo": "Science Data Bank Datasets"
+    }
+   ],
+   "data_papers": [
+    {
+     "title": "A long-term (2005–2019) eddy covariance data set of CO 2 and H 2 O fluxes from the Tibetan alpine steppe",
+     "doi": "https://doi.org/10.5194/essd-12-2705-2020",
+     "year": 2020,
+     "cites": 30,
+     "journal": "Earth system science data"
+    },
+    {
+     "title": "Radar and ground-level measurements of precipitation collected by the École Polytechnique Fédérale de Lausanne during the International Collaborative Experiments for PyeongChang 2018 Olympic and Paralympic winter games",
+     "doi": "https://doi.org/10.5194/essd-13-417-2021",
+     "year": 2021,
+     "cites": 28,
+     "journal": "Earth system science data"
+    },
+    {
+     "title": "Snow observations in Mount Lebanon (2011–2016)",
+     "doi": "https://doi.org/10.5194/essd-9-573-2017",
+     "year": 2017,
+     "cites": 26,
+     "journal": "Earth system science data"
+    }
+   ],
+   "top_papers": [
+    {
+     "title": "A Survey of Multi-Access Edge Computing in 5G and Beyond: Fundamentals, Technology Integration, and State-of-the-Art",
+     "doi": "https://doi.org/10.1109/access.2020.3001277",
+     "year": 2020,
+     "cites": 870,
+     "venue": "IEEE Access"
+    },
+    {
+     "title": "Cascading risks: Understanding the 2021 winter blackout in Texas",
+     "doi": "https://doi.org/10.1016/j.erss.2021.102106",
+     "year": 2021,
+     "cites": 627,
+     "venue": "Energy Research & Social Science"
+    },
+    {
+     "title": "Urban Climates and Climate Change",
+     "doi": "https://doi.org/10.1146/annurev-environ-012320-083623",
+     "year": 2020,
+     "cites": 353,
+     "venue": "Annual Review of Environment and Resources"
+    }
+   ]
+  },
+  {
+   "code": "MH0501",
+   "label": "Heatwave",
+   "label_zh": "热浪",
+   "family": "Meteorological & Hydrological",
+   "family_zh": "气象与水文",
+   "cluster": "MH-TEMP",
+   "query": "\"heat wave\"",
+   "papers_2020": 57614,
+   "top_venues": [
+    {
+     "name": "Nature Communications",
+     "type": "journal",
+     "h": 744,
+     "if2": 18.31,
+     "publisher": "Nature Portfolio",
+     "url": "http://www.nature.com/ncomms/index.html",
+     "oa": true,
+     "id": "https://openalex.org/S64187185",
+     "n": 337
+    },
+    {
+     "name": "PLoS ONE",
+     "type": "journal",
+     "h": 593,
+     "if2": 3.41,
+     "publisher": "Public Library of Science",
+     "url": "http://www.plosone.org/",
+     "oa": true,
+     "id": "https://openalex.org/S202381698",
+     "n": 442
+    },
+    {
+     "name": "The Science of The Total Environment",
+     "type": "journal",
+     "h": 492,
+     "if2": 12.17,
+     "publisher": "Elsevier BV",
+     "url": "https://www.journals.elsevier.com/science-of-the-total-environment",
+     "oa": false,
+     "id": "https://openalex.org/S86852077",
+     "n": 444
+    }
+   ],
+   "most_active": [
+    {
+     "name": "Sustainability",
+     "type": "journal",
+     "h": 306,
+     "if2": 5.81,
+     "publisher": "Multidisciplinary Digital Publishing Institute",
+     "url": "http://www.mdpi.com/journal/sustainability",
+     "oa": true,
+     "id": "https://openalex.org/S10134376",
+     "n": 1285
+    },
+    {
+     "name": "Scientific Reports",
+     "type": "journal",
+     "h": 461,
+     "if2": 5.23,
+     "publisher": "Nature Portfolio",
+     "url": "http://www.nature.com/srep/index.html",
+     "oa": true,
+     "id": "https://openalex.org/S196734849",
+     "n": 979
+    },
+    {
+     "name": "Atmosphere",
+     "type": "journal",
+     "h": 107,
+     "if2": 3.63,
+     "publisher": "Multidisciplinary Digital Publishing Institute",
+     "url": "http://www.mdpi.com/journal/atmosphere",
+     "oa": true,
+     "id": "https://openalex.org/S946213959",
+     "n": 767
+    }
+   ],
+   "datasets": [
+    {
+     "title": "Climate Change 2023 Synthesis Report",
+     "doi": "https://doi.org/10.1163/9789004322714_cclc_2023-0258-1193",
+     "year": 2024,
+     "cites": 2340,
+     "repo": "Climate Change and Law Collection"
+    },
+    {
+     "title": "Guidelines For Use Of Climate Scenarios Developed From Statistical Downscaling Methods.",
+     "doi": "https://doi.org/10.5281/zenodo.1438319",
+     "year": 2004,
+     "cites": 795,
+     "repo": "Figshare"
+    },
+    {
+     "title": "CLIMATE CHANGE AND SOCIAL VULNERABILITY IN THE UNITED STATES - A focus on Six Impacts",
+     "doi": "https://doi.org/10.1163/9789004322714_cclc_2021-0166-513",
+     "year": 2022,
+     "cites": 98,
+     "repo": "Climate Change and Law Collection"
+    },
+    {
+     "title": "The Surgeon General's Call to Action To Promote Healthy Homes",
+     "doi": "https://doi.org/10.1037/e511812010-001",
+     "year": 2013,
+     "cites": 21,
+     "repo": "PsycEXTRA Dataset"
+    },
+    {
+     "title": "Climate change, heat stress and labour productivity: A cost methodology for city economies",
+     "doi": "https://doi.org/10.1163/9789004322714_cclc_2016-0148-015",
+     "year": 2018,
+     "cites": 13,
+     "repo": "Climate Change and Law Collection"
+    }
+   ],
+   "data_papers": [
+    {
+     "title": "A global moderate resolution dataset of gross primary production of vegetation for 2000–2016",
+     "doi": "https://doi.org/10.1038/sdata.2017.165",
+     "year": 2017,
+     "cites": 603,
+     "journal": "Scientific Data"
+    },
+    {
+     "title": "Bias-corrected climate projections for South Asia from Coupled Model Intercomparison Project-6",
+     "doi": "https://doi.org/10.1038/s41597-020-00681-1",
+     "year": 2020,
+     "cites": 442,
+     "journal": "Scientific Data"
+    },
+    {
+     "title": "The CHRS Data Portal, an easily accessible public repository for PERSIANN global satellite precipitation data",
+     "doi": "https://doi.org/10.1038/sdata.2018.296",
+     "year": 2019,
+     "cites": 319,
+     "journal": "Scientific Data"
+    }
+   ],
+   "top_papers": [
+    {
+     "title": "Global burden of 288 causes of death and life expectancy decomposition in 204 countries and territories and 811 subnational locations, 1990–2021: a systematic analysis for the Global Burden of Disease Study 2021",
+     "doi": "https://doi.org/10.1016/s0140-6736(24)00367-2",
+     "year": 2024,
+     "cites": 2832,
+     "venue": "The Lancet"
+    },
+    {
+     "title": "Plant responses to rising vapor pressure deficit",
+     "doi": "https://doi.org/10.1111/nph.16485",
+     "year": 2020,
+     "cites": 2301,
+     "venue": "New Phytologist"
+    },
+    {
+     "title": "The Global Burden of Cardiovascular Diseases and Risk",
+     "doi": "https://doi.org/10.1016/j.jacc.2022.11.005",
+     "year": 2022,
+     "cites": 2214,
+     "venue": "Journal of the American College of Cardiology"
+    }
+   ]
+  },
+  {
+   "code": "MH0502",
+   "label": "Cold Wave",
+   "label_zh": "寒潮",
+   "family": "Meteorological & Hydrological",
+   "family_zh": "气象与水文",
+   "cluster": "MH-TEMP",
+   "query": "\"cold wave\"",
+   "papers_2020": 5591,
+   "top_venues": [
+    {
+     "name": "Nature Communications",
+     "type": "journal",
+     "h": 744,
+     "if2": 18.31,
+     "publisher": "Nature Portfolio",
+     "url": "http://www.nature.com/ncomms/index.html",
+     "oa": true,
+     "id": "https://openalex.org/S64187185",
+     "n": 32
+    },
+    {
+     "name": "Journal of Geophysical Research Atmospheres",
+     "type": "journal",
+     "h": 652,
+     "if2": 3.29,
+     "publisher": "American Geophysical Union",
+     "url": "http://www.agu.org/journals/jgr/",
+     "oa": false,
+     "id": "https://openalex.org/S207178839",
+     "n": 31
+    },
+    {
+     "name": "PLoS ONE",
+     "type": "journal",
+     "h": 593,
+     "if2": 3.41,
+     "publisher": "Public Library of Science",
+     "url": "http://www.plosone.org/",
+     "oa": true,
+     "id": "https://openalex.org/S202381698",
+     "n": 34
+    }
+   ],
+   "most_active": [
+    {
+     "name": "Atmosphere",
+     "type": "journal",
+     "h": 107,
+     "if2": 3.63,
+     "publisher": "Multidisciplinary Digital Publishing Institute",
+     "url": "http://www.mdpi.com/journal/atmosphere",
+     "oa": true,
+     "id": "https://openalex.org/S946213959",
+     "n": 157
+    },
+    {
+     "name": "Sustainability",
+     "type": "journal",
+     "h": 306,
+     "if2": 5.81,
+     "publisher": "Multidisciplinary Digital Publishing Institute",
+     "url": "http://www.mdpi.com/journal/sustainability",
+     "oa": true,
+     "id": "https://openalex.org/S10134376",
+     "n": 146
+    },
+    {
+     "name": "Scientific Reports",
+     "type": "journal",
+     "h": 461,
+     "if2": 5.23,
+     "publisher": "Nature Portfolio",
+     "url": "http://www.nature.com/srep/index.html",
+     "oa": true,
+     "id": "https://openalex.org/S196734849",
+     "n": 98
+    }
+   ],
+   "datasets": [
+    {
+     "title": "Data for a Greener World",
+     "doi": "https://doi.org/10.5089/9798400217296.071",
+     "year": 2023,
+     "cites": 6,
+     "repo": "International Monetary Fund eBooks"
+    },
+    {
+     "title": "Natural Disaster Trends",
+     "doi": "https://doi.org/10.5281/zenodo.7930539",
+     "year": 2023,
+     "cites": 5,
+     "repo": "Zenodo (CERN European Organization for Nuclear Research)"
+    },
+    {
+     "title": "Data for \"Stratospheric Downward Wave Reflection Events Modulate North American Weather Regimes and Cold Spells\"",
+     "doi": "https://doi.org/10.5281/zenodo.7126679",
+     "year": 2022,
+     "cites": 4,
+     "repo": "Zenodo (CERN European Organization for Nuclear Research)"
+    },
+    {
+     "title": "heatwaveR: Detect Heatwaves and Cold-Spells",
+     "doi": "https://doi.org/10.32614/cran.package.heatwaver",
+     "year": 2018,
+     "cites": 3,
+     "repo": null
+    },
+    {
+     "title": "Search strategies for: \"Climate action for health and wellbeing in cities: a protocol for the systematic development of a database of peer-reviewed studies using machine learning methods\"",
+     "doi": "https://doi.org/10.17037/data.00002094",
+     "year": 2021,
+     "cites": 2,
+     "repo": "London School of Hygiene & Tropical Medicine"
+    }
+   ],
+   "data_papers": [
+    {
+     "title": "High-resolution near real-time drought monitoring in South Asia",
+     "doi": "https://doi.org/10.1038/sdata.2017.145",
+     "year": 2017,
+     "cites": 232,
+     "journal": "Scientific Data"
+    },
+    {
+     "title": "GHWR, a multi-method global heatwave and warm-spell record and toolbox",
+     "doi": "https://doi.org/10.1038/sdata.2018.206",
+     "year": 2018,
+     "cites": 99,
+     "journal": "Scientific Data"
+    },
+    {
+     "title": "COSMOS-UK: national soil moisture and hydrometeorology data for environmental science research",
+     "doi": "https://doi.org/10.5194/essd-13-1737-2021",
+     "year": 2021,
+     "cites": 80,
+     "journal": "Earth system science data"
+    }
+   ],
+   "top_papers": [
+    {
+     "title": "The Impact of Climate Change on Mental Health: A Systematic Descriptive Review",
+     "doi": "https://doi.org/10.3389/fpsyt.2020.00074",
+     "year": 2020,
+     "cites": 1307,
+     "venue": "Frontiers in Psychiatry"
+    },
+    {
+     "title": "Machine Learning Applications for Precision Agriculture: A Comprehensive Review",
+     "doi": "https://doi.org/10.1109/access.2020.3048415",
+     "year": 2020,
+     "cites": 1100,
+     "venue": "IEEE Access"
+    },
+    {
+     "title": "Impacts of climate change on the livestock food supply chain; a review of the evidence",
+     "doi": "https://doi.org/10.1016/j.gfs.2020.100488",
+     "year": 2021,
+     "cites": 767,
+     "venue": "Global Food Security"
+    }
+   ]
+  },
+  {
+   "code": "MH0503",
+   "label": "Dzud",
+   "label_zh": "白灾（Dzud）",
+   "family": "Meteorological & Hydrological",
+   "family_zh": "气象与水文",
+   "cluster": "MH-TEMP",
+   "query": "dzud",
+   "papers_2020": 341,
+   "top_venues": [
+    {
+     "name": "Scientific Reports",
+     "type": "journal",
+     "h": 461,
+     "if2": 5.23,
+     "publisher": "Nature Portfolio",
+     "url": "http://www.nature.com/srep/index.html",
+     "oa": true,
+     "id": "https://openalex.org/S196734849",
+     "n": 5
+    },
+    {
+     "name": "Sustainability",
+     "type": "journal",
+     "h": 306,
+     "if2": 5.81,
+     "publisher": "Multidisciplinary Digital Publishing Institute",
+     "url": "http://www.mdpi.com/journal/sustainability",
+     "oa": true,
+     "id": "https://openalex.org/S10134376",
+     "n": 11
+    },
+    {
+     "name": "Remote Sensing",
+     "type": "journal",
+     "h": 275,
+     "if2": 5.25,
+     "publisher": "Multidisciplinary Digital Publishing Institute",
+     "url": "http://www.mdpi.com/journal/remotesensing",
+     "oa": true,
+     "id": "https://openalex.org/S43295729",
+     "n": 12
+    }
+   ],
+   "most_active": [
+    {
+     "name": "Remote Sensing",
+     "type": "journal",
+     "h": 275,
+     "if2": 5.25,
+     "publisher": "Multidisciplinary Digital Publishing Institute",
+     "url": "http://www.mdpi.com/journal/remotesensing",
+     "oa": true,
+     "id": "https://openalex.org/S43295729",
+     "n": 12
+    },
+    {
+     "name": "Sustainability",
+     "type": "journal",
+     "h": 306,
+     "if2": 5.81,
+     "publisher": "Multidisciplinary Digital Publishing Institute",
+     "url": "http://www.mdpi.com/journal/sustainability",
+     "oa": true,
+     "id": "https://openalex.org/S10134376",
+     "n": 11
+    },
+    {
+     "name": "Land",
+     "type": "journal",
+     "h": 102,
+     "if2": 4.13,
+     "publisher": "Multidisciplinary Digital Publishing Institute",
+     "url": "http://www.mdpi.com/journal/land",
+     "oa": true,
+     "id": "https://openalex.org/S2738397068",
+     "n": 10
+    }
+   ],
+   "datasets": [
+    {
+     "title": "IGES Climate Policy and Market Mechanism Status Report",
+     "doi": "https://doi.org/10.57405/iges-657",
+     "year": 2017,
+     "cites": 2,
+     "repo": "Institutional Repositories DataBase (IRDB)"
+    },
+    {
+     "title": "Supporting data for the paper\"Disentangling Mechanisms and Predicting Dzud-Related Livestock Mortality in Mongolia’s Grasslands Using a Hybrid Causal–Predictive Framework\"",
+     "doi": "https://doi.org/10.57760/sciencedb.39858",
+     "year": 2026,
+     "cites": 0,
+     "repo": "ScienceDB"
+    },
+    {
+     "title": "Proportion of vegetated area in the Mongolian Plateau covered by",
+     "doi": "https://doi.org/10.6084/m9.figshare.1011827",
+     "year": 2013,
+     "cites": 0,
+     "repo": "Figshare"
+    },
+    {
+     "title": "Proportion of vegetated area in the dominant desert and grassland biomes of the Mongolian Plateau covered by",
+     "doi": "https://doi.org/10.6084/m9.figshare.1011828",
+     "year": 2013,
+     "cites": 0,
+     "repo": "Figshare"
+    }
+   ],
+   "data_papers": [],
+   "top_papers": [
+    {
+     "title": "Land Cover Classification using Google Earth Engine and Random Forest Classifier—The Role of Image Composition",
+     "doi": "https://doi.org/10.3390/rs12152411",
+     "year": 2020,
+     "cites": 615,
+     "venue": "Remote Sensing"
+    },
+    {
+     "title": "Global snow drought hot spots and characteristics",
+     "doi": "https://doi.org/10.1073/pnas.1915921117",
+     "year": 2020,
+     "cites": 266,
+     "venue": "Proceedings of the National Academy of Sciences"
+    },
+    {
+     "title": "How many large camelids in the world? A synthetic analysis of the world camel demographic changes",
+     "doi": "https://doi.org/10.1186/s13570-020-00176-z",
+     "year": 2020,
+     "cites": 138,
+     "venue": "Pastoralism Research Policy and Practice"
+    }
+   ]
+  },
+  {
+   "code": "MH0504",
+   "label": "Freeze",
+   "label_zh": "冰冻",
+   "family": "Meteorological & Hydrological",
+   "family_zh": "气象与水文",
+   "cluster": "MH-TEMP",
+   "query": "\"hard freeze\"",
+   "papers_2020": 200,
+   "top_venues": [
+    {
+     "name": "PLoS ONE",
+     "type": "journal",
+     "h": 593,
+     "if2": 3.41,
+     "publisher": "Public Library of Science",
+     "url": "http://www.plosone.org/",
+     "oa": true,
+     "id": "https://openalex.org/S202381698",
+     "n": 5
+    },
+    {
+     "name": "Agronomy Journal",
+     "type": "journal",
+     "h": 237,
+     "if2": 2.02,
+     "publisher": "Wiley",
+     "url": "https://acsess.onlinelibrary.wiley.com/journal/14350645",
+     "oa": false,
+     "id": "https://openalex.org/S139950591",
+     "n": 5
+    },
+    {
+     "name": "Zenodo (CERN European Organization for Nuclear Research)",
+     "type": "repository",
+     "h": 199,
+     "if2": 0.04,
+     "publisher": "European Organization for Nuclear Research",
+     "url": "https://zenodo.org",
+     "oa": true,
+     "id": "https://openalex.org/S4306400562",
+     "n": 5
+    }
+   ],
+   "most_active": [
+    {
+     "name": "Digital Commons - University of South Florida (University of South Florida)",
+     "type": "repository",
+     "h": 130,
+     "if2": 0.18,
+     "publisher": "University of South Florida",
+     "url": null,
+     "oa": false,
+     "id": "https://openalex.org/S4377196272",
+     "n": 6
+    },
+    {
+     "name": "EDIS",
+     "type": "journal",
+     "h": 47,
+     "if2": 0.78,
+     "publisher": "George A. Smathers Libraries",
+     "url": "https://journals.flvc.org/edis",
+     "oa": true,
+     "id": "https://openalex.org/S4210234824",
+     "n": 6
+    },
+    {
+     "name": "PLoS ONE",
+     "type": "journal",
+     "h": 593,
+     "if2": 3.41,
+     "publisher": "Public Library of Science",
+     "url": "http://www.plosone.org/",
+     "oa": true,
+     "id": "https://openalex.org/S202381698",
+     "n": 5
+    }
+   ],
+   "datasets": [
+    {
+     "title": "\"SlabCalc Freeze-Thaw Index: annual air freeze-thaw cycles for 180 US cities from NOAA GHCN-Daily, 2015-2024\"",
+     "doi": "https://doi.org/10.21227/gky6-wj86",
+     "year": 2026,
+     "cites": 0,
+     "repo": "IEEE DataPort"
+    },
+    {
+     "title": "Primordial Spiral Kinetic Extension: A Zero-Free-Parameter Bond Functional Derived from Photon Boundary Conditions and Validated by Cumulative Spin-Jitter Geometry — RJW",
+     "doi": "https://doi.org/10.5281/zenodo.21941639",
+     "year": 2026,
+     "cites": 0,
+     "repo": "Zenodo (CERN European Organization for Nuclear Research)"
+    },
+    {
+     "title": "URGENT ALERT - Constraining the AIs. A Road Map for Proper AI Design - Make a Friend, Not a Rogue AI - RJW",
+     "doi": "https://doi.org/10.5281/zenodo.21950562",
+     "year": 2026,
+     "cites": 0,
+     "repo": "Zenodo (CERN European Organization for Nuclear Research)"
+    },
+    {
+     "title": "Gaillardia pulchella (Indian blanket)",
+     "doi": "https://doi.org/10.1079/cabicompendium.110246",
+     "year": 2014,
+     "cites": 0,
+     "repo": "CABI Compendium"
+    }
+   ],
+   "data_papers": [],
+   "top_papers": [
+    {
+     "title": "Tropicalization of temperate ecosystems in North America: The northward range expansion of tropical organisms in response to warming winter temperatures",
+     "doi": "https://doi.org/10.1111/gcb.15563",
+     "year": 2021,
+     "cites": 251,
+     "venue": "Global Change Biology"
+    },
+    {
+     "title": "Coping with the cold: unveiling cryoprotectants, molecular signaling pathways, and strategies for cold stress resilience",
+     "doi": "https://doi.org/10.3389/fpls.2023.1246093",
+     "year": 2023,
+     "cites": 133,
+     "venue": "Frontiers in Plant Science"
+    },
+    {
+     "title": "Global Mangrove Deforestation and Its Interacting Social-Ecological Drivers: A Systematic Review and Synthesis",
+     "doi": "https://doi.org/10.3390/su14084433",
+     "year": 2022,
+     "cites": 120,
+     "venue": "Sustainability"
+    }
+   ]
+  },
+  {
+   "code": "MH0505",
+   "label": "Frost (Hoar Frost)",
+   "label_zh": "白霜",
+   "family": "Meteorological & Hydrological",
+   "family_zh": "气象与水文",
+   "cluster": "MH-TEMP",
+   "query": "\"hoar frost\"",
+   "err": "HTTP Error 429: Too Many Requests"
+  },
+  {
+   "code": "MH0506",
+   "label": "Freezing Rain (Supercooled Rain)",
+   "label_zh": "冻雨",
+   "family": "Meteorological & Hydrological",
+   "family_zh": "气象与水文",
+   "cluster": "MH-TEMP",
+   "query": "\"freezing rain\"",
+   "papers_2020": 1459,
+   "top_venues": [
+    {
+     "name": "Journal of Geophysical Research Atmospheres",
+     "type": "journal",
+     "h": 652,
+     "if2": 3.29,
+     "publisher": "American Geophysical Union",
+     "url": "http://www.agu.org/journals/jgr/",
+     "oa": false,
+     "id": "https://openalex.org/S207178839",
+     "n": 17
+    },
+    {
+     "name": "PLoS ONE",
+     "type": "journal",
+     "h": 593,
+     "if2": 3.41,
+     "publisher": "Public Library of Science",
+     "url": "http://www.plosone.org/",
+     "oa": true,
+     "id": "https://openalex.org/S202381698",
+     "n": 12
+    },
+    {
+     "name": "Scientific Reports",
+     "type": "journal",
+     "h": 461,
+     "if2": 5.23,
+     "publisher": "Nature Portfolio",
+     "url": "http://www.nature.com/srep/index.html",
+     "oa": true,
+     "id": "https://openalex.org/S196734849",
+     "n": 12
+    }
+   ],
+   "most_active": [
+    {
+     "name": "Atmosphere",
+     "type": "journal",
+     "h": 107,
+     "if2": 3.63,
+     "publisher": "Multidisciplinary Digital Publishing Institute",
+     "url": "http://www.mdpi.com/journal/atmosphere",
+     "oa": true,
+     "id": "https://openalex.org/S946213959",
+     "n": 44
+    },
+    {
+     "name": "Sustainability",
+     "type": "journal",
+     "h": 306,
+     "if2": 5.81,
+     "publisher": "Multidisciplinary Digital Publishing Institute",
+     "url": "http://www.mdpi.com/journal/sustainability",
+     "oa": true,
+     "id": "https://openalex.org/S10134376",
+     "n": 33
+    },
+    {
+     "name": "Remote Sensing",
+     "type": "journal",
+     "h": 275,
+     "if2": 5.25,
+     "publisher": "Multidisciplinary Digital Publishing Institute",
+     "url": "http://www.mdpi.com/journal/remotesensing",
+     "oa": true,
+     "id": "https://openalex.org/S43295729",
+     "n": 33
+    }
+   ],
+   "err": "HTTP Error 429: Too Many Requests"
+  },
+  {
+   "code": "MH0507",
+   "label": "Glaze",
+   "label_zh": "雨凇",
+   "family": "Meteorological & Hydrological",
+   "family_zh": "气象与水文",
+   "cluster": "MH-TEMP",
+   "query": "\"glaze ice\"",
+   "err": "HTTP Error 429: Too Many Requests"
+  },
+  {
+   "code": "MH0508",
+   "label": "Ground Frost",
+   "label_zh": "地面霜冻",
+   "family": "Meteorological & Hydrological",
+   "family_zh": "气象与水文",
+   "cluster": "MH-TEMP",
+   "query": "\"ground frost\"",
+   "err": "HTTP Error 429: Too Many Requests"
+  },
+  {
+   "code": "MH0509",
+   "label": "Icing (Including Ice)",
+   "label_zh": "结冰",
+   "family": "Meteorological & Hydrological",
+   "family_zh": "气象与水文",
+   "cluster": "MH-TEMP",
+   "query": "icing",
+   "err": "HTTP Error 429: Too Many Requests"
+  },
+  {
+   "code": "MH0510",
+   "label": "Thaw",
+   "label_zh": "解冻",
+   "family": "Meteorological & Hydrological",
+   "family_zh": "气象与水文",
+   "cluster": "MH-TEMP",
+   "query": "\"spring thaw\"",
+   "err": "HTTP Error 429: Too Many Requests"
+  },
+  {
+   "code": "MH0600",
+   "label": "Flooding",
+   "label_zh": "洪水",
+   "family": "Meteorological & Hydrological",
+   "family_zh": "气象与水文",
+   "cluster": "MH-WATER",
+   "query": "floods",
+   "err": "HTTP Error 429: Too Many Requests"
+  },
+  {
+   "code": "MH0601",
+   "label": "Coastal Flooding",
+   "label_zh": "沿海洪水",
+   "family": "Meteorological & Hydrological",
+   "family_zh": "气象与水文",
+   "cluster": "MH-WATER",
+   "query": "\"coastal flood\"",
+   "err": "HTTP Error 429: Too Many Requests"
+  },
+  {
+   "code": "MH0602",
+   "label": "Estuarine (Coastal) Flooding",
+   "label_zh": "河口洪水",
+   "family": "Meteorological & Hydrological",
+   "family_zh": "气象与水文",
+   "cluster": "MH-WATER",
+   "query": "\"estuar flood\"",
+   "err": "HTTP Error 429: Too Many Requests"
+  },
+  {
+   "code": "MH0603",
+   "label": "Flash Flooding",
+   "label_zh": "山洪",
+   "family": "Meteorological & Hydrological",
+   "family_zh": "气象与水文",
+   "cluster": "MH-WATER",
+   "query": "\"flash floods\"",
+   "err": "HTTP Error 429: Too Many Requests"
+  },
+  {
+   "code": "MH0604",
+   "label": "Fluvial (Riverine) Flooding",
+   "label_zh": "河流洪水",
+   "family": "Meteorological & Hydrological",
+   "family_zh": "气象与水文",
+   "cluster": "MH-WATER",
+   "query": "\"river flood\"",
+   "err": "HTTP Error 429: Too Many Requests"
+  },
+  {
+   "code": "MH0605",
+   "label": "Groundwater Flooding",
+   "label_zh": "地下水洪水",
+   "family": "Meteorological & Hydrological",
+   "family_zh": "气象与水文",
+   "cluster": "MH-WATER",
+   "query": "\"groundwater flood\"",
+   "err": "HTTP Error 429: Too Many Requests"
+  },
+  {
+   "code": "MH0606",
+   "label": "Surface water Flooding",
+   "label_zh": "地表积水",
+   "family": "Meteorological & Hydrological",
+   "family_zh": "气象与水文",
+   "cluster": "MH-WATER",
+   "query": "inundat",
+   "err": "HTTP Error 429: Too Many Requests"
+  },
+  {
+   "code": "MH0607",
+   "label": "Glacial Lake Outburst Flooding",
+   "label_zh": "冰湖溃决洪水",
+   "family": "Meteorological & Hydrological",
+   "family_zh": "气象与水文",
+   "cluster": "MH-WATER",
+   "query": "\"glacial lake outburst\"",
+   "err": "HTTP Error 429: Too Many Requests"
+  },
+  {
+   "code": "MH0608",
+   "label": "Ice-Jam Flooding Including Debris",
+   "label_zh": "冰塞洪水（含碎屑）",
+   "family": "Meteorological & Hydrological",
+   "family_zh": "气象与水文",
+   "cluster": "MH-WATER",
+   "query": "\"ice jam\"",
+   "err": "HTTP Error 429: Too Many Requests"
+  },
+  {
+   "code": "MH0609",
+   "label": "Ponding (Drainage) Flooding",
+   "label_zh": "内涝",
+   "family": "Meteorological & Hydrological",
+   "family_zh": "气象与水文",
+   "cluster": "MH-WATER",
+   "query": "waterlogging",
+   "err": "HTTP Error 429: Too Many Requests"
+  },
+  {
+   "code": "MH0610",
+   "label": "Snowmelt Flooding",
+   "label_zh": "融雪洪水",
+   "family": "Meteorological & Hydrological",
+   "family_zh": "气象与水文",
+   "cluster": "MH-WATER",
+   "query": "\"snowmelt flood\"",
+   "err": "HTTP Error 429: Too Many Requests"
+  },
+  {
+   "code": "MH0701",
+   "label": "Rogue Wave",
+   "label_zh": "畸形浪",
+   "family": "Meteorological & Hydrological",
+   "family_zh": "气象与水文",
+   "cluster": "MH-MARINE",
+   "query": "\"rogue wave\"",
+   "err": "HTTP Error 429: Too Many Requests"
+  },
+  {
+   "code": "MH0702",
+   "label": "Seiche",
+   "label_zh": "假潮",
+   "family": "Meteorological & Hydrological",
+   "family_zh": "气象与水文",
+   "cluster": "MH-MARINE",
+   "query": "seiche",
+   "err": "HTTP Error 429: Too Many Requests"
+  },
+  {
+   "code": "MH0703",
+   "label": "Storm Surge",
+   "label_zh": "风暴潮",
+   "family": "Meteorological & Hydrological",
+   "family_zh": "气象与水文",
+   "cluster": "MH-MARINE",
+   "query": "\"storm surge\"",
+   "err": "HTTP Error 429: Too Many Requests"
+  },
+  {
+   "code": "MH0704",
+   "label": "Storm Tides",
+   "label_zh": "风暴高潮",
+   "family": "Meteorological & Hydrological",
+   "family_zh": "气象与水文",
+   "cluster": "MH-MARINE",
+   "query": "\"storm tide\"",
+   "err": "HTTP Error 429: Too Many Requests"
+  },
+  {
+   "code": "MH0705",
+   "label": "Tsunami",
+   "label_zh": "海啸",
+   "family": "Meteorological & Hydrological",
+   "family_zh": "气象与水文",
+   "cluster": "MH-MARINE",
+   "query": "tsunami",
+   "err": "HTTP Error 429: Too Many Requests"
+  },
+  {
+   "code": "MH0706",
+   "label": "Sea ice",
+   "label_zh": "海冰",
+   "family": "Meteorological & Hydrological",
+   "family_zh": "气象与水文",
+   "cluster": "MH-MARINE",
+   "query": "\"sea ice\"",
+   "err": "HTTP Error 429: Too Many Requests"
+  },
+  {
+   "code": "MH0707",
+   "label": "Ice flow",
+   "label_zh": "流冰",
+   "family": "Meteorological & Hydrological",
+   "family_zh": "气象与水文",
+   "cluster": "MH-MARINE",
+   "query": "\"ice floe\"",
+   "err": "HTTP Error 429: Too Many Requests"
+  },
+  {
+   "code": "MH0708",
+   "label": "Marine Heatwave",
+   "label_zh": "海洋热浪",
+   "family": "Meteorological & Hydrological",
+   "family_zh": "气象与水文",
+   "cluster": "MH-MARINE",
+   "query": "\"marine heat wave\"",
+   "err": "HTTP Error 429: Too Many Requests"
+  },
+  {
+   "code": "MH0801",
+   "label": "Avalanche",
+   "label_zh": "雪崩",
+   "family": "Meteorological & Hydrological",
+   "family_zh": "气象与水文",
+   "cluster": "MH-TERR",
+   "query": "avalanche",
+   "err": "HTTP Error 429: Too Many Requests"
+  },
+  {
+   "code": "ET0101",
+   "label": "Geomagnetic Disturbance",
+   "label_zh": "地磁扰动",
+   "family": "Extraterrestrial",
+   "family_zh": "地外",
+   "cluster": "ET-SPACE",
+   "query": "\"geomagnetic storm\"",
+   "err": "HTTP Error 429: Too Many Requests"
+  },
+  {
+   "code": "ET0102",
+   "label": "Ionospheric Disturbance",
+   "label_zh": "电离层扰动",
+   "family": "Extraterrestrial",
+   "family_zh": "地外",
+   "cluster": "ET-SPACE",
+   "query": "\"ionospher disturbance\"",
+   "err": "HTTP Error 429: Too Many Requests"
+  },
+  {
+   "code": "ET0103",
+   "label": "Solar Flare",
+   "label_zh": "太阳耀斑",
+   "family": "Extraterrestrial",
+   "family_zh": "地外",
+   "cluster": "ET-SPACE",
+   "query": "\"solar flare\"",
+   "err": "HTTP Error 429: Too Many Requests"
+  },
+  {
+   "code": "ET0104",
+   "label": "Solar Energetic Particles",
+   "label_zh": "太阳高能粒子",
+   "family": "Extraterrestrial",
+   "family_zh": "地外",
+   "cluster": "ET-SPACE",
+   "query": "\"solar energetic particle\"",
+   "err": "HTTP Error 429: Too Many Requests"
+  },
+  {
+   "code": "ET0201",
+   "label": "Airburst",
+   "label_zh": "空中爆炸（陨石）",
+   "family": "Extraterrestrial",
+   "family_zh": "地外",
+   "cluster": "ET-EXTRA",
+   "query": "airburst",
+   "err": "HTTP Error 429: Too Many Requests"
+  },
+  {
+   "code": "ET0202",
+   "label": "UV Radiation",
+   "label_zh": "紫外辐射",
+   "family": "Extraterrestrial",
+   "family_zh": "地外",
+   "cluster": "ET-EXTRA",
+   "query": "\"high UV\"",
+   "err": "HTTP Error 429: Too Many Requests"
+  },
+  {
+   "code": "ET0203",
+   "label": "Meteorite Impact",
+   "label_zh": "陨石撞击",
+   "family": "Extraterrestrial",
+   "family_zh": "地外",
+   "cluster": "ET-EXTRA",
+   "query": "meteorite",
+   "err": "HTTP Error 429: Too Many Requests"
+  },
+  {
+   "code": "ET0204",
+   "label": "Space Hazard / Accident",
+   "label_zh": "航天事故",
+   "family": "Extraterrestrial",
+   "family_zh": "地外",
+   "cluster": "ET-EXTRA",
+   "query": "\"rocket debris\"",
+   "err": "HTTP Error 429: Too Many Requests"
+  },
+  {
+   "code": "ET0205",
+   "label": "Near-Earth Object",
+   "label_zh": "近地天体",
+   "family": "Extraterrestrial",
+   "family_zh": "地外",
+   "cluster": "ET-EXTRA",
+   "query": "asteroid",
+   "err": "HTTP Error 429: Too Many Requests"
+  },
+  {
+   "code": "ET0206",
+   "label": "Space Debris",
+   "label_zh": "空间碎片",
+   "family": "Extraterrestrial",
+   "family_zh": "地外",
+   "cluster": "ET-EXTRA",
+   "query": "\"space debris\"",
+   "err": "HTTP Error 429: Too Many Requests"
+  },
+  {
+   "code": "GH0101",
+   "label": "Earthquake",
+   "label_zh": "地震",
+   "family": "Geological",
+   "family_zh": "地质",
+   "cluster": "GEO-SEIS",
+   "query": "earthquake",
+   "err": "HTTP Error 429: Too Many Requests"
+  },
+  {
+   "code": "GH0201",
+   "label": "Lava Flows (Lava Domes)",
+   "label_zh": "熔岩流",
+   "family": "Geological",
+   "family_zh": "地质",
+   "cluster": "GEO-VOLC",
+   "query": "lava",
+   "err": "HTTP Error 429: Too Many Requests"
+  },
+  {
+   "code": "GH0202",
+   "label": "Ash/Tephra Fall (including Volcanic Ballistic projectiles)",
+   "label_zh": "火山灰与碎屑",
+   "family": "Geological",
+   "family_zh": "地质",
+   "cluster": "GEO-VOLC",
+   "query": "\"volcanic ash\"",
+   "err": "HTTP Error 429: Too Many Requests"
+  },
+  {
+   "code": "GH0203",
+   "label": "Pyroclastic Density Current",
+   "label_zh": "火山碎屑流",
+   "family": "Geological",
+   "family_zh": "地质",
+   "cluster": "GEO-VOLC",
+   "query": "pyroclastic",
+   "err": "HTTP Error 429: Too Many Requests"
+  },
+  {
+   "code": "GH0204",
+   "label": "Lahars",
+   "label_zh": "火山泥流",
+   "family": "Geological",
+   "family_zh": "地质",
+   "cluster": "GEO-VOLC",
+   "query": "lahar",
+   "err": "HTTP Error 429: Too Many Requests"
+  },
+  {
+   "code": "GH0205",
+   "label": "Volcanic Gases and Aerosols",
+   "label_zh": "火山气体与气溶胶",
+   "family": "Geological",
+   "family_zh": "地质",
+   "cluster": "GEO-VOLC",
+   "query": "\"volcanic gas\"",
+   "err": "HTTP Error 429: Too Many Requests"
+  },
+  {
+   "code": "GH0300",
+   "label": "Gravitational Mass Movement (Landslide)",
+   "label_zh": "重力块体运动（滑坡）",
+   "family": "Geological",
+   "family_zh": "地质",
+   "cluster": "GEO-GFAIL",
+   "query": "landslides",
+   "err": "HTTP Error 429: Too Many Requests"
+  },
+  {
+   "code": "GH0301",
+   "label": "Falls",
+   "label_zh": "崩落（落石、冰崩）",
+   "family": "Geological",
+   "family_zh": "地质",
+   "cluster": "GEO-GFAIL",
+   "query": "\"rock fall\"",
+   "err": "HTTP Error 429: Too Many Requests"
+  },
+  {
+   "code": "GH0302",
+   "label": "Spreads",
+   "label_zh": "侧向扩离",
+   "family": "Geological",
+   "family_zh": "地质",
+   "cluster": "GEO-GFAIL",
+   "query": "\"lateral spread\"",
+   "err": "HTTP Error 429: Too Many Requests"
+  },
+  {
+   "code": "GH0303",
+   "label": "Flows",
+   "label_zh": "流动（泥石流）",
+   "family": "Geological",
+   "family_zh": "地质",
+   "cluster": "GEO-GFAIL",
+   "query": "\"debris flow\"",
+   "err": "HTTP Error 429: Too Many Requests"
+  },
+  {
+   "code": "GH0304",
+   "label": "Slides",
+   "label_zh": "滑动",
+   "family": "Geological",
+   "family_zh": "地质",
+   "cluster": "GEO-GFAIL",
+   "query": "landslide",
+   "err": "HTTP Error 429: Too Many Requests"
+  },
+  {
+   "code": "GH0305",
+   "label": "Topples",
+   "label_zh": "倾倒",
+   "family": "Geological",
+   "family_zh": "地质",
+   "cluster": "GEO-GFAIL",
+   "query": "\"topple rock\"",
+   "err": "HTTP Error 429: Too Many Requests"
+  },
+  {
+   "code": "GH0306",
+   "label": "Submarine Landslide",
+   "label_zh": "海底滑坡",
+   "family": "Geological",
+   "family_zh": "地质",
+   "cluster": "GEO-GFAIL",
+   "query": "\"submarine landslide\"",
+   "err": "HTTP Error 429: Too Many Requests"
+  },
+  {
+   "code": "GH0307",
+   "label": "Liquefaction",
+   "label_zh": "砂土液化",
+   "family": "Geological",
+   "family_zh": "地质",
+   "cluster": "GEO-GFAIL",
+   "query": "liquefaction",
+   "err": "HTTP Error 429: Too Many Requests"
+  },
+  {
+   "code": "GH0308",
+   "label": "Sinkhole",
+   "label_zh": "落水洞",
+   "family": "Geological",
+   "family_zh": "地质",
+   "cluster": "GEO-GFAIL",
+   "query": "sinkhole",
+   "err": "HTTP Error 429: Too Many Requests"
+  },
+  {
+   "code": "GH0309",
+   "label": "Subsidence and Uplift",
+   "label_zh": "沉降与抬升",
+   "family": "Geological",
+   "family_zh": "地质",
+   "cluster": "GEO-GFAIL",
+   "query": "\"land subsidence\"",
+   "err": "HTTP Error 429: Too Many Requests"
+  },
+  {
+   "code": "GH0310",
+   "label": "Shrink-Swell Subsidence",
+   "label_zh": "胀缩沉降",
+   "family": "Geological",
+   "family_zh": "地质",
+   "cluster": "GEO-GFAIL",
+   "query": "\"shrink swell\"",
+   "err": "HTTP Error 429: Too Many Requests"
+  },
+  {
+   "code": "GH0311",
+   "label": "Surface Rupture & Fissure",
+   "label_zh": "地表破裂与裂缝",
+   "family": "Geological",
+   "family_zh": "地质",
+   "cluster": "GEO-GFAIL",
+   "query": "\"ground crack\"",
+   "err": "HTTP Error 429: Too Many Requests"
+  },
+  {
+   "code": "GH0401",
+   "label": "Compressive Soils",
+   "label_zh": "压缩性土",
+   "family": "Geological",
+   "family_zh": "地质",
+   "cluster": "GEO-OTHER",
+   "query": "\"soft soil\"",
+   "err": "HTTP Error 429: Too Many Requests"
+  },
+  {
+   "code": "GH0402",
+   "label": "Soil Degradation",
+   "label_zh": "土壤退化",
+   "family": "Geological",
+   "family_zh": "地质",
+   "cluster": "GEO-OTHER",
+   "query": "\"soil degradation\"",
+   "err": "HTTP Error 429: Too Many Requests"
+  },
+  {
+   "code": "GH0403",
+   "label": "Soil Erosion",
+   "label_zh": "土壤侵蚀",
+   "family": "Geological",
+   "family_zh": "地质",
+   "cluster": "GEO-OTHER",
+   "query": "\"soil erosion\"",
+   "err": "HTTP Error 429: Too Many Requests"
+  },
+  {
+   "code": "GH0404",
+   "label": "River Erosion & Accretion",
+   "label_zh": "河岸侵蚀与淤积",
+   "family": "Geological",
+   "family_zh": "地质",
+   "cluster": "GEO-OTHER",
+   "query": "\"river bank erosion\"",
+   "err": "HTTP Error 429: Too Many Requests"
+  },
+  {
+   "code": "GH0405",
+   "label": "Coastal Erosion & Accretion",
+   "label_zh": "海岸侵蚀与淤积",
+   "family": "Geological",
+   "family_zh": "地质",
+   "cluster": "GEO-OTHER",
+   "query": "\"coastal erosion\"",
+   "err": "HTTP Error 429: Too Many Requests"
+  },
+  {
+   "code": "GH0406",
+   "label": "Sand Encroachment",
+   "label_zh": "沙地侵入",
+   "family": "Geological",
+   "family_zh": "地质",
+   "cluster": "GEO-OTHER",
+   "query": "\"sand encroachment\"",
+   "err": "HTTP Error 429: Too Many Requests"
+  },
+  {
+   "code": "GH0407",
+   "label": "Ground Gases (CH4, Rn, etc.)",
+   "label_zh": "地下气体（甲烷、氡等）",
+   "family": "Geological",
+   "family_zh": "地质",
+   "cluster": "GEO-OTHER",
+   "query": "radon",
+   "err": "HTTP Error 429: Too Many Requests"
+  },
+  {
+   "code": "EN0101",
+   "label": "Household Air Pollution",
+   "label_zh": "室内空气污染",
+   "family": "Environmental",
+   "family_zh": "环境",
+   "cluster": "ENV-AIR",
+   "query": "\"indoor air pollution\"",
+   "err": "HTTP Error 429: Too Many Requests"
+  },
+  {
+   "code": "EN0102",
+   "label": "Air Pollution (Point Source)",
+   "label_zh": "点源空气污染",
+   "family": "Environmental",
+   "family_zh": "环境",
+   "cluster": "ENV-AIR",
+   "query": "\"factory smoke\"",
+   "err": "HTTP Error 429: Too Many Requests"
+  },
+  {
+   "code": "EN0103",
+   "label": "Ambient (Outdoor) Air Pollution",
+   "label_zh": "室外空气污染",
+   "family": "Environmental",
+   "family_zh": "环境",
+   "cluster": "ENV-AIR",
+   "query": "\"air pollution\"",
+   "err": "HTTP Error 429: Too Many Requests"
+  },
+  {
+   "code": "EN0104",
+   "label": "Black Carbon",
+   "label_zh": "黑碳",
+   "family": "Environmental",
+   "family_zh": "环境",
+   "cluster": "ENV-AIR",
+   "query": "\"black carbon\"",
+   "err": "HTTP Error 429: Too Many Requests"
+  },
+  {
+   "code": "EN0105",
+   "label": "Acid Rain",
+   "label_zh": "酸雨",
+   "family": "Environmental",
+   "family_zh": "环境",
+   "cluster": "ENV-AIR",
+   "query": "\"acid rain\"",
+   "err": "HTTP Error 429: Too Many Requests"
+  },
+  {
+   "code": "EN0106",
+   "label": "Runoff / Nonpoint Source Pollution",
+   "label_zh": "面源污染",
+   "family": "Environmental",
+   "family_zh": "环境",
+   "cluster": "ENV-AIR",
+   "query": "\"runoff pollution\"",
+   "err": "HTTP Error 429: Too Many Requests"
+  },
+  {
+   "code": "EN0201",
+   "label": "Deforestation",
+   "label_zh": "毁林",
+   "family": "Environmental",
+   "family_zh": "环境",
+   "cluster": "ENV-FOREST",
+   "query": "deforestation",
+   "err": "HTTP Error 429: Too Many Requests"
+  },
+  {
+   "code": "EN0202",
+   "label": "Forest Declines and Diebacks",
+   "label_zh": "森林衰退",
+   "family": "Environmental",
+   "family_zh": "环境",
+   "cluster": "ENV-FOREST",
+   "query": "\"forest dieback\"",
+   "err": "HTTP Error 429: Too Many Requests"
+  },
+  {
+   "code": "EN0203",
+   "label": "Forest Disturbances",
+   "label_zh": "森林扰动",
+   "family": "Environmental",
+   "family_zh": "环境",
+   "cluster": "ENV-FOREST",
+   "query": "\"forest damage\"",
+   "err": "HTTP Error 429: Too Many Requests"
+  },
+  {
+   "code": "EN0204",
+   "label": "Forest Invasive Species",
+   "label_zh": "森林入侵物种",
+   "family": "Environmental",
+   "family_zh": "环境",
+   "cluster": "ENV-FOREST",
+   "query": "\"invasive species\"",
+   "err": "HTTP Error 429: Too Many Requests"
+  },
+  {
+   "code": "EN0205",
+   "label": "Wildfires",
+   "label_zh": "野火（森林火灾）",
+   "family": "Environmental",
+   "family_zh": "环境",
+   "cluster": "ENV-FOREST",
+   "query": "\"forest fire\"",
+   "err": "HTTP Error 429: Too Many Requests"
+  },
+  {
+   "code": "EN0206",
+   "label": "Desertification",
+   "label_zh": "荒漠化",
+   "family": "Environmental",
+   "family_zh": "环境",
+   "cluster": "ENV-FOREST",
+   "query": "desertification",
+   "err": "HTTP Error 429: Too Many Requests"
+  },
+  {
+   "code": "EN0207",
+   "label": "Loss of Mangroves",
+   "label_zh": "红树林丧失",
+   "family": "Environmental",
+   "family_zh": "环境",
+   "cluster": "ENV-FOREST",
+   "query": "mangrove",
+   "err": "HTTP Error 429: Too Many Requests"
+  },
+  {
+   "code": "EN0301",
+   "label": "Land Degradation",
+   "label_zh": "土地退化",
+   "family": "Environmental",
+   "family_zh": "环境",
+   "cluster": "ENV-LAND",
+   "query": "\"land degradation\"",
+   "err": "HTTP Error 429: Too Many Requests"
+  },
+  {
+   "code": "EN0302",
+   "label": "Seawater intrusion",
+   "label_zh": "海水入侵",
+   "family": "Environmental",
+   "family_zh": "环境",
+   "cluster": "ENV-LAND",
+   "query": "\"seawater intrusion\"",
+   "err": "HTTP Error 429: Too Many Requests"
+  },
+  {
+   "code": "EN0303",
+   "label": "Salinity & Sodicity",
+   "label_zh": "盐渍化",
+   "family": "Environmental",
+   "family_zh": "环境",
+   "cluster": "ENV-LAND",
+   "query": "salinity",
+   "err": "HTTP Error 429: Too Many Requests"
+  },
+  {
+   "code": "EN0304",
+   "label": "Wetland Loss/Degradation",
+   "label_zh": "湿地退化",
+   "family": "Environmental",
+   "family_zh": "环境",
+   "cluster": "ENV-LAND",
+   "query": "\"wetland loss\"",
+   "err": "HTTP Error 429: Too Many Requests"
+  },
+  {
+   "code": "EN0305",
+   "label": "Permafrost Loss",
+   "label_zh": "冻土消融",
+   "family": "Environmental",
+   "family_zh": "环境",
+   "cluster": "ENV-LAND",
+   "query": "permafrost",
+   "err": "HTTP Error 429: Too Many Requests"
+  },
+  {
+   "code": "EN0401",
+   "label": "Ocean Acidification",
+   "label_zh": "海洋酸化",
+   "family": "Environmental",
+   "family_zh": "环境",
+   "cluster": "ENV-WATER",
+   "query": "\"ocean acidification\"",
+   "err": "HTTP Error 429: Too Many Requests"
+  },
+  {
+   "code": "EN0402",
+   "label": "Sea Level Rise",
+   "label_zh": "海平面上升",
+   "family": "Environmental",
+   "family_zh": "环境",
+   "cluster": "ENV-WATER",
+   "query": "\"sea level rise\"",
+   "err": "HTTP Error 429: Too Many Requests"
+  },
+  {
+   "code": "EN0403",
+   "label": "Eutrophication",
+   "label_zh": "富营养化",
+   "family": "Environmental",
+   "family_zh": "环境",
+   "cluster": "ENV-WATER",
+   "query": "eutrophication",
+   "err": "HTTP Error 429: Too Many Requests"
+  },
+  {
+   "code": "EN0404",
+   "label": "Coral Bleaching",
+   "label_zh": "珊瑚白化",
+   "family": "Environmental",
+   "family_zh": "环境",
+   "cluster": "ENV-WATER",
+   "query": "\"coral bleaching\"",
+   "err": "HTTP Error 429: Too Many Requests"
+  },
+  {
+   "code": "EN0405",
+   "label": "Sand Mining",
+   "label_zh": "采砂",
+   "family": "Environmental",
+   "family_zh": "环境",
+   "cluster": "ENV-WATER",
+   "query": "\"sand mining\"",
+   "err": "HTTP Error 429: Too Many Requests"
+  },
+  {
+   "code": "EN0501",
+   "label": "Biodiversity Loss",
+   "label_zh": "生物多样性丧失",
+   "family": "Environmental",
+   "family_zh": "环境",
+   "cluster": "ENV-BIO",
+   "query": "\"biodiversity loss\"",
+   "err": "HTTP Error 429: Too Many Requests"
+  },
+  {
+   "code": "CH0100",
+   "label": "Heavy Metals & Trace Elements",
+   "label_zh": "重金属与微量元素",
+   "family": "Chemical",
+   "family_zh": "化学",
+   "cluster": "CHEM-METAL",
+   "query": "\"heavy metal\"",
+   "err": "HTTP Error 429: Too Many Requests"
+  },
+  {
+   "code": "CH0101",
+   "label": "Arsenic",
+   "label_zh": "砷",
+   "family": "Chemical",
+   "family_zh": "化学",
+   "cluster": "CHEM-METAL",
+   "query": "arsenic",
+   "err": "HTTP Error 429: Too Many Requests"
+  },
+  {
+   "code": "CH0102",
+   "label": "Cadmium",
+   "label_zh": "镉",
+   "family": "Chemical",
+   "family_zh": "化学",
+   "cluster": "CHEM-METAL",
+   "query": "cadmium",
+   "err": "HTTP Error 429: Too Many Requests"
+  },
+  {
+   "code": "CH0103",
+   "label": "Lead",
+   "label_zh": "铅",
+   "family": "Chemical",
+   "family_zh": "化学",
+   "cluster": "CHEM-METAL",
+   "query": "\"lead poisoning\"",
+   "err": "HTTP Error 429: Too Many Requests"
+  },
+  {
+   "code": "CH0104",
+   "label": "Mercury",
+   "label_zh": "汞",
+   "family": "Chemical",
+   "family_zh": "化学",
+   "cluster": "CHEM-METAL",
+   "query": "\"mercury poisoning\"",
+   "err": "HTTP Error 429: Too Many Requests"
+  },
+  {
+   "code": "CH0105",
+   "label": "Fluoride & Iodine/Iodide Excess or Inadequate Intake",
+   "label_zh": "氟碘过量或不足",
+   "family": "Chemical",
+   "family_zh": "化学",
+   "cluster": "CHEM-METAL",
+   "query": "fluorosis",
+   "err": "HTTP Error 429: Too Many Requests"
+  },
+  {
+   "code": "CH0201",
+   "label": "Aflatoxins",
+   "label_zh": "黄曲霉毒素",
+   "family": "Chemical",
+   "family_zh": "化学",
+   "cluster": "CHEM-CARC",
+   "query": "aflatoxin",
+   "err": "HTTP Error 429: Too Many Requests"
+  },
+  {
+   "code": "CH0202",
+   "label": "Asbestos",
+   "label_zh": "石棉",
+   "family": "Chemical",
+   "family_zh": "化学",
+   "cluster": "CHEM-CARC",
+   "query": "asbestos",
+   "err": "HTTP Error 429: Too Many Requests"
+  },
+  {
+   "code": "CH0203",
+   "label": "Benzene & Hydrocarbons",
+   "label_zh": "苯与烃类",
+   "family": "Chemical",
+   "family_zh": "化学",
+   "cluster": "CHEM-CARC",
+   "query": "benzene",
+   "err": "HTTP Error 429: Too Many Requests"
+  },
+  {
+   "code": "CH0300",
+   "label": "Toxic Gases",
+   "label_zh": "有毒气体",
+   "family": "Chemical",
+   "family_zh": "化学",
+   "cluster": "CHEM-TGAS",
+   "query": "\"toxic gas\"",
+   "err": "HTTP Error 429: Too Many Requests"
+  },
+  {
+   "code": "CH0301",
+   "label": "Ammonia",
+   "label_zh": "氨",
+   "family": "Chemical",
+   "family_zh": "化学",
+   "cluster": "CHEM-TGAS",
+   "query": "\"ammonia leak\"",
+   "err": "HTTP Error 429: Too Many Requests"
+  },
+  {
+   "code": "CH0302",
+   "label": "Carbon Monoxide",
+   "label_zh": "一氧化碳",
+   "family": "Chemical",
+   "family_zh": "化学",
+   "cluster": "CHEM-TGAS",
+   "query": "\"carbon monoxide\"",
+   "err": "HTTP Error 429: Too Many Requests"
+  },
+  {
+   "code": "CH0303",
+   "label": "Chlorine",
+   "label_zh": "氯气",
+   "family": "Chemical",
+   "family_zh": "化学",
+   "cluster": "CHEM-TGAS",
+   "query": "\"chlorine leak\"",
+   "err": "HTTP Error 429: Too Many Requests"
+  },
+  {
+   "code": "CH0400",
+   "label": "Asphyxiant Gases",
+   "label_zh": "窒息性气体",
+   "family": "Chemical",
+   "family_zh": "化学",
+   "cluster": "CHEM-AGAS",
+   "query": "asphyxia",
+   "err": "HTTP Error 429: Too Many Requests"
+  },
+  {
+   "code": "CH0500",
+   "label": "Persistent Organic Pollutants",
+   "label_zh": "持久性有机污染物",
+   "family": "Chemical",
+   "family_zh": "化学",
+   "cluster": "CHEM-POPS",
+   "query": "\"persistent organic pollutant\"",
+   "err": "HTTP Error 429: Too Many Requests"
+  },
+  {
+   "code": "CH0501",
+   "label": "Pesticides",
+   "label_zh": "农药",
+   "family": "Chemical",
+   "family_zh": "化学",
+   "cluster": "CHEM-POPS",
+   "query": "pesticide",
+   "err": "HTTP Error 429: Too Many Requests"
+  },
+  {
+   "code": "CH0502",
+   "label": "Dioxins & Dioxin-like Substance",
+   "label_zh": "二噁英",
+   "family": "Chemical",
+   "family_zh": "化学",
+   "cluster": "CHEM-POPS",
+   "query": "dioxin",
+   "err": "HTTP Error 429: Too Many Requests"
+  },
+  {
+   "code": "CH0503",
+   "label": "Polyfluoroalkyl Substances",
+   "label_zh": "全氟烷基物质",
+   "family": "Chemical",
+   "family_zh": "化学",
+   "cluster": "CHEM-POPS",
+   "query": "PFAS",
+   "err": "HTTP Error 429: Too Many Requests"
+  },
+  {
+   "code": "CH0504",
+   "label": "Microplastics",
+   "label_zh": "微塑料",
+   "family": "Chemical",
+   "family_zh": "化学",
+   "cluster": "CHEM-POPS",
+   "query": "microplastic",
+   "err": "HTTP Error 429: Too Many Requests"
+  },
+  {
+   "code": "CH0601",
+   "label": "Levels of Contaminants in Food & Feed",
+   "label_zh": "食品与饲料污染物",
+   "family": "Chemical",
+   "family_zh": "化学",
+   "cluster": "CHEM-FOOD",
+   "query": "\"contaminated food\"",
+   "err": "HTTP Error 429: Too Many Requests"
+  },
+  {
+   "code": "CH0602",
+   "label": "Substandard & Falsified Medical Products",
+   "label_zh": "劣质与假冒药品",
+   "family": "Chemical",
+   "family_zh": "化学",
+   "cluster": "CHEM-FOOD",
+   "query": "\"fake medicine\"",
+   "err": "HTTP Error 429: Too Many Requests"
+  },
+  {
+   "code": "CH0603",
+   "label": "Methanol",
+   "label_zh": "甲醇",
+   "family": "Chemical",
+   "family_zh": "化学",
+   "cluster": "CHEM-FOOD",
+   "query": "methanol",
+   "err": "HTTP Error 429: Too Many Requests"
+  },
+  {
+   "code": "CH0604",
+   "label": "Opioids & Other Addictive Substances",
+   "label_zh": "阿片类与成瘾物质",
+   "family": "Chemical",
+   "family_zh": "化学",
+   "cluster": "CHEM-FOOD",
+   "query": "opioid",
+   "err": "HTTP Error 429: Too Many Requests"
+  },
+  {
+   "code": "CH0605",
+   "label": "Marine Toxins",
+   "label_zh": "海洋毒素",
+   "family": "Chemical",
+   "family_zh": "化学",
+   "cluster": "CHEM-FOOD",
+   "query": "\"shellfish poisoning\"",
+   "err": "HTTP Error 429: Too Many Requests"
+  },
+  {
+   "code": "CH0901",
+   "label": "Corrosive Substances",
+   "label_zh": "腐蚀性物质",
+   "family": "Chemical",
+   "family_zh": "化学",
+   "cluster": "CHEM-OTHER",
+   "query": "\"acid attack\"",
+   "err": "HTTP Error 429: Too Many Requests"
+  },
+  {
+   "code": "CH0902",
+   "label": "Ammonium Nitrate",
+   "label_zh": "硝酸铵",
+   "family": "Chemical",
+   "family_zh": "化学",
+   "cluster": "CHEM-OTHER",
+   "query": "\"ammonium nitrate\"",
+   "err": "HTTP Error 429: Too Many Requests"
+  },
+  {
+   "code": "CH0903",
+   "label": "Chemical Warfare Agents",
+   "label_zh": "化学战剂",
+   "family": "Chemical",
+   "family_zh": "化学",
+   "cluster": "CHEM-OTHER",
+   "query": "\"chemical weapon\"",
+   "err": "HTTP Error 429: Too Many Requests"
+  },
+  {
+   "code": "BI0101",
+   "label": "Airborne Diseases (human and Animal)",
+   "label_zh": "空气传播疾病",
+   "family": "Biological",
+   "family_zh": "生物",
+   "cluster": "BIO-INFECT",
+   "query": "influenza",
+   "err": "HTTP Error 429: Too Many Requests"
+  },
+  {
+   "code": "BI0102",
+   "label": "Blood Borne Viruses (Human and Animal)",
+   "label_zh": "血液传播病毒",
+   "family": "Biological",
+   "family_zh": "生物",
+   "cluster": "BIO-INFECT",
+   "query": "\"blood borne\"",
+   "err": "HTTP Error 429: Too Many Requests"
+  },
+  {
+   "code": "BI0103",
+   "label": "Diarrhoeal Diseases (Human)",
+   "label_zh": "腹泻病",
+   "family": "Biological",
+   "family_zh": "生物",
+   "cluster": "BIO-INFECT",
+   "query": "diarrhoea",
+   "err": "HTTP Error 429: Too Many Requests"
+  },
+  {
+   "code": "BI0104",
+   "label": "Foodborne Diseases (Human impact)",
+   "label_zh": "食源性疾病",
+   "family": "Biological",
+   "family_zh": "生物",
+   "cluster": "BIO-INFECT",
+   "query": "\"food poisoning\"",
+   "err": "HTTP Error 429: Too Many Requests"
+  },
+  {
+   "code": "BI0105",
+   "label": "Neglected Tropical Diseases (Human)",
+   "label_zh": "被忽视的热带病",
+   "family": "Biological",
+   "family_zh": "生物",
+   "cluster": "BIO-INFECT",
+   "query": "\"kala azar\"",
+   "err": "HTTP Error 429: Too Many Requests"
+  },
+  {
+   "code": "BI0106",
+   "label": "Sexually Transmitted Diseases (Human)",
+   "label_zh": "性传播疾病",
+   "family": "Biological",
+   "family_zh": "生物",
+   "cluster": "BIO-INFECT",
+   "query": "\"sexually transmitted\"",
+   "err": "HTTP Error 429: Too Many Requests"
+  },
+  {
+   "code": "BI0107",
+   "label": "Vaccine-Preventable Diseases (Human)",
+   "label_zh": "疫苗可预防疾病",
+   "family": "Biological",
+   "family_zh": "生物",
+   "cluster": "BIO-INFECT",
+   "query": "\"vaccine preventable\"",
+   "err": "HTTP Error 429: Too Many Requests"
+  },
+  {
+   "code": "BI0108",
+   "label": "Vector Borne Diseases (VBD) (Human and Animal)",
+   "label_zh": "媒介传播疾病",
+   "family": "Biological",
+   "family_zh": "生物",
+   "cluster": "BIO-INFECT",
+   "query": "\"vector borne\"",
+   "err": "HTTP Error 429: Too Many Requests"
+  },
+  {
+   "code": "BI0109",
+   "label": "Viral Haemorrhagic Fevers (Human)",
+   "label_zh": "病毒性出血热",
+   "family": "Biological",
+   "family_zh": "生物",
+   "cluster": "BIO-INFECT",
+   "query": "\"haemorrhagic fever\"",
+   "err": "HTTP Error 429: Too Many Requests"
+  },
+  {
+   "code": "BI0110",
+   "label": "Waterborne Diseases (Human)",
+   "label_zh": "水源性疾病",
+   "family": "Biological",
+   "family_zh": "生物",
+   "cluster": "BIO-INFECT",
+   "query": "waterborne",
+   "err": "HTTP Error 429: Too Many Requests"
+  },
+  {
+   "code": "BI0111",
+   "label": "Cryptosporidium (Human and Animal)",
+   "label_zh": "隐孢子虫病",
+   "family": "Biological",
+   "family_zh": "生物",
+   "cluster": "BIO-INFECT",
+   "query": "cryptosporid",
+   "err": "HTTP Error 429: Too Many Requests"
+  },
+  {
+   "code": "BI0112",
+   "label": "Cysticercosis (Human and Animal)",
+   "label_zh": "囊尾蚴病",
+   "family": "Biological",
+   "family_zh": "生物",
+   "cluster": "BIO-INFECT",
+   "query": "cysticercosis",
+   "err": "HTTP Error 429: Too Many Requests"
+  },
+  {
+   "code": "BI0113",
+   "label": "Zoonotic Diseases",
+   "label_zh": "人畜共患病",
+   "family": "Biological",
+   "family_zh": "生物",
+   "cluster": "BIO-INFECT",
+   "query": "zoonotic",
+   "err": "HTTP Error 429: Too Many Requests"
+  },
+  {
+   "code": "BI0201",
+   "label": "Anthrax",
+   "label_zh": "炭疽",
+   "family": "Biological",
+   "family_zh": "生物",
+   "cluster": "BIO-SPEC",
+   "query": "anthrax",
+   "err": "HTTP Error 429: Too Many Requests"
+  },
+  {
+   "code": "BI0202",
+   "label": "Brucellosis (Human and Animal)",
+   "label_zh": "布鲁氏菌病",
+   "family": "Biological",
+   "family_zh": "生物",
+   "cluster": "BIO-SPEC",
+   "query": "brucellosis",
+   "err": "HTTP Error 429: Too Many Requests"
+  },
+  {
+   "code": "BI0203",
+   "label": "Chikungunya",
+   "label_zh": "基孔肯雅热",
+   "family": "Biological",
+   "family_zh": "生物",
+   "cluster": "BIO-SPEC",
+   "query": "chikungunya",
+   "err": "HTTP Error 429: Too Many Requests"
+  },
+  {
+   "code": "BI0204",
+   "label": "Cholera (Human)",
+   "label_zh": "霍乱",
+   "family": "Biological",
+   "family_zh": "生物",
+   "cluster": "BIO-SPEC",
+   "query": "cholera",
+   "err": "HTTP Error 429: Too Many Requests"
+  },
+  {
+   "code": "BI0205",
+   "label": "COVID-19 (SARS-CoV-2) (Human)",
+   "label_zh": "新冠",
+   "family": "Biological",
+   "family_zh": "生物",
+   "cluster": "BIO-SPEC",
+   "query": "covid",
+   "err": "HTTP Error 429: Too Many Requests"
+  },
+  {
+   "code": "BI0206",
+   "label": "Crimean-Congo Haemorrhagic Fever (Human)",
+   "label_zh": "克里米亚-刚果出血热",
+   "family": "Biological",
+   "family_zh": "生物",
+   "cluster": "BIO-SPEC",
+   "query": "\"crimean congo\"",
+   "err": "HTTP Error 429: Too Many Requests"
+  },
+  {
+   "code": "BI0207",
+   "label": "Dengue (Human)",
+   "label_zh": "登革热",
+   "family": "Biological",
+   "family_zh": "生物",
+   "cluster": "BIO-SPEC",
+   "query": "dengue",
+   "err": "HTTP Error 429: Too Many Requests"
+  },
+  {
+   "code": "BI0208",
+   "label": "Diphtheria (Human)",
+   "label_zh": "白喉",
+   "family": "Biological",
+   "family_zh": "生物",
+   "cluster": "BIO-SPEC",
+   "query": "diphtheria",
+   "err": "HTTP Error 429: Too Many Requests"
+  },
+  {
+   "code": "BI0209",
+   "label": "Ebola (Human)",
+   "label_zh": "埃博拉",
+   "family": "Biological",
+   "family_zh": "生物",
+   "cluster": "BIO-SPEC",
+   "query": "ebola",
+   "err": "HTTP Error 429: Too Many Requests"
+  },
+  {
+   "code": "BI0210",
+   "label": "Escherichia Coli (STEC) (Human)",
+   "label_zh": "产志贺毒素大肠杆菌",
+   "family": "Biological",
+   "family_zh": "生物",
+   "cluster": "BIO-SPEC",
+   "query": "\"e. coli\"",
+   "err": "HTTP Error 429: Too Many Requests"
+  },
+  {
+   "code": "BI0211",
+   "label": "Hepatitis A (Human)",
+   "label_zh": "甲肝",
+   "family": "Biological",
+   "family_zh": "生物",
+   "cluster": "BIO-SPEC",
+   "query": "\"hepatitis a\"",
+   "err": "HTTP Error 429: Too Many Requests"
+  },
+  {
+   "code": "BI0212",
+   "label": "Hepatitis B (Human)",
+   "label_zh": "乙肝",
+   "family": "Biological",
+   "family_zh": "生物",
+   "cluster": "BIO-SPEC",
+   "query": "\"hepatitis b\"",
+   "err": "HTTP Error 429: Too Many Requests"
+  },
+  {
+   "code": "BI0213",
+   "label": "Hepatitis C (Human)",
+   "label_zh": "丙肝",
+   "family": "Biological",
+   "family_zh": "生物",
+   "cluster": "BIO-SPEC",
+   "query": "\"hepatitis c\"",
+   "err": "HTTP Error 429: Too Many Requests"
+  },
+  {
+   "code": "BI0214",
+   "label": "HIV and AIDS (Human)",
+   "label_zh": "艾滋病",
+   "family": "Biological",
+   "family_zh": "生物",
+   "cluster": "BIO-SPEC",
+   "query": "HIV",
+   "err": "HTTP Error 429: Too Many Requests"
+  },
+  {
+   "code": "BI0215",
+   "label": "Lassa Fever (Human)",
+   "label_zh": "拉沙热",
+   "family": "Biological",
+   "family_zh": "生物",
+   "cluster": "BIO-SPEC",
+   "query": "lassa",
+   "err": "HTTP Error 429: Too Many Requests"
+  },
+  {
+   "code": "BI0216",
+   "label": "Leprosy (Human)",
+   "label_zh": "麻风",
+   "family": "Biological",
+   "family_zh": "生物",
+   "cluster": "BIO-SPEC",
+   "query": "leprosy",
+   "err": "HTTP Error 429: Too Many Requests"
+  },
+  {
+   "code": "BI0217",
+   "label": "Leptospirosis (Human)",
+   "label_zh": "钩端螺旋体病",
+   "family": "Biological",
+   "family_zh": "生物",
+   "cluster": "BIO-SPEC",
+   "query": "leptospirosis",
+   "err": "HTTP Error 429: Too Many Requests"
+  },
+  {
+   "code": "BI0218",
+   "label": "Listeriosis (Human)",
+   "label_zh": "李斯特菌病",
+   "family": "Biological",
+   "family_zh": "生物",
+   "cluster": "BIO-SPEC",
+   "query": "listeri",
+   "err": "HTTP Error 429: Too Many Requests"
+  },
+  {
+   "code": "BI0219",
+   "label": "Malaria (Human)",
+   "label_zh": "疟疾",
+   "family": "Biological",
+   "family_zh": "生物",
+   "cluster": "BIO-SPEC",
+   "query": "malaria",
+   "err": "HTTP Error 429: Too Many Requests"
+  },
+  {
+   "code": "BI0220",
+   "label": "Marburg Virus",
+   "label_zh": "马尔堡病毒",
+   "family": "Biological",
+   "family_zh": "生物",
+   "cluster": "BIO-SPEC",
+   "query": "marburg",
+   "err": "HTTP Error 429: Too Many Requests"
+  },
+  {
+   "code": "BI0221",
+   "label": "Measles (Human)",
+   "label_zh": "麻疹",
+   "family": "Biological",
+   "family_zh": "生物",
+   "cluster": "BIO-SPEC",
+   "query": "measles",
+   "err": "HTTP Error 429: Too Many Requests"
+  },
+  {
+   "code": "BI0222",
+   "label": "Meningococcal Meningitis (Human)",
+   "label_zh": "脑膜炎球菌脑膜炎",
+   "family": "Biological",
+   "family_zh": "生物",
+   "cluster": "BIO-SPEC",
+   "query": "meningitis",
+   "err": "HTTP Error 429: Too Many Requests"
+  },
+  {
+   "code": "BI0223",
+   "label": "Middle East Respiratory Syndrome (MERS) (Human)",
+   "label_zh": "中东呼吸综合征",
+   "family": "Biological",
+   "family_zh": "生物",
+   "cluster": "BIO-SPEC",
+   "query": "MERS",
+   "err": "HTTP Error 429: Too Many Requests"
+  },
+  {
+   "code": "BI0224",
+   "label": "Mpox (Human)",
+   "label_zh": "猴痘",
+   "family": "Biological",
+   "family_zh": "生物",
+   "cluster": "BIO-SPEC",
+   "query": "mpox",
+   "err": "HTTP Error 429: Too Many Requests"
+  },
+  {
+   "code": "BI0225",
+   "label": "Paratyphoid Fever (Human)",
+   "label_zh": "副伤寒",
+   "family": "Biological",
+   "family_zh": "生物",
+   "cluster": "BIO-SPEC",
+   "query": "paratyphoid",
+   "err": "HTTP Error 429: Too Many Requests"
+  },
+  {
+   "code": "BI0226",
+   "label": "Typhoid Fever (Human)",
+   "label_zh": "伤寒",
+   "family": "Biological",
+   "family_zh": "生物",
+   "cluster": "BIO-SPEC",
+   "query": "typhoid",
+   "err": "HTTP Error 429: Too Many Requests"
+  },
+  {
+   "code": "BI0227",
+   "label": "Pertussis (Human)",
+   "label_zh": "百日咳",
+   "family": "Biological",
+   "family_zh": "生物",
+   "cluster": "BIO-SPEC",
+   "query": "pertussis",
+   "err": "HTTP Error 429: Too Many Requests"
+  },
+  {
+   "code": "BI0228",
+   "label": "Plague (Human)",
+   "label_zh": "鼠疫",
+   "family": "Biological",
+   "family_zh": "生物",
+   "cluster": "BIO-SPEC",
+   "query": "plague",
+   "err": "HTTP Error 429: Too Many Requests"
+  },
+  {
+   "code": "BI0229",
+   "label": "Polio (Human)",
+   "label_zh": "脊髓灰质炎",
+   "family": "Biological",
+   "family_zh": "生物",
+   "cluster": "BIO-SPEC",
+   "query": "polio",
+   "err": "HTTP Error 429: Too Many Requests"
+  },
+  {
+   "code": "BI0230",
+   "label": "Prion Diseases",
+   "label_zh": "朊病毒病",
+   "family": "Biological",
+   "family_zh": "生物",
+   "cluster": "BIO-SPEC",
+   "query": "prion",
+   "err": "HTTP Error 429: Too Many Requests"
+  },
+  {
+   "code": "BI0231",
+   "label": "Q Fever",
+   "label_zh": "Q 热",
+   "family": "Biological",
+   "family_zh": "生物",
+   "cluster": "BIO-SPEC",
+   "query": "\"q fever\"",
+   "err": "HTTP Error 429: Too Many Requests"
+  },
+  {
+   "code": "BI0232",
+   "label": "Rabies (Animal and Human)",
+   "label_zh": "狂犬病",
+   "family": "Biological",
+   "family_zh": "生物",
+   "cluster": "BIO-SPEC",
+   "query": "rabies",
+   "err": "HTTP Error 429: Too Many Requests"
+  },
+  {
+   "code": "BI0233",
+   "label": "Rotavirus (Human)",
+   "label_zh": "轮状病毒",
+   "family": "Biological",
+   "family_zh": "生物",
+   "cluster": "BIO-SPEC",
+   "query": "rotavirus",
+   "err": "HTTP Error 429: Too Many Requests"
+  },
+  {
+   "code": "BI0234",
+   "label": "Shigellosis (Human)",
+   "label_zh": "志贺菌病",
+   "family": "Biological",
+   "family_zh": "生物",
+   "cluster": "BIO-SPEC",
+   "query": "shigell",
+   "err": "HTTP Error 429: Too Many Requests"
+  },
+  {
+   "code": "BI0235",
+   "label": "Smallpox (Human)",
+   "label_zh": "天花",
+   "family": "Biological",
+   "family_zh": "生物",
+   "cluster": "BIO-SPEC",
+   "query": "smallpox",
+   "err": "HTTP Error 429: Too Many Requests"
+  },
+  {
+   "code": "BI0236",
+   "label": "Severe Acute Respiratory Syndrome (SARS) (Human)",
+   "label_zh": "非典（SARS）",
+   "family": "Biological",
+   "family_zh": "生物",
+   "cluster": "BIO-SPEC",
+   "query": "SARS",
+   "err": "HTTP Error 429: Too Many Requests"
+  },
+  {
+   "code": "BI0237",
+   "label": "Tuberculosis (Human and Animal)",
+   "label_zh": "结核",
+   "family": "Biological",
+   "family_zh": "生物",
+   "cluster": "BIO-SPEC",
+   "query": "tuberculosis",
+   "err": "HTTP Error 429: Too Many Requests"
+  },
+  {
+   "code": "BI0238",
+   "label": "Trypanosomiasis & Tripanomosis (Human and Animal)",
+   "label_zh": "锥虫病",
+   "family": "Biological",
+   "family_zh": "生物",
+   "cluster": "BIO-SPEC",
+   "query": "trypanosom",
+   "err": "HTTP Error 429: Too Many Requests"
+  },
+  {
+   "code": "BI0239",
+   "label": "Varicella and Herpes Zoster (Human)",
+   "label_zh": "水痘与带状疱疹",
+   "family": "Biological",
+   "family_zh": "生物",
+   "cluster": "BIO-SPEC",
+   "query": "chickenpox",
+   "err": "HTTP Error 429: Too Many Requests"
+  },
+  {
+   "code": "BI0240",
+   "label": "West Nile Fever (Human)",
+   "label_zh": "西尼罗热",
+   "family": "Biological",
+   "family_zh": "生物",
+   "cluster": "BIO-SPEC",
+   "query": "\"west nile\"",
+   "err": "HTTP Error 429: Too Many Requests"
+  },
+  {
+   "code": "BI0241",
+   "label": "Yellow Fever (Human)",
+   "label_zh": "黄热病",
+   "family": "Biological",
+   "family_zh": "生物",
+   "cluster": "BIO-SPEC",
+   "query": "\"yellow fever\"",
+   "err": "HTTP Error 429: Too Many Requests"
+  },
+  {
+   "code": "BI0242",
+   "label": "Zika Virus (Human)",
+   "label_zh": "寨卡",
+   "family": "Biological",
+   "family_zh": "生物",
+   "cluster": "BIO-SPEC",
+   "query": "zika",
+   "err": "HTTP Error 429: Too Many Requests"
+  },
+  {
+   "code": "BI0243",
+   "label": "Seasonal Influenza (Human)",
+   "label_zh": "季节性流感",
+   "family": "Biological",
+   "family_zh": "生物",
+   "cluster": "BIO-SPEC",
+   "query": "\"seasonal flu\"",
+   "err": "HTTP Error 429: Too Many Requests"
+  },
+  {
+   "code": "BI0244",
+   "label": "Pandemic Influenza (Human)",
+   "label_zh": "大流行性流感",
+   "family": "Biological",
+   "family_zh": "生物",
+   "cluster": "BIO-SPEC",
+   "query": "pandemic",
+   "err": "HTTP Error 429: Too Many Requests"
+  },
+  {
+   "code": "BI0245",
+   "label": "Avian Influenza (Human and Animal)",
+   "label_zh": "禽流感",
+   "family": "Biological",
+   "family_zh": "生物",
+   "cluster": "BIO-SPEC",
+   "query": "\"bird flu\"",
+   "err": "HTTP Error 429: Too Many Requests"
+  },
+  {
+   "code": "BI0301",
+   "label": "Animal Diseases (Not Zoonoses)",
+   "label_zh": "动物疫病（非人畜共患）",
+   "family": "Biological",
+   "family_zh": "生物",
+   "cluster": "BIO-ANIMAL",
+   "query": "\"livestock disease\"",
+   "err": "HTTP Error 429: Too Many Requests"
+  },
+  {
+   "code": "BI0302",
+   "label": "African Swine Fever (Animal)",
+   "label_zh": "非洲猪瘟",
+   "family": "Biological",
+   "family_zh": "生物",
+   "cluster": "BIO-ANIMAL",
+   "query": "\"african swine fever\"",
+   "err": "HTTP Error 429: Too Many Requests"
+  },
+  {
+   "code": "BI0303",
+   "label": "Classical Swine Fever (Animal)",
+   "label_zh": "古典猪瘟",
+   "family": "Biological",
+   "family_zh": "生物",
+   "cluster": "BIO-ANIMAL",
+   "query": "\"classical swine fever\"",
+   "err": "HTTP Error 429: Too Many Requests"
+  },
+  {
+   "code": "BI0304",
+   "label": "Contagious Bovine Pleuropneumonia (CBPP) (Animal)",
+   "label_zh": "牛传染性胸膜肺炎",
+   "family": "Biological",
+   "family_zh": "生物",
+   "cluster": "BIO-ANIMAL",
+   "query": "\"bovine pleuropneumonia\"",
+   "err": "HTTP Error 429: Too Many Requests"
+  },
+  {
+   "code": "BI0305",
+   "label": "Contagious Caprine Pleuropneumonia (CCPP) (Animal)",
+   "label_zh": "山羊传染性胸膜肺炎",
+   "family": "Biological",
+   "family_zh": "生物",
+   "cluster": "BIO-ANIMAL",
+   "query": "\"caprine pleuropneumonia\"",
+   "err": "HTTP Error 429: Too Many Requests"
+  },
+  {
+   "code": "BI0306",
+   "label": "Foot and Mouth Disease Virus (Animal)",
+   "label_zh": "口蹄疫",
+   "family": "Biological",
+   "family_zh": "生物",
+   "cluster": "BIO-ANIMAL",
+   "query": "\"foot[  ]and[  ]mouth\"",
+   "err": "HTTP Error 429: Too Many Requests"
+  },
+  {
+   "code": "BI0307",
+   "label": "Lumpy Skin Disease (Animal)",
+   "label_zh": "牛结节性皮肤病",
+   "family": "Biological",
+   "family_zh": "生物",
+   "cluster": "BIO-ANIMAL",
+   "query": "\"lumpy skin\"",
+   "err": "HTTP Error 429: Too Many Requests"
+  },
+  {
+   "code": "BI0308",
+   "label": "Newcastle Disease (Animal)",
+   "label_zh": "新城疫",
+   "family": "Biological",
+   "family_zh": "生物",
+   "cluster": "BIO-ANIMAL",
+   "query": "\"newcastle disease\"",
+   "err": "HTTP Error 429: Too Many Requests"
+  },
+  {
+   "code": "BI0309",
+   "label": "New World Screwworm (NWS) (Animal)",
+   "label_zh": "新大陆螺旋蝇",
+   "family": "Biological",
+   "family_zh": "生物",
+   "cluster": "BIO-ANIMAL",
+   "query": "screwworm",
+   "err": "HTTP Error 429: Too Many Requests"
+  },
+  {
+   "code": "BI0310",
+   "label": "Peste des Petits Ruminants (Animal)",
+   "label_zh": "小反刍兽疫",
+   "family": "Biological",
+   "family_zh": "生物",
+   "cluster": "BIO-ANIMAL",
+   "query": "\"peste des petits\"",
+   "err": "HTTP Error 429: Too Many Requests"
+  },
+  {
+   "code": "BI0311",
+   "label": "Rift Valley Fever (Animal)",
+   "label_zh": "裂谷热",
+   "family": "Biological",
+   "family_zh": "生物",
+   "cluster": "BIO-ANIMAL",
+   "query": "\"rift valley fever\"",
+   "err": "HTTP Error 429: Too Many Requests"
+  },
+  {
+   "code": "BI0312",
+   "label": "Rinderpest (Animal)",
+   "label_zh": "牛瘟",
+   "family": "Biological",
+   "family_zh": "生物",
+   "cluster": "BIO-ANIMAL",
+   "query": "rinderpest",
+   "err": "HTTP Error 429: Too Many Requests"
+  },
+  {
+   "code": "BI0313",
+   "label": "Oyster Disease Aquaculture",
+   "label_zh": "牡蛎病害",
+   "family": "Biological",
+   "family_zh": "生物",
+   "cluster": "BIO-ANIMAL",
+   "query": "\"oyster disease\"",
+   "err": "HTTP Error 429: Too Many Requests"
+  },
+  {
+   "code": "BI0314",
+   "label": "Shrimp Diseases (Bacterial) - Acute Hepatic Pancreatic Necrosis",
+   "label_zh": "对虾急性肝胰腺坏死",
+   "family": "Biological",
+   "family_zh": "生物",
+   "cluster": "BIO-ANIMAL",
+   "query": "\"shrimp disease\"",
+   "err": "HTTP Error 429: Too Many Requests"
+  },
+  {
+   "code": "BI0401",
+   "label": "Insect Pest Infestations",
+   "label_zh": "虫害",
+   "family": "Biological",
+   "family_zh": "生物",
+   "cluster": "BIO-INSECT",
+   "query": "\"pest attack\"",
+   "err": "HTTP Error 429: Too Many Requests"
+  },
+  {
+   "code": "BI0402",
+   "label": "Locust",
+   "label_zh": "蝗灾",
+   "family": "Biological",
+   "family_zh": "生物",
+   "cluster": "BIO-INSECT",
+   "query": "locust",
+   "err": "HTTP Error 429: Too Many Requests"
+  },
+  {
+   "code": "BI0403",
+   "label": "Invasive weed/species",
+   "label_zh": "入侵杂草与物种",
+   "family": "Biological",
+   "family_zh": "生物",
+   "cluster": "BIO-INSECT",
+   "query": "\"invasive weed\"",
+   "err": "HTTP Error 429: Too Many Requests"
+  },
+  {
+   "code": "BI0501",
+   "label": "Bacterial Plant Disease",
+   "label_zh": "植物细菌病",
+   "family": "Biological",
+   "family_zh": "生物",
+   "cluster": "BIO-PLANT",
+   "query": "\"bacterial wilt\"",
+   "err": "HTTP Error 429: Too Many Requests"
+  },
+  {
+   "code": "BI0502",
+   "label": "Fungal Plant Disease",
+   "label_zh": "植物真菌病",
+   "family": "Biological",
+   "family_zh": "生物",
+   "cluster": "BIO-PLANT",
+   "query": "\"blast disease\"",
+   "err": "HTTP Error 429: Too Many Requests"
+  },
+  {
+   "code": "BI0503",
+   "label": "Viral, Phytoplasma and Viroid Plant Disease Outbreaks",
+   "label_zh": "植物病毒与类病毒病",
+   "family": "Biological",
+   "family_zh": "生物",
+   "cluster": "BIO-PLANT",
+   "query": "\"plant virus\"",
+   "err": "HTTP Error 429: Too Many Requests"
+  },
+  {
+   "code": "BI0601",
+   "label": "Antimicrobial Resistance",
+   "label_zh": "抗微生物药物耐药",
+   "family": "Biological",
+   "family_zh": "生物",
+   "cluster": "BIO-OTHER",
+   "query": "\"antimicrobial resistance\"",
+   "err": "HTTP Error 429: Too Many Requests"
+  },
+  {
+   "code": "BI0602",
+   "label": "Biological Agents CBRNE",
+   "label_zh": "生物战剂",
+   "family": "Biological",
+   "family_zh": "生物",
+   "cluster": "BIO-OTHER",
+   "query": "bioterror",
+   "err": "HTTP Error 429: Too Many Requests"
+  },
+  {
+   "code": "BI0603",
+   "label": "Harmful Algal Blooms",
+   "label_zh": "有害藻华",
+   "family": "Biological",
+   "family_zh": "生物",
+   "cluster": "BIO-OTHER",
+   "query": "\"harmful algal bloom\"",
+   "err": "HTTP Error 429: Too Many Requests"
+  },
+  {
+   "code": "BI0604",
+   "label": "Human-Wildlife Conflict",
+   "label_zh": "人与野生动物冲突",
+   "family": "Biological",
+   "family_zh": "生物",
+   "cluster": "BIO-OTHER",
+   "query": "\"leopard attack\"",
+   "err": "HTTP Error 429: Too Many Requests"
+  },
+  {
+   "code": "BI0605",
+   "label": "Snakebite Envenoming",
+   "label_zh": "蛇咬伤",
+   "family": "Biological",
+   "family_zh": "生物",
+   "cluster": "BIO-OTHER",
+   "query": "\"snake bite\"",
+   "err": "HTTP Error 429: Too Many Requests"
+  },
+  {
+   "code": "TL0101",
+   "label": "Malware",
+   "label_zh": "恶意软件",
+   "family": "Technological",
+   "family_zh": "技术",
+   "cluster": "TECH-CYB",
+   "query": "malware",
+   "err": "HTTP Error 429: Too Many Requests"
+  },
+  {
+   "code": "TL0102",
+   "label": "Data Breach",
+   "label_zh": "数据泄露",
+   "family": "Technological",
+   "family_zh": "技术",
+   "cluster": "TECH-CYB",
+   "query": "\"data breach\"",
+   "err": "HTTP Error 429: Too Many Requests"
+  },
+  {
+   "code": "TL0103",
+   "label": "Advanced Persistent Threat",
+   "label_zh": "高级持续性威胁",
+   "family": "Technological",
+   "family_zh": "技术",
+   "cluster": "TECH-CYB",
+   "query": "\"advanced persistent threat\"",
+   "err": "HTTP Error 429: Too Many Requests"
+  },
+  {
+   "code": "TL0104",
+   "label": "Denial of Service",
+   "label_zh": "拒绝服务攻击",
+   "family": "Technological",
+   "family_zh": "技术",
+   "cluster": "TECH-CYB",
+   "query": "DDoS",
+   "err": "HTTP Error 429: Too Many Requests"
+  },
+  {
+   "code": "TL0105",
+   "label": "Supply Chain Attack",
+   "label_zh": "供应链攻击",
+   "family": "Technological",
+   "family_zh": "技术",
+   "cluster": "TECH-CYB",
+   "query": "\"supply chain attack\"",
+   "err": "HTTP Error 429: Too Many Requests"
+  },
+  {
+   "code": "TL0106",
+   "label": "Cyberbullying",
+   "label_zh": "网络霸凌",
+   "family": "Technological",
+   "family_zh": "技术",
+   "cluster": "TECH-CYB",
+   "query": "cyberbully",
+   "err": "HTTP Error 429: Too Many Requests"
+  },
+  {
+   "code": "TL0107",
+   "label": "Social Engineering",
+   "label_zh": "社会工程",
+   "family": "Technological",
+   "family_zh": "技术",
+   "cluster": "TECH-CYB",
+   "query": "phishing",
+   "err": "HTTP Error 429: Too Many Requests"
+  },
+  {
+   "code": "TL0201",
+   "label": "Building Collapse",
+   "label_zh": "建筑倒塌",
+   "family": "Technological",
+   "family_zh": "技术",
+   "cluster": "TECH-STRFAIL",
+   "query": "\"building collapse\"",
+   "err": "HTTP Error 429: Too Many Requests"
+  },
+  {
+   "code": "TL0202",
+   "label": "Building, Highrise, Cladding",
+   "label_zh": "高层建筑与外墙",
+   "family": "Technological",
+   "family_zh": "技术",
+   "cluster": "TECH-STRFAIL",
+   "query": "\"high rise fire\"",
+   "err": "HTTP Error 429: Too Many Requests"
+  },
+  {
+   "code": "TL0203",
+   "label": "Structural Failure",
+   "label_zh": "结构失效",
+   "family": "Technological",
+   "family_zh": "技术",
+   "cluster": "TECH-STRFAIL",
+   "query": "\"structural failure\"",
+   "err": "HTTP Error 429: Too Many Requests"
+  },
+  {
+   "code": "TL0204",
+   "label": "Bridge Failure",
+   "label_zh": "桥梁垮塌",
+   "family": "Technological",
+   "family_zh": "技术",
+   "cluster": "TECH-STRFAIL",
+   "query": "\"bridge collapse\"",
+   "err": "HTTP Error 429: Too Many Requests"
+  },
+  {
+   "code": "TL0205",
+   "label": "Dam Failure",
+   "label_zh": "溃坝",
+   "family": "Technological",
+   "family_zh": "技术",
+   "cluster": "TECH-STRFAIL",
+   "query": "\"dam collapse\"",
+   "err": "HTTP Error 429: Too Many Requests"
+  },
+  {
+   "code": "TL0206",
+   "label": "Supply Chain Failure",
+   "label_zh": "供应链中断",
+   "family": "Technological",
+   "family_zh": "技术",
+   "cluster": "TECH-STRFAIL",
+   "query": "\"supply shortage\"",
+   "err": "HTTP Error 429: Too Many Requests"
+  },
+  {
+   "code": "TL0207",
+   "label": "Critical Infrastructure Failure",
+   "label_zh": "关键基础设施失效",
+   "family": "Technological",
+   "family_zh": "技术",
+   "cluster": "TECH-STRFAIL",
+   "query": "\"infrastructure damage\"",
+   "err": "HTTP Error 429: Too Many Requests"
+  },
+  {
+   "code": "TL0208",
+   "label": "Nuclear Plant Failure",
+   "label_zh": "核电站事故",
+   "family": "Technological",
+   "family_zh": "技术",
+   "cluster": "TECH-STRFAIL",
+   "query": "\"nuclear plant accident\"",
+   "err": "HTTP Error 429: Too Many Requests"
+  },
+  {
+   "code": "TL0209",
+   "label": "Power Outage / Blackout",
+   "label_zh": "停电",
+   "family": "Technological",
+   "family_zh": "技术",
+   "cluster": "TECH-STRFAIL",
+   "query": "\"power outage\"",
+   "err": "HTTP Error 429: Too Many Requests"
+  },
+  {
+   "code": "TL0210",
+   "label": "Water Supply Failure",
+   "label_zh": "供水中断",
+   "family": "Technological",
+   "family_zh": "技术",
+   "cluster": "TECH-STRFAIL",
+   "query": "\"water supply disrupted\"",
+   "err": "HTTP Error 429: Too Many Requests"
+  },
+  {
+   "code": "TL0211",
+   "label": "Emergency Telecommunication Failure",
+   "label_zh": "应急通信中断",
+   "family": "Technological",
+   "family_zh": "技术",
+   "cluster": "TECH-STRFAIL",
+   "query": "\"emergency communication\"",
+   "err": "HTTP Error 429: Too Many Requests"
+  },
+  {
+   "code": "TL0212",
+   "label": "Radio and other Telecommunication Failures",
+   "label_zh": "无线电与通信中断",
+   "family": "Technological",
+   "family_zh": "技术",
+   "cluster": "TECH-STRFAIL",
+   "query": "\"telecom outage\"",
+   "err": "HTTP Error 429: Too Many Requests"
+  },
+  {
+   "code": "TL0213",
+   "label": "Tunnel Failure",
+   "label_zh": "隧道事故",
+   "family": "Technological",
+   "family_zh": "技术",
+   "cluster": "TECH-STRFAIL",
+   "query": "\"tunnel collapse\"",
+   "err": "HTTP Error 429: Too Many Requests"
+  },
+  {
+   "code": "TL0214",
+   "label": "Drain and Sewer Flooding",
+   "label_zh": "排水与下水道内涝",
+   "family": "Technological",
+   "family_zh": "技术",
+   "cluster": "TECH-STRFAIL",
+   "query": "sewer",
+   "err": "HTTP Error 429: Too Many Requests"
+  },
+  {
+   "code": "TL0215",
+   "label": "Reservoir Flooding",
+   "label_zh": "水库泄洪致淹",
+   "family": "Technological",
+   "family_zh": "技术",
+   "cluster": "TECH-STRFAIL",
+   "query": "\"reservoir release\"",
+   "err": "HTTP Error 429: Too Many Requests"
+  },
+  {
+   "code": "TL0301",
+   "label": "Leaks and Spills",
+   "label_zh": "泄漏",
+   "family": "Technological",
+   "family_zh": "技术",
+   "cluster": "TECH-INDFAIL",
+   "query": "\"oil spill\"",
+   "err": "HTTP Error 429: Too Many Requests"
+  },
+  {
+   "code": "TL0302",
+   "label": "Pollution",
+   "label_zh": "污染",
+   "family": "Technological",
+   "family_zh": "技术",
+   "cluster": "TECH-INDFAIL",
+   "query": "pollution",
+   "err": "HTTP Error 429: Too Many Requests"
+  },
+  {
+   "code": "TL0303",
+   "label": "Soil Pollution",
+   "label_zh": "土壤污染",
+   "family": "Technological",
+   "family_zh": "技术",
+   "cluster": "TECH-INDFAIL",
+   "query": "\"soil pollution\"",
+   "err": "HTTP Error 429: Too Many Requests"
+  },
+  {
+   "code": "TL0304",
+   "label": "Explosion",
+   "label_zh": "爆炸",
+   "family": "Technological",
+   "family_zh": "技术",
+   "cluster": "TECH-INDFAIL",
+   "query": "explosion",
+   "err": "HTTP Error 429: Too Many Requests"
+  },
+  {
+   "code": "TL0305",
+   "label": "Fire",
+   "label_zh": "火灾",
+   "family": "Technological",
+   "family_zh": "技术",
+   "cluster": "TECH-INDFAIL",
+   "query": "fire",
+   "err": "HTTP Error 429: Too Many Requests"
+  },
+  {
+   "code": "TL0306",
+   "label": "Explosive Agents",
+   "label_zh": "爆炸物",
+   "family": "Technological",
+   "family_zh": "技术",
+   "cluster": "TECH-INDFAIL",
+   "query": "explosives",
+   "err": "HTTP Error 429: Too Many Requests"
+  },
+  {
+   "code": "TL0307",
+   "label": "Mining Hazards",
+   "label_zh": "采矿灾害",
+   "family": "Technological",
+   "family_zh": "技术",
+   "cluster": "TECH-INDFAIL",
+   "query": "\"mine accident\"",
+   "err": "HTTP Error 429: Too Many Requests"
+  },
+  {
+   "code": "TL0308",
+   "label": "Safety Hazards Associated with Oil and Gas Extraction Activities",
+   "label_zh": "油气开采事故",
+   "family": "Technological",
+   "family_zh": "技术",
+   "cluster": "TECH-INDFAIL",
+   "query": "\"oil rig fire\"",
+   "err": "HTTP Error 429: Too Many Requests"
+  },
+  {
+   "code": "TL0309",
+   "label": "Natech",
+   "label_zh": "自然灾害引发的技术事故（Natech）",
+   "family": "Technological",
+   "family_zh": "技术",
+   "cluster": "TECH-INDFAIL",
+   "query": "\"industrial accident\"",
+   "err": "HTTP Error 429: Too Many Requests"
+  },
+  {
+   "code": "TL0401",
+   "label": "Air Transportation Accident",
+   "label_zh": "航空事故",
+   "family": "Technological",
+   "family_zh": "技术",
+   "cluster": "TECH-TRANSP",
+   "query": "\"plane crash\"",
+   "err": "HTTP Error 429: Too Many Requests"
+  },
+  {
+   "code": "TL0402",
+   "label": "Inland Water Way Accidents",
+   "label_zh": "内河航运事故",
+   "family": "Technological",
+   "family_zh": "技术",
+   "cluster": "TECH-TRANSP",
+   "query": "\"boat capsize\"",
+   "err": "HTTP Error 429: Too Many Requests"
+  },
+  {
+   "code": "TL0403",
+   "label": "Maritime Accident",
+   "label_zh": "海上事故",
+   "family": "Technological",
+   "family_zh": "技术",
+   "cluster": "TECH-TRANSP",
+   "query": "\"maritime accident\"",
+   "err": "HTTP Error 429: Too Many Requests"
+  },
+  {
+   "code": "TL0404",
+   "label": "Rail Accident",
+   "label_zh": "铁路事故",
+   "family": "Technological",
+   "family_zh": "技术",
+   "cluster": "TECH-TRANSP",
+   "query": "\"train accident\"",
+   "err": "HTTP Error 429: Too Many Requests"
+  },
+  {
+   "code": "TL0405",
+   "label": "Road Traffic Accident",
+   "label_zh": "道路交通事故",
+   "family": "Technological",
+   "family_zh": "技术",
+   "cluster": "TECH-TRANSP",
+   "query": "\"road accident\"",
+   "err": "HTTP Error 429: Too Many Requests"
+  },
+  {
+   "code": "TL0501",
+   "label": "Disaster & Conflict Waste",
+   "label_zh": "灾害与冲突废弃物",
+   "family": "Technological",
+   "family_zh": "技术",
+   "cluster": "TECH-WASTE",
+   "query": "\"disaster debris\"",
+   "err": "HTTP Error 429: Too Many Requests"
+  },
+  {
+   "code": "TL0502",
+   "label": "Solid Waste",
+   "label_zh": "固体废物",
+   "family": "Technological",
+   "family_zh": "技术",
+   "cluster": "TECH-WASTE",
+   "query": "garbage",
+   "err": "HTTP Error 429: Too Many Requests"
+  },
+  {
+   "code": "TL0503",
+   "label": "Wastewater",
+   "label_zh": "废水",
+   "family": "Technological",
+   "family_zh": "技术",
+   "cluster": "TECH-WASTE",
+   "query": "wastewater",
+   "err": "HTTP Error 429: Too Many Requests"
+  },
+  {
+   "code": "TL0504",
+   "label": "Hazardous Waste",
+   "label_zh": "危险废物",
+   "family": "Technological",
+   "family_zh": "技术",
+   "cluster": "TECH-WASTE",
+   "query": "\"hazardous waste\"",
+   "err": "HTTP Error 429: Too Many Requests"
+  },
+  {
+   "code": "TL0505",
+   "label": "Plastic Waste",
+   "label_zh": "塑料废物",
+   "family": "Technological",
+   "family_zh": "技术",
+   "cluster": "TECH-WASTE",
+   "query": "\"plastic waste\"",
+   "err": "HTTP Error 429: Too Many Requests"
+  },
+  {
+   "code": "TL0506",
+   "label": "Marine Debris",
+   "label_zh": "海洋垃圾",
+   "family": "Technological",
+   "family_zh": "技术",
+   "cluster": "TECH-WASTE",
+   "query": "\"marine debris\"",
+   "err": "HTTP Error 429: Too Many Requests"
+  },
+  {
+   "code": "TL0507",
+   "label": "Electronic Waste (E-Waste)",
+   "label_zh": "电子废物",
+   "family": "Technological",
+   "family_zh": "技术",
+   "cluster": "TECH-WASTE",
+   "query": "\"e waste\"",
+   "err": "HTTP Error 429: Too Many Requests"
+  },
+  {
+   "code": "TL0508",
+   "label": "Health-care Waste",
+   "label_zh": "医疗废物",
+   "family": "Technological",
+   "family_zh": "技术",
+   "cluster": "TECH-WASTE",
+   "query": "\"medical waste\"",
+   "err": "HTTP Error 429: Too Many Requests"
+  },
+  {
+   "code": "TL0509",
+   "label": "Landfilling",
+   "label_zh": "填埋",
+   "family": "Technological",
+   "family_zh": "技术",
+   "cluster": "TECH-WASTE",
+   "query": "landfill",
+   "err": "HTTP Error 429: Too Many Requests"
+  },
+  {
+   "code": "TL0510",
+   "label": "Waste Treatment Lagoons",
+   "label_zh": "废物处理塘",
+   "family": "Technological",
+   "family_zh": "技术",
+   "cluster": "TECH-WASTE",
+   "query": "\"waste lagoon\"",
+   "err": "HTTP Error 429: Too Many Requests"
+  },
+  {
+   "code": "TL0511",
+   "label": "Tailings",
+   "label_zh": "尾矿",
+   "family": "Technological",
+   "family_zh": "技术",
+   "cluster": "TECH-WASTE",
+   "query": "tailings",
+   "err": "HTTP Error 429: Too Many Requests"
+  },
+  {
+   "code": "TL0601",
+   "label": "Radioactive Waste",
+   "label_zh": "放射性废物",
+   "family": "Technological",
+   "family_zh": "技术",
+   "cluster": "TECH-RAD",
+   "query": "\"radioactive waste\"",
+   "err": "HTTP Error 429: Too Many Requests"
+  },
+  {
+   "code": "TL0602",
+   "label": "Radioactive Agents & Material",
+   "label_zh": "放射性物质",
+   "family": "Technological",
+   "family_zh": "技术",
+   "cluster": "TECH-RAD",
+   "query": "radioactive",
+   "err": "HTTP Error 429: Too Many Requests"
+  },
+  {
+   "code": "TL0603",
+   "label": "Nuclear Agents",
+   "label_zh": "核材料",
+   "family": "Technological",
+   "family_zh": "技术",
+   "cluster": "TECH-RAD",
+   "query": "uranium",
+   "err": "HTTP Error 429: Too Many Requests"
+  },
+  {
+   "code": "SO0101",
+   "label": "International Armed Conflict (IAC)",
+   "label_zh": "国际武装冲突",
+   "family": "Societal",
+   "family_zh": "社会",
+   "cluster": "SOC-CONF",
+   "query": "\"war between\"",
+   "err": "HTTP Error 429: Too Many Requests"
+  },
+  {
+   "code": "SO0102",
+   "label": "Non-International Armed Conflict (NIAC)",
+   "label_zh": "非国际武装冲突",
+   "family": "Societal",
+   "family_zh": "社会",
+   "cluster": "SOC-CONF",
+   "query": "insurgen",
+   "err": "HTTP Error 429: Too Many Requests"
+  },
+  {
+   "code": "SO0103",
+   "label": "Civil Unrest",
+   "label_zh": "内乱",
+   "family": "Societal",
+   "family_zh": "社会",
+   "cluster": "SOC-CONF",
+   "query": "protest",
+   "err": "HTTP Error 429: Too Many Requests"
+  },
+  {
+   "code": "SO0201",
+   "label": "Explosive Ordnance",
+   "label_zh": "未爆弹药",
+   "family": "Societal",
+   "family_zh": "社会",
+   "cluster": "SOC-POSTCONF",
+   "query": "unexploded",
+   "err": "HTTP Error 429: Too Many Requests"
+  },
+  {
+   "code": "SO0202",
+   "label": "Environmental Degradation from Conflict",
+   "label_zh": "冲突造成的环境破坏",
+   "family": "Societal",
+   "family_zh": "社会",
+   "cluster": "SOC-POSTCONF",
+   "query": "\"conflict pollution\"",
+   "err": "HTTP Error 429: Too Many Requests"
+  },
+  {
+   "code": "SO0301",
+   "label": "Violence",
+   "label_zh": "暴力",
+   "family": "Societal",
+   "family_zh": "社会",
+   "cluster": "SOC-BEH",
+   "query": "violence",
+   "err": "HTTP Error 429: Too Many Requests"
+  },
+  {
+   "code": "SO0302",
+   "label": "Stampede or Crushing (Human)",
+   "label_zh": "踩踏",
+   "family": "Societal",
+   "family_zh": "社会",
+   "cluster": "SOC-BEH",
+   "query": "stampede",
+   "err": "HTTP Error 429: Too Many Requests"
+  },
+  {
+   "code": "SO0303",
+   "label": "Suicide Cluster",
+   "label_zh": "自杀聚集",
+   "family": "Societal",
+   "family_zh": "社会",
+   "cluster": "SOC-BEH",
+   "query": "suicide",
+   "err": "HTTP Error 429: Too Many Requests"
+  },
+  {
+   "code": "SO0401",
+   "label": "Financial Shock",
+   "label_zh": "金融冲击",
+   "family": "Societal",
+   "family_zh": "社会",
+   "cluster": "SOC-ECO",
+   "query": "\"financial crisis\"",
+   "err": "HTTP Error 429: Too Many Requests"
+  }
+ ]
+}
