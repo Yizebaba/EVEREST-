@@ -1,6 +1,6 @@
 """每小时把实时采集结果整理成总览页数据库要的文档（JSON 文件），由定时任务用 ArtifactData 写入。
 用法：python3 tools/hub_sync.py <输出目录>
-输出：live_<名>.json → 数据库 live/<名>（rt 实时采集、fs 坡面+事件+灾种、img 卫星图、cam 摄像头、hzr 全部灾种记录、lib 外部工具库），
+输出：live_<名>.json → 数据库 live/<名>（rt 实时采集、fs 坡面+事件+灾种、img 卫星图、cam 摄像头、hzr 全部灾种记录、lib 外部工具库、ops 自动流程运行记录），
       mt_monitor.json → mt_monitor/latest"""
 import base64, json, os, subprocess, sys, time
 out = sys.argv[1]; os.makedirs(out, exist_ok=True)
@@ -14,7 +14,11 @@ img = {"at": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime())}
 # 卫星图（Worker 每 30 分钟存一份 JPEG；旧的 PNG 作后备）。单个文档上限 256 KiB，超了按顺序少放几张
 for k in ("himawari_vis", "himawari_ir", "himawari_am", "meteosat_natural", "meteosat_snow"):
     for ext, mime in (("jpg", "image/jpeg"), ("png", "image/png")):
-        try: img[k] = f"data:{mime};base64," + base64.b64encode(raw(f"img/{k}.{ext}")).decode(); break
+        try:
+            b = raw(f"img/{k}.{ext}")
+            # 一张图几乎全是同一种颜色（夜间的可见光 / 自然色，或来源暂缺时的空白图）：JPEG 只有一两 KB。标出来，页面不显示空图
+            if ext == "jpg" and len(b) < 3000: img.setdefault("blank", []).append(k)
+            img[k] = f"data:{mime};base64," + base64.b64encode(b).decode(); break
         except Exception as e: pass
     if k not in img: print("图像暂缺", k)
 # 珠峰地区摄像头（hazards 工作流每小时检查，tools/webcams.py）：是否在播、源地址、一张小图
@@ -131,3 +135,13 @@ try:
     print("live_lib", os.path.getsize(f"{out}/live_lib.json"), "bytes;", len(lib["skills"]), "skills", len(lib["plugins"]), "plugins", len(lib["mcp"]), "mcp")
 except Exception as e:
     print("外部工具库目录暂缺：", e)
+
+# 自动流程审计：GitHub Actions 最近 60 次运行（名称、分支、触发方式、结果、时间、链接）→ live_ops.json（→ live/ops）
+try:
+    rr = json.loads(subprocess.check_output(["gh", "api", f"repos/{REPO}/actions/runs?per_page=60"]))
+    ops = [[r.get("name"), r.get("head_branch"), r.get("event"), r.get("status"), r.get("conclusion"), r.get("created_at"), r.get("updated_at"), r.get("html_url"), r.get("run_number")]
+           for r in rr.get("workflow_runs", [])]
+    json.dump({"updated": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime()), "runs": ops}, open(f"{out}/live_ops.json", "w"), ensure_ascii=False)
+    print("live_ops", len(ops), "runs")
+except Exception as e:
+    print("运行记录暂缺：", e)
