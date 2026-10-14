@@ -252,6 +252,29 @@ async function pushStatus(env, log) {
   return true;
 }
 
+
+// D1 读取计量：D1 免费额度每天 500 万行读取。每次查询返回 meta.rows_read，这里累加，按 UTC 日写进 meta 表 d1r:<日期>，
+// status() 和连接器总览里能看到“今天已读多少行”，不用再等 Cloudflare 的邮件才知道。
+function meterDB(db, acc) {
+  const wrap = s => ({
+    __raw: s,
+    bind: (...a) => wrap(s.bind(...a)),
+    first: async col => { const r = await s.all(); acc.n += (r.meta && r.meta.rows_read) || 0; const row = (r.results || [])[0]; return row ? (col ? row[col] : row) : null; },
+    all: async () => { const r = await s.all(); acc.n += (r.meta && r.meta.rows_read) || 0; return r; },
+    run: async () => { const r = await s.run(); acc.n += (r.meta && r.meta.rows_read) || 0; return r; },
+    raw: (...a) => s.raw(...a),
+  });
+  return new Proxy(db, { get(t, k) {
+    if (k === "prepare") return sql => wrap(t.prepare(sql));
+    if (k === "batch") return async st => { const r = await t.batch(st.map(x => x.__raw || x)); for (const x of r) acc.n += (x.meta && x.meta.rows_read) || 0; return r; };
+    const v = t[k]; return typeof v === "function" ? v.bind(t) : v;
+  } });
+}
+async function meterSave(rawDB, acc) {
+  if (!acc.n) return;
+  try { await rawDB.prepare("INSERT INTO meta (k,v) VALUES (?,?) ON CONFLICT(k) DO UPDATE SET v=CAST(v AS INTEGER)+CAST(excluded.v AS INTEGER)").bind("d1r:" + nowIso().slice(0, 10), String(acc.n)).run(); } catch (e) {}
+}
+
 async function tick(env) {
   const log = { t: nowIso(), fetches: 0 };
   try {
@@ -305,7 +328,8 @@ const json = (o, s = 200) => new Response(JSON.stringify(o), { status: s, header
 async function status(env) {
   await init(env);
   const c = JSON.parse((await getMeta(env, "status_cache")) || "null");
-  if (c && Date.now() - Date.parse(c.at) < 5 * 60e3) return { ...c.data, cached_at: c.at, last_tick: JSON.parse((await getMeta(env, "last_tick")) || "null") };
+  if (c && Date.now() - Date.parse(c.at) < 5 * 60e3) return { ...c.data, cached_at: c.at, d1_rows_read_today: Number(await getMeta(env, "d1r:" + nowIso().slice(0, 10))) || 0, d1_rows_read_limit: 5000000,
+    last_tick: JSON.parse((await getMeta(env, "last_tick")) || "null") };
   const s = await env.DB.prepare(`SELECT COUNT(*) n, SUM(status='done') d, MIN(t) first, MAX(t) last,
       MAX(CASE WHEN status='done' THEN t END) last_done FROM scene`).first();
   const o = await env.DB.prepare("SELECT MAX(rowid) n FROM obs").first();
@@ -315,12 +339,19 @@ async function status(env) {
     dates_scored: sc.n, dates_total: dates.n, live_at: await getMeta(env, "live_at"), facets: FACETS.length };
   const at = nowIso();
   await setMeta(env, "status_cache", JSON.stringify({ at, data }));
-  return { ...data, cached_at: at, last_tick: JSON.parse((await getMeta(env, "last_tick")) || "null") };
+  return { ...data, cached_at: at, d1_rows_read_today: Number(await getMeta(env, "d1r:" + nowIso().slice(0, 10))) || 0, d1_rows_read_limit: 5000000,
+    last_tick: JSON.parse((await getMeta(env, "last_tick")) || "null") };
 }
 
 export default {
-  async scheduled(controller, env, ctx) { ctx.waitUntil(tick(env)); },
-  async fetch(req, env) {
+  async scheduled(controller, env0, ctx) { const acc = { n: 0 }, env = { ...env0, DB: meterDB(env0.DB, acc) }; ctx.waitUntil(tick(env).finally(() => meterSave(env0.DB, acc))); },
+  async fetch(req, env0, ctx) {
+    const acc = { n: 0 }, env = { ...env0, DB: meterDB(env0.DB, acc) };
+    try { return await route(req, env); } finally { const p = meterSave(env0.DB, acc); if (ctx && ctx.waitUntil) ctx.waitUntil(p); else await p; }
+  },
+};
+async function route(req, env) {
+  {
     const u = new URL(req.url);
     if (u.pathname === "/api/live.json") { await init(env); const v = await getMeta(env, "live"); return v ? new Response(v, { headers: { "content-type": "application/json; charset=utf-8", ...CORS } }) : json({ building: true, status: await status(env) }, 202); }
     if (u.pathname === "/api/status.json") return json(await status(env));
@@ -340,8 +371,8 @@ export default {
     if (u.pathname === "/__tick" && env.ALLOW_MANUAL_TICK === "1") return json(await tick(env));
     if (u.pathname === "/") return new Response(PAGE, { headers: { "content-type": "text/html; charset=utf-8" } });
     return new Response("not found", { status: 404 });
-  },
-};
+  }
+}
 
 const PAGE = `<!doctype html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <title>珠峰冰坡雷达监测</title><style>

@@ -204,9 +204,14 @@ body{--calm:1}
 #modal:has(.acct){width:min(560px,94%);top:5%;background:rgba(18,18,20,.985)}#auth .acct{max-height:58vh;overflow-y:auto;margin:8px 0;padding-right:4px}#auth .acct ol{font-size:12px}#auth .acct .sub{font-size:12px}#modal .acct input[type=checkbox]{width:auto}#modal .acct table{width:100%}#auth .warn{font-size:12px;color:#e8b26a;margin-top:6px}
 #modal.on{z-index:12}#modal .lvt td{overflow-wrap:anywhere}.xpt td:first-child{white-space:nowrap;color:var(--mute)}#modal:has(.mtm){width:min(520px,94%);top:4%;max-height:90vh;overflow-y:auto;background:rgba(18,18,20,.985)}#modal .mt2{display:grid;grid-template-columns:1fr 1fr;gap:8px}#modal textarea{padding:7px 11px;border-radius:9px;border:1px solid var(--gb);background:rgba(255,255,255,.05);color:var(--ink);font:inherit;font-size:13px;box-sizing:border-box}#modal .mtm .gt{font-size:12px;color:var(--mute);margin:12px 0 4px;letter-spacing:.05em}#modal .mtm .sb{display:flex;gap:6px;flex-wrap:wrap;margin-top:10px}#sideGrip{display:none}@media (min-width:1000px){#side:has(.wbody){width:var(--sideW,400px)}#sideGrip{position:absolute;left:calc(14px + var(--sideW,400px) - 3px);top:14px;bottom:130px;width:7px;cursor:col-resize;z-index:7;border-radius:4px;touch-action:none}#main:has(#side .wbody) #sideGrip{display:block}#sideGrip:hover,#sideGrip.on,#sideGrip:focus-visible{background:rgba(255,190,110,.35);outline:none}}
 
+/* v66：链接颜色（原来是浏览器默认深蓝/紫，在深色底上看不清） */
+a,a:link{color:#9ccaff;text-decoration-color:rgba(156,202,255,.45);text-underline-offset:2px}
+a:visited{color:#c9b8ff}
+a:hover,a:focus-visible{color:#d6e9ff;text-decoration-color:currentColor}
 /* v65：左侧面板和底部一排可读性——面板有底色、加宽、内部滚动；提示不压内容；手机不横向溢出 */
 @media (min-width:1000px){
-#side:has(.wbody){width:min(560px,44vw)}
+#side:has(.wbody){width:var(--sideW,min(560px,44vw))}
+#sideGrip{left:calc(14px + var(--sideW,min(560px,44vw)) - 3px)}
 #side .wbody{align-self:flex-start;max-height:100%;box-sizing:border-box;background:rgba(12,12,15,.88);border:1px solid var(--gb);border-radius:12px;padding:12px 14px 14px;backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);text-shadow:none;box-shadow:0 12px 32px rgba(0,0,0,.45);scrollbar-width:thin}
 #side .wb{background:rgba(12,12,15,.72);border:1px solid var(--gb);border-radius:12px;padding:6px 0;align-self:flex-start;backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);text-shadow:none}
 #side .wb button[aria-pressed="true"]::after{display:none}
@@ -540,6 +545,7 @@ function extRecalc(){const X=LIVE.ext;if(!X||!LIVE.rt)return;const rt=LIVE.rt,S=
  if(so.length)A.push({st:"bad",stt:"水位站",t:LT(so.length+" 个水位站停发："+so.map(o=>o.name+"（"+(o.last||"—").slice(0,10)+" 起）").join("、"),so.length+" gauge stations not reporting: "+so.map(o=>tr(o.name)+" (since "+(o.last||"—").slice(0,10)+")").join(", "))});
  if(!ok("adsb"))A.push({st:"bad",stt:"ADS-B",t:"ADS-B 不可用：免费源都拒绝云服务器请求，需要付费或注册的接口（详见“数据源一览”）"});
  if(!base)A.push({st:"warn",stt:"坡面",t:LT("坡面基线还在算（"+sc.d+"/"+sc.n+" 景），分级未出","Facet baseline still computing ("+sc.d+"/"+sc.n+" scenes); no tiers yet")});
+ if(fw.d1_rows_read_today&&fw.d1_rows_read_limit){const pc=Math.round(100*fw.d1_rows_read_today/fw.d1_rows_read_limit);if(pc>=50)A.push({st:pc>=80?"bad":"warn",stt:"D1",t:LT("Cloudflare D1 今天已读 "+fw.d1_rows_read_today.toLocaleString()+" 行，免费额度的 "+pc+"%（UTC 0 点重置）","Cloudflare D1 read "+fw.d1_rows_read_today.toLocaleString()+" rows today, "+pc+"% of the free quota (resets 00:00 UTC)")})}
  if(ins)A.push(ins);X.attn=A;
  TRC_RESET()}
 const TRC_RESET=()=>{for(const k in TRC)delete TRC[k]};
