@@ -52,6 +52,12 @@ try:
     for e in sorted(evs, key=lambda e: e["t"]):
         if len(json.dumps({**fs, "ev": evd}, ensure_ascii=False).encode()) < 230000: break
         e.pop("evn_png", None)
+    size = lambda: len(json.dumps({**fs, "ev": evd}, ensure_ascii=False).encode())
+    for cap in (40, 25, 12):   # 还超就从最早的事件开始缩短时间线（完整时间线在连接器和 events 分支里）
+        for e in sorted(evs, key=lambda e: e["t"]):
+            if size() < 230000: break
+            e["timeline"] = e["timeline"][:cap]; e.pop("news", None)
+    if size() >= 250000: print("警告：live_fs 仍然过大", size())
     json.dump(evd, open(f"{out}/live_ev.json", "w"), ensure_ascii=False)
     # 同时并进 live_fs.json 的 ev 字段：定时任务原本就写 live/fs，不用改任务也能把事件送到页面
     fs["ev"] = evd
