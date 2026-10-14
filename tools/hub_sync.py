@@ -1,6 +1,7 @@
-"""每小时把实时采集结果整理成总览页数据库要的 4 个文档（JSON 文件），由定时任务用 ArtifactData 写入。
+"""每小时把实时采集结果整理成总览页数据库要的文档（JSON 文件），由定时任务用 ArtifactData 写入。
 用法：python3 tools/hub_sync.py <输出目录>
-输出：live_rt.json（→ live/rt）、live_fs.json（→ live/fs）、live_img.json（→ live/img）、mt_monitor.json（→ mt_monitor/latest）"""
+输出：live_<名>.json → 数据库 live/<名>（rt 实时采集、fs 坡面+事件+灾种、img 卫星图、cam 摄像头、hzr 全部灾种记录、lib 外部工具库），
+      mt_monitor.json → mt_monitor/latest"""
 import base64, json, os, subprocess, sys, time
 out = sys.argv[1]; os.makedirs(out, exist_ok=True)
 REPO = "Yizebaba/EVEREST-"
@@ -10,9 +11,16 @@ rt = json.loads(raw("rt.json")); fs = json.loads(raw("facet_status.json"))
 json.dump(rt, open(f"{out}/live_rt.json", "w"), ensure_ascii=False)
 json.dump(fs, open(f"{out}/live_fs.json", "w"), ensure_ascii=False)
 img = {"at": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime())}
-for k in ("himawari_vis", "meteosat_snow"):
-    try: img[k] = "data:image/png;base64," + base64.b64encode(raw(f"img/{k}.png")).decode()
-    except Exception as e: print("图像", k, e)
+# 卫星图（Worker 每 30 分钟存一份 JPEG；旧的 PNG 作后备）。单个文档上限 256 KiB，超了按顺序少放几张
+for k in ("himawari_vis", "himawari_ir", "himawari_am", "meteosat_natural", "meteosat_snow"):
+    for ext, mime in (("jpg", "image/jpeg"), ("png", "image/png")):
+        try: img[k] = f"data:{mime};base64," + base64.b64encode(raw(f"img/{k}.{ext}")).decode(); break
+        except Exception as e: pass
+    if k not in img: print("图像暂缺", k)
+if len(json.dumps(img).encode()) > 235000: img.pop("cams", None)
+for k in ("meteosat_snow", "himawari_vis", "meteosat_natural", "himawari_ir"):
+    if len(json.dumps(img).encode()) <= 235000: break
+    img.pop(k, None); print("图像太大，去掉", k)
 # 珠峰地区摄像头（hazards 工作流每小时检查，tools/webcams.py）：是否在播、源地址、一张小图
 try:
     wc = json.loads(raw("hazards/webcams.json", "events")); cams = []
@@ -22,14 +30,16 @@ try:
             try: x["img"] = "data:image/jpeg;base64," + base64.b64encode(raw(c["file"], "events")).decode()
             except Exception as e: print("cam img", c["id"], e)
         cams.append(x)
-    img["cams"] = {"updated": wc.get("updated"), "list": cams}
+    json.dump({"updated": wc.get("updated"), "list": cams}, open(f"{out}/live_cam.json", "w"))   # 摄像头单独一个文档（→ live/cam）
+    img["cams"] = {"updated": wc.get("updated"), "list": cams}   # 旧版页面从 live/img 读摄像头；放得下就也放一份
 except Exception as e:
     print("webcams", e)
 json.dump(img, open(f"{out}/live_img.json", "w"))
 sys.path.insert(0, os.path.dirname(__file__))
 from monitor_sync import build
 json.dump(build(rt), open(f"{out}/mt_monitor.json", "w"), ensure_ascii=False)
-for f in ("live_rt", "live_fs", "live_img", "mt_monitor"): print(f, os.path.getsize(f"{out}/{f}.json"), "bytes")
+for f in ("live_rt", "live_fs", "live_img", "live_cam", "mt_monitor"):
+    if os.path.exists(f"{out}/{f}.json"): print(f, os.path.getsize(f"{out}/{f}.json"), "bytes")
 print("rt.updated", rt.get("updated"), "facet", fs.get("scenes"))
 
 # 事件与证据包（events 分支，由 evidence 工作流生成）→ live_ev.json（→ live/ev）
