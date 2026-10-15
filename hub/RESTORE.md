@@ -406,3 +406,8 @@
 - 定时任务：“总览实时同步”改为后备，每次写回执 live/sync，只在确认已提交时算成功；“总览半点同步（轻量）”停用。
 - 复原：git revert 本提交与 events 分支 fe12e52；update_trigger 恢复旧说明；页面回 Version 77。
 - 补充（v79）：顶部统计栏在页面上是隐藏的（calm 模式 CSS），“链路”改为页头按钮 #linkPill；页面里灾种扫描频率的文字从“每小时”改为“每 20 分钟”（中英文）；自检里坡面时间改读 cached_at。本地无头浏览器加载测试 0 个脚本错误，并用连接器真实返回的数据跑过一遍。
+
+## 56 · 2026-10-16 MiroFish 第三次运行被杀的修复
+- 38754825731：跑到第 45 分钟（模拟中途）“Start backend and run”步骤以 exit 143（SIGTERM）结束，运行器随之退出，Save 步骤被跳过，什么都没留下。作业日志所在的存储本环境访问不到，确切的信号来源未能确认。
+- 修复（.github/workflows/mirofish.yml）：后端用 setsid 放进独立会话；每分钟记录内存（mf_out/sys.log）；每 10 分钟用 tools/mirofish_checkpoint.sh 把已有产物推到 events 分支（运行器意外退出也留得下线索）；最终保存也走同一脚本，并在推送前抹掉日志里的密钥。
+- 复原：git revert 本提交。
