@@ -374,3 +374,9 @@
   - 页面底部栏切换区加“扫描于 时间”。
   - tools/hazard_scan.py：新闻 RSS 没有 pubDate 时依次用 dc:date / published / updated / 网址里的日期，都没有就跳过；不再把扫描时间当发布时间（之前 Kathmandu Post 10-14 的文章显示成刚刚）。
 - 复原：git revert 本提交；update_trigger 把“总览实时同步”改回 "38 * * * *"，删除 trig_01BnZ8UWV61AcZXoqeB4JcDa；页面回 Version 74。
+
+## 51 · 2026-10-15 扫描结果直接上页面（v76），不等同步
+- 连接器新工具 everest_hazard_records（cf-worker/src/mcp.js）：读 events 分支 hazards/records.json，返回与 live_hzr 相同格式。总览页 liveWatch 每 90 秒查一次，扫描一提交新记录就出现。页面能力声明的 EVEREST 工具表加了这一个（hub/capabilities.json）。
+- Worker 灾种扫描改为每 20 分钟一次，不再固定 :12/:42（与同步任务脱钩）。
+- “总览半点同步（轻量）”trig_01BnZ8UWV61AcZXoqeB4JcDa 停用（省额度）；:58 完整同步保留，作为没有连接器时的后备。
+- 复原：git revert 本提交；页面回 Version 75（能力声明去掉 everest_hazard_records）；需要时重新启用半点同步。

@@ -146,8 +146,8 @@ export async function hazardsKick(env, last) {
   const due = (t, ms) => !t || now - Date.parse(t) >= ms;
   let task = null;
   if (now.getUTCHours() === 2 && now.getUTCMinutes() >= 40 && due(L.venues_at, 20 * 3600e3)) task = "venues";
-  else if (((m => (m >= 12 && m < 22) || (m >= 42 && m < 52))(now.getUTCMinutes()) && due(L.scan_at, 20 * 60e3)) || due(L.scan_at, 45 * 60e3)) task = "scan";
-  // v75：每小时 :12 和 :42 各扫一次（原来每小时一次），扫描约 6–10 分钟，正好赶上 :28 和 :58 的总览同步；漏了 45 分钟就补一次
+  else if (due(L.scan_at, 20 * 60e3)) task = "scan";
+  // v76：每 20 分钟扫一次（原来每小时），扫描约 6–10 分钟；总览页通过连接器 everest_hazard_records 直接读结果，不等同步任务
   if (!task) return null;
   const H = { "user-agent": "everest-facets-worker", accept: "application/vnd.github+json", authorization: "Bearer " + env.GH_TOKEN };
   const path = `https://api.github.com/repos/${env.GH_REPO}/contents/hazards/tick.txt`;

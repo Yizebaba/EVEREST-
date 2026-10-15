@@ -50,6 +50,9 @@ const TOOLS = [
   { name: "everest_events", title: "事件与证据包",
     description: "自动发现的喜马拉雅上游突发事件（BIPAD 洪水警报、USGS 崩塌、GDACS 橙/红级、水位越线、两家以上媒体报道的雪崩/冰湖溃决/泥石流/滑坡新闻线索），以及每个事件的证据包：地震台（含民间地震仪）、地震目录与震动图、附近水位站、网络连通、卫星影像与洪水范围、新闻、人道报告、存证状态，按时间排在一条线上。只陈述公开来源记录，不判断成因。",
     inputSchema: { type: "object", properties: { days: { type: "integer", minimum: 1, maximum: 60, description: "最近几天，默认 30" }, id: { type: "string", description: "事件编号；填了就返回这个事件的完整证据时间线" }, full: { type: "boolean", description: "true 时返回所有事件的完整证据包（总览页用）" } }, additionalProperties: false } },
+  { name: "everest_hazard_records", title: "全部灾种扫描记录",
+    description: "281 种灾害实测扫描（全球 40 多个公开来源，每 30 分钟一次）最近 30 天的记录，按时间倒序：时间、标题、来源、原始链接、坐标、灾种代码、是否在尼泊尔/珠峰范围、伤亡。扫描一完成这里就是最新的。",
+    inputSchema: { type: "object", properties: { days: { type: "integer", minimum: 1, maximum: 30, description: "最近几天，默认 30" }, local: { type: "boolean", description: "只要尼泊尔 / 珠峰范围" } }, additionalProperties: false } },
   { name: "everest_daily_brief", title: "监测日报",
     description: "一次生成珠峰监测日报：数据源状态、停发设备、近 N 小时地震与崩塌、灾害警报、水位越线站、通信连通、DORIS 跟踪、坡面进度。只监测、不预测。",
     inputSchema: { type: "object", properties: { hours: { type: "integer", minimum: 1, maximum: 72, description: "统计最近几小时，默认 24" } }, additionalProperties: false } },
@@ -189,6 +192,21 @@ async function call(name, args, h) {
       return { text: `${L.length} 个事件的完整证据包`, data: { updated: new Date().toISOString(), events: L, hz } };
     }
     return { text: E.length ? E.map(e => `${BJ(e.t)} ${e.kind} · ${e.title} · ${e.src.length} 条信号` + (idx[e.id] ? ` · 证据包 ${idx[e.id].n} 条` : " · 证据包待生成") + `（编号 ${e.id}）`).join("\n") : `最近 ${days} 天没有自动发现的事件。`, data: { events: E, packs: idx } };
+  }
+  if (name === "everest_hazard_records") {   // 与 tools/hub_sync.py 的 live_hzr 同一格式，总览页底部事件栏直接用
+    const days = Math.min(30, Math.max(1, args.days || 30)), cut = new Date(now - days * 864e5).toISOString().slice(0, 19) + "Z";
+    const r = await fetch("https://raw.githubusercontent.com/Yizebaba/EVEREST-/events/hazards/records.json", { cf: { cacheTtl: 60 } });
+    if (!r.ok) return { text: "灾种扫描记录暂时取不到（GitHub " + r.status + "）", data: null, err: true };
+    const rec = await r.json();
+    const R = (rec.records || []).filter(x => x.t && !x.observation && x.t >= cut && (!args.local || x.local)).sort((a, b) => b.t.localeCompare(a.t));
+    const rows = []; let size = 200;
+    for (const x of R) {
+      const y = [x.t, (x.title || "").slice(0, 140), x.src || "", x.url || "", x.lat ?? null, x.lon ?? null, (x.codes || []).slice(0, 3), x.local ? 1 : 0];
+      if ("deaths" in x) y.push([x.deaths ?? null, x.injured ?? null, x.missing ?? null]);
+      size += JSON.stringify(y).length + 1; if (size > 225000) break; rows.push(y);
+    }
+    return { text: `灾种扫描 ${BJ(rec.updated)}（北京时间）：最近 ${days} 天 ${R.length} 条，返回 ${rows.length} 条。最新：` + rows.slice(0, 5).map(y => `${BJ(y[0])} [${y[2]}] ${y[1]}`).join("；"),
+      data: { updated: rec.updated, total: R.length, n: rows.length, r: rows } };
   }
   if (name === "everest_daily_brief") {
     const hrs = Math.min(72, Math.max(1, args.hours || 24)), fs = await h.status(), off = offlineItems(rt), sc = fs.scenes || {};
