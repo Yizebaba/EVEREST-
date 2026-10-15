@@ -73,6 +73,21 @@ export function offlineItems(rt) {
   return out;
 }
 
+// 灾种扫描记录精简版（行格式与 tools/hub_sync.py 的 live_hzr 相同）
+async function hzrFeed(now, days, local, cap) {
+  const r = await fetch("https://raw.githubusercontent.com/Yizebaba/EVEREST-/events/hazards/records.json", { cf: { cacheTtl: 60 } });
+  if (!r.ok) return { err: "灾种扫描记录暂时取不到（GitHub " + r.status + "）" };
+  const rec = await r.json(), cut = new Date(now - days * 864e5).toISOString().slice(0, 19) + "Z";
+  const R = (rec.records || []).filter(x => x.t && !x.observation && x.t >= cut && (!local || x.local)).sort((a, b) => b.t.localeCompare(a.t));
+  const rows = []; let size = 200;
+  for (const x of R) {
+    const y = [x.t, (x.title || "").slice(0, 140), x.src || "", x.url || "", x.lat ?? null, x.lon ?? null, (x.codes || []).slice(0, 3), x.local ? 1 : 0];
+    if ("deaths" in x) y.push([x.deaths ?? null, x.injured ?? null, x.missing ?? null]);
+    size += JSON.stringify(y).length + 1; if (size > cap) break; rows.push(y);
+  }
+  return { updated: rec.updated, total: R.length, n: rows.length, r: rows };
+}
+
 async function call(name, args, h) {
   const rt = await h.rt();
   if (!rt) return { text: "实时采集还没有数据。", data: null };
@@ -189,24 +204,16 @@ async function call(name, args, h) {
       try { const r = await fetch("https://raw.githubusercontent.com/Yizebaba/EVEREST-/events/hazards/scan.json", { cf: { cacheTtl: 120 } }); if (r.ok) { const sc = await r.json();
         hz = { updated: sc.updated, by_latency: sc.by_latency || null, src: Object.fromEntries(Object.entries(sc.sources).map(([k, v]) => [k, [v.state, v.n, v.local, String(v.err || v.need || "").slice(0, 60), v.latency || null]])),
           h: sc.hazards.map(h => [h.code, h.state, h.n_local_90d, h.n_90d, h.latest, String(h.latest_title || "").slice(0, 90), h.latest_url || null, (h.tested_ok || []).length, h.rt_tier || null]) }; } } catch (x) {}
-      return { text: `${L.length} 个事件的完整证据包`, data: { updated: new Date().toISOString(), events: L, hz } };
+      let hzr = null;   // 最新灾种记录（底部事件栏），页面按条合并进已有记录；扫描一提交这里就是新的
+      try { const x = await hzrFeed(Date.now(), 30, false, 90000); if (!x.err) hzr = x; } catch (x) {}
+      return { text: `${L.length} 个事件的完整证据包`, data: { updated: new Date().toISOString(), events: L, hz, hzr } };
     }
     return { text: E.length ? E.map(e => `${BJ(e.t)} ${e.kind} · ${e.title} · ${e.src.length} 条信号` + (idx[e.id] ? ` · 证据包 ${idx[e.id].n} 条` : " · 证据包待生成") + `（编号 ${e.id}）`).join("\n") : `最近 ${days} 天没有自动发现的事件。`, data: { events: E, packs: idx } };
   }
   if (name === "everest_hazard_records") {   // 与 tools/hub_sync.py 的 live_hzr 同一格式，总览页底部事件栏直接用
-    const days = Math.min(30, Math.max(1, args.days || 30)), cut = new Date(now - days * 864e5).toISOString().slice(0, 19) + "Z";
-    const r = await fetch("https://raw.githubusercontent.com/Yizebaba/EVEREST-/events/hazards/records.json", { cf: { cacheTtl: 60 } });
-    if (!r.ok) return { text: "灾种扫描记录暂时取不到（GitHub " + r.status + "）", data: null, err: true };
-    const rec = await r.json();
-    const R = (rec.records || []).filter(x => x.t && !x.observation && x.t >= cut && (!args.local || x.local)).sort((a, b) => b.t.localeCompare(a.t));
-    const rows = []; let size = 200;
-    for (const x of R) {
-      const y = [x.t, (x.title || "").slice(0, 140), x.src || "", x.url || "", x.lat ?? null, x.lon ?? null, (x.codes || []).slice(0, 3), x.local ? 1 : 0];
-      if ("deaths" in x) y.push([x.deaths ?? null, x.injured ?? null, x.missing ?? null]);
-      size += JSON.stringify(y).length + 1; if (size > 225000) break; rows.push(y);
-    }
-    return { text: `灾种扫描 ${BJ(rec.updated)}（北京时间）：最近 ${days} 天 ${R.length} 条，返回 ${rows.length} 条。最新：` + rows.slice(0, 5).map(y => `${BJ(y[0])} [${y[2]}] ${y[1]}`).join("；"),
-      data: { updated: rec.updated, total: R.length, n: rows.length, r: rows } };
+    const x = await hzrFeed(now, Math.min(30, Math.max(1, args.days || 30)), !!args.local, 225000);
+    if (x.err) return { text: x.err, data: null, err: true };
+    return { text: `灾种扫描 ${BJ(x.updated)}（北京时间）：${x.total} 条，返回 ${x.n} 条。最新：` + x.r.slice(0, 5).map(y => `${BJ(y[0])} [${y[2]}] ${y[1]}`).join("；"), data: x };
   }
   if (name === "everest_daily_brief") {
     const hrs = Math.min(72, Math.max(1, args.hours || 24)), fs = await h.status(), off = offlineItems(rt), sc = fs.scenes || {};
