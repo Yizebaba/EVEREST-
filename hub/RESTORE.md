@@ -338,3 +338,10 @@
 - 史密森尼火山周报 403：改用史密森尼 GVP 公开地理服务（持续喷发列表）作后备，已恢复正常。
 - 新闻线索：GDELT 对云服务器 IP 普遍限流（Cloudflare 和 GitHub 都 429）。tools/gdelt_news.py 随灾种扫描取一次，失败时用灾种扫描的“新闻 RSS”记录；Worker 直连失败时读 events 分支 hazards/gdelt.json。
 - 复原：页面回退 Version 69；pipeline.py 改回 discover_sentinel1_slc_pair；删 tools/sat_catalog.py、tools/gdelt_news.py 及 hazards.yml 中对应两段；hazard_scan.py 删 gvp() 的 WFS 后备段；Worker 回退 news() 后备段。
+
+---
+# 第四十六次改动（底部按时间、知识图谱、MiroFish 推演）
+- 底部事件栏：证据包事件和灾种扫描记录合在一起按时间倒序，最新在最左。NWS 警报原来用 onset（可能是未来的预计开始时间），改为 sent（发布时间）；页面对未来时间截到“现在”。
+- 知识库 → 知识图谱：事件、来源、台站（地震台、水位站）、证据包、存证快照（哈希、比特币区块、RFC 3161、Rekor、9 项核对）、灾种、地点串成一张图，在页面里由已同步的证据包时间线和灾种扫描记录现算；常用问题按钮（某台站参与过哪些事件等）、搜索、以任意点为中心的关系图、下载整张图 JSON。
+- MiroFish：tools/mirofish_seed.py 用真实数据生成 4 份种子材料（平台概况与运行实况、数据源与实测状态、事件证据包与全球记录、相关方与生态）和推演需求；tools/mirofish_run.py 按 MiroFish 后端 API 依次做本体→图谱→创建→准备→运行→报告并保存全部产物；.github/workflows/mirofish.yml 固定 MiroFish 提交号运行，结果存 events 分支 mirofish/<时间>/。需要 Secrets：LLM_API_KEY、LLM_BASE_URL、LLM_MODEL_NAME、ZEP_API_KEY。知识库 → 推演（MiroFish）显示状态、种子材料和报告，明确标为“不是证据”。
+- 复原：页面回退 Version 70；删 mirofish.yml 与两个 tools 脚本；hub_sync 删 mf 段；hazard_scan.py 的 NWS 时间改回 onset。

@@ -260,7 +260,8 @@ a:hover,a:focus-visible{color:#d6e9ff;text-decoration-color:currentColor}
 #dock .dsw button[aria-pressed="true"]{background:rgba(226,180,76,.16);color:var(--ink)}
 #dock .dsw b{font-weight:600;font-variant-numeric:tabular-nums}
 @media (max-width:760px){#dock .dsw{flex-direction:row;height:auto;flex:0 0 auto;width:100%}#dock .dsw button{padding:6px}}
-#libq,#libs{background:rgba(255,255,255,.05);color:var(--ink);border:1px solid var(--gb);border-radius:8px;padding:6px 10px;font:inherit;font-size:12.5px}#libq:focus,#libs:focus{outline:none;border-color:rgba(226,180,76,.6)}#libs option{background:#141418}
+#libq,#libs,#kgq{background:rgba(255,255,255,.05);color:var(--ink);border:1px solid var(--gb);border-radius:8px;padding:6px 10px;font:inherit;font-size:12.5px}#libq:focus,#libs:focus,#kgq:focus{outline:none;border-color:rgba(226,180,76,.6)}#libs option{background:#141418}
+.kgsvg{width:100%;height:auto;display:block;margin:6px 0;background:rgba(255,255,255,.02);border:1px solid var(--gb);border-radius:10px}.kgsvg text{font-size:11px;fill:var(--mute)}.kgsvg .kgc{fill:var(--ink);font-size:12px;font-weight:600}.kgsvg .kgn:hover text{fill:var(--ink)}
 .satg{display:grid;grid-template-columns:1fr 1fr;gap:6px;margin:6px 0}
 .satc{position:relative;padding:0;border:1px solid var(--gb);border-radius:8px;overflow:hidden;background:#000;text-align:left;cursor:zoom-in}
 .satc img{width:100%;display:block}
@@ -680,7 +681,7 @@ const MCP_TOOLS=[["everest_overview","总览：数据源、停发设备、坡面
  ["everest_source","单个数据源原始 JSON","Raw JSON for one source",{key:"evn"}],
  ["everest_events","自动发现的事件和证据包","Auto-detected events and evidence packs",{days:30}],
  ["everest_snapshot","完整实时快照（本页刷新用）","Full live snapshot (used to refresh this page)",{}]];
-const XT={st:"idle",msg:"",at:null,out:{},busy:{},args:{},sub:{skills:"b",conn:"t",plug:"o",chain:"e",kb:"ev"},del:null};
+const XT={st:"idle",msg:"",at:null,out:{},busy:{},args:{},sub:{skills:"b",conn:"t",plug:"o",chain:"e",kb:"kg"},del:null};
 let MCPNS=null,SAMPLE=null,PERMS=null,DLNS=null;
 (async()=>{try{const C=window.claude;if(!C||!C.use)return;[MCPNS,SAMPLE,PERMS,DLNS]=await Promise.all([C.use("mcp"),C.use("sample"),C.use("permissions"),C.use("downloads")]);
  if(MCPNS&&PERMS){let s="unavailable";try{s=await PERMS.state("mcp:"+MCP_NAME)}catch(e){}if(s==="granted"){xtRefresh(true);liveWatch()}}
@@ -1651,7 +1652,7 @@ $("q").value=Q;$("lact").innerHTML=lactHTML();
 const gw=grow();GT=gw.g;$("i2").textContent="工具 "+gw.T+" · 能力 "+gw.C+" · 球体 ×"+gw.g.toFixed(2);
 const _op=[...document.querySelectorAll("#side details")].map(d=>d.open);$("side").innerHTML=sideHTML();document.querySelectorAll("#side details").forEach((d,i)=>{if(_op[i])d.open=true});bindOrbs();$("cb").innerHTML=SATS.map(x=>'<button class="catb" data-cb="'+x.id+'" style="--c:'+x.tint+'" aria-pressed="'+(NT===x.id)+'" aria-label="'+x.cn+'">'+x.ico+"<b>"+attCnt(x.id)+"</b></button>").join("");
 const _evDock='<div class="dl">'+AL+"计算异常 "+act.length+' <span class="sub">'+Z("最近 14 天"+(histN?" · 更早 "+histN+" 条可搜索":""),"last 14 days"+(histN?" · "+histN+" older, searchable":""))+'</span></div>'+(act.length?act.map(x=>{const sx=x.a.state==="WATCH"?"X":"U";const tt=anT(x.a),nm=(x.a.pack?Z(evTitleZh(x.a.pack,x.a.place),x.a.pack.title_en||x.a.pack.title):x.a.t);const t0=x.a.pack&&x.a.pack.t&&x.a.pack._last&&Date.parse(x.a.pack._last)-Date.parse(x.a.pack.t)>6e4?x.a.pack.t:null;return'<button class="an" data-dk="'+x.i+'" data-st="'+sx+'" title="'+esc(nm+" · "+(x.a.place||""))+'"><span class="at">'+SY[sx]+(tt?'<b style="font-family:ui-monospace,Menlo,monospace;margin-right:6px" title="'+Z("最新一条记录的时间","Time of the latest record")+'">'+lvBJ(new Date(tt).toISOString())+'</b>':'')+esc(nm)+'</span><span class="ap">'+esc(x.a.place)+(t0?' · '+Z("首个信号 ","first signal ")+lvBJ(t0):'')+'</span><span class="as">'+ST_AN[x.a.state]+(x.a.evid?Z(" · 自动发现"," · auto-detected"):"")+'</span></button>'}).join(""):'<div class="sub">暂无异常</div>');
-$("dock").innerHTML=dockHTML(_evDock,act.length);
+$("dock").innerHTML=dockHTML(_evDock,act.length,act.map(x=>anT(x.a)||0));
 if(GL&&NP)syncNodes();applyBG();applyLang();sizeCards();target();measure();inval()}
 let cw={};function sizeCards(){document.querySelectorAll(".card").forEach(c=>{cw[c.dataset.c]=[c.offsetWidth,c.offsetHeight]})}
 /* ---------- 3D (three.js) ---------- */
@@ -1991,11 +1992,12 @@ function recTitle(r){const t=r[1]||"";if(LANG==="en")return /[一-鿿]/.test(t)?
  if(!/[一-鿿]/.test(t)&&/ at /.test(t)&&r[6]&&r[6].length&&HIPS[r[6][0]]&&/BIPAD/.test(r[2]))return t.split(" at ").pop()+" · "+HIPS[r[6][0]][0];return t}
 function hzrCard(r,i){const loc=!!r[7],tt=recTitle(r),hz=(r[6]||[]).slice(0,2).map(hzName).join("、"),cas=r[8]&&(r[8][0]||r[8][1]||r[8][2]);
  return'<button class="an hr" data-hr="'+i+'" data-st="'+(loc?"U":"X")+'" title="'+esc(tt+" · "+seN(r[2]))+'"><span class="at">'+SY[loc?"U":"X"]+'<b style="font-family:ui-monospace,Menlo,monospace;margin-right:6px">'+lvBJ(r[0])+'</b><span data-raw>'+esc(tt)+'</span></span><span class="ap">'+esc(seN(r[2]))+(hz?" · "+esc(hz):"")+'</span><span class="as">'+(loc?Z("尼泊尔 / 珠峰范围","Nepal / Everest area"):Z("全球","Global"))+(cas?" · "+Z("死亡 "+(r[8][0]||0)+"、受伤 "+(r[8][1]||0)+"、失踪 "+(r[8][2]||0),"dead "+(r[8][0]||0)+", injured "+(r[8][1]||0)+", missing "+(r[8][2]||0)):"")+'</span></button>'}
-function dockHTML(evh,nEv){const H=HZR?HZR.r:[],np=H.map((r,i)=>[r,i]).filter(x=>x[0][7]);
+function dockHTML(evh,nEv,evT){const H=HZR?HZR.r:[],np=H.map((r,i)=>[r,i]).filter(x=>x[0][7]);
  const sw='<div class="dsw" role="tablist" aria-label="'+Z("事件范围","Event scope")+'">'+[["all",Z("全部事件","All events"),nEv+H.length],["np",Z("尼泊尔 / 珠峰","Nepal / Everest"),nEv+np.length],["ev",Z("已出证据包","With evidence pack"),nEv]].map(x=>'<button role="tab" data-dm="'+x[0]+'" aria-pressed="'+(DOCKM===x[0])+'"><span>'+x[1]+'</span><b>'+x[2]+'</b></button>').join("")+'</div>';
- if(DOCKM==="ev")return sw+evh;
- const L=(DOCKM==="np"?np:H.map((r,i)=>[r,i])).slice(0,150);
- return sw+evh.replace(/<div class="sub">暂无异常<\/div>/,"")+(L.length?L.map(x=>hzrCard(x[0],x[1])).join(""):'<div class="sub">'+Z("还没有同步到灾种扫描记录（每小时一次）。","No hazard-scan records synced yet (hourly).")+'</div>')}
+ const evc=evh.split('<button class="an" ').slice(1).map((c,i)=>({t:(evT||[])[i]||0,h:'<button class="an" '+c}));
+ if(DOCKM==="ev")return sw+(evc.length?evc.sort((a,b)=>b.t-a.t).map(x=>x.h).join(""):'<div class="sub">'+Z("暂无","None")+'</div>');
+ const L=(DOCKM==="np"?np:H.map((r,i)=>[r,i])).map(x=>({t:Math.min(Date.now(),Date.parse(x[0][0])||0),h:hzrCard(x[0],x[1])})).concat(evc).sort((a,b)=>b.t-a.t).slice(0,160);
+ return sw+(L.length?L.map(x=>x.h).join(""):'<div class="sub">'+Z("还没有同步到灾种扫描记录（每小时一次）。","No hazard-scan records synced yet (hourly).")+'</div>')}
 function hzrDet(i){const r=HZR&&HZR.r[i];if(!r)return'<div class="none">'+Z("这条记录已不在最新同步里。","This record is no longer in the latest sync.")+'</div>';
  const tt=recTitle(r),u=SRCURL[r[2]];
  let h='<div><span class="chip">'+Z("灾种扫描记录","Hazard-scan record")+'</span><span class="chip">'+esc(seN(r[2]))+'</span></div><h3 data-raw>'+esc(tt)+'</h3>'
@@ -2041,9 +2043,11 @@ function govSources(){const s=new Set();((LIVE.ext||{}).src||[]).forEach(x=>s.ad
 function kbPanel2(){const E=((EVLAST||{}).events||[]).slice().sort((a,b)=>b.t.localeCompare(a.t)),hist=[],refs={};
  E.forEach(e=>{if(e.history)(e.history.records||[]).forEach(r=>{if(!hist.find(x=>x.id===r.id))hist.push(Object.assign({src:e.history.source},r))});(e.references||[]).forEach(r=>{refs[r.hips]=refs[r.hips]||r})});
  let h='<div class="blk">'+Z("知识库是本平台的“档案室”：已经发生过、核实过的事情和背景资料放在这里，供以后对照。它不监测、不预测。里面有：自动发现的事件档案（带证据包）、联合国减灾署 281 种灾害的定义和实测覆盖、冰湖溃决历史记录、每种灾害的数据论文和专业期刊，以及处理完的计算异常归档标签（确认 / 误报 / 漏报 / 未知），用来回头检查规则准不准。","The knowledge base is the platform's archive: things that have happened and been checked, plus background material, kept for later comparison. It does not monitor or predict. It holds the auto-discovered event archive (with evidence packs), UNDRR's 281 hazard definitions with measured coverage, the glacial-lake-outburst history, data papers and journals per hazard, and labels for resolved anomalies (confirmed / false alarm / missed / unknown) used to check how well the rules work.")+'</div>'
-  +xSub("kb",[["ev",Z("事件档案 ","Events ")+E.length],["hz",Z("灾种定义 281","Hazards 281")],["hi",Z("冰湖溃决历史 ","GLOF history ")+hist.length],["rf",Z("文献 ","Literature ")+Object.keys(refs).length],["ar",Z("归档标签 ","Labels ")+KB.length]]);
- const s=XT.sub.kb||"ev";
- if(s==="ev")h+=E.length?E.map(e=>xRow('<b>'+esc(Z(evTitleZh(e),e.title_en||e.title))+'</b> '+vfyChip(e),'<a class="act" style="text-decoration:none" href="https://github.com/Yizebaba/EVEREST-/blob/events/events/'+encodeURIComponent(e.id)+'.json" target="_blank" rel="noopener">'+Z("证据包 ↗","Evidence pack ↗")+'</a>',lvBJ(e.t)+" · "+esc(e.place||"")+" · "+(e.hips||[]).map(hzName).join("、")+" · "+Z("时间线 ","timeline ")+(e.timeline||[]).length+Z(" 条"," items"))).join(""):'<div class="none">'+Z("还没有同步到事件。","No events synced yet.")+'</div>';
+  +xSub("kb",[["kg",Z("知识图谱","Knowledge graph")],["mf",Z("推演（MiroFish）","Simulation (MiroFish)")],["ev",Z("事件档案 ","Events ")+E.length],["hz",Z("灾种定义 281","Hazards 281")],["hi",Z("冰湖溃决历史 ","GLOF history ")+hist.length],["rf",Z("文献 ","Literature ")+Object.keys(refs).length],["ar",Z("归档标签 ","Labels ")+KB.length]]);
+ const s=XT.sub.kb||"kg";
+ if(s==="kg")h+=kgPanel();
+ else if(s==="mf")h+=mfPanel();
+ else if(s==="ev")h+=E.length?E.map(e=>xRow('<b>'+esc(Z(evTitleZh(e),e.title_en||e.title))+'</b> '+vfyChip(e),'<a class="act" style="text-decoration:none" href="https://github.com/Yizebaba/EVEREST-/blob/events/events/'+encodeURIComponent(e.id)+'.json" target="_blank" rel="noopener">'+Z("证据包 ↗","Evidence pack ↗")+'</a>',lvBJ(e.t)+" · "+esc(e.place||"")+" · "+(e.hips||[]).map(hzName).join("、")+" · "+Z("时间线 ","timeline ")+(e.timeline||[]).length+Z(" 条"," items"))).join(""):'<div class="none">'+Z("还没有同步到事件。","No events synced yet.")+'</div>';
  else if(s==="hz"){const fams=[...new Set(Object.values(HIPS).map(x=>x[2]))],st={};((HZ&&HZ.h)||[]).forEach(r=>st[r[0]]=r);
   h+='<div class="sub">'+Z("名称和编码来自联合国减灾署与国际科学理事会《灾害信息简介》（HIPS，2021/2025 版）；右边是本平台实测扫描的覆盖情况。","Names and codes are from the UNDRR–ISC Hazard Information Profiles (HIPS, 2021/2025); on the right, this platform's measured scan coverage.")+' <a href="https://www.undrr.org/publication/hazard-information-profiles-hips" target="_blank" rel="noopener">HIPS ↗</a></div>'
    +fams.map(f=>{const L=Object.entries(HIPS).filter(x=>x[1][2]===f);return'<details><summary>'+esc(Z(f,FAMEN[f]||f))+" · "+L.length+'</summary>'+L.map(([c,v])=>{const r=st[c],S=r&&HZST[r[1]];return'<div class="sub" style="padding:3px 0;border-top:1px solid var(--gb)"><code>'+c+'</code> '+esc(Z(v[0],v[1]))+(S?' <span class="lvc '+S[0]+'">'+Z(S[1],S[2])+'</span>':"")+(r&&r[8]?' <span class="sub">'+esc(Z(r[8],{"实时":"Real-time","准实时":"Near real-time","定期":"Periodic","只有新闻":"News only"}[r[8]]||r[8]))+'</span>':"")+'</div>'}).join("")+'</details>'}).join("")}
@@ -2068,6 +2072,65 @@ function libList(kind){if(!LIB)return"";const q=LIBQ.toLowerCase(),m=x=>!q||((x.
 document.addEventListener("input",e=>{if(e.target.id==="libq"){LIBQ=e.target.value;const l=$("libl");if(l){l.innerHTML=libList(e.target.dataset.lib);applyLang()}}});
 document.addEventListener("change",e=>{if(e.target.id==="libs"){LIBSRC=e.target.value;const l=$("libl");if(l){l.innerHTML=libList(e.target.dataset.lib);applyLang()}}});
 document.addEventListener("click",e=>{const b=e.target.closest("[data-libi]");if(!b)return;e.preventDefault();LIBOPEN=LIBOPEN===b.dataset.libi?"":b.dataset.libi;const l=$("libl"),q=$("libq");if(l){l.innerHTML=libList(q?q.dataset.lib:"plugins");applyLang()}});
+
+/* ======== v71：知识图谱（事件 – 来源 – 台站 – 证据包 – 存证 – 灾种），全部由已同步的事实数据在页面里现算，不推测 ======== */
+let KGSEL=null,KGQ="";
+const KGT={event:["事件","Event","#ef8a7e"],source:["来源","Source","#9fb0ff"],station:["台站","Station","#5fd3a4"],pack:["证据包","Evidence pack","#e2b44c"],stamp:["存证快照","Stamped snapshot","#c9a2ff"],hazard:["灾种","Hazard","#f2a65a"],place:["地点","Place","#8ec5d6"]};
+function kgBuild(){const N=new Map(),E=new Map(),add=(id,type,label,extra)=>{if(!N.has(id))N.set(id,Object.assign({id,type,label},extra||{}));return id},
+ link=(a,b,rel,w)=>{const k=a+"|"+b+"|"+rel,e=E.get(k);if(e){e.n+=(w||1)}else E.set(k,{a,b,rel,n:w||1})};
+ const isSt=s=>/地震台|Raspberry|水位站|GNSS 测站/.test(s);
+ ((EVLAST||{}).events||[]).forEach(e=>{const ev=add("e:"+e.id,"event",Z(evTitleZh(e),e.title_en||e.title),{t:e.t,place:e.place,ref:e.id});
+  if(e.place)link(ev,add("p:"+e.place,"place",e.place),"发生在");
+  (e.hips||[]).forEach(c=>link(ev,add("h:"+c,"hazard",hzName(c)+" · "+c,{code:c}),"灾种"));
+  const pk=add("k:"+e.id,"pack",Z("证据包 ","Pack ")+e.id,{ref:e.id,built:e.built,url:"https://github.com/Yizebaba/EVEREST-/blob/events/events/"+encodeURIComponent(e.id)+".json"});link(ev,pk,"证据包");
+  (e.ots||[]).forEach(o=>{if(!o.sha256)return;const s=add("s:"+o.sha256,"stamp",o.sha256.slice(0,12)+"…",{sha:o.sha256,status:o.status,block:o.bitcoin_block,tsa:(o.tsa||[]).filter(t=>t.file).map(t=>t.tsa),rekor:o.sigstore&&o.sigstore.rekor,verify:o.verify,stamped:o.stamped});link(pk,s,"存证")});
+  (e.timeline||[]).forEach(x=>{const nm=srcBase(x.src||"").split(" · ")[0].trim();if(!nm)return;const rel={SUPPORTING:"支持",CONTRADICTORY:"矛盾",MISSING:"缺失",NEUTRAL:"背景"}[x.kind]||"记录";
+   const id=add((isSt(nm)?"t:":"r:")+nm,isSt(nm)?"station":"source",seN(nm),{name:nm,url:SRCURL[nm]});link(ev,id,rel)});
+  (e.gauges||[]).forEach(g=>{const id=add("t:g"+g.id,"station",Z("水位站 ","Gauge ")+g.title,{name:g.title,km:g.km});link(ev,id,g.reporting?"在报":"停报")})});
+ if(HZR)HZR.r.forEach(r=>{const s=add("r:"+r[2],"source",seN(r[2]),{name:r[2],url:SRCURL[r[2]]});(r[6]||[]).forEach(c=>link(s,add("h:"+c,"hazard",hzName(c)+" · "+c,{code:c}),"记录灾种"))});
+ Object.keys((HZ&&HZ.src)||{}).forEach(k=>add("r:"+k,"source",seN(k),{name:k,url:SRCURL[k],scan:HZ.src[k]}));
+ return{N,E:[...E.values()]}}
+let KGC=null,KGK="";
+function kg(){const k=((EVLAST||{}).updated||"")+"|"+((HZR||{}).updated||"")+"|"+((HZ||{}).updated||"")+"|"+LANG;if(!KGC||KGK!==k){KGC=kgBuild();KGK=k}return KGC}
+function kgNb(id){const G=kg();return G.E.filter(e=>e.a===id||e.b===id).map(e=>({e,o:G.N.get(e.a===id?e.b:e.a),out:e.a===id}))}
+function kgRelName(r){return Z(r,{"发生在":"occurred at","灾种":"hazard","证据包":"evidence pack","存证":"stamped as","支持":"supporting","矛盾":"contradicting","缺失":"missing","背景":"background","记录":"recorded","在报":"reporting","停报":"silent","记录灾种":"records hazard"}[r]||r)}
+function kgSvg(id){const G=kg(),c=G.N.get(id);if(!c)return"";const seen={},nb=kgNb(id).filter(x=>seen[x.o.id]?(seen[x.o.id].e={n:seen[x.o.id].e.n+x.e.n},false):(seen[x.o.id]=x,true)).slice(0,40),W=520,H=300,cx=W/2,cy=H/2,R=Math.min(125,60+nb.length*4);
+ const pts=nb.map((x,i)=>{const a=-Math.PI/2+i*2*Math.PI/Math.max(1,nb.length);return Object.assign({x:cx+R*1.7*Math.cos(a),y:cy+R*Math.sin(a)},x)});
+ const col=t=>(KGT[t]||[0,0,"#999"])[2],lab=s=>esc(String(s).length>16?String(s).slice(0,15)+"…":s);
+ return'<svg viewBox="0 0 '+W+' '+H+'" class="kgsvg" role="img" aria-label="'+esc(c.label)+'">'
+  +pts.map(p=>'<line x1="'+cx+'" y1="'+cy+'" x2="'+p.x.toFixed(1)+'" y2="'+p.y.toFixed(1)+'" stroke="'+col(p.o.type)+'" stroke-opacity=".45" stroke-width="'+Math.min(4,1+Math.log2(p.e.n))+'"/>').join("")
+  +pts.map(p=>'<g class="kgn" data-kg="'+esc(p.o.id)+'" style="cursor:pointer"><circle cx="'+p.x.toFixed(1)+'" cy="'+p.y.toFixed(1)+'" r="6" fill="'+col(p.o.type)+'"/><text x="'+p.x.toFixed(1)+'" y="'+(p.y+(p.y<cy?-10:17)).toFixed(1)+'" text-anchor="middle">'+lab(p.o.label)+'</text></g>').join("")
+  +'<circle cx="'+cx+'" cy="'+cy+'" r="11" fill="'+col(c.type)+'" stroke="#fff" stroke-width="2"/><text x="'+cx+'" y="'+(cy+28)+'" text-anchor="middle" class="kgc">'+lab(c.label)+'</text></svg>'}
+function kgPanel(){const G=kg(),cnt={};G.N.forEach(n=>cnt[n.type]=(cnt[n.type]||0)+1);
+ let h='<div class="sub">'+Z("把事件、来源、台站、证据包、存证快照、灾种串成一张图，全部来自已同步的事实数据（证据包时间线、灾种扫描记录），在本页现算，不推测。点任意一个点就以它为中心展开。","Events, sources, stations, evidence packs, stamped snapshots and hazards linked into one graph, built in this page from synced facts only (pack timelines, hazard-scan records). Click any node to centre on it.")+'</div>'
+  +'<div class="sb">'+Object.keys(KGT).filter(t=>cnt[t]).map(t=>'<span class="lvc" style="border:1px solid '+KGT[t][2]+';color:'+KGT[t][2]+'">'+Z(KGT[t][0],KGT[t][1])+" "+cnt[t]+'</span>').join("")+'<span class="sub">'+Z("关系 ","links ")+G.E.length+'</span></div>'
+  +'<div class="sub" style="margin:6px 0 2px">'+Z("常用问题：","Common questions:")+'</div><div class="sb">'
+  +[["t:IO.EVN 地震台",Z("IO.EVN 地震台参与过哪些事件？","Which events involved IO.EVN?")],["t:KKN 地震台",Z("KKN 地震台参与过哪些事件？","Which events involved KKN?")],["r:BIPAD 灾害事件库",Z("BIPAD 灾害事件库记录过什么？","What has BIPAD recorded?")],["h:MH0600",Z("洪水相关的事件和来源","Flood events and sources")]].filter(x=>G.N.has(x[0])).map(x=>'<button class="act" data-kg="'+esc(x[0])+'">'+x[1]+'</button>').join("")+'</div>'
+  +'<input id="kgq" type="search" placeholder="'+Z("搜索事件、来源、台站、灾种、哈希…","Search events, sources, stations, hazards, hashes…")+'" value="'+esc(KGQ)+'" style="width:100%;margin:6px 0;box-sizing:border-box"><div id="kgl">'+kgList()+'</div>';
+ const c=KGSEL&&G.N.get(KGSEL);
+ if(c){const nb=kgNb(c.id),by={};nb.forEach(x=>{const k=x.e.rel;(by[k]=by[k]||[]).push(x)});
+  h+='<div class="sec">'+esc(Z(KGT[c.type][0],KGT[c.type][1]))+' · <b>'+esc(c.label)+'</b></div>'+kgSvg(c.id)
+   +(c.type==="stamp"?'<div class="blk"><code style="font-size:11px;overflow-wrap:anywhere">'+esc(c.sha)+'</code><br>'+Z("存证于 ","Stamped ")+lvBJ(c.stamped)+" · "+(c.status==="confirmed"?Z("比特币区块 ","Bitcoin block ")+c.block:Z("等待区块确认","awaiting block"))+(c.tsa&&c.tsa.length?" · RFC 3161 "+esc(c.tsa.join("、")):"")+(c.rekor?' · <a href="https://search.sigstore.dev/?logIndex='+esc(c.rekor)+'" target="_blank" rel="noopener">Rekor ↗</a>':"")+(c.verify?" · "+Z("独立核对 ","checks ")+c.verify.passed+"/"+c.verify.total:"")+'</div>':"")
+   +(c.url?'<div class="sb"><a class="act" style="text-decoration:none" href="'+esc(c.url)+'" target="_blank" rel="noopener">'+Z("打开 ↗","Open ↗")+'</a></div>':"")
+   +Object.entries(by).map(([r,L])=>'<div class="gt">'+esc(kgRelName(r))+" · "+L.length+'</div>'+L.sort((a,b)=>String((b.o.t||"")).localeCompare(String(a.o.t||""))||b.e.n-a.e.n).slice(0,60).map(x=>'<button class="sn" data-kg="'+esc(x.o.id)+'"><span><i class="orb" style="--c:'+KGT[x.o.type][2]+'"></i>'+esc(x.o.label)+'</span><small>'+esc(Z(KGT[x.o.type][0],KGT[x.o.type][1]))+(x.e.n>1?" ×"+x.e.n:"")+(x.o.t?" · "+lvBJ(x.o.t):"")+'</small></button>').join("")).join("")}
+ h+='<div class="sb" style="margin-top:8px"><button class="act" data-kgdl="1">'+Z("下载整张图（JSON）","Download the graph (JSON)")+'</button></div>';
+ return h}
+function mfPanel(){const M=OPS&&OPS.mf,G="https://github.com/Yizebaba/EVEREST-/tree/events/";
+ let h='<div class="blk">'+Z("MiroFish 是开源的多智能体推演引擎（github.com/666ghj/MiroFish，AGPL-3.0）。本平台用自己的真实数据写成种子材料交给它，推演各方会怎样讨论和采用证据链。<b>推演结果不是证据，不进证据链</b>，只作战略讨论参考。","MiroFish is an open-source multi-agent simulation engine (github.com/666ghj/MiroFish, AGPL-3.0). This platform gives it seed material written from its own real data and simulates how stakeholders would discuss and adopt the evidence chain. <b>Simulation output is not evidence and never enters the evidence chain</b>; it is for strategy discussion only.")+'</div>';
+ if(!M)return h+'<div class="none">'+Z("还没有运行记录。","No runs yet.")+'</div>';
+ const miss=((M.secrets_check||{}).missing||"").trim(),st=M.status;
+ h+='<div class="sub">'+Z("最近一次：","Latest run: ")+'<a href="'+G+esc(M.dir)+'" target="_blank" rel="noopener"><code>'+esc(M.dir)+'</code> ↗</a></div>';
+ if(miss)h+='<div class="blk"><span class="lvc lvw">'+Z("等待密钥","Waiting for keys")+'</span> '+Z("种子材料已生成并上传；要真正运行，还需要在 GitHub 仓库 Secrets 里添加：","Seed material is generated and uploaded; to actually run it, add these GitHub repo Secrets: ")+'<code>'+esc(miss)+'</code></div>';
+ else if(st)h+='<div class="blk"><span class="lvc '+(st.ok?"lvo":"lvd")+'">'+(st.ok?Z("完成","Done"):Z("失败","Failed"))+'</span> '+lvBJ(st.started)+" → "+lvBJ(st.finished)+Z("，轮数 ",", rounds ")+st.max_rounds+(st.error?'<br><span class="sub">'+esc(st.error)+'</span>':"")+'</div>';
+ const mn=M.manifest;if(mn)h+='<div class="gt">'+Z("种子材料（本平台真实数据）","Seed material (real platform data)")+'</div>'+Object.entries(mn.files||{}).map(([f,n])=>'<div class="sub">· <a href="'+G+esc(M.dir)+'/input/seed/'+encodeURIComponent(f)+'" target="_blank" rel="noopener">'+esc(f)+' ↗</a> '+Math.round(n/1024)+' KB</div>').join("");
+ if(M.requirement)h+='<details><summary>'+Z("推演需求","Simulation requirement")+'</summary><div class="sub" style="white-space:pre-wrap">'+esc(M.requirement)+'</div></details>';
+ if(M.report)h+='<div class="gt">'+Z("推演报告（ReportAgent，非证据）","Simulation report (ReportAgent, not evidence)")+'</div><div class="sub" data-raw style="white-space:pre-wrap;max-height:520px;overflow:auto;border:1px solid var(--gb);border-radius:8px;padding:8px">'+esc(M.report)+'</div>';
+ return h}
+function kgList(){if(!KGQ)return"";const q=KGQ.toLowerCase(),G=kg(),L=[];G.N.forEach(n=>{if((n.label+" "+(n.name||"")+" "+(n.sha||"")+" "+(n.code||"")).toLowerCase().indexOf(q)>=0)L.push(n)});
+ return L.slice(0,30).map(n=>'<button class="sn" data-kg="'+esc(n.id)+'"><span><i class="orb" style="--c:'+KGT[n.type][2]+'"></i>'+esc(n.label)+'</span><small>'+esc(Z(KGT[n.type][0],KGT[n.type][1]))+'</small></button>').join("")||'<div class="none">'+Z("没有匹配的","No matches")+'</div>'}
+document.addEventListener("click",e=>{const b=e.target.closest("[data-kg]");if(b){e.preventDefault();KGSEL=b.getAttribute("data-kg");XT.sub.kb="kg";render();return}
+ if(e.target.closest("[data-kgdl]")){e.preventDefault();const G=kg();dl("everest-knowledge-graph.json",JSON.stringify({generated:new Date().toISOString(),note:"EVEREST knowledge graph built from synced evidence packs and hazard-scan records; facts only.",nodes:[...G.N.values()],edges:G.E},null,1),"application/json")}});
+document.addEventListener("input",e=>{if(e.target.id==="kgq"){KGQ=e.target.value;const l=$("kgl");if(l){l.innerHTML=kgList();applyLang()}}});
 
 GL=init3D();if(!GL)setTimeout(()=>toast("无法加载 3D（需要 WebGL），已切换为简化显示"),600);render();fit();if(RM){introT0=-1e9;inval()}else raf=requestAnimationFrame(frame);
 

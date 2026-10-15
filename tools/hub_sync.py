@@ -169,6 +169,19 @@ try:
     o["pipe"] = pipe
     try: o["sat"] = json.loads(raw("hazards/sat.json", "events"))   # 哨兵卫星过境目录（hazards 工作流每小时）
     except Exception as e: print("卫星目录暂缺：", e)
+    # MiroFish 推演（不是证据）：最近一次运行的状态、输入文件、报告前 60 KB
+    try:
+        L = raw("mirofish/LATEST", "events").decode().strip()
+        mf = {"dir": L}
+        for f in ("status.json", "secrets_check.json", "input/manifest.json"):
+            try: mf[f.split("/")[-1].replace(".json", "")] = json.loads(raw(f"{L}/{f}", "events"))
+            except Exception: pass
+        try: mf["requirement"] = raw(f"{L}/input/requirement.txt", "events").decode()[:3000]
+        except Exception: pass
+        try: mf["report"] = raw(f"{L}/REPORT.md", "events").decode()[:60000]
+        except Exception: pass
+        o["mf"] = mf
+    except Exception as e: print("MiroFish 暂无：", e)
     json.dump(o, open(opsf, "w"), ensure_ascii=False)
     print("pipe", pipe["pair"], [c["ok"] for c in checks])
 except Exception as e:

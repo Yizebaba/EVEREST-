@@ -429,7 +429,7 @@ def nws():
         if not c: continue
         g = f.get("geometry") or {}; co = None
         if g.get("type") == "Polygon": co = g["coordinates"][0][0]
-        try: t = iso(P(p.get("onset") or p.get("sent")))
+        try: t = iso(P(p.get("sent") or p.get("effective")))   # 记录的是“来源什么时候发布”；onset 可能是未来时刻（预计开始），不用
         except Exception: t = iso(NOW)
         rec([c], t,
             f"NWS（已观测）{p.get('event')} · {(p.get('areaDesc') or '')[:80]}", co[1] if co else None, co[0] if co else None, p.get("@id"), "nws-" + p.get("id", "")[-40:])
