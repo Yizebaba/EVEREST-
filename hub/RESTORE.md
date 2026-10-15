@@ -365,3 +365,12 @@
 - 修复：tools/mirofish_run.py 在两平台都报完成后调用 /api/simulation/close-env，10 分钟未退出再 /stop；报告接口 409（图谱写入未排空）时每 30 秒重试，最多 20 分钟。
 - 复原：git revert 本提交即可；不改 MiroFish 代码。
 - 14:16 重跑 38749780066 在第一步失败：DeepSeek 返回 402（余额不足）。驱动现在记录上游错误正文，工作流把上游状态码写进 status.json（upstream_status / upstream_hint）。
+
+## 50 · 2026-10-15 底部事件栏更新更快（v75）
+- 原因：页面网络被封，只能等数据库被写入；写入只靠定时任务（平台限制每个任务最少间隔 1 小时）。原来灾种扫描每小时 :47、同步每小时 :38，新记录最多要等近 2 小时。
+- 改动：
+  - Worker（cf-worker/src/events.js hazardsKick）：灾种扫描改为每小时 :12 和 :42 各一次（漏扫 45 分钟就补一次）。
+  - 定时任务“总览实时同步”从 :38 改到 :58；新增“总览半点同步（轻量）”（trig_01BnZ8UWV61AcZXoqeB4JcDa）每小时 :28，只写 live/hzr、fs、img、cam、ops。
+  - 页面底部栏切换区加“扫描于 时间”。
+  - tools/hazard_scan.py：新闻 RSS 没有 pubDate 时依次用 dc:date / published / updated / 网址里的日期，都没有就跳过；不再把扫描时间当发布时间（之前 Kathmandu Post 10-14 的文章显示成刚刚）。
+- 复原：git revert 本提交；update_trigger 把“总览实时同步”改回 "38 * * * *"，删除 trig_01BnZ8UWV61AcZXoqeB4JcDa；页面回 Version 74。

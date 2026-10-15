@@ -633,8 +633,18 @@ def news_rss():
             ok[name] = "失败：" + str(e)[:60]; continue
         for it in items:
             title = (it.findtext("title") or "").strip(); desc = re.sub(r"<[^>]+>", " ", it.findtext("description") or "")
-            try: t = iso(parsedate_to_datetime(it.findtext("pubDate")))
-            except Exception: t = iso(NOW)
+            t = None
+            for tag in ("pubDate", "{http://purl.org/dc/elements/1.1/}date", "published", "updated"):
+                v = it.findtext(tag)
+                if not v: continue
+                try: t = iso(parsedate_to_datetime(v)); break
+                except Exception:
+                    try: t = iso(datetime.fromisoformat(v.strip().replace("Z", "+00:00"))); break
+                    except Exception: pass
+            if not t:   # 没有发布时间：用网址里的日期（如 /2026/10/14/），不能把扫描时间当成发布时间
+                m = re.search(r"/(20\d\d)/(\d{1,2})/(\d{1,2})/", it.findtext("link") or "")
+                t = iso(datetime(int(m[1]), int(m[2]), int(m[3]), tzinfo=timezone.utc)) if m else None
+            if not t: continue
             text = title + " " + desc[:400]
             if name.startswith("Google News") and not TOPIC.search(title): continue   # 搜索结果会混进无关地区
             codes = [c for c, k in KW.items() if k.search(text)]
