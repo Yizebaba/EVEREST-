@@ -364,3 +364,4 @@
 - 原因：MiroFish 模拟脚本跑完 20 轮（推特 208 + Reddit 405 = 613 次动作，10:22 完成）后进入“等待命令模式”，进程不退出，run-status 一直 running，驱动 3 小时轮询超时，没生成报告。
 - 修复：tools/mirofish_run.py 在两平台都报完成后调用 /api/simulation/close-env，10 分钟未退出再 /stop；报告接口 409（图谱写入未排空）时每 30 秒重试，最多 20 分钟。
 - 复原：git revert 本提交即可；不改 MiroFish 代码。
+- 14:16 重跑 38749780066 在第一步失败：DeepSeek 返回 402（余额不足）。驱动现在记录上游错误正文，工作流把上游状态码写进 status.json（upstream_status / upstream_hint）。

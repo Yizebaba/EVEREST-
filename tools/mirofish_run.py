@@ -41,7 +41,10 @@ def upload(path, files, fields):
         parts.append(f'--{bd}\r\nContent-Disposition: form-data; name="files"; filename="{os.path.basename(fp)}"\r\nContent-Type: text/markdown\r\n\r\n'.encode() + open(fp, "rb").read() + b"\r\n")
     parts.append(f"--{bd}--\r\n".encode())
     req = urllib.request.Request(BASE + path, data=b"".join(parts), method="POST", headers={"content-type": f"multipart/form-data; boundary={bd}", "accept-language": "zh"})
-    with urllib.request.urlopen(req, timeout=1800) as r: return json.loads(r.read())
+    try:
+        with urllib.request.urlopen(req, timeout=1800) as r: return json.loads(r.read())
+    except urllib.error.HTTPError as e:
+        b = e.read(); log("HTTP", e.code, path, b[:400]); raise
 
 
 def save(name, obj):

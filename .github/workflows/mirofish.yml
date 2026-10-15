@@ -57,6 +57,8 @@ jobs:
           nohup uv run python run.py > ../../mf_out/backend.log 2>&1 &
           for i in $(seq 1 60); do curl -sf http://127.0.0.1:5001/health && break; sleep 3; done
           cd ../.. && python3 tools/mirofish_run.py mf_in mf_out "${{ github.event.inputs.max_rounds || '20' }}" || echo "RUNFAIL=1" >> $GITHUB_ENV
+          # 后端日志里的上游错误码写进 status.json（402 = 模型账户余额不足，401 = 密钥无效，429 = 限流）
+          c=$(grep -o "status=[0-9][0-9][0-9]" mf_out/backend.log | tail -1 | cut -d= -f2); [ -n "$c" ] && python3 -c "import json,sys;p='mf_out/status.json';d=json.load(open(p));d['upstream_status']=int(sys.argv[1]);d['upstream_hint']={'402':'模型账户余额不足，需要充值','401':'模型密钥无效','429':'模型接口限流'}.get(sys.argv[1],'');json.dump(d,open(p,'w'),ensure_ascii=False,indent=1)" "$c" || true
           # 日志里不能有密钥
           for f in mf_out/backend.log mf_out/run.log; do [ -f "$f" ] && for k in "$LLM_API_KEY" "$ZEP_API_KEY"; do [ -n "$k" ] && sed -i "s#$k#***#g" "$f"; done; done
           rm -f mf/.env
