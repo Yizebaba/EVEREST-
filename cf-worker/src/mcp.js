@@ -75,18 +75,24 @@ export function offlineItems(rt) {
   return out;
 }
 
+export const DOCK_EXCL = new Set(["机场天气实况 METAR", "航空危险天气通报 SIGMET", "美国风暴实况报告 SPC", "美国气象局已观测警报 NWS", "NOAA SWPC 空间天气",
+  "CelesTrak 在轨目标", "IOC 海平面站", "OpenPhish 钓鱼列表", "abuse.ch ThreatFox", "美国林火实时 NIFC", "GBIF 物种记录（尼泊尔）",
+  "NSIDC 海冰", "BIPAD 空气质量站", "WHO FluNet（尼泊尔）", "Sentinel-5P 大气成分", "ADS-B 紧急代码 7700"]);
 // 灾种扫描记录精简版（行格式与 tools/hub_sync.py 的 live_hzr 相同）
-async function hzrFeed(now, days, local, cap) {
+async function hzrFeed(now, days, local, cap, pri = true) {
   const r = await fetch("https://raw.githubusercontent.com/Yizebaba/EVEREST-/events/hazards/records.json", { cf: { cacheTtl: 60 } });
   if (!r.ok) return { err: "灾种扫描记录暂时取不到（GitHub " + r.status + "）" };
   const rec = await r.json(), cut = new Date(now - days * 864e5).toISOString().slice(0, 19) + "Z";
-  const R = (rec.records || []).filter(x => x.t && !x.observation && x.t >= cut && (!local || x.local)).sort((a, b) => b.t.localeCompare(a.t));
+  // v80：底部事件栏只放事件：去掉天气观测流、每次扫描重复的状态计数、观测记录；同来源同标题只留最新（与 tools/hub_sync.py 一致）
+  const seen = new Set(), R = (rec.records || []).filter(x => x.t && !x.observation && !DOCK_EXCL.has(x.src) && x.t >= cut && (!local || x.local))
+    .sort((a, b) => b.t.localeCompare(a.t)).filter(x => { const k = x.src + "|" + x.title; if (seen.has(k)) return false; seen.add(k); return true; });
   const rows = []; let size = 200;
-  for (const x of R) {
+  for (const x of pri ? R.filter(x => x.local).concat(R.filter(x => !x.local)) : R) {   // 先放尼泊尔 / 珠峰范围，再按时间放全球，预算用完为止
     const y = [x.t, (x.title || "").slice(0, 140), x.src || "", x.url || "", x.lat ?? null, x.lon ?? null, (x.codes || []).slice(0, 3), x.local ? 1 : 0];
     if ("deaths" in x) y.push([x.deaths ?? null, x.injured ?? null, x.missing ?? null]);
-    size += JSON.stringify(y).length + 1; if (size > cap) break; rows.push(y);
+    const n = JSON.stringify(y).length + 1; if (size + n > cap) continue; size += n; rows.push(y);
   }
+  rows.sort((a, b) => b[0].localeCompare(a[0]));
   return { updated: rec.updated, total: R.length, n: rows.length, r: rows };
 }
 
@@ -213,7 +219,7 @@ async function call(name, args, h) {
         hz = { updated: sc.updated, by_latency: sc.by_latency || null, src: Object.fromEntries(Object.entries(sc.sources).map(([k, v]) => [k, [v.state, v.n, v.local, String(v.err || v.need || "").slice(0, 60), v.latency || null]])),
           h: sc.hazards.map(h => [h.code, h.state, h.n_local_90d, h.n_90d, h.latest, String(h.latest_title || "").slice(0, 90), h.latest_url || null, (h.tested_ok || []).length, h.rt_tier || null]) }; } } catch (x) {}
       let hzr = null;   // 最新灾种记录（底部事件栏），页面按条合并进已有记录；扫描一提交这里就是新的
-      try { const x = await hzrFeed(Date.now(), 30, false, 90000); if (!x.err) hzr = x; } catch (x) {}
+      try { const x = await hzrFeed(Date.now(), 30, false, 90000, false); if (!x.err) hzr = x; } catch (x) {}   // 增量：最新的记录，页面并进已有记录
       return { text: `${L.length} 个事件的完整证据包`, data: { updated: new Date().toISOString(), events: L, hz, hzr } };
     }
     return { text: E.length ? E.map(e => `${BJ(e.t)} ${e.kind} · ${e.title} · ${e.src.length} 条信号` + (idx[e.id] ? ` · 证据包 ${idx[e.id].n} 条` : " · 证据包待生成") + `（编号 ${e.id}）`).join("\n") : `最近 ${days} 天没有自动发现的事件。`, data: { events: E, packs: idx } };

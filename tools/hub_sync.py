@@ -6,7 +6,13 @@ import base64, json, os, subprocess, sys, time
 out = sys.argv[1]; os.makedirs(out, exist_ok=True)
 REPO = "Yizebaba/EVEREST-"
 def raw(path, ref="facet-live"):
-    return subprocess.check_output(["gh", "api", "-H", "Accept: application/vnd.github.raw", f"repos/{REPO}/contents/{path}?ref={ref}"])
+    # 仓库是公开的：先走 raw.githubusercontent.com（不需要任何仓库权限；10-16 起定时任务会话的 gh 对本仓库返回 403），失败再用 gh
+    import urllib.request, urllib.parse
+    try:
+        u = f"https://raw.githubusercontent.com/{REPO}/{ref}/" + urllib.parse.quote(path)
+        with urllib.request.urlopen(urllib.request.Request(u, headers={"user-agent": "everest-hub-sync"}), timeout=60) as r: return r.read()
+    except Exception:
+        return subprocess.check_output(["gh", "api", "-H", "Accept: application/vnd.github.raw", f"repos/{REPO}/contents/{path}?ref={ref}"], stderr=subprocess.DEVNULL)
 rt = json.loads(raw("rt.json")); fs = json.loads(raw("facet_status.json"))
 json.dump(rt, open(f"{out}/live_rt.json", "w"), ensure_ascii=False)
 json.dump(fs, open(f"{out}/live_fs.json", "w"), ensure_ascii=False)
@@ -103,10 +109,21 @@ try:
 except Exception as e:
     print("事件证据包暂缺：", e)
 
+DOCK_EXCL = {  # 与 cf-worker/src/hub.js、页面 DOCK_EXCL 保持一致
+    "机场天气实况 METAR", "航空危险天气通报 SIGMET", "美国风暴实况报告 SPC", "美国气象局已观测警报 NWS", "NOAA SWPC 空间天气",   # 天气类观测与通报
+    "CelesTrak 在轨目标", "IOC 海平面站", "OpenPhish 钓鱼列表", "abuse.ch ThreatFox", "美国林火实时 NIFC", "GBIF 物种记录（尼泊尔）",
+    "NSIDC 海冰", "BIPAD 空气质量站", "WHO FluNet（尼泊尔）", "Sentinel-5P 大气成分", "ADS-B 紧急代码 7700"}   # 每次扫描重复的状态计数或观测读数
 # 全部灾种扫描记录（不只珠峰）：最近 30 天、按时间倒序，精简后写 live_hzr.json（→ live/hzr），底部事件栏“全部记录”用。
 try:
     rec = json.loads(raw("hazards/records.json", "events"))
-    R = [r for r in rec.get("records", []) if r.get("t") and not r.get("observation")]
+    # v80：底部事件栏只放“事件”：去掉常规天气观测流（平台不做天气）、每次扫描都重复的状态计数、标为观测的记录；同来源同标题只留最新一条
+    R = [r for r in rec.get("records", []) if r.get("t") and not r.get("observation") and r.get("src") not in DOCK_EXCL]
+    seen = set(); R2 = []
+    for r in sorted(R, key=lambda r: r["t"], reverse=True):
+        k = (r.get("src"), r.get("title")); 
+        if k in seen: continue
+        seen.add(k); R2.append(r)
+    R = R2
     cut = time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime(time.time() - 30 * 86400))
     R = sorted([r for r in R if r["t"] >= cut], key=lambda r: r["t"], reverse=True)
     def row(r):
@@ -114,10 +131,11 @@ try:
         if "deaths" in r: x.append([r.get("deaths"), r.get("injured"), r.get("missing")])
         return x
     rows = []; size = 200
-    for r in R:
-        x = row(r); size += len(json.dumps(x, ensure_ascii=False).encode()) + 1
-        if size > 225000: break
-        rows.append(x)
+    for r in [r for r in R if r.get("local")] + [r for r in R if not r.get("local")]:   # 先放尼泊尔 / 珠峰范围，再按时间放全球，预算用完为止
+        x = row(r); n = len(json.dumps(x, ensure_ascii=False).encode()) + 1
+        if size + n > 225000: continue
+        size += n; rows.append(x)
+    rows.sort(key=lambda x: x[0], reverse=True)
     json.dump({"updated": rec.get("updated"), "total": len(R), "n": len(rows), "r": rows}, open(f"{out}/live_hzr.json", "w"), ensure_ascii=False)
     print("live_hzr", os.path.getsize(f"{out}/live_hzr.json"), "bytes,", len(rows), "/", len(R), "records")
 except Exception as e:
@@ -138,13 +156,17 @@ except Exception as e:
 
 # 自动流程审计：GitHub Actions 最近 60 次运行（名称、分支、触发方式、结果、时间、链接）→ live_ops.json（→ live/ops）
 try:
-    rr = json.loads(subprocess.check_output(["gh", "api", f"repos/{REPO}/actions/runs?per_page=60"]))
+    rr = json.loads(subprocess.check_output(["gh", "api", f"repos/{REPO}/actions/runs?per_page=60"], stderr=subprocess.DEVNULL))
     ops = [[r.get("name"), r.get("head_branch"), r.get("event"), r.get("status"), r.get("conclusion"), r.get("created_at"), r.get("updated_at"), r.get("html_url"), r.get("run_number")]
            for r in rr.get("workflow_runs", [])]
     json.dump({"updated": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime()), "runs": ops}, open(f"{out}/live_ops.json", "w"), ensure_ascii=False)
     print("live_ops", len(ops), "runs")
 except Exception as e:
-    print("运行记录暂缺：", e)
+    # 没有 gh 权限的环境（定时任务会话）：用 hazards 工作流每次扫描后写的 events 分支 hub/ops.json（已含运行记录、InSAR、卫星过境、MiroFish）
+    try:
+        json.dump(json.loads(raw("hub/ops.json", "events")), open(f"{out}/live_ops.json", "w"), ensure_ascii=False); print("live_ops 取自 events hub/ops.json（本环境没有 gh 权限）")
+    except Exception as e2:
+        print("运行记录暂缺：", e, e2)
 
 # 仓库每日 InSAR 管线的最新产物和自动核对（读 main 分支 data/displacement_summary.json），并进 live_ops.json 的 pipe 字段
 try:
@@ -159,7 +181,7 @@ try:
         {"ok": gap == 12, "t": f"影像对 {pair.get('master')} → {pair.get('slave')} 相隔 {gap} 天" + ("，是同一条带（23790，相对轨道 12）的 12 天重访" if gap == 12 else "，不是同一条带的 12 天重访，不能做干涉")},
         {"ok": bool(cp) and str(cp.get("slave", "")) >= str(pair.get("slave", "")), "t": f"云端干涉最新 {cp.get('master')} → {cp.get('slave')}" + ("，已覆盖最新影像对" if cp and str(cp.get('slave', '')) >= str(pair.get('slave', '')) else "，还没算到最新影像对")},
     ]
-    cm = json.loads(subprocess.check_output(["gh", "api", f"repos/{REPO}/commits?path=data/displacement_summary.json&per_page=3"]))
+    cm = json.loads(subprocess.check_output(["gh", "api", f"repos/{REPO}/commits?path=data/displacement_summary.json&per_page=3"], stderr=subprocess.DEVNULL))
     pipe = {"generated": (sm.get("timestamp_utc") or "")[:19], "pair": pair, "burst": sm.get("burst_id"),
             "insar": {k: ins.get(k) for k in ("status", "reason", "median_mm", "max_mm", "evaluated_candidate_pixels", "valid_phase_pixels", "coherence_mean", "cloud_pair", "displacement_status", "cloud_processed_utc")},
             "auto": {"t": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime()), "checks": checks},
