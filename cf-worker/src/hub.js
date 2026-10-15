@@ -101,7 +101,7 @@ export async function hubHealth(rt, fs) {
   add("rt", "实时采集（Worker，每分钟）", rt && rt.updated, 5, bad.length ? "取数失败：" + bad.join("、") : `${Object.keys(S).length} 个源全部正常`);
   const g = (S.gibs || {}).v || {};
   add("img", "卫星图（葵花，GIBS）", [g.vis_latest, g.ir_latest].filter(Boolean).sort().pop(), 180);
-  add("facet", "坡面雷达（每 30 分钟）", fs && fs.t, 45, fs && fs.scenes ? `基线 ${fs.scenes.d}/${fs.scenes.n} 景` : "");
+  add("facet", "坡面雷达（每 30 分钟）", fs && (fs.t || fs.cached_at), 45, fs && fs.scenes ? `基线 ${fs.scenes.d}/${fs.scenes.n} 景` : "");
   let ops = null; try { ops = await hubOps(); } catch (e) {}
   const R = (ops && ops.runs) || [], last = (n, okOnly = true) => (R.find(r => r[0] === n && r[3] === "completed" && (!okOnly || r[4] === "success")) || [])[6];
   add("scan", "灾种扫描（每 20 分钟）", last("hazards"), 50);
