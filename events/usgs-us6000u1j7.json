@@ -51,8 +51,8 @@
    "id": 30383,
    "title": "Ghap HS",
    "km": 11,
-   "level": 2.33689975739,
-   "at": "2026-10-16T03:55:00+05:45",
+   "level": 2.30159950256,
+   "at": "2026-10-16T04:55:00+05:45",
    "warning": null,
    "danger": null,
    "status": "BELOW WARNING LEVEL",
@@ -95,8 +95,8 @@
    "id": 30742,
    "title": "Marsyangdi River at Dharapani",
    "km": 57,
-   "level": 1.92740058899,
-   "at": "2026-10-16T03:50:00+05:45",
+   "level": 1.90639972687,
+   "at": "2026-10-16T04:50:00+05:45",
    "warning": 4.5,
    "danger": null,
    "status": "BELOW WARNING LEVEL",
@@ -128,8 +128,8 @@
    "id": 19984,
    "title": "Dordi Khola at Sherabeshi( Ambote bazar)",
    "km": 60,
-   "level": 1.57859992981,
-   "at": "2026-10-16T03:50:00+05:45",
+   "level": 1.57980012894,
+   "at": "2026-10-16T04:50:00+05:45",
    "warning": 4.0,
    "danger": null,
    "status": "BELOW WARNING LEVEL",
@@ -150,8 +150,8 @@
    "id": 3508,
    "title": "Daraudi Khola at Naya Sangu",
    "km": 63,
-   "level": 1.60099983215,
-   "at": "2026-10-16T03:50:00+05:45",
+   "level": 1.59599971771,
+   "at": "2026-10-16T04:50:00+05:45",
    "warning": 3.5,
    "danger": null,
    "status": "BELOW WARNING LEVEL",
@@ -288,6 +288,18 @@
   "accepted": 0,
   "pending": 0
  },
+ "rshake": {
+  "stations": [
+   {
+    "sta": "R2C6D",
+    "km": 42
+   },
+   {
+    "sta": "RD184",
+    "km": 58
+   }
+  ]
+ },
  "news": [
   {
    "t": "2026-10-15T12:30:00Z",
@@ -335,7 +347,7 @@
    "release_doi": "https://doi.org/10.5281/zenodo.7271187",
    "paper": "https://doi.org/10.5194/essd-15-3941-2023",
    "n": 774,
-   "fetched": "2026-10-15T22:25:35Z"
+   "fetched": "2026-10-15T23:19:16Z"
   },
   "radius_km": 30,
   "n": 3,
@@ -637,6 +649,14 @@
    "archive_t": "2026-10-15T13:01:58Z"
   },
   {
+   "t": "2026-10-10T21:06:57Z",
+   "src": "Raspberry Shake 地震仪",
+   "kind": "SUPPORTING",
+   "text": "AM.R2C6D（距事件约 42 km）1–5 Hz 信号约为背景的 130 倍",
+   "text_en": "AM.R2C6D (about 42 km away) 1–5 Hz signal about 130× background",
+   "bound": "Raspberry Shake"
+  },
+  {
    "t": "2026-10-10T22:38:58.000Z",
    "src": "USGS 地震目录",
    "kind": "SUPPORTING",
@@ -674,8 +694,8 @@
    "t": "2026-10-10T22:38:58Z",
    "src": "Raspberry Shake 地震仪",
    "kind": "MISSING",
-   "text": "台站查询失败（HTTP Error 502: Bad Gateway）",
-   "text_en": "Station query failed (HTTP Error 502: Bad Gateway)",
+   "text": "AM.RD184 取不到波形（没有返回数据）",
+   "text_en": "AM.RD184 waveform not available (没有返回数据)",
    "bound": "Raspberry Shake"
   },
   {
@@ -733,6 +753,14 @@
    "text_en": "Sentinel-1 automatic flood-extent product ENSEMBLE_FLOOD_20261011T001910_VV_AS020M_E033N027T3 (flood-extent layer included)",
    "url": "https://data.eodc.eu/collections/GFM_NRT_INTERIM/flood_extent/AS020M/2026/10/11/DLR_FLOOD_20261011T001910_VV_AS020M_E033N027T3.tif",
    "bound": "哥白尼 GFM"
+  },
+  {
+   "t": "2026-10-11T01:11:57Z",
+   "src": "Raspberry Shake 地震仪",
+   "kind": "SUPPORTING",
+   "text": "AM.R2C6D（距事件约 42 km）1–5 Hz 信号约为背景的 130 倍",
+   "text_en": "AM.R2C6D (about 42 km away) 1–5 Hz signal about 130× background",
+   "bound": "Raspberry Shake"
   },
   {
    "t": "2026-10-11T02:05:00.000Z",
@@ -1219,7 +1247,7 @@
    "bound": "GDELT 新闻"
   },
   {
-   "t": "2026-10-15T22:25:35Z",
+   "t": "2026-10-15T23:19:16Z",
    "src": "BIPAD 水位站",
    "kind": "MISSING",
    "text_en": "12 public gauges within 80 km, 4 reporting now; not reporting: Bhotekoshi at Rasuwagadi, Budhi Gandaki at Aarughat, Bhote Koshi at Shyaprubesi, Langtang Khola at Shyaprubesi, Ankhu Khola at Ankhu Bagar, Trishuli Khola at Dhunche, Langtang River at Ghodatalbela, Dwang Khola (Chiti, Lamjung)",
@@ -1227,7 +1255,7 @@
    "bound": "BIPAD 水位站"
   },
   {
-   "t": "2026-10-15T22:25:35Z",
+   "t": "2026-10-15T23:19:16Z",
    "src": "Copernicus EMS",
    "kind": "NEUTRAL",
    "text_en": "No rapid mapping activated for this event",
@@ -1235,7 +1263,7 @@
    "bound": "Copernicus EMS"
   },
   {
-   "t": "2026-10-15T22:25:35Z",
+   "t": "2026-10-15T23:19:16Z",
    "src": "IFRC Montandon",
    "kind": "MISSING",
    "text": "需要 IFRC GO 账号令牌才能查询（未配置）",
@@ -1243,7 +1271,7 @@
    "bound": "IFRC Montandon"
   },
   {
-   "t": "2026-10-15T22:25:35Z",
+   "t": "2026-10-15T23:19:16Z",
    "src": "ReliefWeb",
    "kind": "MISSING",
    "text": "需要申请 ReliefWeb appname（未配置）",
@@ -1251,7 +1279,7 @@
    "bound": "ReliefWeb"
   },
   {
-   "t": "2026-10-15T22:25:35Z",
+   "t": "2026-10-15T23:19:16Z",
    "src": "Cloudflare Radar",
    "kind": "MISSING",
    "text": "需要 Cloudflare API 令牌（未配置）",
@@ -1259,7 +1287,7 @@
    "bound": "Cloudflare Radar"
   },
   {
-   "t": "2026-10-15T22:25:35Z",
+   "t": "2026-10-15T23:19:16Z",
    "src": "NASA FIRMS 火点",
    "kind": "MISSING",
    "text": "需要 FIRMS MAP_KEY（未配置）",
@@ -1267,7 +1295,7 @@
    "bound": "NASA FIRMS"
   },
   {
-   "t": "2026-10-15T22:25:35Z",
+   "t": "2026-10-15T23:19:16Z",
    "src": "NASA 夜间灯光",
    "kind": "MISSING",
    "text": "需要 NASA Earthdata 账号令牌（未配置）",
@@ -1275,7 +1303,7 @@
    "bound": "NASA 夜间灯光"
   },
   {
-   "t": "2026-10-15T22:25:35Z",
+   "t": "2026-10-15T23:19:16Z",
    "src": "Vantor 开放影像",
    "kind": "NEUTRAL",
    "text": "这次事件没有启动开放影像",
@@ -1283,7 +1311,7 @@
    "bound": "Vantor 开放影像"
   }
  ],
- "built": "2026-10-15T22:25:35Z",
+ "built": "2026-10-15T23:19:16Z",
  "bounds": {
   "Sentinel-1 雷达": {
    "can": "这一时间有没有雷达影像覆盖事件地点，可用于前后对比。",
@@ -1313,6 +1341,10 @@
    "can": "这个公开来源在这一时间发布了这条记录。",
    "cannot": "只是记录本身；不同来源的同一事件可能重复，数字以原始来源为准。"
   },
+  "Raspberry Shake": {
+   "can": "民间地震仪在这一时刻是否记录到震动、有没有在线。",
+   "cannot": "民用设备，噪声大、没有官方校准；不能单独说明发生了什么。"
+  },
   "USGS 地震目录": {
    "can": "USGS 测定的地震（或崩塌类事件）的时间、位置、震级。",
    "cannot": "目录里的位置和震级会修订；崩塌类事件的位置不精确；不说明是否造成损失。"
@@ -1324,10 +1356,6 @@
   "IODA 网络连通": {
    "can": "当地网络连通指标在这一时刻是否下降。",
    "cannot": "下降可能是断电、线路损坏，也可能是运营商维护；不能说明原因。"
-  },
-  "Raspberry Shake": {
-   "can": "民间地震仪在这一时刻是否记录到震动、有没有在线。",
-   "cannot": "民用设备，噪声大、没有官方校准；不能单独说明发生了什么。"
   },
   "OCHA HDX": {
    "can": "人道数据交换平台上有没有相关数据集。",
@@ -1384,7 +1412,7 @@
  "note": "只陈述公开来源记录了什么、什么时候；不判断成因，不预测。地震台强信号只说明那一刻台站记录到较强震动，来源需要结合其他证据。",
  "receipts": [
   {
-   "t": "2026-10-15T22:27:26Z",
+   "t": "2026-10-15T23:21:19Z",
    "method": "GET",
    "url": "https://geofon.gfz.de/fdsnws/dataselect/1/query?net=IO&sta=EVN&cha=BHZ&starttime=2026-10-09T22:38:58&endtime=2026-10-11T01:38:58",
    "status": 200,
@@ -1393,7 +1421,7 @@
    "type": "application/vnd.fdsn.mseed"
   },
   {
-   "t": "2026-10-15T22:27:27Z",
+   "t": "2026-10-15T23:21:22Z",
    "method": "GET",
    "url": "https://service.iris.edu/fdsnws/dataselect/1/query?net=NK&sta=KKN&cha=BHZ&loc=*&starttime=2026-10-09T22:38:58&endtime=2026-10-11T01:38:58",
    "status": 200,
@@ -1402,17 +1430,17 @@
    "type": "application/vnd.fdsn.mseed"
   },
   {
-   "t": "2026-10-15T22:27:28Z",
+   "t": "2026-10-15T23:21:22Z",
    "method": "GET",
    "url": "https://earthquake.usgs.gov/fdsnws/event/1/query?format=geojson&latitude=28.532&longitude=84.942&maxradiuskm=300&starttime=2026-10-09T22:38:58Z&endtime=2026-10-11T22:38:58Z",
    "status": 200,
    "bytes": 1055,
-   "sha256": "0cb0c6655de48c9e3f845b5e01bce14d7c0c29523ab130997e1530913a751eb2",
+   "sha256": "6277098419d582272d8e6765b8c47f053a001b647ee73a30fd86b1703f9e5a2f",
    "type": "application/json; charset=utf-8",
-   "body": "events/raw/0cb0c6655de48c9e3f845b5e01bce14d7c0c29523ab130997e1530913a751eb2.gz"
+   "body": "events/raw/6277098419d582272d8e6765b8c47f053a001b647ee73a30fd86b1703f9e5a2f.gz"
   },
   {
-   "t": "2026-10-15T22:27:30Z",
+   "t": "2026-10-15T23:21:23Z",
    "method": "GET",
    "url": "https://www.seismicportal.eu/fdsnws/event/1/query?format=json&lat=28.532&lon=84.942&maxradius=2.7&start=2026-10-09T22:38:58&end=2026-10-11T22:38:58",
    "status": 200,
@@ -1422,35 +1450,35 @@
    "body": "events/raw/373876d7357ffa1960115d9fe846acfa07a7ce55da347ef53539ea84bbbce234.gz"
   },
   {
-   "t": "2026-10-15T22:27:32Z",
+   "t": "2026-10-15T23:21:25Z",
    "method": "GET",
    "url": "https://bipadportal.gov.np/api/v1/river-stations/?format=json&limit=100&offset=0",
    "status": 200,
    "bytes": 73120,
-   "sha256": "e7c63cee04258e82f4833216096eb6c11266a578c8a58a2dd955a8d3afedbe38",
+   "sha256": "e879d005feef6a68d429460bd3dfa06d4cb28681c414c4e9b53e28183034578f",
    "type": "application/json"
   },
   {
-   "t": "2026-10-15T22:27:34Z",
+   "t": "2026-10-15T23:21:29Z",
    "method": "GET",
    "url": "https://bipadportal.gov.np/api/v1/river-stations/?format=json&limit=100&offset=100",
    "status": 200,
-   "bytes": 73204,
-   "sha256": "ef6e74f9b9d90f8fee3347d27aa8108bdc791273154a9826e21bc2b7383d73d2",
+   "bytes": 73202,
+   "sha256": "977f75524cab2298386cf486d5c56b460f08ac9344d5d7adcaaff36bb9875082",
    "type": "application/json"
   },
   {
-   "t": "2026-10-15T22:27:36Z",
+   "t": "2026-10-15T23:21:31Z",
    "method": "GET",
    "url": "https://bipadportal.gov.np/api/v1/river-stations/?format=json&limit=100&offset=200",
    "status": 200,
-   "bytes": 61472,
-   "sha256": "3d22fc4e460c998feb20cf115fc9d7250249e3eabe5c36a224fa06de046c6d6c",
+   "bytes": 61467,
+   "sha256": "09074c340427dfe442111982120497c08c278230da3d7b685e8ebbee6dd14a0a",
    "type": "application/json",
-   "body": "events/raw/3d22fc4e460c998feb20cf115fc9d7250249e3eabe5c36a224fa06de046c6d6c.gz"
+   "body": "events/raw/09074c340427dfe442111982120497c08c278230da3d7b685e8ebbee6dd14a0a.gz"
   },
   {
-   "t": "2026-10-15T22:27:36Z",
+   "t": "2026-10-15T23:21:32Z",
    "method": "GET",
    "url": "https://bipadportal.gov.np/api/v1/river-stations/?format=json&limit=100&offset=300",
    "status": 200,
@@ -1460,26 +1488,26 @@
    "body": "events/raw/628a1562f0d9b0619735bfb6ad5e60a3cd7e37f4f1a83a96c3f97fac5400820f.gz"
   },
   {
-   "t": "2026-10-15T22:27:37Z",
+   "t": "2026-10-15T23:21:32Z",
    "method": "GET",
    "url": "https://api.ioda.inetintel.cc.gatech.edu/v2/entities/query?entityType=region&search=Gandaki",
    "status": 200,
    "bytes": 560,
-   "sha256": "a286a1ea180cc1dda0431f2fb875c5da2bd410c902fdfa65caa208725edc9ce0",
+   "sha256": "8053879a0ba4b3e823581ef58ca3fb5fd67bf73adfaf41587768240c11cb4d1b",
    "type": "application/json",
-   "body": "events/raw/a286a1ea180cc1dda0431f2fb875c5da2bd410c902fdfa65caa208725edc9ce0.gz"
+   "body": "events/raw/8053879a0ba4b3e823581ef58ca3fb5fd67bf73adfaf41587768240c11cb4d1b.gz"
   },
   {
-   "t": "2026-10-15T22:27:39Z",
+   "t": "2026-10-15T23:21:34Z",
    "method": "GET",
    "url": "https://api.ioda.inetintel.cc.gatech.edu/v2/signals/raw/region/3017?from=1791585538&until=1791758338",
    "status": 200,
    "bytes": 115209,
-   "sha256": "e1c6cc66b34961d46f6b18358118cfcba53a4af991e680eda93bbee4e540d738",
+   "sha256": "9615c6728845bc8430cf5ccf9d1060d46a9942af2cf180869bf8aa821610b55d",
    "type": "application/json"
   },
   {
-   "t": "2026-10-15T22:27:39Z",
+   "t": "2026-10-15T23:21:35Z",
    "method": "GET",
    "url": "https://rapidmapping.emergency.copernicus.eu/backend/dashboard-api/public-activations-info/?limit=60",
    "status": 200,
@@ -1489,7 +1517,7 @@
    "body": "events/raw/c1d469167b77790ff00061ea1e77e477775c29ca8b477ab3cf48e84fd784ba25.gz"
   },
   {
-   "t": "2026-10-15T22:27:40Z",
+   "t": "2026-10-15T23:21:35Z",
    "method": "POST",
    "url": "https://planetarycomputer.microsoft.com/api/stac/v1/search",
    "status": 200,
@@ -1499,7 +1527,7 @@
    "body": "events/raw/383aa0a98b263bdfc29891136d3805d4605c476d1d9c92ab417ea2a4f54ded9a.gz"
   },
   {
-   "t": "2026-10-15T22:27:40Z",
+   "t": "2026-10-15T23:21:35Z",
    "method": "POST",
    "url": "https://planetarycomputer.microsoft.com/api/stac/v1/search",
    "status": 200,
@@ -1509,7 +1537,7 @@
    "body": "events/raw/fe2a463ae00d7eff7d4b5d8ac8d59be48ea6a8fa3c28c04a8b23d5337f80ff91.gz"
   },
   {
-   "t": "2026-10-15T22:27:41Z",
+   "t": "2026-10-15T23:21:35Z",
    "method": "POST",
    "url": "https://planetarycomputer.microsoft.com/api/stac/v1/search",
    "status": 200,
@@ -1519,17 +1547,17 @@
    "body": "events/raw/72807f1291f95229fb6c0216d1082e33a736c6439fca3bb688052024b3179d70.gz"
   },
   {
-   "t": "2026-10-15T22:27:42Z",
+   "t": "2026-10-15T23:21:36Z",
    "method": "POST",
    "url": "https://planetarycomputer.microsoft.com/api/stac/v1/search",
    "status": 200,
    "bytes": 16262,
-   "sha256": "0eb5fb791f1ed5aa8536cc9c66157aa96d0c20de9ec410a4e0f7f812781bfd8e",
+   "sha256": "7cc91dd406a9d955de7f6faa3c168af0151e0bd8cf849636f23383233a326813",
    "type": "application/geo+json; charset=utf-8",
-   "body": "events/raw/0eb5fb791f1ed5aa8536cc9c66157aa96d0c20de9ec410a4e0f7f812781bfd8e.gz"
+   "body": "events/raw/7cc91dd406a9d955de7f6faa3c168af0151e0bd8cf849636f23383233a326813.gz"
   },
   {
-   "t": "2026-10-15T22:27:43Z",
+   "t": "2026-10-15T23:21:37Z",
    "method": "POST",
    "url": "https://stac.eodc.eu/api/v1/search",
    "status": 200,
@@ -1538,19 +1566,47 @@
    "type": "application/geo+json"
   },
   {
-   "t": "2026-10-15T22:27:44Z",
+   "t": "2026-10-15T23:21:38Z",
+   "method": "GET",
+   "url": "https://data.raspberryshake.org/fdsnws/station/1/query?network=AM&latitude=28.532&longitude=84.942&maxradius=1.35&level=channel&format=text&starttime=2026-10-10T16:38:58&endtime=2026-10-11T01:38:58",
+   "status": 200,
+   "bytes": 13303,
+   "sha256": "b1dd102717c83603a0a0512038b0a1db9798fc5ef17246d61a8a67dd79ef2518",
+   "type": "text/plain; charset=utf-8",
+   "body": "events/raw/b1dd102717c83603a0a0512038b0a1db9798fc5ef17246d61a8a67dd79ef2518.gz"
+  },
+  {
+   "t": "2026-10-15T23:21:45Z",
+   "method": "GET",
+   "url": "https://data.raspberryshake.org/fdsnws/dataselect/1/query?network=AM&station=R2C6D&location=00&channel=EHZ&starttime=2026-10-10T16:38:58&endtime=2026-10-11T01:38:58",
+   "status": 200,
+   "bytes": 3147264,
+   "sha256": "91b4055cef4d082a7b847f7ff24c3b63d86df91d867910947bfb21b33729a8e1",
+   "type": "application/vnd.fdsn.mseed"
+  },
+  {
+   "t": "2026-10-15T23:21:47Z",
+   "method": "GET",
+   "url": "https://data.raspberryshake.org/fdsnws/dataselect/1/query?network=AM&station=RD184&location=00&channel=EHZ&starttime=2026-10-10T16:38:58&endtime=2026-10-11T01:38:58",
+   "status": 204,
+   "bytes": 0,
+   "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+   "type": ""
+  },
+  {
+   "t": "2026-10-15T23:21:47Z",
    "method": "GET",
    "url": "https://earthquake.usgs.gov/fdsnws/event/1/query?format=geojson&latitude=28.532&longitude=84.942&maxradiuskm=300&starttime=2026-10-09T22:38:58Z&endtime=2026-10-11T22:38:58Z&minmagnitude=4",
    "status": 200,
    "bytes": 341,
-   "sha256": "cd197b0380c98e19b346d8f68d1b306da879dd24c313e419481658c2128590f4",
+   "sha256": "7693e2c5391c2a856dc6adac00fb65e988328aaca6ba542bac66ea2373d61719",
    "type": "application/json; charset=utf-8",
-   "body": "events/raw/cd197b0380c98e19b346d8f68d1b306da879dd24c313e419481658c2128590f4.gz"
+   "body": "events/raw/7693e2c5391c2a856dc6adac00fb65e988328aaca6ba542bac66ea2373d61719.gz"
   },
   {
-   "t": "2026-10-15T22:28:45Z",
+   "t": "2026-10-15T23:22:50Z",
    "method": "GET",
-   "url": "https://api.gdeltproject.org/api/v2/doc/doc?query=%22Gorkha%22+%28flood+OR+landslide+OR+avalanche+OR+earthquake+OR+%22glacial+lake%22+OR+%22debris+flow%22+OR+snowstorm+OR+rockfall%29+Nepal+sourcelang%3Aenglish&mode=artlist&maxrecords=75&format=json&sort=dateasc&startdatetime=20261009223858&enddatetime=20261015222535",
+   "url": "https://api.gdeltproject.org/api/v2/doc/doc?query=%22Gorkha%22+%28flood+OR+landslide+OR+avalanche+OR+earthquake+OR+%22glacial+lake%22+OR+%22debris+flow%22+OR+snowstorm+OR+rockfall%29+Nepal+sourcelang%3Aenglish&mode=artlist&maxrecords=75&format=json&sort=dateasc&startdatetime=20261009223858&enddatetime=20261015223858",
    "status": 200,
    "bytes": 985,
    "sha256": "b24cdd96f439bdc646582285153d6795f1a70b29253748a09353f4d3a9500eb8",
@@ -1558,17 +1614,17 @@
    "body": "events/raw/b24cdd96f439bdc646582285153d6795f1a70b29253748a09353f4d3a9500eb8.gz"
   },
   {
-   "t": "2026-10-15T22:28:45Z",
+   "t": "2026-10-15T23:22:50Z",
    "method": "GET",
    "url": "https://en.wikipedia.org/w/api.php?action=query&list=search&srsearch=Gorkha+2026+flood&format=json&srlimit=5",
    "status": 200,
    "bytes": 2152,
-   "sha256": "9ae4cca0129ad2bbfb15dde452b001a41fae1cd6d24edfde8311fe7269482964",
+   "sha256": "58c12358289ac6d22ff4401cf8e0ade4d7808b0876332b58056a7d4fd91c4bb8",
    "type": "application/json; charset=utf-8",
-   "body": "events/raw/9ae4cca0129ad2bbfb15dde452b001a41fae1cd6d24edfde8311fe7269482964.gz"
+   "body": "events/raw/58c12358289ac6d22ff4401cf8e0ade4d7808b0876332b58056a7d4fd91c4bb8.gz"
   },
   {
-   "t": "2026-10-15T22:28:45Z",
+   "t": "2026-10-15T23:22:50Z",
    "method": "GET",
    "url": "https://en.wikipedia.org/w/api.php?action=query&prop=revisions&titles=2026+Nepal%E2%80%93Tibet+floods&rvlimit=1&rvdir=newer&rvprop=timestamp&format=json",
    "status": 200,
@@ -1578,7 +1634,7 @@
    "body": "events/raw/d6855fbb07daa708ddbb4b865d4650775c6f90a600f2014f420d5e3a64305208.gz"
   },
   {
-   "t": "2026-10-15T22:28:45Z",
+   "t": "2026-10-15T23:22:50Z",
    "method": "GET",
    "url": "https://en.wikipedia.org/w/api.php?action=query&prop=revisions&titles=Timeline+of+the+2026+Nepal%E2%80%93Tibet+floods&rvlimit=1&rvdir=newer&rvprop=timestamp&format=json",
    "status": 200,
@@ -1588,7 +1644,7 @@
    "body": "events/raw/553ed39da47aa49d3b12712733c1cb01aa52422221158c6ab9be28c61cb11af5.gz"
   },
   {
-   "t": "2026-10-15T22:28:46Z",
+   "t": "2026-10-15T23:22:51Z",
    "method": "GET",
    "url": "https://en.wikipedia.org/w/api.php?action=query&prop=revisions&titles=2026+Budhi+Gandaki+flood&rvlimit=1&rvdir=newer&rvprop=timestamp&format=json",
    "status": 200,
@@ -1598,7 +1654,7 @@
    "body": "events/raw/26ecdf61e1e29047d64b1db20dd0265a70171a0734e68dbc31d97dbc6543b85e.gz"
   },
   {
-   "t": "2026-10-15T22:28:46Z",
+   "t": "2026-10-15T23:22:51Z",
    "method": "GET",
    "url": "https://en.wikipedia.org/w/api.php?action=query&prop=revisions&titles=Budhi+Gandaki+River&rvlimit=1&rvdir=newer&rvprop=timestamp&format=json",
    "status": 200,
@@ -1608,7 +1664,7 @@
    "body": "events/raw/1ca1a4f34798b52ecbe4c772df153c2fb16c2c752d5f0c62c6304f6ba8053ecf.gz"
   },
   {
-   "t": "2026-10-15T22:28:46Z",
+   "t": "2026-10-15T23:22:51Z",
    "method": "GET",
    "url": "https://en.wikipedia.org/w/api.php?action=query&prop=revisions&titles=Dhunche&rvlimit=1&rvdir=newer&rvprop=timestamp&format=json",
    "status": 200,
@@ -1618,7 +1674,7 @@
    "body": "events/raw/d1ff7a32d82d4760b1eff786fb4217de54fd6ff4495a9fcc11bf61b08da2d7c3.gz"
   },
   {
-   "t": "2026-10-15T22:28:46Z",
+   "t": "2026-10-15T23:22:51Z",
    "method": "GET",
    "url": "https://data.humdata.org/api/3/action/package_search?q=flood+OR+landslide+OR+avalanche+OR+earthquake+OR+disaster&fq=groups%3Anpl+AND+metadata_created%3A%5B2026-10-09T22%3A38%3A58Z+TO+NOW%5D&sort=metadata_created+asc&rows=10",
    "status": 200,
@@ -1628,7 +1684,7 @@
    "body": "events/raw/57c17659bf3ca406184ebd539b7ba731e17b3c7230d1d9606689e123d07ec1e3.gz"
   },
   {
-   "t": "2026-10-15T22:28:48Z",
+   "t": "2026-10-15T23:22:53Z",
    "method": "GET",
    "url": "https://kp.gfz-potsdam.de/app/json/?start=2026-10-09T22%3A38%3A58Z&end=2026-10-11T22%3A38%3A58Z&index=Kp",
    "status": 200,
