@@ -359,3 +359,8 @@
 - 页面：时间线每条后面多一个“时光机存档 ↗”；“证据链存在哪里”和证据源“存证”一行加上 Wayback Machine。
 - MiroFish：仓库 Secrets 已加（DeepSeek + Zep），已启动第一次推演（combined，20 轮）。
 - 复原：证据包回退 VERSION 23（删 wayback_save / wayback_attach 和 build 里的调用）；页面回退 Version 72。
+
+## 49 · 2026-10-15 MiroFish 首跑卡住的修复
+- 原因：MiroFish 模拟脚本跑完 20 轮（推特 208 + Reddit 405 = 613 次动作，10:22 完成）后进入“等待命令模式”，进程不退出，run-status 一直 running，驱动 3 小时轮询超时，没生成报告。
+- 修复：tools/mirofish_run.py 在两平台都报完成后调用 /api/simulation/close-env，10 分钟未退出再 /stop；报告接口 409（图谱写入未排空）时每 30 秒重试，最多 20 分钟。
+- 复原：git revert 本提交即可；不改 MiroFish 代码。

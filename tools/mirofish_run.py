@@ -90,8 +90,25 @@ try:
         except Exception as e: log(name, "导出失败", e)
     # 5 运行
     call("POST", "/api/simulation/start", {"simulation_id": sid, "platform": "parallel", "max_rounds": ROUNDS, "enable_graph_memory_update": True})
-    rs = poll(lambda: call("GET", f"/api/simulation/{sid}/run-status")["data"], lambda d: d.get("runner_status") in ("completed", "stopped"),
+    # MiroFish 的模拟脚本跑完所有轮次后进入“等待命令模式”（供采访用），进程不退出，runner_status 一直是 running。
+    # 两个平台都报完成后，发 close-env 让它优雅退出；10 分钟还没退出就 /stop。之后等到 completed/stopped 才能生成报告。
+    ENDS = {"closed": 0.0, "stopped": False}
+
+    def run_status():
+        d = call("GET", f"/api/simulation/{sid}/run-status")["data"]
+        if d.get("runner_status") == "running" and d.get("twitter_completed") and d.get("reddit_completed"):
+            if not ENDS["closed"]:
+                ENDS["closed"] = time.time(); log("两个平台都已跑完，发送 close-env")
+                try: log("close-env", json.dumps(call("POST", "/api/simulation/close-env", {"simulation_id": sid, "timeout": 120}, timeout=300), ensure_ascii=False)[:300])
+                except Exception as e: log("close-env 出错", e)
+            elif not ENDS["stopped"] and time.time() - ENDS["closed"] > 600:
+                ENDS["stopped"] = True; log("close-env 后 10 分钟仍未退出，发送 stop")
+                try: log("stop", json.dumps(call("POST", "/api/simulation/stop", {"simulation_id": sid}, timeout=300), ensure_ascii=False)[:300])
+                except Exception as e: log("stop 出错", e)
+        return d
+    rs = poll(run_status, lambda d: d.get("runner_status") in ("completed", "stopped"),
               lambda d: d.get("runner_status") == "failed", every=30, what="运行")
+    status["steps"]["run_end"] = rs.get("runner_status"); status["steps"]["actions"] = rs.get("total_actions_count")
     save("05_run_status.json", rs)
     for name, path in (("06_timeline.json", f"/api/simulation/{sid}/timeline"), ("07_agent_stats.json", f"/api/simulation/{sid}/agent-stats"),
                        ("08_posts.json", f"/api/simulation/{sid}/posts?limit=500"), ("09_comments.json", f"/api/simulation/{sid}/comments?limit=500"),
@@ -99,7 +116,11 @@ try:
         try: save(name, call("GET", path)["data"])
         except Exception as e: log(name, "导出失败", e)
     # 6 报告
-    r = call("POST", "/api/report/generate", {"simulation_id": sid})
+    for i in range(40):  # 图谱写入未排空时后端返回 409，最多等 20 分钟
+        try: r = call("POST", "/api/report/generate", {"simulation_id": sid}); break
+        except urllib.error.HTTPError as e:
+            if e.code != 409 or i == 39: raise
+            time.sleep(30)
     rtid = r["data"].get("task_id"); rid = r["data"].get("report_id")
     poll(lambda: call("POST", "/api/report/generate/status", {"task_id": rtid, "simulation_id": sid})["data"],
          lambda d: d.get("status") == "completed", lambda d: d.get("status") == "failed", every=20, what="报告")
