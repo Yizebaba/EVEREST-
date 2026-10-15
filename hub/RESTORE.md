@@ -420,3 +420,8 @@
 - 同步任务 403：任务会话对本仓库没有 gh 权限（回执原文：gh api HTTP 403）。hub_sync.py 改为先用 raw.githubusercontent.com（公开仓库）读文件，运行记录取 events 分支 hub/ops.json；任务说明改为用 curl 取脚本。在禁用 gh 的环境实测能生成全部 10 个文档。
 - 测试：无头浏览器 + 模拟 claude 运行时（权限从 prompt 开始，连接器返回 Worker 真实数据）：0 个脚本错误，7 个连接器调用都收到数据，底部栏 全部 927 / 尼泊尔 771 / 证据包 9；拒绝授权时页头正确提示。
 - 复原：git revert 本提交；页面回 Version 79；update_trigger 恢复旧说明。
+
+## 58 · 2026-10-16 MiroFish 第四次运行与“只生成报告”模式
+- 38769313536（00:28–01:22）：setsid 与 close-env 修复生效——20 轮模拟跑完（133 个智能体，332 次动作，内存峰值约 10/16 GB，没再被杀），close-env 后 30 秒状态变为 completed；报告阶段 DeepSeek 返回 402（余额不足），没有报告。产物（本体、图谱、人设、配置、时间线、帖子、动作、sys.log）已存 events 分支 mirofish/20261015T162932Z。
+- 新增：工作流结束时把 mf/backend/uploads（模拟状态）存为运行产物 mirofish-state（14 天）；输入 report_only_run + report_only_sim 时恢复它，驱动跳过图谱和模拟，只调用报告接口，省额度。
+- 复原：git revert 本提交。

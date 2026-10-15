@@ -9,8 +9,11 @@ on:
       scenario: { description: "combined / everest / global / strategy", default: "combined" }
       max_rounds: { description: "模拟轮数（MiroFish 建议先小于 40）", default: "20" }
       mirofish_ref: { description: "MiroFish 提交号（固定版本）", default: "7657031ac01184afe2cb220f5ee3545573b5e843" }
+      report_only_run: { description: "只生成报告：上次运行的 run id（从它保存的模拟状态继续，不重跑模拟）", default: "" }
+      report_only_sim: { description: "只生成报告：模拟编号 sim_xxx", default: "" }
 permissions:
   contents: write
+  actions: read
 concurrency:
   group: mirofish
   cancel-in-progress: false
@@ -44,6 +47,14 @@ jobs:
         run: |
           git clone -q https://github.com/666ghj/MiroFish.git mf && cd mf && git checkout -q "${{ github.event.inputs.mirofish_ref }}"
           cd backend && uv sync --frozen || uv sync
+      - name: Restore simulation state (report-only)
+        if: env.MISSING != '1' && github.event.inputs.report_only_run != ''
+        uses: actions/download-artifact@v4
+        with:
+          name: mirofish-state
+          path: mf/backend/uploads
+          run-id: ${{ github.event.inputs.report_only_run }}
+          github-token: ${{ github.token }}
       - name: Start backend and run
         if: env.MISSING != '1'
         env:
@@ -51,6 +62,7 @@ jobs:
           LLM_BASE_URL: ${{ secrets.LLM_BASE_URL }}
           LLM_MODEL_NAME: ${{ secrets.LLM_MODEL_NAME }}
           ZEP_API_KEY: ${{ secrets.ZEP_API_KEY }}
+          MF_REPORT_ONLY: ${{ github.event.inputs.report_only_sim }}
         run: |
           cd mf/backend
           printf 'LLM_API_KEY=%s\nLLM_BASE_URL=%s\nLLM_MODEL_NAME=%s\nZEP_API_KEY=%s\n' "$LLM_API_KEY" "$LLM_BASE_URL" "$LLM_MODEL_NAME" "$ZEP_API_KEY" > ../.env
@@ -69,6 +81,15 @@ jobs:
           # 日志里不能有密钥
           for f in mf_out/backend.log mf_out/run.log; do [ -f "$f" ] && for k in "$LLM_API_KEY" "$ZEP_API_KEY"; do [ -n "$k" ] && sed -i "s|$k|***|g" "$f" || true; done; done
           rm -f mf/.env
+      - name: Keep simulation state for a later report-only run (14 days)
+        # 模拟状态（项目、模拟数据库、配置）在 mf/backend/uploads；图谱在 Zep 云端。报告失败（如余额不足）时，下次只需生成报告，不用重跑模拟
+        if: always() && env.MISSING != '1'
+        uses: actions/upload-artifact@v4
+        with:
+          name: mirofish-state
+          path: mf/backend/uploads
+          retention-days: 14
+          if-no-files-found: ignore
       - name: Save to events branch (mirofish/<UTC time>/)
         if: always()
         env:   # 只用来在推送前把日志里的密钥抹掉

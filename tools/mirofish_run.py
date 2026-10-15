@@ -65,59 +65,65 @@ def poll(fn, done, fail, every=15, limit=3 * 3600, what=""):
     raise TimeoutError(what + " 超时")
 
 
+RO = os.environ.get("MF_REPORT_ONLY", "").strip()
 status = {"started": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime()), "max_rounds": ROUNDS, "steps": {}}
 try:
-    seeds = sorted(os.path.join(IN, "seed", f) for f in os.listdir(os.path.join(IN, "seed")))
-    req = open(os.path.join(IN, "requirement.txt")).read(); ctx = open(os.path.join(IN, "context.txt")).read()
-    # 1 本体
-    r = upload("/api/graph/ontology/generate", seeds, {"simulation_requirement": req, "project_name": "EVEREST 证据链推演 " + time.strftime("%Y-%m-%d"), "additional_context": ctx})
-    if not r.get("success"): raise RuntimeError("本体生成失败：" + json.dumps(r, ensure_ascii=False)[:500])
-    pid = r["data"]["project_id"]; save("01_ontology.json", r["data"]); status["steps"]["ontology"] = pid; log("project", pid)
-    # 2 图谱
-    r = call("POST", "/api/graph/build", {"project_id": pid, "graph_name": "EVEREST evidence graph"})
-    tid = r["data"]["task_id"]
-    t = poll(lambda: call("GET", f"/api/graph/task/{tid}")["data"], lambda d: d.get("status") == "completed", lambda d: d.get("status") == "failed", what="图谱")
-    proj = call("GET", f"/api/graph/project/{pid}")["data"]; gid = proj.get("graph_id"); status["steps"]["graph"] = gid; log("graph", gid)
-    try: save("02_graph.json", call("GET", f"/api/graph/data/{gid}")["data"])
-    except Exception as e: log("图谱数据导出失败", e)
-    # 3 模拟
-    r = call("POST", "/api/simulation/create", {"project_id": pid, "graph_id": gid, "enable_twitter": True, "enable_reddit": True})
-    sid = r["data"]["simulation_id"]; status["steps"]["simulation"] = sid; log("simulation", sid)
-    # 4 准备
-    r = call("POST", "/api/simulation/prepare", {"simulation_id": sid, "use_llm_for_profiles": True, "parallel_profile_count": 5})
-    ptid = (r.get("data") or {}).get("task_id")
-    poll(lambda: call("POST", "/api/simulation/prepare/status", {"task_id": ptid, "simulation_id": sid})["data"],
-         lambda d: d.get("status") in ("completed", "ready") or d.get("already_prepared"), lambda d: d.get("status") == "failed", what="准备")
-    for name, path in (("03_profiles.json", f"/api/simulation/{sid}/profiles"), ("04_config.json", f"/api/simulation/{sid}/config")):
-        try: save(name, call("GET", path)["data"])
-        except Exception as e: log(name, "导出失败", e)
-    # 5 运行
-    call("POST", "/api/simulation/start", {"simulation_id": sid, "platform": "parallel", "max_rounds": ROUNDS, "enable_graph_memory_update": True})
-    # MiroFish 的模拟脚本跑完所有轮次后进入“等待命令模式”（供采访用），进程不退出，runner_status 一直是 running。
-    # 两个平台都报完成后，发 close-env 让它优雅退出；10 分钟还没退出就 /stop。之后等到 completed/stopped 才能生成报告。
-    ENDS = {"closed": 0.0, "stopped": False}
+    if RO:   # 只生成报告：用上次运行保存的模拟状态（mf/backend/uploads），不重跑图谱和模拟，省模型额度
+        sid = RO; status["steps"]["report_only"] = sid; log("只生成报告，模拟", sid)
+        rs = call("GET", f"/api/simulation/{sid}/run-status")["data"]
+        log("运行状态", json.dumps({k: rs.get(k) for k in ("runner_status", "current_round", "total_rounds", "total_actions_count")}, ensure_ascii=False))
+    else:
+        seeds = sorted(os.path.join(IN, "seed", f) for f in os.listdir(os.path.join(IN, "seed")))
+        req = open(os.path.join(IN, "requirement.txt")).read(); ctx = open(os.path.join(IN, "context.txt")).read()
+        # 1 本体
+        r = upload("/api/graph/ontology/generate", seeds, {"simulation_requirement": req, "project_name": "EVEREST 证据链推演 " + time.strftime("%Y-%m-%d"), "additional_context": ctx})
+        if not r.get("success"): raise RuntimeError("本体生成失败：" + json.dumps(r, ensure_ascii=False)[:500])
+        pid = r["data"]["project_id"]; save("01_ontology.json", r["data"]); status["steps"]["ontology"] = pid; log("project", pid)
+        # 2 图谱
+        r = call("POST", "/api/graph/build", {"project_id": pid, "graph_name": "EVEREST evidence graph"})
+        tid = r["data"]["task_id"]
+        t = poll(lambda: call("GET", f"/api/graph/task/{tid}")["data"], lambda d: d.get("status") == "completed", lambda d: d.get("status") == "failed", what="图谱")
+        proj = call("GET", f"/api/graph/project/{pid}")["data"]; gid = proj.get("graph_id"); status["steps"]["graph"] = gid; log("graph", gid)
+        try: save("02_graph.json", call("GET", f"/api/graph/data/{gid}")["data"])
+        except Exception as e: log("图谱数据导出失败", e)
+        # 3 模拟
+        r = call("POST", "/api/simulation/create", {"project_id": pid, "graph_id": gid, "enable_twitter": True, "enable_reddit": True})
+        sid = r["data"]["simulation_id"]; status["steps"]["simulation"] = sid; log("simulation", sid)
+        # 4 准备
+        r = call("POST", "/api/simulation/prepare", {"simulation_id": sid, "use_llm_for_profiles": True, "parallel_profile_count": 5})
+        ptid = (r.get("data") or {}).get("task_id")
+        poll(lambda: call("POST", "/api/simulation/prepare/status", {"task_id": ptid, "simulation_id": sid})["data"],
+             lambda d: d.get("status") in ("completed", "ready") or d.get("already_prepared"), lambda d: d.get("status") == "failed", what="准备")
+        for name, path in (("03_profiles.json", f"/api/simulation/{sid}/profiles"), ("04_config.json", f"/api/simulation/{sid}/config")):
+            try: save(name, call("GET", path)["data"])
+            except Exception as e: log(name, "导出失败", e)
+        # 5 运行
+        call("POST", "/api/simulation/start", {"simulation_id": sid, "platform": "parallel", "max_rounds": ROUNDS, "enable_graph_memory_update": True})
+        # MiroFish 的模拟脚本跑完所有轮次后进入“等待命令模式”（供采访用），进程不退出，runner_status 一直是 running。
+        # 两个平台都报完成后，发 close-env 让它优雅退出；10 分钟还没退出就 /stop。之后等到 completed/stopped 才能生成报告。
+        ENDS = {"closed": 0.0, "stopped": False}
 
-    def run_status():
-        d = call("GET", f"/api/simulation/{sid}/run-status")["data"]
-        if d.get("runner_status") == "running" and d.get("twitter_completed") and d.get("reddit_completed"):
-            if not ENDS["closed"]:
-                ENDS["closed"] = time.time(); log("两个平台都已跑完，发送 close-env")
-                try: log("close-env", json.dumps(call("POST", "/api/simulation/close-env", {"simulation_id": sid, "timeout": 120}, timeout=300), ensure_ascii=False)[:300])
-                except Exception as e: log("close-env 出错", e)
-            elif not ENDS["stopped"] and time.time() - ENDS["closed"] > 600:
-                ENDS["stopped"] = True; log("close-env 后 10 分钟仍未退出，发送 stop")
-                try: log("stop", json.dumps(call("POST", "/api/simulation/stop", {"simulation_id": sid}, timeout=300), ensure_ascii=False)[:300])
-                except Exception as e: log("stop 出错", e)
-        return d
-    rs = poll(run_status, lambda d: d.get("runner_status") in ("completed", "stopped"),
-              lambda d: d.get("runner_status") == "failed", every=30, what="运行")
-    status["steps"]["run_end"] = rs.get("runner_status"); status["steps"]["actions"] = rs.get("total_actions_count")
-    save("05_run_status.json", rs)
-    for name, path in (("06_timeline.json", f"/api/simulation/{sid}/timeline"), ("07_agent_stats.json", f"/api/simulation/{sid}/agent-stats"),
-                       ("08_posts.json", f"/api/simulation/{sid}/posts?limit=500"), ("09_comments.json", f"/api/simulation/{sid}/comments?limit=500"),
-                       ("10_actions.json", f"/api/simulation/{sid}/actions?limit=2000")):
-        try: save(name, call("GET", path)["data"])
-        except Exception as e: log(name, "导出失败", e)
+        def run_status():
+            d = call("GET", f"/api/simulation/{sid}/run-status")["data"]
+            if d.get("runner_status") == "running" and d.get("twitter_completed") and d.get("reddit_completed"):
+                if not ENDS["closed"]:
+                    ENDS["closed"] = time.time(); log("两个平台都已跑完，发送 close-env")
+                    try: log("close-env", json.dumps(call("POST", "/api/simulation/close-env", {"simulation_id": sid, "timeout": 120}, timeout=300), ensure_ascii=False)[:300])
+                    except Exception as e: log("close-env 出错", e)
+                elif not ENDS["stopped"] and time.time() - ENDS["closed"] > 600:
+                    ENDS["stopped"] = True; log("close-env 后 10 分钟仍未退出，发送 stop")
+                    try: log("stop", json.dumps(call("POST", "/api/simulation/stop", {"simulation_id": sid}, timeout=300), ensure_ascii=False)[:300])
+                    except Exception as e: log("stop 出错", e)
+            return d
+        rs = poll(run_status, lambda d: d.get("runner_status") in ("completed", "stopped"),
+                  lambda d: d.get("runner_status") == "failed", every=30, what="运行")
+        status["steps"]["run_end"] = rs.get("runner_status"); status["steps"]["actions"] = rs.get("total_actions_count")
+        save("05_run_status.json", rs)
+        for name, path in (("06_timeline.json", f"/api/simulation/{sid}/timeline"), ("07_agent_stats.json", f"/api/simulation/{sid}/agent-stats"),
+                           ("08_posts.json", f"/api/simulation/{sid}/posts?limit=500"), ("09_comments.json", f"/api/simulation/{sid}/comments?limit=500"),
+                           ("10_actions.json", f"/api/simulation/{sid}/actions?limit=2000")):
+            try: save(name, call("GET", path)["data"])
+            except Exception as e: log(name, "导出失败", e)
     # 6 报告
     for i in range(40):  # 图谱写入未排空时后端返回 409，最多等 20 分钟
         try: r = call("POST", "/api/report/generate", {"simulation_id": sid}); break
