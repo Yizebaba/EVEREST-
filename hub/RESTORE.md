@@ -405,3 +405,4 @@
 - InSAR 每日管线：Worker 每 6 小时写 hazards/tick.txt “insar” → events 分支 hazards-tick 工作流启动 daily-pipeline（run_auto_coder=false）；daily-pipeline 加并发组，GitHub 定时作兜底。
 - 定时任务：“总览实时同步”改为后备，每次写回执 live/sync，只在确认已提交时算成功；“总览半点同步（轻量）”停用。
 - 复原：git revert 本提交与 events 分支 fe12e52；update_trigger 恢复旧说明；页面回 Version 77。
+- 补充（v79）：顶部统计栏在页面上是隐藏的（calm 模式 CSS），“链路”改为页头按钮 #linkPill；页面里灾种扫描频率的文字从“每小时”改为“每 20 分钟”（中英文）；自检里坡面时间改读 cached_at。本地无头浏览器加载测试 0 个脚本错误，并用连接器真实返回的数据跑过一遍。
