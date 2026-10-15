@@ -1,0 +1,641 @@
+{
+ "analysis_summary": "围绕 EVEREST 平台及其灾害证据链推广、MiroFish 接入决策等推演需求，识别出可在社交媒体发声和互动的核心主体：开源项目团队、多智能体推演平台、政府机构、国际组织、科研机构、媒体、风险暴露企业（保险与水电）、登山救援组织，并以 Person 和 Organization 作为兜底。关系类型覆盖监管、报道、评论、支持、反对、合作、数据提供、平台使用、资助和隶属，能够支撑舆论事件中信息传播、质疑、采用或抵制的模拟。",
+ "files": [
+  {
+   "filename": "01_平台概况与运行实况.md",
+   "size": 2699
+  },
+  {
+   "filename": "02_数据源与实测状态.md",
+   "size": 4539
+  },
+  {
+   "filename": "03_事件证据包与全球灾种记录.md",
+   "size": 27347
+  },
+  {
+   "filename": "04_相关方与生态.md",
+   "size": 2768
+  }
+ ],
+ "ontology": {
+  "edge_types": [
+   {
+    "attributes": [
+     {
+      "description": "Additional details about this ontology type.",
+      "name": "details",
+      "type": "text"
+     }
+    ],
+    "description": "政府机构监管企业或组织的行为。",
+    "name": "REGULATES",
+    "source_targets": [
+     {
+      "source": "GovernmentAgency",
+      "target": "RiskExposedEnterprise"
+     },
+     {
+      "source": "GovernmentAgency",
+      "target": "OpenSourceProject"
+     },
+     {
+      "source": "GovernmentAgency",
+      "target": "MountaineeringOrganization"
+     }
+    ]
+   },
+   {
+    "attributes": [
+     {
+      "description": "Additional details about this ontology type.",
+      "name": "details",
+      "type": "text"
+     }
+    ],
+    "description": "媒体机构报道、评论特定主体或事件。",
+    "name": "REPORTS_ON",
+    "source_targets": [
+     {
+      "source": "MediaOutlet",
+      "target": "OpenSourceProject"
+     },
+     {
+      "source": "MediaOutlet",
+      "target": "GovernmentAgency"
+     },
+     {
+      "source": "MediaOutlet",
+      "target": "InternationalOrganization"
+     },
+     {
+      "source": "MediaOutlet",
+      "target": "RiskExposedEnterprise"
+     },
+     {
+      "source": "MediaOutlet",
+      "target": "MountaineeringOrganization"
+     },
+     {
+      "source": "MediaOutlet",
+      "target": "Person"
+     }
+    ]
+   },
+   {
+    "attributes": [
+     {
+      "description": "Additional details about this ontology type.",
+      "name": "details",
+      "type": "text"
+     }
+    ],
+    "description": "在社交媒体上评论、回应或质疑另一主体的发言。",
+    "name": "COMMENTS_ON",
+    "source_targets": [
+     {
+      "source": "Person",
+      "target": "OpenSourceProject"
+     },
+     {
+      "source": "Person",
+      "target": "AisimulationPlatform"
+     },
+     {
+      "source": "Organization",
+      "target": "OpenSourceProject"
+     },
+     {
+      "source": "OpenSourceProject",
+      "target": "AisimulationPlatform"
+     },
+     {
+      "source": "GovernmentAgency",
+      "target": "OpenSourceProject"
+     },
+     {
+      "source": "ResearchInstitution",
+      "target": "OpenSourceProject"
+     },
+     {
+      "source": "MediaOutlet",
+      "target": "OpenSourceProject"
+     }
+    ]
+   },
+   {
+    "attributes": [
+     {
+      "description": "Additional details about this ontology type.",
+      "name": "details",
+      "type": "text"
+     }
+    ],
+    "description": "支持某一主体、平台或决策。",
+    "name": "SUPPORTS",
+    "source_targets": [
+     {
+      "source": "Person",
+      "target": "OpenSourceProject"
+     },
+     {
+      "source": "Organization",
+      "target": "OpenSourceProject"
+     },
+     {
+      "source": "ResearchInstitution",
+      "target": "OpenSourceProject"
+     },
+     {
+      "source": "InternationalOrganization",
+      "target": "OpenSourceProject"
+     },
+     {
+      "source": "GovernmentAgency",
+      "target": "OpenSourceProject"
+     },
+     {
+      "source": "OpenSourceProject",
+      "target": "AisimulationPlatform"
+     }
+    ]
+   },
+   {
+    "attributes": [
+     {
+      "description": "Additional details about this ontology type.",
+      "name": "details",
+      "type": "text"
+     }
+    ],
+    "description": "反对、质疑或抵制某一主体、平台或决策。",
+    "name": "OPPOSES",
+    "source_targets": [
+     {
+      "source": "Person",
+      "target": "OpenSourceProject"
+     },
+     {
+      "source": "Organization",
+      "target": "OpenSourceProject"
+     },
+     {
+      "source": "GovernmentAgency",
+      "target": "OpenSourceProject"
+     },
+     {
+      "source": "ResearchInstitution",
+      "target": "OpenSourceProject"
+     },
+     {
+      "source": "OpenSourceProject",
+      "target": "AisimulationPlatform"
+     }
+    ]
+   },
+   {
+    "attributes": [
+     {
+      "description": "Additional details about this ontology type.",
+      "name": "details",
+      "type": "text"
+     }
+    ],
+    "description": "两个主体之间的合作、数据共享或联合行动。",
+    "name": "COLLABORATES_WITH",
+    "source_targets": [
+     {
+      "source": "OpenSourceProject",
+      "target": "ResearchInstitution"
+     },
+     {
+      "source": "OpenSourceProject",
+      "target": "InternationalOrganization"
+     },
+     {
+      "source": "OpenSourceProject",
+      "target": "AisimulationPlatform"
+     },
+     {
+      "source": "GovernmentAgency",
+      "target": "InternationalOrganization"
+     },
+     {
+      "source": "ResearchInstitution",
+      "target": "InternationalOrganization"
+     },
+     {
+      "source": "MountaineeringOrganization",
+      "target": "GovernmentAgency"
+     }
+    ]
+   },
+   {
+    "attributes": [
+     {
+      "description": "Additional details about this ontology type.",
+      "name": "details",
+      "type": "text"
+     }
+    ],
+    "description": "数据提供方向平台或研究项目提供公开数据。",
+    "name": "PROVIDES_DATA_TO",
+    "source_targets": [
+     {
+      "source": "GovernmentAgency",
+      "target": "OpenSourceProject"
+     },
+     {
+      "source": "ResearchInstitution",
+      "target": "OpenSourceProject"
+     },
+     {
+      "source": "InternationalOrganization",
+      "target": "OpenSourceProject"
+     },
+     {
+      "source": "Organization",
+      "target": "OpenSourceProject"
+     }
+    ]
+   },
+   {
+    "attributes": [
+     {
+      "description": "Additional details about this ontology type.",
+      "name": "details",
+      "type": "text"
+     }
+    ],
+    "description": "相关方使用平台的服务、数据或推演能力。",
+    "name": "USES_PLATFORM",
+    "source_targets": [
+     {
+      "source": "GovernmentAgency",
+      "target": "OpenSourceProject"
+     },
+     {
+      "source": "ResearchInstitution",
+      "target": "OpenSourceProject"
+     },
+     {
+      "source": "MediaOutlet",
+      "target": "OpenSourceProject"
+     },
+     {
+      "source": "RiskExposedEnterprise",
+      "target": "OpenSourceProject"
+     },
+     {
+      "source": "MountaineeringOrganization",
+      "target": "OpenSourceProject"
+     },
+     {
+      "source": "Person",
+      "target": "OpenSourceProject"
+     },
+     {
+      "source": "Organization",
+      "target": "AisimulationPlatform"
+     }
+    ]
+   },
+   {
+    "attributes": [
+     {
+      "description": "Additional details about this ontology type.",
+      "name": "details",
+      "type": "text"
+     }
+    ],
+    "description": "资助项目、研究或组织。",
+    "name": "FUNDS",
+    "source_targets": [
+     {
+      "source": "InternationalOrganization",
+      "target": "OpenSourceProject"
+     },
+     {
+      "source": "GovernmentAgency",
+      "target": "ResearchInstitution"
+     },
+     {
+      "source": "InternationalOrganization",
+      "target": "ResearchInstitution"
+     }
+    ]
+   },
+   {
+    "attributes": [
+     {
+      "description": "Additional details about this ontology type.",
+      "name": "details",
+      "type": "text"
+     }
+    ],
+    "description": "个人隶属于某个组织。",
+    "name": "AFFILIATED_WITH",
+    "source_targets": [
+     {
+      "source": "Person",
+      "target": "Organization"
+     },
+     {
+      "source": "Person",
+      "target": "GovernmentAgency"
+     },
+     {
+      "source": "Person",
+      "target": "ResearchInstitution"
+     },
+     {
+      "source": "Person",
+      "target": "MediaOutlet"
+     },
+     {
+      "source": "Person",
+      "target": "OpenSourceProject"
+     },
+     {
+      "source": "Person",
+      "target": "AisimulationPlatform"
+     }
+    ]
+   }
+  ],
+  "entity_types": [
+   {
+    "attributes": [
+     {
+      "description": "项目名称",
+      "name": "project_name",
+      "type": "text"
+     },
+     {
+      "description": "代码仓库地址",
+      "name": "repo_url",
+      "type": "text"
+     },
+     {
+      "description": "项目原则，如只监测不预测",
+      "name": "principle",
+      "type": "text"
+     }
+    ],
+    "description": "开源项目团队，运营数据审计、证据链或存证工具（如 EVEREST、OpenTimestamps、Sigstore），在 GitHub 和社媒发布更新。",
+    "examples": [
+     "EVEREST 平台团队",
+     "OpenTimestamps",
+     "Sigstore"
+    ],
+    "name": "OpenSourceProject"
+   },
+   {
+    "attributes": [
+     {
+      "description": "平台名称",
+      "name": "platform_name",
+      "type": "text"
+     },
+     {
+      "description": "核心能力，如多智能体推演",
+      "name": "capability",
+      "type": "text"
+     },
+     {
+      "description": "集成方式，如 API、插件",
+      "name": "integration_type",
+      "type": "text"
+     }
+    ],
+    "description": "多智能体社会推演引擎平台，提供模拟、预测或推演能力（如 MiroFish），可被集成或讨论。",
+    "examples": [
+     "MiroFish",
+     "其他多智能体推演引擎"
+    ],
+    "name": "AisimulationPlatform"
+   },
+   {
+    "attributes": [
+     {
+      "description": "机构名称",
+      "name": "agency_name",
+      "type": "text"
+     },
+     {
+      "description": "所属国家",
+      "name": "country",
+      "type": "text"
+     },
+     {
+      "description": "管辖范围或职能",
+      "name": "jurisdiction",
+      "type": "text"
+     }
+    ],
+    "description": "国家或地方层面的政府机构、监管部门、公共事业单位，如 NDRRMA、DHM、NSC、保险管理局、NEA。",
+    "examples": [
+     "尼泊尔国家减灾管理局（NDRRMA）",
+     "尼泊尔水文气象局（DHM）",
+     "尼泊尔国家地震中心（NSC）",
+     "尼泊尔保险管理局"
+    ],
+    "name": "GovernmentAgency"
+   },
+   {
+    "attributes": [
+     {
+      "description": "组织名称",
+      "name": "org_name",
+      "type": "text"
+     },
+     {
+      "description": "覆盖范围，如区域、全球",
+      "name": "scope",
+      "type": "text"
+     },
+     {
+      "description": "核心职能",
+      "name": "mandate",
+      "type": "text"
+     }
+    ],
+    "description": "跨政府或国际非政府组织，负责区域研究、灾害协调、标准制定，如 ICIMOD、OCHA、UNDRR、IFRC、世界银行。",
+    "examples": [
+     "ICIMOD",
+     "OCHA",
+     "UNDRR",
+     "IFRC",
+     "世界银行"
+    ],
+    "name": "InternationalOrganization"
+   },
+   {
+    "attributes": [
+     {
+      "description": "机构名称",
+      "name": "institution_name",
+      "type": "text"
+     },
+     {
+      "description": "研究领域",
+      "name": "field",
+      "type": "text"
+     },
+     {
+      "description": "数据角色，如提供波形、目录",
+      "name": "data_role",
+      "type": "text"
+     }
+    ],
+    "description": "从事地球科学、灾害、冰川研究的学术或政府科研机构，如 USGS、EMSC、GEOFON、NAST、OGS/EvK2CNR、大学。",
+    "examples": [
+     "USGS",
+     "EMSC",
+     "GEOFON",
+     "NAST",
+     "OGS/EvK2CNR"
+    ],
+    "name": "ResearchInstitution"
+   },
+   {
+    "attributes": [
+     {
+      "description": "媒体名称",
+      "name": "outlet_name",
+      "type": "text"
+     },
+     {
+      "description": "媒体类型，如报纸、电视台、自媒体",
+      "name": "media_type",
+      "type": "text"
+     },
+     {
+      "description": "覆盖范围或影响力",
+      "name": "reach",
+      "type": "text"
+     }
+    ],
+    "description": "发布新闻报道、事实核查的媒体机构或自媒体账号，在舆论中传播信息。",
+    "examples": [
+     "Al Jazeera",
+     "The Himalayan Times",
+     "Kathmandu Post",
+     "ReliefWeb"
+    ],
+    "name": "MediaOutlet"
+   },
+   {
+    "attributes": [
+     {
+      "description": "企业名称",
+      "name": "entity_name",
+      "type": "text"
+     },
+     {
+      "description": "行业，如保险、水电",
+      "name": "sector",
+      "type": "text"
+     },
+     {
+      "description": "风险暴露类型，如参数保险触发条件",
+      "name": "risk_exposure",
+      "type": "text"
+     }
+    ],
+    "description": "面临灾害风险的金融与能源企业，包括保险公司、再保险公司、水电站业主（如 NEA、IPPAN、Upper Trishuli-1）。",
+    "examples": [
+     "尼泊尔保险管理局监管下的保险公司",
+     "Upper Trishuli-1 水电站",
+     "尼泊尔电力局（NEA）",
+     "独立发电商协会（IPPAN）"
+    ],
+    "name": "RiskExposedEnterprise"
+   },
+   {
+    "attributes": [
+     {
+      "description": "组织名称",
+      "name": "org_name",
+      "type": "text"
+     },
+     {
+      "description": "职能，如救援、环保、运营",
+      "name": "role",
+      "type": "text"
+     },
+     {
+      "description": "活动区域，如珠峰地区",
+      "name": "area",
+      "type": "text"
+     }
+    ],
+    "description": "负责登山管理、救援、环保的组织，如 SPCC、HRA、尼泊尔登山协会、探险运营者。",
+    "examples": [
+     "萨加玛塔污染控制委员会（SPCC）",
+     "喜马拉雅救援协会（HRA）",
+     "尼泊尔登山协会",
+     "探险运营者"
+    ],
+    "name": "MountaineeringOrganization"
+   },
+   {
+    "attributes": [
+     {
+      "description": "姓名",
+      "name": "full_name",
+      "type": "text"
+     },
+     {
+      "description": "角色或身份",
+      "name": "role",
+      "type": "text"
+     },
+     {
+      "description": "所属机构",
+      "name": "affiliation",
+      "type": "text"
+     }
+    ],
+    "description": "任何自然人个体，当不属于其他更具体的人物类型时归入此类，如专家、官员、登山者、网友。",
+    "examples": [
+     "某位尼泊尔官员",
+     "登山者",
+     "网友",
+     "专家"
+    ],
+    "name": "Person"
+   },
+   {
+    "attributes": [
+     {
+      "description": "组织名称",
+      "name": "org_name",
+      "type": "text"
+     },
+     {
+      "description": "组织类型",
+      "name": "org_type",
+      "type": "text"
+     },
+     {
+      "description": "所在地",
+      "name": "location",
+      "type": "text"
+     }
+    ],
+    "description": "任何组织机构，当不属于其他更具体的组织类型时归入此类，如小型 NGO、临时团体、数据提供方。",
+    "examples": [
+     "某个小型 NGO",
+     "临时救援队",
+     "数据提供方",
+     "开源社区团队"
+    ],
+    "name": "Organization"
+   }
+  ]
+ },
+ "project_id": "proj_8c7420548b55",
+ "project_name": "EVEREST 证据链推演 2026-10-15",
+ "total_text_length": 23332
+}
