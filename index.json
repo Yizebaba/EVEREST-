@@ -5171,6 +5171,51 @@
       "why": {},
       "at": "2026-10-15T03:29:17Z"
      }
+    },
+    {
+     "sha256": "b856775b4e472188fc68532d96952f43f5a6805c4eec8698b230089e2c3c66e7",
+     "file": "events/archive/usgs-us6000u1j7_b856775b4e47.json",
+     "ots": "events/archive/usgs-us6000u1j7_b856775b4e47.json.ots",
+     "stamped": "2026-10-15T03:48:35Z",
+     "status": "pending",
+     "err": null,
+     "tsa": [
+      {
+       "tsa": "FreeTSA",
+       "file": "events/archive/usgs-us6000u1j7_b856775b4e47.json.FreeTSA.tsr",
+       "time": "Oct 15 03:52:03 2026 GMT"
+      },
+      {
+       "tsa": "DigiCert",
+       "file": "events/archive/usgs-us6000u1j7_b856775b4e47.json.DigiCert.tsr",
+       "time": "Oct 15 03:52:03 2026 GMT"
+      }
+     ],
+     "sigstore": {
+      "file": "events/archive/usgs-us6000u1j7_b856775b4e47.json.sigstore.json",
+      "identity": "https://github.com/Yizebaba/EVEREST-/.github/workflows/evidence.yml@refs/heads/events",
+      "rekor_log_index": "3259111991",
+      "self_verified": true,
+      "rekor": "https://search.sigstore.dev/?logIndex=3259111991"
+     },
+     "verify": {
+      "checks": {
+       "sha256_python": true,
+       "sha256_coreutils": true,
+       "rfc3161_FreeTSA": true,
+       "rfc3161_DigiCert": true,
+       "sigstore_cosign": true,
+       "sigstore_python": true,
+       "ots_parse": true,
+       "prov": true,
+       "rocrate": true
+      },
+      "passed": 9,
+      "total": 9,
+      "failed": [],
+      "why": {},
+      "at": "2026-10-15T03:52:33Z"
+     }
     }
    ],
    "title": "USGS 记录的崩塌/滑坡 M3.9",
@@ -5182,11 +5227,73 @@
    "lon": 84.942,
    "v": 23,
    "man": "4f53cda18c2baa0c",
-   "n": 64,
-   "src_n": 3,
-   "built": "2026-10-15T03:18:38Z",
+   "n": 71,
+   "src_n": 10,
+   "built": "2026-10-15T03:48:35Z",
    "missing": 9
+  },
+  "news-flood-gorkha-2026-10-14": {
+   "ots": [
+    {
+     "sha256": "29aa65a8175b008b8f293dc00e7ba0029e66ba2b94a1dcd8fb2315025c5f2204",
+     "file": "events/archive/news-flood-gorkha-2026-10-14_29aa65a8175b.json",
+     "ots": "events/archive/news-flood-gorkha-2026-10-14_29aa65a8175b.json.ots",
+     "stamped": "2026-10-15T03:48:35Z",
+     "status": "pending",
+     "err": null,
+     "tsa": [
+      {
+       "tsa": "FreeTSA",
+       "file": "events/archive/news-flood-gorkha-2026-10-14_29aa65a8175b.json.FreeTSA.tsr",
+       "time": "Oct 15 03:50:27 2026 GMT"
+      },
+      {
+       "tsa": "DigiCert",
+       "file": "events/archive/news-flood-gorkha-2026-10-14_29aa65a8175b.json.DigiCert.tsr",
+       "time": "Oct 15 03:50:27 2026 GMT"
+      }
+     ],
+     "sigstore": {
+      "file": "events/archive/news-flood-gorkha-2026-10-14_29aa65a8175b.json.sigstore.json",
+      "identity": "https://github.com/Yizebaba/EVEREST-/.github/workflows/evidence.yml@refs/heads/events",
+      "rekor_log_index": "3259098194",
+      "self_verified": true,
+      "rekor": "https://search.sigstore.dev/?logIndex=3259098194"
+     },
+     "verify": {
+      "checks": {
+       "sha256_python": true,
+       "sha256_coreutils": true,
+       "rfc3161_FreeTSA": true,
+       "rfc3161_DigiCert": true,
+       "sigstore_cosign": true,
+       "sigstore_python": true,
+       "ots_parse": true,
+       "prov": true,
+       "rocrate": true
+      },
+      "passed": 9,
+      "total": 9,
+      "failed": [],
+      "why": {},
+      "at": "2026-10-15T03:52:35Z"
+     }
+    }
+   ],
+   "title": "Gorkha 洪水（新闻线索）",
+   "t": "2026-10-14T03:08:53Z",
+   "first_seen": "2026-10-15T03:47:57.830Z",
+   "kind": "洪水",
+   "place": "Gorkha",
+   "lat": 28.3,
+   "lon": 84.63,
+   "v": 23,
+   "man": "4f53cda18c2baa0c",
+   "n": 49,
+   "src_n": 5,
+   "built": "2026-10-15T03:48:35Z",
+   "missing": 11
   }
  },
- "updated": "2026-10-15T03:43:11Z"
+ "updated": "2026-10-15T03:48:35Z"
 }
