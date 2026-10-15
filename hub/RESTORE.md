@@ -398,3 +398,10 @@
 - 连接器：everest_events 收到 id="page:img|ops|lib|lit" 时返回这些数据（用已有工具和已有参数，避开 claude.ai 工具列表缓存；普通对话调用不受影响）。
 - 页面：hubApply() 统一处理数据库和连接器两条路，谁新用谁；连接器轮询：图 5 分钟、运行记录 3 分钟、工具库和文献 30 分钟。
 - 复原：git revert 本提交；页面回 Version 77。
+
+## 55 · 2026-10-16 全自动改造第 2–5 步（v78）
+- 全链路自检：cf-worker/src/hub.js hubHealth()，随 everest_snapshot 每分钟送到页面；页面顶部“链路”按钮显示正常段数或断了几段，点开看每段最后成功时间、时限、页面收到的每份数据走的是连接器还是数据库、数据库后备的最后一次真正写入（live/sync 回执）。
+- 写死内容：早期 6 条异常按实时数据核对“现在怎样”（anomLive）：IO.EVN、InSAR 两条显示已恢复/已修复，Kodari、阿伦河、Imja 仍停报；IO.EVN 波形改为 tools/evn_plot.py 每小时画最近 24 小时（hazards 工作流 → events hub/evn_24h.png → 连接器 page:img）；InSAR 图在出现更新的影像对时标明“图还没生成”。
+- InSAR 每日管线：Worker 每 6 小时写 hazards/tick.txt “insar” → events 分支 hazards-tick 工作流启动 daily-pipeline（run_auto_coder=false）；daily-pipeline 加并发组，GitHub 定时作兜底。
+- 定时任务：“总览实时同步”改为后备，每次写回执 live/sync，只在确认已提交时算成功；“总览半点同步（轻量）”停用。
+- 复原：git revert 本提交与 events 分支 fe12e52；update_trigger 恢复旧说明；页面回 Version 77。

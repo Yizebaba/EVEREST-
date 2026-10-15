@@ -660,7 +660,9 @@ function liveInit(db){if(LIVEON||!db)return;LIVEON=true;let rt=null,fs=null;cons
  db.doc("live/lib").onSnapshot(s=>{if(s.exists&&hubApply({lib:s.data()},"db"))render()},er);
  db.doc("live/lit").onSnapshot(s=>{if(s.exists&&hubApply({lit:s.data()},"db"))render()},er);
  db.doc("live/ops").onSnapshot(s=>{if(s.exists&&hubApply({ops:s.data()},"db"))render()},er);
- db.doc("mt_monitor/latest").onSnapshot(s=>{if(s.exists&&hubApply({mon:s.data()},"db"))render()},er)}
+ db.doc("mt_monitor/latest").onSnapshot(s=>{if(s.exists&&hubApply({mon:s.data()},"db"))render()},er);
+ db.doc("live/sync").onSnapshot(s=>{if(s.exists){SYNCR=s.data()}},er)}
+var SYNCR=null;
 /* v78：卫星图、摄像头、运行记录、设备在线、工具库、文献——连接器（everest_events id="page:…"）和数据库两条路都走这里，谁新用谁 */
 const HUBAT={};
 function hubApply(d,via){if(!d)return false;let ch=false;const t=new Date().toISOString(),mark=k=>{HUBAT[k]={t:t,via:via};ch=true};
@@ -669,6 +671,7 @@ function hubApply(d,via){if(!d)return false;let ch=false;const t=new Date().toIS
  const l=d.lib;if(l&&l.updated&&(!LIB||l.updated>LIB.updated)){LIB=l;mark("lib")}
  const li=d.lit;if(li&&li.h&&(!LIT||(li.generated||"")>(LIT.generated||"")||(li.h.length>LIT.h.length))){LIT=li;mark("lit")}
  const o=d.ops;if(o&&o.runs&&(!OPS||(o.updated||"")>(OPS.updated||""))){OPS=o;opsApply(o);mark("ops")}
+ const ev=d.evn;if(ev&&ev.ok&&ev.img&&(ev.generated||"")>((LIVE.plot||{}).generated||"")){LIVE.plot={img:ev.img,latest:ev.latest||ev.generated,generated:ev.generated,cover:ev.cover,live:true};mark("evn")}
  const m=d.mon;if(m&&m.items&&(!LIVE.maint||(m.updated||"")>(LIVE.maint.updated||""))){const it=m.items;LIVE.maint={updated:m.updated,n:Object.keys(it).length,off:Object.keys(it).filter(k=>!it[k].online).map(k=>({k:k,name:it[k].name,last:it[k].last}))};extRecalc();mark("mon")}
  return ch}
 
@@ -741,7 +744,7 @@ function xtErr(e){const c=e&&e.code;
 let LW=null;
 function liveWatch(){if(LW||!MCPNS||!MCPNS.watchTool)return;LW=[];
  const pl=r=>(r&&r.payload&&(r.payload.result||r.payload))||{};
- LW.push(MCPNS.watchTool(MCP_NAME,"everest_snapshot",null,ev=>{if(ev.type!=="data")return;const p=pl(ev.result);
+ LW.push(MCPNS.watchTool(MCP_NAME,"everest_snapshot",null,ev=>{if(ev.type!=="data")return;const p=pl(ev.result);if(p.health){HEALTH=p.health;HEALTH.seen=new Date().toISOString()}
   if(p.rt){liveApply(p.rt,p.status?Object.assign({t:new Date().toISOString()},p.status):null);XT.st="ok";XT.at=new Date().toISOString();XT.msg="";render()}},{refetchInterval:60000}));
  LW.push(MCPNS.watchTool(MCP_NAME,"everest_events",{days:60,full:true},ev=>{if(ev.type!=="data")return;const p=pl(ev.result);let ch=false;if(p.hz&&(!HZ||p.hz.updated>HZ.updated)){HZ=p.hz;ch=true}if(p.events&&evApply(p))ch=true;if(p.hzr&&hzrMerge(p.hzr))ch=true;if(ch)render()},{refetchInterval:120000}),
   MCPNS.watchTool(MCP_NAME,"everest_hazard_records",{},ev=>{if(ev.type!=="data")return;const d=pl(ev.result);if(d&&d.r&&hzrMerge(d))render()},{refetchInterval:90000}));
@@ -1253,7 +1256,7 @@ function flowHTML(){const SS=STAGES.map(st=>({st:st,L:FLW.filter(f=>f.stage===st
    return'<div class="sec">'+(i+1)+". "+esc(x.st.n)+' <span class="sub">'+esc(x.st.ph)+' · '+x.L.filter(f=>f.st==="H").length+"/"+x.L.length+'</span></div>'+rest.map(row).join("")
     +(hz.length?'<details><summary>'+Z("灾种扫描的 "+hz.length+" 个公开来源（正常 "+hz.filter(f=>f.st==="H").length+"）","The hazard scan's "+hz.length+" public sources ("+hz.filter(f=>f.st==="H").length+" OK)")+'</summary>'+hz.map(row).join("")+'</details>':"")
     +(x.st.id==="rt"?'<div class="sec">'+Z("卫星云图","Satellite images")+'</div>'+satImgHTML():"")
-    +(x.st.id==="chg"?(IOL?'<div class="sec">最新干涉结果</div><button class="lvimg" id="inImg" title="点开放大"><img src="'+LIVE.insar_img+'" alt="InSAR 干涉结果" style="width:100%;display:block;border-radius:6px;background:#fff"></button><div class="sub">上：相干性（越亮越稳定，雪冰区天然偏低）；中：缠绕相位；下：视线向位移（未参考，只看图样）。▲ 珠峰。</div><table class="lvt"><thead><tr><th>影像对</th><th>平均相干</th><th>相干≥0.3</th></tr></thead><tbody>'+IOX.slice().reverse().map(x=>'<tr><td class="lvn">'+x.pair[0].slice(5)+' → '+x.pair[1].slice(5)+'</td><td class="lvn">'+x.stats.coh_mean+'</td><td class="lvn">'+Math.round(x.stats.coh_ge_0_3*100)+'%</td></tr>').join("")+'</tbody></table>':""):"")}).join("")
+    +(x.st.id==="chg"?(IOL?'<div class="sec">最新干涉结果</div><button class="lvimg" id="inImg" title="点开放大"><img src="'+LIVE.insar_img+'" alt="InSAR 干涉结果" style="width:100%;display:block;border-radius:6px;background:#fff"></button>'+(IOL&&LIVE.pipe&&LIVE.pipe.pair&&LIVE.pipe.pair.slave>IOL.pair[1]?'<div class="sub" style="color:#e2b44c">'+Z("这张图是 "+IOL.pair.join(" → ")+" 的；最新影像对 "+LIVE.pipe.pair.master+" → "+LIVE.pipe.pair.slave+" 的图还没有生成","This image is "+IOL.pair.join(" → ")+"; no image yet for the newest pair "+LIVE.pipe.pair.master+" → "+LIVE.pipe.pair.slave)+'</div>':"")+'<div class="sub">上：相干性（越亮越稳定，雪冰区天然偏低）；中：缠绕相位；下：视线向位移（未参考，只看图样）。▲ 珠峰。</div><table class="lvt"><thead><tr><th>影像对</th><th>平均相干</th><th>相干≥0.3</th></tr></thead><tbody>'+IOX.slice().reverse().map(x=>'<tr><td class="lvn">'+x.pair[0].slice(5)+' → '+x.pair[1].slice(5)+'</td><td class="lvn">'+x.stats.coh_mean+'</td><td class="lvn">'+Math.round(x.stats.coh_ge_0_3*100)+'%</td></tr>').join("")+'</tbody></table>':""):"")}).join("")
   +'<div class="sec">'+Z("还缺什么","What is missing")+'</div><div class="blk">'+(need.length?need.map(esc).join("<br>"):Z("都齐了","Nothing"))+'</div>'}
 /* v36：“实时”标签。数据由 Cloudflare Worker 每 5 分钟采集，本页嵌入的是发布时那一轮；随时最新的看实时总览页。 */
 function rtPanel(){const R=(LIVE.rt||{}).sources||{},v=k=>(R[k]||{}).v||{},U="https://everest-facets.yizebaba.workers.dev/rt";
@@ -1324,7 +1327,7 @@ function southPanel(){
  return '<details><summary>南坡实时监测</summary><div class="sub">最近一次采集：<b>'+lvBJ(R.t)+'</b>（北京时间）。数据由 Cloudflare Worker 每 5–10 分钟采集，本页嵌入的是发布时的最新一轮；下面的“前”都按这次采集时刻计算。只展示观测，不做预测；停报不等于正常。</div></details>'
  +'<details><summary>冰湖出口水位</summary>'+lake("5385")+lake("1867")+'</details>'
  +'<details><summary>河流水位（冰湖下游与流域）</summary><table class="lvt"><thead><tr><th>站点</th><th>水位 m</th><th>警戒 m</th><th>状态</th></tr></thead><tbody>'+riv+'</tbody></table></details>'
- +'<details><summary>意大利 IO.EVN 地震台</summary><div class="sub">'+(S.meta.last_sample?'最新样点 <b>'+lvBJ(S.meta.last_sample)+'</b>（采集时落后 '+lvFmt(sm)+'）。':'<b>最近 20 分钟没有数据</b>'+(S.meta.last_seen?'，台站最后一条数据 <b>'+lvBJ(S.meta.last_seen)+'</b>':'')+'。')+'</div><div class="lvh" style="margin-top:6px"><span>最近 20 分钟数据完整度 <b>'+(S.meta.completeness??"—")+'%</b></span>'+lvChip(sm)+'</div><div class="sub">示例波形，到 '+lvBJ(LIVE.plot.latest)+ghL("run")+'</div><button class="lvimg" id="lvImg" title="点开放大"><img src="'+LIVE.plot.img+'" alt="IO.EVN 最近 24 小时波形" style="width:100%;display:block;border-radius:6px"></button></details>'
+ +'<details><summary>意大利 IO.EVN 地震台</summary><div class="sub">'+(S.meta.last_sample?'最新样点 <b>'+lvBJ(S.meta.last_sample)+'</b>（采集时落后 '+lvFmt(sm)+'）。':'<b>最近 20 分钟没有数据</b>'+(S.meta.last_seen?'，台站最后一条数据 <b>'+lvBJ(S.meta.last_seen)+'</b>':'')+'。')+'</div><div class="lvh" style="margin-top:6px"><span>最近 20 分钟数据完整度 <b>'+(S.meta.completeness??"—")+'%</b></span>'+lvChip(sm)+'</div><div class="sub">'+(LIVE.plot.live?Z("最近 24 小时 1–5 Hz 包络，最新样本 ","Last 24 h, 1–5 Hz envelope; latest sample ")+lvBJ(LIVE.plot.latest)+Z("，覆盖 "," , coverage ")+(LIVE.plot.cover??"—")+"%":Z("示例波形（旧快照），到 ","Sample waveform (old snapshot), to ")+lvBJ(LIVE.plot.latest))+ghL("run")+'</div><button class="lvimg" id="lvImg" title="点开放大"><img src="'+LIVE.plot.img+'" alt="IO.EVN 波形" style="width:100%;display:block;border-radius:6px"></button></details>'
  +'<details><summary>范围内地震与崩塌（近 60 天）</summary><table class="lvt"><tbody>'+qk+'</tbody></table><div class="sub">美国地质调查局目录；“崩塌/滑坡”是地震台网测到、被归为非构造事件的大型崩塌。</div></details>'
  +'<details><summary>尼泊尔灾害警报（全国最新）</summary><table class="lvt"><tbody>'+al+'</tbody></table></details>'
  +lvRepo()+'<div class="sub">'+ghL("sources","数据来源 ↗")+'</div>'}
@@ -1347,7 +1350,7 @@ function rowsOf(id){
 if(id==="nodes")return nodes.map((n,i)=>({k:"n"+i,t:n.n,s:n.g,st:n.st,type:"node",ref:i}));
 if(id==="repo")return RN.map((r,i)=>({k:"r"+i,t:r.n,s:r.l+" · "+r.src,st:eff(r),type:"repo",ref:i})).concat(SUP.map((s,i)=>({k:"u"+i,t:s.n,s:"支撑模块",st:supAdded.has(i)?"C":"H",type:"sup",ref:i,jy:1})));
 if(id==="stages")return STAGES.map((s,i)=>({k:"s"+i,t:s.n,s:s.t.map(x=>TG[x]).join("、"),st:stAgg(s.id),type:"stage",ref:i}));
-if(id==="anom")return ANOM.map((a,i)=>{const sx=a.state==="WATCH"?"X":a.state==="REJECTED"?"C":a.state==="RESOLVED"?"H":"U";return{k:"a"+i,t:a.t,s:a.obj,st:sx,lab:'<span class="'+CL[sx]+'">'+SY[sx]+ST_AN[a.state]+"</span>",type:"anom",ref:i}});
+if(id==="anom")return ANOM.map((a,i)=>{const L=anomLive(a),sx=L&&L.ok?"H":a.state==="WATCH"?"X":a.state==="REJECTED"?"C":a.state==="RESOLVED"?"H":"U";return{k:"a"+i,t:a.t,s:a.obj,st:sx,lab:'<span class="'+CL[sx]+'">'+SY[sx]+(L&&L.ok?Z("现已恢复","Recovered"):ST_AN[a.state])+"</span>",type:"anom",ref:i}});
 if(id==="plug")return plugs().map(p=>{const c=p.c,lab=p.k<0?CS[c.status]:LC[Math.min(5,p.k)][1],sx=p.k<0?"C":p.k===4?"H":p.k>=5?"X":"C";return{k:"p"+c.id,t:c.name+(c.ver>1?" v"+c.ver:""),s:CT[c.type]+" · "+stName(c.stage),st:sx,lab:'<span class="'+CL[sx]+'">'+SY[sx]+lab+"</span>",type:"plug",ref:c.id}});
 if(id==="comm")return COMM.map(c=>{const[a,d]=cnt2(c),sx=c.status==="adopted"?"H":c.status==="rejected"?"U":c.status==="review"?"X":"C";return{k:"m"+c.id,t:c.name+(c.ver>1?" v"+c.ver:""),s:"赞成 "+a+" / 反对 "+d+" · "+c.author,st:sx,lab:'<span class="'+CL[sx]+'">'+SY[sx]+CS[c.status]+"</span>",type:"comm",ref:c.id}});
 if(id==="cat")return catAll().map((c,i)=>({k:"c"+i,t:c.n,s:(MODELS.has(c.n)?"模型 · ":"")+stName(c.stage),st:isAdded(c)?"C":null,type:"cat",ref:c}));
@@ -1383,10 +1386,31 @@ let COMM=[]/* v68：去掉示例社区提交 */,NID=3,USER="",REV=false;
 try{const sv=JSON.parse(localStorage.getItem("ev_comm_v1")||"null");if(sv){COMM=sv.COMM;NID=sv.NID;USER=sv.USER||""}}catch(e){}
 const saveC=()=>{if(SH.on){try{localStorage.setItem("ev_user",USER)}catch(e){}return}try{localStorage.setItem("ev_comm_v1",JSON.stringify({COMM:COMM,NID:NID,USER:USER}))}catch(e){}};
 const cnt2=c=>{let a=0,d=0;Object.keys(c.votes).forEach(k=>c.votes[k].s==="agree"?a++:d++);return[a,d]};
+/* v78：全链路自检——Worker 每次快照附带各段最后成功时间（hubHealth），这里显示；连接器没连上时说明数据只能靠每小时同步 */
+var HEALTH=null;
+function linkChip(){const H=HEALTH,fresh=H&&H.seen&&Date.now()-Date.parse(H.seen)<5*60e3,bad=H?H.items.filter(x=>!x.ok):[];
+ const c=!fresh?"#e2b44c":bad.length?"#ef8a7e":"#5fd3a4",t=!fresh?Z("连接器未连上","Connector offline"):bad.length?Z("断 "+bad.length+" 段","down "+bad.length):H.ok+"/"+H.total+Z(" 正常"," OK");
+ return '<button data-link="1" title="'+Z("产生 → 搬运 → 页面 每一段的最后成功时间","Last success time of each link: produce → carry → page")+'" style="border-color:'+c+'"><b style="color:'+c+'">'+Z("链路","Links")+'</b>'+t+'</button>'}
+function linkPanel(){const H=HEALTH,rows=H?H.items:[],age=t=>{if(!t)return"—";const m=Math.round((Date.now()-Date.parse(t))/60e3);return m<60?m+Z(" 分钟前"," min ago"):m<2880?Math.round(m/60)+Z(" 小时前"," h ago"):Math.round(m/1440)+Z(" 天前"," d ago")};
+ const via=k=>HUBAT[k]?(HUBAT[k].via==="mcp"?Z("连接器 ","connector ")+lvBJ(HUBAT[k].t):Z("数据库 ","database ")+lvBJ(HUBAT[k].t)):"—";
+ return'<div><b>'+Z("全链路自检","End-to-end check")+'</b><div class="sub">'+(H?Z("Worker 核对于 ","Checked by the Worker at ")+lvBJ(H.t)+Z("；页面每分钟取一次。",". The page fetches it every minute."):Z("没有收到连接器的自检结果：页面只能等每小时同步写数据库。请在页面权限里允许 EVEREST 连接器。","No check from the connector: the page can only wait for the hourly sync. Allow the EVEREST connector in this page's permissions."))+'</div>'
+  +(rows.length?'<table class="stt"><thead><tr><th>'+Z("环节","Link")+'</th><th>'+Z("最后成功","Last success")+'</th><th>'+Z("时限","Limit")+'</th><th>'+Z("状态","State")+'</th></tr></thead><tbody>'+rows.map(x=>'<tr><td>'+esc(x.name)+(x.note?'<div class="sub">'+esc(x.note)+'</div>':"")+'</td><td>'+(x.at?lvBJ(x.at)+'<div class="sub">'+age(x.at)+'</div>':"—")+'</td><td>'+(x.max?(x.max<120?x.max+Z(" 分钟"," min"):Math.round(x.max/60)+Z(" 小时"," h")):"—")+'</td><td style="color:'+(x.ok?"#5fd3a4":"#ef8a7e")+'">'+(x.ok?Z("正常","OK"):Z("断了","Down"))+'</td></tr>').join("")+'</tbody></table>':"")
+  +'<div class="sec">'+Z("页面收到的数据","Data received by this page")+'</div><table class="stt"><tbody>'+[["img",Z("卫星图","Satellite images")],["cam",Z("摄像头","Cameras")],["evn",Z("IO.EVN 波形","IO.EVN waveform")],["ops",Z("运行记录","Run records")],["mon",Z("设备在线","Device status")],["lib",Z("工具库","Tool library")],["lit",Z("文献","Literature")]].map(r=>'<tr><td>'+r[1]+'</td><td>'+via(r[0])+'</td></tr>').join("")+'<tr><td>'+Z("底部事件栏","Bottom event bar")+'</td><td>'+(HZR?Z("扫描于 ","Scanned ")+lvBJ(HZR.updated):"—")+'</td></tr></tbody></table>'
+  +'<div class="sub" style="margin-top:6px">'+Z("数据库后备（每小时定时同步）：","Database backup (hourly sync): ")+(SYNCR&&SYNCR.at?Z("最后一次真正写入 ","last real write ")+lvBJ(SYNCR.at)+Z("，写了 ",", wrote ")+((SYNCR.docs||[]).length)+Z(" 个文档"," docs")+(SYNCR.ok===false?Z("；有失败：","; failed: ")+esc(SYNCR.error||""):""):Z("还没有回执","no receipt yet"))+'</div>'
+  +'<button class="act" id="mx">'+Z("关闭","Close")+'</button></div>'}
+document.addEventListener("click",e=>{if(e.target.closest("[data-link]")){e.preventDefault();const m=$("modal");m.innerHTML=linkPanel();m.classList.add("on");applyLang()}});
+/* v78：写在页面里的早期异常（10-12 整理）按实时数据核对“现在怎样”，恢复了就标出来，不再挂着旧结论 */
+function anomLive(a){try{const t=a.t||"",S=((LIVE.rt||{}).sources)||{},off=((LIVE.maint||{}).off)||[],offBy=kw=>off.filter(o=>(o.name||"").indexOf(kw)>=0);
+ if(/IO\.EVN/.test(t)&&S.evn){const e=S.evn.v||{};return S.evn.ok&&e.lag_s!=null&&e.lag_s<1800?{ok:true,txt:Z("现已恢复：最新样本 ","Recovered: latest sample ")+lvBJ(e.last_sample)+Z("，延迟 "," , lag ")+e.lag_s+Z(" 秒"," s")}:{ok:false,txt:Z("仍无新数据，最后样本 ","Still no new data; last sample ")+lvBJ(e.last_sample)}}
+ const kw=/Kodari/.test(t)?"Kodari":/阿伦河/.test(t)?"阿伦河":/Imja 湖下游/.test(t)?"Imja 湖下游":null;
+ if(kw&&LIVE.maint){const o=offBy(kw);return o.length?{ok:false,txt:Z("仍停报：","Still silent: ")+o.map(x=>esc(x.name)+Z("，最后数据 "," , last data ")+lvBJ(x.last)).join(Z("；","; "))+Z("（核对于 "," (checked ")+lvBJ(LIVE.maint.updated)+Z("）",")")}:{ok:true,txt:Z("现已恢复在报（核对于 ","Reporting again (checked ")+lvBJ(LIVE.maint.updated)+Z("）",")")}}
+ if(a.type==="管线数值异常"&&LIVE.pipe&&LIVE.pipe.auto){const c=LIVE.pipe.auto.checks||[],n=c.filter(x=>x.ok).length;return n===c.length&&c.length?{ok:true,txt:Z("已修复：自动核对 ","Fixed: automatic checks ")+n+"/"+c.length+Z(" 通过（"," passed (")+lvBJ(LIVE.pipe.auto.t)+Z("）",")")}:{ok:false,txt:Z("自动核对 ","Automatic checks ")+n+"/"+c.length}}
+}catch(e){}return null}
 function anomDet(a,i,hd,big){
 const lv=a.cf.split("").map((x,k)=>'<span class="chip">'+CFK[k]+" "+LV[+x]+"</span>").join("");
 const cls=a.state==="WATCH"?"unk":a.state==="REJECTED"?"cand":a.state==="RESOLVED"?"ok":"bad";
 let h=hd(["计算异常",a.type],a.t,a.srcs?a.srcs.map(x=>'<a href="#" data-gosrc="'+esc(x)+'" title="'+Z("到证据源页查看这个来源","Open this source on the Sources page")+'">'+esc(seN(x))+'</a>').join(Z("、",", ")):esc(a.obj))+'<div class="big"><small>状态 · '+(a.real?"实测，整理于 "+lvBJ(a.at)+"（北京）":"示例数据，非实时")+'</small><b class="'+cls+'">'+ST_AN[a.state]+'</b><small>异常不等于事件，事件候选不等于预警，是否发布由主管单位决定</small></div>';
+{const L=anomLive(a);if(L)h+='<div class="blk" style="border-left:3px solid '+(L.ok?'#5fd3a4':'#e2b44c')+'"><b>'+Z("现在","Now")+'</b> · '+L.txt+'</div>'}
 h+='<div class="blk">位置：'+esc(a.place)+" · "+(a.srcs&&a.srcs[0]?'<a href="#" data-gosrc="'+esc(a.srcs[0])+'" title="'+Z("坐标来自这个来源，点击查看","Coordinates come from this source; open it")+'">'+fmtLL(a.lat,a.lon)+'</a>':fmtLL(a.lat,a.lon))+' <span class="sub">'+(a.real?(a.srcs&&a.srcs[0]?Z("坐标来源：","Coordinates from: ")+esc(seN(a.srcs[0])):"站点或事件坐标"):"示例坐标（约）")+'</span></div><div class="tiles">'+tile(a.q,"数据质量")+tile(a.pers,"持续性")+tile(a.sp,"空间一致性")+"</div><div class=\"blk\">不确定性："+esc(a.unc)+"</div>";
 h+='<div class="sec">置信度分项</div><div>'+lv+'</div><div class="sec">证据</div>'+a.ev.map(e=>'<div class="blk"><b class="'+RC2[e[0]]+'">'+REL[e[0]]+"</b> · "+esc(e[1])+'<br><span class="sub">'+esc(e[2])+"</span></div>").join("");
 h+=packHTML(a);h+=evSummary(a);h+=alertBlk(a);h+='<div class="sec">处理记录</div>'+(a.h.length?a.h.map(x=>'<div class="sub">'+esc(x)+"</div>").join(""):'<div class="none">暂无记录</div>');
@@ -1673,7 +1697,7 @@ let ab=0;nodes.forEach(n=>{if(n.st==="U"||n.st==="X")ab++});RN.forEach(x=>{const
 const anT=a=>Date.parse((a.pack&&(a.pack._last||a.pack.t))||a.evday||"")||null,OLD=14*864e5;
 const act=ANOM.map((a,i)=>({a:a,i:i})).filter(x=>x.a.state!=="REJECTED"&&x.a.state!=="RESOLVED"&&x.a.type!=="数据不可用"&&x.a.type!=="管线数值异常"&&!(anT(x.a)&&Date.now()-anT(x.a)>OLD)).sort((p,q)=>(anT(q.a)||0)-(anT(p.a)||0));
 const histN=ANOM.filter(a=>anT(a)&&Date.now()-anT(a)>OLD).length;
-$("stats").innerHTML=[["nodes",nodes.length+RN.length,"节点"],["bad",ab,"节点故障或缺失"],["anom",act.length,"计算异常"],["comm",COMM.filter(c=>c.status==="open").length,"待评议"]].map(a=>'<button data-stt="'+a[0]+'"><b>'+a[1]+"</b>"+a[2]+"</button>").join("")+SH.chip();
+$("stats").innerHTML=[["nodes",nodes.length+RN.length,"节点"],["bad",ab,"节点故障或缺失"],["anom",act.length,"计算异常"],["comm",COMM.filter(c=>c.status==="open").length,"待评议"]].map(a=>'<button data-stt="'+a[0]+'"><b>'+a[1]+"</b>"+a[2]+"</button>").join("")+SH.chip()+linkChip();
 $("lgs").innerHTML=SF+"候选";$("lgj").innerHTML=JY+"外部提供 / Agent";
 $("q").value=Q;$("lact").innerHTML=lactHTML();
 const gw=grow();GT=gw.g;$("i2").textContent="工具 "+gw.T+" · 能力 "+gw.C+" · 球体 ×"+gw.g.toFixed(2);
@@ -1926,7 +1950,7 @@ if(b.id==="src"){const p=$("pop");p.innerHTML='<b>数据来源</b><p>本页所�
 if(b.id==="rst"){RN=mk();say("已重置。");render();return}
 if(b.id==="pc"){$("pop").classList.remove("on");return}
 if(b.id==="inImg"){const m=$("modal");m.innerHTML='<div><b>InSAR 干涉结果 '+(IOL?IOL.pair.join(" → "):"")+'</b><img src="'+LIVE.insar_img+'" style="width:100%;margin:8px 0;border-radius:6px;background:#fff" alt="InSAR"><button class="act" id="mx">关闭</button></div>';m.classList.add("on");applyLang();return}
-if(b.id==="lvImg"){const m=$("modal");m.innerHTML='<div><b>IO.EVN 最近 24 小时波形</b><img src="'+LIVE.plot.img+'" style="width:100%;margin:8px 0;border-radius:6px" alt="IO.EVN 波形"><button class="act" id="mx">关闭</button></div>';m.classList.add("on");applyLang();return}if(b.id==="lgIn"){authMenu();return}if(b.id==="lgG"||b.id==="lgW"){authOpen(b.id==="lgG"?"google":"wechat");return}if(b.id==="lgOut"){AUTH.session=null;try{sessionStorage.removeItem("ev_auth")}catch(_){}$("modal").classList.remove("on");render();return}if(b.id==="new"){const m=$("modal");m.innerHTML='<b>新建节点</b><label for="mn">名称</label><input id="mn" type="text"><label for="ms">所属阶段</label><select id="ms">'+STAGES.map(s=>'<option value="'+s.id+'">'+s.n+"</option>").join("")+'</select><button class="act p" id="mok">添加为候选</button><button class="act" id="mx">取消</button>';m.classList.add("on");$("mn").focus();return}
+if(b.id==="lvImg"){const m=$("modal");m.innerHTML='<div><b>'+(LIVE.plot.live?Z("IO.EVN 最近 24 小时（1–5 Hz 包络）","IO.EVN last 24 h (1–5 Hz envelope)"):Z("IO.EVN 示例波形（旧快照，到 ","IO.EVN sample waveform (old snapshot, to ")+lvBJ(LIVE.plot.latest)+Z("）",")"))+'</b><img src="'+LIVE.plot.img+'" style="width:100%;margin:8px 0;border-radius:6px" alt="IO.EVN 波形"><button class="act" id="mx">关闭</button></div>';m.classList.add("on");applyLang();return}if(b.id==="lgIn"){authMenu();return}if(b.id==="lgG"||b.id==="lgW"){authOpen(b.id==="lgG"?"google":"wechat");return}if(b.id==="lgOut"){AUTH.session=null;try{sessionStorage.removeItem("ev_auth")}catch(_){}$("modal").classList.remove("on");render();return}if(b.id==="new"){const m=$("modal");m.innerHTML='<b>新建节点</b><label for="mn">名称</label><input id="mn" type="text"><label for="ms">所属阶段</label><select id="ms">'+STAGES.map(s=>'<option value="'+s.id+'">'+s.n+"</option>").join("")+'</select><button class="act p" id="mok">添加为候选</button><button class="act" id="mx">取消</button>';m.classList.add("on");$("mn").focus();return}
 if(b.id==="mx"){$("modal").classList.remove("on");return}
 if(b.id==="mok"){const nm=$("mn").value.trim();if(!nm){say("请先填写名称");return}SH.addNode({g:"手动添加",stage:$("ms").value,st:"C",n:nm,added:1,kind:kindOf(nm)});audit("手动添加候选",nm,stName($("ms").value));$("modal").classList.remove("on");say("已添加「"+nm+"」，状态为候选。");render();return}
 if(b.id==="home"){setView("hub");return}

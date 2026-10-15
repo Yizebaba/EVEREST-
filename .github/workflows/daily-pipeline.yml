@@ -12,6 +12,11 @@ on:
         type: boolean
         default: true
 
+# v78：Worker 每 6 小时触发一次，GitHub 自带定时作兜底；两边撞上时排队，不并发
+concurrency:
+  group: insar-pipeline
+  cancel-in-progress: false
+
 jobs:
   run-pipeline:
     runs-on: ubuntu-latest

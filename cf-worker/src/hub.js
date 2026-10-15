@@ -74,6 +74,13 @@ export async function hubLit() {
 }
 
 // 运行记录 + InSAR 管线 + 卫星过境 + MiroFish，和设备在线状态：hazards 工作流写的小文件
+// IO.EVN 最近 24 小时波形（hazards 工作流每小时画一次）
+export async function hubEvn() {
+  const meta = await j("hub/evn_24h.json", "events", 300);
+  if (meta.ok) { try { meta.img = "data:image/png;base64," + b64(await (await raw("hub/evn_24h.png", "events", 300)).arrayBuffer()); } catch (e) {} }
+  return meta;
+}
+
 export const hubOps = () => j("hub/ops.json", "events", 120);
 export const hubMon = () => j("hub/mt_monitor.json", "events", 120);
 
@@ -83,4 +90,25 @@ export async function hubAll(parts) {
   await Promise.all(Object.entries(parts).map(async ([k, f]) => { try { out[k] = await f(); } catch (e) { err[k] = String(e && e.message || e).slice(0, 120); } }));
   if (Object.keys(err).length) out.err = err;
   return out;
+}
+
+// 全链路自检（v78）：每段最后一次成功的时间，超过时限就标“断”。随 everest_snapshot 每分钟送到页面。
+export async function hubHealth(rt, fs) {
+  const now = Date.now(), age = t => t ? (now - Date.parse(t)) / 60e3 : Infinity, items = [];
+  const add = (k, name, at, max, note) => items.push({ k, name, at: at || null, max, ok: age(at) <= max, note: note || "" });
+  const S = (rt || {}).sources || {};
+  const bad = Object.keys(S).filter(k => !S[k].ok);
+  add("rt", "实时采集（Worker，每分钟）", rt && rt.updated, 5, bad.length ? "取数失败：" + bad.join("、") : `${Object.keys(S).length} 个源全部正常`);
+  const g = (S.gibs || {}).v || {};
+  add("img", "卫星图（葵花，GIBS）", [g.vis_latest, g.ir_latest].filter(Boolean).sort().pop(), 180);
+  add("facet", "坡面雷达（每 30 分钟）", fs && fs.t, 45, fs && fs.scenes ? `基线 ${fs.scenes.d}/${fs.scenes.n} 景` : "");
+  let ops = null; try { ops = await hubOps(); } catch (e) {}
+  const R = (ops && ops.runs) || [], last = (n, okOnly = true) => (R.find(r => r[0] === n && r[3] === "completed" && (!okOnly || r[4] === "success")) || [])[6];
+  add("scan", "灾种扫描（每 20 分钟）", last("hazards"), 50);
+  add("pagedata", "页面数据（随扫描生成）", ops && ops.updated, 50, ops ? "" : "hub/ops.json 取不到");
+  add("evidence", "证据包工作流", last("evidence"), 180);
+  add("insar", "InSAR 每日管线", ops && ops.pipe && ops.pipe.generated ? ops.pipe.generated + "Z" : null, 30 * 60, ops && ops.pipe && ops.pipe.insar ? ops.pipe.insar.status : "");
+  const fails = R.filter(r => r[4] === "failure" && r[0] !== "mirofish" && age(r[5]) <= 360).map(r => r[0]);
+  items.push({ k: "fail", name: "最近 6 小时失败的工作流", at: null, max: null, ok: !fails.length, note: fails.length ? [...new Set(fails)].join("、") : "没有" });
+  return { t: new Date().toISOString(), ok: items.filter(x => x.ok).length, total: items.length, items };
 }

@@ -2,7 +2,7 @@
 // 在 Claude 的“连接器”里添加自定义连接器，地址填 https://everest-facets.yizebaba.workers.dev/mcp 。
 // 只监测、不预测；数据都来自公开源。
 
-import { hubImg, hubCam, hubLib, hubLit, hubOps, hubMon, hubAll } from "./hub.js";
+import { hubImg, hubCam, hubLib, hubLit, hubOps, hubMon, hubAll, hubHealth, hubEvn } from "./hub.js";
 
 const PROTO = ["2025-06-18", "2025-03-26", "2024-11-05"];
 const BJ = t => t ? new Date(t).toLocaleString("zh-CN", { timeZone: "Asia/Shanghai", hour12: false, month: "2-digit", day: "2-digit", hour: "2-digit", minute: "2-digit" }) : "—";
@@ -134,7 +134,7 @@ async function call(name, args, h) {
   }
   if (name === "everest_snapshot") {
     const fs = await h.status();
-    return { text: `实时快照：汇总于 ${BJ(rt.updated)}，${Object.keys(S).length} 个数据源；坡面 ${(fs.scenes || {}).d || 0}/${(fs.scenes || {}).n || 0} 景。`, data: { rt, status: fs } };
+    return { text: `实时快照：汇总于 ${BJ(rt.updated)}，${Object.keys(S).length} 个数据源；坡面 ${(fs.scenes || {}).d || 0}/${(fs.scenes || {}).n || 0} 景。`, data: { rt, status: fs, health: await hubHealth(rt, fs).catch(() => null) } };
   }
   if (name === "everest_source") {
     const k = args.key; if (!S[k]) return { text: "没有这个数据源：" + k, data: null, err: true };
@@ -179,7 +179,7 @@ async function call(name, args, h) {
     return { text: out.map(x => `${x.name}（站号 ${x.id}）最近 ${hrs} 小时 ${x.n} 个点` + (x.n ? `：最低 ${x.min} m，最高 ${x.max} m，变化 ${x.change ?? 0} m` : `：没有数据（最后数据 ${BJ(x.last_on)}）`) + `；警戒 ${x.warning_m ?? "—"}，危险 ${x.danger_m ?? "—"}`).join("\n"), data: { stations: out } };
   }
   if (name === "everest_events" && typeof args.id === "string" && args.id.startsWith("page:")) {   // 总览页专用（v78）：页面数据直接从连接器取，不靠定时任务
-    const part = args.id.slice(5), P = { img: { img: hubImg, cam: () => hubCam(rt) }, ops: { ops: hubOps, mon: hubMon }, lib: { lib: hubLib }, lit: { lit: hubLit } }[part];
+    const part = args.id.slice(5), P = { img: { img: hubImg, cam: () => hubCam(rt), evn: hubEvn }, ops: { ops: hubOps, mon: hubMon }, lib: { lib: hubLib }, lit: { lit: hubLit } }[part];
     if (!P) return { text: "总览页数据分区只有 page:img、page:ops、page:lib、page:lit", data: null, err: true };
     const d = await hubAll(P); d.part = part; d.t = new Date().toISOString();
     return { text: `总览页数据（${part}）：` + Object.keys(P).map(k => k + (d[k] ? " ✓" : " ✗")).join("，"), data: d };

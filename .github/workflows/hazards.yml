@@ -83,5 +83,9 @@ jobs:
           cd ev && git pull -q --rebase origin events || true; mkdir -p hub
           [ -f ../hub_out/live_ops.json ] && cp ../hub_out/live_ops.json hub/ops.json
           [ -f ../hub_out/mt_monitor.json ] && cp ../hub_out/mt_monitor.json hub/mt_monitor.json
+          # IO.EVN 最近 24 小时波形（每小时一次；替换页面里写死的 10-12 示例波形）
+          if [ ! -f hub/evn_24h.json ] || [ "$(date -u +%M)" -lt 20 ]; then
+            pip install -q obspy matplotlib >/dev/null 2>&1 && python3 ../tools/evn_plot.py evn_out && cp evn_out/evn_24h.json hub/ && { [ -f evn_out/evn_24h.png ] && cp evn_out/evn_24h.png hub/ || true; }; rm -rf evn_out
+          fi
           git add hub && git commit -qm "hub docs $(date -u +%FT%TZ)" || exit 0
           for i in 1 2 3; do git pull -q --rebase origin events && git push -q origin HEAD:events && break; sleep 3; done

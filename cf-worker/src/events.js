@@ -146,6 +146,7 @@ export async function hazardsKick(env, last) {
   const due = (t, ms) => !t || now - Date.parse(t) >= ms;
   let task = null;
   if (now.getUTCHours() === 2 && now.getUTCMinutes() >= 40 && due(L.venues_at, 20 * 3600e3)) task = "venues";
+  else if (due(L.insar_at, 6 * 3600e3)) task = "insar";   // v78：InSAR 每日管线每 6 小时一次（GitHub 自带定时每天只跑约 2 次）
   else if (due(L.scan_at, 20 * 60e3)) task = "scan";
   // v76：每 20 分钟扫一次（原来每小时），扫描约 6–10 分钟；总览页通过连接器 everest_hazard_records 直接读结果，不等同步任务
   if (!task) return null;
