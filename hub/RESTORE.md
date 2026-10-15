@@ -386,3 +386,8 @@
 - 修复：Worker 在页面本来就在用的 everest_events（full）里附带最新灾种记录 hzr（≤90 KB，约 600 条）；页面 hzrMerge 按“来源+链接+标题”并进已有记录（只在扫描时间更新时合并，去掉同一条的重复）；数据库那份只在更新或更全时替换。
 - “总览半点同步（轻量）”重新启用，作为连接器不通时的后备。
 - 复原：git revert 本提交；页面回 Version 76。
+
+## 53 · 2026-10-16 清理旧版采集和试验工作流（用户同意删除）
+- 停用工作流：live（旧版每 10 分钟采集 → live-data 分支 + GitHub Pages，与 Worker 重复，实际每 4–6 小时才跑）和 11 个试验工作流：adsb-probe、cred-probe、data-probe、doris-probe、evn-aug26、insar-cloud、liveness、ngl-probe、pc-trial、plot-evn、rt-sweep。adsb-live 在用（Worker 的 ADS-B），保留。
+- 删除 main 上的 .github/workflows/live.yml。分支 data-probe、live-data 保留不动（删除分支被权限拦下；工作流已停用，它们不会再更新）。
+- 复原：`gh api -X PUT repos/Yizebaba/EVEREST-/actions/workflows/<id>/enable` 重新启用；git revert 本提交恢复 live.yml。
