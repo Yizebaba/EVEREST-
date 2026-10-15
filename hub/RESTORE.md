@@ -391,3 +391,10 @@
 - 停用工作流：live（旧版每 10 分钟采集 → live-data 分支 + GitHub Pages，与 Worker 重复，实际每 4–6 小时才跑）和 11 个试验工作流：adsb-probe、cred-probe、data-probe、doris-probe、evn-aug26、insar-cloud、liveness、ngl-probe、pc-trial、plot-evn、rt-sweep。adsb-live 在用（Worker 的 ADS-B），保留。
 - 删除 main 上的 .github/workflows/live.yml。分支 data-probe、live-data 保留不动（删除分支被权限拦下；工作流已停用，它们不会再更新）。
 - 复原：`gh api -X PUT repos/Yizebaba/EVEREST-/actions/workflows/<id>/enable` 重新启用；git revert 本提交恢复 live.yml。
+
+## 54 · 2026-10-16 页面数据全部可从连接器直接取（v78，全自动改造第 1 步）
+- 新文件 cf-worker/src/hub.js：Worker 直接从仓库已有文件生成卫星图（facet-live img/*.jpg）、摄像头（hazards/webcams.json + Worker 的在播缩略图）、工具库（hazards/catalog.json）、文献（hazards/venues.json + scan.json），格式与 hub_sync.py 相同。
+- 运行记录和设备在线要用 GitHub Actions 接口：hazards 工作流每次扫描后运行 hub_sync.py，只把 live_ops.json、mt_monitor.json 存到 events 分支 hub/ops.json、hub/mt_monitor.json（不存图片，避免仓库膨胀）。
+- 连接器：everest_events 收到 id="page:img|ops|lib|lit" 时返回这些数据（用已有工具和已有参数，避开 claude.ai 工具列表缓存；普通对话调用不受影响）。
+- 页面：hubApply() 统一处理数据库和连接器两条路，谁新用谁；连接器轮询：图 5 分钟、运行记录 3 分钟、工具库和文献 30 分钟。
+- 复原：git revert 本提交；页面回 Version 77。

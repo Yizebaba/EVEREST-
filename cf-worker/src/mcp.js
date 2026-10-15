@@ -2,6 +2,8 @@
 // 在 Claude 的“连接器”里添加自定义连接器，地址填 https://everest-facets.yizebaba.workers.dev/mcp 。
 // 只监测、不预测；数据都来自公开源。
 
+import { hubImg, hubCam, hubLib, hubLit, hubOps, hubMon, hubAll } from "./hub.js";
+
 const PROTO = ["2025-06-18", "2025-03-26", "2024-11-05"];
 const BJ = t => t ? new Date(t).toLocaleString("zh-CN", { timeZone: "Asia/Shanghai", hour12: false, month: "2-digit", day: "2-digit", hour: "2-digit", minute: "2-digit" }) : "—";
 const NAMES = { evn: "IO.EVN 地震台", bipad: "尼泊尔水位站（BIPAD）", emsc: "EMSC 地震目录", gibs: "卫星云图（NASA GIBS / EUMETView）", ioda: "IODA 网络连通（萨加玛塔区）",
@@ -175,6 +177,12 @@ async function call(name, args, h) {
     const out = L.slice(0, 3).map(([id, s]) => { const m = s.meta || {}, o = (s.obs || []).filter(x => now - Date.parse(x[0]) <= hrs * 3600e3), ls = o.map(x => x[1]);
       return { id, name: m.name, warning_m: m.warning ?? null, danger_m: m.danger ?? null, status: m.status, last_on: m.last_on, n: o.length, min: ls.length ? Math.min(...ls) : null, max: ls.length ? Math.max(...ls) : null, change: ls.length > 1 ? +(ls[ls.length - 1] - ls[0]).toFixed(3) : null, obs: o } });
     return { text: out.map(x => `${x.name}（站号 ${x.id}）最近 ${hrs} 小时 ${x.n} 个点` + (x.n ? `：最低 ${x.min} m，最高 ${x.max} m，变化 ${x.change ?? 0} m` : `：没有数据（最后数据 ${BJ(x.last_on)}）`) + `；警戒 ${x.warning_m ?? "—"}，危险 ${x.danger_m ?? "—"}`).join("\n"), data: { stations: out } };
+  }
+  if (name === "everest_events" && typeof args.id === "string" && args.id.startsWith("page:")) {   // 总览页专用（v78）：页面数据直接从连接器取，不靠定时任务
+    const part = args.id.slice(5), P = { img: { img: hubImg, cam: () => hubCam(rt) }, ops: { ops: hubOps, mon: hubMon }, lib: { lib: hubLib }, lit: { lit: hubLit } }[part];
+    if (!P) return { text: "总览页数据分区只有 page:img、page:ops、page:lib、page:lit", data: null, err: true };
+    const d = await hubAll(P); d.part = part; d.t = new Date().toISOString();
+    return { text: `总览页数据（${part}）：` + Object.keys(P).map(k => k + (d[k] ? " ✓" : " ✗")).join("，"), data: d };
   }
   if (name === "everest_events") {
     const days = Math.min(60, Math.max(1, args.days || 30)), E = Object.values((h.events ? await h.events() : {}) || {}).filter(e => now - Date.parse(e.t) <= days * 864e5).sort((a, b) => b.t.localeCompare(a.t));

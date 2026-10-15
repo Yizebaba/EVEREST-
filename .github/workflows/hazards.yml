@@ -71,3 +71,17 @@ jobs:
         env:
           TASK: ${{ github.event.inputs.task || (github.event.schedule == '41 2 * * *' && 'venues') || 'scan' }}
           GH_TOKEN: ${{ github.token }}
+      - name: Page docs for the connector (events hub/ops.json, hub/mt_monitor.json)
+        # 运行记录和设备在线状态要用 GitHub Actions 接口，Worker 拿不到，所以在这里生成，连接器 everest_events(id="page:ops") 直接读。
+        if: always()
+        env:
+          TASK: ${{ github.event.inputs.task || (github.event.schedule == '41 2 * * *' && 'venues') || 'scan' }}
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          [ "$TASK" = "scan" ] || exit 0
+          python3 tools/hub_sync.py hub_out > hub_out.log 2>&1 || true; tail -12 hub_out.log
+          cd ev && git pull -q --rebase origin events || true; mkdir -p hub
+          [ -f ../hub_out/live_ops.json ] && cp ../hub_out/live_ops.json hub/ops.json
+          [ -f ../hub_out/mt_monitor.json ] && cp ../hub_out/mt_monitor.json hub/mt_monitor.json
+          git add hub && git commit -qm "hub docs $(date -u +%FT%TZ)" || exit 0
+          for i in 1 2 3; do git pull -q --rebase origin events && git push -q origin HEAD:events && break; sleep 3; done
