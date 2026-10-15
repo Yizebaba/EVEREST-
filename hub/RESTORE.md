@@ -345,3 +345,10 @@
 - 知识库 → 知识图谱：事件、来源、台站（地震台、水位站）、证据包、存证快照（哈希、比特币区块、RFC 3161、Rekor、9 项核对）、灾种、地点串成一张图，在页面里由已同步的证据包时间线和灾种扫描记录现算；常用问题按钮（某台站参与过哪些事件等）、搜索、以任意点为中心的关系图、下载整张图 JSON。
 - MiroFish：tools/mirofish_seed.py 用真实数据生成 4 份种子材料（平台概况与运行实况、数据源与实测状态、事件证据包与全球记录、相关方与生态）和推演需求；tools/mirofish_run.py 按 MiroFish 后端 API 依次做本体→图谱→创建→准备→运行→报告并保存全部产物；.github/workflows/mirofish.yml 固定 MiroFish 提交号运行，结果存 events 分支 mirofish/<时间>/。需要 Secrets：LLM_API_KEY、LLM_BASE_URL、LLM_MODEL_NAME、ZEP_API_KEY。知识库 → 推演（MiroFish）显示状态、种子材料和报告，明确标为“不是证据”。
 - 复原：页面回退 Version 70；删 mirofish.yml 与两个 tools 脚本；hub_sync 删 mf 段；hazard_scan.py 的 NWS 时间改回 onset。
+
+---
+# 第四十七次改动（底部滚动、281 种灾害的文献与数据源）
+- 底部事件栏：左边的范围切换移出滚动区，右边单独一条横向滚动；原来卡片滚到切换下面会从边缘露出来。
+- 知识库 → 文献与数据源：从只显示证据包里 5 种灾害的参考文献，改为全部 281 种：每种的 2020 年以来论文数、专业期刊（OpenAlex，h 指数）、综合期刊、数据论文、高被引论文（带 DOI）、本平台实测能取到的数据源；可搜索、按类别筛选。数据来自 events 分支 hazards/venues.json 和 scan.json，hub_sync 写 live/lit。
+- 侧栏面板会把 <details> 转成固定面板，带属性的 <details> 会让结构错位（之前“运行状态”“证据链”布局乱的原因之一）；证据链的推断边界和新文献表都改为自己的展开按钮，页面里不再有带属性的 <details>。
+- 复原：页面回退 Version 71；hub_sync 删 lit 段。

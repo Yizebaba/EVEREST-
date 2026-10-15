@@ -186,3 +186,27 @@ try:
     print("pipe", pipe["pair"], [c["ok"] for c in checks])
 except Exception as e:
     print("管线产物暂缺：", e)
+
+# 281 种灾害的文献与数据源（venues.json：OpenAlex + Crossref；scan.json：每种灾害能用的公开来源）→ live_lit.json（→ live/lit）
+try:
+    ven = json.loads(raw("hazards/venues.json", "events")); sc2 = json.loads(raw("hazards/scan.json", "events"))
+    srcmap = {h["code"]: [h.get("sources") or [], h.get("tested_ok") or []] for h in sc2.get("hazards", [])}
+    def cut(s, n): s = s or ""; return s if len(s) <= n else s[:n - 1] + "…"
+    def build(nv, npp, tl):
+        L = []
+        for h in ven.get("hazards", []):
+            vv = (h.get("top_venues") or h.get("most_active") or [])[:nv]
+            L.append({"c": h["code"], "q": h.get("query"), "n": h.get("papers_2020"),
+                      "v": [[x.get("name"), x.get("h"), x.get("url"), 1 if x.get("oa") else 0] for x in vv],
+                      "m": [x.get("name") for x in (h.get("multidisciplinary") or [])[:2]],
+                      "d": [[cut(x.get("title"), tl), x.get("doi"), x.get("year"), x.get("journal")] for x in (h.get("data_papers") or [])[:npp]],
+                      "p": [[cut(x.get("title"), tl), x.get("doi"), x.get("year"), x.get("cites"), x.get("journal") or x.get("venue")] for x in (h.get("top_papers") or [])[:npp]],
+                      "s": srcmap.get(h["code"], [[], []])})
+        return L
+    for nv, npp, tl in ((5, 3, 140), (4, 3, 110), (3, 2, 100), (3, 2, 80), (2, 1, 80)):
+        lit = {"generated": ven.get("generated"), "method": ven.get("method"), "done": ven.get("done"), "total": ven.get("total"), "h": build(nv, npp, tl)}
+        if len(json.dumps(lit, ensure_ascii=False).encode()) < 235000: break
+    json.dump(lit, open(f"{out}/live_lit.json", "w"), ensure_ascii=False)
+    print("live_lit", os.path.getsize(f"{out}/live_lit.json"), "bytes;", len(lit["h"]), "hazards")
+except Exception as e:
+    print("文献表暂缺：", e)
