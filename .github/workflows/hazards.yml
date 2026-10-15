@@ -42,7 +42,7 @@ jobs:
           if [ "$TASK" = "survey" ]; then python3 tools/source_survey.py out/survey.json > out/run.log 2>&1
           elif [ "$TASK" = "venues" ]; then git show origin/events:hazards/venues.json > prev_venues.json 2>/dev/null; python3 tools/venue_rank.py out/venues.json prev_venues.json > out/venues.log 2>&1; echo "exit=$?" >> out/venues.log; python3 tools/venues_report.py out/venues.json out/HAZARD_VENUES.md >> out/venues.log 2>&1; tail -40 out/venues.log; exit 0
           elif [ "$TASK" = "cams" ]; then python3 tools/webcams.py out > out/cams.log 2>&1; cat out/cams.log; exit 0
-          elif [ "$TASK" = "probe" ]; then python3 - <<'PY' > out/probe.log 2>&1; cat out/probe.log; exit 0
+          elif [ "$TASK" = "probe" ]; then python3 tools/gdelt_news.py out > out/probe_gdelt.log 2>&1; cat out/probe_gdelt.log; python3 - <<'PY' > out/probe.log 2>&1; cat out/probe.log; exit 0
           import re,urllib.request
           s=open("cf-worker/src/rt.js").read(); a=s.index("export const IMG"); b=s.index("};",a)
           X=[("eum_airmass","https://view.eumetsat.int/geoserver/ows?service=WMS&version=1.3.0&request=GetMap&styles=&crs=EPSG:4326&BBOX=25.5,82.5,31.0,90.5&WIDTH=640&HEIGHT=440&format=image/jpeg&layers=msg_iodc:rgb_airmass"),("eum_ir108","https://view.eumetsat.int/geoserver/ows?service=WMS&version=1.3.0&request=GetMap&styles=&crs=EPSG:4326&BBOX=25.5,82.5,31.0,90.5&WIDTH=640&HEIGHT=440&format=image/png&layers=msg_iodc:ir108")]
