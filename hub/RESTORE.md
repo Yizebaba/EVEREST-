@@ -328,3 +328,13 @@
 - 翻译：英文模式下节点详情、流程、推断边界、治理、知识库、外部库的中文全部有英文；HIPS 281 种灾害名并入词典。
 - Worker：GDELT 429 重试；卫星图 30 分钟；cams 源。hazards.yml 增加 catalog、probe 任务。同步定时任务改为写入全部 live_*.json。
 - 复原：页面回退 Version 68（备份 scratchpad/hub_v68.html，或本次提交前的 git 版本）；Worker 回退 cf-worker/src/rt.js 的 IMG 与 cams、index.js 的图像段；hub_sync 去掉 hzr/lib/ops/cam 段；定时任务提示词改回 4 个文档。
+
+---
+# 第四十五次改动（底部默认全部事件、InSAR 核对、自动运行修复）
+- 底部事件栏默认“全部事件”（证据包事件 + 灾种扫描全部记录），另有“尼泊尔 / 珠峰”“已出证据包”两个切换。
+- InSAR“自动核对 2 项未通过”原因：①旧版每日管线读仓库里的固定矩阵，数值每天一样（10/13 已改为只认云端干涉，页面还显示发布时的旧快照）；②管线选影像对时取“与珠峰范围相交的最新两景”，把不同轨道凑成一对（10-06 与 10-10 只隔 4 天，10-06 不在 23790 条带上）。修：models/cdse_sentinel1.py 新增 discover_burst_pair（Burst 23790 / IW1 / 相对轨道 12 / S1D，相隔 12 天，与云端干涉同一查询），pipeline.py 改用它；实测新一次运行影像对 2026-09-28 → 2026-10-10。hub_sync 每小时读最新 displacement_summary.json 重做 3 项核对，写入 live/ops.pipe，页面实时显示。
+- 每日管线节点状态改用 GitHub 运行记录（live/ops），不再用发布时的快照；daily-pipeline.yml 手动触发时不再强制运行 Auto-Coder 演示。
+- 哨兵卫星过境目录：新 tools/sat_catalog.py 随灾种扫描每小时取，写 hazards/sat.json → live/ops.sat（原来 live.yml 每 10 分钟的计划任务实际几乎不触发）。
+- 史密森尼火山周报 403：改用史密森尼 GVP 公开地理服务（持续喷发列表）作后备，已恢复正常。
+- 新闻线索：GDELT 对云服务器 IP 普遍限流（Cloudflare 和 GitHub 都 429）。tools/gdelt_news.py 随灾种扫描取一次，失败时用灾种扫描的“新闻 RSS”记录；Worker 直连失败时读 events 分支 hazards/gdelt.json。
+- 复原：页面回退 Version 69；pipeline.py 改回 discover_sentinel1_slc_pair；删 tools/sat_catalog.py、tools/gdelt_news.py 及 hazards.yml 中对应两段；hazard_scan.py 删 gvp() 的 WFS 后备段；Worker 回退 news() 后备段。
