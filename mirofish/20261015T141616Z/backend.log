@@ -1,0 +1,19 @@
+[14:16:13] INFO: ==================================================
+[14:16:13] INFO: MiroFish Backend 启动中...
+[14:16:13] INFO: ==================================================
+[14:16:13] INFO: 已注册模拟进程清理函数
+[14:16:13] INFO: MiroFish Backend 启动完成
+ * Serving Flask app 'app'
+ * Debug mode: off
+WARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5001
+ * Running on http://10.1.1.172:5001
+Press CTRL+C to quit
+127.0.0.1 - - [15/Oct/2026 14:16:15] "GET /health HTTP/1.1" 200 -
+[14:16:15] INFO: === 开始生成本体定义 ===
+[14:16:15] INFO: 创建项目: proj_ceeb8702afce
+[14:16:15] INFO: 文本提取完成，共 23261 字符
+[14:16:15] INFO: 调用 LLM 生成本体定义...
+[14:16:16] ERROR: Ontology provider request failed: type=APIStatusError status=402 request_id=unknown
+127.0.0.1 - - [15/Oct/2026 14:16:16] "POST /api/graph/ontology/generate HTTP/1.1" 502 -
