@@ -1,4 +1,4 @@
-# Worker 每小时改 hazards/tick.txt（第一行是任务：scan 或 venues）→ 启动 main 分支上的 hazards 工作流。
+# Worker 改 hazards/tick.txt（第一行是任务：scan 每 20 分钟、venues 每天、insar 每 6 小时）→ 启动 main 分支上的 hazards 工作流。
 # GitHub 自带的定时任务经常延迟几小时，这样扫描能按时跑。用 GITHUB_TOKEN 启动 workflow_dispatch 是 GitHub 允许的。
 name: hazards-tick
 on:
@@ -17,7 +17,9 @@ jobs:
         with: { ref: events, sparse-checkout: hazards/tick.txt }
       - run: |
           task=$(head -1 hazards/tick.txt | tr -cd 'a-z')
-          case "$task" in scan|venues) ;; *) task=scan ;; esac
-          gh workflow run hazards.yml --ref main -f task=$task -R "$GITHUB_REPOSITORY"
+          case "$task" in scan|venues|insar) ;; *) task=scan ;; esac
+          # insar：InSAR 每日管线（GitHub 自带定时每天只跑约 2 次，改由 Worker 每 6 小时触发；不跑演示用的 auto-coder）
+          if [ "$task" = "insar" ]; then gh workflow run daily-pipeline.yml --ref main -f run_auto_coder=false -R "$GITHUB_REPOSITORY"
+          else gh workflow run hazards.yml --ref main -f task=$task -R "$GITHUB_REPOSITORY"; fi
         env:
           GH_TOKEN: ${{ github.token }}
