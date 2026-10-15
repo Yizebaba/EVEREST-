@@ -3,7 +3,7 @@
 import json, os, sys, time, urllib.parse, urllib.request
 OUT = sys.argv[1] if len(sys.argv) > 1 else "."
 Q = '(avalanche OR landslide OR "glacial lake" OR GLOF OR flood OR "debris flow" OR rockfall OR snowstorm OR blizzard OR hailstorm OR lightning OR "cold wave" OR "forest fire" OR wildfire OR earthquake OR "dam collapse" OR cholera OR dengue OR outbreak) (Nepal OR Everest OR Himalaya OR Tibet OR Xizang) sourcelang:english'
-url = "https://api.gdeltproject.org/api/v2/doc/doc?" + urllib.parse.urlencode({"query": Q, "mode": "artlist", "maxrecords": "75", "format": "json", "timespan": "3d", "sort": "datedesc"})
+url = "https://api.gdeltproject.org/api/v2/doc/doc?" + urllib.parse.urlencode({"query": Q, "mode": "artlist", "maxrecords": "75", "format": "json", "timespan": "3d", "sort": "datedesc"}, quote_via=lambda s, *a: urllib.parse.quote(s, safe="()\":"))
 err = None
 for i in range(3):
     try:
