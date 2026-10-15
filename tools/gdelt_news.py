@@ -1,4 +1,4 @@
-"""GDELT 新闻线索（与 Worker 里 news() 同一个查询）。Worker 的 Cloudflare 出口 IP 是共享的，经常被 GDELT 限流（429），
+"""GDELT 新闻线索（被限流时退回灾种扫描的新闻 RSS）（与 Worker 里 news() 同一个查询）。Worker 的 Cloudflare 出口 IP 是共享的，经常被 GDELT 限流（429），
 所以 GitHub 运行器每小时也取一份，写到 events 分支 hazards/gdelt.json；Worker 直连失败时读这份。只是线索，不是事件。"""
 import json, os, sys, time, urllib.parse, urllib.request
 OUT = sys.argv[1] if len(sys.argv) > 1 else "."
@@ -17,3 +17,13 @@ for i in range(3):
     except Exception as e:
         err = e; time.sleep(6)
 print("gdelt failed:", err)
+# GDELT 对云服务器 IP 普遍限流（GitHub 运行器也一样）。退而用本次灾种扫描里“新闻 RSS”来源的记录（尼泊尔媒体原文标题和链接），格式同上，标明来源
+try:
+    R = json.load(open(os.path.join(OUT, "records.json"))).get("records", [])
+    arts = [{"t": r["t"], "title": r.get("title", "")[:200], "url": r.get("url"), "domain": urllib.parse.urlparse(r.get("url") or "").netloc, "lang": "English"}
+            for r in R if r.get("src") == "新闻 RSS" and r.get("url")]
+    json.dump({"fetched": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime()), "arts": arts, "via": "新闻 RSS（灾种扫描，GDELT 被限流时的替代）"},
+              open(os.path.join(OUT, "gdelt.json"), "w"), ensure_ascii=False)
+    print("news rss fallback", len(arts))
+except Exception as e:
+    print("rss fallback failed:", e)

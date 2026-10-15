@@ -259,7 +259,7 @@ async function news() {
     const st = r.status;
     try {
       const g = await j("https://raw.githubusercontent.com/Yizebaba/EVEREST-/events/hazards/gdelt.json");
-      if (g.fetched && Date.now() - Date.parse(g.fetched) < 3 * 3600e3) return { arts: g.arts || [], via: "GitHub 运行器（" + g.fetched + "）" };
+      if (g.fetched && Date.now() - Date.parse(g.fetched) < 3 * 3600e3) return { arts: g.arts || [], via: g.via || ("GitHub 运行器（" + g.fetched + "）") };
     } catch (e) { }
     throw new Error(`GDELT ${st}`);
   }
