@@ -1220,14 +1220,16 @@ def build(ev):
 # 请时光机存一份，存档地址写进时间线条目（archive / archive_t）。原网页以后被改或被删，时光机里那一刻的样子还在；
 # 存档由独立第三方保存，和本平台的比特币时间戳、RFC 3161、Sigstore 互相印证。每个网址只存一次（events/wayback.json 记账）。
 WAYBACK_DB = os.path.join(OUT, "wayback.json")
-WAYBACK_BUDGET = [int(os.environ.get("WAYBACK_BUDGET", "15"))]   # 每次运行最多新存几个（匿名接口有频率限制）
+WAYBACK_BUDGET = [int(os.environ.get("WAYBACK_BUDGET", "10"))]   # 每次运行最多新存几个（匿名接口有频率限制）
+WAYBACK_DEADLINE = [time.time() + 8 * 60]   # 整次运行花在存档上的时间不超过 8 分钟，超了留到下次
 
 
 def wayback_save(url):
     import time as _t
     req = urllib.request.Request("https://web.archive.org/save/" + url, headers={"user-agent": "EVEREST-evidence (github.com/Yizebaba/EVEREST-)"})
+    import socket
     try:
-        with urllib.request.urlopen(req, timeout=120) as r:
+        with urllib.request.urlopen(req, timeout=40) as r:
             final = r.geturl(); loc = r.headers.get("content-location") or ""; st = r.status
     except urllib.error.HTTPError as e:
         return {"status": e.code, "err": str(e)[:120]}
@@ -1245,13 +1247,18 @@ def wayback_attach(pack):
         u = it.get("url") or ""
         if it.get("kind") not in ("SUPPORTING", "CONTRADICTORY") or not u.startswith("http") or "web.archive.org" in u or "github.com/Yizebaba" in u: continue
         rec = db.get(u)
-        if (not rec or not rec.get("archive")) and WAYBACK_BUDGET[0] > 0 and not (rec and rec.get("tries", 0) >= 3):
+        if (not rec or not rec.get("archive")) and WAYBACK_BUDGET[0] > 0 and time.time() < WAYBACK_DEADLINE[0] and not (rec and rec.get("tries", 0) >= 3):
             WAYBACK_BUDGET[0] -= 1
-            try: r = wayback_save(u)
-            except Exception as e: r = {"err": str(e)[:120]}
+            import threading
+            box = {}
+            def _w():
+                try: box["r"] = wayback_save(u)
+                except Exception as e: box["r"] = {"err": str(e)[:120]}
+            th = threading.Thread(target=_w, daemon=True); th.start(); th.join(60)   # 硬上限 60 秒，卡住就放弃这一个
+            r = box.get("r") or {"err": "timeout 60s"}
             r["tries"] = (rec or {}).get("tries", 0) + 1; r["asked"] = iso(NOW); db[u] = rec = r; n_new += 1
             if r.get("status") == 429: WAYBACK_BUDGET[0] = 0   # 被限流就停，下次再存
-            _t.sleep(8)
+            _t.sleep(5)
         if rec and rec.get("archive"):
             it["archive"] = rec["archive"]; it["archive_t"] = rec["t"]
     json.dump(db, open(WAYBACK_DB, "w"), ensure_ascii=False, indent=1)
