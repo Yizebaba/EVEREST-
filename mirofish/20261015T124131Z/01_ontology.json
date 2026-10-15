@@ -1,0 +1,754 @@
+{
+ "analysis_summary": "种子材料描述 EVEREST 平台对公开地球观测数据的真实度审计与事件证据链建设，涉及尼泊尔政府机构、国际山地与减灾组织、登山救援组织、保险与水电业主、科研机构、媒体以及开源技术生态。围绕 EVEREST 向各方公开、全球灾害证据链推广、以及 MiroFish 等推演引擎接入决策的模拟需求，本设计将实体划分为 8 个具体组织类型和 Person、Organization 两个兜底类型，关系覆盖任职、隶属、监管、报道、评论、支持、反对、合作、数据供给与证据引用，以支持社交媒体舆论传播模拟。",
+ "files": [
+  {
+   "filename": "01_平台概况与运行实况.md",
+   "size": 2699
+  },
+  {
+   "filename": "02_数据源与实测状态.md",
+   "size": 4496
+  },
+  {
+   "filename": "03_事件证据包与全球灾种记录.md",
+   "size": 27333
+  },
+  {
+   "filename": "04_相关方与生态.md",
+   "size": 2768
+  }
+ ],
+ "ontology": {
+  "edge_types": [
+   {
+    "attributes": [
+     {
+      "description": "Additional details about this ontology type.",
+      "name": "details",
+      "type": "text"
+     }
+    ],
+    "description": "An individual is employed by or formally affiliated with an organisation",
+    "name": "WORKS_FOR",
+    "source_targets": [
+     {
+      "source": "Person",
+      "target": "GovernmentAgency"
+     },
+     {
+      "source": "Person",
+      "target": "InternationalOrganization"
+     },
+     {
+      "source": "Person",
+      "target": "ResearchInstitution"
+     },
+     {
+      "source": "Person",
+      "target": "MountaineeringOrganization"
+     },
+     {
+      "source": "Person",
+      "target": "InsuranceCompany"
+     },
+     {
+      "source": "Person",
+      "target": "EnergyCompany"
+     },
+     {
+      "source": "Person",
+      "target": "MediaOutlet"
+     },
+     {
+      "source": "Person",
+      "target": "TechPlatform"
+     },
+     {
+      "source": "Person",
+      "target": "Organization"
+     }
+    ]
+   },
+   {
+    "attributes": [
+     {
+      "description": "Additional details about this ontology type.",
+      "name": "details",
+      "type": "text"
+     }
+    ],
+    "description": "One organisation is a member, partner or subordinate body of another",
+    "name": "AFFILIATED_WITH",
+    "source_targets": [
+     {
+      "source": "GovernmentAgency",
+      "target": "InternationalOrganization"
+     },
+     {
+      "source": "ResearchInstitution",
+      "target": "InternationalOrganization"
+     },
+     {
+      "source": "MountaineeringOrganization",
+      "target": "GovernmentAgency"
+     },
+     {
+      "source": "TechPlatform",
+      "target": "Organization"
+     },
+     {
+      "source": "InsuranceCompany",
+      "target": "InternationalOrganization"
+     },
+     {
+      "source": "EnergyCompany",
+      "target": "GovernmentAgency"
+     },
+     {
+      "source": "Organization",
+      "target": "InternationalOrganization"
+     },
+     {
+      "source": "Organization",
+      "target": "GovernmentAgency"
+     }
+    ]
+   },
+   {
+    "attributes": [
+     {
+      "description": "Additional details about this ontology type.",
+      "name": "details",
+      "type": "text"
+     }
+    ],
+    "description": "A government agency oversees or sets rules for a regulated entity",
+    "name": "REGULATES",
+    "source_targets": [
+     {
+      "source": "GovernmentAgency",
+      "target": "InsuranceCompany"
+     },
+     {
+      "source": "GovernmentAgency",
+      "target": "EnergyCompany"
+     },
+     {
+      "source": "GovernmentAgency",
+      "target": "MediaOutlet"
+     },
+     {
+      "source": "GovernmentAgency",
+      "target": "TechPlatform"
+     },
+     {
+      "source": "GovernmentAgency",
+      "target": "Organization"
+     }
+    ]
+   },
+   {
+    "attributes": [
+     {
+      "description": "Additional details about this ontology type.",
+      "name": "details",
+      "type": "text"
+     }
+    ],
+    "description": "A media outlet covers, investigates or fact-checks another actor",
+    "name": "REPORTS_ON",
+    "source_targets": [
+     {
+      "source": "MediaOutlet",
+      "target": "GovernmentAgency"
+     },
+     {
+      "source": "MediaOutlet",
+      "target": "InternationalOrganization"
+     },
+     {
+      "source": "MediaOutlet",
+      "target": "ResearchInstitution"
+     },
+     {
+      "source": "MediaOutlet",
+      "target": "MountaineeringOrganization"
+     },
+     {
+      "source": "MediaOutlet",
+      "target": "InsuranceCompany"
+     },
+     {
+      "source": "MediaOutlet",
+      "target": "EnergyCompany"
+     },
+     {
+      "source": "MediaOutlet",
+      "target": "TechPlatform"
+     },
+     {
+      "source": "MediaOutlet",
+      "target": "Person"
+     },
+     {
+      "source": "MediaOutlet",
+      "target": "Organization"
+     }
+    ]
+   },
+   {
+    "attributes": [
+     {
+      "description": "Additional details about this ontology type.",
+      "name": "details",
+      "type": "text"
+     }
+    ],
+    "description": "An actor publicly comments on, questions or critiques another actor",
+    "name": "COMMENTS_ON",
+    "source_targets": [
+     {
+      "source": "Person",
+      "target": "TechPlatform"
+     },
+     {
+      "source": "Person",
+      "target": "GovernmentAgency"
+     },
+     {
+      "source": "Person",
+      "target": "InternationalOrganization"
+     },
+     {
+      "source": "Person",
+      "target": "InsuranceCompany"
+     },
+     {
+      "source": "Person",
+      "target": "EnergyCompany"
+     },
+     {
+      "source": "Person",
+      "target": "MediaOutlet"
+     },
+     {
+      "source": "Organization",
+      "target": "TechPlatform"
+     },
+     {
+      "source": "Organization",
+      "target": "GovernmentAgency"
+     },
+     {
+      "source": "TechPlatform",
+      "target": "ResearchInstitution"
+     },
+     {
+      "source": "TechPlatform",
+      "target": "InternationalOrganization"
+     }
+    ]
+   },
+   {
+    "attributes": [
+     {
+      "description": "Additional details about this ontology type.",
+      "name": "details",
+      "type": "text"
+     }
+    ],
+    "description": "An actor publicly endorses another actor or its position",
+    "name": "SUPPORTS",
+    "source_targets": [
+     {
+      "source": "Person",
+      "target": "TechPlatform"
+     },
+     {
+      "source": "Organization",
+      "target": "TechPlatform"
+     },
+     {
+      "source": "ResearchInstitution",
+      "target": "TechPlatform"
+     },
+     {
+      "source": "InternationalOrganization",
+      "target": "TechPlatform"
+     },
+     {
+      "source": "TechPlatform",
+      "target": "ResearchInstitution"
+     },
+     {
+      "source": "MediaOutlet",
+      "target": "InternationalOrganization"
+     },
+     {
+      "source": "Person",
+      "target": "InternationalOrganization"
+     }
+    ]
+   },
+   {
+    "attributes": [
+     {
+      "description": "Additional details about this ontology type.",
+      "name": "details",
+      "type": "text"
+     }
+    ],
+    "description": "An actor publicly rejects, resists or campaigns against another actor",
+    "name": "OPPOSES",
+    "source_targets": [
+     {
+      "source": "Person",
+      "target": "TechPlatform"
+     },
+     {
+      "source": "Organization",
+      "target": "TechPlatform"
+     },
+     {
+      "source": "GovernmentAgency",
+      "target": "TechPlatform"
+     },
+     {
+      "source": "InsuranceCompany",
+      "target": "TechPlatform"
+     },
+     {
+      "source": "EnergyCompany",
+      "target": "TechPlatform"
+     },
+     {
+      "source": "Person",
+      "target": "GovernmentAgency"
+     },
+     {
+      "source": "Organization",
+      "target": "InsuranceCompany"
+     }
+    ]
+   },
+   {
+    "attributes": [
+     {
+      "description": "Additional details about this ontology type.",
+      "name": "details",
+      "type": "text"
+     }
+    ],
+    "description": "Two organisations work together on data, response or standards",
+    "name": "COLLABORATES_WITH",
+    "source_targets": [
+     {
+      "source": "TechPlatform",
+      "target": "ResearchInstitution"
+     },
+     {
+      "source": "TechPlatform",
+      "target": "InternationalOrganization"
+     },
+     {
+      "source": "TechPlatform",
+      "target": "GovernmentAgency"
+     },
+     {
+      "source": "ResearchInstitution",
+      "target": "GovernmentAgency"
+     },
+     {
+      "source": "GovernmentAgency",
+      "target": "InternationalOrganization"
+     },
+     {
+      "source": "MountaineeringOrganization",
+      "target": "ResearchInstitution"
+     },
+     {
+      "source": "Organization",
+      "target": "TechPlatform"
+     },
+     {
+      "source": "Organization",
+      "target": "InternationalOrganization"
+     }
+    ]
+   },
+   {
+    "attributes": [
+     {
+      "description": "Additional details about this ontology type.",
+      "name": "details",
+      "type": "text"
+     }
+    ],
+    "description": "An actor supplies observational data or evidence packages to another",
+    "name": "PROVIDES_DATA_TO",
+    "source_targets": [
+     {
+      "source": "GovernmentAgency",
+      "target": "TechPlatform"
+     },
+     {
+      "source": "ResearchInstitution",
+      "target": "TechPlatform"
+     },
+     {
+      "source": "InternationalOrganization",
+      "target": "TechPlatform"
+     },
+     {
+      "source": "TechPlatform",
+      "target": "MediaOutlet"
+     },
+     {
+      "source": "TechPlatform",
+      "target": "InsuranceCompany"
+     },
+     {
+      "source": "TechPlatform",
+      "target": "EnergyCompany"
+     },
+     {
+      "source": "TechPlatform",
+      "target": "InternationalOrganization"
+     },
+     {
+      "source": "TechPlatform",
+      "target": "GovernmentAgency"
+     }
+    ]
+   },
+   {
+    "attributes": [
+     {
+      "description": "Additional details about this ontology type.",
+      "name": "details",
+      "type": "text"
+     }
+    ],
+    "description": "An actor relies on another actor's data, evidence chain or timestamping service",
+    "name": "USES_DATA_FROM",
+    "source_targets": [
+     {
+      "source": "GovernmentAgency",
+      "target": "TechPlatform"
+     },
+     {
+      "source": "InternationalOrganization",
+      "target": "TechPlatform"
+     },
+     {
+      "source": "ResearchInstitution",
+      "target": "TechPlatform"
+     },
+     {
+      "source": "InsuranceCompany",
+      "target": "TechPlatform"
+     },
+     {
+      "source": "EnergyCompany",
+      "target": "TechPlatform"
+     },
+     {
+      "source": "MediaOutlet",
+      "target": "TechPlatform"
+     },
+     {
+      "source": "Person",
+      "target": "TechPlatform"
+     },
+     {
+      "source": "Organization",
+      "target": "TechPlatform"
+     },
+     {
+      "source": "TechPlatform",
+      "target": "GovernmentAgency"
+     },
+     {
+      "source": "TechPlatform",
+      "target": "ResearchInstitution"
+     }
+    ]
+   }
+  ],
+  "entity_types": [
+   {
+    "attributes": [
+     {
+      "description": "Administrative area or level of authority",
+      "name": "jurisdiction",
+      "type": "text"
+     },
+     {
+      "description": "Official disaster, regulatory or data mandate",
+      "name": "mandate",
+      "type": "text"
+     },
+     {
+      "description": "Public data portal or official communication channel",
+      "name": "official_portal",
+      "type": "text"
+     }
+    ],
+    "description": "National or subnational government body with disaster, regulatory or data mandate",
+    "examples": [
+     "NDRRMA",
+     "Nepal DHM",
+     "Nepal National Seismological Centre",
+     "Nepal Insurance Authority"
+    ],
+    "name": "GovernmentAgency"
+   },
+   {
+    "attributes": [
+     {
+      "description": "Core mission and thematic scope",
+      "name": "mandate",
+      "type": "text"
+     },
+     {
+      "description": "Country or city of headquarters",
+      "name": "headquarters",
+      "type": "text"
+     },
+     {
+      "description": "Geographic or institutional membership reach",
+      "name": "member_scope",
+      "type": "text"
+     }
+    ],
+    "description": "Cross-border agency, UN body, development bank or regional cooperation platform",
+    "examples": [
+     "ICIMOD",
+     "UN OCHA",
+     "GDACS",
+     "IFRC",
+     "World Bank"
+    ],
+    "name": "InternationalOrganization"
+   },
+   {
+    "attributes": [
+     {
+      "description": "Primary scientific or technical domain",
+      "name": "research_domain",
+      "type": "text"
+     },
+     {
+      "description": "Public datasets, catalogs or monitoring products",
+      "name": "data_products",
+      "type": "text"
+     },
+     {
+      "description": "Country where the institution is based",
+      "name": "home_country",
+      "type": "text"
+     }
+    ],
+    "description": "Scientific institute, university or observatory producing geophysical or hazard data",
+    "examples": [
+     "OGS/EvK2CNR",
+     "Nepal Academy of Science and Technology",
+     "USGS",
+     "EMSC",
+     "GEOFON"
+    ],
+    "name": "ResearchInstitution"
+   },
+   {
+    "attributes": [
+     {
+      "description": "Geographic area of operations",
+      "name": "operation_area",
+      "type": "text"
+     },
+     {
+      "description": "Main services such as guiding, rescue or advocacy",
+      "name": "service_type",
+      "type": "text"
+     },
+     {
+      "description": "Season or period of primary activity",
+      "name": "active_season",
+      "type": "text"
+     }
+    ],
+    "description": "Expedition operator, rescue body or climbers' association active in the Himalaya",
+    "examples": [
+     "SPCC",
+     "Himalayan Rescue Association",
+     "Nepal Mountaineering Association",
+     "Expedition Operators"
+    ],
+    "name": "MountaineeringOrganization"
+   },
+   {
+    "attributes": [
+     {
+      "description": "Main insurance or reinsurance lines",
+      "name": "insurance_line",
+      "type": "text"
+     },
+     {
+      "description": "Parametric or indemnity trigger mechanism",
+      "name": "trigger_type",
+      "type": "text"
+     },
+     {
+      "description": "Geographic focus of underwriting",
+      "name": "portfolio_region",
+      "type": "text"
+     }
+    ],
+    "description": "Insurer, reinsurer or parametric risk-finance entity",
+    "examples": [
+     "Nepal-registered insurers",
+     "Parametric reinsurers",
+     "World Bank disaster risk finance team"
+    ],
+    "name": "InsuranceCompany"
+   },
+   {
+    "attributes": [
+     {
+      "description": "Type of energy asset or infrastructure",
+      "name": "asset_type",
+      "type": "text"
+     },
+     {
+      "description": "Installed generation capacity if known",
+      "name": "installed_capacity",
+      "type": "text"
+     },
+     {
+      "description": "River basin or district of operation",
+      "name": "project_location",
+      "type": "text"
+     }
+    ],
+    "description": "Hydropower project owner, operator or power utility",
+    "examples": [
+     "Nepal Electricity Authority",
+     "IPPAN members",
+     "Upper Trishuli-1 hydropower owner"
+    ],
+    "name": "EnergyCompany"
+   },
+   {
+    "attributes": [
+     {
+      "description": "Broadcast, print, online or social medium",
+      "name": "medium_type",
+      "type": "text"
+     },
+     {
+      "description": "Local, national or international coverage",
+      "name": "coverage_scope",
+      "type": "text"
+     },
+     {
+      "description": "Primary audience or language region",
+      "name": "audience_region",
+      "type": "text"
+     }
+    ],
+    "description": "News organisation, fact-checking desk or social media news publisher",
+    "examples": [
+     "Al Jazeera",
+     "The Himalayan Times",
+     "Insurance Business Asia",
+     "Nepali news RSS feeds"
+    ],
+    "name": "MediaOutlet"
+   },
+   {
+    "attributes": [
+     {
+      "description": "Category such as audit, timestamping or simulation",
+      "name": "platform_type",
+      "type": "text"
+     },
+     {
+      "description": "Main technical function or service",
+      "name": "core_function",
+      "type": "text"
+     },
+     {
+      "description": "Whether the project is open source",
+      "name": "open_source_status",
+      "type": "text"
+     }
+    ],
+    "description": "Open-source project, data infrastructure or AI agent platform team",
+    "examples": [
+     "EVEREST platform team",
+     "MiroFish",
+     "OpenTimestamps",
+     "Sigstore/Rekor",
+     "Claude MCP ecosystem"
+    ],
+    "name": "TechPlatform"
+   },
+   {
+    "attributes": [
+     {
+      "description": "Name or public handle of the individual",
+      "name": "full_name",
+      "type": "text"
+     },
+     {
+      "description": "Public role, job or social identity",
+      "name": "role_title",
+      "type": "text"
+     },
+     {
+      "description": "Country or region where the person is based",
+      "name": "location",
+      "type": "text"
+     }
+    ],
+    "description": "Fallback type for any individual not covered by a more specific entity type",
+    "examples": [
+     "A Nepali trekker",
+     "An anonymous social media user",
+     "A freelance journalist",
+     "A concerned scientist"
+    ],
+    "name": "Person"
+   },
+   {
+    "attributes": [
+     {
+      "description": "Name of the organisation or collective",
+      "name": "org_name",
+      "type": "text"
+     },
+     {
+      "description": "Informal type such as community group or startup",
+      "name": "org_type",
+      "type": "text"
+     },
+     {
+      "description": "Country or region of operation",
+      "name": "location",
+      "type": "text"
+     }
+    ],
+    "description": "Fallback type for any organisation not covered by a more specific entity type",
+    "examples": [
+     "A local community group",
+     "An ad-hoc rescue collective",
+     "An unnamed startup"
+    ],
+    "name": "Organization"
+   }
+  ]
+ },
+ "project_id": "proj_bf7ee9f9f0ee",
+ "project_name": "EVEREST 证据链推演 2026-10-15",
+ "total_text_length": 23241
+}
