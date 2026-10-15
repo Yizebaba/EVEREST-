@@ -145,3 +145,31 @@ try:
     print("live_ops", len(ops), "runs")
 except Exception as e:
     print("运行记录暂缺：", e)
+
+# 仓库每日 InSAR 管线的最新产物和自动核对（读 main 分支 data/displacement_summary.json），并进 live_ops.json 的 pipe 字段
+try:
+    from datetime import date
+    sm = json.loads(raw("data/displacement_summary.json", "main"))
+    ins = (sm.get("results") or {}).get("insar_displacement") or {}
+    pair = sm.get("insar_pair") or {}; cp = ins.get("cloud_pair") or {}
+    try: gap = (date.fromisoformat(pair["slave"]) - date.fromisoformat(pair["master"])).days
+    except Exception: gap = None
+    checks = [
+        {"ok": str(ins.get("source", "")).startswith("cloud_insar"), "t": "位移只认云端干涉（哥白尼 openEO）的真实结果；没有结果或没有参考点就不给毫米数（不再用仓库里的固定矩阵）" if str(ins.get("source", "")).startswith("cloud_insar") else "位移数值不是来自云端干涉真实结果"},
+        {"ok": gap == 12, "t": f"影像对 {pair.get('master')} → {pair.get('slave')} 相隔 {gap} 天" + ("，是同一条带（23790，相对轨道 12）的 12 天重访" if gap == 12 else "，不是同一条带的 12 天重访，不能做干涉")},
+        {"ok": bool(cp) and str(cp.get("slave", "")) >= str(pair.get("slave", "")), "t": f"云端干涉最新 {cp.get('master')} → {cp.get('slave')}" + ("，已覆盖最新影像对" if cp and str(cp.get('slave', '')) >= str(pair.get('slave', '')) else "，还没算到最新影像对")},
+    ]
+    cm = json.loads(subprocess.check_output(["gh", "api", f"repos/{REPO}/commits?path=data/displacement_summary.json&per_page=3"]))
+    pipe = {"generated": (sm.get("timestamp_utc") or "")[:19], "pair": pair, "burst": sm.get("burst_id"),
+            "insar": {k: ins.get(k) for k in ("status", "reason", "median_mm", "max_mm", "evaluated_candidate_pixels", "valid_phase_pixels", "coherence_mean", "cloud_pair", "displacement_status", "cloud_processed_utc")},
+            "auto": {"t": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime()), "checks": checks},
+            "commits": [{"t": c["commit"]["committer"]["date"], "sha": c["sha"][:7]} for c in cm]}
+    opsf = f"{out}/live_ops.json"
+    o = json.load(open(opsf)) if os.path.exists(opsf) else {"updated": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime()), "runs": []}
+    o["pipe"] = pipe
+    try: o["sat"] = json.loads(raw("hazards/sat.json", "events"))   # 哨兵卫星过境目录（hazards 工作流每小时）
+    except Exception as e: print("卫星目录暂缺：", e)
+    json.dump(o, open(opsf, "w"), ensure_ascii=False)
+    print("pipe", pipe["pair"], [c["ok"] for c in checks])
+except Exception as e:
+    print("管线产物暂缺：", e)

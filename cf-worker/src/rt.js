@@ -255,7 +255,15 @@ async function news() {
   // GDELT 限每个 IP 5 秒一次，Cloudflare 出口 IP 是共享的，常被 429：等 6 秒再试一次；还不行这一轮报错，30 分钟后再取（上次结果保留）
   let r = await fetch(url, { headers: UA });
   if (r.status === 429) { await new Promise(f => setTimeout(f, 6000)); r = await fetch(url, { headers: UA }); }
-  const tx = await r.text(); if (!r.ok) throw new Error(`GDELT ${r.status}`);
+  if (!r.ok) {   // 还是被限流：读 GitHub 运行器每小时取的同一查询结果（events 分支 hazards/gdelt.json），不超过 3 小时的才用
+    const st = r.status;
+    try {
+      const g = await j("https://raw.githubusercontent.com/Yizebaba/EVEREST-/events/hazards/gdelt.json");
+      if (g.fetched && Date.now() - Date.parse(g.fetched) < 3 * 3600e3) return { arts: g.arts || [], via: "GitHub 运行器（" + g.fetched + "）" };
+    } catch (e) { }
+    throw new Error(`GDELT ${st}`);
+  }
+  const tx = await r.text();
   if (!tx.trim().startsWith("{")) throw new Error("GDELT: " + tx.slice(0, 80));
   const s2 = d => `${d.slice(0, 4)}-${d.slice(4, 6)}-${d.slice(6, 8)}T${d.slice(9, 11)}:${d.slice(11, 13)}:${d.slice(13, 15)}Z`;
   return { arts: (JSON.parse(tx).articles || []).map(x => ({ t: s2(x.seendate), title: String(x.title || "").slice(0, 200), url: x.url, domain: x.domain, lang: x.language })) };

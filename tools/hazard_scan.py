@@ -540,7 +540,23 @@ def gvp():
     for u in ("https://volcano.si.edu/news/WeeklyVolcanoRSS.xml", "https://volcano.si.edu/news/WeeklyVolcanoCAP.xml"):
         try: b = get(u, raw=True, headers={"user-agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124 Safari/537.36", "accept": "application/rss+xml, application/xml, */*"}); break
         except Exception as e: err = e
-    if b is None: raise err
+    if b is None:
+        # 周报网站拒绝云服务器（403）时，改用史密森尼 GVP 的公开地理服务（另一台服务器）：1960 年以来、还没结束的喷发
+        x = get("https://webservices.volcano.si.edu/geoserver/GVP-VOTW/ows?service=WFS&version=2.0.0&request=GetFeature"
+                "&typeName=GVP-VOTW:E3WebApp_Eruptions1960&outputFormat=application/json&count=2000", timeout=90)
+        n = 0
+        for f in x.get("features", []):
+            pr = f.get("properties") or {}
+            if pr.get("EndDateYear") not in (None, "", 0): continue
+            y, m, d = pr.get("StartDateYear"), pr.get("StartDateMonth") or 1, pr.get("StartDateDay") or 1
+            if not y or int(y) < NOW.year - 30: continue
+            g = (f.get("geometry") or {}).get("coordinates") or [None, None]
+            t = f"{int(y):04d}-{max(1, int(m)):02d}-{max(1, int(d)):02d}T00:00:00Z"
+            rec(["GH0201", "GH0202", "GH0205"], t, f"{pr.get('VolcanoName')} 持续喷发（{int(y)} 年开始，VEI {pr.get('ExplosivityIndexMax') if pr.get('ExplosivityIndexMax') is not None else '—'}）",
+                g[1], g[0], f"https://volcano.si.edu/volcano.cfm?vn={pr.get('VolcanoNumber')}", f"gvp-e-{pr.get('EruptionNumber')}")
+            n += 1
+        if not n: raise err
+        return
     for it in ET.fromstring(b).iter("item"):
         rec(["GH0201", "GH0202", "GH0205"], iso(NOW), it.findtext("title") or "", None, None, it.findtext("link"), "gvp-" + (it.findtext("guid") or it.findtext("title") or ""))
 

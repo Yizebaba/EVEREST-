@@ -31,7 +31,7 @@ from models.realtime_environmental_feeds import (
     RealtimeGlaViTUInferenceEngine
 )
 from models.foundation_model_embedder import FoundationModelCryoEmbedder
-from models.cdse_sentinel1 import discover_sentinel1_slc_pair
+from models.cdse_sentinel1 import discover_sentinel1_slc_pair, discover_burst_pair
 
 AOI_BBOX = [86.55, 27.72, 87.05, 28.10]
 BURST_ID = 23790
@@ -40,7 +40,8 @@ SCALE_PHASE_TO_MM = -(LAMBDA_C_BAND / (4.0 * np.pi)) * 1000.0  # -4.4138 mm/rad
 
 def check_new_acquisitions_precise():
     print("[1/6] [L0 Data] Querying Copernicus CDSE Products for newest AOI Sentinel-1 SLC pair...")
-    discovery = discover_sentinel1_slc_pair()
+    # 同一条带（Burst 23790 / IW1 / 相对轨道 12 / S1D）相隔 12 天的一对，和云端干涉用同一个查询
+    discovery = discover_burst_pair()
     latest = discovery["latest"]
     previous = discovery["previous"]
     print(f"[1/6] CDSE SLC detected: latest={latest['date']} ({latest['name']}), previous={previous['date']} ({previous['name']})")

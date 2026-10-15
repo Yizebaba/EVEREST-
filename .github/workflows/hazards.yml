@@ -57,7 +57,7 @@ jobs:
           except Exception as e: print("eumetsat caps", e)
           PY
           elif [ "$TASK" = "catalog" ]; then python3 tools/catalog.py out 2>&1 | tee out/catalog.log; exit 0
-          else python3 tools/hazard_scan.py out > out/run.log 2>&1; python3 tools/webcams.py out > out/cams.log 2>&1 || true; python3 tools/catalog.py out > out/catalog.log 2>&1 || true; fi
+          else python3 tools/hazard_scan.py out > out/run.log 2>&1; python3 tools/webcams.py out > out/cams.log 2>&1 || true; python3 tools/catalog.py out > out/catalog.log 2>&1 || true; python3 tools/gdelt_news.py out >> out/catalog.log 2>&1 || true; python3 tools/sat_catalog.py out >> out/catalog.log 2>&1 || true; fi
           echo "exit=$?" >> out/run.log; tail -40 out/run.log
       - name: Save to events branch
         if: always()

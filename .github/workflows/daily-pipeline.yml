@@ -55,7 +55,7 @@ jobs:
           PY
 
       - name: Run LangGraph Auto-Coder Agent
-        if: ${{ github.event.inputs.run_auto_coder == 'true' || github.event_name == 'workflow_dispatch' }}
+        if: ${{ github.event.inputs.run_auto_coder == 'true' }}
         run: |
           python auto_coder_agent.py
 
