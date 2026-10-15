@@ -352,3 +352,10 @@
 - 知识库 → 文献与数据源：从只显示证据包里 5 种灾害的参考文献，改为全部 281 种：每种的 2020 年以来论文数、专业期刊（OpenAlex，h 指数）、综合期刊、数据论文、高被引论文（带 DOI）、本平台实测能取到的数据源；可搜索、按类别筛选。数据来自 events 分支 hazards/venues.json 和 scan.json，hub_sync 写 live/lit。
 - 侧栏面板会把 <details> 转成固定面板，带属性的 <details> 会让结构错位（之前“运行状态”“证据链”布局乱的原因之一）；证据链的推断边界和新文献表都改为自己的展开按钮，页面里不再有带属性的 <details>。
 - 复原：页面回退 Version 71；hub_sync 删 lit 段。
+
+---
+# 第四十八次改动（互联网档案馆时光机存档、MiroFish 首次运行）
+- 证据包 v24（events 分支 tools/evidence_pack.py）：每条“支持 / 矛盾”记录的原始网页，用互联网档案馆公开的 Save Page Now 请时光机存一份，存档地址和时间写进时间线条目（archive、archive_t），每个网址只存一次，记账在 events/wayback.json；每次运行最多新存 15 个，被限流就停、下次继续。证据包新鲜度改为 50 分钟（每小时重算一次）。
+- 页面：时间线每条后面多一个“时光机存档 ↗”；“证据链存在哪里”和证据源“存证”一行加上 Wayback Machine。
+- MiroFish：仓库 Secrets 已加（DeepSeek + Zep），已启动第一次推演（combined，20 轮）。
+- 复原：证据包回退 VERSION 23（删 wayback_save / wayback_attach 和 build 里的调用）；页面回退 Version 72。

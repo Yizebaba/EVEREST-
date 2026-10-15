@@ -18,12 +18,12 @@
 """
 import json, math, os, re, sys, time, traceback
 from datetime import datetime, timedelta, timezone
-import urllib.request, urllib.parse
+import urllib.request, urllib.parse, urllib.error
 
 UA = {"user-agent": "everest-evidence (github.com/Yizebaba/EVEREST-)"}
 EVN = (27.9587, 86.8117)
 OUT = "events"
-VERSION = 23   # 改了证据包内容时加 1，所有包会重算一次
+VERSION = 24   # 改了证据包内容时加 1，所有包会重算一次
 NOW = datetime.now(timezone.utc)
 
 # 尼泊尔区县 → IODA 地区（旧 14 区）
@@ -1206,10 +1206,58 @@ def build(ev):
     items.sort(key=lambda i: i["t"])
     pack["timeline"] = items; pack["built"] = iso(NOW)
     add_bounds(pack)
+    try:
+        wayback_attach(pack)
+    except Exception:
+        traceback.print_exc()
     pack["note_en"] = "States only what public sources recorded and when; no attribution of cause, no prediction. A strong seismic signal only means the station recorded strong shaking at that moment."
     pack["note"] = "只陈述公开来源记录了什么、什么时候；不判断成因，不预测。地震台强信号只说明那一刻台站记录到较强震动，来源需要结合其他证据。"
     return pack
 
+
+
+# 互联网档案馆时光机（Wayback Machine）存档：证据包里每条“支持 / 矛盾”记录的原始网页，用公开的“立即保存”（Save Page Now）
+# 请时光机存一份，存档地址写进时间线条目（archive / archive_t）。原网页以后被改或被删，时光机里那一刻的样子还在；
+# 存档由独立第三方保存，和本平台的比特币时间戳、RFC 3161、Sigstore 互相印证。每个网址只存一次（events/wayback.json 记账）。
+WAYBACK_DB = os.path.join(OUT, "wayback.json")
+WAYBACK_BUDGET = [int(os.environ.get("WAYBACK_BUDGET", "15"))]   # 每次运行最多新存几个（匿名接口有频率限制）
+
+
+def wayback_save(url):
+    import time as _t
+    req = urllib.request.Request("https://web.archive.org/save/" + url, headers={"user-agent": "EVEREST-evidence (github.com/Yizebaba/EVEREST-)"})
+    try:
+        with urllib.request.urlopen(req, timeout=120) as r:
+            final = r.geturl(); loc = r.headers.get("content-location") or ""; st = r.status
+    except urllib.error.HTTPError as e:
+        return {"status": e.code, "err": str(e)[:120]}
+    m = re.search(r"/web/(\d{14})/", final) or re.search(r"/web/(\d{14})/", loc)
+    if not m: return {"status": st, "err": "no snapshot url"}
+    ts = m.group(1)
+    return {"status": st, "archive": f"https://web.archive.org/web/{ts}/{url}", "t": f"{ts[:4]}-{ts[4:6]}-{ts[6:8]}T{ts[8:10]}:{ts[10:12]}:{ts[12:14]}Z"}
+
+
+def wayback_attach(pack):
+    import time as _t
+    db = json.load(open(WAYBACK_DB)) if os.path.exists(WAYBACK_DB) else {}
+    n_new = 0
+    for it in pack.get("timeline", []):
+        u = it.get("url") or ""
+        if it.get("kind") not in ("SUPPORTING", "CONTRADICTORY") or not u.startswith("http") or "web.archive.org" in u or "github.com/Yizebaba" in u: continue
+        rec = db.get(u)
+        if (not rec or not rec.get("archive")) and WAYBACK_BUDGET[0] > 0 and not (rec and rec.get("tries", 0) >= 3):
+            WAYBACK_BUDGET[0] -= 1
+            try: r = wayback_save(u)
+            except Exception as e: r = {"err": str(e)[:120]}
+            r["tries"] = (rec or {}).get("tries", 0) + 1; r["asked"] = iso(NOW); db[u] = rec = r; n_new += 1
+            if r.get("status") == 429: WAYBACK_BUDGET[0] = 0   # 被限流就停，下次再存
+            _t.sleep(8)
+        if rec and rec.get("archive"):
+            it["archive"] = rec["archive"]; it["archive_t"] = rec["t"]
+    json.dump(db, open(WAYBACK_DB, "w"), ensure_ascii=False, indent=1)
+    pack["archive_note"] = "带 archive 字段的条目：原始网页已由互联网档案馆时光机（Wayback Machine，独立第三方）存档，archive_t 是存档时间。存档证明那一刻网页的样子，不证明网页内容属实。"
+    pack["archive_n"] = sum(1 for it in pack.get("timeline", []) if it.get("archive"))
+    if n_new: print("wayback: 新存档请求", n_new, "，本条证据包已有存档", pack["archive_n"])
 
 def main():
     os.makedirs(OUT, exist_ok=True)
