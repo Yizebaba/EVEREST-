@@ -9501,7 +9501,7 @@
       "why": {
        "rfc3161_FreeTSA": "stamp routines:ts_check_status_info:no time stamp token:../crypto/ts/ts_rsp_verify.c:390:status code: rejection, status text: Error during serial number generation., failure codes: addInfoNotAvailable"
       },
-      "at": "2026-10-15T18:39:17Z"
+      "at": "2026-10-15T18:42:13Z"
      }
     }
    ],
@@ -10270,6 +10270,51 @@
       "why": {},
       "at": "2026-10-15T17:39:48Z"
      }
+    },
+    {
+     "sha256": "5c96fcddf4494217d25f0a4ad71f786023bbd074d064a0ad86db5e56d9579326",
+     "file": "events/archive/news-flood-gorkha-2026-10-14_5c96fcddf449.json",
+     "ots": "events/archive/news-flood-gorkha-2026-10-14_5c96fcddf449.json.ots",
+     "stamped": "2026-10-15T18:39:57Z",
+     "status": "pending",
+     "err": null,
+     "tsa": [
+      {
+       "tsa": "FreeTSA",
+       "file": "events/archive/news-flood-gorkha-2026-10-14_5c96fcddf449.json.FreeTSA.tsr",
+       "time": "Oct 15 18:41:39 2026 GMT"
+      },
+      {
+       "tsa": "DigiCert",
+       "file": "events/archive/news-flood-gorkha-2026-10-14_5c96fcddf449.json.DigiCert.tsr",
+       "time": "Oct 15 18:41:39 2026 GMT"
+      }
+     ],
+     "sigstore": {
+      "file": "events/archive/news-flood-gorkha-2026-10-14_5c96fcddf449.json.sigstore.json",
+      "identity": "https://github.com/Yizebaba/EVEREST-/.github/workflows/evidence.yml@refs/heads/events",
+      "rekor_log_index": "3267605357",
+      "self_verified": true,
+      "rekor": "https://search.sigstore.dev/?logIndex=3267605357"
+     },
+     "verify": {
+      "checks": {
+       "sha256_python": true,
+       "sha256_coreutils": true,
+       "rfc3161_FreeTSA": true,
+       "rfc3161_DigiCert": true,
+       "sigstore_cosign": true,
+       "sigstore_python": true,
+       "ots_parse": true,
+       "prov": true,
+       "rocrate": true
+      },
+      "passed": 9,
+      "total": 9,
+      "failed": [],
+      "why": {},
+      "at": "2026-10-15T18:42:14Z"
+     }
     }
    ],
    "title": "Gorkha 洪水（新闻线索）",
@@ -10281,11 +10326,11 @@
    "lon": 84.63,
    "v": 24,
    "man": "4f53cda18c2baa0c",
-   "n": 59,
+   "n": 58,
    "src_n": 8,
-   "built": "2026-10-15T17:35:04Z",
-   "missing": 9
+   "built": "2026-10-15T18:39:57Z",
+   "missing": 10
   }
  },
- "updated": "2026-10-15T18:23:26Z"
+ "updated": "2026-10-15T18:39:57Z"
 }
