@@ -932,7 +932,7 @@
      "file": "events/archive/bipad-dolpa-2026-10-09_fcabdcb56004.json",
      "ots": "events/archive/bipad-dolpa-2026-10-09_fcabdcb56004.json.ots",
      "stamped": "2026-10-15T04:12:56Z",
-     "status": "pending",
+     "status": "confirmed",
      "err": null,
      "tsa": [
       {
@@ -970,7 +970,9 @@
       "failed": [],
       "why": {},
       "at": "2026-10-15T04:20:51Z"
-     }
+     },
+     "bitcoin_block": 971510,
+     "confirmed_checked": "2026-10-15T05:48:31Z"
     },
     {
      "sha256": "167abe027dc6481a0c549710107cca2eba864a55628e4a126fd2f72e911c75a5",
@@ -2496,7 +2498,7 @@
      "file": "events/archive/hz-bipad-i-95744_281299bbcb4f.json",
      "ots": "events/archive/hz-bipad-i-95744_281299bbcb4f.json.ots",
      "stamped": "2026-10-15T04:12:56Z",
-     "status": "pending",
+     "status": "confirmed",
      "err": null,
      "tsa": [
       {
@@ -2534,7 +2536,9 @@
       "failed": [],
       "why": {},
       "at": "2026-10-15T04:20:53Z"
-     }
+     },
+     "bitcoin_block": 971510,
+     "confirmed_checked": "2026-10-15T05:48:31Z"
     },
     {
      "sha256": "3e9f9dfdcda251a31a4cca7f49eccf6d74e28e1cbd167bb5d64f5f767fccd592",
@@ -3418,7 +3422,7 @@
      "file": "events/archive/hz-bipad-i-95688_5803daa3141e.json",
      "ots": "events/archive/hz-bipad-i-95688_5803daa3141e.json.ots",
      "stamped": "2026-10-15T04:12:56Z",
-     "status": "pending",
+     "status": "confirmed",
      "err": null,
      "tsa": [
       {
@@ -3456,7 +3460,9 @@
       "failed": [],
       "why": {},
       "at": "2026-10-15T04:20:54Z"
-     }
+     },
+     "bitcoin_block": 971511,
+     "confirmed_checked": "2026-10-15T05:48:31Z"
     },
     {
      "sha256": "ddfbf5fef027123bdbac90fa55736137952e6e0eb1227e7c66361eff7ddca3b0",
@@ -5741,6 +5747,51 @@
       "why": {},
       "at": "2026-10-15T04:52:30Z"
      }
+    },
+    {
+     "sha256": "595f4a9c161d77609c0eb7ba7acd16672339ab153f707505c30383528b2ea241",
+     "file": "events/archive/usgs-us6000u1j7_595f4a9c161d.json",
+     "ots": "events/archive/usgs-us6000u1j7_595f4a9c161d.json.ots",
+     "stamped": "2026-10-15T05:48:31Z",
+     "status": "pending",
+     "err": null,
+     "tsa": [
+      {
+       "tsa": "FreeTSA",
+       "file": "events/archive/usgs-us6000u1j7_595f4a9c161d.json.FreeTSA.tsr",
+       "time": "Oct 15 05:53:15 2026 GMT"
+      },
+      {
+       "tsa": "DigiCert",
+       "file": "events/archive/usgs-us6000u1j7_595f4a9c161d.json.DigiCert.tsr",
+       "time": "Oct 15 05:53:15 2026 GMT"
+      }
+     ],
+     "sigstore": {
+      "file": "events/archive/usgs-us6000u1j7_595f4a9c161d.json.sigstore.json",
+      "identity": "https://github.com/Yizebaba/EVEREST-/.github/workflows/evidence.yml@refs/heads/events",
+      "rekor_log_index": "3260390115",
+      "self_verified": true,
+      "rekor": "https://search.sigstore.dev/?logIndex=3260390115"
+     },
+     "verify": {
+      "checks": {
+       "sha256_python": true,
+       "sha256_coreutils": true,
+       "rfc3161_FreeTSA": true,
+       "rfc3161_DigiCert": true,
+       "sigstore_cosign": true,
+       "sigstore_python": true,
+       "ots_parse": true,
+       "prov": true,
+       "rocrate": true
+      },
+      "passed": 9,
+      "total": 9,
+      "failed": [],
+      "why": {},
+      "at": "2026-10-15T05:53:44Z"
+     }
     }
    ],
    "title": "USGS 记录的崩塌/滑坡 M3.9",
@@ -5752,9 +5803,9 @@
    "lon": 84.942,
    "v": 23,
    "man": "4f53cda18c2baa0c",
-   "n": 71,
+   "n": 66,
    "src_n": 10,
-   "built": "2026-10-15T04:48:39Z",
+   "built": "2026-10-15T05:48:31Z",
    "missing": 9
   },
   "news-flood-gorkha-2026-10-14": {
@@ -5850,6 +5901,51 @@
       "why": {},
       "at": "2026-10-15T04:52:31Z"
      }
+    },
+    {
+     "sha256": "8492a1d0ea8271ef89e4cb7a2041a151e7492120ce0b156f807454325ab0288b",
+     "file": "events/archive/news-flood-gorkha-2026-10-14_8492a1d0ea82.json",
+     "ots": "events/archive/news-flood-gorkha-2026-10-14_8492a1d0ea82.json.ots",
+     "stamped": "2026-10-15T05:48:31Z",
+     "status": "pending",
+     "err": null,
+     "tsa": [
+      {
+       "tsa": "FreeTSA",
+       "file": "events/archive/news-flood-gorkha-2026-10-14_8492a1d0ea82.json.FreeTSA.tsr",
+       "time": "Oct 15 05:50:38 2026 GMT"
+      },
+      {
+       "tsa": "DigiCert",
+       "file": "events/archive/news-flood-gorkha-2026-10-14_8492a1d0ea82.json.DigiCert.tsr",
+       "time": "Oct 15 05:50:38 2026 GMT"
+      }
+     ],
+     "sigstore": {
+      "file": "events/archive/news-flood-gorkha-2026-10-14_8492a1d0ea82.json.sigstore.json",
+      "identity": "https://github.com/Yizebaba/EVEREST-/.github/workflows/evidence.yml@refs/heads/events",
+      "rekor_log_index": "3260354302",
+      "self_verified": true,
+      "rekor": "https://search.sigstore.dev/?logIndex=3260354302"
+     },
+     "verify": {
+      "checks": {
+       "sha256_python": true,
+       "sha256_coreutils": true,
+       "rfc3161_FreeTSA": true,
+       "rfc3161_DigiCert": true,
+       "sigstore_cosign": true,
+       "sigstore_python": true,
+       "ots_parse": true,
+       "prov": true,
+       "rocrate": true
+      },
+      "passed": 9,
+      "total": 9,
+      "failed": [],
+      "why": {},
+      "at": "2026-10-15T05:53:45Z"
+     }
     }
    ],
    "title": "Gorkha 洪水（新闻线索）",
@@ -5863,9 +5959,9 @@
    "man": "4f53cda18c2baa0c",
    "n": 49,
    "src_n": 5,
-   "built": "2026-10-15T04:48:39Z",
-   "missing": 11
+   "built": "2026-10-15T05:48:31Z",
+   "missing": 10
   }
  },
- "updated": "2026-10-15T05:20:53Z"
+ "updated": "2026-10-15T05:48:31Z"
 }
