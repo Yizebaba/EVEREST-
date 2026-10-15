@@ -1,0 +1,70 @@
+# MiroFish 群体智能推演（github.com/666ghj/MiroFish，AGPL-3.0，不改它的代码，只调用它的后端 API）。
+# 用本平台真实数据生成种子材料 → 构建知识图谱 → 双平台模拟 → ReportAgent 报告。结果是“推演”，不是证据，不进证据链。
+# 需要仓库 Secrets：LLM_API_KEY、LLM_BASE_URL、LLM_MODEL_NAME（任意 OpenAI 格式接口，MiroFish 推荐阿里百炼 qwen-plus）、ZEP_API_KEY（Zep Cloud）。
+# 计算主要在 LLM 和 Zep 的云端，运行器只做调度，不是重计算。
+name: mirofish
+on:
+  workflow_dispatch:
+    inputs:
+      scenario: { description: "combined / everest / global / strategy", default: "combined" }
+      max_rounds: { description: "模拟轮数（MiroFish 建议先小于 40）", default: "20" }
+      mirofish_ref: { description: "MiroFish 提交号（固定版本）", default: "7657031ac01184afe2cb220f5ee3545573b5e843" }
+permissions:
+  contents: write
+concurrency:
+  group: mirofish
+  cancel-in-progress: false
+jobs:
+  run:
+    runs-on: ubuntu-latest
+    timeout-minutes: 300
+    steps:
+      - uses: actions/checkout@v4
+      - name: Check secrets (only says whether each is set)
+        env:
+          LLM_API_KEY: ${{ secrets.LLM_API_KEY }}
+          LLM_BASE_URL: ${{ secrets.LLM_BASE_URL }}
+          LLM_MODEL_NAME: ${{ secrets.LLM_MODEL_NAME }}
+          ZEP_API_KEY: ${{ secrets.ZEP_API_KEY }}
+        run: |
+          miss=""
+          for k in LLM_API_KEY LLM_BASE_URL LLM_MODEL_NAME ZEP_API_KEY; do if [ -z "${!k}" ]; then miss="$miss $k"; echo "$k: missing"; else echo "$k: set"; fi; done
+          mkdir -p mf_out; echo "{\"missing\": \"$miss\"}" > mf_out/secrets_check.json
+          if [ -n "$miss" ]; then echo "缺少：$miss"; echo "MISSING=1" >> $GITHUB_ENV; fi
+      - name: Seed material from live EVEREST data
+        env: { GH_TOKEN: "${{ github.token }}" }
+        run: python3 tools/mirofish_seed.py mf_in "${{ github.event.inputs.scenario || 'combined' }}" && cp -r mf_in mf_out/input
+      - uses: actions/setup-python@v5
+        if: env.MISSING != '1'
+        with: { python-version: "3.11" }
+      - uses: astral-sh/setup-uv@v6
+        if: env.MISSING != '1'
+      - name: Install MiroFish backend (pinned)
+        if: env.MISSING != '1'
+        run: |
+          git clone -q https://github.com/666ghj/MiroFish.git mf && cd mf && git checkout -q "${{ github.event.inputs.mirofish_ref }}"
+          cd backend && uv sync --frozen || uv sync
+      - name: Start backend and run
+        if: env.MISSING != '1'
+        env:
+          LLM_API_KEY: ${{ secrets.LLM_API_KEY }}
+          LLM_BASE_URL: ${{ secrets.LLM_BASE_URL }}
+          LLM_MODEL_NAME: ${{ secrets.LLM_MODEL_NAME }}
+          ZEP_API_KEY: ${{ secrets.ZEP_API_KEY }}
+        run: |
+          cd mf/backend
+          printf 'LLM_API_KEY=%s\nLLM_BASE_URL=%s\nLLM_MODEL_NAME=%s\nZEP_API_KEY=%s\n' "$LLM_API_KEY" "$LLM_BASE_URL" "$LLM_MODEL_NAME" "$ZEP_API_KEY" > ../.env
+          nohup uv run python run.py > ../../mf_out/backend.log 2>&1 &
+          for i in $(seq 1 60); do curl -sf http://127.0.0.1:5001/health && break; sleep 3; done
+          cd ../.. && python3 tools/mirofish_run.py mf_in mf_out "${{ github.event.inputs.max_rounds || '20' }}" || echo "RUNFAIL=1" >> $GITHUB_ENV
+          # 日志里不能有密钥
+          for f in mf_out/backend.log mf_out/run.log; do [ -f "$f" ] && for k in "$LLM_API_KEY" "$ZEP_API_KEY"; do [ -n "$k" ] && sed -i "s#$k#***#g" "$f"; done; done
+          rm -f mf/.env
+      - name: Save to events branch (mirofish/<UTC time>/)
+        if: always()
+        run: |
+          D="mirofish/$(date -u +%Y%m%dT%H%M%SZ)"
+          git config user.name "mirofish"; git config user.email "actions@users.noreply.github.com"
+          git fetch -q origin events && git worktree add -q ev origin/events && mkdir -p "ev/$D" && cp -r mf_out/. "ev/$D/"
+          printf '%s\n' "$D" > ev/mirofish/LATEST
+          cd ev && git add mirofish && git commit -qm "mirofish $D" && for i in 1 2 3; do git pull -q --rebase origin events && git push -q origin HEAD:events && break; sleep 3; done
