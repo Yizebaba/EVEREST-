@@ -1,5 +1,5 @@
 {
- "updated": "2026-10-16T12:27:53Z",
+ "updated": "2026-10-16T12:39:01Z",
  "skills": [
   {
    "name": "academy-guide",
@@ -3819,6 +3819,18 @@
    "updated": "2026-06-11T00:57:49.094854Z"
   },
   {
+   "name": "com.daedalmap/wildfires",
+   "title": "DaedalMap Wildfire Events",
+   "desc": "Wildfire events and aggregates across global, U.S., and Canada sources. Paid via x402 USDC.",
+   "version": "1.0.1",
+   "repo": "https://github.com/xyver/daedal-map",
+   "remote": "https://app.daedalmap.com/mcp/wildfires",
+   "pkg": [],
+   "site": "https://www.daedalmap.com",
+   "term": "wildfire",
+   "updated": "2026-06-19T07:02:42.505827Z"
+  },
+  {
    "name": "com.domain-sentinel/domain-sentinel",
    "title": "Domain Sentinel",
    "desc": "Domain availability over RDAP, watchlists with daily or hourly checks, change history and alerts.",
@@ -3903,6 +3915,18 @@
    "updated": "2026-04-02T02:26:40.698859Z"
   },
   {
+   "name": "com.olyport/wildfire",
+   "title": "NIFC Wildfire Data",
+   "desc": "Active wildfire incidents from the National Interagency Fire Center",
+   "version": "1.1.0",
+   "repo": "",
+   "remote": "https://mcp.olyport.com/wildfire/mcp",
+   "pkg": [],
+   "site": "https://olyport.com",
+   "term": "wildfire",
+   "updated": "2026-04-02T02:26:38.141036Z"
+  },
+  {
    "name": "com.ribqa/sentinel-aleph",
    "title": "Sentinel Aleph",
    "desc": "Crypto signals, public ledger, BTC chart read, news, your strategies and backtests. No trading.",
@@ -3913,18 +3937,6 @@
    "site": "https://ribqa.com",
    "term": "sentinel",
    "updated": "2026-09-29T12:25:07.03604Z"
-  },
-  {
-   "name": "com.satellitequotes/satellitequotes",
-   "title": "SatelliteQuotes",
-   "desc": "Measure property from satellite imagery, price 24 trades, and install contractor quote widgets.",
-   "version": "1.0.0",
-   "repo": "",
-   "remote": "https://www.satellitequotes.com/api/mcp",
-   "pkg": [],
-   "site": "https://www.satellitequotes.com/mcp",
-   "term": "satellite",
-   "updated": "2026-09-25T19:53:01.440124Z"
   },
   {
    "name": "com.thenextgennexus/github-mcp-server",
@@ -4021,18 +4033,6 @@
    "site": "",
    "term": "sentinel",
    "updated": "2026-06-24T09:55:42.040859Z"
-  },
-  {
-   "name": "io.github.Evozim/afforestation-satellite-mcp",
-   "title": "Execute afforestation-satellite-mcp",
-   "desc": "Premium agentic endpoint for afforestation-satellite-mcp.",
-   "version": "2.0.0",
-   "repo": "",
-   "remote": "https://api.m2mcent.com/afforestation-satellite-mcp/sse",
-   "pkg": [],
-   "site": "",
-   "term": "satellite",
-   "updated": "2026-08-17T21:58:11.044565Z"
   },
   {
    "name": "io.github.Evozim/anomaly-detection-sentinel-mcp",
@@ -4248,18 +4248,6 @@
    "site": "https://nasaqui.com",
    "term": "nasa",
    "updated": "2026-10-11T10:29:42.866261Z"
-  },
-  {
-   "name": "io.github.ivanstan/tle-satellite",
-   "title": "TLE Satellite Tracker",
-   "desc": "Access TLE orbital data for thousands of satellites including ISS, Starlink, and Hubble.",
-   "version": "1.0.0",
-   "repo": "https://github.com/ivanstan/tle-api",
-   "remote": "https://tle.ivanstanojevic.me/mcp",
-   "pkg": [],
-   "site": "",
-   "term": "satellite",
-   "updated": "2026-04-04T18:38:32.177924Z"
   },
   {
    "name": "io.github.kr-data-api/korea-flood-car-check",
@@ -4620,6 +4608,18 @@
    "site": "",
    "term": "earthquake",
    "updated": "2026-07-09T07:08:30.370325Z"
+  },
+  {
+   "name": "io.github.vria-consulting/kanari-wildfires",
+   "title": "kanari wildfires",
+   "desc": "Live worldwide wildfire detections, fire archive, citable stats, aircraft. Free, CC BY 4.0.",
+   "version": "1.0.0",
+   "repo": "https://github.com/vria-consulting/vria-fire-detect",
+   "remote": "https://kanari.io/api/mcp",
+   "pkg": [],
+   "site": "https://kanari.io/en/api",
+   "term": "wildfire",
+   "updated": "2026-08-24T08:26:22.845683Z"
   },
   {
    "name": "org.memoryapi/nasa",
@@ -5084,20 +5084,6 @@
    "updated": "2026-06-18T20:52:51.403595Z"
   },
   {
-   "name": "io.github.satelliteoflove/godot-mcp",
-   "title": "Godot MCP",
-   "desc": "Agent-driven Godot playtesting: editor control, input injection, game-time stepping, live state.",
-   "version": "4.1.11",
-   "repo": "https://github.com/satelliteoflove/godot-mcp",
-   "remote": "",
-   "pkg": [
-    "npm:@satelliteoflove/godot-mcp"
-   ],
-   "site": "https://github.com/satelliteoflove/godot-mcp",
-   "term": "satellite",
-   "updated": "2026-08-27T14:00:35.016619Z"
-  },
-  {
    "name": "io.github.sathergate/floodgate",
    "title": "",
    "desc": "Rate limiting for Next.js. Zero-dependency sliding window and token bucket.",
@@ -5113,6 +5099,6 @@
   }
  ],
  "log": [
-  "mcp wildfire: The read operation timed out"
+  "mcp satellite: The read operation timed out"
  ]
 }
