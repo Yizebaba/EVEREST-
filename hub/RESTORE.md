@@ -431,3 +431,5 @@
 - 改法：新建定时任务“总览数据库后备同步（连接器）”trig_0164mBFp57tBJgY61fCig3jr（每小时 :22）：只调用 EVEREST 连接器（everest_hazard_records、everest_events page:img/ops/lib/lit、everest_snapshot）取数据，再用 ArtifactData 写入，不下载不运行仓库代码；旧的“总览实时同步”trig_01FYFBVJskicnF8Zdz1QK1Qq 停用。
 - 页面：“链路”面板顶部显示页面版本（v81）和打开时间，便于确认浏览器里跑的是不是最新代码。
 - 复原：停用新任务、重新启用旧任务；页面回 Version 80。
+- 实测（10-16 10:24、10:29）：新同步任务回执 ok=true、via=connector，写入 hzr、img、cam、ops、lit、lib、rt、mt_monitor 共 8 个文档（hzr 为 10:12 扫描、908 条事件）；新“设备维护提醒（连接器）”trig_01KV8hwbCND7u51ceM38DKQM 测试运行 ok=true，停发 7 台；旧“设备维护提醒”trig_01XjDfCRi8GT7Bax1CTwUVjf 停用。
+- 另：本地 git 远程地址仍是旧仓库名 everest-insar-pipeline，代理对旧名返回 403，已改为 Yizebaba/EVEREST-。
