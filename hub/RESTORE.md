@@ -425,3 +425,9 @@
 - 38769313536（00:28–01:22）：setsid 与 close-env 修复生效——20 轮模拟跑完（133 个智能体，332 次动作，内存峰值约 10/16 GB，没再被杀），close-env 后 30 秒状态变为 completed；报告阶段 DeepSeek 返回 402（余额不足），没有报告。产物（本体、图谱、人设、配置、时间线、帖子、动作、sys.log）已存 events 分支 mirofish/20261015T162932Z。
 - 新增：工作流结束时把 mf/backend/uploads（模拟状态）存为运行产物 mirofish-state（14 天）；输入 report_only_run + report_only_sim 时恢复它，驱动跳过图谱和模拟，只调用报告接口，省额度。
 - 复原：git revert 本提交。
+
+## 59 · 2026-10-16 定时任务被权限策略拦截的真正原因与改法（v81）
+- 证据（任务回执原文）：总览同步 09:59“本会话的权限策略（auto mode classifier，原因 Code from External）拒绝用 curl 下载仓库里的外部脚本”；设备维护 08:55“下载 rt.json 和 monitor_sync.py 被本次运行环境的权限策略拦截”。昨晚的 gh 403 是同一类限制：定时任务环境不允许取仓库代码来运行。
+- 改法：新建定时任务“总览数据库后备同步（连接器）”trig_0164mBFp57tBJgY61fCig3jr（每小时 :22）：只调用 EVEREST 连接器（everest_hazard_records、everest_events page:img/ops/lib/lit、everest_snapshot）取数据，再用 ArtifactData 写入，不下载不运行仓库代码；旧的“总览实时同步”trig_01FYFBVJskicnF8Zdz1QK1Qq 停用。
+- 页面：“链路”面板顶部显示页面版本（v81）和打开时间，便于确认浏览器里跑的是不是最新代码。
+- 复原：停用新任务、重新启用旧任务；页面回 Version 80。
