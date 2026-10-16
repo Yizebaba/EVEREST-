@@ -140,7 +140,14 @@ async function call(name, args, h) {
   }
   if (name === "everest_snapshot") {
     const fs = await h.status();
-    return { text: `实时快照：汇总于 ${BJ(rt.updated)}，${Object.keys(S).length} 个数据源；坡面 ${(fs.scenes || {}).d || 0}/${(fs.scenes || {}).n || 0} 景。`, data: { rt, status: fs, health: await hubHealth(rt, fs).catch(() => null) } };
+    // 10-16：页面数据库单个文档上限 256 KB，新闻条数一多 rt 就超（14:22 同步写 live/rt 失败）。快照里的 GDELT 新闻只留最新的、总量压到 200 KB 以内；完整列表用 everest_source（key=news）取
+    let R = rt; const nw = ((S.news || {}).v || {}).arts;
+    if (nw && nw.length && new TextEncoder().encode(JSON.stringify(rt)).length > 200000) {
+      const arts = [...nw].sort((a, b) => (b.t || "").localeCompare(a.t || "")), base = new TextEncoder().encode(JSON.stringify(rt)).length - new TextEncoder().encode(JSON.stringify(nw)).length;
+      let keep = arts.length; while (keep > 0 && base + new TextEncoder().encode(JSON.stringify(arts.slice(0, keep))).length > 200000) keep = Math.floor(keep * 0.85);
+      R = { ...rt, sources: { ...S, news: { ...S.news, v: { ...S.news.v, arts: arts.slice(0, keep), arts_total: nw.length } } } };
+    }
+    return { text: `实时快照：汇总于 ${BJ(rt.updated)}，${Object.keys(S).length} 个数据源；坡面 ${(fs.scenes || {}).d || 0}/${(fs.scenes || {}).n || 0} 景。`, data: { rt: R, status: fs, health: await hubHealth(rt, fs).catch(() => null) } };
   }
   if (name === "everest_source") {
     const k = args.key; if (!S[k]) return { text: "没有这个数据源：" + k, data: null, err: true };

@@ -433,3 +433,8 @@
 - 复原：停用新任务、重新启用旧任务；页面回 Version 80。
 - 实测（10-16 10:24、10:29）：新同步任务回执 ok=true、via=connector，写入 hzr、img、cam、ops、lit、lib、rt、mt_monitor 共 8 个文档（hzr 为 10:12 扫描、908 条事件）；新“设备维护提醒（连接器）”trig_01KV8hwbCND7u51ceM38DKQM 测试运行 ok=true，停发 7 台；旧“设备维护提醒”trig_01XjDfCRi8GT7Bax1CTwUVjf 停用。
 - 另：本地 git 远程地址仍是旧仓库名 everest-insar-pipeline，代理对旧名返回 403，已改为 Yizebaba/EVEREST-。
+
+## 60. 10-16 15:05 快照里的新闻压到 200 KB 以内（数据库 live/rt 超 256 KB 写入失败）
+- 现象：14:22 的数据库后备同步回执 ok=false：“写入 live/rt 失败：263330 bytes，上限 262144”。其他 7 个文档照常写入。原因是 GDELT 新闻累计到 276 条（145 KB）。
+- 改动：cf-worker/src/mcp.js 的 everest_snapshot 返回的 rt 里，新闻只留最新的若干条，使整份 rt ≤ 200 KB，并加 arts_total 记原总数；完整新闻仍用 everest_source（key=news）取。rt.json、Worker 其他接口不变。
+- 复原：git revert 本次提交（Workers Builds 自动重新部署）。
