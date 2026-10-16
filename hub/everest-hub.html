@@ -1397,7 +1397,11 @@ try{const sv=JSON.parse(localStorage.getItem("ev_comm_v1")||"null");if(sv){COMM=
 const saveC=()=>{if(SH.on){try{localStorage.setItem("ev_user",USER)}catch(e){}return}try{localStorage.setItem("ev_comm_v1",JSON.stringify({COMM:COMM,NID:NID,USER:USER}))}catch(e){}};
 const cnt2=c=>{let a=0,d=0;Object.keys(c.votes).forEach(k=>c.votes[k].s==="agree"?a++:d++);return[a,d]};
 /* v78：全链路自检——Worker 每次快照附带各段最后成功时间（hubHealth），这里显示；连接器没连上时说明数据只能靠每小时同步 */
-var HEALTH=null;const PAGEV="v81",PAGE_T0=new Date().toISOString();
+var HEALTH=null;const PAGEV="v82",PAGE_T0=new Date().toISOString();
+// v82：只在页面主人打开时，每 10 分钟把“链路”面板的要点写进数据库 live/pagediag，让 Claude 能看到浏览器这一端是否真的在用连接器（不含任何个人信息）
+function pageDiag(){try{if(!SH.on||!SH.own||!SH.db)return;const c={};for(const k in MCPDIAG){const d=MCPDIAG[k];c[k]=d.ok?["ok",d.t||""]:[d.code||"error",d.t||"",d.msg||""]}
+ SH.db.doc("live/pagediag").set({at:new Date().toISOString(),v:PAGEV,t0:PAGE_T0,perm:CONNST,calls:c,hzr:HZR?HZR.updated:null,hzr_n:HZR?HZR.r.length:0,health:HEALTH?(HEALTH.ok+"/"+HEALTH.total):null,got:Object.fromEntries(Object.entries(HUBAT).map(([k,v])=>[k,[v.via||"",v.t||""]]))}).catch(()=>{})}catch(e){}}
+setTimeout(pageDiag,45000);setInterval(pageDiag,600000);
 function linkChip(){const H=HEALTH,fresh=H&&H.seen&&Date.now()-Date.parse(H.seen)<5*60e3,bad=H?H.items.filter(x=>!x.ok):[];
  const c=!fresh?"#e2b44c":bad.length?"#ef8a7e":"#5fd3a4",t=!fresh?Z("连接器未连上","Connector offline"):bad.length?Z("断 "+bad.length+" 段","down "+bad.length):H.ok+"/"+H.total+Z(" 正常"," OK");
  return '<button data-link="1" title="'+Z("产生 → 搬运 → 页面 每一段的最后成功时间","Last success time of each link: produce → carry → page")+'" style="border-color:'+c+'"><b style="color:'+c+'">'+Z("链路","Links")+'</b>'+t+'</button>'}

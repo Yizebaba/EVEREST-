@@ -438,3 +438,8 @@
 - 现象：14:22 的数据库后备同步回执 ok=false：“写入 live/rt 失败：263330 bytes，上限 262144”。其他 7 个文档照常写入。原因是 GDELT 新闻累计到 276 条（145 KB）。
 - 改动：cf-worker/src/mcp.js 的 everest_snapshot 返回的 rt 里，新闻只留最新的若干条，使整份 rt ≤ 200 KB，并加 arts_total 记原总数；完整新闻仍用 everest_source（key=news）取。rt.json、Worker 其他接口不变。
 - 复原：git revert 本次提交（Workers Builds 自动重新部署）。
+
+## 61. 10-16 17:10 页面 v82：浏览器端自检回写数据库 live/pagediag
+- 原因：页面在你的浏览器里有没有真正用上连接器，Claude 这边看不到，只能靠你贴面板文字。
+- 改动：hub/everest-hub.html 只在页面主人打开时，加载 45 秒后和之后每 10 分钟，把“链路”面板要点（页面版本、连接器授权状态、每个连接器调用的最近结果和时间、底部事件栏扫描时间、各份数据来自连接器还是数据库）写进 live/pagediag。不含个人信息；其他人打开不写。
+- 复原：页面回 Version 81（备份 scratchpad hub_v81_backup.html，或 git 上一版 hub/everest-hub.html），并可删除 live/pagediag。
