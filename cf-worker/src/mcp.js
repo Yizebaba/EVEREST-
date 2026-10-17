@@ -96,6 +96,18 @@ async function hzrFeed(now, days, local, cap, pri = true) {
   return { updated: rec.updated, total: R.length, n: rows.length, r: rows };
 }
 
+// 10-17：页面数据库 live/fs 的内容（坡面状态 + 证据包事件 ev + 灾种扫描 hz），格式与原 tools/hub_sync.py 的 live_fs 相同。
+// 定时任务不能运行仓库代码，改由连接器生成，任务只负责写库；单个文档上限 256 KB，这里压到 230 KB 以内。
+async function fsDoc(h, now) {
+  const st = await h.status(), x = (await call("everest_events", { days: 60, full: true }, h)).data || {};
+  const evs = (x.events || []).map(e => ({ ...e })), size = () => new TextEncoder().encode(JSON.stringify({ ...st, ev: { events: evs }, hz: x.hz })).length;
+  for (const e of evs) { if (e.history) e.history.records = (e.history.records || []).slice(0, 3); }
+  for (const cap of [40, 25, 12, 6]) {
+    for (const e of evs.slice().sort((a, b) => a.t.localeCompare(b.t))) { if (size() < 230000) break; e.timeline = (e.timeline || []).slice(0, cap); delete e.news; delete e.references; }
+  }
+  return { ...st, ev: { updated: new Date(now).toISOString().slice(0, 19) + "Z", events: evs }, hz: x.hz || null, fs_size: size() };
+}
+
 async function call(name, args, h) {
   const rt = await h.rt();
   if (!rt) return { text: "实时采集还没有数据。", data: null };
@@ -192,8 +204,8 @@ async function call(name, args, h) {
     return { text: out.map(x => `${x.name}（站号 ${x.id}）最近 ${hrs} 小时 ${x.n} 个点` + (x.n ? `：最低 ${x.min} m，最高 ${x.max} m，变化 ${x.change ?? 0} m` : `：没有数据（最后数据 ${BJ(x.last_on)}）`) + `；警戒 ${x.warning_m ?? "—"}，危险 ${x.danger_m ?? "—"}`).join("\n"), data: { stations: out } };
   }
   if (name === "everest_events" && typeof args.id === "string" && args.id.startsWith("page:")) {   // 总览页专用（v78）：页面数据直接从连接器取，不靠定时任务
-    const part = args.id.slice(5), P = { img: { img: hubImg, cam: () => hubCam(rt), evn: hubEvn }, ops: { ops: hubOps, mon: hubMon }, lib: { lib: hubLib }, lit: { lit: hubLit }, fl: { fl: hubFl } }[part];
-    if (!P) return { text: "总览页数据分区只有 page:img、page:ops、page:lib、page:lit、page:fl", data: null, err: true };
+    const part = args.id.slice(5), P = { img: { img: hubImg, cam: () => hubCam(rt), evn: hubEvn }, ops: { ops: hubOps, mon: hubMon }, lib: { lib: hubLib }, lit: { lit: hubLit }, fl: { fl: hubFl }, fs: { fs: () => fsDoc(h, now) } }[part];
+    if (!P) return { text: "总览页数据分区只有 page:img、page:ops、page:lib、page:lit、page:fl、page:fs", data: null, err: true };
     const d = await hubAll(P); d.part = part; d.t = new Date().toISOString();
     return { text: `总览页数据（${part}）：` + Object.keys(P).map(k => k + (d[k] ? " ✓" : " ✗")).join("，"), data: d };
   }

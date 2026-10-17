@@ -450,3 +450,8 @@
   - cf-worker/src/hub.js 新增 hubFl（读 facet-live/facet_live.json），mcp.js 的 everest_events 增加 page:fl 分区。
   - hub/everest-hub.html：嵌入 376 块坡面几何（来自 cf-worker/src/facets.json）和发布时的分级快照；连接器 page:fl 每 30 分钟取一次，有新分级就替换；“完整流程 → 卫星形变与坡面监测”一节加分级地图、图例计数和“极反常/偏高”清单；节点“冰坡雷达亮度”显示分级计数；链路面板“页面收到的数据”加“坡面分级”。文字注明只监测、不是预警。
 - 复原：页面回 Version 82（备份 scratchpad hub_v82_backup.html，或 git 上一版）；git revert 本次提交可撤回 Worker 改动。
+
+## 63. 10-17 23:58 证据链在数据库后备里停在 10-15：补上 live/fs 同步
+- 现象：用户看“证据链”的时间不对。查数据库 live/fs：ev 停在 10-15 17:32（UTC），证据包“生成于”都是 10-15。原因：10-16 改成连接器版后备同步任务时，任务只写 hzr/img/cam/ops/lib/lit/rt，漏了 live/fs（证据包事件 ev + 坡面状态 + 灾种扫描 hz）。连接器在页面前台时是新的（证据包 10-17 22:38 生成），但标签页在后台、或连接器不可用时，页面退回数据库，就看到 10-15。
+- 改动：cf-worker/src/mcp.js 新增 fsDoc，everest_events 加 page:fs 分区，按原 hub_sync.py 的 live_fs 格式生成并压到 230 KB 以内；后备同步任务加一步写 live/fs。
+- 复原：git revert 本次提交；任务提示词删掉 page:fs 那一步。
