@@ -629,7 +629,7 @@ function evApply(d){if(d&&EVLAST&&d!==EVLAST&&d.updated&&EVLAST.updated&&d.updat
  L.forEach(e=>{const tl=e.timeline||[],miss=tl.filter(x=>x.kind==="MISSING").length,sup=tl.filter(x=>x.kind==="SUPPORTING"),srcs=[...new Set(sup.map(x=>srcBase(x.src)))];
   const hz0=(e.hips||[]).map(c=>HIPS[c]).find(Boolean),last=evLast(e);e._last=last;
   const o={t:Z(evTitleZh(e)+"（自动发现）",(e.title_en||e.title)+" (auto-detected)"),obj:srcs.map(seN).join(Z("、",", "))||Z("公开来源","public sources"),srcs:srcs,lat:e.lat,lon:e.lon,place:e.place||"",type:Z("自动发现的事件"+(hz0?" · "+hz0[0]:""),"Auto-detected event"+(hz0?" · "+hz0[1]:"")),
-   q:miss?LT(miss+" 项来源缺失",miss+" sources missing"):Z("来源齐全","All sources present"),pers:LT("最早信号 "+evT(e)+(e.t_prec==="day"?"":"（北京）"),"First signal "+evT(e)+(e.t_prec==="day"?"":" (Beijing)")"),sp:LT(srcs.length+" 类来源有记录",srcs.length+" kinds of sources recorded"),
+   q:miss?LT(miss+" 项来源缺失",miss+" sources missing"):Z("来源齐全","All sources present"),pers:LT("最早信号 "+evT(e)+(e.t_prec==="day"?"":"（北京）"),"First signal "+evT(e)+(e.t_prec==="day"?"":" (Beijing)")),sp:LT(srcs.length+" 类来源有记录",srcs.length+" kinds of sources recorded"),
    unc:Z(e.note||"",e.note_en||e.note||""),
    ev:tl.filter(x=>x.kind!=="NEUTRAL").slice(0,12).map(x=>[EVK[x.kind]||"NEUTRAL",seN(x.src),lvBJ(x.t)+" · "+teX(x)]),
    cf:"1"+(srcs.length>2?"2":"1")+(srcs.length>1?"2":"1")+"111"+(miss?"0":"2"),h:[],real:1,at:e.built,evid:e.id,pack:e};
