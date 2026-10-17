@@ -1,5 +1,5 @@
 {
- "updated": "2026-10-17T04:43:46Z",
+ "updated": "2026-10-17T05:10:37Z",
  "skills": [
   {
    "name": "academy-guide",
@@ -3819,18 +3819,6 @@
    "updated": "2026-06-11T00:57:49.094854Z"
   },
   {
-   "name": "com.daedalmap/wildfires",
-   "title": "DaedalMap Wildfire Events",
-   "desc": "Wildfire events and aggregates across global, U.S., and Canada sources. Paid via x402 USDC.",
-   "version": "1.0.1",
-   "repo": "https://github.com/xyver/daedal-map",
-   "remote": "https://app.daedalmap.com/mcp/wildfires",
-   "pkg": [],
-   "site": "https://www.daedalmap.com",
-   "term": "wildfire",
-   "updated": "2026-06-19T07:02:42.505827Z"
-  },
-  {
    "name": "com.domain-sentinel/domain-sentinel",
    "title": "Domain Sentinel",
    "desc": "Domain availability over RDAP, watchlists with daily or hourly checks, change history and alerts.",
@@ -3913,18 +3901,6 @@
    "site": "https://olyport.com",
    "term": "climate",
    "updated": "2026-04-02T02:26:40.698859Z"
-  },
-  {
-   "name": "com.olyport/wildfire",
-   "title": "NIFC Wildfire Data",
-   "desc": "Active wildfire incidents from the National Interagency Fire Center",
-   "version": "1.1.0",
-   "repo": "",
-   "remote": "https://mcp.olyport.com/wildfire/mcp",
-   "pkg": [],
-   "site": "https://olyport.com",
-   "term": "wildfire",
-   "updated": "2026-04-02T02:26:38.141036Z"
   },
   {
    "name": "com.ribqa/sentinel-aleph",
@@ -4298,18 +4274,6 @@
    "updated": "2026-10-06T06:37:09.671059Z"
   },
   {
-   "name": "io.github.martc03/natural-disaster-intel",
-   "title": "Natural Disaster Intel",
-   "desc": "FEMA disasters, NOAA weather alerts, USGS earthquakes. 4 tools.",
-   "version": "1.0.0",
-   "repo": "https://github.com/martc03/gov-mcp-servers",
-   "remote": "https://natural-disaster-intel-mcp.apify.actor/mcp",
-   "pkg": [],
-   "site": "",
-   "term": "disaster",
-   "updated": "2026-02-27T06:23:47.441683Z"
-  },
-  {
    "name": "io.github.nasa/earthdata-mcp",
    "title": "NASA Earthdata MCP",
    "desc": "Discover, verify, and access NASA Earth science datasets via the Common Metadata Repository (CMR)",
@@ -4646,18 +4610,6 @@
    "updated": "2026-07-09T07:08:30.370325Z"
   },
   {
-   "name": "io.github.vria-consulting/kanari-wildfires",
-   "title": "kanari wildfires",
-   "desc": "Live worldwide wildfire detections, fire archive, citable stats, aircraft. Free, CC BY 4.0.",
-   "version": "1.0.0",
-   "repo": "https://github.com/vria-consulting/vria-fire-detect",
-   "remote": "https://kanari.io/api/mcp",
-   "pkg": [],
-   "site": "https://kanari.io/en/api",
-   "term": "wildfire",
-   "updated": "2026-08-24T08:26:22.845683Z"
-  },
-  {
    "name": "org.memoryapi/nasa",
    "title": "NASA Data",
    "desc": "NASA data: near-Earth objects, space weather, and astronomy pictures",
@@ -4880,6 +4832,20 @@
    "site": "",
    "term": "usgs",
    "updated": "2026-10-09T21:19:51.475266Z"
+  },
+  {
+   "name": "io.github.atushi1841/japan-geospatial-open-data-mcp",
+   "title": "",
+   "desc": "Japan geospatial MCP: GSI tiles, e-Stat, MLIT school districts for real-estate analysis.",
+   "version": "1.0.0",
+   "repo": "https://github.com/atushi1841/japan-geospatial-open-data-mcp",
+   "remote": "",
+   "pkg": [
+    "mcpb:https://github.com/atushi1841/japan-geospatial-open-data-mcp/releases/download/v1.0.0/japan-geospatial-open-data-mcp.mcpb"
+   ],
+   "site": "",
+   "term": "geospatial",
+   "updated": "2026-10-17T05:01:04.437494Z"
   },
   {
    "name": "io.github.hoon1983/seismic-mcp",
@@ -5148,5 +5114,10 @@
    "updated": "2026-03-29T05:47:42.050751Z"
   }
  ],
- "log": []
+ "log": [
+  "mcp earth observation: The read operation timed out",
+  "mcp disaster: The read operation timed out",
+  "mcp wildfire: The read operation timed out",
+  "mcp air quality: The read operation timed out"
+ ]
 }
