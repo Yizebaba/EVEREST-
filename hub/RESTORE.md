@@ -455,3 +455,12 @@
 - 现象：用户看“证据链”的时间不对。查数据库 live/fs：ev 停在 10-15 17:32（UTC），证据包“生成于”都是 10-15。原因：10-16 改成连接器版后备同步任务时，任务只写 hzr/img/cam/ops/lib/lit/rt，漏了 live/fs（证据包事件 ev + 坡面状态 + 灾种扫描 hz）。连接器在页面前台时是新的（证据包 10-17 22:38 生成），但标签页在后台、或连接器不可用时，页面退回数据库，就看到 10-15。
 - 改动：cf-worker/src/mcp.js 新增 fsDoc，everest_events 加 page:fs 分区，按原 hub_sync.py 的 live_fs 格式生成并压到 230 KB 以内；后备同步任务加一步写 live/fs。
 - 复原：git revert 本次提交；任务提示词删掉 page:fs 那一步。
+
+## 64. 10-18 00:20 事件时间以数据源为准（证据包 v25，页面 v84）
+- 用户要求：事件时间用时间线里最早的报道或来源记录的时间，不用本平台发现或更新的时间；以后都这样。
+- 改动：
+  - tools/evidence_pack.py（events 分支实际运行的那份，main 同步一份）VERSION 25：新增 source_time。证据包 t = 发现事件时的来源记录里最早的一条；新闻线索类（news-）再算上灾种扫描里同灾种、发现日前 3 天内的新闻 RSS。来源只给日期的（BIPAD 事件库 UTC 18:15 = 尼泊尔零点，GDELT UTC 零点）标 t_prec="day"。原发现时间存 t_detected，时间来源存 t_src。index.json 的 t 同步改为来源时间。
+  - cf-worker/src/mcp.js：everest_events full 带出 t_src、t_prec、t_detected。
+  - hub/everest-hub.html v84：evT() 显示事件时间，只有日期的显示“MM/DD 当地日期”，不编造时刻；证据链列表显示“时间来源：…；本平台发现于 …”。
+- 例：Gorkha 洪水由 10/14 08:00（GDELT 收录日）改为 10/13 13:01（北京，Al Jazeera 报道，经 Google News）；Khatyad 滑坡由 10/12 02:15 改为 10/12 当地日期。
+- 复原：events 分支 git revert 9f519e46（证据包回 v24，会全部重算一次）；main git revert 本次提交；页面回 Version 83（备份 scratchpad hub_v83_backup.html）。

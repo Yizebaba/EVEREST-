@@ -23,7 +23,7 @@ import urllib.request, urllib.parse, urllib.error
 UA = {"user-agent": "everest-evidence (github.com/Yizebaba/EVEREST-)"}
 EVN = (27.9587, 86.8117)
 OUT = "events"
-VERSION = 24   # 改了证据包内容时加 1，所有包会重算一次
+VERSION = 25   # 改了证据包内容时加 1，所有包会重算一次
 NOW = datetime.now(timezone.utc)
 
 # 尼泊尔区县 → IODA 地区（旧 14 区）
@@ -1169,6 +1169,25 @@ def hips_of(ev):
     return ["MH0604"]
 
 
+# 10-18（用户要求）：事件时间以数据源为准，不用我们发现事件、更新证据包的时间。
+# 取时间线里最早的一条一手记录：发现事件时的来源记录（BIPAD 警报/事件库、USGS、GDACS、水位站、新闻）；
+# 新闻线索类再加上灾种扫描里同灾种的新闻（只看发现日之前 3 天以内的，避免把无关的旧报道算进来）。
+# 来源只给到日期的（BIPAD 事件库是尼泊尔当地零点 = UTC 18:15，GDELT 有时是 UTC 零点）标 t_prec = "day"，页面只显示日期。
+def source_time(ev, pack, items):
+    det = P(ev["t"]); lo = iso(det - timedelta(days=3)); hi = iso(NOW); hz = set(pack.get("hips") or [])
+    # 一手记录 = 发现这个事件时的来源记录本身。新闻线索类事件（news-）另外算上灾种扫描里同灾种的新闻 RSS（同一批报道，常常比 GDELT 收录得早）；
+    # 别的事件不算灾种扫描的附近记录——那是附近的其他事件，不是这一起。
+    news = ev["id"].startswith("news-")
+    cand = [i for i in items if i.get("kind") == "SUPPORTING" and i["t"] <= hi and (
+        i.get("primary") or (news and lo <= i["t"] and i.get("src") == "灾种扫描 · 新闻 RSS" and hz & set(i.get("hips") or [])))]
+    pack["t_detected"] = ev["t"]
+    if not cand:
+        pack["t_src"] = "发现事件的时间（没有更早的一手记录）"; return
+    first = min(cand, key=lambda i: i["t"])
+    pack["t"] = first["t"]; pack["t_src"] = first["src"]
+    if first["t"][10:19] in ("T00:00:00", "T18:15:00"): pack["t_prec"] = "day"
+
+
 def build(ev):
     ev["hips"] = hips_of(ev)
     t0 = P(ev["t"]); items = []
@@ -1176,7 +1195,7 @@ def build(ev):
     if m:
         ev["district"] = next((d for d in DIST if d.lower() == m.group(1).replace("-", " ") or d.lower() == m.group(1)), None)
     for s in ev.get("src", []):
-        items.append({"t": s["t"], "src": s["src"], "kind": "SUPPORTING", "text_en": s.get("text_en", s["text"]), "text": s["text"], "url": s.get("url")})
+        items.append({"t": s["t"], "src": s["src"], "kind": "SUPPORTING", "text_en": s.get("text_en", s["text"]), "text": s["text"], "url": s.get("url"), "primary": True})
     pack = {"id": ev["id"], "hips": ev.get("hips") or [], "title": ev["title"], "title_en": ev.get("title_en") or ev["title"].replace("洪水预警", "flood warning"), "kind": ev.get("kind"), "place": ev.get("place"), "lat": ev["lat"], "lon": ev["lon"], "t": ev["t"]}
     bio = (ev.get("hips") or []) and all(c.startswith("BI") for c in ev["hips"])
     if bio:   # 疫情：地震台、水位、卫星这些物理信号不相关，只查新闻、公开记录和世卫通报
@@ -1204,6 +1223,8 @@ def build(ev):
     except Exception:
         traceback.print_exc()
     items.sort(key=lambda i: i["t"])
+    source_time(ev, pack, items)
+    for i in items: i.pop("primary", None)
     pack["timeline"] = items; pack["built"] = iso(NOW)
     add_bounds(pack)
     try:
@@ -1305,7 +1326,7 @@ def main():
         json.dump(pack, open(os.path.join(OUT, ev["id"] + ".json"), "w"), ensure_ascii=False, indent=1)
         json.dump(ev, open(os.path.join(OUT, ev["id"] + ".event.json"), "w"), ensure_ascii=False, indent=1)
         ots_prev = (idx["events"].get(ev["id"]) or {}).get("ots", [])
-        idx["events"][ev["id"]] = {"ots": ots_prev, "title": ev["title"], "t": ev["t"], "first_seen": ev.get("first_seen"), "kind": ev.get("kind"), "place": ev.get("place"), "lat": ev["lat"], "lon": ev["lon"],
+        idx["events"][ev["id"]] = {"ots": ots_prev, "title": ev["title"], "t": pack["t"], "t_detected": ev["t"], "t_prec": pack.get("t_prec"), "first_seen": ev.get("first_seen"), "kind": ev.get("kind"), "place": ev.get("place"), "lat": ev["lat"], "lon": ev["lon"],
                                    "v": VERSION, "man": manual_sig(ev["id"]), "n": len(pack["timeline"]), "src_n": len(ev.get("src", [])), "built": pack["built"],
                                    "missing": sum(1 for i in pack["timeline"] if i["kind"] == "MISSING")}
         try:

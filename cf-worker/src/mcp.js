@@ -225,7 +225,7 @@ async function call(name, args, h) {
       for (const e of E.slice(0, 16)) {
         let p = null; try { const r = await fetch(`https://raw.githubusercontent.com/Yizebaba/EVEREST-/events/events/${e.id}.json`, { cf: { cacheTtl: 60 } }); if (r.ok) p = await r.json(); } catch (x) {}
         if (!p) continue; const m = idx[e.id] || {};
-        L.push({ id: p.id, hips: p.hips || e.hips || [], title: p.title, title_en: p.title_en, kind: p.kind, place: p.place, lat: p.lat, lon: p.lon, t: p.t, built: p.built, note: p.note, note_en: p.note_en, first_seen: m.first_seen || e.first_seen,
+        L.push({ id: p.id, hips: p.hips || e.hips || [], title: p.title, title_en: p.title_en, kind: p.kind, place: p.place, lat: p.lat, lon: p.lon, t: p.t, t_src: p.t_src || null, t_prec: p.t_prec || null, t_detected: p.t_detected || null, built: p.built, note: p.note, note_en: p.note_en, first_seen: m.first_seen || e.first_seen,
           timeline: (p.timeline || []).slice(0, 80), evn: p.evn ? { distance_km: p.evn.distance_km, coverage_pct: p.evn.coverage_pct, peaks: p.evn.peaks, error: p.evn.error } : null,
           kkn: p.kkn || null, gfm: p.gfm || null, sentinel: p.sentinel || null, gauges: p.gauges || null, ioda: p.ioda || null, manual: p.manual || null, news: (p.news || []).slice(0, 10), ots: (m.ots || []).slice(-3), png: p.png || null,
           last_t: (p.timeline || []).filter(x => (x.kind === "SUPPORTING" || x.kind === "CONTRADICTORY") && x.t && x.t <= (p.built || "9")).map(x => x.t).concat([p.t || ""]).sort().pop() || null,
