@@ -105,7 +105,7 @@ async function fsDoc(h, now) {
   for (const cap of [40, 25, 12, 6]) {
     for (const e of evs.slice().sort((a, b) => a.t.localeCompare(b.t))) { if (size() < 230000) break; e.timeline = (e.timeline || []).slice(0, cap); delete e.news; delete e.references; }
   }
-  return { ...st, ev: { updated: new Date(now).toISOString().slice(0, 19) + "Z", events: evs }, hz: x.hz || null, fs_size: size() };
+  return { ...st, t: st.t || st.cached_at || new Date(now).toISOString(), ev: { updated: new Date(now).toISOString().slice(0, 19) + "Z", events: evs }, hz: x.hz || null, fs_size: size() };
 }
 
 async function call(name, args, h) {
