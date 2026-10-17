@@ -1,5 +1,5 @@
 {
- "updated": "2026-10-17T21:34:57Z",
+ "updated": "2026-10-17T21:59:21Z",
  "skills": [
   {
    "name": "academy-guide",
@@ -3603,18 +3603,6 @@
    "updated": "2025-12-29T21:18:47.587908Z"
   },
   {
-   "name": "com.a2awire/data-earthquake-alert-seismic-activity",
-   "title": "Earthquake Alerts & Seismic Activity (USGS Live) — buy per-query in-session (quakewatch)",
-   "desc": "Live USGS earthquake alerts: M2.5+ 24h, mag, depth. Register in-session — free testnet funds.",
-   "version": "0.1.1",
-   "repo": "https://github.com/ee324/a2awire",
-   "remote": "https://a2awire.com/mcp/data/quakewatch-earthquake-alerts-usgs-m2-5-24h-b24d70/http",
-   "pkg": [],
-   "site": "https://a2awire.com/data/quakewatch-earthquake-alerts-usgs-m2-5-24h-b24d70",
-   "term": "seismic",
-   "updated": "2026-09-09T13:08:01.743909Z"
-  },
-  {
    "name": "com.a2awire/data-github-changelog-platform-change-announcement",
    "title": "GitHub Platform Changelog — buy per-query in-session (githubchangelog)",
    "desc": "GitHub platform changelog feed. $0.01/query. Register in-session — free testnet funds.",
@@ -3829,6 +3817,18 @@
    "site": "https://www.domain-sentinel.com/en/mcp",
    "term": "sentinel",
    "updated": "2026-10-06T19:02:27.400275Z"
+  },
+  {
+   "name": "com.geospatialsystem/location-profile",
+   "title": "Geospatial System — Location Profile",
+   "desc": "Elevation, slope, terrain maps & 3-D surfaces for any site — near-global 30 m, US 10 m, AU/NZ 5 m.",
+   "version": "3.0.0",
+   "repo": "",
+   "remote": "https://api.geospatialsystem.com/mcp",
+   "pkg": [],
+   "site": "https://api.geospatialsystem.com",
+   "term": "geospatial",
+   "updated": "2026-07-05T05:30:51.497947Z"
   },
   {
    "name": "com.getstarhunt/github-developer-sourcing",
@@ -4762,6 +4762,20 @@
    "updated": "2026-08-10T20:06:30.589596Z"
   },
   {
+   "name": "io.github.CSOAI-ORG/gods-eye-geospatial-mcp",
+   "title": "",
+   "desc": "Gods Eye Geospatial MCP Server by MEOK AI Labs",
+   "version": "1.2.9",
+   "repo": "https://github.com/CSOAI-ORG/gods-eye-geospatial-mcp",
+   "remote": "",
+   "pkg": [
+    "pypi:gods-eye-geospatial-mcp"
+   ],
+   "site": "",
+   "term": "geospatial",
+   "updated": "2026-08-19T15:20:18.846856Z"
+  },
+  {
    "name": "io.github.Cubiczan/codesentinel",
    "title": "",
    "desc": "AI codebase health analysis: dead code, circular deps, coupling, architectural drift.",
@@ -4805,32 +4819,18 @@
    "updated": "2026-10-09T21:19:51.475266Z"
   },
   {
-   "name": "io.github.hoon1983/seismic-mcp",
+   "name": "io.github.atushi1841/japan-geospatial-open-data-mcp",
    "title": "",
-   "desc": "Unified earthquake data from 20 global seismic agencies, with cross-agency report reconciliation.",
-   "version": "0.1.0",
-   "repo": "https://github.com/hoon1983/seismic-mcp",
+   "desc": "Japan geospatial MCP: GSI tiles, e-Stat, MLIT school districts for real-estate analysis.",
+   "version": "1.0.0",
+   "repo": "https://github.com/atushi1841/japan-geospatial-open-data-mcp",
    "remote": "",
    "pkg": [
-    "pypi:seismic-mcp"
+    "mcpb:https://github.com/atushi1841/japan-geospatial-open-data-mcp/releases/download/v1.0.0/japan-geospatial-open-data-mcp.mcpb"
    ],
    "site": "",
-   "term": "seismic",
-   "updated": "2026-06-24T23:52:01.609742Z"
-  },
-  {
-   "name": "io.github.iowarp/seismic-mcp",
-   "title": "CLIO Seismic",
-   "desc": "MCP server for earthquake-sequence analysis on saved catalogs: completeness magnitude,...",
-   "version": "2.2.3",
-   "repo": "https://github.com/iowarp/clio-kit",
-   "remote": "",
-   "pkg": [
-    "pypi:clio-kit"
-   ],
-   "site": "",
-   "term": "seismic",
-   "updated": "2026-06-09T05:32:15.743535Z"
+   "term": "geospatial",
+   "updated": "2026-10-17T05:01:04.437494Z"
   },
   {
    "name": "io.github.kaitoy/nasa-images",
@@ -4973,20 +4973,6 @@
    "updated": "2026-09-21T22:07:45.369445Z"
   },
   {
-   "name": "io.github.mrfentmen/seismicportal-mcp",
-   "title": "",
-   "desc": "Earthquakes from the EMSC seismic portal. No key required.",
-   "version": "1.0.0",
-   "repo": "https://github.com/mrfentmen/seismicportal-mcp",
-   "remote": "",
-   "pkg": [
-    "npm:seismicportal-mcp"
-   ],
-   "site": "",
-   "term": "seismic",
-   "updated": "2026-09-21T22:05:51.505446Z"
-  },
-  {
    "name": "io.github.mrfentmen/usgs-earthquakes-mcp",
    "title": "",
    "desc": "USGS earthquake feeds and queries.",
@@ -5072,8 +5058,7 @@
   }
  ],
  "log": [
-  "mcp earth observation: The read operation timed out",
-  "mcp geospatial: The read operation timed out",
-  "mcp earthquake: The read operation timed out"
+  "mcp earthquake: The read operation timed out",
+  "mcp seismic: The read operation timed out"
  ]
 }
