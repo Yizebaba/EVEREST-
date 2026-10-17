@@ -81,6 +81,8 @@ export async function hubEvn() {
   return meta;
 }
 
+// 376 块坡面的雷达后向散射分级（Worker 每次过境后写到 facet-live 分支，10-17 起有分级）
+export const hubFl = () => j("facet_live.json", "facet-live", 300);
 export const hubOps = () => j("hub/ops.json", "events", 120);
 export const hubMon = () => j("hub/mt_monitor.json", "events", 120);
 

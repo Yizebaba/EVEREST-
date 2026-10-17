@@ -443,3 +443,10 @@
 - 原因：页面在你的浏览器里有没有真正用上连接器，Claude 这边看不到，只能靠你贴面板文字。
 - 改动：hub/everest-hub.html 只在页面主人打开时，加载 45 秒后和之后每 10 分钟，把“链路”面板要点（页面版本、连接器授权状态、每个连接器调用的最近结果和时间、底部事件栏扫描时间、各份数据来自连接器还是数据库）写进 live/pagediag。不含个人信息；其他人打开不写。
 - 复原：页面回 Version 81（备份 scratchpad hub_v81_backup.html，或 git 上一版 hub/everest-hub.html），并可删除 live/pagediag。
+
+## 62. 10-17 21:40 坡面雷达分级接入总览（页面 v83）
+- 背景：Worker 坡面基线 275/275 景、199/199 个日期打分完成，10-17 20:23（北京）生成首份分级 facet_live.json：极反常 2、偏高 41、留意 40、平常 293。
+- 改动：
+  - cf-worker/src/hub.js 新增 hubFl（读 facet-live/facet_live.json），mcp.js 的 everest_events 增加 page:fl 分区。
+  - hub/everest-hub.html：嵌入 376 块坡面几何（来自 cf-worker/src/facets.json）和发布时的分级快照；连接器 page:fl 每 30 分钟取一次，有新分级就替换；“完整流程 → 卫星形变与坡面监测”一节加分级地图、图例计数和“极反常/偏高”清单；节点“冰坡雷达亮度”显示分级计数；链路面板“页面收到的数据”加“坡面分级”。文字注明只监测、不是预警。
+- 复原：页面回 Version 82（备份 scratchpad hub_v82_backup.html，或 git 上一版）；git revert 本次提交可撤回 Worker 改动。
