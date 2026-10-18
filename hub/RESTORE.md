@@ -488,3 +488,5 @@
 - 复原：用 v84 备份覆盖 hub/everest-hub.html 并重新发布到同一个 artifact；git revert 本次提交。
 - 10-19 v86 一带一路标签重做：v85 在页面里排版是坏的（面板里的 </details> 被侧栏的 pn() 换成 </div>，提前关掉了外框，内容变成一列列窄条）。重做成：顶部 4 个数字（项目、周边事件、新闻线索、旅行建议最高级）＋三段切换（实时态势 / 偏差测试 / 演练）；实时态势按国家切换，地图带国界底图（Natural Earth 1:50m，tools/bri_basemap.js 生成）、首都、比例尺，默认放大到项目区，可切“看全国”；项目列表点开看详情，地图和列表联动；偏差测试按“相符 / 部分 / 缺失”统计并逐项上色。不再用 <details>。
 - 复原：用 v85 或 v84 备份覆盖并重新发布；git revert 本次提交。
+- 10-19 01:00 v87 接入 World Monitor（用户的免费账号，claude.ai 自定义连接器 https://worldmonitor.app/mcp ，OAuth）。免费账号每天 5 次数据调用、只能用读缓存的工具。新定时任务 trig_01FPiJV718V67Kt7XAhLs9dC 每天北京 08:17 调 3 次 get_conflict_events（巴基斯坦、尼泊尔、老挝），写页面数据库 live/wm；页面“一带一路”标签显示 UCDP 冲突事件（地图红色菱形、按离项目距离排序）和 GDELT 动荡信号（只列地名，标“未核实”）。不用它的预测类工具。首份 live/wm 由本会话手动写入（巴基斯坦 8 条、尼泊尔 0 条、老挝今天次数用完未查）。
+- 复原：删除该定时任务；ArtifactData 删除 live/wm；页面用 v86 备份覆盖并重新发布；git revert。

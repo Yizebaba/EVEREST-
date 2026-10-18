@@ -727,6 +727,7 @@ function liveInit(db){if(LIVEON||!db)return;LIVEON=true;let rt=null,fs=null;cons
  db.doc("live/ev").onSnapshot(s=>{if(s.exists&&evApply(s.data()))render()},er);
  db.doc("live/cam").onSnapshot(s=>{if(s.exists&&hubApply({cam:s.data()},"db"))render()},er);
  db.doc("live/hzr").onSnapshot(s=>{if(!s.exists)return;const d=hzrClean(s.data());if(!d.r)return;if(!HZR||d.updated>HZR.updated){HZR=d;render()}else if(d.updated===HZR.updated&&d.r.length>HZR.r.length){HZR=d;render()}},er);
+ db.doc("live/wm").onSnapshot(s=>{if(!s.exists)return;WMD=s.data();if(WBT==="bri")render()},er);
  db.doc("live/lib").onSnapshot(s=>{if(s.exists&&hubApply({lib:s.data()},"db"))render()},er);
  db.doc("live/lit").onSnapshot(s=>{if(s.exists&&hubApply({lit:s.data()},"db"))render()},er);
  db.doc("live/ops").onSnapshot(s=>{if(s.exists&&hubApply({ops:s.data()},"db"))render()},er);
@@ -746,7 +747,19 @@ const BRIC={NPL:["尼泊尔","Nepal"],LAO:["老挝","Laos"],PAK:["巴基斯坦",
 const BRIST={Completion:["已完工","Completed"],Implementation:["在建","Under construction"],"Pipeline: Commitment":["已承诺","Committed"],"Pipeline: Pledge":["意向","Pledged"]};
 const BRILV={1:["#5fe0a8","一级 · 正常注意"],2:["#f2c14e","二级 · 加强注意"],3:["#ff9f43","三级 · 重新考虑出行"],4:["#ff6b5b","四级 · 不要前往"]};
 const briSplit=p=>{const L=(((BRI.live||{}).projects||{})[p.id]||{}).items||[];return{geo:L.filter(i=>i.src!==BRINEWS),inc:L.filter(i=>i.src===BRINEWS&&i.kind==="事件相关"),gen:L.filter(i=>i.src===BRINEWS&&i.kind!=="事件相关")}};
-var BRIZ=true;
+var BRIZ=true,WMD=null;
+const briKm=(a,b,c,d)=>{const r=Math.PI/180,x=Math.sin((c-a)*r/2),y=Math.sin((d-b)*r/2);return 12742*Math.asin(Math.sqrt(x*x+Math.cos(a*r)*Math.cos(c*r)*y*y))};
+function briNear(la,lo,ps){let best=[1e9,null];ps.forEach(p=>p.rings.forEach(r=>r.forEach(q=>{const d=briKm(la,lo,q[1],q[0]);if(d<best[0])best=[d,p]})));return best}
+function briWM(c,ps){const W=WMD&&WMD.countries&&WMD.countries[c];
+ let h='<div class="bri-h" style="margin-top:14px">World Monitor · '+Z("冲突事件","Conflict events")+'</div>';
+ if(!WMD)return h+'<div class="bri-empty">'+Z("还没有收到。数据由每天一次的定时任务通过 World Monitor 连接器取来。","Not received yet (daily task).")+'</div>';
+ if(!W)return h+'<div class="bri-empty">'+Z("这个国家还没查（免费账号每天 5 次）。","Not queried yet (free account: 5 calls/day).")+'</div>';
+ if(W.error)return h+'<div class="bri-empty">'+Z("这次没取到：","Not fetched: ")+esc(W.error)+'（'+lvBJ(W.queried)+'）</div>';
+ const L=(W.ucdp||[]).map(e=>{const n=briNear(e.lat,e.lon,ps);return Object.assign({km:Math.round(n[0]),np:n[1]},e)}).sort((a,b)=>a.km-b.km);
+ h+='<div class="bri-src">'+Z("UCDP 已核实的有伤亡冲突事件（候选版 ","UCDP verified fatal events (candidate ")+esc(W.ucdp_version||"")+Z("，通常比实际晚几周）；按离项目的距离排序。World Monitor 缓存于 ","; lags weeks). Sorted by distance to projects. Cached ")+lvBJ(W.cached_at)+Z("，本平台读取于 ","; read ")+lvBJ(W.queried)+(W.limit?Z("，最多取 "," · max ")+W.limit+Z(" 条",""):"")+'</div>';
+ h+=L.length?L.map(e=>'<div class="bri-it"><time>'+esc((e.t||"").slice(0,10))+'</time><div><span style="color:var(--ink)">'+esc(e.a||"")+' — '+esc(e.b||"")+'</span>'+(e.deaths!=null?' · '+Z("死亡 ","deaths ")+e.deaths:"")+'<small>'+Z("离最近项目 ","nearest project ")+e.km+' km（'+esc(e.np?e.np.name:"")+'）· '+Z("UCDP 引用来源：","source: ")+esc(e.src||"")+'</small></div></div>').join(""):'<div class="bri-empty">'+Z("近期没有记录","None recorded")+'</div>';
+ if((W.unrest||[]).length)h+='<div class="bri-src" style="margin-top:6px">'+Z("另有 GDELT 动荡信号 ","Plus GDELT unrest signals: ")+W.unrest.length+Z(" 处（World Monitor 标为“未核实的媒体信号，可信度低”，只列地名）："," (unverified, low confidence): ")+esc(W.unrest.map(u=>u.title).join("；"))+'</div>';
+ return h}
 function briMap(c,ps){const B=BRIBASE[c];if(!B)return"";const[x0,y1,k,S]=B.p,Xn=lo=>(lo-x0)*k*S,Yn=la=>(y1-la)*S;
  const sel=BRIP&&ps.some(p=>p.id===BRIP)?BRIP:null,geo=[],seen={};ps.forEach(p=>briSplit(p).geo.forEach(i=>{if(i.lat!=null&&!seen[i.text]){seen[i.text]=1;geo.push(i)}}));
  let vx=0,vy=0,vw=B.w,vh=B.h;
@@ -755,6 +768,8 @@ function briMap(c,ps){const B=BRIBASE[c];if(!B)return"";const[x0,y1,k,S]=B.p,Xn=
   let w=Math.max(cc-a,B.w/14)*1.3,h=Math.max(d-b,B.w/14)*1.3;if(h>w*.85)w=h/.85;else if(h<w*.6)h=w*.6;if(w>=B.w*.8){w=B.w;h=B.h;a=0;b=0;cc=B.w;d=B.h}
   vx=(a+cc)/2-w/2;vy=(b+d)/2-h/2;vw=w;vh=h}
  const u=vw/B.w,f=n=>(n*u).toFixed(2),X=lo=>Xn(lo).toFixed(1),Y=la=>Yn(la).toFixed(1),ring=r=>"M"+r.map(q=>X(q[0])+" "+Y(q[1])).join("L")+"Z",ns=' vector-effect="non-scaling-stroke"';
+ const W=WMD&&WMD.countries&&WMD.countries[c],uc=(W&&W.ucdp)||[];
+ const ucm=uc.map(e=>'<g><title>'+esc((e.t||"").slice(0,10)+" · UCDP · "+(e.a||"")+" — "+(e.b||"")+" · "+Z("死亡 ","deaths ")+e.deaths)+'</title><rect x="'+(Xn(e.lon)-3.5*u).toFixed(2)+'" y="'+(Yn(e.lat)-3.5*u).toFixed(2)+'" width="'+f(7)+'" height="'+f(7)+'" transform="rotate(45 '+X(e.lon)+' '+Y(e.lat)+')" fill="#ff6b5b" stroke="#0b0c0f" stroke-width="1"'+ns+'/></g>').join("");
  const ev=geo.map(i=>'<g><title>'+esc(lvBJ(i.t)+" · "+i.src+" · "+i.text)+'</title><circle cx="'+X(i.lon)+'" cy="'+Y(i.lat)+'" r="'+f(9)+'" fill="rgba(255,159,67,.2)"/><circle cx="'+X(i.lon)+'" cy="'+Y(i.lat)+'" r="'+f(3.5)+'" fill="#ff9f43" stroke="#0b0c0f" stroke-width="1"'+ns+'/></g>').join("");
  const sh=ps.map(p=>{const on=!sel||sel===p.id;return'<path d="'+p.rings.map(ring).join("")+'" fill="'+(on?"rgba(90,162,255,.35)":"rgba(90,162,255,.12)")+'" stroke="'+(on?"#5aa2ff":"rgba(90,162,255,.4)")+'" stroke-width="'+(sel===p.id?2.4:1.5)+'" stroke-linejoin="round"'+ns+'/>'}).join("");
  const mk=ps.map((p,n)=>{const on=!sel||sel===p.id,x=X(p.centroid[1]),y=Y(p.centroid[0]);return'<g data-bri="p:'+p.id+'" style="cursor:pointer;opacity:'+(on?1:.45)+'"><title>'+esc(p.name)+'</title><circle cx="'+x+'" cy="'+y+'" r="'+f(sel===p.id?11:9)+'" fill="#5aa2ff" stroke="#0b0c0f" stroke-width="2"'+ns+'/><text x="'+x+'" y="'+(+y+3.8*u).toFixed(2)+'" font-size="'+f(10.5)+'" font-weight="700" fill="#fff" text-anchor="middle">'+(n+1)+'</text></g>'}).join("");
@@ -764,9 +779,9 @@ function briMap(c,ps){const B=BRIBASE[c];if(!B)return"";const[x0,y1,k,S]=B.p,Xn=
   +'<path d="'+B.nb+'" fill="rgba(255,255,255,.025)" stroke="rgba(255,255,255,.14)" stroke-width=".8"'+ns+'/>'
   +'<path d="'+B.c+'" fill="rgba(255,255,255,.06)" stroke="rgba(255,255,255,.45)" stroke-width="1.1" stroke-linejoin="round"'+ns+'/>'+lb
   +'<g><circle cx="'+X(cap[2])+'" cy="'+Y(cap[1])+'" r="'+f(3)+'" fill="none" stroke="rgba(236,236,240,.7)" stroke-width="1.2"'+ns+'/><text x="'+(+X(cap[2])+6*u).toFixed(2)+'" y="'+(+Y(cap[1])+4*u).toFixed(2)+'" font-size="'+f(10.5)+'" fill="rgba(236,236,240,.6)">'+esc(cap[0])+'</text></g>'
-  +sh+ev+mk
+  +sh+ucm+ev+mk
   +'<g transform="translate('+(vx+vw-sl-14*u).toFixed(2)+','+(vy+vh-14*u).toFixed(2)+')" fill="rgba(236,236,240,.55)" font-size="'+f(10)+'"><rect width="'+sl.toFixed(2)+'" height="'+f(2)+'"/><text y="'+f(-5)+'" x="'+(sl/2).toFixed(2)+'" text-anchor="middle">'+sk+' km</text></g></svg>'
-  +'<div class="bri-lg"><span><i style="background:#5aa2ff"></i>'+Z("项目范围","Project")+'</span><span><i style="background:#ff9f43"></i>'+Z("周边事件","Nearby event")+'</span></div>'
+  +'<div class="bri-lg"><span><i style="background:#5aa2ff"></i>'+Z("项目范围","Project")+'</span><span><i style="background:#ff9f43"></i>'+Z("周边事件","Nearby event")+'</span>'+(uc.length?'<span><i style="background:#ff6b5b;border-radius:1px;transform:rotate(45deg)"></i>'+Z("冲突（UCDP）","Conflict (UCDP)")+'</span>':"")+'</div>'
   +'<button class="bri-zm" data-bri="z:1">'+(BRIZ?Z("看全国","Whole country"):Z("放大到项目","Zoom to projects"))+'</button></div>'}
 const briIt=i=>'<div class="bri-it"><time>'+lvBJ(i.t)+'</time><div>'+(i.url?'<a href="'+esc(i.url)+'" target="_blank" rel="noopener">'+esc(i.text)+' ↗</a>':esc(i.text))+'<small>'+esc(i.src===BRINEWS?Z("Google 新闻","Google News"):i.src)+(i.km!=null?" · "+Z("距项目 ","")+i.km+" km":"")+'</small></div></div>';
 function briDetail(p){const s=briSplit(p),all=BRIALL[p.id],gen=all?s.gen:s.gen.slice(0,3);
@@ -781,6 +796,7 @@ function briLive(){const L=BRI.live||{},LC=L.countries||{},c=BRICT,ps=BRI.projec
   +(io?'<span>'+Z("IODA 断网告警（7 天，全国）","IODA outage alerts (7 d)")+' <b style="color:var(--ink)">'+io.n+'</b></span>':"")+'</div>';
  h+=briMap(c,ps)+'<div class="bri-list">'+ps.map((p,n)=>{const s=briSplit(p),op=BRIP===p.id,st=BRIST[p.status]||[p.status,p.status];
   return'<button class="bri-row" data-bri="p:'+p.id+'" aria-expanded="'+op+'"><span class="bri-n">'+(n+1)+'</span><span style="min-width:0"><div class="bri-nm">'+esc(Z(p.name,p.name_en))+'</div><div class="bri-ds">'+esc(p.kind)+' · '+Z(st[0],st[1])+' · '+Z("承诺于 ","")+esc(p.commit_year)+'</div></span><span class="bri-ct"><span class="'+(s.geo.length?"on":"")+'">'+Z("周边 ","Near ")+s.geo.length+'</span><span class="'+(s.inc.length?"on":"")+'">'+Z("线索 ","Leads ")+s.inc.length+'</span></span><span class="bri-cv">›</span></button>'+(op?briDetail(p):"")}).join("")+'</div>';
+ h+=briWM(c,ps);
  h+='<div class="bri-note">'+Z("“线索”是标题里带事故、灾害、袭击等词的新闻，按项目名匹配，可能混入无关报道；只记录来源说了什么、什么时候说的，不判断成因，不预测。","Leads are headlines with incident words, matched by project name; may include unrelated items. Monitoring only.")+'</div>';
  return h}
 const briCls=r=>/错误/.test(r[0])?"fix":/^(对|一致|有)|一致$/.test(r[3])?"ok":/^(缺|漏)/.test(r[3])?"miss":"part";
@@ -802,7 +818,7 @@ function briPanel(){if(!BRI||!BRI.projects)return'<div class="bri"><div class="b
   +'<div class="bri-seg">'+[["live",Z("实时态势","Live")],["retro",Z("偏差测试","Accuracy")],["drill",Z("演练","Drill")]].map(v=>'<button data-bri="v:'+v[0]+'" aria-pressed="'+(BRIV===v[0])+'">'+v[1]+'</button>').join("")+'</div>';
  h+=BRIV==="retro"?briRetro():BRIV==="drill"?briDrill():briLive();
  if(L.errors&&Object.keys(L.errors).length)h+='<div class="bri-note" style="color:var(--bad)">'+Z("这次扫描取不到：","Unavailable: ")+esc(Object.keys(L.errors).join("、"))+'</div>';
- h+='<div class="bri-note">'+Z("来源：项目范围 AidData《全球中国发展融资地理数据集》v3.0；国界 Natural Earth；周边态势每 20 分钟扫描 USGS、GDACS、NASA EONET、Google 新闻、IODA、美英旅行建议，全部免费。","Sources: AidData GCDF v3.0; Natural Earth; USGS, GDACS, NASA EONET, Google News, IODA, US/UK advisories.")+'</div></div>';
+ h+='<div class="bri-note">'+Z("来源：项目范围 AidData《全球中国发展融资地理数据集》v3.0；国界 Natural Earth；周边态势每 20 分钟扫描 USGS、GDACS、NASA EONET、Google 新闻、IODA、美英旅行建议；冲突事件每天一次取自 World Monitor（免费账号，UCDP 数据）。","Sources: AidData GCDF v3.0; Natural Earth; USGS, GDACS, NASA EONET, Google News, IODA, US/UK advisories.")+'</div></div>';
  return h}
 document.addEventListener("click",e=>{const b=e.target.closest("[data-bri]");if(!b)return;e.preventDefault();const[k,v]=b.dataset.bri.split(/:(.*)/s);
  if(k==="v")BRIV=v;else if(k==="c"){BRICT=v;BRIP=null}else if(k==="p")BRIP=BRIP===v?null:v;else if(k==="all")BRIALL[v]=!BRIALL[v];else if(k==="t")BRIT[v]=!BRIT[v];else if(k==="z")BRIZ=!BRIZ;
@@ -1560,7 +1576,7 @@ try{const sv=JSON.parse(localStorage.getItem("ev_comm_v1")||"null");if(sv){COMM=
 const saveC=()=>{if(SH.on){try{localStorage.setItem("ev_user",USER)}catch(e){}return}try{localStorage.setItem("ev_comm_v1",JSON.stringify({COMM:COMM,NID:NID,USER:USER}))}catch(e){}};
 const cnt2=c=>{let a=0,d=0;Object.keys(c.votes).forEach(k=>c.votes[k].s==="agree"?a++:d++);return[a,d]};
 /* v78：全链路自检——Worker 每次快照附带各段最后成功时间（hubHealth），这里显示；连接器没连上时说明数据只能靠每小时同步 */
-var HEALTH=null;const PAGEV="v86",PAGE_T0=new Date().toISOString();
+var HEALTH=null;const PAGEV="v87",PAGE_T0=new Date().toISOString();
 // v82：只在页面主人打开时，每 10 分钟把“链路”面板的要点写进数据库 live/pagediag，让 Claude 能看到浏览器这一端是否真的在用连接器（不含任何个人信息）
 function pageDiag(){try{if(!SH.on||!SH.own||!SH.db)return;const c={};for(const k in MCPDIAG){const d=MCPDIAG[k];c[k]=d.ok?["ok",d.t||""]:[d.code||"error",d.t||"",d.msg||""]}
  SH.db.doc("live/pagediag").set({at:new Date().toISOString(),v:PAGEV,t0:PAGE_T0,perm:CONNST,calls:c,hzr:HZR?HZR.updated:null,hzr_n:HZR?HZR.r.length:0,health:HEALTH?(HEALTH.ok+"/"+HEALTH.total):null,got:Object.fromEntries(Object.entries(HUBAT).map(([k,v])=>[k,[v.via||"",v.t||""]]))}).catch(()=>{})}catch(e){}}
