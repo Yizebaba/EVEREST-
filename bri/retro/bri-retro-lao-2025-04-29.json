@@ -1,0 +1,607 @@
+{
+ "id": "bri-retro-lao-2025-04-29",
+ "hips": [
+  "GH0300"
+ ],
+ "title": "乌多姆赛省纳县滑坡、9 人失踪（回溯测试）",
+ "title_en": "Landslide in Nga district, Oudomxay, nine missing (retrospective test)",
+ "kind": "滑坡",
+ "place": "Ban Lat Kham, Nga district, Oudomxay",
+ "lat": 20.175,
+ "lon": 101.958,
+ "t": "2025-04-29T05:52:00Z",
+ "sentinel": {
+  "sentinel-1-rtc": {
+   "before": {
+    "id": "S1A_IW_GRDH_1SDV_20250426T230746_20250426T230811_058934_074E99_rtc",
+    "t": "2025-04-26T23:07:58Z",
+    "cloud": null,
+    "preview": "https://planetarycomputer.microsoft.com/api/data/v1/item/preview.png?collection=sentinel-1-rtc&item=S1A_IW_GRDH_1SDV_20250426T230746_20250426T230811_058934_074E99_rtc&assets=vv&assets=vh&tile_format=png&expression=0.03%20%2B%20log%20(10e-4%20-%20log%20(0.05%20%2F%20(0.02%20%2B%202%20*%20vv)));0.05%20%2B%20exp%20(0.25%20*%20(log%20(0.01%20%2B%202%20*%20vv)%20%2B%20log%20(0.02%20%2B%205%20*%20vh)));1%20-%20log%20(0.05%20%2F%20(0.045%20-%200.9%20*%20vv))&asset_as_band=True&rescale=0,.8000&rescale=0,1.000&rescale=0,1.000&format=png",
+    "explore": "https://planetarycomputer.microsoft.com/explore?c=101.958,20.175&z=11&d=sentinel-1-rtc"
+   },
+   "after": {
+    "id": "S1A_IW_GRDH_1SDV_20250429T112236_20250429T112301_058971_075014_rtc",
+    "t": "2025-04-29T11:22:48Z",
+    "cloud": null,
+    "preview": "https://planetarycomputer.microsoft.com/api/data/v1/item/preview.png?collection=sentinel-1-rtc&item=S1A_IW_GRDH_1SDV_20250429T112236_20250429T112301_058971_075014_rtc&assets=vv&assets=vh&tile_format=png&expression=0.03%20%2B%20log%20(10e-4%20-%20log%20(0.05%20%2F%20(0.02%20%2B%202%20*%20vv)));0.05%20%2B%20exp%20(0.25%20*%20(log%20(0.01%20%2B%202%20*%20vv)%20%2B%20log%20(0.02%20%2B%205%20*%20vh)));1%20-%20log%20(0.05%20%2F%20(0.045%20-%200.9%20*%20vv))&asset_as_band=True&rescale=0,.8000&rescale=0,1.000&rescale=0,1.000&format=png",
+    "explore": "https://planetarycomputer.microsoft.com/explore?c=101.958,20.175&z=11&d=sentinel-1-rtc"
+   }
+  },
+  "sentinel-2-l2a": {
+   "before": {
+    "id": "S2A_MSIL2A_20250427T034201_R061_T47QRC_20250427T083512",
+    "t": "2025-04-27T03:42:01Z",
+    "cloud": 53.632104,
+    "preview": "https://planetarycomputer.microsoft.com/api/data/v1/item/preview.png?collection=sentinel-2-l2a&item=S2A_MSIL2A_20250427T034201_R061_T47QRC_20250427T083512&assets=visual&asset_bidx=visual%7C1,2,3&nodata=0&format=png",
+    "explore": "https://planetarycomputer.microsoft.com/explore?c=101.958,20.175&z=11&d=sentinel-2-l2a"
+   },
+   "after": {
+    "id": "S2C_MSIL2A_20250505T033601_R061_T47QQC_20250505T084312",
+    "t": "2025-05-05T03:36:01Z",
+    "cloud": 50.133348,
+    "preview": "https://planetarycomputer.microsoft.com/api/data/v1/item/preview.png?collection=sentinel-2-l2a&item=S2C_MSIL2A_20250505T033601_R061_T47QQC_20250505T084312&assets=visual&asset_bidx=visual%7C1,2,3&nodata=0&format=png",
+    "explore": "https://planetarycomputer.microsoft.com/explore?c=101.958,20.175&z=11&d=sentinel-2-l2a"
+   }
+  }
+ },
+ "gfm": {
+  "scenes": [
+   {
+    "id": "ENSEMBLE_FLOOD_20250503T225953_VV_AS020M_E051N018T3",
+    "t": "2025-05-03T22:59:53Z",
+    "flood_asset": "dlr_flood_extent",
+    "href": "https://data.eodc.eu/collections/GFM_NRT_INTERIM/flood_extent/AS020M/2025/05/03/DLR_FLOOD_20250503T225953_VV_AS020M_E051N018T3.tif"
+   },
+   {
+    "id": "ENSEMBLE_FLOOD_20250503T225924_VV_AS020M_E051N018T3",
+    "t": "2025-05-03T22:59:24Z",
+    "flood_asset": "dlr_flood_extent",
+    "href": "https://data.eodc.eu/collections/GFM_NRT_INTERIM/flood_extent/AS020M/2025/05/03/DLR_FLOOD_20250503T225924_VV_AS020M_E051N018T3.tif"
+   },
+   {
+    "id": "ENSEMBLE_FLOOD_20250501T231530_VV_AS020M_E051N018T3",
+    "t": "2025-05-01T23:15:30Z",
+    "flood_asset": "dlr_flood_extent",
+    "href": "https://data.eodc.eu/collections/GFM_NRT_INTERIM/flood_extent/AS020M/2025/05/01/DLR_FLOOD_20250501T231530_VV_AS020M_E051N018T3.tif"
+   },
+   {
+    "id": "ENSEMBLE_FLOOD_20250501T110654_VV_AS020M_E051N018T3",
+    "t": "2025-05-01T11:06:54Z",
+    "flood_asset": "dlr_flood_extent",
+    "href": "https://data.eodc.eu/collections/GFM_NRT_INTERIM/flood_extent/AS020M/2025/05/01/DLR_FLOOD_20250501T110654_VV_AS020M_E051N018T3.tif"
+   },
+   {
+    "id": "ENSEMBLE_FLOOD_20250429T112301_VV_AS020M_E051N018T3",
+    "t": "2025-04-29T11:23:01Z",
+    "flood_asset": "dlr_flood_extent",
+    "href": "https://data.eodc.eu/collections/GFM_NRT_INTERIM/flood_extent/AS020M/2025/04/29/DLR_FLOOD_20250429T112301_VV_AS020M_E051N018T3.tif"
+   },
+   {
+    "id": "ENSEMBLE_FLOOD_20250429T112236_VV_AS020M_E051N018T3",
+    "t": "2025-04-29T11:22:36Z",
+    "flood_asset": "dlr_flood_extent",
+    "href": "https://data.eodc.eu/collections/GFM_NRT_INTERIM/flood_extent/AS020M/2025/04/29/DLR_FLOOD_20250429T112236_VV_AS020M_E051N018T3.tif"
+   },
+   {
+    "id": "ENSEMBLE_FLOOD_20250429T112211_VV_AS020M_E051N018T3",
+    "t": "2025-04-29T11:22:11Z",
+    "flood_asset": "dlr_flood_extent",
+    "href": "https://data.eodc.eu/collections/GFM_NRT_INTERIM/flood_extent/AS020M/2025/04/29/DLR_FLOOD_20250429T112211_VV_AS020M_E051N018T3.tif"
+   }
+  ],
+  "portal": "https://portal.gfm.eodc.eu/?lat=20.175&lng=101.958&zoom=11"
+ },
+ "manual": {
+  "accepted": 0,
+  "pending": 0
+ },
+ "rshake": {
+  "stations": []
+ },
+ "news": [],
+ "kp_max": 3.333,
+ "hazard_links": {
+  "n": 0,
+  "codes": []
+ },
+ "t_detected": "2025-04-29T05:52:00Z",
+ "t_src": "新闻（种子）",
+ "timeline": [
+  {
+   "t": "2025-04-26T23:07:58Z",
+   "src": "Sentinel-1 雷达",
+   "kind": "NEUTRAL",
+   "text_en": "Last scene before the first public signal S1A_IW_GRDH_1SDV_20250426T230746_20250426T230811_058934_074E99_rtc",
+   "text": "第一条公开信号之前最近一景 S1A_IW_GRDH_1SDV_20250426T230746_20250426T230811_058934_074E99_rtc",
+   "url": "https://planetarycomputer.microsoft.com/api/data/v1/item/preview.png?collection=sentinel-1-rtc&item=S1A_IW_GRDH_1SDV_20250426T230746_20250426T230811_058934_074E99_rtc&assets=vv&assets=vh&tile_format=png&expression=0.03%20%2B%20log%20(10e-4%20-%20log%20(0.05%20%2F%20(0.02%20%2B%202%20*%20vv)));0.05%20%2B%20exp%20(0.25%20*%20(log%20(0.01%20%2B%202%20*%20vv)%20%2B%20log%20(0.02%20%2B%205%20*%20vh)));1%20-%20log%20(0.05%20%2F%20(0.045%20-%200.9%20*%20vv))&asset_as_band=True&rescale=0,.8000&rescale=0,1.000&rescale=0,1.000&format=png",
+   "bound": "Sentinel-1 雷达"
+  },
+  {
+   "t": "2025-04-27T03:42:01Z",
+   "src": "Sentinel-2 光学",
+   "kind": "NEUTRAL",
+   "text_en": "Last scene before the first public signal S2A_MSIL2A_20250427T034201_R061_T47QRC_20250427T083512 (cloud 54%)",
+   "text": "第一条公开信号之前最近一景 S2A_MSIL2A_20250427T034201_R061_T47QRC_20250427T083512（云量 54%）",
+   "url": "https://planetarycomputer.microsoft.com/api/data/v1/item/preview.png?collection=sentinel-2-l2a&item=S2A_MSIL2A_20250427T034201_R061_T47QRC_20250427T083512&assets=visual&asset_bidx=visual%7C1,2,3&nodata=0&format=png",
+   "bound": "Sentinel-2 光学"
+  },
+  {
+   "t": "2025-04-29T05:52:00Z",
+   "src": "新闻（种子）",
+   "kind": "SUPPORTING",
+   "text_en": "KPL (Lao News Agency): Landslide Sweeps Away Two Houses in Oudomxay, Nine Missing",
+   "text": "KPL（老挝通讯社）：Landslide Sweeps Away Two Houses in Oudomxay, Nine Missing",
+   "url": "https://kpl.gov.la/EN/detail.aspx?id=91024"
+  },
+  {
+   "t": "2025-04-29T05:52:00Z",
+   "src": "USGS 地震目录",
+   "kind": "NEUTRAL",
+   "text_en": "Nothing within 300 km in the day before or after",
+   "text": "事件 300 km 内前后一天没有记录",
+   "bound": "USGS 地震目录"
+  },
+  {
+   "t": "2025-04-29T05:52:00Z",
+   "src": "EMSC 地震目录",
+   "kind": "NEUTRAL",
+   "text_en": "Nothing within 300 km in the day before or after",
+   "text": "事件 300 km 内前后一天没有记录",
+   "bound": "EMSC 地震目录"
+  },
+  {
+   "t": "2025-04-29T05:52:00Z",
+   "src": "IODA 网络连通",
+   "kind": "MISSING",
+   "text_en": "Query failed (IODA 没有这个地区：Oudomxai)",
+   "text": "查询失败（IODA 没有这个地区：Oudomxai）",
+   "bound": "IODA 网络连通"
+  },
+  {
+   "t": "2025-04-29T05:52:00Z",
+   "src": "Raspberry Shake 地震仪",
+   "kind": "MISSING",
+   "text": "事件 150 km 内这段时间没有在线的民间地震仪",
+   "text_en": "No citizen seismometer online within 150 km during this window",
+   "bound": "Raspberry Shake"
+  },
+  {
+   "t": "2025-04-29T05:52:00Z",
+   "src": "GDELT 新闻",
+   "kind": "NEUTRAL",
+   "text": "没有找到“Oudomxay”的相关新闻",
+   "text_en": "No related news found for “Oudomxay”",
+   "bound": "GDELT 新闻"
+  },
+  {
+   "t": "2025-04-29T05:52:00Z",
+   "src": "维基百科",
+   "kind": "NEUTRAL",
+   "text": "事件后没有新建的相关条目",
+   "text_en": "No related article created after the event",
+   "bound": "维基百科"
+  },
+  {
+   "t": "2025-04-29T05:52:00Z",
+   "src": "OCHA HDX",
+   "kind": "NEUTRAL",
+   "text": "事件后没有新建的老挝灾害数据集",
+   "text_en": "No new Laos disaster dataset after the event",
+   "bound": "OCHA HDX"
+  },
+  {
+   "t": "2025-04-29T11:22:11Z",
+   "src": "哥白尼 GFM",
+   "kind": "SUPPORTING",
+   "text": "Sentinel-1 自动洪水范围产品 ENSEMBLE_FLOOD_20250429T112211_VV_AS020M_E051N018T3（含洪水范围图层）",
+   "text_en": "Sentinel-1 automatic flood-extent product ENSEMBLE_FLOOD_20250429T112211_VV_AS020M_E051N018T3 (flood-extent layer included)",
+   "url": "https://data.eodc.eu/collections/GFM_NRT_INTERIM/flood_extent/AS020M/2025/04/29/DLR_FLOOD_20250429T112211_VV_AS020M_E051N018T3.tif",
+   "bound": "哥白尼 GFM"
+  },
+  {
+   "t": "2025-04-29T11:22:36Z",
+   "src": "哥白尼 GFM",
+   "kind": "SUPPORTING",
+   "text": "Sentinel-1 自动洪水范围产品 ENSEMBLE_FLOOD_20250429T112236_VV_AS020M_E051N018T3（含洪水范围图层）",
+   "text_en": "Sentinel-1 automatic flood-extent product ENSEMBLE_FLOOD_20250429T112236_VV_AS020M_E051N018T3 (flood-extent layer included)",
+   "url": "https://data.eodc.eu/collections/GFM_NRT_INTERIM/flood_extent/AS020M/2025/04/29/DLR_FLOOD_20250429T112236_VV_AS020M_E051N018T3.tif",
+   "bound": "哥白尼 GFM"
+  },
+  {
+   "t": "2025-04-29T11:22:48Z",
+   "src": "Sentinel-1 雷达",
+   "kind": "SUPPORTING",
+   "text_en": "First scene after the first public signal S1A_IW_GRDH_1SDV_20250429T112236_20250429T112301_058971_075014_rtc, compare with before",
+   "text": "第一条公开信号之后第一景 S1A_IW_GRDH_1SDV_20250429T112236_20250429T112301_058971_075014_rtc，可与事件前对比",
+   "url": "https://planetarycomputer.microsoft.com/api/data/v1/item/preview.png?collection=sentinel-1-rtc&item=S1A_IW_GRDH_1SDV_20250429T112236_20250429T112301_058971_075014_rtc&assets=vv&assets=vh&tile_format=png&expression=0.03%20%2B%20log%20(10e-4%20-%20log%20(0.05%20%2F%20(0.02%20%2B%202%20*%20vv)));0.05%20%2B%20exp%20(0.25%20*%20(log%20(0.01%20%2B%202%20*%20vv)%20%2B%20log%20(0.02%20%2B%205%20*%20vh)));1%20-%20log%20(0.05%20%2F%20(0.045%20-%200.9%20*%20vv))&asset_as_band=True&rescale=0,.8000&rescale=0,1.000&rescale=0,1.000&format=png",
+   "bound": "Sentinel-1 雷达"
+  },
+  {
+   "t": "2025-04-29T11:23:01Z",
+   "src": "哥白尼 GFM",
+   "kind": "SUPPORTING",
+   "text": "Sentinel-1 自动洪水范围产品 ENSEMBLE_FLOOD_20250429T112301_VV_AS020M_E051N018T3（含洪水范围图层）",
+   "text_en": "Sentinel-1 automatic flood-extent product ENSEMBLE_FLOOD_20250429T112301_VV_AS020M_E051N018T3 (flood-extent layer included)",
+   "url": "https://data.eodc.eu/collections/GFM_NRT_INTERIM/flood_extent/AS020M/2025/04/29/DLR_FLOOD_20250429T112301_VV_AS020M_E051N018T3.tif",
+   "bound": "哥白尼 GFM"
+  },
+  {
+   "t": "2025-04-30T00:00:00Z",
+   "src": "地磁 Kp（GFZ）",
+   "kind": "NEUTRAL",
+   "text": "事件前后一天最大 Kp 3.3：没有地磁暴",
+   "text_en": "Max Kp 3.3 within a day of the event: no geomagnetic storm",
+   "bound": "地磁 Kp"
+  },
+  {
+   "t": "2025-05-01T11:06:54Z",
+   "src": "哥白尼 GFM",
+   "kind": "SUPPORTING",
+   "text": "Sentinel-1 自动洪水范围产品 ENSEMBLE_FLOOD_20250501T110654_VV_AS020M_E051N018T3（含洪水范围图层）",
+   "text_en": "Sentinel-1 automatic flood-extent product ENSEMBLE_FLOOD_20250501T110654_VV_AS020M_E051N018T3 (flood-extent layer included)",
+   "url": "https://data.eodc.eu/collections/GFM_NRT_INTERIM/flood_extent/AS020M/2025/05/01/DLR_FLOOD_20250501T110654_VV_AS020M_E051N018T3.tif",
+   "bound": "哥白尼 GFM"
+  },
+  {
+   "t": "2025-05-01T23:15:30Z",
+   "src": "哥白尼 GFM",
+   "kind": "SUPPORTING",
+   "text": "Sentinel-1 自动洪水范围产品 ENSEMBLE_FLOOD_20250501T231530_VV_AS020M_E051N018T3（含洪水范围图层）",
+   "text_en": "Sentinel-1 automatic flood-extent product ENSEMBLE_FLOOD_20250501T231530_VV_AS020M_E051N018T3 (flood-extent layer included)",
+   "url": "https://data.eodc.eu/collections/GFM_NRT_INTERIM/flood_extent/AS020M/2025/05/01/DLR_FLOOD_20250501T231530_VV_AS020M_E051N018T3.tif",
+   "bound": "哥白尼 GFM"
+  },
+  {
+   "t": "2025-05-03T22:59:24Z",
+   "src": "哥白尼 GFM",
+   "kind": "SUPPORTING",
+   "text": "Sentinel-1 自动洪水范围产品 ENSEMBLE_FLOOD_20250503T225924_VV_AS020M_E051N018T3（含洪水范围图层）",
+   "text_en": "Sentinel-1 automatic flood-extent product ENSEMBLE_FLOOD_20250503T225924_VV_AS020M_E051N018T3 (flood-extent layer included)",
+   "url": "https://data.eodc.eu/collections/GFM_NRT_INTERIM/flood_extent/AS020M/2025/05/03/DLR_FLOOD_20250503T225924_VV_AS020M_E051N018T3.tif",
+   "bound": "哥白尼 GFM"
+  },
+  {
+   "t": "2025-05-03T22:59:53Z",
+   "src": "哥白尼 GFM",
+   "kind": "SUPPORTING",
+   "text": "Sentinel-1 自动洪水范围产品 ENSEMBLE_FLOOD_20250503T225953_VV_AS020M_E051N018T3（含洪水范围图层）",
+   "text_en": "Sentinel-1 automatic flood-extent product ENSEMBLE_FLOOD_20250503T225953_VV_AS020M_E051N018T3 (flood-extent layer included)",
+   "url": "https://data.eodc.eu/collections/GFM_NRT_INTERIM/flood_extent/AS020M/2025/05/03/DLR_FLOOD_20250503T225953_VV_AS020M_E051N018T3.tif",
+   "bound": "哥白尼 GFM"
+  },
+  {
+   "t": "2025-05-05T03:36:01Z",
+   "src": "Sentinel-2 光学",
+   "kind": "SUPPORTING",
+   "text_en": "First scene after the first public signal S2C_MSIL2A_20250505T033601_R061_T47QQC_20250505T084312 (cloud 50%), compare with before",
+   "text": "第一条公开信号之后第一景 S2C_MSIL2A_20250505T033601_R061_T47QQC_20250505T084312（云量 50%），可与事件前对比",
+   "url": "https://planetarycomputer.microsoft.com/api/data/v1/item/preview.png?collection=sentinel-2-l2a&item=S2C_MSIL2A_20250505T033601_R061_T47QQC_20250505T084312&assets=visual&asset_bidx=visual%7C1,2,3&nodata=0&format=png",
+   "bound": "Sentinel-2 光学"
+  },
+  {
+   "t": "2026-10-18T15:46:20Z",
+   "src": "Copernicus EMS",
+   "kind": "NEUTRAL",
+   "text_en": "No rapid mapping activated for this event",
+   "text": "没有为这次事件启动应急制图",
+   "bound": "Copernicus EMS"
+  },
+  {
+   "t": "2026-10-18T15:46:20Z",
+   "src": "IFRC Montandon",
+   "kind": "MISSING",
+   "text": "需要 IFRC GO 账号令牌才能查询（未配置）",
+   "text_en": "Needs an IFRC GO account token (not configured)",
+   "bound": "IFRC Montandon"
+  },
+  {
+   "t": "2026-10-18T15:46:20Z",
+   "src": "ReliefWeb",
+   "kind": "MISSING",
+   "text": "需要申请 ReliefWeb appname（未配置）",
+   "text_en": "Needs a ReliefWeb appname (not configured)",
+   "bound": "ReliefWeb"
+  },
+  {
+   "t": "2026-10-18T15:46:20Z",
+   "src": "Cloudflare Radar",
+   "kind": "MISSING",
+   "text": "需要 Cloudflare API 令牌（未配置）",
+   "text_en": "Needs a Cloudflare API token (not configured)",
+   "bound": "Cloudflare Radar"
+  },
+  {
+   "t": "2026-10-18T15:46:20Z",
+   "src": "NASA FIRMS 火点",
+   "kind": "MISSING",
+   "text": "需要 FIRMS MAP_KEY（未配置）",
+   "text_en": "Needs a FIRMS MAP_KEY (not configured)",
+   "bound": "NASA FIRMS"
+  },
+  {
+   "t": "2026-10-18T15:46:20Z",
+   "src": "NASA 夜间灯光",
+   "kind": "MISSING",
+   "text": "需要 NASA Earthdata 账号令牌（未配置）",
+   "text_en": "Needs a NASA Earthdata token (not configured)",
+   "bound": "NASA 夜间灯光"
+  },
+  {
+   "t": "2026-10-18T15:46:20Z",
+   "src": "Vantor 开放影像",
+   "kind": "NEUTRAL",
+   "text": "这次事件没有启动开放影像",
+   "text_en": "No open imagery released for this event",
+   "bound": "Vantor 开放影像"
+  }
+ ],
+ "built": "2026-10-18T15:46:20Z",
+ "bounds": {
+  "Sentinel-1 雷达": {
+   "can": "这一时间有没有雷达影像覆盖事件地点，可用于前后对比。",
+   "cannot": "有影像不等于能看出变化；山区几何畸变严重，需人工判读。"
+  },
+  "Sentinel-2 光学": {
+   "can": "这一时间有没有光学影像覆盖、云量多少，可用于前后对比。",
+   "cannot": "云和阴影会遮挡；有影像不等于能看出变化。"
+  },
+  "USGS 地震目录": {
+   "can": "USGS 测定的地震（或崩塌类事件）的时间、位置、震级。",
+   "cannot": "目录里的位置和震级会修订；崩塌类事件的位置不精确；不说明是否造成损失。"
+  },
+  "EMSC 地震目录": {
+   "can": "EMSC 汇总的地震时间、位置、震级。",
+   "cannot": "早期结果会修订；不说明影响和损失。"
+  },
+  "IODA 网络连通": {
+   "can": "当地网络连通指标在这一时刻是否下降。",
+   "cannot": "下降可能是断电、线路损坏，也可能是运营商维护；不能说明原因。"
+  },
+  "Raspberry Shake": {
+   "can": "民间地震仪在这一时刻是否记录到震动、有没有在线。",
+   "cannot": "民用设备，噪声大、没有官方校准；不能单独说明发生了什么。"
+  },
+  "GDELT 新闻": {
+   "can": "全球新闻里有没有报道、报道的数量和时间。",
+   "cannot": "新闻是二手信息，早期报道常有误；报道多少不等于事件大小。"
+  },
+  "维基百科": {
+   "can": "有没有人为这次事件新建或编辑条目。",
+   "cannot": "任何人可编辑；只说明受到关注，不是事实来源。"
+  },
+  "OCHA HDX": {
+   "can": "人道数据交换平台上有没有相关数据集。",
+   "cannot": "只说明有数据集，不说明其内容是否准确。"
+  },
+  "哥白尼 GFM": {
+   "can": "哥白尼全球洪水监测按 Sentinel-1 雷达自动算出的水体范围。",
+   "cannot": "自动产品，山区阴影、积雪、植被会误判或漏判；不说明水深和损失。"
+  },
+  "地磁 Kp": {
+   "can": "这段时间的地磁活动水平，作为 GNSS 和卫星通信的背景。",
+   "cannot": "和地面灾害没有因果关系；只用来说明观测条件。"
+  },
+  "Copernicus EMS": {
+   "can": "欧盟应急制图服务是否为这次事件启动、出了哪些图。",
+   "cannot": "没启动不说明灾害小；图是对某一时刻的判读。"
+  },
+  "IFRC Montandon": {
+   "can": "国际红十字会 Montandon 库里有没有这次事件的记录。",
+   "cannot": "收录有延迟；没收录不说明没发生。"
+  },
+  "ReliefWeb": {
+   "can": "联合国人道机构网站上关于这次事件的报告。",
+   "cannot": "报告引用的数字来自各方，会更新；不同报告可能不一致。"
+  },
+  "Cloudflare Radar": {
+   "can": "Cloudflare 观测到的当地网络流量或中断。",
+   "cannot": "只反映经过 Cloudflare 的流量；不能说明原因。"
+  },
+  "NASA FIRMS": {
+   "can": "卫星在过境时探测到的热异常（火点）。",
+   "cannot": "云遮挡会漏检；热异常可能是农业烧荒、工业热源；不说明起火原因。"
+  },
+  "NASA 夜间灯光": {
+   "can": "夜间灯光亮度在事件前后的变化。",
+   "cannot": "受云、月光、季节影响；变暗不一定是停电。"
+  },
+  "Vantor 开放影像": {
+   "can": "是否为这次事件公开了高分辨率影像。",
+   "cannot": "只说明有没有影像，不说明影像里看到了什么。"
+  }
+ },
+ "archive_note": "带 archive 字段的条目：原始网页已由互联网档案馆时光机（Wayback Machine，独立第三方）存档，archive_t 是存档时间。存档证明那一刻网页的样子，不证明网页内容属实。",
+ "archive_n": 0,
+ "note_en": "States only what public sources recorded and when; no attribution of cause, no prediction. A strong seismic signal only means the station recorded strong shaking at that moment.",
+ "note": "只陈述公开来源记录了什么、什么时候；不判断成因，不预测。地震台强信号只说明那一刻台站记录到较强震动，来源需要结合其他证据。",
+ "receipts": [
+  {
+   "t": "2026-10-18T15:47:44Z",
+   "method": "GET",
+   "url": "https://earthquake.usgs.gov/fdsnws/event/1/query?format=geojson&latitude=20.175&longitude=101.958&maxradiuskm=300&starttime=2025-04-28T05:52:00Z&endtime=2025-04-30T05:52:00Z",
+   "status": 200,
+   "bytes": 327,
+   "sha256": "f06a606464360a5e63ffa762a41b3e54aa242f85a6d30e26321179a89dc82176",
+   "type": "application/json; charset=utf-8",
+   "body": "events/raw/f06a606464360a5e63ffa762a41b3e54aa242f85a6d30e26321179a89dc82176.gz"
+  },
+  {
+   "t": "2026-10-18T15:47:45Z",
+   "method": "GET",
+   "url": "https://www.seismicportal.eu/fdsnws/event/1/query?format=json&lat=20.175&lon=101.958&maxradius=2.7&start=2025-04-28T05:52:00&end=2025-04-30T05:52:00",
+   "status": 204,
+   "bytes": 0,
+   "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+   "type": ""
+  },
+  {
+   "t": "2026-10-18T15:47:46Z",
+   "method": "GET",
+   "url": "https://api.ioda.inetintel.cc.gatech.edu/v2/entities/query?entityType=region&search=Oudomxai",
+   "status": 200,
+   "bytes": 390,
+   "sha256": "ff299f143addcffb1f0252790771f2b3856b35a317aef87db3cc064f8f236af4",
+   "type": "application/json",
+   "body": "events/raw/ff299f143addcffb1f0252790771f2b3856b35a317aef87db3cc064f8f236af4.gz"
+  },
+  {
+   "t": "2026-10-18T15:47:47Z",
+   "method": "GET",
+   "url": "https://rapidmapping.emergency.copernicus.eu/backend/dashboard-api/public-activations-info/?limit=60",
+   "status": 200,
+   "bytes": 20208,
+   "sha256": "49ac5eca13be9df5f6ad7761f3d0419c2bd8043a676b3aa614d9259dc728e5bc",
+   "type": "application/json",
+   "body": "events/raw/49ac5eca13be9df5f6ad7761f3d0419c2bd8043a676b3aa614d9259dc728e5bc.gz"
+  },
+  {
+   "t": "2026-10-18T15:47:47Z",
+   "method": "POST",
+   "url": "https://planetarycomputer.microsoft.com/api/stac/v1/search",
+   "status": 200,
+   "bytes": 6695,
+   "sha256": "4afa217a0e6c24b2a7253af710963abbac8617f7dfd19049be500e01e46ee45b",
+   "type": "application/geo+json; charset=utf-8",
+   "body": "events/raw/4afa217a0e6c24b2a7253af710963abbac8617f7dfd19049be500e01e46ee45b.gz"
+  },
+  {
+   "t": "2026-10-18T15:47:47Z",
+   "method": "POST",
+   "url": "https://planetarycomputer.microsoft.com/api/stac/v1/search",
+   "status": 200,
+   "bytes": 6694,
+   "sha256": "0ce7c174d3959691adf15aa03396441b0b7da8de6f70e5570212d47dd5c95d97",
+   "type": "application/geo+json; charset=utf-8",
+   "body": "events/raw/0ce7c174d3959691adf15aa03396441b0b7da8de6f70e5570212d47dd5c95d97.gz"
+  },
+  {
+   "t": "2026-10-18T15:47:48Z",
+   "method": "POST",
+   "url": "https://planetarycomputer.microsoft.com/api/stac/v1/search",
+   "status": 200,
+   "bytes": 16014,
+   "sha256": "59fde8591b0a1513e7d18a3c36b3f4244ee8033fbdcdf272371fa06472cb226f",
+   "type": "application/geo+json; charset=utf-8",
+   "body": "events/raw/59fde8591b0a1513e7d18a3c36b3f4244ee8033fbdcdf272371fa06472cb226f.gz"
+  },
+  {
+   "t": "2026-10-18T15:47:49Z",
+   "method": "POST",
+   "url": "https://planetarycomputer.microsoft.com/api/stac/v1/search",
+   "status": 200,
+   "bytes": 16191,
+   "sha256": "b2c2dac75bfbbcb233d4c29bc54032719ed02079e49b48c32457f96d80bbb508",
+   "type": "application/geo+json; charset=utf-8",
+   "body": "events/raw/b2c2dac75bfbbcb233d4c29bc54032719ed02079e49b48c32457f96d80bbb508.gz"
+  },
+  {
+   "t": "2026-10-18T15:47:49Z",
+   "method": "POST",
+   "url": "https://stac.eodc.eu/api/v1/search",
+   "status": 200,
+   "bytes": 83545,
+   "sha256": "0fd16d5c29164aa9559626941079ed8517c1db9ab75bf14e5c43c185ae06667b",
+   "type": "application/geo+json"
+  },
+  {
+   "t": "2026-10-18T15:47:51Z",
+   "method": "GET",
+   "url": "https://data.raspberryshake.org/fdsnws/station/1/query?network=AM&latitude=20.175&longitude=101.958&maxradius=1.35&level=channel&format=text&starttime=2025-04-28T23:52:00&endtime=2025-04-29T08:52:00",
+   "status": 204,
+   "bytes": 0,
+   "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+   "type": "text/plain; charset=utf-8",
+   "body": "events/raw/e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855.gz"
+  },
+  {
+   "t": "2026-10-18T15:47:51Z",
+   "method": "GET",
+   "url": "https://earthquake.usgs.gov/fdsnws/event/1/query?format=geojson&latitude=20.175&longitude=101.958&maxradiuskm=300&starttime=2025-04-28T05:52:00Z&endtime=2025-04-30T05:52:00Z&minmagnitude=4",
+   "status": 200,
+   "bytes": 342,
+   "sha256": "31bb45d91e011c1221fa9d606eba5293980db9081a61b83da1d19d899723b700",
+   "type": "application/json; charset=utf-8",
+   "body": "events/raw/31bb45d91e011c1221fa9d606eba5293980db9081a61b83da1d19d899723b700.gz"
+  },
+  {
+   "t": "2026-10-18T15:48:14Z",
+   "method": "GET",
+   "url": "https://api.gdeltproject.org/api/v2/doc/doc?query=%22Oudomxay%22+%28flood+OR+landslide+OR+avalanche+OR+earthquake+OR+%22glacial+lake%22+OR+%22debris+flow%22+OR+snowstorm+OR+rockfall%29+Laos+sourcelang%3Aenglish&mode=artlist&maxrecords=75&format=json&sort=dateasc&startdatetime=20250428055200&enddatetime=20250504055200",
+   "status": 200,
+   "bytes": 2,
+   "sha256": "44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a",
+   "type": "application/json; charset=utf-8",
+   "body": "events/raw/44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a.gz"
+  },
+  {
+   "t": "2026-10-18T15:48:14Z",
+   "method": "GET",
+   "url": "https://en.wikipedia.org/w/api.php?action=query&list=search&srsearch=Oudomxay+2025+disaster&format=json&srlimit=5",
+   "status": 200,
+   "bytes": 1285,
+   "sha256": "bd000a45369de9e7192fb4cd79b43d7102bfb8337f67a7f2a0f4b78578bebdd0",
+   "type": "application/json; charset=utf-8",
+   "body": "events/raw/bd000a45369de9e7192fb4cd79b43d7102bfb8337f67a7f2a0f4b78578bebdd0.gz"
+  },
+  {
+   "t": "2026-10-18T15:48:15Z",
+   "method": "GET",
+   "url": "https://en.wikipedia.org/w/api.php?action=query&prop=revisions&titles=Typhoon+Yagi&rvlimit=1&rvdir=newer&rvprop=timestamp&format=json",
+   "status": 200,
+   "bytes": 203,
+   "sha256": "8c807e4578523c14c1238c694625098276ca3d6c5dd1067b96d4aed9b420307b",
+   "type": "application/json; charset=utf-8",
+   "body": "events/raw/8c807e4578523c14c1238c694625098276ca3d6c5dd1067b96d4aed9b420307b.gz"
+  },
+  {
+   "t": "2026-10-18T15:48:15Z",
+   "method": "GET",
+   "url": "https://en.wikipedia.org/w/api.php?action=query&prop=revisions&titles=Asian+Development+Bank&rvlimit=1&rvdir=newer&rvprop=timestamp&format=json",
+   "status": 200,
+   "bytes": 201,
+   "sha256": "25e3f82cdf6628caf9c4e7c5ad07332ef0538e6eb21ecd6c8a4629f3695ca9e4",
+   "type": "application/json; charset=utf-8",
+   "body": "events/raw/25e3f82cdf6628caf9c4e7c5ad07332ef0538e6eb21ecd6c8a4629f3695ca9e4.gz"
+  },
+  {
+   "t": "2026-10-18T15:48:15Z",
+   "method": "GET",
+   "url": "https://en.wikipedia.org/w/api.php?action=query&prop=revisions&titles=8th+National+Assembly+of+Laos&rvlimit=1&rvdir=newer&rvprop=timestamp&format=json",
+   "status": 200,
+   "bytes": 220,
+   "sha256": "8b198006d9b542e7ee39e63a8e800669f74ccf23494072258ecc083b04a5dfcb",
+   "type": "application/json; charset=utf-8",
+   "body": "events/raw/8b198006d9b542e7ee39e63a8e800669f74ccf23494072258ecc083b04a5dfcb.gz"
+  },
+  {
+   "t": "2026-10-18T15:48:15Z",
+   "method": "GET",
+   "url": "https://data.humdata.org/api/3/action/package_search?q=flood+OR+landslide+OR+avalanche+OR+earthquake+OR+disaster&fq=groups%3Alao+AND+metadata_created%3A%5B2025-04-28T05%3A52%3A00Z+TO+NOW%5D&sort=metadata_created+asc&rows=10",
+   "status": 200,
+   "bytes": 284,
+   "sha256": "57c17659bf3ca406184ebd539b7ba731e17b3c7230d1d9606689e123d07ec1e3",
+   "type": "application/json;charset=utf-8",
+   "body": "events/raw/57c17659bf3ca406184ebd539b7ba731e17b3c7230d1d9606689e123d07ec1e3.gz"
+  },
+  {
+   "t": "2026-10-18T15:48:16Z",
+   "method": "GET",
+   "url": "https://kp.gfz-potsdam.de/app/json/?start=2025-04-28T05%3A52%3A00Z&end=2025-04-30T05%3A52%3A00Z&index=Kp",
+   "status": 200,
+   "bytes": 639,
+   "sha256": "408a6008194fbd899f86ad3f53dd49062ce69ce6c5aee3357b72b54a789c740c",
+   "type": "application/json",
+   "body": "events/raw/408a6008194fbd899f86ad3f53dd49062ce69ce6c5aee3357b72b54a789c740c.gz"
+  }
+ ],
+ "retro_seed": [
+  {
+   "k": "seed:kpl-2025-04-29",
+   "t": "2025-04-29T05:52:00Z",
+   "src": "新闻（种子）",
+   "text": "KPL（老挝通讯社）：Landslide Sweeps Away Two Houses in Oudomxay, Nine Missing",
+   "text_en": "KPL (Lao News Agency): Landslide Sweeps Away Two Houses in Oudomxay, Nine Missing",
+   "url": "https://kpl.gov.la/EN/detail.aspx?id=91024"
+  }
+ ]
+}

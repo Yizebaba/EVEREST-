@@ -1,0 +1,1056 @@
+{
+ "id": "bri-retro-pak-2025-08-08",
+ "hips": [
+  "MH0600"
+ ],
+ "title": "喀喇昆仑公路莫尔洪段被冲毁（回溯测试）",
+ "title_en": "Karakoram Highway section destroyed at Morkhun (retrospective test)",
+ "kind": "洪水",
+ "place": "Morkhun, Upper Hunza",
+ "lat": 36.613,
+ "lon": 74.865,
+ "t": "2025-08-09T00:00:00Z",
+ "sentinel": {
+  "sentinel-1-rtc": {
+   "before": {
+    "id": "S1A_IW_GRDH_1SDV_20250804T010629_20250804T010654_060379_rtc",
+    "t": "2025-08-04T01:06:41Z",
+    "cloud": null,
+    "preview": "https://planetarycomputer.microsoft.com/api/data/v1/item/preview.png?collection=sentinel-1-rtc&item=S1A_IW_GRDH_1SDV_20250804T010629_20250804T010654_060379_rtc&assets=vv&assets=vh&tile_format=png&expression=0.03%20%2B%20log%20(10e-4%20-%20log%20(0.05%20%2F%20(0.02%20%2B%202%20*%20vv)));0.05%20%2B%20exp%20(0.25%20*%20(log%20(0.01%20%2B%202%20*%20vv)%20%2B%20log%20(0.02%20%2B%205%20*%20vh)));1%20-%20log%20(0.05%20%2F%20(0.045%20-%200.9%20*%20vv))&asset_as_band=True&rescale=0,.8000&rescale=0,1.000&rescale=0,1.000&format=png",
+    "explore": "https://planetarycomputer.microsoft.com/explore?c=74.865,36.613&z=11&d=sentinel-1-rtc"
+   },
+   "after": {
+    "id": "S1A_IW_GRDH_1SDV_20250810T125744_20250810T125809_060474_rtc",
+    "t": "2025-08-10T12:57:56Z",
+    "cloud": null,
+    "preview": "https://planetarycomputer.microsoft.com/api/data/v1/item/preview.png?collection=sentinel-1-rtc&item=S1A_IW_GRDH_1SDV_20250810T125744_20250810T125809_060474_rtc&assets=vv&assets=vh&tile_format=png&expression=0.03%20%2B%20log%20(10e-4%20-%20log%20(0.05%20%2F%20(0.02%20%2B%202%20*%20vv)));0.05%20%2B%20exp%20(0.25%20*%20(log%20(0.01%20%2B%202%20*%20vv)%20%2B%20log%20(0.02%20%2B%205%20*%20vh)));1%20-%20log%20(0.05%20%2F%20(0.045%20-%200.9%20*%20vv))&asset_as_band=True&rescale=0,.8000&rescale=0,1.000&rescale=0,1.000&format=png",
+    "explore": "https://planetarycomputer.microsoft.com/explore?c=74.865,36.613&z=11&d=sentinel-1-rtc"
+   }
+  },
+  "sentinel-2-l2a": {
+   "before": {
+    "id": "S2B_MSIL2A_20250807T054639_R048_T43SEA_20250807T075509",
+    "t": "2025-08-07T05:46:39Z",
+    "cloud": 28.106892,
+    "preview": "https://planetarycomputer.microsoft.com/api/data/v1/item/preview.png?collection=sentinel-2-l2a&item=S2B_MSIL2A_20250807T054639_R048_T43SEA_20250807T075509&assets=visual&asset_bidx=visual%7C1,2,3&nodata=0&format=png",
+    "explore": "https://planetarycomputer.microsoft.com/explore?c=74.865,36.613&z=11&d=sentinel-2-l2a"
+   },
+   "after": {
+    "id": "S2C_MSIL2A_20250809T053701_R005_T43SEA_20250809T093114",
+    "t": "2025-08-09T05:37:01Z",
+    "cloud": 17.779562,
+    "preview": "https://planetarycomputer.microsoft.com/api/data/v1/item/preview.png?collection=sentinel-2-l2a&item=S2C_MSIL2A_20250809T053701_R005_T43SEA_20250809T093114&assets=visual&asset_bidx=visual%7C1,2,3&nodata=0&format=png",
+    "explore": "https://planetarycomputer.microsoft.com/explore?c=74.865,36.613&z=11&d=sentinel-2-l2a"
+   }
+  }
+ },
+ "gfm": {
+  "scenes": [
+   {
+    "id": "ENSEMBLE_FLOOD_20250815T130559_VV_AS020M_E024N036T3",
+    "t": "2025-08-15T13:05:59Z",
+    "flood_asset": "dlr_flood_extent",
+    "href": "https://data.eodc.eu/collections/GFM_NRT_INTERIM/flood_extent/AS020M/2025/08/15/DLR_FLOOD_20250815T130559_VV_AS020M_E024N036T3.tif"
+   },
+   {
+    "id": "ENSEMBLE_FLOOD_20250815T130534_VV_AS020M_E024N036T3",
+    "t": "2025-08-15T13:05:34Z",
+    "flood_asset": "dlr_flood_extent",
+    "href": "https://data.eodc.eu/collections/GFM_NRT_INTERIM/flood_extent/AS020M/2025/08/15/DLR_FLOOD_20250815T130534_VV_AS020M_E024N036T3.tif"
+   },
+   {
+    "id": "ENSEMBLE_FLOOD_20250815T130509_VV_AS020M_E024N036T3",
+    "t": "2025-08-15T13:05:09Z",
+    "flood_asset": "dlr_flood_extent",
+    "href": "https://data.eodc.eu/collections/GFM_NRT_INTERIM/flood_extent/AS020M/2025/08/15/DLR_FLOOD_20250815T130509_VV_AS020M_E024N036T3.tif"
+   },
+   {
+    "id": "ENSEMBLE_FLOOD_20250810T125744_VV_AS020M_E024N036T3",
+    "t": "2025-08-10T12:57:44Z",
+    "flood_asset": "dlr_flood_extent",
+    "href": "https://data.eodc.eu/collections/GFM_NRT_INTERIM/flood_extent/AS020M/2025/08/10/DLR_FLOOD_20250810T125744_VV_AS020M_E024N036T3.tif"
+   },
+   {
+    "id": "ENSEMBLE_FLOOD_20250810T125719_VV_AS020M_E024N036T3",
+    "t": "2025-08-10T12:57:19Z",
+    "flood_asset": "dlr_flood_extent",
+    "href": "https://data.eodc.eu/collections/GFM_NRT_INTERIM/flood_extent/AS020M/2025/08/10/DLR_FLOOD_20250810T125719_VV_AS020M_E024N036T3.tif"
+   },
+   {
+    "id": "ENSEMBLE_FLOOD_20250810T125654_VV_AS020M_E024N036T3",
+    "t": "2025-08-10T12:56:54Z",
+    "flood_asset": "dlr_flood_extent",
+    "href": "https://data.eodc.eu/collections/GFM_NRT_INTERIM/flood_extent/AS020M/2025/08/10/DLR_FLOOD_20250810T125654_VV_AS020M_E024N036T3.tif"
+   },
+   {
+    "id": "ENSEMBLE_FLOOD_20250809T011520_VV_AS020M_E024N036T3",
+    "t": "2025-08-09T01:15:20Z",
+    "flood_asset": "dlr_flood_extent",
+    "href": "https://data.eodc.eu/collections/GFM_NRT_INTERIM/flood_extent/AS020M/2025/08/09/DLR_FLOOD_20250809T011520_VV_AS020M_E024N036T3.tif"
+   },
+   {
+    "id": "ENSEMBLE_FLOOD_20250809T011455_VV_AS020M_E024N036T3",
+    "t": "2025-08-09T01:14:55Z",
+    "flood_asset": "dlr_flood_extent",
+    "href": "https://data.eodc.eu/collections/GFM_NRT_INTERIM/flood_extent/AS020M/2025/08/09/DLR_FLOOD_20250809T011455_VV_AS020M_E024N036T3.tif"
+   },
+   {
+    "id": "ENSEMBLE_FLOOD_20250808T131408_VV_AS020M_E024N036T3",
+    "t": "2025-08-08T13:14:08Z",
+    "flood_asset": "dlr_flood_extent",
+    "href": "https://data.eodc.eu/collections/GFM_NRT_INTERIM/flood_extent/AS020M/2025/08/08/DLR_FLOOD_20250808T131408_VV_AS020M_E024N036T3.tif"
+   },
+   {
+    "id": "ENSEMBLE_FLOOD_20250808T131343_VV_AS020M_E024N036T3",
+    "t": "2025-08-08T13:13:43Z",
+    "flood_asset": "dlr_flood_extent",
+    "href": "https://data.eodc.eu/collections/GFM_NRT_INTERIM/flood_extent/AS020M/2025/08/08/DLR_FLOOD_20250808T131343_VV_AS020M_E024N036T3.tif"
+   },
+   {
+    "id": "ENSEMBLE_FLOOD_20250808T131318_VV_AS020M_E024N036T3",
+    "t": "2025-08-08T13:13:18Z",
+    "flood_asset": "dlr_flood_extent",
+    "href": "https://data.eodc.eu/collections/GFM_NRT_INTERIM/flood_extent/AS020M/2025/08/08/DLR_FLOOD_20250808T131318_VV_AS020M_E024N036T3.tif"
+   }
+  ],
+  "portal": "https://portal.gfm.eodc.eu/?lat=36.613&lng=74.865&zoom=11"
+ },
+ "manual": {
+  "accepted": 0,
+  "pending": 0
+ },
+ "rshake": {
+  "stations": []
+ },
+ "news": [
+  {
+   "t": "2025-08-08T13:30:00Z",
+   "title": "Flood cuts off Pakistan - China road link",
+   "url": "https://dailytimes.com.pk/1350448/flood-cuts-off-pakistan-china-road-link/",
+   "domain": "dailytimes.com.pk",
+   "lang": "English"
+  },
+  {
+   "t": "2025-08-09T01:45:00Z",
+   "title": "Karakoram Highway washed away as glacier melting triggers flooding in Hunza",
+   "url": "https://dunyanews.tv/en/Pakistan/899500-karakoram-highway-washed-away-as-glacier-melting-triggers-flooding-in-",
+   "domain": "dunyanews.tv",
+   "lang": "English"
+  },
+  {
+   "t": "2025-08-09T02:30:00Z",
+   "title": "Flood washes away major portion of KKH",
+   "url": "https://tribune.com.pk/story/2560451/flood-washes-away-major-portion-of-kkh",
+   "domain": "tribune.com.pk",
+   "lang": "English"
+  },
+  {
+   "t": "2025-08-11T05:30:00Z",
+   "title": "Glacial lake outburst floods devastate Pakistan - occupied Gilgit - Baltistan , severing roads and threatening homes",
+   "url": "https://news.webindia123.com/news/Articles/World/20250811/4348408.html",
+   "domain": "news.webindia123.com",
+   "lang": "English"
+  },
+  {
+   "t": "2025-08-11T09:00:00Z",
+   "title": "Massive mudslide kills 7 volunteers repairing flood damage in northern Pakistan",
+   "url": "https://www.squamishchief.com/world-news/massive-mudslide-kills-7-volunteers-repairing-flood-damage-in-northern-pakistan-11058273",
+   "domain": "squamishchief.com",
+   "lang": "English"
+  },
+  {
+   "t": "2025-08-11T09:45:00Z",
+   "title": "Massive mudslide kills 7 volunteers repairing flood damage in northern Pakistan | iNFOnews",
+   "url": "https://infotel.ca/newsitem/world/cp1226238958",
+   "domain": "infotel.ca",
+   "lang": "English"
+  },
+  {
+   "t": "2025-08-11T09:45:00Z",
+   "title": "Mudslide kills seven repairing flood damage in Pakistan",
+   "url": "https://www.easternriverinachronicle.com.au/story/9038382/mudslide-kills-seven-repairing-flood-damage-in-pakistan/",
+   "domain": "easternriverinachronicle.com.au",
+   "lang": "English"
+  },
+  {
+   "t": "2025-08-11T09:45:00Z",
+   "title": "Mudslide kills seven repairing flood damage in Pakistan",
+   "url": "https://www.merimbulanewsweekly.com.au/story/9038382/mudslide-kills-seven-repairing-flood-damage-in-pakistan/",
+   "domain": "merimbulanewsweekly.com.au",
+   "lang": "English"
+  },
+  {
+   "t": "2025-08-11T10:15:00Z",
+   "title": "Massive mudslide kills 7 volunteers repairing flood damage in northern Pakistan",
+   "url": "https://www.thereminder.ca/world-news/massive-mudslide-kills-7-volunteers-repairing-flood-damage-in-northern-pakistan-11058273",
+   "domain": "thereminder.ca",
+   "lang": "English"
+  },
+  {
+   "t": "2025-08-11T10:15:00Z",
+   "title": "Mudslide kills seven repairing flood damage in Pakistan",
+   "url": "https://www.batemansbaypost.com.au/story/9038382/mudslide-kills-seven-repairing-flood-damage-in-pakistan/",
+   "domain": "batemansbaypost.com.au",
+   "lang": "English"
+  },
+  {
+   "t": "2025-08-11T10:45:00Z",
+   "title": "Mudslide kills seven repairing flood damage in Pakistan",
+   "url": "https://www.canberratimes.com.au/story/9038382/mudslide-kills-seven-repairing-flood-damage-in-pakistan/",
+   "domain": "canberratimes.com.au",
+   "lang": "English"
+  },
+  {
+   "t": "2025-08-11T11:00:00Z",
+   "title": "Massive mudslide kills 7 volunteers repairing flood damage in northern Pakistan",
+   "url": "https://www.coastreporter.net/world-news/massive-mudslide-kills-7-volunteers-repairing-flood-damage-in-northern-pakistan-11058273",
+   "domain": "coastreporter.net",
+   "lang": "English"
+  },
+  {
+   "t": "2025-08-11T11:15:00Z",
+   "title": "Massive mudslide kills 7 volunteers repairing flood damage in northern Pakistan",
+   "url": "https://www.piquenewsmagazine.com/world-news/massive-mudslide-kills-7-volunteers-repairing-flood-damage-in-northern-pakistan-11058273",
+   "domain": "piquenewsmagazine.com",
+   "lang": "English"
+  },
+  {
+   "t": "2025-08-11T11:30:00Z",
+   "title": "Mudslide kills seven repairing flood damage in Pakistan",
+   "url": "https://www.edenmagnet.com.au/story/9038382/mudslide-kills-seven-repairing-flood-damage-in-pakistan/",
+   "domain": "edenmagnet.com.au",
+   "lang": "English"
+  },
+  {
+   "t": "2025-08-11T11:30:00Z",
+   "title": "Mudslide kills seven repairing flood damage in Pakistan",
+   "url": "https://www.yasstribune.com.au/story/9038382/mudslide-kills-seven-repairing-flood-damage-in-pakistan/",
+   "domain": "yasstribune.com.au",
+   "lang": "English"
+  },
+  {
+   "t": "2025-08-11T11:45:00Z",
+   "title": "Massive mudslide kills 7 volunteers repairing flood damage in northern Pakistan",
+   "url": "https://www.fitzhugh.ca/world-news/massive-mudslide-kills-7-volunteers-repairing-flood-damage-in-northern-pakistan-11058271",
+   "domain": "fitzhugh.ca",
+   "lang": "English"
+  },
+  {
+   "t": "2025-08-11T11:45:00Z",
+   "title": "Massive mudslide kills 7 volunteers repairing flood damage in northern Pakistan",
+   "url": "https://panow.com/2025/08/11/massive-mudslide-kills-7-volunteers-repairing-flood-damage-in-northern-pakistan/",
+   "domain": "panow.com",
+   "lang": "English"
+  },
+  {
+   "t": "2025-08-11T11:45:00Z",
+   "title": "Mudslide kills seven repairing flood damage in Pakistan",
+   "url": "https://www.crookwellgazette.com.au/story/9038382/mudslide-kills-seven-repairing-flood-damage-in-pakistan/",
+   "domain": "crookwellgazette.com.au",
+   "lang": "English"
+  },
+  {
+   "t": "2025-08-11T11:45:00Z",
+   "title": "Mudslide kills seven repairing flood damage in Pakistan",
+   "url": "https://www.maitlandmercury.com.au/story/9038382/mudslide-kills-seven-repairing-flood-damage-in-pakistan/",
+   "domain": "maitlandmercury.com.au",
+   "lang": "English"
+  },
+  {
+   "t": "2025-08-11T13:15:00Z",
+   "title": "Seven volunteers repairing drainage channel killed by mudslide",
+   "url": "https://www.ipswichstar.co.uk/news/national/25380754.seven-volunteers-repairing-drainage-channel-killed-mudslide/",
+   "domain": "ipswichstar.co.uk",
+   "lang": "English"
+  }
+ ],
+ "kp_max": 5.667,
+ "hazard_links": {
+  "n": 0,
+  "codes": []
+ },
+ "history": {
+  "source": {
+   "name": "HMAGLOFDB（高山亚洲冰湖溃决数据库）",
+   "repo": "https://github.com/fidelsteiner/HMAGLOFDB",
+   "commit": "e445f70118eaadf232e3bd6ff37ef9cdf93d9405",
+   "commit_time": "2026-09-30T09:04:04Z",
+   "file": "https://github.com/fidelsteiner/HMAGLOFDB/blob/e445f70118eaadf232e3bd6ff37ef9cdf93d9405/Database/GLOFs/HMAGLOFDB.csv",
+   "release_doi": "https://doi.org/10.5281/zenodo.7271187",
+   "paper": "https://doi.org/10.5194/essd-15-3941-2023",
+   "n": 774,
+   "fetched": "2026-10-18T15:46:20Z"
+  },
+  "radius_km": 30,
+  "n": 23,
+  "records": [
+   {
+    "id": "735",
+    "year": "2024",
+    "date": "2024-3-29",
+    "lake": "Ghulkin",
+    "country": "Pakistan",
+    "km": 21.9,
+    "lives": null,
+    "mechanism": "Unknown",
+    "ref": "(this study)"
+   },
+   {
+    "id": "435",
+    "year": "2009",
+    "date": "2009-3-26",
+    "lake": "Ghulkin",
+    "country": "Pakistan",
+    "km": 21.5,
+    "lives": null,
+    "mechanism": "Unknown",
+    "ref": "(Din et al., 2014)"
+   },
+   {
+    "id": "425",
+    "year": "2008",
+    "date": "2008-4-22",
+    "lake": "Ghulkin",
+    "country": "Pakistan",
+    "km": 21.5,
+    "lives": null,
+    "mechanism": "Unknown",
+    "ref": "(Din et al., 2014)"
+   },
+   {
+    "id": "426",
+    "year": "2008",
+    "date": "2008-5-22",
+    "lake": "Ghulkin",
+    "country": "Pakistan",
+    "km": 21.5,
+    "lives": null,
+    "mechanism": "Unknown",
+    "ref": "(Din et al., 2014)"
+   },
+   {
+    "id": "427",
+    "year": "2008",
+    "date": "2008-5-24",
+    "lake": "Ghulkin",
+    "country": "Pakistan",
+    "km": 21.5,
+    "lives": null,
+    "mechanism": "Unknown",
+    "ref": "(Din et al., 2014)"
+   },
+   {
+    "id": "428",
+    "year": "2008",
+    "date": "2008-6-14",
+    "lake": "Ghulkin",
+    "country": "Pakistan",
+    "km": 21.5,
+    "lives": null,
+    "mechanism": "Unknown",
+    "ref": "(Din et al., 2014)"
+   },
+   {
+    "id": "429",
+    "year": "2008",
+    "date": "2008-1-6",
+    "lake": "Passu",
+    "country": "Pakistan",
+    "km": 17.4,
+    "lives": null,
+    "mechanism": "Unknown",
+    "ref": "(Din et al., 2014)"
+   },
+   {
+    "id": "421",
+    "year": "2007",
+    "date": "2007-8-5",
+    "lake": "Ghulkin",
+    "country": "Pakistan",
+    "km": 21.4,
+    "lives": null,
+    "mechanism": "Unknown",
+    "ref": "(Din et al., 2014)"
+   },
+   {
+    "id": "386",
+    "year": "2000",
+    "date": "2000-6-11",
+    "lake": "Unnamed",
+    "country": "Pakistan",
+    "km": 17.0,
+    "lives": null,
+    "mechanism": "Subglacial tunnel",
+    "ref": "(Hewitt and Liu, 2010; Bazai et al., 2021)"
+   },
+   {
+    "id": "323",
+    "year": "1986",
+    "date": "1986",
+    "lake": "Ghulkin",
+    "country": "Pakistan",
+    "km": 21.5,
+    "lives": null,
+    "mechanism": "Unknown",
+    "ref": "(Kreutzmann, 1994)"
+   },
+   {
+    "id": "288",
+    "year": "1980",
+    "date": "1980",
+    "lake": "Ghulkin",
+    "country": "Pakistan",
+    "km": 21.5,
+    "lives": null,
+    "mechanism": "Unknown",
+    "ref": "(Goudie, 1981; Kreutzmann, 1994)"
+   },
+   {
+    "id": "275",
+    "year": "1978",
+    "date": "1978",
+    "lake": "Unnamed",
+    "country": "Pakistan",
+    "km": 17.0,
+    "lives": null,
+    "mechanism": "Subglacial tunnel",
+    "ref": "(Goudie, 1984; Kreutzmann, 1994; Iturrizaga, 2005b)"
+   },
+   {
+    "id": "255",
+    "year": "1975",
+    "date": "1975",
+    "lake": "Unknown",
+    "country": "Pakistan",
+    "km": 27.7,
+    "lives": "1",
+    "mechanism": "Unknown",
+    "ref": "(Ali, 1977; Kreutzmann, 1994)"
+   },
+   {
+    "id": "245",
+    "year": "1974",
+    "date": "1974",
+    "lake": "Unnamed",
+    "country": "Pakistan",
+    "km": 11.5,
+    "lives": null,
+    "mechanism": "Unknown",
+    "ref": "(Goudie, 1981; Kreutzmann, 1994)"
+   },
+   {
+    "id": "246",
+    "year": "1974",
+    "date": "1974-4-12",
+    "lake": "Unknown",
+    "country": "Pakistan",
+    "km": 27.7,
+    "lives": "1",
+    "mechanism": "Unknown",
+    "ref": "(Wang et al., 1984)"
+   },
+   {
+    "id": "235",
+    "year": "1973",
+    "date": "1973",
+    "lake": "Unnamed",
+    "country": "Pakistan",
+    "km": 11.5,
+    "lives": null,
+    "mechanism": "Unknown",
+    "ref": "(Shi and Zhang, 1978; Gao et al., 2021)"
+   },
+   {
+    "id": "229",
+    "year": "1972",
+    "date": "1972",
+    "lake": "Unnamed",
+    "country": "Pakistan",
+    "km": 11.5,
+    "lives": null,
+    "mechanism": "Unknown",
+    "ref": "(Shi, 2003; Hewitt and Liu, 2010; Gao et al., 2021)"
+   },
+   {
+    "id": "174",
+    "year": "1962",
+    "date": "1962",
+    "lake": "Unnamed",
+    "country": "Pakistan",
+    "km": 17.0,
+    "lives": null,
+    "mechanism": "Subglacial tunnel",
+    "ref": "(Kreutzmann, 1994; Iturrizaga, 2005b)"
+   },
+   {
+    "id": "165",
+    "year": "1960",
+    "date": "1960",
+    "lake": "Unnamed",
+    "country": "Pakistan",
+    "km": 17.0,
+    "lives": null,
+    "mechanism": "Subglacial tunnel",
+    "ref": "(Kreutzmann, 1994; Iturrizaga, 2005b)"
+   },
+   {
+    "id": "158",
+    "year": "1959",
+    "date": "1959-8-21",
+    "lake": "Unnamed",
+    "country": "Pakistan",
+    "km": 17.0,
+    "lives": null,
+    "mechanism": "Subglacial tunnel",
+    "ref": "(Finsterwalder, 1960; Kreutzmann, 1994; Iturrizaga, 2005b)"
+   }
+  ],
+  "note": "数据库里事件 30 km 内历史上收录过的冰湖溃决，每条带数据库编号和原始文献；只是历史记录，不是这次事件的证据，也不用来推测。"
+ },
+ "t_detected": "2025-08-09T00:00:00Z",
+ "t_src": "新闻（种子）",
+ "t_prec": "day",
+ "timeline": [
+  {
+   "t": "2025-08-04T01:06:41Z",
+   "src": "Sentinel-1 雷达",
+   "kind": "NEUTRAL",
+   "text_en": "Last scene before the first public signal S1A_IW_GRDH_1SDV_20250804T010629_20250804T010654_060379_rtc",
+   "text": "第一条公开信号之前最近一景 S1A_IW_GRDH_1SDV_20250804T010629_20250804T010654_060379_rtc",
+   "url": "https://planetarycomputer.microsoft.com/api/data/v1/item/preview.png?collection=sentinel-1-rtc&item=S1A_IW_GRDH_1SDV_20250804T010629_20250804T010654_060379_rtc&assets=vv&assets=vh&tile_format=png&expression=0.03%20%2B%20log%20(10e-4%20-%20log%20(0.05%20%2F%20(0.02%20%2B%202%20*%20vv)));0.05%20%2B%20exp%20(0.25%20*%20(log%20(0.01%20%2B%202%20*%20vv)%20%2B%20log%20(0.02%20%2B%205%20*%20vh)));1%20-%20log%20(0.05%20%2F%20(0.045%20-%200.9%20*%20vv))&asset_as_band=True&rescale=0,.8000&rescale=0,1.000&rescale=0,1.000&format=png",
+   "bound": "Sentinel-1 雷达"
+  },
+  {
+   "t": "2025-08-07T05:46:39Z",
+   "src": "Sentinel-2 光学",
+   "kind": "NEUTRAL",
+   "text_en": "Last scene before the first public signal S2B_MSIL2A_20250807T054639_R048_T43SEA_20250807T075509 (cloud 28%)",
+   "text": "第一条公开信号之前最近一景 S2B_MSIL2A_20250807T054639_R048_T43SEA_20250807T075509（云量 28%）",
+   "url": "https://planetarycomputer.microsoft.com/api/data/v1/item/preview.png?collection=sentinel-2-l2a&item=S2B_MSIL2A_20250807T054639_R048_T43SEA_20250807T075509&assets=visual&asset_bidx=visual%7C1,2,3&nodata=0&format=png",
+   "bound": "Sentinel-2 光学"
+  },
+  {
+   "t": "2025-08-08T13:13:18Z",
+   "src": "哥白尼 GFM",
+   "kind": "NEUTRAL",
+   "text": "Sentinel-1 自动洪水范围产品 ENSEMBLE_FLOOD_20250808T131318_VV_AS020M_E024N036T3（含洪水范围图层）",
+   "text_en": "Sentinel-1 automatic flood-extent product ENSEMBLE_FLOOD_20250808T131318_VV_AS020M_E024N036T3 (flood-extent layer included)",
+   "url": "https://data.eodc.eu/collections/GFM_NRT_INTERIM/flood_extent/AS020M/2025/08/08/DLR_FLOOD_20250808T131318_VV_AS020M_E024N036T3.tif",
+   "bound": "哥白尼 GFM"
+  },
+  {
+   "t": "2025-08-08T13:13:43Z",
+   "src": "哥白尼 GFM",
+   "kind": "NEUTRAL",
+   "text": "Sentinel-1 自动洪水范围产品 ENSEMBLE_FLOOD_20250808T131343_VV_AS020M_E024N036T3（含洪水范围图层）",
+   "text_en": "Sentinel-1 automatic flood-extent product ENSEMBLE_FLOOD_20250808T131343_VV_AS020M_E024N036T3 (flood-extent layer included)",
+   "url": "https://data.eodc.eu/collections/GFM_NRT_INTERIM/flood_extent/AS020M/2025/08/08/DLR_FLOOD_20250808T131343_VV_AS020M_E024N036T3.tif",
+   "bound": "哥白尼 GFM"
+  },
+  {
+   "t": "2025-08-08T13:14:08Z",
+   "src": "哥白尼 GFM",
+   "kind": "NEUTRAL",
+   "text": "Sentinel-1 自动洪水范围产品 ENSEMBLE_FLOOD_20250808T131408_VV_AS020M_E024N036T3（含洪水范围图层）",
+   "text_en": "Sentinel-1 automatic flood-extent product ENSEMBLE_FLOOD_20250808T131408_VV_AS020M_E024N036T3 (flood-extent layer included)",
+   "url": "https://data.eodc.eu/collections/GFM_NRT_INTERIM/flood_extent/AS020M/2025/08/08/DLR_FLOOD_20250808T131408_VV_AS020M_E024N036T3.tif",
+   "bound": "哥白尼 GFM"
+  },
+  {
+   "t": "2025-08-08T13:30:00Z",
+   "src": "GDELT 新闻",
+   "kind": "SUPPORTING",
+   "text": "最早一篇相关报道（dailytimes.com.pk）：Flood cuts off Pakistan - China road link",
+   "text_en": "Earliest related report (dailytimes.com.pk): Flood cuts off Pakistan - China road link",
+   "url": "https://dailytimes.com.pk/1350448/flood-cuts-off-pakistan-china-road-link/",
+   "bound": "GDELT 新闻"
+  },
+  {
+   "t": "2025-08-09T00:00:00Z",
+   "src": "新闻（种子）",
+   "kind": "SUPPORTING",
+   "text_en": "ProPakistani: Flood destroys portion of Karakoram Highway",
+   "text": "ProPakistani：Flood destroys portion of Karakoram Highway",
+   "url": "https://propakistani.pk/2025/08/09/flood-destroys-portion-of-karakoram-highway/"
+  },
+  {
+   "t": "2025-08-09T00:00:00Z",
+   "src": "USGS 地震目录",
+   "kind": "NEUTRAL",
+   "text_en": "Nothing within 300 km in the day before or after",
+   "text": "事件 300 km 内前后一天没有记录",
+   "bound": "USGS 地震目录"
+  },
+  {
+   "t": "2025-08-09T00:00:00Z",
+   "src": "EMSC 地震目录",
+   "kind": "NEUTRAL",
+   "text_en": "Nothing within 300 km in the day before or after",
+   "text": "事件 300 km 内前后一天没有记录",
+   "bound": "EMSC 地震目录"
+  },
+  {
+   "t": "2025-08-09T00:00:00Z",
+   "src": "IODA 网络连通",
+   "kind": "MISSING",
+   "text_en": "Query failed (IODA 没有这个地区：Gilgit-Baltistan)",
+   "text": "查询失败（IODA 没有这个地区：Gilgit-Baltistan）",
+   "bound": "IODA 网络连通"
+  },
+  {
+   "t": "2025-08-09T00:00:00Z",
+   "src": "Raspberry Shake 地震仪",
+   "kind": "MISSING",
+   "text": "事件 150 km 内这段时间没有在线的民间地震仪",
+   "text_en": "No citizen seismometer online within 150 km during this window",
+   "bound": "Raspberry Shake"
+  },
+  {
+   "t": "2025-08-09T00:00:00Z",
+   "src": "维基百科",
+   "kind": "MISSING",
+   "text": "查询失败（HTTP Error 429: Too Many Requests）",
+   "text_en": "Query failed (HTTP Error 429: Too Many Requests)",
+   "bound": "维基百科"
+  },
+  {
+   "t": "2025-08-09T00:00:00Z",
+   "src": "OCHA HDX",
+   "kind": "NEUTRAL",
+   "text": "事件后没有新建的巴基斯坦灾害数据集",
+   "text_en": "No new Pakistan disaster dataset after the event",
+   "bound": "OCHA HDX"
+  },
+  {
+   "t": "2025-08-09T01:14:55Z",
+   "src": "哥白尼 GFM",
+   "kind": "SUPPORTING",
+   "text": "Sentinel-1 自动洪水范围产品 ENSEMBLE_FLOOD_20250809T011455_VV_AS020M_E024N036T3（含洪水范围图层）",
+   "text_en": "Sentinel-1 automatic flood-extent product ENSEMBLE_FLOOD_20250809T011455_VV_AS020M_E024N036T3 (flood-extent layer included)",
+   "url": "https://data.eodc.eu/collections/GFM_NRT_INTERIM/flood_extent/AS020M/2025/08/09/DLR_FLOOD_20250809T011455_VV_AS020M_E024N036T3.tif",
+   "bound": "哥白尼 GFM"
+  },
+  {
+   "t": "2025-08-09T01:15:20Z",
+   "src": "哥白尼 GFM",
+   "kind": "SUPPORTING",
+   "text": "Sentinel-1 自动洪水范围产品 ENSEMBLE_FLOOD_20250809T011520_VV_AS020M_E024N036T3（含洪水范围图层）",
+   "text_en": "Sentinel-1 automatic flood-extent product ENSEMBLE_FLOOD_20250809T011520_VV_AS020M_E024N036T3 (flood-extent layer included)",
+   "url": "https://data.eodc.eu/collections/GFM_NRT_INTERIM/flood_extent/AS020M/2025/08/09/DLR_FLOOD_20250809T011520_VV_AS020M_E024N036T3.tif",
+   "bound": "哥白尼 GFM"
+  },
+  {
+   "t": "2025-08-09T05:37:01Z",
+   "src": "Sentinel-2 光学",
+   "kind": "SUPPORTING",
+   "text_en": "First scene after the first public signal S2C_MSIL2A_20250809T053701_R005_T43SEA_20250809T093114 (cloud 18%), compare with before",
+   "text": "第一条公开信号之后第一景 S2C_MSIL2A_20250809T053701_R005_T43SEA_20250809T093114（云量 18%），可与事件前对比",
+   "url": "https://planetarycomputer.microsoft.com/api/data/v1/item/preview.png?collection=sentinel-2-l2a&item=S2C_MSIL2A_20250809T053701_R005_T43SEA_20250809T093114&assets=visual&asset_bidx=visual%7C1,2,3&nodata=0&format=png",
+   "bound": "Sentinel-2 光学"
+  },
+  {
+   "t": "2025-08-09T15:00:00Z",
+   "src": "地磁 Kp（GFZ）",
+   "kind": "NEUTRAL",
+   "text": "事件前后一天最大 Kp 5.7：有地磁暴，同时段 GNSS 和卫星通信可能受影响",
+   "text_en": "Max Kp 5.7 within a day of the event: geomagnetic storm; GNSS and satellite links may have been affected",
+   "bound": "地磁 Kp"
+  },
+  {
+   "t": "2025-08-10T12:56:54Z",
+   "src": "哥白尼 GFM",
+   "kind": "SUPPORTING",
+   "text": "Sentinel-1 自动洪水范围产品 ENSEMBLE_FLOOD_20250810T125654_VV_AS020M_E024N036T3（含洪水范围图层）",
+   "text_en": "Sentinel-1 automatic flood-extent product ENSEMBLE_FLOOD_20250810T125654_VV_AS020M_E024N036T3 (flood-extent layer included)",
+   "url": "https://data.eodc.eu/collections/GFM_NRT_INTERIM/flood_extent/AS020M/2025/08/10/DLR_FLOOD_20250810T125654_VV_AS020M_E024N036T3.tif",
+   "bound": "哥白尼 GFM"
+  },
+  {
+   "t": "2025-08-10T12:57:19Z",
+   "src": "哥白尼 GFM",
+   "kind": "SUPPORTING",
+   "text": "Sentinel-1 自动洪水范围产品 ENSEMBLE_FLOOD_20250810T125719_VV_AS020M_E024N036T3（含洪水范围图层）",
+   "text_en": "Sentinel-1 automatic flood-extent product ENSEMBLE_FLOOD_20250810T125719_VV_AS020M_E024N036T3 (flood-extent layer included)",
+   "url": "https://data.eodc.eu/collections/GFM_NRT_INTERIM/flood_extent/AS020M/2025/08/10/DLR_FLOOD_20250810T125719_VV_AS020M_E024N036T3.tif",
+   "bound": "哥白尼 GFM"
+  },
+  {
+   "t": "2025-08-10T12:57:44Z",
+   "src": "哥白尼 GFM",
+   "kind": "SUPPORTING",
+   "text": "Sentinel-1 自动洪水范围产品 ENSEMBLE_FLOOD_20250810T125744_VV_AS020M_E024N036T3（含洪水范围图层）",
+   "text_en": "Sentinel-1 automatic flood-extent product ENSEMBLE_FLOOD_20250810T125744_VV_AS020M_E024N036T3 (flood-extent layer included)",
+   "url": "https://data.eodc.eu/collections/GFM_NRT_INTERIM/flood_extent/AS020M/2025/08/10/DLR_FLOOD_20250810T125744_VV_AS020M_E024N036T3.tif",
+   "bound": "哥白尼 GFM"
+  },
+  {
+   "t": "2025-08-10T12:57:56Z",
+   "src": "Sentinel-1 雷达",
+   "kind": "SUPPORTING",
+   "text_en": "First scene after the first public signal S1A_IW_GRDH_1SDV_20250810T125744_20250810T125809_060474_rtc, compare with before",
+   "text": "第一条公开信号之后第一景 S1A_IW_GRDH_1SDV_20250810T125744_20250810T125809_060474_rtc，可与事件前对比",
+   "url": "https://planetarycomputer.microsoft.com/api/data/v1/item/preview.png?collection=sentinel-1-rtc&item=S1A_IW_GRDH_1SDV_20250810T125744_20250810T125809_060474_rtc&assets=vv&assets=vh&tile_format=png&expression=0.03%20%2B%20log%20(10e-4%20-%20log%20(0.05%20%2F%20(0.02%20%2B%202%20*%20vv)));0.05%20%2B%20exp%20(0.25%20*%20(log%20(0.01%20%2B%202%20*%20vv)%20%2B%20log%20(0.02%20%2B%205%20*%20vh)));1%20-%20log%20(0.05%20%2F%20(0.045%20-%200.9%20*%20vv))&asset_as_band=True&rescale=0,.8000&rescale=0,1.000&rescale=0,1.000&format=png",
+   "bound": "Sentinel-1 雷达"
+  },
+  {
+   "t": "2025-08-13T14:00:00Z",
+   "src": "GDELT 新闻",
+   "kind": "NEUTRAL",
+   "text": "事件前 1 天到后 5 天共 43 篇、42 家媒体：batemansbaypost.com.au、bignewsnetwork.com、brentwoodlive.co.uk、canberratimes.com.au、chardandilminsternews.co.uk、coastreporter.net",
+   "text_en": "43 articles from 42 outlets between 1 day before and 5 days after: batemansbaypost.com.au, bignewsnetwork.com, brentwoodlive.co.uk, canberratimes.com.au, chardandilminsternews.co.uk, coastreporter.net",
+   "bound": "GDELT 新闻"
+  },
+  {
+   "t": "2025-08-15T13:05:09Z",
+   "src": "哥白尼 GFM",
+   "kind": "SUPPORTING",
+   "text": "Sentinel-1 自动洪水范围产品 ENSEMBLE_FLOOD_20250815T130509_VV_AS020M_E024N036T3（含洪水范围图层）",
+   "text_en": "Sentinel-1 automatic flood-extent product ENSEMBLE_FLOOD_20250815T130509_VV_AS020M_E024N036T3 (flood-extent layer included)",
+   "url": "https://data.eodc.eu/collections/GFM_NRT_INTERIM/flood_extent/AS020M/2025/08/15/DLR_FLOOD_20250815T130509_VV_AS020M_E024N036T3.tif",
+   "bound": "哥白尼 GFM"
+  },
+  {
+   "t": "2025-08-15T13:05:34Z",
+   "src": "哥白尼 GFM",
+   "kind": "SUPPORTING",
+   "text": "Sentinel-1 自动洪水范围产品 ENSEMBLE_FLOOD_20250815T130534_VV_AS020M_E024N036T3（含洪水范围图层）",
+   "text_en": "Sentinel-1 automatic flood-extent product ENSEMBLE_FLOOD_20250815T130534_VV_AS020M_E024N036T3 (flood-extent layer included)",
+   "url": "https://data.eodc.eu/collections/GFM_NRT_INTERIM/flood_extent/AS020M/2025/08/15/DLR_FLOOD_20250815T130534_VV_AS020M_E024N036T3.tif",
+   "bound": "哥白尼 GFM"
+  },
+  {
+   "t": "2025-08-15T13:05:59Z",
+   "src": "哥白尼 GFM",
+   "kind": "SUPPORTING",
+   "text": "Sentinel-1 自动洪水范围产品 ENSEMBLE_FLOOD_20250815T130559_VV_AS020M_E024N036T3（含洪水范围图层）",
+   "text_en": "Sentinel-1 automatic flood-extent product ENSEMBLE_FLOOD_20250815T130559_VV_AS020M_E024N036T3 (flood-extent layer included)",
+   "url": "https://data.eodc.eu/collections/GFM_NRT_INTERIM/flood_extent/AS020M/2025/08/15/DLR_FLOOD_20250815T130559_VV_AS020M_E024N036T3.tif",
+   "bound": "哥白尼 GFM"
+  },
+  {
+   "t": "2026-10-18T15:46:20Z",
+   "src": "Copernicus EMS",
+   "kind": "NEUTRAL",
+   "text_en": "No rapid mapping activated for this event",
+   "text": "没有为这次事件启动应急制图",
+   "bound": "Copernicus EMS"
+  },
+  {
+   "t": "2026-10-18T15:46:20Z",
+   "src": "IFRC Montandon",
+   "kind": "MISSING",
+   "text": "需要 IFRC GO 账号令牌才能查询（未配置）",
+   "text_en": "Needs an IFRC GO account token (not configured)",
+   "bound": "IFRC Montandon"
+  },
+  {
+   "t": "2026-10-18T15:46:20Z",
+   "src": "ReliefWeb",
+   "kind": "MISSING",
+   "text": "需要申请 ReliefWeb appname（未配置）",
+   "text_en": "Needs a ReliefWeb appname (not configured)",
+   "bound": "ReliefWeb"
+  },
+  {
+   "t": "2026-10-18T15:46:20Z",
+   "src": "Cloudflare Radar",
+   "kind": "MISSING",
+   "text": "需要 Cloudflare API 令牌（未配置）",
+   "text_en": "Needs a Cloudflare API token (not configured)",
+   "bound": "Cloudflare Radar"
+  },
+  {
+   "t": "2026-10-18T15:46:20Z",
+   "src": "NASA FIRMS 火点",
+   "kind": "MISSING",
+   "text": "需要 FIRMS MAP_KEY（未配置）",
+   "text_en": "Needs a FIRMS MAP_KEY (not configured)",
+   "bound": "NASA FIRMS"
+  },
+  {
+   "t": "2026-10-18T15:46:20Z",
+   "src": "NASA 夜间灯光",
+   "kind": "MISSING",
+   "text": "需要 NASA Earthdata 账号令牌（未配置）",
+   "text_en": "Needs a NASA Earthdata token (not configured)",
+   "bound": "NASA 夜间灯光"
+  },
+  {
+   "t": "2026-10-18T15:46:20Z",
+   "src": "Vantor 开放影像",
+   "kind": "NEUTRAL",
+   "text": "这次事件没有启动开放影像",
+   "text_en": "No open imagery released for this event",
+   "bound": "Vantor 开放影像"
+  }
+ ],
+ "built": "2026-10-18T15:46:20Z",
+ "bounds": {
+  "Sentinel-1 雷达": {
+   "can": "这一时间有没有雷达影像覆盖事件地点，可用于前后对比。",
+   "cannot": "有影像不等于能看出变化；山区几何畸变严重，需人工判读。"
+  },
+  "Sentinel-2 光学": {
+   "can": "这一时间有没有光学影像覆盖、云量多少，可用于前后对比。",
+   "cannot": "云和阴影会遮挡；有影像不等于能看出变化。"
+  },
+  "哥白尼 GFM": {
+   "can": "哥白尼全球洪水监测按 Sentinel-1 雷达自动算出的水体范围。",
+   "cannot": "自动产品，山区阴影、积雪、植被会误判或漏判；不说明水深和损失。"
+  },
+  "GDELT 新闻": {
+   "can": "全球新闻里有没有报道、报道的数量和时间。",
+   "cannot": "新闻是二手信息，早期报道常有误；报道多少不等于事件大小。"
+  },
+  "USGS 地震目录": {
+   "can": "USGS 测定的地震（或崩塌类事件）的时间、位置、震级。",
+   "cannot": "目录里的位置和震级会修订；崩塌类事件的位置不精确；不说明是否造成损失。"
+  },
+  "EMSC 地震目录": {
+   "can": "EMSC 汇总的地震时间、位置、震级。",
+   "cannot": "早期结果会修订；不说明影响和损失。"
+  },
+  "IODA 网络连通": {
+   "can": "当地网络连通指标在这一时刻是否下降。",
+   "cannot": "下降可能是断电、线路损坏，也可能是运营商维护；不能说明原因。"
+  },
+  "Raspberry Shake": {
+   "can": "民间地震仪在这一时刻是否记录到震动、有没有在线。",
+   "cannot": "民用设备，噪声大、没有官方校准；不能单独说明发生了什么。"
+  },
+  "维基百科": {
+   "can": "有没有人为这次事件新建或编辑条目。",
+   "cannot": "任何人可编辑；只说明受到关注，不是事实来源。"
+  },
+  "OCHA HDX": {
+   "can": "人道数据交换平台上有没有相关数据集。",
+   "cannot": "只说明有数据集，不说明其内容是否准确。"
+  },
+  "地磁 Kp": {
+   "can": "这段时间的地磁活动水平，作为 GNSS 和卫星通信的背景。",
+   "cannot": "和地面灾害没有因果关系；只用来说明观测条件。"
+  },
+  "Copernicus EMS": {
+   "can": "欧盟应急制图服务是否为这次事件启动、出了哪些图。",
+   "cannot": "没启动不说明灾害小；图是对某一时刻的判读。"
+  },
+  "IFRC Montandon": {
+   "can": "国际红十字会 Montandon 库里有没有这次事件的记录。",
+   "cannot": "收录有延迟；没收录不说明没发生。"
+  },
+  "ReliefWeb": {
+   "can": "联合国人道机构网站上关于这次事件的报告。",
+   "cannot": "报告引用的数字来自各方，会更新；不同报告可能不一致。"
+  },
+  "Cloudflare Radar": {
+   "can": "Cloudflare 观测到的当地网络流量或中断。",
+   "cannot": "只反映经过 Cloudflare 的流量；不能说明原因。"
+  },
+  "NASA FIRMS": {
+   "can": "卫星在过境时探测到的热异常（火点）。",
+   "cannot": "云遮挡会漏检；热异常可能是农业烧荒、工业热源；不说明起火原因。"
+  },
+  "NASA 夜间灯光": {
+   "can": "夜间灯光亮度在事件前后的变化。",
+   "cannot": "受云、月光、季节影响；变暗不一定是停电。"
+  },
+  "Vantor 开放影像": {
+   "can": "是否为这次事件公开了高分辨率影像。",
+   "cannot": "只说明有没有影像，不说明影像里看到了什么。"
+  }
+ },
+ "archive_note": "带 archive 字段的条目：原始网页已由互联网档案馆时光机（Wayback Machine，独立第三方）存档，archive_t 是存档时间。存档证明那一刻网页的样子，不证明网页内容属实。",
+ "archive_n": 0,
+ "note_en": "States only what public sources recorded and when; no attribution of cause, no prediction. A strong seismic signal only means the station recorded strong shaking at that moment.",
+ "note": "只陈述公开来源记录了什么、什么时候；不判断成因，不预测。地震台强信号只说明那一刻台站记录到较强震动，来源需要结合其他证据。",
+ "receipts": [
+  {
+   "t": "2026-10-18T15:47:12Z",
+   "method": "GET",
+   "url": "https://earthquake.usgs.gov/fdsnws/event/1/query?format=geojson&latitude=36.613&longitude=74.865&maxradiuskm=300&starttime=2025-08-08T00:00:00Z&endtime=2025-08-10T00:00:00Z",
+   "status": 200,
+   "bytes": 326,
+   "sha256": "709bed56ea534f0324ce8f90d3f28cb92802f4aa9e522abcd9f4ed8cdbbf3058",
+   "type": "application/json; charset=utf-8",
+   "body": "events/raw/709bed56ea534f0324ce8f90d3f28cb92802f4aa9e522abcd9f4ed8cdbbf3058.gz"
+  },
+  {
+   "t": "2026-10-18T15:47:14Z",
+   "method": "GET",
+   "url": "https://www.seismicportal.eu/fdsnws/event/1/query?format=json&lat=36.613&lon=74.865&maxradius=2.7&start=2025-08-08T00:00:00&end=2025-08-10T00:00:00",
+   "status": 204,
+   "bytes": 0,
+   "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+   "type": ""
+  },
+  {
+   "t": "2026-10-18T15:47:14Z",
+   "method": "GET",
+   "url": "https://api.ioda.inetintel.cc.gatech.edu/v2/entities/query?entityType=region&search=Gilgit-Baltistan",
+   "status": 200,
+   "bytes": 398,
+   "sha256": "bbe90bded1a13046870a56ce7665333be5459b75361373e2b40fc644fcbab071",
+   "type": "application/json",
+   "body": "events/raw/bbe90bded1a13046870a56ce7665333be5459b75361373e2b40fc644fcbab071.gz"
+  },
+  {
+   "t": "2026-10-18T15:47:15Z",
+   "method": "GET",
+   "url": "https://rapidmapping.emergency.copernicus.eu/backend/dashboard-api/public-activations-info/?limit=60",
+   "status": 200,
+   "bytes": 20208,
+   "sha256": "49ac5eca13be9df5f6ad7761f3d0419c2bd8043a676b3aa614d9259dc728e5bc",
+   "type": "application/json",
+   "body": "events/raw/49ac5eca13be9df5f6ad7761f3d0419c2bd8043a676b3aa614d9259dc728e5bc.gz"
+  },
+  {
+   "t": "2026-10-18T15:47:16Z",
+   "method": "POST",
+   "url": "https://planetarycomputer.microsoft.com/api/stac/v1/search",
+   "status": 200,
+   "bytes": 7098,
+   "sha256": "601cab0cce6b4cc5aa80ef61f38f5795cb0828c8ef8a3cf7b53de631839b24f3",
+   "type": "application/geo+json; charset=utf-8",
+   "body": "events/raw/601cab0cce6b4cc5aa80ef61f38f5795cb0828c8ef8a3cf7b53de631839b24f3.gz"
+  },
+  {
+   "t": "2026-10-18T15:47:16Z",
+   "method": "POST",
+   "url": "https://planetarycomputer.microsoft.com/api/stac/v1/search",
+   "status": 200,
+   "bytes": 7358,
+   "sha256": "3b83c5779814c0a98bb176f1d0343f59bfa9576ecf71cbb0253407d8da411967",
+   "type": "application/geo+json; charset=utf-8",
+   "body": "events/raw/3b83c5779814c0a98bb176f1d0343f59bfa9576ecf71cbb0253407d8da411967.gz"
+  },
+  {
+   "t": "2026-10-18T15:47:17Z",
+   "method": "POST",
+   "url": "https://planetarycomputer.microsoft.com/api/stac/v1/search",
+   "status": 200,
+   "bytes": 16188,
+   "sha256": "678d1f5df25b43497062ca0ae86e70eb684c3db85ee26b04bd6e34de3a3d9de2",
+   "type": "application/geo+json; charset=utf-8",
+   "body": "events/raw/678d1f5df25b43497062ca0ae86e70eb684c3db85ee26b04bd6e34de3a3d9de2.gz"
+  },
+  {
+   "t": "2026-10-18T15:47:17Z",
+   "method": "POST",
+   "url": "https://planetarycomputer.microsoft.com/api/stac/v1/search",
+   "status": 200,
+   "bytes": 16084,
+   "sha256": "464a7792830ca0e135d6fc732c530b0c4eb5f651571c1daacf075cbe4c2f78ac",
+   "type": "application/geo+json; charset=utf-8",
+   "body": "events/raw/464a7792830ca0e135d6fc732c530b0c4eb5f651571c1daacf075cbe4c2f78ac.gz"
+  },
+  {
+   "t": "2026-10-18T15:47:18Z",
+   "method": "POST",
+   "url": "https://stac.eodc.eu/api/v1/search",
+   "status": 200,
+   "bytes": 131025,
+   "sha256": "99268b64e4ead505dde2381d325633750298ed4e9c8ee73703c65a66294a56fd",
+   "type": "application/geo+json"
+  },
+  {
+   "t": "2026-10-18T15:47:20Z",
+   "method": "GET",
+   "url": "https://data.raspberryshake.org/fdsnws/station/1/query?network=AM&latitude=36.613&longitude=74.865&maxradius=1.35&level=channel&format=text&starttime=2025-08-08T18:00:00&endtime=2025-08-09T03:00:00",
+   "status": 204,
+   "bytes": 0,
+   "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+   "type": "text/plain; charset=utf-8",
+   "body": "events/raw/e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855.gz"
+  },
+  {
+   "t": "2026-10-18T15:47:20Z",
+   "method": "GET",
+   "url": "https://earthquake.usgs.gov/fdsnws/event/1/query?format=geojson&latitude=36.613&longitude=74.865&maxradiuskm=300&starttime=2025-08-08T00:00:00Z&endtime=2025-08-10T00:00:00Z&minmagnitude=4",
+   "status": 200,
+   "bytes": 341,
+   "sha256": "7e8cb92ddd873e8f7f6a346a86524713894a35a0117c9f101593cbf3451e67ab",
+   "type": "application/json; charset=utf-8",
+   "body": "events/raw/7e8cb92ddd873e8f7f6a346a86524713894a35a0117c9f101593cbf3451e67ab.gz"
+  },
+  {
+   "t": "2026-10-18T15:47:41Z",
+   "method": "GET",
+   "url": "https://api.gdeltproject.org/api/v2/doc/doc?query=%22Hunza%22+%28flood+OR+landslide+OR+avalanche+OR+earthquake+OR+%22glacial+lake%22+OR+%22debris+flow%22+OR+snowstorm+OR+rockfall%29+Pakistan+sourcelang%3Aenglish&mode=artlist&maxrecords=75&format=json&sort=dateasc&startdatetime=20250808000000&enddatetime=20250814000000",
+   "status": 200,
+   "bytes": 20226,
+   "sha256": "ffbd2d3ff94db9cb62bcd8990ba2310b93fda122269d46d3806799494205dd02",
+   "type": "application/json; charset=utf-8",
+   "body": "events/raw/ffbd2d3ff94db9cb62bcd8990ba2310b93fda122269d46d3806799494205dd02.gz"
+  },
+  {
+   "t": "2026-10-18T15:47:42Z",
+   "method": "GET",
+   "url": "https://en.wikipedia.org/w/api.php?action=query&list=search&srsearch=Hunza+2025+flood&format=json&srlimit=5",
+   "status": 200,
+   "bytes": 1945,
+   "sha256": "7b22f6e8f12a39c43c3789f08250298d62117e82530a81a6376c8b1c258cf823",
+   "type": "application/json; charset=utf-8",
+   "body": "events/raw/7b22f6e8f12a39c43c3789f08250298d62117e82530a81a6376c8b1c258cf823.gz"
+  },
+  {
+   "t": "2026-10-18T15:47:42Z",
+   "method": "GET",
+   "url": "https://en.wikipedia.org/w/api.php?action=query&prop=revisions&titles=Hassanabad%2C+Hunza&rvlimit=1&rvdir=newer&rvprop=timestamp&format=json",
+   "status": 200,
+   "bytes": 207,
+   "sha256": "fb0a5697c03ac92734548e94087b69ec251f0eb36f443df0bb3ee8b37f73f915",
+   "type": "application/json; charset=utf-8",
+   "body": "events/raw/fb0a5697c03ac92734548e94087b69ec251f0eb36f443df0bb3ee8b37f73f915.gz"
+  },
+  {
+   "t": "2026-10-18T15:47:42Z",
+   "method": "GET",
+   "url": "https://en.wikipedia.org/w/api.php?action=query&prop=revisions&titles=Gilgit-Baltistan&rvlimit=1&rvdir=newer&rvprop=timestamp&format=json",
+   "status": 200,
+   "bytes": 203,
+   "sha256": "09c368982208a061bd1df1066e818bd3cf0df48d909f128b0f1681143657083f",
+   "type": "application/json; charset=utf-8",
+   "body": "events/raw/09c368982208a061bd1df1066e818bd3cf0df48d909f128b0f1681143657083f.gz"
+  },
+  {
+   "t": "2026-10-18T15:47:42Z",
+   "method": "GET",
+   "url": "https://en.wikipedia.org/w/api.php?action=query&prop=revisions&titles=Princely+states+of+Pakistan&rvlimit=1&rvdir=newer&rvprop=timestamp&format=json",
+   "status": 200,
+   "bytes": 217,
+   "sha256": "26e002f7650bd2c33bc94be147829f71a0cbe5c68408bc571743d1ca70cae437",
+   "type": "application/json; charset=utf-8",
+   "body": "events/raw/26e002f7650bd2c33bc94be147829f71a0cbe5c68408bc571743d1ca70cae437.gz"
+  },
+  {
+   "t": "2026-10-18T15:47:42Z",
+   "method": "GET",
+   "url": "https://data.humdata.org/api/3/action/package_search?q=flood+OR+landslide+OR+avalanche+OR+earthquake+OR+disaster&fq=groups%3Apak+AND+metadata_created%3A%5B2025-08-08T00%3A00%3A00Z+TO+NOW%5D&sort=metadata_created+asc&rows=10",
+   "status": 200,
+   "bytes": 284,
+   "sha256": "57c17659bf3ca406184ebd539b7ba731e17b3c7230d1d9606689e123d07ec1e3",
+   "type": "application/json;charset=utf-8",
+   "body": "events/raw/57c17659bf3ca406184ebd539b7ba731e17b3c7230d1d9606689e123d07ec1e3.gz"
+  },
+  {
+   "t": "2026-10-18T15:47:44Z",
+   "method": "GET",
+   "url": "https://kp.gfz-potsdam.de/app/json/?start=2025-08-08T00%3A00%3A00Z&end=2025-08-10T00%3A00%3A00Z&index=Kp",
+   "status": 200,
+   "bytes": 664,
+   "sha256": "15ded78152b1cd991f519e85fc7529dceb168ca95d0f3c6551c98376144455c6",
+   "type": "application/json",
+   "body": "events/raw/15ded78152b1cd991f519e85fc7529dceb168ca95d0f3c6551c98376144455c6.gz"
+  }
+ ],
+ "retro_seed": [
+  {
+   "k": "seed:propakistani-2025-08-09",
+   "t": "2025-08-09T00:00:00Z",
+   "src": "新闻（种子）",
+   "text": "ProPakistani：Flood destroys portion of Karakoram Highway",
+   "text_en": "ProPakistani: Flood destroys portion of Karakoram Highway",
+   "url": "https://propakistani.pk/2025/08/09/flood-destroys-portion-of-karakoram-highway/"
+  }
+ ]
+}
