@@ -83,6 +83,12 @@ export async function hubEvn() {
 
 // 376 块坡面的雷达后向散射分级（Worker 每次过境后写到 facet-live 分支，10-17 起有分级）
 export const hubFl = () => j("facet_live.json", "facet-live", 300);
+// 一带一路样品：项目清单（AidData）和周边实时态势（hazards 工作流每 20 分钟写）
+export async function hubBri() {
+  const [pj, live] = await Promise.all([j("bri/projects.json", "events", 600), j("bri/live.json", "events", 120).catch(() => null)]);
+  let retro = null; try { retro = await j("bri/retro/summary.json", "events", 600); } catch (e) {}
+  return { projects: pj.projects, live, retro };
+}
 export const hubOps = () => j("hub/ops.json", "events", 120);
 export const hubMon = () => j("hub/mt_monitor.json", "events", 120);
 

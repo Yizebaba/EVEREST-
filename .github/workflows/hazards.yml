@@ -87,5 +87,7 @@ jobs:
           if [ ! -f hub/evn_24h.json ] || [ "$(date -u +%M)" -lt 20 ]; then
             pip install -q obspy matplotlib >/dev/null 2>&1 && python3 ../tools/evn_plot.py evn_out && cp evn_out/evn_24h.json hub/ && { [ -f evn_out/evn_24h.png ] && cp evn_out/evn_24h.png hub/ || true; }; rm -rf evn_out
           fi
-          git add hub && git commit -qm "hub docs $(date -u +%FT%TZ)" || exit 0
+          # 一带一路样品：11 个项目周边的实时态势（免费一手来源），写 bri/live.json；项目清单 bri/projects.json 一起放，连接器 page:bri 读
+          mkdir -p bri && cp ../bri/projects.json bri/projects.json && python3 ../tools/bri_scan.py bri/projects.json bri/live.json > ../bri_scan.log 2>&1 || true; tail -3 ../bri_scan.log
+          git add hub bri && git commit -qm "hub docs $(date -u +%FT%TZ)" || exit 0
           for i in 1 2 3; do git pull -q --rebase origin events && git push -q origin HEAD:events && break; sleep 3; done

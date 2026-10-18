@@ -482,3 +482,4 @@
 - 新增：tools/bri_registry.py + bri/projects.json（AidData 全球中国发展融资地理数据集 v3.0 的 11 个项目：尼泊尔 5、老挝 2、巴基斯坦 4，真实范围，简化到约 200 m）；bri/retro_events.json（3 起回溯测试事件，种子只给第一条公开报道）；tools/bri_retro.py + .github/workflows/bri-retro.yml（手动触发，结果放 events 分支 bri/retro/，不存证）。
 - 改动：tools/evidence_pack.py 支持事件带 country（默认尼泊尔）：尼泊尔专属来源（BIPAD 水位站、IO.EVN/KKN 远于 400 km 时）不查；IODA、哥白尼应急制图、GDELT、HDX、ReliefWeb、Cloudflare Radar 按国家查。尼泊尔事件行为不变。
 - 复原：git revert 本次提交；删除 events 分支 bri/。
+- 10-19 00:40 第二步：tools/bri_scan.py（USGS、GDACS、NASA EONET、Google 新闻 RSS、IODA 国家告警、美英旅行建议，全部免费）接进 hazards 工作流，每 20 分钟写 events 分支 bri/live.json；Worker hub.js 新增 hubBri，连接器 everest_events 加 page:bri。复原：删 hazards.yml 里 bri 那两行、git revert。
