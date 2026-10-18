@@ -484,3 +484,5 @@
 - 复原：git revert 本次提交；删除 events 分支 bri/。
 - 10-19 00:40 第二步：tools/bri_scan.py（USGS、GDACS、NASA EONET、Google 新闻 RSS、IODA 国家告警、美英旅行建议，全部免费）接进 hazards 工作流，每 20 分钟写 events 分支 bri/live.json；Worker hub.js 新增 hubBri，连接器 everest_events 加 page:bri。复原：删 hazards.yml 里 bri 那两行、git revert。
 - 10-19 01:00 回溯测试发现并修正证据包脚本 4 处问题：①维基百科没设时间上限，2025 年事件匹配到了 2026 年的条目；②BIPAD 水位站给的是“现在”的状态，事件过去 3 天以上不再列（原来对 3–14 天前的事件也列当前状态）；③哥白尼应急制图只查最近 60 次启动，改为 400 次；④尼泊尔以外的国家，IODA 地区名对不上，改查全国。复原：git revert。
+- 10-19 第三步：总览页 v85 新增“一带一路”标签（在“证据链”后面）。内容：每国一张小地图（AidData 项目范围＋编号＋比例尺，周边地震/灾害警报/自然事件的位置用橙点）、美英旅行建议和 IODA 告警、每个项目一张卡（周边事件、新闻里的事件线索、其他报道折叠）、4 起事件的偏差对比表、演练（MiroFish）占位说明。数据走连接器 everest_events(id="page:bri")，每 10 分钟刷新。tools/bri_scan.py 的 USGS/GDACS/EONET 条目加了 lat/lon 供地图画点。
+- 复原：用 v84 备份覆盖 hub/everest-hub.html 并重新发布到同一个 artifact；git revert 本次提交。

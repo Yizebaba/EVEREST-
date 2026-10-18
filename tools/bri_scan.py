@@ -53,7 +53,7 @@ try:
             d = near(la, lo, p, 150)
             if d is not None:
                 add(p["id"], {"t": iso(datetime.fromtimestamp(pr["time"] / 1000, timezone.utc)), "src": "USGS 地震目录", "kind": "地震" if pr.get("type") == "earthquake" else (pr.get("type") or ""),
-                              "text": f"M{pr.get('mag')} {pr.get('type')} · {pr.get('place')}", "km": d, "url": pr.get("url")})
+                              "text": f"M{pr.get('mag')} {pr.get('type')} · {pr.get('place')}", "km": d, "url": pr.get("url"), "lat": la, "lon": lo})
 except Exception as e: ERR["usgs"] = str(e)[:120]
 
 # 2 GDACS：近 14 天全部警报，项目 300 km 内（洪水、气旋范围大，只给距中心点的距离）
@@ -65,7 +65,7 @@ try:
             d = near(la, lo, p, 300)
             if d is not None:
                 add(p["id"], {"t": (pr.get("fromdate") or "")[:19] + "Z", "src": "GDACS", "kind": pr.get("eventtype"),
-                              "text": f"{pr.get('alertlevel')} 级 · {pr.get('name') or pr.get('eventname')}", "km": d, "url": (pr.get("url") or {}).get("report")})
+                              "text": f"{pr.get('alertlevel')} 级 · {pr.get('name') or pr.get('eventname')}", "km": d, "url": (pr.get("url") or {}).get("report"), "lat": la, "lon": lo})
 except Exception as e: ERR["gdacs"] = str(e)[:120]
 
 # 3 NASA EONET：近 30 天的自然事件（火山、风暴、洪水、滑坡、野火等），项目 150 km 内
@@ -78,7 +78,7 @@ try:
                 d = near(c[1], c[0], p, 150)
                 if d is not None:
                     add(p["id"], {"t": g["date"][:19] + "Z", "src": "NASA EONET", "kind": ",".join(x["title"] for x in ev.get("categories", [])),
-                                  "text": ev["title"], "km": d, "url": (ev.get("sources") or [{}])[0].get("url")})
+                                  "text": ev["title"], "km": d, "url": (ev.get("sources") or [{}])[0].get("url"), "lat": c[1], "lon": c[0]})
 except Exception as e: ERR["eonet"] = str(e)[:120]
 
 # 4 Google 新闻 RSS：按项目名查近 7 天的报道（新闻是线索，不是权威记录）
