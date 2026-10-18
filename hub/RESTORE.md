@@ -476,3 +476,9 @@
 - 原因：GitHub 通知 ubuntu-latest 从 10-19 起逐步换成 Ubuntu 26，系统库和 Python 包可能变化，导致扫描、证据包、InSAR、MiroFish 工作流突然出错。
 - 改动：main 上 daily-pipeline、evidence、hazards、mirofish、pages、release-package，events 分支 hazards-tick，adsb-live 分支 adsb-live，runs-on 由 ubuntu-latest 改为 ubuntu-24.04（就是现在实际在用的版本）。
 - 复原：把 ubuntu-24.04 改回 ubuntu-latest。
+
+## 67. 10-19 00:20 一带一路样品（第一步）：项目清单、证据包支持多国、回溯测试
+- 用户要求：把 World Monitor 和 MiroFish 打通、放进总览页，接入一带一路项目；先做 3 国约 10 个项目的样品，用免费数据，测"能力多少、和事实偏差多少"。
+- 新增：tools/bri_registry.py + bri/projects.json（AidData 全球中国发展融资地理数据集 v3.0 的 11 个项目：尼泊尔 5、老挝 2、巴基斯坦 4，真实范围，简化到约 200 m）；bri/retro_events.json（3 起回溯测试事件，种子只给第一条公开报道）；tools/bri_retro.py + .github/workflows/bri-retro.yml（手动触发，结果放 events 分支 bri/retro/，不存证）。
+- 改动：tools/evidence_pack.py 支持事件带 country（默认尼泊尔）：尼泊尔专属来源（BIPAD 水位站、IO.EVN/KKN 远于 400 km 时）不查；IODA、哥白尼应急制图、GDELT、HDX、ReliefWeb、Cloudflare Radar 按国家查。尼泊尔事件行为不变。
+- 复原：git revert 本次提交；删除 events 分支 bri/。

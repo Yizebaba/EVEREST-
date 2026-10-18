@@ -1,0 +1,28 @@
+name: bri-retro
+# 一带一路样品的回溯测试：按 bri/retro_events.json 生成证据包（不存证），结果放到 events 分支 bri/retro/。手动触发。
+on:
+  workflow_dispatch:
+permissions:
+  contents: write
+concurrency: {group: bri-retro, cancel-in-progress: false}
+jobs:
+  build:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 60
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: { python-version: "3.12" }
+      - run: pip install -q obspy matplotlib h5py numpy
+      - run: python3 tools/bri_retro.py bri/retro_events.json _retro
+        env:
+          RELIEFWEB_APPNAME: ${{ secrets.RELIEFWEB_APPNAME }}
+          CF_RADAR_TOKEN: ${{ secrets.CF_RADAR_TOKEN }}
+          FIRMS_MAP_KEY: ${{ secrets.FIRMS_MAP_KEY }}
+          EARTHDATA_TOKEN: ${{ secrets.EARTHDATA_TOKEN }}
+      - name: Save to events branch
+        run: |
+          git fetch -q origin events && git worktree add -q ev origin/events
+          mkdir -p ev/bri/retro && cp _retro/*.json _retro/*.png ev/bri/retro/ 2>/dev/null || true
+          cd ev && git add bri/retro && git -c user.name="bri-retro" -c user.email="bri-retro@users.noreply.github.com" commit -qm "bri retro $(date -u +%FT%TZ)" || exit 0
+          for i in 1 2 3; do git push -q origin HEAD:events && break; git pull -q --rebase origin events; done

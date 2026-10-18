@@ -89,6 +89,12 @@ def km(a, b):
     return 6371 * 2 * math.asin(math.sqrt(math.sin((la2 - la1) / 2) ** 2 + math.cos(la1) * math.cos(la2) * math.sin((lo2 - lo1) / 2) ** 2))
 
 
+# 10-18：一带一路样品（尼泊尔以外的项目所在国）。事件可以带 country（ISO3），默认尼泊尔；
+# 尼泊尔专属的数据源（BIPAD 水位站、珠峰和加德满都两个地震台、尼泊尔分区）在别的国家不查。
+CT = {"NPL": ("Nepal", "尼泊尔", "NP", "npl"), "PAK": ("Pakistan", "巴基斯坦", "PK", "pak"), "LAO": ("Laos", "老挝", "LA", "lao"), "CHN": ("China", "中国", "CN", "chn")}
+def cty(ev): return CT.get(ev.get("country") or "NPL", CT["NPL"])
+
+
 def nearest_district(lat, lon):
     return min(DIST, key=lambda d: km((lat, lon), DIST[d]))
 
@@ -115,6 +121,7 @@ def evn(ev, t0, items, pack):
     """IO.EVN：1–5 Hz、60 秒均方根包络；背景取窗口中位数。"""
     a, b = t0 - timedelta(hours=24), t0 + timedelta(hours=3)
     dist = round(km((ev["lat"], ev["lon"]), EVN))
+    if dist > 400: return   # 台站太远，记录不到这个事件
     try:
         from obspy import read
         import io
@@ -163,6 +170,7 @@ def kkn(ev, t0, items, pack):
     """第二个台：NK.KKN（加德满都北面）。两个台同一时刻都有强信号，才更可能是区域性事件而不是 Pyramid 附近的冰崩。"""
     a, b = t0 - timedelta(hours=24), t0 + timedelta(hours=3)
     dist = round(km((ev["lat"], ev["lon"]), KKN))
+    if dist > 400: return
     try:
         from obspy import read
         import io, numpy as np
@@ -235,6 +243,7 @@ def catalogs(ev, t0, items):
 
 
 def gauges(ev, t0, items, pack):
+    if cty(ev)[2] != "NP": return   # BIPAD 只有尼泊尔的站
     try:
         rows = []
         for off in range(0, 900, 100):
@@ -265,12 +274,16 @@ def gauges(ev, t0, items, pack):
 
 
 def ioda(ev, t0, items, pack):
-    d = ev.get("district") or nearest_district(ev["lat"], ev["lon"]); z = ZONE.get(d)
+    cc = cty(ev)[2]
+    if cc == "NP":
+        d = ev.get("district") or nearest_district(ev["lat"], ev["lon"]); z = ZONE.get(d)
+    else:
+        z = ev.get("ioda_region")
     if not z:
         return
     try:
         q = get(f"https://api.ioda.inetintel.cc.gatech.edu/v2/entities/query?entityType=region&search={urllib.parse.quote(z)}")
-        ents = [e for e in q.get("data", []) if (e.get("attrs") or {}).get("country_code") == "NP" or "Nepal" in json.dumps(e)]
+        ents = [e for e in q.get("data", []) if (e.get("attrs") or {}).get("country_code") == cc or cty(ev)[0] in json.dumps(e)]
         if not ents:
             raise RuntimeError("IODA 没有这个地区：" + z)
         code = ents[0]["code"]
@@ -306,7 +319,7 @@ def ems(ev, t0, items):
         for a in x.get("results", []):
             cs = " ".join(c.get("name", "") if isinstance(c, dict) else str(c) for c in (a.get("countries") or []))
             et = a.get("eventTime") or a.get("activationTime")
-            if "Nepal" not in cs and "China" not in cs or not et:
+            if not any(w in cs for w in ([cty(ev)[0]] + (["China"] if cty(ev)[2] == "NP" else []))) or not et:
                 continue
             t = P(et if ("Z" in et or "+" in et[10:]) else et + "Z")
             if t0 - timedelta(days=2) <= t <= t0 + timedelta(days=14):
@@ -689,6 +702,7 @@ HAZ_EN = "(flood OR landslide OR avalanche OR earthquake OR \"glacial lake\" OR 
 
 
 def place_word(ev):
+    if cty(ev)[2] != "NP": return ev.get("place_word") or cty(ev)[0]
     d = ev.get("district") or (nearest_district(ev["lat"], ev["lon"]) if km((ev["lat"], ev["lon"]), DIST[nearest_district(ev["lat"], ev["lon"])]) < 60 else None)
     return d or "Nepal"
 
@@ -696,7 +710,7 @@ def place_word(ev):
 def gdelt(ev, t0, items, pack):
     """GDELT 全球新闻：这个地方的灾害新闻最早什么时候出现、有多少家媒体报道。"""
     a, b = t0 - timedelta(days=1), min(NOW, t0 + timedelta(days=5))
-    q = f'"{place_word(ev)}" {HAZ_EN}' + ("" if place_word(ev) == "Nepal" else " Nepal") + " sourcelang:english"
+    q = f'"{place_word(ev)}" {HAZ_EN}' + ("" if place_word(ev) == cty(ev)[0] else " " + cty(ev)[0]) + " sourcelang:english"
     try:
         u = "https://api.gdeltproject.org/api/v2/doc/doc?" + urllib.parse.urlencode({"query": q, "mode": "artlist", "maxrecords": 75, "format": "json", "sort": "dateasc",
                                                                                      "startdatetime": a.strftime("%Y%m%d%H%M%S"), "enddatetime": b.strftime("%Y%m%d%H%M%S")})
@@ -746,14 +760,14 @@ def wiki(ev, t0, items, pack):
 def hdx(ev, t0, items, pack):
     """OCHA HDX：事件后新建的尼泊尔人道数据集。"""
     try:
-        fq = f"groups:npl AND metadata_created:[{iso(t0 - timedelta(days=1))} TO NOW]"
+        fq = f"groups:{cty(ev)[3]} AND metadata_created:[{iso(t0 - timedelta(days=1))} TO NOW]"
         x = get("https://data.humdata.org/api/3/action/package_search?" + urllib.parse.urlencode({"q": "flood OR landslide OR avalanche OR earthquake OR disaster", "fq": fq, "sort": "metadata_created asc", "rows": 10}))
         rs = (x.get("result") or {}).get("results", [])
         for r in rs[:5]:
             items.append({"t": r["metadata_created"][:19] + "Z", "src": "OCHA HDX", "kind": "SUPPORTING", "text": f"新数据集：{r.get('title')}（{(r.get('organization') or {}).get('title', '')}）",
                           "text_en": f"New dataset: {r.get('title')} ({(r.get('organization') or {}).get('title', '')})", "url": "https://data.humdata.org/dataset/" + r["name"]})
         if not rs:
-            items.append({"t": iso(t0), "src": "OCHA HDX", "kind": "NEUTRAL", "text": "事件后没有新建的尼泊尔灾害数据集", "text_en": "No new Nepal disaster dataset after the event"})
+            items.append({"t": iso(t0), "src": "OCHA HDX", "kind": "NEUTRAL", "text": f"事件后没有新建的{cty(ev)[1]}灾害数据集", "text_en": f"No new {cty(ev)[0]} disaster dataset after the event"})
     except Exception as e:
         items.append({"t": iso(t0), "src": "OCHA HDX", "kind": "MISSING", "text": f"查询失败（{str(e)[:60]}）", "text_en": f"Query failed ({str(e)[:60]})"})
 
@@ -764,7 +778,7 @@ def reliefweb(ev, t0, items, pack):
     if not app:
         items.append({"t": iso(NOW), "src": "ReliefWeb", "kind": "MISSING", "text": "需要申请 ReliefWeb appname（未配置）", "text_en": "Needs a ReliefWeb appname (not configured)"}); return
     try:
-        body = {"query": {"value": f"Nepal {place_word(ev)}"}, "filter": {"field": "date.created", "value": {"from": iso(t0 - timedelta(days=1))}}, "sort": ["date.created:asc"], "limit": 10, "fields": {"include": ["title", "url", "date.created", "source.shortname"]}}
+        body = {"query": {"value": f"{cty(ev)[0]} {place_word(ev)}"}, "filter": {"field": "date.created", "value": {"from": iso(t0 - timedelta(days=1))}}, "sort": ["date.created:asc"], "limit": 10, "fields": {"include": ["title", "url", "date.created", "source.shortname"]}}
         x = get(f"https://api.reliefweb.int/v2/reports?appname={urllib.parse.quote(app)}", data=json.dumps(body).encode(), headers={"content-type": "application/json"})
         for r in x.get("data", [])[:6]:
             f = r["fields"]; items.append({"t": f["date"]["created"][:19] + "Z", "src": "ReliefWeb", "kind": "SUPPORTING", "text": f"{', '.join(s['shortname'] for s in f.get('source', []))}：{f['title']}", "text_en": f"{', '.join(s['shortname'] for s in f.get('source', []))}: {f['title']}", "url": f.get("url")})
@@ -783,14 +797,14 @@ def cfradar(ev, t0, items, pack):
     try:
         n = 0
         for path, name in (("annotations/outages", "中断记录"), ("traffic_anomalies", "流量异常")):
-            x = get(f"https://api.cloudflare.com/client/v4/radar/{path}?location=NP&dateStart={a}&dateEnd={b}&format=json&limit=20", headers=H)
+            x = get(f"https://api.cloudflare.com/client/v4/radar/{path}?location={cty(ev)[2]}&dateStart={a}&dateEnd={b}&format=json&limit=20", headers=H)
             r = x.get("result", {}); L = r.get("annotations") or r.get("trafficAnomalies") or []
             for o in L:
                 n += 1; t = o.get("startDate") or o.get("startDate")
-                items.append({"t": (t or a)[:19] + "Z", "src": "Cloudflare Radar", "kind": "SUPPORTING", "text": f"尼泊尔{name}：{o.get('description') or o.get('outage', {}).get('outageCause') or o.get('type', '')}",
-                              "text_en": f"Nepal {'outage' if 'outage' in path else 'traffic anomaly'}: {o.get('description') or o.get('outage', {}).get('outageCause') or o.get('type', '')}"})
+                items.append({"t": (t or a)[:19] + "Z", "src": "Cloudflare Radar", "kind": "SUPPORTING", "text": f"{cty(ev)[1]}{name}：{o.get('description') or o.get('outage', {}).get('outageCause') or o.get('type', '')}",
+                              "text_en": f"{cty(ev)[0]} {'outage' if 'outage' in path else 'traffic anomaly'}: {o.get('description') or o.get('outage', {}).get('outageCause') or o.get('type', '')}"})
         if not n:
-            items.append({"t": iso(t0), "src": "Cloudflare Radar", "kind": "NEUTRAL", "text": "事件前后没有尼泊尔网络中断或流量异常记录", "text_en": "No Nepal outage or traffic anomaly recorded around the event"})
+            items.append({"t": iso(t0), "src": "Cloudflare Radar", "kind": "NEUTRAL", "text": f"事件前后没有{cty(ev)[1]}网络中断或流量异常记录", "text_en": f"No {cty(ev)[0]} outage or traffic anomaly recorded around the event"})
     except Exception as e:
         items.append({"t": iso(t0), "src": "Cloudflare Radar", "kind": "MISSING", "text": f"查询失败（{str(e)[:60]}）", "text_en": f"Query failed ({str(e)[:60]})"})
 
