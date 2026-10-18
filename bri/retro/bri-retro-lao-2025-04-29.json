@@ -10,6 +10,17 @@
  "lat": 20.175,
  "lon": 101.958,
  "t": "2025-04-29T05:52:00Z",
+ "ioda": {
+  "region": "Laos 全国 (LA)",
+  "bgp": {
+   "median_before": 383,
+   "min_after": 383
+  },
+  "ping-slash24": {
+   "median_before": 155,
+   "min_after": 150
+  }
+ },
  "sentinel": {
   "sentinel-1-rtc": {
    "before": {
@@ -152,9 +163,9 @@
   {
    "t": "2025-04-29T05:52:00Z",
    "src": "IODA 网络连通",
-   "kind": "MISSING",
-   "text_en": "Query failed (IODA 没有这个地区：Oudomxai)",
-   "text": "查询失败（IODA 没有这个地区：Oudomxai）",
+   "kind": "NEUTRAL",
+   "text_en": "No clear drop in Laos 全国 region within 24 h of the event",
+   "text": "Laos 全国 区事件前后 24 小时没有明显下降",
    "bound": "IODA 网络连通"
   },
   {
@@ -279,7 +290,7 @@
    "bound": "Sentinel-2 光学"
   },
   {
-   "t": "2026-10-18T15:46:20Z",
+   "t": "2026-10-18T15:50:33Z",
    "src": "Copernicus EMS",
    "kind": "NEUTRAL",
    "text_en": "No rapid mapping activated for this event",
@@ -287,7 +298,7 @@
    "bound": "Copernicus EMS"
   },
   {
-   "t": "2026-10-18T15:46:20Z",
+   "t": "2026-10-18T15:50:33Z",
    "src": "IFRC Montandon",
    "kind": "MISSING",
    "text": "需要 IFRC GO 账号令牌才能查询（未配置）",
@@ -295,7 +306,7 @@
    "bound": "IFRC Montandon"
   },
   {
-   "t": "2026-10-18T15:46:20Z",
+   "t": "2026-10-18T15:50:33Z",
    "src": "ReliefWeb",
    "kind": "MISSING",
    "text": "需要申请 ReliefWeb appname（未配置）",
@@ -303,7 +314,7 @@
    "bound": "ReliefWeb"
   },
   {
-   "t": "2026-10-18T15:46:20Z",
+   "t": "2026-10-18T15:50:33Z",
    "src": "Cloudflare Radar",
    "kind": "MISSING",
    "text": "需要 Cloudflare API 令牌（未配置）",
@@ -311,7 +322,7 @@
    "bound": "Cloudflare Radar"
   },
   {
-   "t": "2026-10-18T15:46:20Z",
+   "t": "2026-10-18T15:50:33Z",
    "src": "NASA FIRMS 火点",
    "kind": "MISSING",
    "text": "需要 FIRMS MAP_KEY（未配置）",
@@ -319,7 +330,7 @@
    "bound": "NASA FIRMS"
   },
   {
-   "t": "2026-10-18T15:46:20Z",
+   "t": "2026-10-18T15:50:33Z",
    "src": "NASA 夜间灯光",
    "kind": "MISSING",
    "text": "需要 NASA Earthdata 账号令牌（未配置）",
@@ -327,7 +338,7 @@
    "bound": "NASA 夜间灯光"
   },
   {
-   "t": "2026-10-18T15:46:20Z",
+   "t": "2026-10-18T15:50:33Z",
    "src": "Vantor 开放影像",
    "kind": "NEUTRAL",
    "text": "这次事件没有启动开放影像",
@@ -335,7 +346,7 @@
    "bound": "Vantor 开放影像"
   }
  ],
- "built": "2026-10-18T15:46:20Z",
+ "built": "2026-10-18T15:50:33Z",
  "bounds": {
   "Sentinel-1 雷达": {
    "can": "这一时间有没有雷达影像覆盖事件地点，可用于前后对比。",
@@ -416,17 +427,17 @@
  "note": "只陈述公开来源记录了什么、什么时候；不判断成因，不预测。地震台强信号只说明那一刻台站记录到较强震动，来源需要结合其他证据。",
  "receipts": [
   {
-   "t": "2026-10-18T15:47:44Z",
+   "t": "2026-10-18T15:53:04Z",
    "method": "GET",
    "url": "https://earthquake.usgs.gov/fdsnws/event/1/query?format=geojson&latitude=20.175&longitude=101.958&maxradiuskm=300&starttime=2025-04-28T05:52:00Z&endtime=2025-04-30T05:52:00Z",
    "status": 200,
    "bytes": 327,
-   "sha256": "f06a606464360a5e63ffa762a41b3e54aa242f85a6d30e26321179a89dc82176",
+   "sha256": "9691346c1f558ba82ec802b6ca879b2bc72e087044f406bb1407452157bdfaa7",
    "type": "application/json; charset=utf-8",
-   "body": "events/raw/f06a606464360a5e63ffa762a41b3e54aa242f85a6d30e26321179a89dc82176.gz"
+   "body": "events/raw/9691346c1f558ba82ec802b6ca879b2bc72e087044f406bb1407452157bdfaa7.gz"
   },
   {
-   "t": "2026-10-18T15:47:45Z",
+   "t": "2026-10-18T15:53:06Z",
    "method": "GET",
    "url": "https://www.seismicportal.eu/fdsnws/event/1/query?format=json&lat=20.175&lon=101.958&maxradius=2.7&start=2025-04-28T05:52:00&end=2025-04-30T05:52:00",
    "status": 204,
@@ -435,27 +446,25 @@
    "type": ""
   },
   {
-   "t": "2026-10-18T15:47:46Z",
+   "t": "2026-10-18T15:53:08Z",
    "method": "GET",
-   "url": "https://api.ioda.inetintel.cc.gatech.edu/v2/entities/query?entityType=region&search=Oudomxai",
+   "url": "https://api.ioda.inetintel.cc.gatech.edu/v2/signals/raw/country/LA?from=1745819520&until=1745992320",
    "status": 200,
-   "bytes": 390,
-   "sha256": "ff299f143addcffb1f0252790771f2b3856b35a317aef87db3cc064f8f236af4",
-   "type": "application/json",
-   "body": "events/raw/ff299f143addcffb1f0252790771f2b3856b35a317aef87db3cc064f8f236af4.gz"
+   "bytes": 139117,
+   "sha256": "5b342268d09cbafbf30b43cdf2696a1145038cf449982481b586711465943af4",
+   "type": "application/json"
   },
   {
-   "t": "2026-10-18T15:47:47Z",
+   "t": "2026-10-18T15:53:09Z",
    "method": "GET",
-   "url": "https://rapidmapping.emergency.copernicus.eu/backend/dashboard-api/public-activations-info/?limit=60",
+   "url": "https://rapidmapping.emergency.copernicus.eu/backend/dashboard-api/public-activations-info/?limit=400",
    "status": 200,
-   "bytes": 20208,
-   "sha256": "49ac5eca13be9df5f6ad7761f3d0419c2bd8043a676b3aa614d9259dc728e5bc",
-   "type": "application/json",
-   "body": "events/raw/49ac5eca13be9df5f6ad7761f3d0419c2bd8043a676b3aa614d9259dc728e5bc.gz"
+   "bytes": 85967,
+   "sha256": "b9ec8cf19d3d46438bc53e19132a643f7960a77b33b182fff2b84900d21a6f43",
+   "type": "application/json"
   },
   {
-   "t": "2026-10-18T15:47:47Z",
+   "t": "2026-10-18T15:53:10Z",
    "method": "POST",
    "url": "https://planetarycomputer.microsoft.com/api/stac/v1/search",
    "status": 200,
@@ -465,17 +474,17 @@
    "body": "events/raw/4afa217a0e6c24b2a7253af710963abbac8617f7dfd19049be500e01e46ee45b.gz"
   },
   {
-   "t": "2026-10-18T15:47:47Z",
+   "t": "2026-10-18T15:53:10Z",
    "method": "POST",
    "url": "https://planetarycomputer.microsoft.com/api/stac/v1/search",
    "status": 200,
    "bytes": 6694,
-   "sha256": "0ce7c174d3959691adf15aa03396441b0b7da8de6f70e5570212d47dd5c95d97",
+   "sha256": "0510bb95d44b7635ae0976d8d7da364d0f2a8d0a631da598ecb7bd03961b887f",
    "type": "application/geo+json; charset=utf-8",
-   "body": "events/raw/0ce7c174d3959691adf15aa03396441b0b7da8de6f70e5570212d47dd5c95d97.gz"
+   "body": "events/raw/0510bb95d44b7635ae0976d8d7da364d0f2a8d0a631da598ecb7bd03961b887f.gz"
   },
   {
-   "t": "2026-10-18T15:47:48Z",
+   "t": "2026-10-18T15:53:11Z",
    "method": "POST",
    "url": "https://planetarycomputer.microsoft.com/api/stac/v1/search",
    "status": 200,
@@ -485,17 +494,17 @@
    "body": "events/raw/59fde8591b0a1513e7d18a3c36b3f4244ee8033fbdcdf272371fa06472cb226f.gz"
   },
   {
-   "t": "2026-10-18T15:47:49Z",
+   "t": "2026-10-18T15:53:12Z",
    "method": "POST",
    "url": "https://planetarycomputer.microsoft.com/api/stac/v1/search",
    "status": 200,
    "bytes": 16191,
-   "sha256": "b2c2dac75bfbbcb233d4c29bc54032719ed02079e49b48c32457f96d80bbb508",
+   "sha256": "647c2945b9e114879156e4014b4e5a22990a85280410fbef0528a43057344fc1",
    "type": "application/geo+json; charset=utf-8",
-   "body": "events/raw/b2c2dac75bfbbcb233d4c29bc54032719ed02079e49b48c32457f96d80bbb508.gz"
+   "body": "events/raw/647c2945b9e114879156e4014b4e5a22990a85280410fbef0528a43057344fc1.gz"
   },
   {
-   "t": "2026-10-18T15:47:49Z",
+   "t": "2026-10-18T15:53:13Z",
    "method": "POST",
    "url": "https://stac.eodc.eu/api/v1/search",
    "status": 200,
@@ -504,7 +513,7 @@
    "type": "application/geo+json"
   },
   {
-   "t": "2026-10-18T15:47:51Z",
+   "t": "2026-10-18T15:53:14Z",
    "method": "GET",
    "url": "https://data.raspberryshake.org/fdsnws/station/1/query?network=AM&latitude=20.175&longitude=101.958&maxradius=1.35&level=channel&format=text&starttime=2025-04-28T23:52:00&endtime=2025-04-29T08:52:00",
    "status": 204,
@@ -514,17 +523,17 @@
    "body": "events/raw/e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855.gz"
   },
   {
-   "t": "2026-10-18T15:47:51Z",
+   "t": "2026-10-18T15:53:14Z",
    "method": "GET",
    "url": "https://earthquake.usgs.gov/fdsnws/event/1/query?format=geojson&latitude=20.175&longitude=101.958&maxradiuskm=300&starttime=2025-04-28T05:52:00Z&endtime=2025-04-30T05:52:00Z&minmagnitude=4",
    "status": 200,
    "bytes": 342,
-   "sha256": "31bb45d91e011c1221fa9d606eba5293980db9081a61b83da1d19d899723b700",
+   "sha256": "6e3f7452a556d6c41b9c95174a498ba2eaefe8b8e000bb24911261c9e233bbde",
    "type": "application/json; charset=utf-8",
-   "body": "events/raw/31bb45d91e011c1221fa9d606eba5293980db9081a61b83da1d19d899723b700.gz"
+   "body": "events/raw/6e3f7452a556d6c41b9c95174a498ba2eaefe8b8e000bb24911261c9e233bbde.gz"
   },
   {
-   "t": "2026-10-18T15:48:14Z",
+   "t": "2026-10-18T15:53:31Z",
    "method": "GET",
    "url": "https://api.gdeltproject.org/api/v2/doc/doc?query=%22Oudomxay%22+%28flood+OR+landslide+OR+avalanche+OR+earthquake+OR+%22glacial+lake%22+OR+%22debris+flow%22+OR+snowstorm+OR+rockfall%29+Laos+sourcelang%3Aenglish&mode=artlist&maxrecords=75&format=json&sort=dateasc&startdatetime=20250428055200&enddatetime=20250504055200",
    "status": 200,
@@ -534,7 +543,7 @@
    "body": "events/raw/44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a.gz"
   },
   {
-   "t": "2026-10-18T15:48:14Z",
+   "t": "2026-10-18T15:53:32Z",
    "method": "GET",
    "url": "https://en.wikipedia.org/w/api.php?action=query&list=search&srsearch=Oudomxay+2025+disaster&format=json&srlimit=5",
    "status": 200,
@@ -544,7 +553,7 @@
    "body": "events/raw/bd000a45369de9e7192fb4cd79b43d7102bfb8337f67a7f2a0f4b78578bebdd0.gz"
   },
   {
-   "t": "2026-10-18T15:48:15Z",
+   "t": "2026-10-18T15:53:32Z",
    "method": "GET",
    "url": "https://en.wikipedia.org/w/api.php?action=query&prop=revisions&titles=Typhoon+Yagi&rvlimit=1&rvdir=newer&rvprop=timestamp&format=json",
    "status": 200,
@@ -554,7 +563,7 @@
    "body": "events/raw/8c807e4578523c14c1238c694625098276ca3d6c5dd1067b96d4aed9b420307b.gz"
   },
   {
-   "t": "2026-10-18T15:48:15Z",
+   "t": "2026-10-18T15:53:32Z",
    "method": "GET",
    "url": "https://en.wikipedia.org/w/api.php?action=query&prop=revisions&titles=Asian+Development+Bank&rvlimit=1&rvdir=newer&rvprop=timestamp&format=json",
    "status": 200,
@@ -564,7 +573,7 @@
    "body": "events/raw/25e3f82cdf6628caf9c4e7c5ad07332ef0538e6eb21ecd6c8a4629f3695ca9e4.gz"
   },
   {
-   "t": "2026-10-18T15:48:15Z",
+   "t": "2026-10-18T15:53:32Z",
    "method": "GET",
    "url": "https://en.wikipedia.org/w/api.php?action=query&prop=revisions&titles=8th+National+Assembly+of+Laos&rvlimit=1&rvdir=newer&rvprop=timestamp&format=json",
    "status": 200,
@@ -574,7 +583,7 @@
    "body": "events/raw/8b198006d9b542e7ee39e63a8e800669f74ccf23494072258ecc083b04a5dfcb.gz"
   },
   {
-   "t": "2026-10-18T15:48:15Z",
+   "t": "2026-10-18T15:53:32Z",
    "method": "GET",
    "url": "https://data.humdata.org/api/3/action/package_search?q=flood+OR+landslide+OR+avalanche+OR+earthquake+OR+disaster&fq=groups%3Alao+AND+metadata_created%3A%5B2025-04-28T05%3A52%3A00Z+TO+NOW%5D&sort=metadata_created+asc&rows=10",
    "status": 200,
@@ -584,7 +593,7 @@
    "body": "events/raw/57c17659bf3ca406184ebd539b7ba731e17b3c7230d1d9606689e123d07ec1e3.gz"
   },
   {
-   "t": "2026-10-18T15:48:16Z",
+   "t": "2026-10-18T15:53:34Z",
    "method": "GET",
    "url": "https://kp.gfz-potsdam.de/app/json/?start=2025-04-28T05%3A52%3A00Z&end=2025-04-30T05%3A52%3A00Z&index=Kp",
    "status": 200,
