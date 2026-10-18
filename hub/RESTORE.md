@@ -464,3 +464,9 @@
   - hub/everest-hub.html v84：evT() 显示事件时间，只有日期的显示“MM/DD 当地日期”，不编造时刻；证据链列表显示“时间来源：…；本平台发现于 …”。
 - 例：Gorkha 洪水由 10/14 08:00（GDELT 收录日）改为 10/13 13:01（北京，Al Jazeera 报道，经 Google News）；Khatyad 滑坡由 10/12 02:15 改为 10/12 当地日期。
 - 复原：events 分支 git revert 9f519e46（证据包回 v24，会全部重算一次）；main git revert 本次提交；页面回 Version 83（备份 scratchpad hub_v83_backup.html）。
+
+## 65. 10-18 23:30 GitHub Pages 停在 10-15：改为独立的 pages 工作流，页面改为跳转到实时页
+- 现象：GitHub Pages 最后一次部署是 10-15 20:07（北京），之后不再更新，公开页面一直显示 10-15 的旧看板数据。
+- 原因：Pages 原来由旧采集任务 .github/workflows/live.yml 顺带发布（每 10 分钟采集一次再上传 site/）。10-15 按用户同意删掉 live.yml 时没注意到它还负责 Pages。
+- 改动：site/index.html 改为跳转到 Worker 实时页（https://everest-facets.yizebaba.workers.dev/rt），不再放快照；新增 .github/workflows/pages.yml，site/ 有改动或手动触发时发布。旧页面备份在 scratchpad site_index_old.html，git 历史里也有。
+- 复原：git revert 本次提交（Pages 会停在跳转页；要恢复旧看板需同时恢复 live.yml 采集）。

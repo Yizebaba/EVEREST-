@@ -1,0 +1,27 @@
+name: pages
+# 发布 site/ 到 GitHub Pages（只是跳转到 Worker 的实时页面，不采集数据）。
+# 原来由旧采集任务 live.yml 顺带发布，10-15 停用 live.yml 后 Pages 就停在了那一刻，所以单独拆出来。
+on:
+  push:
+    branches: [main]
+    paths: ["site/**", ".github/workflows/pages.yml"]
+  workflow_dispatch:
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+concurrency: {group: pages, cancel-in-progress: true}
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/upload-pages-artifact@v3
+        with: {path: site}
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment: {name: github-pages, url: "${{ steps.d.outputs.page_url }}"}
+    steps:
+      - id: d
+        uses: actions/deploy-pages@v4
