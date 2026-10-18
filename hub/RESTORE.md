@@ -470,3 +470,8 @@
 - 原因：Pages 原来由旧采集任务 .github/workflows/live.yml 顺带发布（每 10 分钟采集一次再上传 site/）。10-15 按用户同意删掉 live.yml 时没注意到它还负责 Pages。
 - 改动：site/index.html 改为跳转到 Worker 实时页（https://everest-facets.yizebaba.workers.dev/rt），不再放快照；新增 .github/workflows/pages.yml，site/ 有改动或手动触发时发布。旧页面备份在 scratchpad site_index_old.html，git 历史里也有。
 - 复原：git revert 本次提交（Pages 会停在跳转页；要恢复旧看板需同时恢复 live.yml 采集）。
+
+## 66. 10-18 23:40 运行器固定为 ubuntu-24.04
+- 原因：GitHub 通知 ubuntu-latest 从 10-19 起逐步换成 Ubuntu 26，系统库和 Python 包可能变化，导致扫描、证据包、InSAR、MiroFish 工作流突然出错。
+- 改动：main 上 daily-pipeline、evidence、hazards、mirofish、pages、release-package，events 分支 hazards-tick，adsb-live 分支 adsb-live，runs-on 由 ubuntu-latest 改为 ubuntu-24.04（就是现在实际在用的版本）。
+- 复原：把 ubuntu-24.04 改回 ubuntu-latest。
