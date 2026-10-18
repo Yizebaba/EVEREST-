@@ -483,3 +483,4 @@
 - 改动：tools/evidence_pack.py 支持事件带 country（默认尼泊尔）：尼泊尔专属来源（BIPAD 水位站、IO.EVN/KKN 远于 400 km 时）不查；IODA、哥白尼应急制图、GDELT、HDX、ReliefWeb、Cloudflare Radar 按国家查。尼泊尔事件行为不变。
 - 复原：git revert 本次提交；删除 events 分支 bri/。
 - 10-19 00:40 第二步：tools/bri_scan.py（USGS、GDACS、NASA EONET、Google 新闻 RSS、IODA 国家告警、美英旅行建议，全部免费）接进 hazards 工作流，每 20 分钟写 events 分支 bri/live.json；Worker hub.js 新增 hubBri，连接器 everest_events 加 page:bri。复原：删 hazards.yml 里 bri 那两行、git revert。
+- 10-19 01:00 回溯测试发现并修正证据包脚本 4 处问题：①维基百科没设时间上限，2025 年事件匹配到了 2026 年的条目；②BIPAD 水位站给的是“现在”的状态，事件过去 3 天以上不再列（原来对 3–14 天前的事件也列当前状态）；③哥白尼应急制图只查最近 60 次启动，改为 400 次；④尼泊尔以外的国家，IODA 地区名对不上，改查全国。复原：git revert。

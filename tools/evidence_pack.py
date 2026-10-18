@@ -244,6 +244,7 @@ def catalogs(ev, t0, items):
 
 def gauges(ev, t0, items, pack):
     if cty(ev)[2] != "NP": return   # BIPAD 只有尼泊尔的站
+    if (NOW - t0).days > 3: return   # 10-19：水位站给的是“现在”的状态，事件过去几天后再查没有意义（回溯测试里列出的是两年后的状态）
     try:
         rows = []
         for off in range(0, 900, 100):
@@ -277,18 +278,22 @@ def ioda(ev, t0, items, pack):
     cc = cty(ev)[2]
     if cc == "NP":
         d = ev.get("district") or nearest_district(ev["lat"], ev["lon"]); z = ZONE.get(d)
+        if not z:
+            return
     else:
-        z = ev.get("ioda_region")
-    if not z:
-        return
+        z = cty(ev)[0]
     try:
-        q = get(f"https://api.ioda.inetintel.cc.gatech.edu/v2/entities/query?entityType=region&search={urllib.parse.quote(z)}")
-        ents = [e for e in q.get("data", []) if (e.get("attrs") or {}).get("country_code") == cc or cty(ev)[0] in json.dumps(e)]
-        if not ents:
-            raise RuntimeError("IODA 没有这个地区：" + z)
-        code = ents[0]["code"]
         a, b = int((t0 - timedelta(hours=24)).timestamp()), int(min(NOW, t0 + timedelta(hours=24)).timestamp())
-        x = get(f"https://api.ioda.inetintel.cc.gatech.edu/v2/signals/raw/region/{code}?from={a}&until={b}")
+        if cc == "NP":
+            q = get(f"https://api.ioda.inetintel.cc.gatech.edu/v2/entities/query?entityType=region&search={urllib.parse.quote(z)}")
+            ents = [e for e in q.get("data", []) if (e.get("attrs") or {}).get("country_code") == cc or cty(ev)[0] in json.dumps(e)]
+            if not ents:
+                raise RuntimeError("IODA 没有这个地区：" + z)
+            code = ents[0]["code"]
+            x = get(f"https://api.ioda.inetintel.cc.gatech.edu/v2/signals/raw/region/{code}?from={a}&until={b}")
+        else:   # 10-19：其他国家的地区名和 IODA 对不上（回溯测试里巴基斯坦、老挝都查不到），改看全国
+            z, code = cty(ev)[0] + " 全国", cc
+            x = get(f"https://api.ioda.inetintel.cc.gatech.edu/v2/signals/raw/country/{cc}?from={a}&until={b}")
         flat = x["data"][0] if x.get("data") and isinstance(x["data"][0], list) else x.get("data", [])
         res = {"region": f"{z} ({code})"}
         for s in flat:
@@ -314,7 +319,7 @@ def ioda(ev, t0, items, pack):
 def ems(ev, t0, items):
     """哥白尼应急制图（Copernicus EMS Rapid Mapping）和国际灾害宪章：是否为这次事件启动。"""
     try:
-        x = get("https://rapidmapping.emergency.copernicus.eu/backend/dashboard-api/public-activations-info/?limit=60")
+        x = get("https://rapidmapping.emergency.copernicus.eu/backend/dashboard-api/public-activations-info/?limit=400")   # 10-19：60 次只覆盖最近几个月，回溯测试查不到旧事件
         hits = []
         for a in x.get("results", []):
             cs = " ".join(c.get("name", "") if isinstance(c, dict) else str(c) for c in (a.get("countries") or []))
@@ -748,7 +753,7 @@ def wiki(ev, t0, items, pack):
         for r in x.get("query", {}).get("search", []):
             y = get("https://en.wikipedia.org/w/api.php?" + urllib.parse.urlencode({"action": "query", "prop": "revisions", "titles": r["title"], "rvlimit": 1, "rvdir": "newer", "rvprop": "timestamp", "format": "json"}))
             pg = next(iter(y["query"]["pages"].values())); ts = (pg.get("revisions") or [{}])[0].get("timestamp")
-            if ts and P(ts) >= t0 - timedelta(days=1):
+            if ts and t0 - timedelta(days=1) <= P(ts) <= t0 + timedelta(days=30):   # 10-19：加上限，回溯测试里 2025 年事件匹配到了 2026 年的条目
                 hits += 1
                 items.append({"t": ts, "src": "维基百科", "kind": "SUPPORTING", "text": f"新建条目：{r['title']}", "text_en": f"Article created: {r['title']}", "url": "https://en.wikipedia.org/wiki/" + urllib.parse.quote(r["title"].replace(" ", "_"))})
         if not hits:
