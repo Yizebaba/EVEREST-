@@ -1,6 +1,6 @@
 ---
 name: everest-evidence-pack
-description: 为喜马拉雅（珠峰、Bhote Koshi、Trishuli、Dudh Koshi、Arun 等流域）的一次灾害事件整理多源证据时间线：地震台、水位站、网络连通、卫星过境与制图、官方通报。用户说“做一份某某事件的证据包/时间线/复盘”时使用。只记录事实，不判断责任、不预测。
+description: 为喜马拉雅（珠峰、Bhote Koshi、Trishuli、Dudh Koshi、Arun 等流域）的一次灾害事件整理多源证据时间线：地震台、水位站、网络连通、卫星过境与制图、官方通报。用户说“做一份某某事件的证据包/时间线/复盘”时使用。只记录事实，不判断责任。
 ---
 
 # 事件证据包

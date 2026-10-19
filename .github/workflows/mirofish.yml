@@ -1,12 +1,16 @@
 # MiroFish 群体智能推演（github.com/666ghj/MiroFish，AGPL-3.0，不改它的代码，只调用它的后端 API）。
-# 用本平台真实数据生成种子材料 → 构建知识图谱 → 双平台模拟 → ReportAgent 报告。结果是“推演”，不是证据，不进证据链。
+# 用本平台真实数据自动生成种子材料并上传 → 构建知识图谱 → 双平台模拟 → ReportAgent 报告。推演要求由使用者自己写（网页表单或 Run workflow 表单）。
+# 结果是“推演”，单独保存在 events 分支 mirofish/<时间>/，标注为推演，不进证据链。
 # 需要仓库 Secrets：LLM_API_KEY、LLM_BASE_URL、LLM_MODEL_NAME（任意 OpenAI 格式接口，MiroFish 推荐阿里百炼 qwen-plus）、ZEP_API_KEY（Zep Cloud）。
 # 计算主要在 LLM 和 Zep 的云端，运行器只做调度，不是重计算。
 name: mirofish
+run-name: "推演 ${{ inputs.request_id }} · ${{ inputs.title || 'EVEREST' }}"
 on:
   workflow_dispatch:
     inputs:
-      scenario: { description: "combined / everest / global / strategy", default: "combined" }
+      requirement: { description: "推演要求（你自己写，必填；网页表单会填到这里）", required: true, type: string }
+      title: { description: "标题（可空）", required: false, default: "", type: string }
+      request_id: { description: "网页生成的编号（可空）", required: false, default: "", type: string }
       max_rounds: { description: "模拟轮数（MiroFish 建议先小于 40）", default: "20" }
       mirofish_ref: { description: "MiroFish 提交号（固定版本）", default: "7657031ac01184afe2cb220f5ee3545573b5e843" }
       report_only_run: { description: "只生成报告：上次运行的 run id（从它保存的模拟状态继续，不重跑模拟）", default: "" }
@@ -34,9 +38,15 @@ jobs:
           for k in LLM_API_KEY LLM_BASE_URL LLM_MODEL_NAME ZEP_API_KEY; do if [ -z "${!k}" ]; then miss="$miss $k"; echo "$k: missing"; else echo "$k: set"; fi; done
           mkdir -p mf_out; echo "{\"missing\": \"$miss\"}" > mf_out/secrets_check.json
           if [ -n "$miss" ]; then echo "缺少：$miss"; echo "MISSING=1" >> $GITHUB_ENV; fi
-      - name: Seed material from live EVEREST data
-        env: { GH_TOKEN: "${{ github.token }}" }
-        run: python3 tools/mirofish_seed.py mf_in "${{ github.event.inputs.scenario || 'combined' }}" && cp -r mf_in mf_out/input
+      - name: Seed material from live EVEREST data + your requirement
+        env:
+          GH_TOKEN: "${{ github.token }}"
+          MF_REQUIREMENT: ${{ inputs.requirement }}
+          MF_TITLE_IN: ${{ inputs.title }}
+          MF_RID: ${{ inputs.request_id }}
+        run: |
+          python3 tools/mirofish_seed.py mf_in combined && cp -r mf_in mf_out/input
+          python3 -c "import json,os,time;json.dump({'id':os.environ.get('MF_RID') or '','title':os.environ.get('MF_TITLE_IN') or '','requirement':os.environ['MF_REQUIREMENT'],'started':time.strftime('%Y-%m-%dT%H:%M:%SZ',time.gmtime()),'run_url':os.environ['GITHUB_SERVER_URL']+'/'+os.environ['GITHUB_REPOSITORY']+'/actions/runs/'+os.environ['GITHUB_RUN_ID']},open('mf_out/request.json','w'),ensure_ascii=False,indent=1)"
       - uses: actions/setup-python@v5
         if: env.MISSING != '1'
         with: { python-version: "3.11" }

@@ -1,8 +1,8 @@
 // EVEREST 连接器（MCP，Streamable HTTP，无状态 JSON 应答）。只读：查询实时采集、坡面监测、停发设备。
 // 在 Claude 的“连接器”里添加自定义连接器，地址填 https://everest-facets.yizebaba.workers.dev/mcp 。
-// 只监测、不预测；数据都来自公开源。
+// 监测与推演分开；数据都来自公开源。
 
-import { hubImg, hubCam, hubLib, hubLit, hubOps, hubMon, hubAll, hubHealth, hubEvn, hubFl } from "./hub.js";
+import { hubImg, hubCam, hubLib, hubLit, hubOps, hubMon, hubAll, hubHealth, hubEvn, hubFl, hubMf } from "./hub.js";
 
 const PROTO = ["2025-06-18", "2025-03-26", "2024-11-05"];
 const BJ = t => t ? new Date(t).toLocaleString("zh-CN", { timeZone: "Asia/Shanghai", hour12: false, month: "2-digit", day: "2-digit", hour: "2-digit", minute: "2-digit" }) : "—";
@@ -11,7 +11,7 @@ const NAMES = { evn: "IO.EVN 地震台", bipad: "尼泊尔水位站（BIPAD）",
 
 const TOOLS = [
   { name: "everest_overview", title: "珠峰监测总览",
-    description: "珠峰（Everest）及周边监测的当前总览：各实时数据源是否正常、哪些台站停发、坡面雷达监测进度、需要注意的事项。只监测，不预测。",
+    description: "珠峰（Everest）及周边监测的当前总览：各实时数据源是否正常、哪些台站停发、坡面雷达监测进度、需要注意的事项。监测与推演分开。",
     inputSchema: { type: "object", properties: {}, additionalProperties: false } },
   { name: "everest_water_levels", title: "冰湖与河流水位",
     description: "尼泊尔水文气象局遥测水位站（Imja、Tsho Rolpa 冰湖出口，Dudh Koshi、Arun、Bhote Koshi 等河流）的最新水位、警戒/危险水位和是否在报。可按站名关键词过滤。",
@@ -56,7 +56,7 @@ const TOOLS = [
     description: "281 种灾害实测扫描（全球 40 多个公开来源，每 30 分钟一次）最近 30 天的记录，按时间倒序：时间、标题、来源、原始链接、坐标、灾种代码、是否在尼泊尔/珠峰范围、伤亡。扫描一完成这里就是最新的。",
     inputSchema: { type: "object", properties: { days: { type: "integer", minimum: 1, maximum: 30, description: "最近几天，默认 30" }, local: { type: "boolean", description: "只要尼泊尔 / 珠峰范围" } }, additionalProperties: false } },
   { name: "everest_daily_brief", title: "监测日报",
-    description: "一次生成珠峰监测日报：数据源状态、停发设备、近 N 小时地震与崩塌、灾害警报、水位越线站、通信连通、DORIS 跟踪、坡面进度。只监测、不预测。",
+    description: "一次生成珠峰监测日报：数据源状态、停发设备、近 N 小时地震与崩塌、灾害警报、水位越线站、通信连通、DORIS 跟踪、坡面进度。监测与推演分开。",
     inputSchema: { type: "object", properties: { hours: { type: "integer", minimum: 1, maximum: 72, description: "统计最近几小时，默认 24" } }, additionalProperties: false } },
 ];
 for (const t of TOOLS) t.annotations = { readOnlyHint: true, openWorldHint: true };
@@ -121,7 +121,7 @@ async function call(name, args, h) {
       `停发设备 ${off.length} 台：` + (off.map(o => `${o.name}（最后数据 ${BJ(o.last)}）`).join("；") || "无"),
       `坡面雷达监测：` + (fs.live_at ? "已出分级（用 everest_facets 查看）" : `建立历史基线中，${sc.d || 0}/${sc.n || 0} 景`),
       `ADS-B：` + (S.adsb && S.adsb.ok ? `${v("adsb").count} 架（${v("adsb").source}）` : "不可用"),
-      "只监测、不预测；停报不等于正常。"];
+      "监测与推演分开；停报不等于正常。"];
     return { text: lines.join("\n"), data: { updated: rt.updated, sources: src, offline: off, facets: { scenes: sc, live_at: fs.live_at } } };
   }
   if (name === "everest_water_levels") {
@@ -204,8 +204,8 @@ async function call(name, args, h) {
     return { text: out.map(x => `${x.name}（站号 ${x.id}）最近 ${hrs} 小时 ${x.n} 个点` + (x.n ? `：最低 ${x.min} m，最高 ${x.max} m，变化 ${x.change ?? 0} m` : `：没有数据（最后数据 ${BJ(x.last_on)}）`) + `；警戒 ${x.warning_m ?? "—"}，危险 ${x.danger_m ?? "—"}`).join("\n"), data: { stations: out } };
   }
   if (name === "everest_events" && typeof args.id === "string" && args.id.startsWith("page:")) {   // 总览页专用（v78）：页面数据直接从连接器取，不靠定时任务
-    const part = args.id.slice(5), P = { img: { img: hubImg, cam: () => hubCam(rt), evn: hubEvn }, ops: { ops: hubOps, mon: hubMon }, lib: { lib: hubLib }, lit: { lit: hubLit }, fl: { fl: hubFl }, fs: { fs: () => fsDoc(h, now) } }[part];
-    if (!P) return { text: "总览页数据分区只有 page:img、page:ops、page:lib、page:lit、page:fl、page:fs", data: null, err: true };
+    const part = args.id.slice(5), P = { img: { img: hubImg, cam: () => hubCam(rt), evn: hubEvn }, ops: { ops: hubOps, mon: hubMon }, lib: { lib: hubLib }, lit: { lit: hubLit }, fl: { fl: hubFl }, mf: { mf: hubMf }, fs: { fs: () => fsDoc(h, now) } }[part];
+    if (!P) return { text: "总览页数据分区只有 page:img、page:ops、page:lib、page:lit、page:fl、page:fs、page:mf", data: null, err: true };
     const d = await hubAll(P); d.part = part; d.t = new Date().toISOString();
     return { text: `总览页数据（${part}）：` + Object.keys(P).map(k => k + (d[k] ? " ✓" : " ✗")).join("，"), data: d };
   }
@@ -264,7 +264,7 @@ async function call(name, args, h) {
       `六、通信：${c.region} BGP ${c.bgp_last ?? "—"}（24h 最低 ${c.bgp_min_24h ?? "—"}）` + (c.outage ? "，出现过明显下降" : "，无明显中断"),
       `七、DORIS 信标：最近被跟踪 ${lp ? BJ(lp.last) : "—"}，24 小时 ${v("doris").passes_24h ?? "—"} 次`,
       `八、坡面雷达：` + (fs.live_at ? "已出分级（everest_facets）" : `基线 ${sc.d || 0}/${sc.n || 0} 景`),
-      "只监测、不预测；停报不等于正常；外部设备不归本平台维修。"];
+      "监测与推演分开；停报不等于正常；外部设备不归本平台维修。"];
     return { text: L.join("\n"), data: { updated: rt.updated, hours: hrs, offline: off, quakes: qs, alerts: A, over_warning: over, connectivity: c, doris_last: lp, facets: sc } };
   }
   return { text: "未知工具：" + name, data: null, err: true };
@@ -283,7 +283,7 @@ export async function handleMcp(req, env, h) {
       const want = (m.params || {}).protocolVersion;
       return ok({ protocolVersion: PROTO.includes(want) ? want : PROTO[0], capabilities: { tools: { listChanged: false } },
         serverInfo: { name: "everest", title: "EVEREST 公开地球观测数据的真实度审计和事件证据平台", version: "1.1.0" },
-        instructions: "EVEREST：公开地球观测数据的真实度审计和事件证据平台。只监测、不预测、不做天气。先用 everest_overview 看总览（各来源是否在线、停发设备），需要时查水位、地震、警报、通信、DORIS、坡面，或用 everest_daily_brief 出日报。时间默认北京时间；每个数字注明来源。" });
+        instructions: "EVEREST：公开地球观测数据的真实度审计和事件证据平台。监测与推演分开（推演结果单独标注），不做天气。先用 everest_overview 看总览（各来源是否在线、停发设备），需要时查水位、地震、警报、通信、DORIS、坡面，或用 everest_daily_brief 出日报。时间默认北京时间；每个数字注明来源。" });
     }
     if (m.method === "ping") return ok({});
     if (m.method === "tools/list") return ok({ tools: TOOLS });

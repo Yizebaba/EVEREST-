@@ -8,7 +8,7 @@ MiroFish 的输入（见其 README 与 backend/app/api/graph.py）：
 每个数字都带来源和时间。推演结果是“模拟”，不是证据，不进入证据链。
 
 用法：python3 tools/mirofish_seed.py <输出目录> [场景: combined|everest|global|strategy]
-输出：<输出目录>/seed/*.md、requirement.txt、context.txt、manifest.json
+输出：<输出目录>/seed/*.md、requirement.txt（取自环境变量 MF_REQUIREMENT，即使用者自己写的推演要求）、context.txt、manifest.json
 """
 import json, os, subprocess, sys, time
 from collections import Counter
@@ -65,7 +65,7 @@ EVEREST 是一个开源项目（GitHub 仓库 {REPO}），做两件事：
 1. **真实度审计**：持续检查公开的地球观测和灾害数据源是否在线、是否按时更新、数值是否可信（停报不等于正常）。
 2. **事件证据链**：发现事件候选后，把多个独立公开来源在时间线上排列，生成证据包，并做不可篡改存证（OpenTimestamps 比特币时间戳、RFC 3161 时间戳（FreeTSA、DigiCert）、Sigstore 签名与 Rekor 透明日志），再用两套以上互不相干的工具做 9 项独立核对。导出 W3C PROV 与 RO-Crate。
 
-平台原则：只监测、不预测；不做天气预报；每个数字都有来源；证据只增不改；人工证据先审后用；重计算不在 GitHub Actions 上跑。
+平台原则：监测与推演分开；不做天气预报；每个数字都有来源；证据只增不改；人工证据先审后用；重计算不在 GitHub Actions 上跑。
 
 ## 2. 架构（全部实测在运行）
 - Cloudflare Worker（everest-facets）：每分钟一轮，实时采集 {len(rt.get('sources', {}))} 个源（地震台 IO.EVN、BIPAD 水位站、EMSC、USGS、尼泊尔国家地震中心、NASA GIBS 卫星图、IODA 网络连通、BIPAD 警报、GDACS、DORIS 信标、ADS-B、新闻、珠峰摄像头缩略图）。最近一轮汇总：{bj(rt.get('updated'))}。
@@ -184,15 +184,11 @@ w("04_相关方与生态.md", f"""
 本平台同日记录：GDACS 发布“Flood in Nepal（红色）”，证据包编号 gdacs-FL-2026-08-26。
 """)
 
-# ---------- 模拟需求 ----------
-REQ = {
- "everest": "推演：如果把 EVEREST 的“珠峰监测实时证据存储”（多源时间线 + 比特币/RFC 3161/Sigstore 存证 + 9 项独立核对）向尼泊尔政府机构、ICIMOD、OGS/EvK2CNR、登山与救援组织、保险与水电业主、科研机构和媒体公开，未来 6 个月各方会如何讨论、质疑、采用或抵制？哪些群体最先使用、最需要哪类证据、最大的阻力和信任门槛是什么？",
- "global": "推演：抛开珠峰，把同一套“灾害事件证据链”（公开来源时间线 + 不可篡改存证 + 独立核对，只记录事实、不预测）推广到全球灾害（洪水、滑坡、冰湖溃决、地震、野火、疫情），未来 6–12 个月哪些行业和机构（参数保险与再保险、人道机构、媒体事实核查、法律与审计、开源社区）会最先需要？需求从哪里出现、和现有平台（GDACS、ReliefWeb、Copernicus EMS 等）如何分工或竞争？",
- "strategy": "推演：EVEREST 团队面临三个决策——(1) 是否接入 MiroFish 这类多智能体推演引擎（注意平台“只监测、不预测”的原则和证据链的可信度）；(2) 应该借鉴推演引擎的哪些能力（例如知识图谱、报告智能体），哪些不该借鉴；(3) 珠峰方向未来最值得做、且竞争不大的一件事是什么。请模拟各相关方对这三个决策的讨论，推演不同选择下的反应和结果。",
-}
-REQ["combined"] = "请围绕 EVEREST 平台做一次综合推演，分三部分：\n一、" + REQ["everest"] + "\n二、" + REQ["global"] + "\n三、" + REQ["strategy"] + "\n要求：推演结论必须与种子材料中的事实区分开；凡是推演得出的判断标注为“推演”，不得当作已发生的事实。"
-open(os.path.join(OUT, "requirement.txt"), "w").write(REQ.get(SCEN, REQ["combined"]))
-open(os.path.join(OUT, "context.txt"), "w").write("种子材料来自 EVEREST 平台的真实数据（截至 " + bj(NOW) + "），每个数字附来源。平台原则：只监测、不预测。本次推演的结果只作战略讨论参考，不进入证据链。")
+# ---------- 推演要求：只用使用者自己写的文字（网页表单 → 工作流输入 requirement → 环境变量 MF_REQUIREMENT），本脚本不代写 ----------
+REQT = os.environ.get("MF_REQUIREMENT", "").strip()
+if len(REQT) < 10: sys.exit("缺少推演要求：请在网页表单里自己填写（至少 10 个字）")
+open(os.path.join(OUT, "requirement.txt"), "w").write(REQT)
+open(os.path.join(OUT, "context.txt"), "w").write("种子材料来自 EVEREST 平台的真实数据（截至 " + bj(NOW) + "），每个数字附来源。推演结果单独保存、标注为推演，不进入证据链。")
 for k, v in W.items(): open(os.path.join(OUT, "seed", k), "w").write(v)
 json.dump({"generated": NOW, "scenario": SCEN, "files": {k: len(v.encode()) for k, v in W.items()}}, open(os.path.join(OUT, "manifest.json"), "w"), ensure_ascii=False, indent=1)
 print("seed files:", {k: len(v.encode()) for k, v in W.items()})

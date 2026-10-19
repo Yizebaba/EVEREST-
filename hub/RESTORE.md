@@ -492,3 +492,9 @@
 - 复原：删除该定时任务；ArtifactData 删除 live/wm；页面用 v86 备份覆盖并重新发布；git revert。
 - 10-19 01:40 一带一路分出去，成为单独的项目 Yizebaba/BRI-Empower（网页 https://yizebaba.github.io/BRI-Empower/ ，3D 地球背景，MiroFish 推演表单）。珠峰这边：总览页回到 v84 的内容（删掉 v85–v87 的“一带一路”标签、样式、底图、live/wm 订阅），右上角加“一带一路 ↗”链接，版本记 v88；Worker 去掉 page:bri；hazards.yml 去掉 bri_scan 步骤；删除 bri/、tools/bri_*.py、tools/bri_basemap.js、bri-retro.yml（都已搬到新仓库）。evidence_pack.py 的多国支持保留（不影响尼泊尔）。预测限制只在新项目里取消，珠峰照旧只监测、不预测。
 - 复原：git revert 本次提交；页面用 v87 备份（scratchpad hub_v87 或 git 18b23e73）重新发布。
+- 10-19 12:40 用户决定珠峰和一带一路都取消“只监测、不预测”的限制，两边都接入 MiroFish。珠峰这边：
+  - 原则改为“监测与推演分开”：监测部分只写事实；推演由 MiroFish 单独运行、单独保存、标注为推演，不进证据链。改了页面政策和说明、Worker 连接器说明、README、docs/HUB_GUIDE.md、plugin 技能、site/index.html 的措辞（指标说明里“不是预警”这类描述保留）。
+  - tools/mirofish_seed.py 删掉预设的推演要求，只用使用者自己写的文字（环境变量 MF_REQUIREMENT）。mirofish.yml 新增必填输入 requirement、title、request_id，记录 request.json，并在 events 分支维护 mirofish/index.json（tools/mirofish_checkpoint.sh）。已手动写入 4 次早期测试的索引。
+  - 新增推演页 site/drill.html（GitHub Pages：https://yizebaba.github.io/EVEREST-/drill.html ）：写要求、连接 GitHub（令牌只存浏览器）、提交运行、看记录和报告。
+  - 总览页 v89：右上角加“推演 ↗”；新增“推演”标签（记录来自连接器 page:mf，下面附最近一次运行的详情）。Worker 新增 page:mf。
+- 复原：git revert 本次提交；页面用 v88 重新发布；events 分支 mirofish/index.json 可留着。
