@@ -5906,7 +5906,7 @@
      "file": "events/archive/bipad-dolpa-2026-10-09_fafdb4ef9bec.json",
      "ots": "events/archive/bipad-dolpa-2026-10-09_fafdb4ef9bec.json.ots",
      "stamped": "2026-10-19T18:08:57Z",
-     "status": "pending",
+     "status": "confirmed",
      "err": null,
      "tsa": [
       {
@@ -5948,6 +5948,53 @@
        "rfc3161_FreeTSA": "stamp routines:ts_check_status_info:no time stamp token:../crypto/ts/ts_rsp_verify.c:390:status code: rejection, status text: Error during serial number generation., failure codes: addInfoNotAvailable"
       },
       "at": "2026-10-19T18:52:32Z"
+     },
+     "bitcoin_block": 972191,
+     "confirmed_checked": "2026-10-19T19:11:15Z"
+    },
+    {
+     "sha256": "54934a1b676e17309d581e391d8c5340ec6f55a4c7213f20565582639d4d3473",
+     "file": "events/archive/bipad-dolpa-2026-10-09_54934a1b676e.json",
+     "ots": "events/archive/bipad-dolpa-2026-10-09_54934a1b676e.json.ots",
+     "stamped": "2026-10-19T19:11:15Z",
+     "status": "pending",
+     "err": null,
+     "tsa": [
+      {
+       "tsa": "FreeTSA",
+       "file": "events/archive/bipad-dolpa-2026-10-09_54934a1b676e.json.FreeTSA.tsr",
+       "time": "Oct 19 19:20:08 2026 GMT"
+      },
+      {
+       "tsa": "DigiCert",
+       "file": "events/archive/bipad-dolpa-2026-10-09_54934a1b676e.json.DigiCert.tsr",
+       "time": "Oct 19 19:20:08 2026 GMT"
+      }
+     ],
+     "sigstore": {
+      "file": "events/archive/bipad-dolpa-2026-10-09_54934a1b676e.json.sigstore.json",
+      "identity": "https://github.com/Yizebaba/EVEREST-/.github/workflows/evidence.yml@refs/heads/events",
+      "rekor_log_index": "3325467284",
+      "self_verified": true,
+      "rekor": "https://search.sigstore.dev/?logIndex=3325467284"
+     },
+     "verify": {
+      "checks": {
+       "sha256_python": true,
+       "sha256_coreutils": true,
+       "rfc3161_FreeTSA": true,
+       "rfc3161_DigiCert": true,
+       "sigstore_cosign": true,
+       "sigstore_python": true,
+       "ots_parse": true,
+       "prov": true,
+       "rocrate": true
+      },
+      "passed": 9,
+      "total": 9,
+      "failed": [],
+      "why": {},
+      "at": "2026-10-19T19:25:51Z"
      }
     }
    ],
@@ -5964,8 +6011,8 @@
    "man": "4f53cda18c2baa0c",
    "n": 57,
    "src_n": 1,
-   "built": "2026-10-19T18:08:57Z",
-   "missing": 7
+   "built": "2026-10-19T19:11:15Z",
+   "missing": 8
   },
   "bipad-manang-2026-09-27": {
    "ots": [
@@ -12581,7 +12628,7 @@
      "file": "events/archive/hz-bipad-i-95744_f977594550c5.json",
      "ots": "events/archive/hz-bipad-i-95744_f977594550c5.json.ots",
      "stamped": "2026-10-19T18:08:57Z",
-     "status": "pending",
+     "status": "confirmed",
      "err": null,
      "tsa": [
       {
@@ -12619,6 +12666,53 @@
       "failed": [],
       "why": {},
       "at": "2026-10-19T18:25:47Z"
+     },
+     "bitcoin_block": 972191,
+     "confirmed_checked": "2026-10-19T19:11:15Z"
+    },
+    {
+     "sha256": "a8e975a3969b35d0f2b400cbb24c27324defc7a4dc7054cd40e7fd08f9c3057a",
+     "file": "events/archive/hz-bipad-i-95744_a8e975a3969b.json",
+     "ots": "events/archive/hz-bipad-i-95744_a8e975a3969b.json.ots",
+     "stamped": "2026-10-19T19:11:15Z",
+     "status": "pending",
+     "err": null,
+     "tsa": [
+      {
+       "tsa": "FreeTSA",
+       "file": "events/archive/hz-bipad-i-95744_a8e975a3969b.json.FreeTSA.tsr",
+       "time": "Oct 19 19:21:52 2026 GMT"
+      },
+      {
+       "tsa": "DigiCert",
+       "file": "events/archive/hz-bipad-i-95744_a8e975a3969b.json.DigiCert.tsr",
+       "time": "Oct 19 19:21:52 2026 GMT"
+      }
+     ],
+     "sigstore": {
+      "file": "events/archive/hz-bipad-i-95744_a8e975a3969b.json.sigstore.json",
+      "identity": "https://github.com/Yizebaba/EVEREST-/.github/workflows/evidence.yml@refs/heads/events",
+      "rekor_log_index": "3325476924",
+      "self_verified": true,
+      "rekor": "https://search.sigstore.dev/?logIndex=3325476924"
+     },
+     "verify": {
+      "checks": {
+       "sha256_python": true,
+       "sha256_coreutils": true,
+       "rfc3161_FreeTSA": true,
+       "rfc3161_DigiCert": true,
+       "sigstore_cosign": true,
+       "sigstore_python": true,
+       "ots_parse": true,
+       "prov": true,
+       "rocrate": true
+      },
+      "passed": 9,
+      "total": 9,
+      "failed": [],
+      "why": {},
+      "at": "2026-10-19T19:25:52Z"
      }
     }
    ],
@@ -12626,7 +12720,7 @@
    "t": "2026-10-11T18:15:00Z",
    "t_detected": "2026-10-11T18:15:00Z",
    "t_prec": "day",
-   "first_seen": "2026-10-19T17:53:04Z",
+   "first_seen": "2026-10-19T18:58:27Z",
    "kind": "Landslide",
    "place": "Khatyad Rural Municipality-11",
    "lat": 29.53942798,
@@ -12635,7 +12729,7 @@
    "man": "4f53cda18c2baa0c",
    "n": 50,
    "src_n": 1,
-   "built": "2026-10-19T18:08:57Z",
+   "built": "2026-10-19T19:11:15Z",
    "missing": 8
   },
   "hz-bipad-i-95688": {
@@ -18477,13 +18571,58 @@
       "why": {},
       "at": "2026-10-19T18:25:48Z"
      }
+    },
+    {
+     "sha256": "14d57fe47ccab84504f2e1c52e96831459fde9c8fe321324186edc093511d591",
+     "file": "events/archive/hz-bipad-i-95688_14d57fe47cca.json",
+     "ots": "events/archive/hz-bipad-i-95688_14d57fe47cca.json.ots",
+     "stamped": "2026-10-19T19:11:15Z",
+     "status": "pending",
+     "err": null,
+     "tsa": [
+      {
+       "tsa": "FreeTSA",
+       "file": "events/archive/hz-bipad-i-95688_14d57fe47cca.json.FreeTSA.tsr",
+       "time": "Oct 19 19:22:56 2026 GMT"
+      },
+      {
+       "tsa": "DigiCert",
+       "file": "events/archive/hz-bipad-i-95688_14d57fe47cca.json.DigiCert.tsr",
+       "time": "Oct 19 19:22:56 2026 GMT"
+      }
+     ],
+     "sigstore": {
+      "file": "events/archive/hz-bipad-i-95688_14d57fe47cca.json.sigstore.json",
+      "identity": "https://github.com/Yizebaba/EVEREST-/.github/workflows/evidence.yml@refs/heads/events",
+      "rekor_log_index": "3325481977",
+      "self_verified": true,
+      "rekor": "https://search.sigstore.dev/?logIndex=3325481977"
+     },
+     "verify": {
+      "checks": {
+       "sha256_python": true,
+       "sha256_coreutils": true,
+       "rfc3161_FreeTSA": true,
+       "rfc3161_DigiCert": true,
+       "sigstore_cosign": true,
+       "sigstore_python": true,
+       "ots_parse": true,
+       "prov": true,
+       "rocrate": true
+      },
+      "passed": 9,
+      "total": 9,
+      "failed": [],
+      "why": {},
+      "at": "2026-10-19T19:25:53Z"
+     }
     }
    ],
    "title": "Thunderbolt at Gauriganga Municipality-9",
    "t": "2026-10-08T18:15:00Z",
    "t_detected": "2026-10-08T18:15:00Z",
    "t_prec": "day",
-   "first_seen": "2026-10-19T17:53:04Z",
+   "first_seen": "2026-10-19T18:58:27Z",
    "kind": "Thunderbolt",
    "place": "Gauriganga Municipality-9",
    "lat": 28.74013,
@@ -18492,8 +18631,8 @@
    "man": "4f53cda18c2baa0c",
    "n": 53,
    "src_n": 1,
-   "built": "2026-10-19T18:08:57Z",
-   "missing": 9
+   "built": "2026-10-19T19:11:15Z",
+   "missing": 8
   },
   "hz-bipad-i-95623": {
    "ots": [
@@ -24330,13 +24469,58 @@
       "why": {},
       "at": "2026-10-19T18:25:49Z"
      }
+    },
+    {
+     "sha256": "d0c51eee42b65cb82eb494f61a24c96f4c785544e5a93412718354bf6510c103",
+     "file": "events/archive/hz-bipad-i-95623_d0c51eee42b6.json",
+     "ots": "events/archive/hz-bipad-i-95623_d0c51eee42b6.json.ots",
+     "stamped": "2026-10-19T19:11:15Z",
+     "status": "pending",
+     "err": null,
+     "tsa": [
+      {
+       "tsa": "FreeTSA",
+       "file": "events/archive/hz-bipad-i-95623_d0c51eee42b6.json.FreeTSA.tsr",
+       "time": "Oct 19 19:25:13 2026 GMT"
+      },
+      {
+       "tsa": "DigiCert",
+       "file": "events/archive/hz-bipad-i-95623_d0c51eee42b6.json.DigiCert.tsr",
+       "time": "Oct 19 19:25:13 2026 GMT"
+      }
+     ],
+     "sigstore": {
+      "file": "events/archive/hz-bipad-i-95623_d0c51eee42b6.json.sigstore.json",
+      "identity": "https://github.com/Yizebaba/EVEREST-/.github/workflows/evidence.yml@refs/heads/events",
+      "rekor_log_index": "3325497070",
+      "self_verified": true,
+      "rekor": "https://search.sigstore.dev/?logIndex=3325497070"
+     },
+     "verify": {
+      "checks": {
+       "sha256_python": true,
+       "sha256_coreutils": true,
+       "rfc3161_FreeTSA": true,
+       "rfc3161_DigiCert": true,
+       "sigstore_cosign": true,
+       "sigstore_python": true,
+       "ots_parse": true,
+       "prov": true,
+       "rocrate": true
+      },
+      "passed": 9,
+      "total": 9,
+      "failed": [],
+      "why": {},
+      "at": "2026-10-19T19:25:54Z"
+     }
     }
    ],
    "title": "Thunderbolt at Basauti, Shikhar Municipality-2",
    "t": "2026-10-06T18:15:00Z",
    "t_detected": "2026-10-06T18:15:00Z",
    "t_prec": "day",
-   "first_seen": "2026-10-19T17:53:04Z",
+   "first_seen": "2026-10-19T18:58:27Z",
    "kind": "Thunderbolt",
    "place": "Basauti, Shikhar Municipality-2",
    "lat": 29.18116,
@@ -24345,8 +24529,8 @@
    "man": "4f53cda18c2baa0c",
    "n": 60,
    "src_n": 1,
-   "built": "2026-10-19T18:08:57Z",
-   "missing": 11
+   "built": "2026-10-19T19:11:15Z",
+   "missing": 12
   },
   "hz-bipad-i-95546": {
    "ots": [
@@ -35466,7 +35650,7 @@
      "file": "events/archive/usgs-us6000u1j7_450382a83cdf.json",
      "ots": "events/archive/usgs-us6000u1j7_450382a83cdf.json.ots",
      "stamped": "2026-10-19T18:08:57Z",
-     "status": "pending",
+     "status": "confirmed",
      "err": null,
      "tsa": [
       {
@@ -35504,6 +35688,53 @@
       "failed": [],
       "why": {},
       "at": "2026-10-19T18:25:51Z"
+     },
+     "bitcoin_block": 972191,
+     "confirmed_checked": "2026-10-19T19:11:15Z"
+    },
+    {
+     "sha256": "bfed90d3cfff07424ef7bd2204ec43e3043330395860a0f295c8516304970381",
+     "file": "events/archive/usgs-us6000u1j7_bfed90d3cfff.json",
+     "ots": "events/archive/usgs-us6000u1j7_bfed90d3cfff.json.ots",
+     "stamped": "2026-10-19T19:11:15Z",
+     "status": "pending",
+     "err": null,
+     "tsa": [
+      {
+       "tsa": "FreeTSA",
+       "file": "events/archive/usgs-us6000u1j7_bfed90d3cfff.json.FreeTSA.tsr",
+       "time": "Oct 19 19:18:16 2026 GMT"
+      },
+      {
+       "tsa": "DigiCert",
+       "file": "events/archive/usgs-us6000u1j7_bfed90d3cfff.json.DigiCert.tsr",
+       "time": "Oct 19 19:18:17 2026 GMT"
+      }
+     ],
+     "sigstore": {
+      "file": "events/archive/usgs-us6000u1j7_bfed90d3cfff.json.sigstore.json",
+      "identity": "https://github.com/Yizebaba/EVEREST-/.github/workflows/evidence.yml@refs/heads/events",
+      "rekor_log_index": "3325456642",
+      "self_verified": true,
+      "rekor": "https://search.sigstore.dev/?logIndex=3325456642"
+     },
+     "verify": {
+      "checks": {
+       "sha256_python": true,
+       "sha256_coreutils": true,
+       "rfc3161_FreeTSA": true,
+       "rfc3161_DigiCert": true,
+       "sigstore_cosign": true,
+       "sigstore_python": true,
+       "ots_parse": true,
+       "prov": true,
+       "rocrate": true
+      },
+      "passed": 9,
+      "total": 9,
+      "failed": [],
+      "why": {},
+      "at": "2026-10-19T19:25:56Z"
      }
     }
    ],
@@ -35518,10 +35749,10 @@
    "lon": 84.942,
    "v": 25,
    "man": "4f53cda18c2baa0c",
-   "n": 77,
+   "n": 76,
    "src_n": 10,
-   "built": "2026-10-19T18:08:57Z",
-   "missing": 7
+   "built": "2026-10-19T19:11:15Z",
+   "missing": 8
   },
   "news-flood-gorkha-2026-10-14": {
    "ots": [
@@ -40598,7 +40829,7 @@
      "file": "events/archive/news-flood-gorkha-2026-10-14_30f896ec4d1b.json",
      "ots": "events/archive/news-flood-gorkha-2026-10-14_30f896ec4d1b.json.ots",
      "stamped": "2026-10-19T18:08:57Z",
-     "status": "pending",
+     "status": "confirmed",
      "err": null,
      "tsa": [
       {
@@ -40636,6 +40867,53 @@
       "failed": [],
       "why": {},
       "at": "2026-10-19T18:25:52Z"
+     },
+     "bitcoin_block": 972191,
+     "confirmed_checked": "2026-10-19T19:11:15Z"
+    },
+    {
+     "sha256": "043e1549b59013b93d006ac4ae207df782862253947b04d4f829c0403890516e",
+     "file": "events/archive/news-flood-gorkha-2026-10-14_043e1549b590.json",
+     "ots": "events/archive/news-flood-gorkha-2026-10-14_043e1549b590.json.ots",
+     "stamped": "2026-10-19T19:11:15Z",
+     "status": "pending",
+     "err": null,
+     "tsa": [
+      {
+       "tsa": "FreeTSA",
+       "file": "events/archive/news-flood-gorkha-2026-10-14_043e1549b590.json.FreeTSA.tsr",
+       "time": "Oct 19 19:15:29 2026 GMT"
+      },
+      {
+       "tsa": "DigiCert",
+       "file": "events/archive/news-flood-gorkha-2026-10-14_043e1549b590.json.DigiCert.tsr",
+       "time": "Oct 19 19:15:29 2026 GMT"
+      }
+     ],
+     "sigstore": {
+      "file": "events/archive/news-flood-gorkha-2026-10-14_043e1549b590.json.sigstore.json",
+      "identity": "https://github.com/Yizebaba/EVEREST-/.github/workflows/evidence.yml@refs/heads/events",
+      "rekor_log_index": "3325438781",
+      "self_verified": true,
+      "rekor": "https://search.sigstore.dev/?logIndex=3325438781"
+     },
+     "verify": {
+      "checks": {
+       "sha256_python": true,
+       "sha256_coreutils": true,
+       "rfc3161_FreeTSA": true,
+       "rfc3161_DigiCert": true,
+       "sigstore_cosign": true,
+       "sigstore_python": true,
+       "ots_parse": true,
+       "prov": true,
+       "rocrate": true
+      },
+      "passed": 9,
+      "total": 9,
+      "failed": [],
+      "why": {},
+      "at": "2026-10-19T19:25:57Z"
      }
     }
    ],
@@ -40650,10 +40928,10 @@
    "lon": 84.63,
    "v": 25,
    "man": "4f53cda18c2baa0c",
-   "n": 66,
+   "n": 65,
    "src_n": 8,
-   "built": "2026-10-19T18:08:57Z",
-   "missing": 6
+   "built": "2026-10-19T19:11:15Z",
+   "missing": 7
   },
   "news-flood-dhading-2026-10-16": {
    "ots": [
@@ -40989,7 +41267,7 @@
      "file": "events/archive/news-flood-dhading-2026-10-16_a8e76bb23ac6.json",
      "ots": "events/archive/news-flood-dhading-2026-10-16_a8e76bb23ac6.json.ots",
      "stamped": "2026-10-19T18:08:57Z",
-     "status": "pending",
+     "status": "confirmed",
      "err": null,
      "tsa": [
       {
@@ -41027,6 +41305,53 @@
       "failed": [],
       "why": {},
       "at": "2026-10-19T18:25:54Z"
+     },
+     "bitcoin_block": 972191,
+     "confirmed_checked": "2026-10-19T19:11:15Z"
+    },
+    {
+     "sha256": "ec90c1dbea99857015159100378bfac622f0406e4d014696d7c53c192f58fde5",
+     "file": "events/archive/news-flood-dhading-2026-10-16_ec90c1dbea99.json",
+     "ots": "events/archive/news-flood-dhading-2026-10-16_ec90c1dbea99.json.ots",
+     "stamped": "2026-10-19T19:11:15Z",
+     "status": "pending",
+     "err": null,
+     "tsa": [
+      {
+       "tsa": "FreeTSA",
+       "file": "events/archive/news-flood-dhading-2026-10-16_ec90c1dbea99.json.FreeTSA.tsr",
+       "time": "Oct 19 19:13:13 2026 GMT"
+      },
+      {
+       "tsa": "DigiCert",
+       "file": "events/archive/news-flood-dhading-2026-10-16_ec90c1dbea99.json.DigiCert.tsr",
+       "time": "Oct 19 19:13:13 2026 GMT"
+      }
+     ],
+     "sigstore": {
+      "file": "events/archive/news-flood-dhading-2026-10-16_ec90c1dbea99.json.sigstore.json",
+      "identity": "https://github.com/Yizebaba/EVEREST-/.github/workflows/evidence.yml@refs/heads/events",
+      "rekor_log_index": "3325418267",
+      "self_verified": true,
+      "rekor": "https://search.sigstore.dev/?logIndex=3325418267"
+     },
+     "verify": {
+      "checks": {
+       "sha256_python": true,
+       "sha256_coreutils": true,
+       "rfc3161_FreeTSA": true,
+       "rfc3161_DigiCert": true,
+       "sigstore_cosign": true,
+       "sigstore_python": true,
+       "ots_parse": true,
+       "prov": true,
+       "rocrate": true
+      },
+      "passed": 9,
+      "total": 9,
+      "failed": [],
+      "why": {},
+      "at": "2026-10-19T19:25:58Z"
      }
     }
    ],
@@ -41041,11 +41366,11 @@
    "lon": 84.92,
    "v": 25,
    "man": "4f53cda18c2baa0c",
-   "n": 70,
+   "n": 69,
    "src_n": 4,
-   "built": "2026-10-19T18:08:57Z",
-   "missing": 11
+   "built": "2026-10-19T19:11:15Z",
+   "missing": 12
   }
  },
- "updated": "2026-10-19T18:51:51Z"
+ "updated": "2026-10-19T19:11:15Z"
 }
