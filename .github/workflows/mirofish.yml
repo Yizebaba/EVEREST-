@@ -1,16 +1,19 @@
 # MiroFish 群体智能推演（github.com/666ghj/MiroFish，AGPL-3.0，不改它的代码，只调用它的后端 API）。
 # 用本平台真实数据自动生成种子材料并上传 → 构建知识图谱 → 双平台模拟 → ReportAgent 报告。推演要求由使用者自己写（网页表单或 Run workflow 表单）。
 # 结果是“推演”，单独保存在 events 分支 mirofish/<时间>/，标注为推演，不进证据链。
+# 一带一路（Yizebaba/BRI-Empower）的推演也在这里跑（project=bri）：种子文档从那个公开仓库读，结果放 events 分支 mirofish-bri/，共用本仓库的密钥。
 # 需要仓库 Secrets：LLM_API_KEY、LLM_BASE_URL、LLM_MODEL_NAME（任意 OpenAI 格式接口，MiroFish 推荐阿里百炼 qwen-plus）、ZEP_API_KEY（Zep Cloud）。
 # 计算主要在 LLM 和 Zep 的云端，运行器只做调度，不是重计算。
 name: mirofish
-run-name: "推演 ${{ inputs.request_id }} · ${{ inputs.title || 'EVEREST' }}"
+run-name: "推演 ${{ inputs.project == 'bri' && '一带一路' || 'EVEREST' }} ${{ inputs.request_id }} · ${{ inputs.title }}"
 on:
   workflow_dispatch:
     inputs:
       requirement: { description: "推演要求（你自己写，必填；网页表单会填到这里）", required: true, type: string }
       title: { description: "标题（可空）", required: false, default: "", type: string }
       request_id: { description: "网页生成的编号（可空）", required: false, default: "", type: string }
+      project: { description: "everest = 珠峰；bri = 一带一路（种子文档取自 Yizebaba/BRI-Empower，共用本仓库的模型和 Zep 密钥）", required: false, default: "everest", type: string }
+      scope: { description: "一带一路的种子范围：ALL / NPL / LAO / PAK", required: false, default: "ALL", type: string }
       max_rounds: { description: "模拟轮数（MiroFish 建议先小于 40）", default: "20" }
       mirofish_ref: { description: "MiroFish 提交号（固定版本）", default: "7657031ac01184afe2cb220f5ee3545573b5e843" }
       report_only_run: { description: "只生成报告：上次运行的 run id（从它保存的模拟状态继续，不重跑模拟）", default: "" }
@@ -44,9 +47,13 @@ jobs:
           MF_REQUIREMENT: ${{ inputs.requirement }}
           MF_TITLE_IN: ${{ inputs.title }}
           MF_RID: ${{ inputs.request_id }}
+          MF_PROJECT: ${{ inputs.project }}
+          MF_SCOPE: ${{ inputs.scope }}
         run: |
-          python3 tools/mirofish_seed.py mf_in combined && cp -r mf_in mf_out/input
-          python3 -c "import json,os,time;json.dump({'id':os.environ.get('MF_RID') or '','title':os.environ.get('MF_TITLE_IN') or '','requirement':os.environ['MF_REQUIREMENT'],'started':time.strftime('%Y-%m-%dT%H:%M:%SZ',time.gmtime()),'run_url':os.environ['GITHUB_SERVER_URL']+'/'+os.environ['GITHUB_REPOSITORY']+'/actions/runs/'+os.environ['GITHUB_RUN_ID']},open('mf_out/request.json','w'),ensure_ascii=False,indent=1)"
+          if [ "$MF_PROJECT" = "bri" ]; then python3 tools/mirofish_seed_bri.py mf_in "$MF_SCOPE"; else python3 tools/mirofish_seed.py mf_in combined; fi
+          cp -r mf_in mf_out/input
+          [ "$MF_PROJECT" = "bri" ] && echo "MFP=mirofish-bri" >> $GITHUB_ENV || echo "MFP=mirofish" >> $GITHUB_ENV
+          python3 -c "import json,os,time;json.dump({'id':os.environ.get('MF_RID') or '','project':os.environ.get('MF_PROJECT') or 'everest','scope':os.environ.get('MF_SCOPE') or '','title':os.environ.get('MF_TITLE_IN') or '','requirement':os.environ['MF_REQUIREMENT'],'started':time.strftime('%Y-%m-%dT%H:%M:%SZ',time.gmtime()),'run_url':os.environ['GITHUB_SERVER_URL']+'/'+os.environ['GITHUB_REPOSITORY']+'/actions/runs/'+os.environ['GITHUB_RUN_ID']},open('mf_out/request.json','w'),ensure_ascii=False,indent=1)"
       - uses: actions/setup-python@v5
         if: env.MISSING != '1'
         with: { python-version: "3.11" }
@@ -81,7 +88,7 @@ jobs:
           for i in $(seq 1 60); do curl -sf http://127.0.0.1:5001/health && break; sleep 3; done
           cd ../..
           # 每分钟记录内存和最占内存的进程；每 10 分钟把已有产物推到 events 分支 mirofish/<开始时间>/（运行器意外退出也能留下线索）
-          D="mirofish/$(date -u +%Y%m%dT%H%M%SZ)"; echo "MFDIR=$D" >> $GITHUB_ENV
+          D="${MFP:-mirofish}/$(date -u +%Y%m%dT%H%M%SZ)"; echo "MFDIR=$D" >> $GITHUB_ENV
           ( while true; do { date -u +%FT%TZ; free -m | sed -n 2p; ps -eo rss,comm --sort=-rss | sed -n 2,4p | tr '\n' ' '; echo; } >> mf_out/sys.log; sleep 60; done ) > /dev/null 2>&1 & P1=$!
           ( n=0; while true; do sleep 600; n=$((n+1)); bash tools/mirofish_checkpoint.sh "$D" "checkpoint $n" || true; done ) > /dev/null 2>&1 & P2=$!
           python3 tools/mirofish_run.py mf_in mf_out "${{ github.event.inputs.max_rounds || '20' }}" || echo "RUNFAIL=1" >> $GITHUB_ENV
@@ -106,5 +113,5 @@ jobs:
           LLM_API_KEY: ${{ secrets.LLM_API_KEY }}
           ZEP_API_KEY: ${{ secrets.ZEP_API_KEY }}
         run: |
-          D="${MFDIR:-mirofish/$(date -u +%Y%m%dT%H%M%SZ)}"
+          D="${MFDIR:-${MFP:-mirofish}/$(date -u +%Y%m%dT%H%M%SZ)}"
           bash tools/mirofish_checkpoint.sh "$D" "final"

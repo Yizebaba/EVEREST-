@@ -498,3 +498,5 @@
   - 新增推演页 site/drill.html（GitHub Pages：https://yizebaba.github.io/EVEREST-/drill.html ）：写要求、连接 GitHub（令牌只存浏览器）、提交运行、看记录和报告。
   - 总览页 v89：右上角加“推演 ↗”；新增“推演”标签（记录来自连接器 page:mf，下面附最近一次运行的详情）。Worker 新增 page:mf。
 - 复原：git revert 本次提交；页面用 v88 重新发布；events 分支 mirofish/index.json 可留着。
+- 10-19 13:00 一带一路推演改在珠峰仓库的 mirofish 工作流里运行（新输入 project=bri、scope），共用这里的模型和 Zep 密钥，用户不用在新仓库再设密钥。种子文档由 tools/mirofish_seed_bri.py 从 Yizebaba/BRI-Empower 读取；结果放 events 分支 mirofish-bri/（有自己的 index.json 和 LATEST）。两个推演页共用浏览器里的同一个 GitHub 令牌（localStorage 键 gh_token；同一网域 yizebaba.github.io）。
+- 复原：git revert 本次提交。
