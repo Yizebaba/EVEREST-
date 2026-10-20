@@ -13,7 +13,7 @@ on:
       title: { description: "标题（可空）", required: false, default: "", type: string }
       request_id: { description: "网页生成的编号（可空）", required: false, default: "", type: string }
       project: { description: "everest = 珠峰；bri = 一带一路（种子文档取自 Yizebaba/BRI-Empower，共用本仓库的模型和 Zep 密钥）", required: false, default: "everest", type: string }
-      scope: { description: "一带一路的种子范围：ALL / NPL / LAO / PAK", required: false, default: "ALL", type: string }
+      scope: { description: "一带一路的国家：ISO3 代码，多个用逗号（最多 5 个）", required: false, default: "PAK", type: string }
       max_rounds: { description: "模拟轮数（MiroFish 建议先小于 40）", default: "20" }
       mirofish_ref: { description: "MiroFish 提交号（固定版本）", default: "7657031ac01184afe2cb220f5ee3545573b5e843" }
       report_only_run: { description: "只生成报告：上次运行的 run id（从它保存的模拟状态继续，不重跑模拟）", default: "" }

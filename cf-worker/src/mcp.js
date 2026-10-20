@@ -2,7 +2,7 @@
 // 在 Claude 的“连接器”里添加自定义连接器，地址填 https://everest-facets.yizebaba.workers.dev/mcp 。
 // 监测与推演分开；数据都来自公开源。
 
-import { hubImg, hubCam, hubLib, hubLit, hubOps, hubMon, hubAll, hubHealth, hubEvn, hubFl, hubMf } from "./hub.js";
+import { hubImg, hubCam, hubLib, hubLit, hubOps, hubMon, hubAll, hubHealth, hubEvn, hubFl, hubMf, hubWm } from "./hub.js";
 
 const PROTO = ["2025-06-18", "2025-03-26", "2024-11-05"];
 const BJ = t => t ? new Date(t).toLocaleString("zh-CN", { timeZone: "Asia/Shanghai", hour12: false, month: "2-digit", day: "2-digit", hour: "2-digit", minute: "2-digit" }) : "—";
@@ -204,8 +204,8 @@ async function call(name, args, h) {
     return { text: out.map(x => `${x.name}（站号 ${x.id}）最近 ${hrs} 小时 ${x.n} 个点` + (x.n ? `：最低 ${x.min} m，最高 ${x.max} m，变化 ${x.change ?? 0} m` : `：没有数据（最后数据 ${BJ(x.last_on)}）`) + `；警戒 ${x.warning_m ?? "—"}，危险 ${x.danger_m ?? "—"}`).join("\n"), data: { stations: out } };
   }
   if (name === "everest_events" && typeof args.id === "string" && args.id.startsWith("page:")) {   // 总览页专用（v78）：页面数据直接从连接器取，不靠定时任务
-    const part = args.id.slice(5), P = { img: { img: hubImg, cam: () => hubCam(rt), evn: hubEvn }, ops: { ops: hubOps, mon: hubMon }, lib: { lib: hubLib }, lit: { lit: hubLit }, fl: { fl: hubFl }, mf: { mf: hubMf }, fs: { fs: () => fsDoc(h, now) } }[part];
-    if (!P) return { text: "总览页数据分区只有 page:img、page:ops、page:lib、page:lit、page:fl、page:fs、page:mf", data: null, err: true };
+    const part = args.id.slice(5), P = { img: { img: hubImg, cam: () => hubCam(rt), evn: hubEvn }, ops: { ops: hubOps, mon: hubMon }, lib: { lib: hubLib }, lit: { lit: hubLit }, fl: { fl: hubFl }, mf: { mf: hubMf }, wm: { wm: hubWm }, fs: { fs: () => fsDoc(h, now) } }[part];
+    if (!P) return { text: "总览页数据分区只有 page:img、page:ops、page:lib、page:lit、page:fl、page:fs、page:mf、page:wm", data: null, err: true };
     const d = await hubAll(P); d.part = part; d.t = new Date().toISOString();
     return { text: `总览页数据（${part}）：` + Object.keys(P).map(k => k + (d[k] ? " ✓" : " ✗")).join("，"), data: d };
   }

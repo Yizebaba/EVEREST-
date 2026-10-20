@@ -84,6 +84,13 @@ export async function hubEvn() {
 // 376 块坡面的雷达后向散射分级（Worker 每次过境后写到 facet-live 分支，10-17 起有分级）
 export const hubFl = () => j("facet_live.json", "facet-live", 300);
 // MiroFish 推演记录（events 分支 mirofish/index.json，由 mirofish 工作流写）
+// World Monitor（经 BRI-Empower 每日汇总）：尼泊尔和中国两国的冲突、新闻、断网、旅行建议，以及两国的地震和灾害警报
+export async function hubWm() {
+  const g = async f => { const r = await fetch("https://raw.githubusercontent.com/Yizebaba/BRI-Empower/main/data/" + f, { cf: { cacheTtl: 600 } }); return r.ok ? r.json() : {}; };
+  const [w, l] = await Promise.all([g("wm.json"), g("country_live.json")]);
+  const pick = k => ({ wm: (w.countries || {})[k] || {}, live: (l.countries || {})[k] || {} });
+  return { generated: w.generated, live_generated: l.generated, meta: w.meta || {}, NPL: pick("NPL"), CHN: pick("CHN") };
+}
 export const hubMf = () => j("mirofish/index.json", "events", 300).catch(() => ({ runs: [] }));
 // 一带一路样品：项目清单（AidData）和周边实时态势（hazards 工作流每 20 分钟写）
 export const hubOps = () => j("hub/ops.json", "events", 120);

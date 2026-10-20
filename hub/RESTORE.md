@@ -500,3 +500,5 @@
 - 复原：git revert 本次提交；页面用 v88 重新发布；events 分支 mirofish/index.json 可留着。
 - 10-19 13:00 一带一路推演改在珠峰仓库的 mirofish 工作流里运行（新输入 project=bri、scope），共用这里的模型和 Zep 密钥，用户不用在新仓库再设密钥。种子文档由 tools/mirofish_seed_bri.py 从 Yizebaba/BRI-Empower 读取；结果放 events 分支 mirofish-bri/（有自己的 index.json 和 LATEST）。两个推演页共用浏览器里的同一个 GitHub 令牌（localStorage 键 gh_token；同一网域 yizebaba.github.io）。
 - 复原：git revert 本次提交。
+- 10-21 00:10 v90：新增“全球情报”标签，显示尼泊尔和中国的 World Monitor 数据（冲突、新闻要闻、断网、旅行建议）和两国地震、灾害警报；数据由 BRI-Empower 每日从 World Monitor 取全球数据、按国家整理（data/wm.json、data/country_live.json），Worker 新增 page:wm 读取。一带一路推演的国家范围改为 150 国任选（mirofish.yml 的 scope 为 ISO3）。
+- 复原：git revert 本次提交；页面用 v89 备份重新发布。
