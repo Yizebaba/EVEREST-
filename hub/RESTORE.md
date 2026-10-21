@@ -540,3 +540,5 @@
 - 复原：在 BRI-Empower 仓库 git revert 这两次提交。
 - 10-22 04:00 一带一路仓库被改名为 Yizebaba/BRI-Full-Scope-Foresight（网页地址变为 https://yizebaba.github.io/BRI-Full-Scope-Foresight/ ，旧地址 404）。两个仓库里所有链接和数据地址同步改新名：总览页 v92 的“一带一路 ↗”、Worker 读取 data/wm.json 的地址、mirofish_seed_bri.py 读种子文档的地址、推演页、导出文件免责声明里的站名；BRI 仓库的网页、脚本、数据源、README（分中英文两份，互相链接）。
 - 复原：改回旧名需要在 GitHub 把仓库名改回 BRI-Empower，再 git revert 这两次提交。
+- 10-22 04:20 发现 BRI 的 trade 工作流提交一直没推上去（和每 30 分钟的 scan 同时改 seeds，rebase 冲突后静默失败；150 国贸易数据只有 5 国、country_facts.json 从未进仓库）。改为 tools/push_data.sh：先存文件，每次从最新 main 开始放回再提交推送，失败会报错；seeds 只由 scan 提交。重新跑了 trade 全量。
+- 复原：在 BRI 仓库 git revert 9d68f04。
