@@ -1,7 +1,8 @@
 // MiroFish 推演排队（谁推演谁用自己的密钥）。
 // 网页 POST /mf/submit：推演要求 + 使用者自己的模型密钥和 Zep 密钥 → 先试一下密钥 → 存进 D1 排队。
 // GitHub Actions（本仓库 mirofish-queue.yml / mirofish.yml）用 GitHub OIDC 身份领取任务：/mf/take 取编号，/mf/claim 取密钥（取走即从库里删除），/mf/done 回报结果。
-// 使用者可另外上传 PDF/Markdown/TXT（最多 5 个，单个 10 MB，合计 20 MB），分块存 D1 表 mf_files，推演工作流取走即删除。
+// 使用者可另外上传 PDF/Markdown/TXT（最多 20 个，单个 50 MB，合计 100 MB）：先 /mf/submit 报清单（状态 uploading），再 /mf/upload 逐块上传，/mf/commit 后排队。分块存 D1 表 mf_files，推演工作流取走即删除。
+// 种子文档由使用者勾选（seeds 列表），可以一份都不选、也可以不选国家。
 // 密钥只在排队期间存放，领取后立刻删除；超过 6 小时没被领取也删除。公开接口 /mf/job 只返回状态，不含密钥。
 const REPO = "Yizebaba/EVEREST-";
 const WF = REPO + "/.github/workflows/";
@@ -13,15 +14,19 @@ const now = () => new Date().toISOString();
 const SCHEMA = [`CREATE TABLE IF NOT EXISTS mf_jobs (id TEXT PRIMARY KEY, created TEXT, state TEXT, project TEXT, scope TEXT, title TEXT, requirement TEXT, rounds INTEGER,
   secret TEXT, iph TEXT, dispatched TEXT, claimed TEXT, finished TEXT, run_url TEXT, dir TEXT, ok INTEGER, error TEXT)`,
   `CREATE TABLE IF NOT EXISTS mf_files (job TEXT, name TEXT, idx INTEGER, data TEXT, PRIMARY KEY (job, name, idx))`];
-const MAX_FILES = 5, MAX_FILE = 10 * 1024 * 1024, MAX_TOTAL = 20 * 1024 * 1024, CHUNK = 900000, EXT = /\.(pdf|md|markdown|txt)$/i;
+const MAX_FILES = 20, MAX_FILE = 50 * 1024 * 1024, MAX_TOTAL = 100 * 1024 * 1024, MAX_STORE = 300 * 1024 * 1024, CHUNK = 900000, EXT = /\.(pdf|md|markdown|txt)$/i;
 
-async function init(env) { for (const s of SCHEMA) await env.DB.prepare(s).run(); }
+async function init(env) {
+  for (const s of SCHEMA) await env.DB.prepare(s).run();
+  for (const c of ["seeds TEXT", "utok TEXT", "manifest TEXT"]) { try { await env.DB.prepare("ALTER TABLE mf_jobs ADD COLUMN " + c).run(); } catch (e) {} }
+}
 async function sha(s) { const b = await crypto.subtle.digest("SHA-256", new TextEncoder().encode(s)); return [...new Uint8Array(b)].map(x => x.toString(16).padStart(2, "0")).join(""); }
 const pub = r => r && ({ id: r.id, state: r.state, project: r.project, scope: r.scope, title: r.title, created: r.created, dispatched: r.dispatched, claimed: r.claimed, finished: r.finished, run_url: r.run_url, dir: r.dir, ok: r.ok, error: r.error });
 
 async function sweep(env) {   // 过期清理：6 小时没人领的删密钥并标失败；派出 60 分钟还没领取的回到排队
   const t6 = new Date(Date.now() - 6 * 3600e3).toISOString(), t1 = new Date(Date.now() - 3600e3).toISOString();
   await env.DB.prepare("UPDATE mf_jobs SET secret=NULL, state='expired' WHERE state IN ('queued','dispatched') AND created < ?").bind(t6).run();
+  await env.DB.prepare("UPDATE mf_jobs SET secret=NULL, state='expired' WHERE state='uploading' AND created < ?").bind(new Date(Date.now() - 2 * 3600e3).toISOString()).run();
   await env.DB.prepare("DELETE FROM mf_files WHERE job IN (SELECT id FROM mf_jobs WHERE state IN ('expired','done','failed') OR created < ?)").bind(new Date(Date.now() - 24 * 3600e3).toISOString()).run();
   await env.DB.prepare("UPDATE mf_jobs SET state='queued', dispatched=NULL WHERE state='dispatched' AND dispatched < ?").bind(t1).run();
 }
@@ -64,7 +69,7 @@ export async function handleMf(req, env, u) {
   await init(env);
   const p = u.pathname;
   if (p === "/mf/job") {
-    const ids = (u.searchParams.get("id") || "").split(",").filter(x => /^[a-z0-9]{6,32}$/.test(x)).slice(0, 20);
+    const ids = (u.searchParams.get("id") || "").split(",").filter(x => /^[a-z0-9]{6,32}$/.test(x)).slice(0, 30);
     const out = {};
     for (const id of ids) out[id] = pub(await env.DB.prepare("SELECT * FROM mf_jobs WHERE id=?").bind(id).first());
     const q = await env.DB.prepare("SELECT COUNT(*) n FROM mf_jobs WHERE state IN ('queued','dispatched')").first();
@@ -79,7 +84,6 @@ export async function handleMf(req, env, u) {
     const llm = { key: s(b.llm_key), base: s(b.llm_base), model: s(b.llm_model) }, zep = s(b.zep_key);
     const rounds = parseInt(b.rounds) > 0 ? Math.max(5, Math.min(200, parseInt(b.rounds))) : 0, project = b.project === "everest" ? "everest" : "bri";
     if (reqm.length < 10 || reqm.length > 4000) return J({ error: "推演要求要自己写，10 到 4000 字" }, 400);
-    if (project === "bri" && !scope) return J({ error: "请选国家" }, 400);
     if (!llm.key || !/^https:\/\//.test(llm.base) || !llm.model) return J({ error: "请填模型接口地址、模型名和密钥" }, 400);
     if (!zep) return J({ error: "请填 Zep 密钥" }, 400);
     const iph = await sha((req.headers.get("cf-connecting-ip") || "") + now().slice(0, 10));
@@ -89,23 +93,47 @@ export async function handleMf(req, env, u) {
     if (nq >= MAX_QUEUED) return J({ error: "排队的人太多，稍后再试" }, 429);
     const e1 = await testLLM(llm.base, llm.model, llm.key); if (e1) return J({ error: e1, field: "llm" }, 400);
     const e2 = await testZep(zep); if (e2) return J({ error: e2, field: "zep" }, 400);
-    const files = Array.isArray(b.files) ? b.files : [];
-    if (files.length > MAX_FILES) return J({ error: "最多上传 5 个文件" }, 400);
+    const seeds = (Array.isArray(b.seeds) ? b.seeds : []).map(String).filter(x => /^seeds\/[A-Z]{3}\/[0-9a-z_]+\.md$|^seeds\/00_sources\.md$/.test(x)).slice(0, 60);
+    const man = (Array.isArray(b.files) ? b.files : []).map(f => ({ name: String(f.name || "").replace(/[\\/:*?"<>|\x00-\x1f]/g, "_").slice(-100), size: Number(f.size) || 0 }));
+    if (man.length > MAX_FILES) return J({ error: "最多上传 20 个文件" }, 400);
     let tot = 0;
-    for (const f of files) {
-      const sz = Math.floor(String(f.data || "").length * 3 / 4); tot += sz;
-      if (!EXT.test(String(f.name || "")) || !f.data) return J({ error: "只支持 PDF、Markdown、TXT：" + String(f.name || "").slice(0, 60) }, 400);
-      if (sz > MAX_FILE) return J({ error: "单个文件不能超过 10 MB：" + String(f.name).slice(0, 60) }, 400);
+    for (const f of man) {
+      tot += f.size;
+      if (!EXT.test(f.name)) return J({ error: "只支持 PDF、Markdown、TXT：" + f.name.slice(0, 60) }, 400);
+      if (f.size > MAX_FILE) return J({ error: "单个文件不能超过 50 MB：" + f.name.slice(0, 60) }, 400);
     }
-    if (tot > MAX_TOTAL) return J({ error: "上传文件合计不能超过 20 MB" }, 400);
+    if (tot > MAX_TOTAL) return J({ error: "上传文件合计不能超过 100 MB" }, 400);
+    if (!seeds.length && !man.length) return J({ error: "至少要有一份文档：勾选种子文档，或上传自己的资料" }, 400);
+    if (man.length) {
+      const st = (await env.DB.prepare("SELECT COALESCE(SUM(LENGTH(data)),0) n FROM mf_files").first()).n;
+      if (st + tot * 1.34 > MAX_STORE) return J({ error: "服务器上待处理的文件太多，稍后再试" }, 429);
+    }
     const id = (Date.now().toString(36) + crypto.getRandomValues(new Uint32Array(1))[0].toString(36)).slice(0, 16);
-    await env.DB.prepare("INSERT INTO mf_jobs (id,created,state,project,scope,title,requirement,rounds,secret,iph) VALUES (?,?,?,?,?,?,?,?,?,?)")
-      .bind(id, now(), "queued", project, scope.split(",").filter(Boolean).slice(0, 5).join(","), title, reqm, rounds, JSON.stringify({ llm, zep }), iph).run();
-    for (const f of files) {
-      const nm = String(f.name).replace(/[\\/:*?"<>|\x00-\x1f]/g, "_").slice(-100), d = String(f.data);
-      for (let i = 0, k = 0; i < d.length; i += CHUNK, k++) await env.DB.prepare("INSERT OR REPLACE INTO mf_files (job,name,idx,data) VALUES (?,?,?,?)").bind(id, nm, k, d.slice(i, i + CHUNK)).run();
+    const utok = man.length ? [...crypto.getRandomValues(new Uint8Array(16))].map(x => x.toString(16).padStart(2, "0")).join("") : null;
+    const sc = [...new Set(scope.split(",").filter(Boolean).concat(seeds.map(x => x.split("/")[1]).filter(x => /^[A-Z]{3}$/.test(x))))].slice(0, 5).join(",");
+    await env.DB.prepare("INSERT INTO mf_jobs (id,created,state,project,scope,title,requirement,rounds,secret,iph,seeds,utok,manifest) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?)")
+      .bind(id, now(), man.length ? "uploading" : "queued", project, sc, title, reqm, rounds, JSON.stringify({ llm, zep }), iph, JSON.stringify(seeds), utok, JSON.stringify(man)).run();
+    return J({ id, state: man.length ? "uploading" : "queued", upload_token: utok, chunk: CHUNK });
+  }
+  if (p === "/mf/upload" && req.method === "POST") {   // 网页逐块上传使用者的文件（每块 base64 ≤ CHUNK）
+    const b = await req.json().catch(() => ({}));
+    const r = await env.DB.prepare("SELECT manifest FROM mf_jobs WHERE id=? AND state='uploading' AND utok=?").bind(String(b.id || ""), String(b.tok || "")).first();
+    if (!r) return J({ error: "上传已过期，请重新提交" }, 403);
+    const nm = String(b.name || ""), d = String(b.data || ""), k = parseInt(b.idx);
+    if (!JSON.parse(r.manifest).some(f => f.name === nm) || !(k >= 0) || d.length > CHUNK || !d) return J({ error: "上传数据不对" }, 400);
+    await env.DB.prepare("INSERT OR REPLACE INTO mf_files (job,name,idx,data) VALUES (?,?,?,?)").bind(String(b.id), nm, k, d).run();
+    return J({ ok: true });
+  }
+  if (p === "/mf/commit" && req.method === "POST") {   // 文件传完，进入排队
+    const b = await req.json().catch(() => ({}));
+    const r = await env.DB.prepare("SELECT manifest FROM mf_jobs WHERE id=? AND state='uploading' AND utok=?").bind(String(b.id || ""), String(b.tok || "")).first();
+    if (!r) return J({ error: "上传已过期，请重新提交" }, 403);
+    for (const f of JSON.parse(r.manifest)) {
+      const n = (await env.DB.prepare("SELECT COALESCE(SUM(LENGTH(data)),0) n FROM mf_files WHERE job=? AND name=?").bind(String(b.id), f.name).first()).n;
+      if (n < Math.floor(f.size * 4 / 3) - 4) return J({ error: "文件没有传完：" + f.name }, 400);
     }
-    return J({ id, state: "queued", files: files.length });
+    await env.DB.prepare("UPDATE mf_jobs SET state='queued', utok=NULL WHERE id=?").bind(String(b.id)).run();
+    return J({ id: b.id, state: "queued" });
   }
   // 以下只给本仓库的 GitHub Actions（OIDC）
   let cl; try { cl = await oidc(req); } catch (e) { return J({ error: "forbidden: " + e.message }, 403); }
@@ -124,14 +152,16 @@ export async function handleMf(req, env, u) {
     await env.DB.prepare("UPDATE mf_jobs SET state='running', secret=NULL, claimed=?, run_url=? WHERE id=?").bind(now(), run_url, r.id).run();
     const sc = JSON.parse(r.secret);
     const fl = ((await env.DB.prepare("SELECT DISTINCT name FROM mf_files WHERE job=?").bind(r.id).all()).results || []).map(x => x.name);
-    return J({ files: fl, id: r.id, project: r.project, scope: r.scope, title: r.title, requirement: r.requirement, rounds: r.rounds, llm_key: sc.llm.key, llm_base: sc.llm.base, llm_model: sc.llm.model, zep_key: sc.zep });
+    return J({ files: fl, seeds: JSON.parse(r.seeds || "[]"), id: r.id, project: r.project, scope: r.scope, title: r.title, requirement: r.requirement, rounds: r.rounds, llm_key: sc.llm.key, llm_base: sc.llm.base, llm_model: sc.llm.model, zep_key: sc.zep });
   }
-  if (p === "/mf/file" && req.method === "POST") {   // 推演工作流取使用者上传的文件（取走即删除）
+  if (p === "/mf/file" && req.method === "POST") {   // 推演工作流逐块取使用者上传的文件（取走即删除）
     const b = await req.json().catch(() => ({}));
-    const rows = ((await env.DB.prepare("SELECT data FROM mf_files WHERE job=? AND name=? ORDER BY idx").bind(String(b.id || ""), String(b.name || "")).all()).results || []);
-    if (!rows.length) return J({ error: "no such file" }, 404);
-    await env.DB.prepare("DELETE FROM mf_files WHERE job=? AND name=?").bind(String(b.id), String(b.name)).run();
-    return J({ name: b.name, data: rows.map(x => x.data).join("") });
+    const id = String(b.id || ""), nm = String(b.name || ""), k = parseInt(b.idx) || 0;
+    const row = await env.DB.prepare("SELECT data FROM mf_files WHERE job=? AND name=? AND idx=?").bind(id, nm, k).first();
+    if (!row) return J({ error: "no such chunk" }, 404);
+    const more = await env.DB.prepare("SELECT 1 x FROM mf_files WHERE job=? AND name=? AND idx>? LIMIT 1").bind(id, nm, k).first();
+    await env.DB.prepare("DELETE FROM mf_files WHERE job=? AND name=? AND idx=?").bind(id, nm, k).run();
+    return J({ name: nm, idx: k, data: row.data, last: !more });
   }
   if (p === "/mf/done" && req.method === "POST") {
     const b = await req.json().catch(() => ({}));

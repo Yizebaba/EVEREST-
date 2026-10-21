@@ -35,19 +35,22 @@ if job:
     for k in ("llm_key", "zep_key"):
         if j.get(k): print("::add-mask::" + j[k])
     v = {"MF_JOB": job, "MF_RID": job, "MF_REQUIREMENT": j["requirement"], "MF_TITLE_IN": j.get("title") or "", "MF_PROJECT": j.get("project") or "bri",
-         "MF_SCOPE": j.get("scope") or "", "MF_ROUNDS": str(j.get("rounds") or 0),
+         "MF_SCOPE": j.get("scope") or "", "MF_SEEDS": ",".join(j.get("seeds") or []), "MF_ROUNDS": str(j.get("rounds") or 0),
          "LLM_API_KEY": j["llm_key"], "LLM_BASE_URL": j["llm_base"], "LLM_MODEL_NAME": j["llm_model"], "ZEP_API_KEY": j["zep_key"]}
     print("任务", job, "已领取：", v["MF_PROJECT"], v["MF_SCOPE"], v["LLM_BASE_URL"], v["LLM_MODEL_NAME"])
     import base64
     os.makedirs("mf_upload", exist_ok=True)
     for nm in j.get("files") or []:   # 使用者上传的文件
-        f = post("/mf/file", {"id": job, "name": nm})
         safe = "upload_" + os.path.basename(nm).replace(" ", "_")
-        open(os.path.join("mf_upload", safe), "wb").write(base64.b64decode(f["data"]))
+        parts, k = [], 0
+        while True:
+            f = post("/mf/file", {"id": job, "name": nm, "idx": k}); parts.append(f["data"]); k += 1
+            if f.get("last"): break
+        open(os.path.join("mf_upload", safe), "wb").write(base64.b64decode("".join(parts)))
         print("上传文件：", safe, os.path.getsize(os.path.join("mf_upload", safe)), "字节")
 else:
     v = {"MF_JOB": "", "MF_RID": E("IN_RID") or "", "MF_REQUIREMENT": E("IN_REQ") or "", "MF_TITLE_IN": E("IN_TITLE") or "", "MF_PROJECT": E("IN_PROJECT") or "everest",
-         "MF_SCOPE": E("IN_SCOPE") or "", "MF_ROUNDS": E("IN_ROUNDS") or "0",
+         "MF_SCOPE": E("IN_SCOPE") or "", "MF_SEEDS": "", "MF_ROUNDS": E("IN_ROUNDS") or "0",
          "LLM_API_KEY": E("S_LLM_API_KEY") or "", "LLM_BASE_URL": E("S_LLM_BASE_URL") or "", "LLM_MODEL_NAME": E("S_LLM_MODEL_NAME") or "", "ZEP_API_KEY": E("S_ZEP_API_KEY") or ""}
 miss = [k for k in ("LLM_API_KEY", "LLM_BASE_URL", "LLM_MODEL_NAME", "ZEP_API_KEY") if not v[k]]
 for k in ("LLM_API_KEY", "LLM_BASE_URL", "LLM_MODEL_NAME", "ZEP_API_KEY"): print(k + ":", "set" if v[k] else "missing")
