@@ -14,7 +14,7 @@ import json, os, sys, time, urllib.request, urllib.error, uuid
 
 BASE = os.environ.get("MIROFISH_API", "http://127.0.0.1:5001")
 IN, OUT = sys.argv[1], sys.argv[2]
-ROUNDS = int(sys.argv[3]) if len(sys.argv) > 3 else 20
+ROUNDS = int(sys.argv[3] or 0) if len(sys.argv) > 3 and str(sys.argv[3]).strip().isdigit() else 0   # 0 = 自动（MiroFish 按事件自己定轮数）
 os.makedirs(OUT, exist_ok=True)
 LOG = []
 
@@ -98,7 +98,7 @@ try:
             try: save(name, call("GET", path)["data"])
             except Exception as e: log(name, "导出失败", e)
         # 5 运行
-        call("POST", "/api/simulation/start", {"simulation_id": sid, "platform": "parallel", "max_rounds": ROUNDS, "enable_graph_memory_update": True})
+        call("POST", "/api/simulation/start", dict({"simulation_id": sid, "platform": "parallel", "enable_graph_memory_update": True}, **({"max_rounds": ROUNDS} if ROUNDS else {})))
         # MiroFish 的模拟脚本跑完所有轮次后进入“等待命令模式”（供采访用），进程不退出，runner_status 一直是 running。
         # 两个平台都报完成后，发 close-env 让它优雅退出；10 分钟还没退出就 /stop。之后等到 completed/stopped 才能生成报告。
         ENDS = {"closed": 0.0, "stopped": False}

@@ -16,7 +16,8 @@ idx = json.load(open(p)) if os.path.exists(p) else {"runs": []}
 rq = json.load(open(os.path.join(W, D, "request.json"))) if os.path.exists(os.path.join(W, D, "request.json")) else {}
 st = json.load(open(os.path.join(W, D, "status.json"))) if os.path.exists(os.path.join(W, D, "status.json")) else {}
 e = {"dir": D, "id": rq.get("id", ""), "project": rq.get("project", "everest"), "scope": rq.get("scope", ""), "title": rq.get("title", ""), "requirement": (rq.get("requirement") or "")[:400], "started": rq.get("started") or st.get("started"),
-     "finished": st.get("finished"), "ok": st.get("ok"), "error": st.get("error") or st.get("upstream_hint") or "", "has_report": os.path.exists(os.path.join(W, D, "REPORT.md")), "run_url": rq.get("run_url", "")}
+     "finished": st.get("finished"), "ok": st.get("ok"), "error": st.get("error") or st.get("upstream_hint") or "", "has_report": os.path.exists(os.path.join(W, D, "REPORT.md")), "run_url": rq.get("run_url", ""),
+     "exports": (json.load(open(os.path.join(W, D, "exports.json"))).get("files") if os.path.exists(os.path.join(W, D, "exports.json")) else [])}
 idx["runs"] = [e] + [r for r in idx["runs"] if r.get("dir") != D]
 json.dump(idx, open(p, "w"), ensure_ascii=False, indent=1)
 PY

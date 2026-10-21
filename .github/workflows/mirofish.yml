@@ -16,7 +16,7 @@ on:
       request_id: { description: "网页生成的编号（可空）", required: false, default: "", type: string }
       project: { description: "everest = 珠峰；bri = 一带一路（种子文档取自 Yizebaba/BRI-Empower，共用本仓库的模型和 Zep 密钥）", required: false, default: "everest", type: string }
       scope: { description: "一带一路的国家：ISO3 代码，多个用逗号（最多 5 个）", required: false, default: "PAK", type: string }
-      max_rounds: { description: "模拟轮数（MiroFish 建议先小于 40）", default: "20" }
+      max_rounds: { description: "模拟轮数上限（空或 0 = 自动，由 MiroFish 按事件决定）", default: "" }
       mirofish_ref: { description: "MiroFish 提交号（固定版本）", default: "7657031ac01184afe2cb220f5ee3545573b5e843" }
       report_only_run: { description: "只生成报告：上次运行的 run id（从它保存的模拟状态继续，不重跑模拟）", default: "" }
       report_only_sim: { description: "只生成报告：模拟编号 sim_xxx", default: "" }
@@ -30,7 +30,7 @@ concurrency:
 jobs:
   run:
     runs-on: ubuntu-24.04
-    timeout-minutes: 300
+    timeout-minutes: 355
     steps:
       - uses: actions/checkout@v4
       - name: Inputs and keys (job = submitter's own keys; otherwise repo secrets)
@@ -54,6 +54,7 @@ jobs:
           GH_TOKEN: "${{ github.token }}"
         run: |
           if [ "$MF_PROJECT" = "bri" ]; then python3 tools/mirofish_seed_bri.py mf_in "$MF_SCOPE"; else python3 tools/mirofish_seed.py mf_in combined; fi
+          if [ -d mf_upload ] && ls mf_upload/* >/dev/null 2>&1; then cp mf_upload/* mf_in/seed/; fi
           cp -r mf_in mf_out/input
           [ "$MF_PROJECT" = "bri" ] && echo "MFP=mirofish-bri" >> $GITHUB_ENV || echo "MFP=mirofish" >> $GITHUB_ENV
           python3 -c "import json,os,time;json.dump({'id':os.environ.get('MF_RID') or '','project':os.environ.get('MF_PROJECT') or 'everest','scope':os.environ.get('MF_SCOPE') or '','title':os.environ.get('MF_TITLE_IN') or '','requirement':os.environ['MF_REQUIREMENT'],'started':time.strftime('%Y-%m-%dT%H:%M:%SZ',time.gmtime()),'run_url':os.environ['GITHUB_SERVER_URL']+'/'+os.environ['GITHUB_REPOSITORY']+'/actions/runs/'+os.environ['GITHUB_RUN_ID']},open('mf_out/request.json','w'),ensure_ascii=False,indent=1)"
@@ -90,7 +91,7 @@ jobs:
           D="${MFP:-mirofish}/$(date -u +%Y%m%dT%H%M%SZ)"; echo "MFDIR=$D" >> $GITHUB_ENV
           ( while true; do { date -u +%FT%TZ; free -m | sed -n 2p; ps -eo rss,comm --sort=-rss | sed -n 2,4p | tr '\n' ' '; echo; } >> mf_out/sys.log; sleep 60; done ) > /dev/null 2>&1 & P1=$!
           ( n=0; while true; do sleep 600; n=$((n+1)); bash tools/mirofish_checkpoint.sh "$D" "checkpoint $n" || true; done ) > /dev/null 2>&1 & P2=$!
-          python3 tools/mirofish_run.py mf_in mf_out "${MF_ROUNDS:-20}" || echo "RUNFAIL=1" >> $GITHUB_ENV
+          python3 tools/mirofish_run.py mf_in mf_out "${MF_ROUNDS:-0}" || echo "RUNFAIL=1" >> $GITHUB_ENV
           kill $P1 $P2 2>/dev/null || true
           # 后端日志里的上游错误码写进 status.json（402 = 模型账户余额不足，401 = 密钥无效，429 = 限流）
           c=$(grep -o "status=[0-9][0-9][0-9]" mf_out/backend.log | tail -1 | cut -d= -f2); [ -n "$c" ] && python3 -c "import json,sys;p='mf_out/status.json';d=json.load(open(p));d['upstream_status']=int(sys.argv[1]);d['upstream_hint']={'402':'模型账户余额不足，需要充值','401':'模型密钥无效','429':'模型接口限流'}.get(sys.argv[1],'');json.dump(d,open(p,'w'),ensure_ascii=False,indent=1)" "$c" || true
@@ -106,6 +107,12 @@ jobs:
           path: mf/backend/uploads
           retention-days: 14
           if-no-files-found: ignore
+      - name: Export report and process (Markdown, Word, PDF, HTML, CSV) with disclaimer
+        if: always()
+        continue-on-error: true
+        run: |
+          sudo apt-get install -y -qq pandoc fonts-noto-cjk > /dev/null 2>&1 || true
+          python3 tools/mirofish_export.py mf_out
       - name: Save to events branch (mirofish/<UTC time>/)
         if: always()
         run: |
