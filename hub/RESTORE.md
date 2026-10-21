@@ -508,3 +508,5 @@
 - 复原：在 BRI-Empower 仓库 git revert a52a459 及之前两次提交（种子文档、贸易数据）；改前的网页备份在 scratchpad bri_index_before_byok.html。
 - 10-21 18:10 BRI-Empower：左下角大标题改为“全局●预鉴”（英文 Global ● Foresight）；英文模式补全（数据源、偏差测试有英文版 data/retro_summary_en.json，国家名、项目名、错误提示、地球提示框都翻译）；新增每周文档抓取 tools/docs_fetch.py + docs.yml（维基百科、世界银行文献库、OpenAlex 论文、ReliefWeb），每国多一份种子文档 08_documents.md。
 - 复原：在 BRI-Empower 仓库 git revert 该提交；删除 docs.yml 即停止抓取。
+- 10-21 23:40 推演：轮数默认“自动”（不传 max_rounds，由 MiroFish 按事件定，可填上限 5–200；工作流超时改 355 分钟）；可上传自己的 PDF/Markdown/TXT（最多 5 个、单个 10 MB、合计 20 MB，Worker 分块存 D1 表 mf_files，领取即删）；结果导出 report.md/.docx/.pdf/.html 和 process.zip（CSV），每份开头加“推演内容，不是事实”和免责声明（tools/mirofish_export.py），索引记 exports。BRI 网页：国家页咽喉要道加航空、铁路、公路（tools/chokepoints_land.py，每天两次），可折叠；“偏差测试”改名“推演测试”；推演记录可看报告和下载各格式。
+- 复原：两个仓库分别 git revert 本次提交。
