@@ -510,3 +510,5 @@
 - 复原：在 BRI-Empower 仓库 git revert 该提交；删除 docs.yml 即停止抓取。
 - 10-21 23:40 推演：轮数默认“自动”（不传 max_rounds，由 MiroFish 按事件定，可填上限 5–200；工作流超时改 355 分钟）；可上传自己的 PDF/Markdown/TXT（最多 5 个、单个 10 MB、合计 20 MB，Worker 分块存 D1 表 mf_files，领取即删）；结果导出 report.md/.docx/.pdf/.html 和 process.zip（CSV），每份开头加“推演内容，不是事实”和免责声明（tools/mirofish_export.py），索引记 exports。BRI 网页：国家页咽喉要道加航空、铁路、公路（tools/chokepoints_land.py，每天两次），可折叠；“偏差测试”改名“推演测试”；推演记录可看报告和下载各格式。
 - 复原：两个仓库分别 git revert 本次提交。
+- 10-22 01:30 推演表单：国家可以不选（0–5 个）；种子文档改为勾选（默认全选，可全不选），只上传勾选的（mirofish_seed_bri.py 读 MF_SEEDS）；自己的资料改为“＋ 上传文件”按钮，上限提到 20 个、单个 50 MB（MiroFish 上限）、合计 100 MB，分块上传（/mf/submit 报清单 → /mf/upload → /mf/commit，D1 合计超过 300 MB 时暂停接收）。BRI 咽喉要道扩到 150 国：每国主要国际机场（OurAirports）、20 个跨境铁路口岸、公路口岸和 291 段陆地边境（data/borders.json，Natural Earth 计算），海运加各国港口；新工作流 chokepoints.yml 每天两次；国家详情页显示本国的咽喉要道。
+- 复原：两个仓库分别 git revert 本次提交；删除 chokepoints.yml 即停止抓取。
