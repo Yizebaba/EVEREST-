@@ -528,3 +528,5 @@
 - 复原：在 BRI-Empower 仓库 git revert 该提交。
 - 10-22 02:20 BRI 推演表单“开始推演”旁加“定制推演 ✉”按钮（mailto:yizebaba@gmail.com，预填主题和询价模板，带上已选国家）。
 - 复原：在 BRI-Empower 仓库 git revert 该提交。
+- 10-22 02:40 BRI 新增说明页 site/about.html（我们做什么、四步流程、适合的决策、行业、紧急程度四级、两种用法、免责，中英文），首页左上角最左侧加“说明”按钮；定制邮件模板加“紧急程度”一行；定制按钮改为打开浏览器 Gmail 写信页。
+- 复原：在 BRI-Empower 仓库 git revert 这几次提交；删除 site/about.html。
