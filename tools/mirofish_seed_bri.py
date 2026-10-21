@@ -1,4 +1,4 @@
-"""一带一路（Yizebaba/BRI-Empower）推演的种子材料：从那个公开仓库读已经自动生成好的种子文档（seeds/），按范围挑出来。
+"""一带一路（Yizebaba/BRI-Full-Scope-Foresight）推演的种子材料：从那个公开仓库读已经自动生成好的种子文档（seeds/），按范围挑出来。
 推演要求只用使用者自己写的文字（环境变量 MF_REQUIREMENT），本脚本不代写。
 
 用法：python3 tools/mirofish_seed_bri.py <输出目录> <ISO3[,ISO3…]>（150 个共建国家之一或多个）
@@ -7,7 +7,7 @@
 import json, os, re, sys, time, urllib.request
 
 OUT = sys.argv[1]; SCOPE = (sys.argv[2] if len(sys.argv) > 2 else "").strip().upper()
-RAW = "https://raw.githubusercontent.com/Yizebaba/BRI-Empower/main/"
+RAW = "https://raw.githubusercontent.com/Yizebaba/BRI-Full-Scope-Foresight/main/"
 get = lambda p: urllib.request.urlopen(urllib.request.Request(RAW + p, headers={"user-agent": "EVEREST-mirofish"}), timeout=60).read()
 
 REQ = os.environ.get("MF_REQUIREMENT", "").strip()

@@ -12,10 +12,10 @@ rq = J("request.json") or {}; st = J("status.json") or {}
 
 DIS_ZH = ("【推演内容，非事实】本文件是多智能体推演的结果：推演要求由使用者自己填写，用使用者自己的模型运行。"
           "其中的数据、过程和结论都是模拟生成的，不是事实陈述，也不是预测、投资、法律或安全建议。"
-          "种子数据来自公开来源，以原始来源为准。本站（BRI-Empower / EVEREST）和开发团队不对推演内容的准确性、完整性及任何使用后果承担责任。")
+          "种子数据来自公开来源，以原始来源为准。本站（一带一路 全量 预鉴 / EVEREST）和开发团队不对推演内容的准确性、完整性及任何使用后果承担责任。")
 DIS_EN = ("[SIMULATION, NOT FACT] This file is the output of a multi-agent simulation. The prompt was written by the user and run on the user's own model. "
           "All data, process and conclusions are simulated: they are not statements of fact, nor forecasts or investment, legal or security advice. "
-          "Seed data comes from public sources; the original sources prevail. The site (BRI-Empower / EVEREST) and its developers accept no liability for the accuracy, completeness or any use of this content.")
+          "Seed data comes from public sources; the original sources prevail. The site (Belt and Road Full-Scope Foresight / EVEREST) and its developers accept no liability for the accuracy, completeness or any use of this content.")
 meta = [("推演要求 / Prompt", rq.get("requirement", "")), ("国家 / Countries", rq.get("scope", "")), ("项目 / Project", rq.get("project", "")),
         ("开始 / Started (UTC)", rq.get("started", "")), ("结束 / Finished (UTC)", st.get("finished", "")), ("模拟轮数上限 / Max rounds", str(st.get("max_rounds") or "自动 / auto")),
         ("运行记录 / Run log", rq.get("run_url", ""))]

@@ -538,3 +538,5 @@
 - 复原：在 BRI-Empower 仓库 git revert 该提交。
 - 10-22 03:40 BRI：新增军事与科研数据——世界银行（军费、军费占 GDP 和政府支出、武装部队人数、武器进出口，数据来自 SIPRI/IISS；研发支出、研究人员、科技论文、专利、高技术出口）、Wikidata（诺贝尔奖、菲尔兹奖、图灵奖本国获奖者）、OpenAlex（各国近一年论文数和主要学科），写进种子文档“国家概况”和国家详情页；文档页加“军事与国防”“科研与创新”行业和“安全与冲突风险”决策；“推演测试”改名“推演示例”（上面放完成的示例推演，下面保留种子数据准确度检验）。
 - 复原：在 BRI-Empower 仓库 git revert 这两次提交。
+- 10-22 04:00 一带一路仓库被改名为 Yizebaba/BRI-Full-Scope-Foresight（网页地址变为 https://yizebaba.github.io/BRI-Full-Scope-Foresight/ ，旧地址 404）。两个仓库里所有链接和数据地址同步改新名：总览页 v92 的“一带一路 ↗”、Worker 读取 data/wm.json 的地址、mirofish_seed_bri.py 读种子文档的地址、推演页、导出文件免责声明里的站名；BRI 仓库的网页、脚本、数据源、README（分中英文两份，互相链接）。
+- 复原：改回旧名需要在 GitHub 把仓库名改回 BRI-Empower，再 git revert 这两次提交。

@@ -1,7 +1,7 @@
 # MiroFish 群体智能推演（github.com/666ghj/MiroFish，AGPL-3.0，不改它的代码，只调用它的后端 API）。
 # 用本平台真实数据自动生成种子材料并上传 → 构建知识图谱 → 双平台模拟 → ReportAgent 报告。推演要求由使用者自己写（网页表单或 Run workflow 表单）。
 # 结果是“推演”，单独保存在 events 分支 mirofish/<时间>/，标注为推演，不进证据链。
-# 一带一路（Yizebaba/BRI-Empower）的推演也在这里跑（project=bri）：种子文档从那个公开仓库读，结果放 events 分支 mirofish-bri/。
+# 一带一路（Yizebaba/BRI-Full-Scope-Foresight）的推演也在这里跑（project=bri）：种子文档从那个公开仓库读，结果放 events 分支 mirofish-bri/。
 # 谁推演谁出密钥：网页提交的任务（job）用提交者自己的模型和 Zep 密钥——Worker 排队，mirofish-queue.yml 派出，本工作流用 GitHub OIDC 身份向 Worker 领取（领取后 Worker 立刻删除）。
 # 只有仓库主人在 Actions 里手动运行（不填 job）时才用仓库 Secrets：LLM_API_KEY、LLM_BASE_URL、LLM_MODEL_NAME、ZEP_API_KEY。
 # 计算主要在 LLM 和 Zep 的云端，运行器只做调度，不是重计算。
@@ -14,7 +14,7 @@ on:
       job: { description: "网页提交的任务编号（由 mirofish-queue.yml 填；密钥向 Worker 领取）", required: false, default: "", type: string }
       title: { description: "标题（可空）", required: false, default: "", type: string }
       request_id: { description: "网页生成的编号（可空）", required: false, default: "", type: string }
-      project: { description: "everest = 珠峰；bri = 一带一路（种子文档取自 Yizebaba/BRI-Empower，共用本仓库的模型和 Zep 密钥）", required: false, default: "everest", type: string }
+      project: { description: "everest = 珠峰；bri = 一带一路（种子文档取自 Yizebaba/BRI-Full-Scope-Foresight，共用本仓库的模型和 Zep 密钥）", required: false, default: "everest", type: string }
       scope: { description: "一带一路的国家：ISO3 代码，多个用逗号（最多 5 个）", required: false, default: "PAK", type: string }
       max_rounds: { description: "模拟轮数上限（空或 0 = 自动，由 MiroFish 按事件决定）", default: "" }
       mirofish_ref: { description: "MiroFish 提交号（固定版本）", default: "7657031ac01184afe2cb220f5ee3545573b5e843" }
