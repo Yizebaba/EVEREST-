@@ -518,3 +518,5 @@
 - 复原：在 BRI-Empower 仓库 git revert 该提交。
 - 10-22 01:30 BRI 广告词改到地球上方居中（用户选的方案 B），左下角恢复为只有“全局●预鉴”。
 - 复原：在 BRI-Empower 仓库 git revert 该提交。
+- 10-22 01:45 BRI 网页：大标题改为“全量●预鉴”（英文 Full-Scope · Foresight）；“一带一路 · 150 个共建国家”移到左上角网站名下面；广告词放在大标题下面（原副标题位置），地球上方的那份去掉。
+- 复原：在 BRI-Empower 仓库 git revert 该提交。
