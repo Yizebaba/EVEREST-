@@ -504,3 +504,5 @@
 - 复原：git revert 本次提交；页面用 v89 备份重新发布。
 - 10-21 10:30 推演改成“谁推演谁出密钥”。Worker 新增 /mf/submit、/mf/job、/mf/take、/mf/claim、/mf/done（cf-worker/src/mfq.js，D1 表 mf_jobs）：网页提交推演要求和提交者自己的模型、Zep 密钥，Worker 先试密钥再排队；新工作流 mirofish-queue.yml 每 5 分钟取排队任务并派出 mirofish.yml（每个任务一次运行，最多 3 个同时跑），mirofish.yml 用 GitHub OIDC 身份向 Worker 领取密钥（tools/mirofish_claim.py；领取后 Worker 立刻删除，6 小时没人领也删除），结束时回报。访客不再需要 GitHub 令牌。仓库主人在 Actions 里手动运行（不填 job）时仍用仓库 Secrets。
 - 复原：git revert 本次提交（D1 表 mf_jobs 可留着或 DROP TABLE mf_jobs）。
+- 10-21 11:00 BRI-Empower（另一个仓库）同步改动：推演标签放第一位并设为默认；表单改为填自己的模型和 Zep 密钥（提交到上面的 Worker 排队），可选 1–5 国；去掉 GitHub 令牌；右上角顺序改为 GitHub、珠峰平台、语言。种子文档每国改为 5–7 份（国家概况、参与方、全部行业贸易与物流、中国融资、近期态势、重点项目、历史事件），新增世界银行、Wikidata、UN Comtrade 分国分行业数据（tools/country_facts.py、tools/trade.py、trade.yml 每周）。
+- 复原：在 BRI-Empower 仓库 git revert a52a459 及之前两次提交（种子文档、贸易数据）；改前的网页备份在 scratchpad bri_index_before_byok.html。
