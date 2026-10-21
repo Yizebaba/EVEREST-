@@ -512,3 +512,5 @@
 - 复原：两个仓库分别 git revert 本次提交。
 - 10-22 01:30 推演表单：国家可以不选（0–5 个）；种子文档改为勾选（默认全选，可全不选），只上传勾选的（mirofish_seed_bri.py 读 MF_SEEDS）；自己的资料改为“＋ 上传文件”按钮，上限提到 20 个、单个 50 MB（MiroFish 上限）、合计 100 MB，分块上传（/mf/submit 报清单 → /mf/upload → /mf/commit，D1 合计超过 300 MB 时暂停接收）。BRI 咽喉要道扩到 150 国：每国主要国际机场（OurAirports）、20 个跨境铁路口岸、公路口岸和 291 段陆地边境（data/borders.json，Natural Earth 计算），海运加各国港口；新工作流 chokepoints.yml 每天两次；国家详情页显示本国的咽喉要道。
 - 复原：两个仓库分别 git revert 本次提交；删除 chokepoints.yml 即停止抓取。
+- 10-22 01:15 BRI 网页左下角在“全局●预鉴”上方加三行广告词（“如果，看见未来的不同可能 / 如果，未来可以事先预演 / 那么决策的胜率会有多高呢？”），金色竖线、逐行淡入，有英文版和手机尺寸。
+- 复原：在 BRI-Empower 仓库 git revert 该提交。
