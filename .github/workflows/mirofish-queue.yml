@@ -17,10 +17,14 @@ jobs:
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
-          n=$(curl -sf https://everest-facets.yizebaba.workers.dev/mf/job | jq -r '.queued // 0') || n=0
-          echo "queued: $n"; [ "$n" = "0" ] && exit 0
+          n=$(curl -sf https://everest-facets.yizebaba.workers.dev/mf/job | jq -r '.queued // 0') || n="unreachable"
+          echo "queued: $n"
+          if [ "$GITHUB_EVENT_NAME" = "workflow_dispatch" ]; then echo "::notice::queued=$n"; fi
+          [ "$n" = "0" ] && [ "$GITHUB_EVENT_NAME" != "workflow_dispatch" ] && exit 0
           T=$(curl -sf -H "authorization: Bearer $ACTIONS_ID_TOKEN_REQUEST_TOKEN" "$ACTIONS_ID_TOKEN_REQUEST_URL&audience=everest-mf" | jq -r .value)
-          curl -sf -XPOST -H "authorization: Bearer $T" -H "content-type: application/json" -d '{}' https://everest-facets.yizebaba.workers.dev/mf/take > take.json
+          code=$(curl -s -o take.json -w "%{http_code}" -XPOST -H "authorization: Bearer $T" -H "content-type: application/json" -d '{}' https://everest-facets.yizebaba.workers.dev/mf/take)
+          echo "take: $code $(head -c 300 take.json)"; [ "$GITHUB_EVENT_NAME" = "workflow_dispatch" ] && echo "::notice::take=$code $(head -c 200 take.json)"
+          [ "$code" = "200" ] || exit 1
           jq -c '.jobs[]' take.json | while read -r j; do
             id=$(jq -r .id <<<"$j"); echo "dispatch $id"
             gh workflow run mirofish.yml --repo "$GITHUB_REPOSITORY" --ref main -f job="$id" -f project="$(jq -r .project <<<"$j")" -f scope="$(jq -r .scope <<<"$j")" -f title="$(jq -r '.title // ""' <<<"$j")" -f max_rounds="$(jq -r .rounds <<<"$j")"
