@@ -506,3 +506,5 @@
 - 复原：git revert 本次提交（D1 表 mf_jobs 可留着或 DROP TABLE mf_jobs）。
 - 10-21 11:00 BRI-Empower（另一个仓库）同步改动：推演标签放第一位并设为默认；表单改为填自己的模型和 Zep 密钥（提交到上面的 Worker 排队），可选 1–5 国；去掉 GitHub 令牌；右上角顺序改为 GitHub、珠峰平台、语言。种子文档每国改为 5–7 份（国家概况、参与方、全部行业贸易与物流、中国融资、近期态势、重点项目、历史事件），新增世界银行、Wikidata、UN Comtrade 分国分行业数据（tools/country_facts.py、tools/trade.py、trade.yml 每周）。
 - 复原：在 BRI-Empower 仓库 git revert a52a459 及之前两次提交（种子文档、贸易数据）；改前的网页备份在 scratchpad bri_index_before_byok.html。
+- 10-21 18:10 BRI-Empower：左下角大标题改为“全局●预鉴”（英文 Global ● Foresight）；英文模式补全（数据源、偏差测试有英文版 data/retro_summary_en.json，国家名、项目名、错误提示、地球提示框都翻译）；新增每周文档抓取 tools/docs_fetch.py + docs.yml（维基百科、世界银行文献库、OpenAlex 论文、ReliefWeb），每国多一份种子文档 08_documents.md。
+- 复原：在 BRI-Empower 仓库 git revert 该提交；删除 docs.yml 即停止抓取。
