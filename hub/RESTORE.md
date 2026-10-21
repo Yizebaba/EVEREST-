@@ -534,3 +534,5 @@
 - 复原：两个仓库分别 git revert；总览页用 scratchpad hub_v90_before_nomf.html 重新发布。
 - 10-22 03:05 BRI 首页“说明”按钮改为右上角“文档 ↗”（GitHub 左边，新标签页打开 about.html），左上角那个去掉。
 - 复原：在 BRI-Empower 仓库 git revert 该提交。
+- 10-22 03:20 BRI 文档页扩充（解决什么问题、数据来源和更新频率、种子文档内容、使用步骤、结果下载、密钥与隐私、写推演要求的建议、常见问题），中英文；推演表单加一句“推演要求和报告会公开在全部推演记录里”；README 重写为中英文。
+- 复原：在 BRI-Empower 仓库 git revert 该提交。
