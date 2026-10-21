@@ -530,3 +530,5 @@
 - 复原：在 BRI-Empower 仓库 git revert 该提交。
 - 10-22 02:40 BRI 新增说明页 site/about.html（我们做什么、四步流程、适合的决策、行业、紧急程度四级、两种用法、免责，中英文），首页左上角最左侧加“说明”按钮；定制邮件模板加“紧急程度”一行；定制按钮改为打开浏览器 Gmail 写信页。
 - 复原：在 BRI-Empower 仓库 git revert 这几次提交；删除 site/about.html。
+- 10-22 03:00 所有网页去掉 MiroFish 字样：BRI 首页、说明页、数据源列表（删掉 mirofish 一项）；珠峰推演页 site/drill.html；总览页 v91（推演标签、按钮提示、说明文字）；导出文件的免责声明改为“多智能体推演”。GitHub 代码和 README 里保留（开源许可的出处）。
+- 复原：两个仓库分别 git revert；总览页用 scratchpad hub_v90_before_nomf.html 重新发布。
