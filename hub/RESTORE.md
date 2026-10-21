@@ -502,3 +502,5 @@
 - 复原：git revert 本次提交。
 - 10-21 00:10 v90：新增“全球情报”标签，显示尼泊尔和中国的 World Monitor 数据（冲突、新闻要闻、断网、旅行建议）和两国地震、灾害警报；数据由 BRI-Empower 每日从 World Monitor 取全球数据、按国家整理（data/wm.json、data/country_live.json），Worker 新增 page:wm 读取。一带一路推演的国家范围改为 150 国任选（mirofish.yml 的 scope 为 ISO3）。
 - 复原：git revert 本次提交；页面用 v89 备份重新发布。
+- 10-21 10:30 推演改成“谁推演谁出密钥”。Worker 新增 /mf/submit、/mf/job、/mf/take、/mf/claim、/mf/done（cf-worker/src/mfq.js，D1 表 mf_jobs）：网页提交推演要求和提交者自己的模型、Zep 密钥，Worker 先试密钥再排队；新工作流 mirofish-queue.yml 每 5 分钟取排队任务并派出 mirofish.yml（每个任务一次运行，最多 3 个同时跑），mirofish.yml 用 GitHub OIDC 身份向 Worker 领取密钥（tools/mirofish_claim.py；领取后 Worker 立刻删除，6 小时没人领也删除），结束时回报。访客不再需要 GitHub 令牌。仓库主人在 Actions 里手动运行（不填 job）时仍用仓库 Secrets。
+- 复原：git revert 本次提交（D1 表 mf_jobs 可留着或 DROP TABLE mf_jobs）。

@@ -7,6 +7,7 @@ import { searchScenes, facetStat, STAC, DATA } from "./pc.js";
 import { rtTick, rtPublic, IMG } from "./rt.js";
 import { detect, kick, hazardsKick } from "./events.js";
 import { handleMcp } from "./mcp.js";
+import { handleMf } from "./mfq.js";
 
 const BBOX = [86.54, 27.746, 87.257, 28.23];
 const START = "2020-01-01T00:00:00Z";
@@ -354,6 +355,7 @@ async function route(req, env) {
   {
     const u = new URL(req.url);
     if (u.pathname === "/api/live.json") { await init(env); const v = await getMeta(env, "live"); return v ? new Response(v, { headers: { "content-type": "application/json; charset=utf-8", ...CORS } }) : json({ building: true, status: await status(env) }, 202); }
+    if (u.pathname.startsWith("/mf/")) return handleMf(req, env, u);   // MiroFish 推演排队（使用者自己的密钥）
     if (u.pathname === "/api/status.json") return json(await status(env));
     if (u.pathname === "/api/events.json") { await init(env); const ev = JSON.parse((await getMeta(env, "events")) || "{}"); return json({ events: Object.values(ev).sort((x, y) => y.t.localeCompare(x.t)), kick: JSON.parse((await getMeta(env, "events_kick")) || "null"), hz_kick: JSON.parse((await getMeta(env, "hz_kick")) || "null") }); }
     if (u.pathname === "/api/facets.json") return json(FACETS);

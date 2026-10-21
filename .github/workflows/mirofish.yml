@@ -1,15 +1,17 @@
 # MiroFish 群体智能推演（github.com/666ghj/MiroFish，AGPL-3.0，不改它的代码，只调用它的后端 API）。
 # 用本平台真实数据自动生成种子材料并上传 → 构建知识图谱 → 双平台模拟 → ReportAgent 报告。推演要求由使用者自己写（网页表单或 Run workflow 表单）。
 # 结果是“推演”，单独保存在 events 分支 mirofish/<时间>/，标注为推演，不进证据链。
-# 一带一路（Yizebaba/BRI-Empower）的推演也在这里跑（project=bri）：种子文档从那个公开仓库读，结果放 events 分支 mirofish-bri/，共用本仓库的密钥。
-# 需要仓库 Secrets：LLM_API_KEY、LLM_BASE_URL、LLM_MODEL_NAME（任意 OpenAI 格式接口，MiroFish 推荐阿里百炼 qwen-plus）、ZEP_API_KEY（Zep Cloud）。
+# 一带一路（Yizebaba/BRI-Empower）的推演也在这里跑（project=bri）：种子文档从那个公开仓库读，结果放 events 分支 mirofish-bri/。
+# 谁推演谁出密钥：网页提交的任务（job）用提交者自己的模型和 Zep 密钥——Worker 排队，mirofish-queue.yml 派出，本工作流用 GitHub OIDC 身份向 Worker 领取（领取后 Worker 立刻删除）。
+# 只有仓库主人在 Actions 里手动运行（不填 job）时才用仓库 Secrets：LLM_API_KEY、LLM_BASE_URL、LLM_MODEL_NAME、ZEP_API_KEY。
 # 计算主要在 LLM 和 Zep 的云端，运行器只做调度，不是重计算。
 name: mirofish
-run-name: "推演 ${{ inputs.project == 'bri' && '一带一路' || 'EVEREST' }} ${{ inputs.request_id }} · ${{ inputs.title }}"
+run-name: "推演 ${{ inputs.project == 'bri' && '一带一路' || 'EVEREST' }} ${{ inputs.request_id || inputs.job }} · ${{ inputs.title }}"
 on:
   workflow_dispatch:
     inputs:
-      requirement: { description: "推演要求（你自己写，必填；网页表单会填到这里）", required: true, type: string }
+      requirement: { description: "推演要求（你自己写；网页提交的任务不用填，会从 Worker 领取）", required: false, default: "", type: string }
+      job: { description: "网页提交的任务编号（由 mirofish-queue.yml 填；密钥向 Worker 领取）", required: false, default: "", type: string }
       title: { description: "标题（可空）", required: false, default: "", type: string }
       request_id: { description: "网页生成的编号（可空）", required: false, default: "", type: string }
       project: { description: "everest = 珠峰；bri = 一带一路（种子文档取自 Yizebaba/BRI-Empower，共用本仓库的模型和 Zep 密钥）", required: false, default: "everest", type: string }
@@ -21,8 +23,9 @@ on:
 permissions:
   contents: write
   actions: read
+  id-token: write
 concurrency:
-  group: mirofish
+  group: mirofish-${{ inputs.job || 'owner' }}
   cancel-in-progress: false
 jobs:
   run:
@@ -30,25 +33,25 @@ jobs:
     timeout-minutes: 300
     steps:
       - uses: actions/checkout@v4
-      - name: Check secrets (only says whether each is set)
+      - name: Inputs and keys (job = submitter's own keys; otherwise repo secrets)
         env:
-          LLM_API_KEY: ${{ secrets.LLM_API_KEY }}
-          LLM_BASE_URL: ${{ secrets.LLM_BASE_URL }}
-          LLM_MODEL_NAME: ${{ secrets.LLM_MODEL_NAME }}
-          ZEP_API_KEY: ${{ secrets.ZEP_API_KEY }}
+          S_LLM_API_KEY: ${{ secrets.LLM_API_KEY }}
+          S_LLM_BASE_URL: ${{ secrets.LLM_BASE_URL }}
+          S_LLM_MODEL_NAME: ${{ secrets.LLM_MODEL_NAME }}
+          S_ZEP_API_KEY: ${{ secrets.ZEP_API_KEY }}
+          IN_JOB: ${{ inputs.job }}
+          IN_REQ: ${{ inputs.requirement }}
+          IN_TITLE: ${{ inputs.title }}
+          IN_RID: ${{ inputs.request_id }}
+          IN_PROJECT: ${{ inputs.project }}
+          IN_SCOPE: ${{ inputs.scope }}
+          IN_ROUNDS: ${{ inputs.max_rounds }}
         run: |
-          miss=""
-          for k in LLM_API_KEY LLM_BASE_URL LLM_MODEL_NAME ZEP_API_KEY; do if [ -z "${!k}" ]; then miss="$miss $k"; echo "$k: missing"; else echo "$k: set"; fi; done
-          mkdir -p mf_out; echo "{\"missing\": \"$miss\"}" > mf_out/secrets_check.json
-          if [ -n "$miss" ]; then echo "缺少：$miss"; echo "MISSING=1" >> $GITHUB_ENV; fi
+          mkdir -p mf_out
+          python3 tools/mirofish_claim.py
       - name: Seed material from live EVEREST data + your requirement
         env:
           GH_TOKEN: "${{ github.token }}"
-          MF_REQUIREMENT: ${{ inputs.requirement }}
-          MF_TITLE_IN: ${{ inputs.title }}
-          MF_RID: ${{ inputs.request_id }}
-          MF_PROJECT: ${{ inputs.project }}
-          MF_SCOPE: ${{ inputs.scope }}
         run: |
           if [ "$MF_PROJECT" = "bri" ]; then python3 tools/mirofish_seed_bri.py mf_in "$MF_SCOPE"; else python3 tools/mirofish_seed.py mf_in combined; fi
           cp -r mf_in mf_out/input
@@ -75,10 +78,6 @@ jobs:
       - name: Start backend and run
         if: env.MISSING != '1'
         env:
-          LLM_API_KEY: ${{ secrets.LLM_API_KEY }}
-          LLM_BASE_URL: ${{ secrets.LLM_BASE_URL }}
-          LLM_MODEL_NAME: ${{ secrets.LLM_MODEL_NAME }}
-          ZEP_API_KEY: ${{ secrets.ZEP_API_KEY }}
           MF_REPORT_ONLY: ${{ github.event.inputs.report_only_sim }}
         run: |
           cd mf/backend
@@ -91,7 +90,7 @@ jobs:
           D="${MFP:-mirofish}/$(date -u +%Y%m%dT%H%M%SZ)"; echo "MFDIR=$D" >> $GITHUB_ENV
           ( while true; do { date -u +%FT%TZ; free -m | sed -n 2p; ps -eo rss,comm --sort=-rss | sed -n 2,4p | tr '\n' ' '; echo; } >> mf_out/sys.log; sleep 60; done ) > /dev/null 2>&1 & P1=$!
           ( n=0; while true; do sleep 600; n=$((n+1)); bash tools/mirofish_checkpoint.sh "$D" "checkpoint $n" || true; done ) > /dev/null 2>&1 & P2=$!
-          python3 tools/mirofish_run.py mf_in mf_out "${{ github.event.inputs.max_rounds || '20' }}" || echo "RUNFAIL=1" >> $GITHUB_ENV
+          python3 tools/mirofish_run.py mf_in mf_out "${MF_ROUNDS:-20}" || echo "RUNFAIL=1" >> $GITHUB_ENV
           kill $P1 $P2 2>/dev/null || true
           # 后端日志里的上游错误码写进 status.json（402 = 模型账户余额不足，401 = 密钥无效，429 = 限流）
           c=$(grep -o "status=[0-9][0-9][0-9]" mf_out/backend.log | tail -1 | cut -d= -f2); [ -n "$c" ] && python3 -c "import json,sys;p='mf_out/status.json';d=json.load(open(p));d['upstream_status']=int(sys.argv[1]);d['upstream_hint']={'402':'模型账户余额不足，需要充值','401':'模型密钥无效','429':'模型接口限流'}.get(sys.argv[1],'');json.dump(d,open(p,'w'),ensure_ascii=False,indent=1)" "$c" || true
@@ -109,9 +108,7 @@ jobs:
           if-no-files-found: ignore
       - name: Save to events branch (mirofish/<UTC time>/)
         if: always()
-        env:   # 只用来在推送前把日志里的密钥抹掉
-          LLM_API_KEY: ${{ secrets.LLM_API_KEY }}
-          ZEP_API_KEY: ${{ secrets.ZEP_API_KEY }}
         run: |
           D="${MFDIR:-${MFP:-mirofish}/$(date -u +%Y%m%dT%H%M%SZ)}"
           bash tools/mirofish_checkpoint.sh "$D" "final"
+          [ -n "${MF_JOB:-}" ] && python3 tools/mirofish_claim.py done "$D" || true
