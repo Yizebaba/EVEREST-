@@ -532,3 +532,5 @@
 - 复原：在 BRI-Empower 仓库 git revert 这几次提交；删除 site/about.html。
 - 10-22 03:00 所有网页去掉 MiroFish 字样：BRI 首页、说明页、数据源列表（删掉 mirofish 一项）；珠峰推演页 site/drill.html；总览页 v91（推演标签、按钮提示、说明文字）；导出文件的免责声明改为“多智能体推演”。GitHub 代码和 README 里保留（开源许可的出处）。
 - 复原：两个仓库分别 git revert；总览页用 scratchpad hub_v90_before_nomf.html 重新发布。
+- 10-22 03:05 BRI 首页“说明”按钮改为右上角“文档 ↗”（GitHub 左边，新标签页打开 about.html），左上角那个去掉。
+- 复原：在 BRI-Empower 仓库 git revert 该提交。
