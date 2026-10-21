@@ -526,3 +526,5 @@
 - 复原：在 BRI-Empower 仓库 git revert 该提交。
 - 10-22 02:10 BRI 左上角改为“一带一路 全量 预鉴”（去掉圆点），去掉英文 BRI-Empower 小字；下面一行“150 个共建国家”保留。
 - 复原：在 BRI-Empower 仓库 git revert 该提交。
+- 10-22 02:20 BRI 推演表单“开始推演”旁加“定制推演 ✉”按钮（mailto:yizebaba@gmail.com，预填主题和询价模板，带上已选国家）。
+- 复原：在 BRI-Empower 仓库 git revert 该提交。
