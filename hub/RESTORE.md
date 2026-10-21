@@ -522,3 +522,5 @@
 - 复原：在 BRI-Empower 仓库 git revert 该提交。
 - 10-22 01:55 BRI 左上角小字改为“150 个共建国家”；左下角标题 38px、广告词 16px（同一衬线字体，加载 400 字重），标题和三行广告词依次淡入，图例不动。
 - 复原：在 BRI-Empower 仓库 git revert 该提交。
+- 10-22 02:05 BRI 左上角网站名改为“一带一路 全量●预鉴”（英文 Belt and Road Full-Scope Foresight），网页标题同步；左下角去掉大标题，只留三行广告词和图例；手机顶部按钮缩小以免挤出屏幕。
+- 复原：在 BRI-Empower 仓库 git revert 该提交。
