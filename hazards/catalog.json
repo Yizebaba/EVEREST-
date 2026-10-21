@@ -1,5 +1,5 @@
 {
- "updated": "2026-10-21T02:34:37Z",
+ "updated": "2026-10-21T02:58:51Z",
  "skills": [
   {
    "name": "academy-guide",
@@ -4310,6 +4310,18 @@
    "updated": "2026-10-06T06:37:09.671059Z"
   },
   {
+   "name": "io.github.martc03/natural-disaster-intel",
+   "title": "Natural Disaster Intel",
+   "desc": "FEMA disasters, NOAA weather alerts, USGS earthquakes. 4 tools.",
+   "version": "1.0.0",
+   "repo": "https://github.com/martc03/gov-mcp-servers",
+   "remote": "https://natural-disaster-intel-mcp.apify.actor/mcp",
+   "pkg": [],
+   "site": "",
+   "term": "disaster",
+   "updated": "2026-02-27T06:23:47.441683Z"
+  },
+  {
    "name": "io.github.nasa/earthdata-mcp",
    "title": "NASA Earthdata MCP",
    "desc": "Discover, verify, and access NASA Earth science datasets via the Common Metadata Repository (CMR)",
@@ -4344,30 +4356,6 @@
    "site": "https://pipeworx.io/packs/climate-feeds",
    "term": "climate",
    "updated": "2026-10-20T22:19:26.577571Z"
-  },
-  {
-   "name": "io.github.pipeworx-io/copernicus-cds",
-   "title": "Copernicus Cds",
-   "desc": "The Copernicus Climate Data Store (C3S/ECMWF) catalogue — browse or search the ~140 published…",
-   "version": "0.1.2",
-   "repo": "https://github.com/pipeworx-io/mcp-copernicus-cds",
-   "remote": "https://gateway.pipeworx.io/copernicus-cds/mcp",
-   "pkg": [],
-   "site": "https://pipeworx.io/packs/copernicus-cds",
-   "term": "copernicus",
-   "updated": "2026-10-20T22:27:03.318908Z"
-  },
-  {
-   "name": "io.github.pipeworx-io/copernicus-dataspace",
-   "title": "Copernicus Dataspace",
-   "desc": "European Sentinel and Copernicus Contributing Mission archive from the EU's Copernicus Data Space…",
-   "version": "0.1.2",
-   "repo": "https://github.com/pipeworx-io/mcp-copernicus-dataspace",
-   "remote": "https://gateway.pipeworx.io/copernicus-dataspace/mcp",
-   "pkg": [],
-   "site": "https://pipeworx.io/packs/copernicus-dataspace",
-   "term": "copernicus",
-   "updated": "2026-10-20T22:27:14.526101Z"
   },
   {
    "name": "io.github.pipeworx-io/dwd-climate",
@@ -4897,34 +4885,6 @@
    "updated": "2026-10-20T07:44:28.878013Z"
   },
   {
-   "name": "io.github.hoon1983/seismic-mcp",
-   "title": "",
-   "desc": "Unified earthquake data from 20 global seismic agencies, with cross-agency report reconciliation.",
-   "version": "0.1.0",
-   "repo": "https://github.com/hoon1983/seismic-mcp",
-   "remote": "",
-   "pkg": [
-    "pypi:seismic-mcp"
-   ],
-   "site": "",
-   "term": "seismic",
-   "updated": "2026-06-24T23:52:01.609742Z"
-  },
-  {
-   "name": "io.github.iowarp/seismic-mcp",
-   "title": "CLIO Seismic",
-   "desc": "MCP server for earthquake-sequence analysis on saved catalogs: completeness magnitude,...",
-   "version": "2.2.3",
-   "repo": "https://github.com/iowarp/clio-kit",
-   "remote": "",
-   "pkg": [
-    "pypi:clio-kit"
-   ],
-   "site": "",
-   "term": "seismic",
-   "updated": "2026-06-09T05:32:15.743535Z"
-  },
-  {
    "name": "io.github.kaitoy/nasa-images",
    "title": "",
    "desc": "MCP server with UI for NASA images",
@@ -5065,20 +5025,6 @@
    "updated": "2026-09-21T22:07:45.369445Z"
   },
   {
-   "name": "io.github.mrfentmen/seismicportal-mcp",
-   "title": "",
-   "desc": "Earthquakes from the EMSC seismic portal. No key required.",
-   "version": "1.0.0",
-   "repo": "https://github.com/mrfentmen/seismicportal-mcp",
-   "remote": "",
-   "pkg": [
-    "npm:seismicportal-mcp"
-   ],
-   "site": "",
-   "term": "seismic",
-   "updated": "2026-09-21T22:05:51.505446Z"
-  },
-  {
    "name": "io.github.mrfentmen/usgs-earthquakes-mcp",
    "title": "",
    "desc": "USGS earthquake feeds and queries.",
@@ -5165,6 +5111,7 @@
  ],
  "log": [
   "mcp geospatial: The read operation timed out",
-  "mcp disaster: The read operation timed out"
+  "mcp seismic: The read operation timed out",
+  "mcp copernicus: The read operation timed out"
  ]
 }
