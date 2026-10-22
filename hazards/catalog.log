@@ -1,30 +1,8 @@
-skills 20 plugins 323 mcp 164
-  mcp glacier: The read operation timed out
-  mcp climate: The read operation timed out
+skills 20 plugins 323 mcp 162
+  mcp satellite: The read operation timed out
+  mcp geospatial: The read operation timed out
+  mcp seismic: The read operation timed out
+  mcp disaster: The read operation timed out
 gdelt failed: HTTP Error 429: Too Many Requests
 news rss fallback 594
-Traceback (most recent call last):
-  File "/home/runner/work/EVEREST-/EVEREST-/tools/sat_catalog.py", line 15, in <module>
-    v = get("https://catalogue.dataspace.copernicus.eu/odata/v1/Products?" + urllib.parse.urlencode({"$filter": f, "$orderby": "ContentDate/Start desc", "$top": "6"})).get("value", [])
-        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/home/runner/work/EVEREST-/EVEREST-/tools/sat_catalog.py", line 9, in get
-    with urllib.request.urlopen(urllib.request.Request(url, headers={"user-agent": "everest-sat-catalog (github.com/Yizebaba/EVEREST-)"}), timeout=60) as r:
-         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/opt/hostedtoolcache/Python/3.12.15/x64/lib/python3.12/urllib/request.py", line 215, in urlopen
-    return opener.open(url, data, timeout)
-           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/opt/hostedtoolcache/Python/3.12.15/x64/lib/python3.12/urllib/request.py", line 521, in open
-    response = meth(req, response)
-               ^^^^^^^^^^^^^^^^^^^
-  File "/opt/hostedtoolcache/Python/3.12.15/x64/lib/python3.12/urllib/request.py", line 630, in http_response
-    response = self.parent.error(
-               ^^^^^^^^^^^^^^^^^^
-  File "/opt/hostedtoolcache/Python/3.12.15/x64/lib/python3.12/urllib/request.py", line 559, in error
-    return self._call_chain(*args)
-           ^^^^^^^^^^^^^^^^^^^^^^^
-  File "/opt/hostedtoolcache/Python/3.12.15/x64/lib/python3.12/urllib/request.py", line 492, in _call_chain
-    result = func(*args)
-             ^^^^^^^^^^^
-  File "/opt/hostedtoolcache/Python/3.12.15/x64/lib/python3.12/urllib/request.py", line 639, in http_error_default
-    raise HTTPError(req.full_url, code, msg, hdrs, fp)
-urllib.error.HTTPError: HTTP Error 403: Forbidden
+{'SENTINEL-1': '2026-10-18T00:10:38.316870Z', 'SENTINEL-2': '2026-10-18T04:48:11.025000Z', 'SENTINEL-3': '2026-10-21T04:07:47.096865Z', 'BURST_23790': '2026-10-10T12:13:32.253351Z'}
