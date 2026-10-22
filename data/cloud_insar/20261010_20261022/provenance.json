@@ -1,0 +1,162 @@
+{
+  "assets": {
+    "phase_coh_20261010T121332_20261022T121332.tif": {
+      "eo:bands": [
+        {
+          "name": "Phase_ifg_VV"
+        },
+        {
+          "name": "Unw_Phase_ifg_VV"
+        },
+        {
+          "name": "coh_VV"
+        }
+      ],
+      "href": "https://s3.waw3-1.openeo.v1.dataspace.copernicus.eu/openeo-data-prod-waw4-1/batch_jobs/j-2610221738534f0997ffedb6ffc3754b/phase_coh_20261010T121332_20261022T121332.tif",
+      "proj:bbox": [
+        86.2137433,
+        27.7391675,
+        87.1806898,
+        28.0821443
+      ],
+      "proj:code": "EPSG:4326",
+      "proj:epsg": 4326,
+      "proj:shape": [
+        1909,
+        5382
+      ],
+      "raster:bands": [
+        {
+          "name": "Phase_ifg_VV",
+          "statistics": {
+            "maximum": 3.1382441520691,
+            "mean": 0.027583176181083,
+            "minimum": -3.1315438747406,
+            "stddev": 1.3065093844822,
+            "valid_percent": 50.65
+          }
+        },
+        {
+          "name": "Unw_Phase_ifg_VV",
+          "statistics": {
+            "maximum": 30.168539047241,
+            "mean": -58.404599626199,
+            "minimum": -158.87669372559,
+            "stddev": 35.365101613958,
+            "valid_percent": 53.72
+          }
+        },
+        {
+          "name": "coh_VV",
+          "statistics": {
+            "maximum": 0.99650484323502,
+            "mean": 0.30758484263794,
+            "minimum": 3.9322276279563e-05,
+            "stddev": 0.13633239016461,
+            "valid_percent": 50.65
+          }
+        }
+      ],
+      "roles": [
+        "data"
+      ],
+      "title": "phase_coh_20261010T121332_20261022T121332.tif",
+      "type": "application/octet-stream"
+    }
+  },
+  "description": "Results for batch job j-2610221738534f0997ffedb6ffc3754b",
+  "extent": {
+    "spatial": {
+      "bbox": [
+        [
+          86.2137433,
+          27.7391675,
+          87.1806898,
+          28.0821443
+        ]
+      ]
+    },
+    "temporal": {
+      "interval": [
+        [
+          "2026-10-10T12:13:32Z",
+          "2026-10-10T12:13:32Z"
+        ]
+      ]
+    }
+  },
+  "id": "j-2610221738534f0997ffedb6ffc3754b",
+  "license": "proprietary",
+  "links": [
+    {
+      "href": "s3://openeo-data-prod-waw4-1/batch_jobs/j-2610221738534f0997ffedb6ffc3754b/collection.json",
+      "rel": "original",
+      "title": "Link to original STAC catalog.",
+      "type": "application/json"
+    },
+    {
+      "href": "https://openeo.dataspace.copernicus.eu/openeo/1.2/jobs/j-2610221738534f0997ffedb6ffc3754b/results",
+      "rel": "self",
+      "type": "application/json"
+    },
+    {
+      "href": "https://openeo.dataspace.copernicus.eu/openeo/1.2/jobs/j-2610221738534f0997ffedb6ffc3754b/results/YjU5ZWIzNTItYjc1My00NGZmLWExYjQtNWE2MTA4MTg0MjFj/abdc0bd42948c166ea837215f03cee21",
+      "rel": "canonical",
+      "type": "application/json"
+    },
+    {
+      "href": "http://ceos.org/ard/files/PFS/SR/v5.0/CARD4L_Product_Family_Specification_Surface_Reflectance-v5.0.pdf",
+      "rel": "card4l-document",
+      "type": "application/pdf"
+    }
+  ],
+  "openeo:status": "finished",
+  "providers": [
+    {
+      "description": "This data was processed on an openEO backend maintained by VITO.",
+      "name": "VITO",
+      "processing:expression": {
+        "expression": {
+          "interferogram": {
+            "arguments": {
+              "InSAR_pairs": [
+                [
+                  "2026-10-10",
+                  "2026-10-22"
+                ]
+              ],
+              "burst_id": 23790,
+              "coherence_window_az": 2,
+              "coherence_window_rg": 10,
+              "n_az_looks": 1,
+              "n_rg_looks": 4,
+              "polarization": "VV",
+              "sub_swath": "IW1"
+            },
+            "namespace": "https://raw.githubusercontent.com/ESA-APEx/apex_algorithms/refs/heads/main/algorithm_catalog/eurac/sentinel1_sar_interferogram/openeo_udp/sentinel1_sar_interferogram.json",
+            "process_id": "sentinel1_sar_interferogram",
+            "result": true
+          }
+        },
+        "format": "openeo"
+      },
+      "processing:facility": "openEO Geotrellis backend",
+      "processing:software": {
+        "Geotrellis backend": "0.74.0a2"
+      },
+      "roles": [
+        "processor"
+      ]
+    }
+  ],
+  "stac_extensions": [
+    "https://stac-extensions.github.io/eo/v1.1.0/schema.json",
+    "https://stac-extensions.github.io/file/v2.1.0/schema.json",
+    "https://stac-extensions.github.io/processing/v1.1.0/schema.json",
+    "https://stac-extensions.github.io/projection/v1.2.0/schema.json"
+  ],
+  "stac_version": "1.0.0",
+  "summaries": {},
+  "title": "Everest_InSAR_20261010_20261022",
+  "type": "Collection"
+}
