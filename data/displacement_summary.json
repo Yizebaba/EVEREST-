@@ -1,6 +1,6 @@
 {
   "pipeline": "Everest Autonomous InSAR & Multi-Hazard Pipeline (v5.0)",
-  "timestamp_utc": "2026-10-22T18:18:01.403319",
+  "timestamp_utc": "2026-10-22T23:44:08.855403",
   "insar_pair": {
     "master": "2026-10-10",
     "slave": "2026-10-22"
@@ -10,23 +10,23 @@
   "results": {
     "insar_displacement": {
       "source": "cloud_insar (Copernicus openEO)",
-      "status": "UNOBSERVABLE",
-      "reason": "\u4e91\u7aef\u5e72\u6d89\u6700\u65b0\u662f 2026-09-28\u21922026-10-10\uff0c\u8fd8\u6ca1\u7b97\u5230\u6700\u65b0\u5f71\u50cf\u5bf9 2026-10-10\u21922026-10-22",
+      "status": "OBSERVED_PHASE_ONLY",
+      "reason": "\u5df2\u6709\u6700\u65b0\u5f71\u50cf\u5bf9\u7684\u76f8\u4f4d\u548c\u76f8\u5e72\u6027\uff1b\u6ca1\u6709\u7a33\u5b9a\u53c2\u8003\u70b9\uff0c\u4f4d\u79fb\u4e0d\u7ed9\u6570",
       "evaluated_candidate_pixels": 0,
       "median_mm": null,
       "mean_mm": null,
       "min_mm": null,
       "max_mm": null,
       "cloud_pair": {
-        "master": "2026-09-28",
-        "slave": "2026-10-10"
+        "master": "2026-10-10",
+        "slave": "2026-10-22"
       },
-      "cloud_processed_utc": "2026-10-11T18:37:33.864581+00:00",
-      "job_id": "j-26101115482648a789947e9680a3f97d",
-      "valid_phase_pixels": 2650018,
-      "coherence_mean": 0.3281253901455711,
+      "cloud_processed_utc": "2026-10-22T18:18:19.762422+00:00",
+      "job_id": "j-2610221738534f0997ffedb6ffc3754b",
+      "valid_phase_pixels": 2290197,
+      "coherence_mean": 0.30758487396023776,
       "displacement_status": "UNREFERENCED_NOT_FOR_HAZARD_DECISIONS",
-      "source_sha256": "33b104d60c7fa82dd5b839cd780802b84d4527e8cc8687b26277e7f8277ffb76"
+      "source_sha256": "f8d267b8c4833fc6f29113cef845b0333ba8e73ebf93ea571c2b7e51bca3a78d"
     },
     "itslive_velocity_baseline": {
       "status": "success",
