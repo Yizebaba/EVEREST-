@@ -1,6 +1,6 @@
 {
   "pipeline": "Everest Autonomous InSAR & Multi-Hazard Pipeline (v5.0)",
-  "timestamp_utc": "2026-10-24T18:04:05.344457",
+  "timestamp_utc": "2026-10-24T20:14:33.433957",
   "insar_pair": {
     "master": "2026-10-10",
     "slave": "2026-10-22"
@@ -118,10 +118,18 @@
     "realtime_seismic": {
       "status": "success",
       "source": "USGS Earthquake Hazards Program",
-      "total_events_in_radius": 0,
-      "nearby_earthquake_detected": false,
-      "max_magnitude": 0.0,
-      "events": []
+      "total_events_in_radius": 1,
+      "nearby_earthquake_detected": true,
+      "max_magnitude": 4.3,
+      "events": [
+        {
+          "place": "71 km SW of Rikaze, China",
+          "magnitude": 4.3,
+          "depth_km": 10,
+          "distance_km": 167.6,
+          "time": 1792870453223
+        }
+      ]
     },
     "realtime_weather": {
       "status": "success",
@@ -177,10 +185,12 @@
       "uncertainty_reasons": [
         "LOW_INSAR_COHERENCE_NOISE"
       ],
-      "active_evidences": [],
+      "active_evidences": [
+        "Seismic vibration ground motion trigger"
+      ],
       "persistence_index": 0.4,
       "spatial_consistency_index": 0.5,
-      "evidence_score": 0.0,
+      "evidence_score": 0.2,
       "human_verification_required": false,
       "alert_dispatched": false
     },
