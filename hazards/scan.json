@@ -1,10 +1,10 @@
 {
- "updated": "2026-10-25T21:33:14Z",
+ "updated": "2026-10-25T21:58:22Z",
  "sources": {
   "BIPAD 灾害事件库": {
    "state": "fail",
    "err": "<urlopen error timed out>",
-   "sec": 60.6,
+   "sec": 60.4,
    "latency": "准实时"
   },
   "BIPAD 警报": {
@@ -16,7 +16,7 @@
   "BIPAD 空气质量站": {
    "state": "fail",
    "err": "<urlopen error timed out>",
-   "sec": 60.3,
+   "sec": 60.4,
    "latency": "实时"
   },
   "NASA EONET": {
@@ -24,7 +24,7 @@
    "n": 302,
    "local": 1,
    "latest": "2026-10-25T12:00:00Z",
-   "sec": 0.8,
+   "sec": 1.2,
    "latency": "准实时"
   },
   "USGS 地震目录": {
@@ -32,19 +32,19 @@
    "n": 14,
    "local": 4,
    "latest": "2026-10-25T02:24:00Z",
-   "sec": 0.3,
+   "sec": 0.6,
    "latency": "实时"
   },
   "GDACS": {
    "state": "fail",
    "err": "The read operation timed out",
-   "sec": 60.6,
+   "sec": 60.5,
    "latency": "实时"
   },
   "NOAA SWPC 空间天气": {
    "state": "ok",
-   "n": 93,
-   "local": 93,
+   "n": 91,
+   "local": 91,
    "latest": "2026-10-25T09:27:50Z",
    "sec": 0.3,
    "latency": "实时"
@@ -61,8 +61,8 @@
    "state": "ok",
    "n": 249,
    "local": 0,
-   "latest": "2026-10-25T21:33:14Z",
-   "sec": 2.3,
+   "latest": "2026-10-25T21:58:22Z",
+   "sec": 2.5,
    "latency": "实时"
   },
   "WHO 疫情通报": {
@@ -70,7 +70,7 @@
    "n": 100,
    "local": 0,
    "latest": "2026-10-23T15:03:45Z",
-   "sec": 1.0,
+   "sec": 0.3,
    "latency": "准实时"
   },
   "WHO FluNet（尼泊尔）": {
@@ -78,7 +78,7 @@
    "n": 8,
    "local": 8,
    "latest": "2026-10-05T00:00:00Z",
-   "sec": 0.4,
+   "sec": 0.8,
    "latency": "定期"
   },
   "WOAH WAHIS 动物疫情": {
@@ -86,7 +86,7 @@
    "n": 50,
    "local": 0,
    "latest": "2026-10-22T00:00:00Z",
-   "sec": 2.9,
+   "sec": 3.1,
    "latency": "准实时"
   },
   "openFDA 食品药品召回": {
@@ -94,7 +94,7 @@
    "n": 100,
    "local": 0,
    "latest": "2026-10-14T00:00:00Z",
-   "sec": 0.9,
+   "sec": 1.8,
    "latency": "定期"
   },
   "CISA 已利用漏洞": {
@@ -102,7 +102,7 @@
    "n": 33,
    "local": 0,
    "latest": "2026-10-23T00:00:00Z",
-   "sec": 0.4,
+   "sec": 0.2,
    "latency": "准实时"
   },
   "Have I Been Pwned 数据泄露": {
@@ -129,7 +129,7 @@
   "尼泊尔央行汇率": {
    "state": "fail",
    "err": "<urlopen error timed out>",
-   "sec": 61.4,
+   "sec": 61.2,
    "latency": "准实时"
   },
   "Safecast 辐射": {
@@ -137,7 +137,7 @@
    "n": 0,
    "local": 0,
    "latest": null,
-   "sec": 1.0,
+   "sec": 0.5,
    "measurements_1y": 100,
    "latency": "实时"
   },
@@ -146,7 +146,7 @@
    "n": 7,
    "local": 7,
    "latest": "2026-10-25T07:50:24Z",
-   "sec": 0.6,
+   "sec": 0.8,
    "products": [
     "L2__AER_AI",
     "L2__CH4___",
@@ -160,32 +160,34 @@
   },
   "机场天气实况 METAR": {
    "state": "ok",
-   "n": 11,
+   "n": 13,
    "local": 0,
-   "latest": "2026-10-25T21:35:00Z",
-   "sec": 0.1,
-   "stations": 5095,
+   "latest": "2026-10-25T22:01:00Z",
+   "sec": 0.2,
+   "stations": 5119,
    "phenomena": {
-    "大雨": 8,
+    "雾": 14,
     "霾": 56,
-    "烟": 13,
-    "雾": 10,
-    "雷暴": 27,
+    "雷暴": 25,
+    "烟": 14,
+    "沙尘暴": 1,
     "持续风 ≥34 节（烈风）": 25,
-    "阵风 ≥50 节": 5,
+    "阵风 ≥50 节": 4,
+    "大雨": 7,
+    "飑": 1,
     "扬沙/浮尘": 4,
+    "高吹雪+大风": 1,
     "冻雨/冻毛毛雨": 1,
-    "大雪": 1,
-    "高吹雪+大风": 1
+    "大雪": 1
    },
    "latency": "实时"
   },
   "航空危险天气通报 SIGMET": {
    "state": "ok",
-   "n": 28,
+   "n": 27,
    "local": 0,
-   "latest": "2026-10-25T21:32:00Z",
-   "sec": 0.1,
+   "latest": "2026-10-25T22:00:00Z",
+   "sec": 6.9,
    "latency": "实时"
   },
   "美国风暴实况报告 SPC": {
@@ -193,14 +195,14 @@
    "n": 11,
    "local": 0,
    "latest": "2026-10-25T01:10:00Z",
-   "sec": 0.3,
+   "sec": 0.6,
    "latency": "实时"
   },
   "美国气象局已观测警报 NWS": {
    "state": "ok",
-   "n": 7,
+   "n": 6,
    "local": 0,
-   "latest": "2026-10-25T21:26:00Z",
+   "latest": "2026-10-25T21:12:00Z",
    "sec": 0.5,
    "latency": "实时"
   },
@@ -216,9 +218,9 @@
    "state": "ok",
    "n": 1,
    "local": 0,
-   "latest": "2026-10-25T21:33:14Z",
-   "sec": 0.2,
-   "new_48h": 79,
+   "latest": "2026-10-25T21:58:22Z",
+   "sec": 0.3,
+   "new_48h": 81,
    "latency": "实时"
   },
   "abuse.ch ThreatFox": {
@@ -231,8 +233,8 @@
    "state": "ok",
    "n": 1,
    "local": 0,
-   "latest": "2026-10-25T21:33:14Z",
-   "sec": 0.5,
+   "latest": "2026-10-25T21:58:22Z",
+   "sec": 0.6,
    "urls": 300,
    "latency": "准实时"
   },
@@ -241,7 +243,7 @@
    "n": 0,
    "local": 0,
    "latest": null,
-   "sec": 0.7,
+   "sec": 0.4,
    "aircraft": 0,
    "latency": "实时"
   },
@@ -250,7 +252,7 @@
    "n": 2,
    "local": 0,
    "latest": "2026-10-25T02:27:01Z",
-   "sec": 0.2,
+   "sec": 0.3,
    "latency": "实时"
   },
   "NOAA NCEI 历史灾害库": {
@@ -258,15 +260,15 @@
    "n": 42,
    "local": 0,
    "latest": "2026-10-09T00:00:00Z",
-   "sec": 0.4,
+   "sec": 0.5,
    "latency": "定期"
   },
   "IOC 海平面站": {
    "state": "ok",
    "n": 1,
    "local": 0,
-   "latest": "2026-10-25T21:33:14Z",
-   "sec": 4.8,
+   "latest": "2026-10-25T21:58:22Z",
+   "sec": 3.8,
    "stations": 1766,
    "reporting_6h": 1102,
    "latency": "实时"
@@ -284,7 +286,7 @@
    "n": 2,
    "local": 0,
    "latest": "2026-10-17T00:00:00Z",
-   "sec": 0.7,
+   "sec": 1.1,
    "latency": "准实时"
   },
   "史密森尼火山周报": {
@@ -292,15 +294,15 @@
    "n": 24,
    "local": 0,
    "latest": "2008-03-24T00:00:00Z",
-   "sec": 1.3,
+   "sec": 2.2,
    "latency": "定期"
   },
   "GBIF 物种记录（尼泊尔）": {
    "state": "ok",
    "n": 2,
    "local": 2,
-   "latest": "2026-10-25T21:33:14Z",
-   "sec": 1.0,
+   "latest": "2026-10-25T21:58:22Z",
+   "sec": 1.2,
    "latency": "定期"
   },
   "Global Forest Watch": {
@@ -330,15 +332,15 @@
   },
   "新闻 RSS": {
    "state": "ok",
-   "n": 194,
-   "local": 194,
+   "n": 193,
+   "local": 193,
    "latest": "2026-10-25T19:18:39Z",
    "sec": 5.4,
    "feeds": {
     "Kathmandu Post": 40,
     "OnlineKhabar English": 20,
     "The Himalayan Times": 50,
-    "Republica": "失败：HTTP Error 404: Not Found",
+    "Republica": "失败：HTTP Error 503: Service Unavailable",
     "Nepali Times": 30,
     "Rising Nepal": 10,
     "ReliefWeb（尼泊尔）": "失败：no element found: line 1, column 0",
@@ -447,7 +449,7 @@
    ],
    "n_90d": 577,
    "n_local_90d": 26,
-   "latest": "2026-10-25T21:32:00Z",
+   "latest": "2026-10-25T22:00:00Z",
    "latest_title": "Thunderbolt at Bhojpur Municipality-11",
    "latest_url": "https://bipadportal.gov.np/incidents/95715",
    "observed": null,
@@ -475,8 +477,8 @@
    ],
    "n_90d": 1164,
    "n_local_90d": 0,
-   "latest": "2026-10-25T21:32:00Z",
-   "latest_title": "全球 37 份 SIGMET 写明已观测到雷暴",
+   "latest": "2026-10-25T22:00:00Z",
+   "latest_title": "全球 42 份 SIGMET 写明已观测到雷暴",
    "latest_url": "https://aviationweather.gov/gfa/#sigmet",
    "observed": null,
    "state": "global",
@@ -504,10 +506,10 @@
     "美国气象局已观测警报 NWS",
     "航空危险天气通报 SIGMET"
    ],
-   "n_90d": 71,
+   "n_90d": 72,
    "n_local_90d": 0,
-   "latest": "2026-10-25T18:00:00Z",
-   "latest_title": "全球 1 个机场此刻报告“沙尘暴”（例：MDBH）",
+   "latest": "2026-10-25T22:00:00Z",
+   "latest_title": "全球 1 个机场此刻报告“沙尘暴”（例：MDPC）",
    "latest_url": "https://aviationweather.gov/data/metar/",
    "observed": "Sentinel-5P __AER_AI 覆盖喜马拉雅（有观测，未计算数值）",
    "state": "global",
@@ -531,7 +533,7 @@
    ],
    "n_90d": 277,
    "n_local_90d": 1,
-   "latest": "2026-10-25T21:30:00Z",
+   "latest": "2026-10-25T22:01:00Z",
    "latest_title": "VEKI 机场实况：雾（METAR VEKI 240200Z VRB02KT 1000 R29/1500 MIFG NSC 21/19 Q1012 BECMG 1500 BR）",
    "latest_url": "https://aviationweather.gov/data/metar/?ids=VEKI",
    "observed": null,
@@ -559,7 +561,7 @@
    ],
    "n_90d": 985,
    "n_local_90d": 709,
-   "latest": "2026-10-25T21:35:00Z",
+   "latest": "2026-10-25T22:00:00Z",
    "latest_title": "VILK 机场实况：霾（METAR VILK 251300Z VRB02KT 3500 HZ NSC 26/21 Q1012 BECMG 3000 BR）",
    "latest_url": "https://aviationweather.gov/data/metar/?ids=VILK",
    "observed": "Sentinel-5P __AER_AI 覆盖喜马拉雅（有观测，未计算数值）",
@@ -585,7 +587,7 @@
    "n_90d": 269,
    "n_local_90d": 0,
    "latest": "2026-10-25T21:00:00Z",
-   "latest_title": "全球 4 个机场此刻报告“扬沙/浮尘”（例：ZWSH、OJAI、GBYD）",
+   "latest_title": "全球 4 个机场此刻报告“扬沙/浮尘”（例：OJAI、ZWSH、GOOK）",
    "latest_url": "https://aviationweather.gov/data/metar/",
    "observed": null,
    "state": "global",
@@ -614,8 +616,8 @@
    ],
    "n_90d": 276,
    "n_local_90d": 0,
-   "latest": "2026-10-25T21:30:00Z",
-   "latest_title": "全球 13 个机场此刻报告“烟”（例：OPST、OPMT、OPLA）",
+   "latest": "2026-10-25T22:00:00Z",
+   "latest_title": "全球 14 个机场此刻报告“烟”（例：OPFA、OPIS、OPLA）",
    "latest_url": "https://aviationweather.gov/data/metar/",
    "observed": "Sentinel-5P __CO 覆盖喜马拉雅（有观测，未计算数值）",
    "state": "global",
@@ -642,7 +644,7 @@
    ],
    "n_90d": 518,
    "n_local_90d": 22,
-   "latest": "2026-10-25T21:25:00Z",
+   "latest": "2026-10-25T21:56:00Z",
    "latest_title": "Wind storm at Parsagadhi Municipality-1",
    "latest_url": "https://bipadportal.gov.np/incidents/95709",
    "observed": null,
@@ -686,8 +688,8 @@
    ],
    "n_90d": 280,
    "n_local_90d": 0,
-   "latest": "2026-10-25T21:25:00Z",
-   "latest_title": "全球 25 个机场此刻报告“持续风 ≥34 节（烈风）”（例：EHMA、EHAK、EHDV）",
+   "latest": "2026-10-25T21:56:00Z",
+   "latest_title": "全球 25 个机场此刻报告“持续风 ≥34 节（烈风）”（例：PADK、EHAK、EHDV）",
    "latest_url": "https://aviationweather.gov/data/metar/",
    "observed": null,
    "state": "global",
@@ -710,7 +712,7 @@
    ],
    "n_90d": 126,
    "n_local_90d": 22,
-   "latest": "2026-10-25T20:50:00Z",
+   "latest": "2026-10-25T21:50:00Z",
    "latest_title": "Wind storm at Parsagadhi Municipality-1",
    "latest_url": "https://bipadportal.gov.np/incidents/95709",
    "observed": null,
@@ -892,7 +894,7 @@
    ],
    "n_90d": 397,
    "n_local_90d": 121,
-   "latest": "2026-10-25T21:35:00Z",
+   "latest": "2026-10-25T21:56:00Z",
    "latest_title": "Kathmandu Post：Tourist arrivals in Mustang plunge 41.5 percent",
    "latest_url": "https://kathmandupost.com/national/2026/10/19/tourist-arrivals-in-mustang-plunge-41-5-percent",
    "observed": null,
@@ -1247,9 +1249,9 @@
    ],
    "n_90d": 805,
    "n_local_90d": 751,
-   "latest": "2026-10-25T20:13:35Z",
-   "latest_title": "Google News（尼泊尔灾害）：UN Fund approves $20 million for flood-hit Nepal - News On AIR",
-   "latest_url": "https://news.google.com/rss/articles/CBMifkFVX3lxTFBFaDBxLUZpbTZ6V2thYVluTTdZRUJuTzh2NG9VS3FuOU9Ma1pCZVhOQTZMXzRPWTNuSEtGSWRuRnN0cktHbDVrMHBOWFhESVNjT2d2RTFXbFhjVlU5TVFkQkNiejFOcER2azEycmRKWnN1cTZOSGZrbzhacGhJUQ?oc=5",
+   "latest": "2026-10-25T19:18:39Z",
+   "latest_title": "Google News（尼泊尔灾害）：Nepal Plans $50 Million Project to Strengthen Flood Warnings and Reduce Glacial Lake Risks - www.nationpathindia.com",
+   "latest_url": "https://news.google.com/rss/articles/CBMimwFBVV95cUxOckNSVlFUSkpwb1E5Q1lwazdUOUJSUElDbmkzWE5QaGFPRU96LV9TbVpwQnVaWWlncWFjQjB5Smx0NEFrd1NBYUNTSWlmUUxxb003NG1YZ1JQU3FYSmFsb2xtNWtWQW1XYTJEbFZ2NWE4QTh5V05kOEpwbjdLZEJyZnRtWHVpTGJaSFYyNXNLX0VsLW1majdteTQ1NA?oc=5",
    "observed": null,
    "state": "local",
    "rt_tier": "准实时"
@@ -1272,7 +1274,7 @@
    ],
    "n_90d": 280,
    "n_local_90d": 0,
-   "latest": "2026-10-25T21:33:14Z",
+   "latest": "2026-10-25T21:58:22Z",
    "latest_title": "全球 1766 个潮位站，最近 6 小时在报 1102 个",
    "latest_url": "https://www.ioc-sealevelmonitoring.org/",
    "observed": null,
@@ -1295,7 +1297,7 @@
    ],
    "n_90d": 280,
    "n_local_90d": 0,
-   "latest": "2026-10-25T21:33:14Z",
+   "latest": "2026-10-25T21:58:22Z",
    "latest_title": "全球 1766 个潮位站，最近 6 小时在报 1102 个",
    "latest_url": "https://www.ioc-sealevelmonitoring.org/",
    "observed": null,
@@ -1494,7 +1496,7 @@
    ],
    "n_90d": 280,
    "n_local_90d": 0,
-   "latest": "2026-10-25T21:33:14Z",
+   "latest": "2026-10-25T21:58:22Z",
    "latest_title": "全球 1766 个潮位站，最近 6 小时在报 1102 个",
    "latest_url": "https://www.ioc-sealevelmonitoring.org/",
    "observed": null,
@@ -1517,7 +1519,7 @@
    ],
    "n_90d": 280,
    "n_local_90d": 0,
-   "latest": "2026-10-25T21:33:14Z",
+   "latest": "2026-10-25T21:58:22Z",
    "latest_title": "全球 1766 个潮位站，最近 6 小时在报 1102 个",
    "latest_url": "https://www.ioc-sealevelmonitoring.org/",
    "observed": null,
@@ -1542,7 +1544,7 @@
    ],
    "n_90d": 280,
    "n_local_90d": 0,
-   "latest": "2026-10-25T21:33:14Z",
+   "latest": "2026-10-25T21:58:22Z",
    "latest_title": "全球 1766 个潮位站，最近 6 小时在报 1102 个",
    "latest_url": "https://www.ioc-sealevelmonitoring.org/",
    "observed": null,
@@ -1565,7 +1567,7 @@
    ],
    "n_90d": 280,
    "n_local_90d": 0,
-   "latest": "2026-10-25T21:33:14Z",
+   "latest": "2026-10-25T21:58:22Z",
    "latest_title": "全球 1766 个潮位站，最近 6 小时在报 1102 个",
    "latest_url": "https://www.ioc-sealevelmonitoring.org/",
    "observed": null,
@@ -1919,7 +1921,7 @@
    ],
    "n_90d": 276,
    "n_local_90d": 0,
-   "latest": "2026-10-25T21:33:14Z",
+   "latest": "2026-10-25T21:58:22Z",
    "latest_title": "跟踪中的碎片（四次大型解体事件）2677 个",
    "latest_url": null,
    "observed": null,
@@ -2769,7 +2771,7 @@
    ],
    "n_90d": 1350,
    "n_local_90d": 2,
-   "latest": "2026-10-25T21:33:14Z",
+   "latest": "2026-10-25T21:58:22Z",
    "latest_title": "Forest Fire at Bhairabi-1, Dailekh",
    "latest_url": null,
    "observed": null,
@@ -2960,7 +2962,7 @@
    ],
    "n_90d": 280,
    "n_local_90d": 0,
-   "latest": "2026-10-25T21:33:14Z",
+   "latest": "2026-10-25T21:58:22Z",
    "latest_title": "全球 1766 个潮位站，最近 6 小时在报 1102 个",
    "latest_url": "https://www.ioc-sealevelmonitoring.org/",
    "observed": null,
@@ -5689,7 +5691,7 @@
    ],
    "n_90d": 279,
    "n_local_90d": 3,
-   "latest": "2026-10-25T21:33:14Z",
+   "latest": "2026-10-25T21:58:22Z",
    "latest_title": "Kathmandu Post：Buying online? Ask for a tax bill, pay after delivery",
    "latest_url": "https://kathmandupost.com/money/2026/10/17/buying-online-ask-for-a-tax-bill-pay-after-delivery",
    "observed": null,
