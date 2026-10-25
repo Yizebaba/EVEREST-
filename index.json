@@ -24069,7 +24069,7 @@
      "file": "events/archive/hz-bipad-i-95744_d0f0601f47d1.json",
      "ots": "events/archive/hz-bipad-i-95744_d0f0601f47d1.json.ots",
      "stamped": "2026-10-25T18:50:09Z",
-     "status": "pending",
+     "status": "confirmed",
      "err": null,
      "tsa": [
       {
@@ -24107,6 +24107,53 @@
       "failed": [],
       "why": {},
       "at": "2026-10-25T18:58:24Z"
+     },
+     "bitcoin_block": 973112,
+     "confirmed_checked": "2026-10-25T19:45:32Z"
+    },
+    {
+     "sha256": "58fb0b0d04d28c04e9d755924883be4d4be26aa4afb2d920fc8be445a1faad2a",
+     "file": "events/archive/hz-bipad-i-95744_58fb0b0d04d2.json",
+     "ots": "events/archive/hz-bipad-i-95744_58fb0b0d04d2.json.ots",
+     "stamped": "2026-10-25T19:45:32Z",
+     "status": "pending",
+     "err": null,
+     "tsa": [
+      {
+       "tsa": "FreeTSA",
+       "file": "events/archive/hz-bipad-i-95744_58fb0b0d04d2.json.FreeTSA.tsr",
+       "time": "Oct 25 19:53:18 2026 GMT"
+      },
+      {
+       "tsa": "DigiCert",
+       "file": "events/archive/hz-bipad-i-95744_58fb0b0d04d2.json.DigiCert.tsr",
+       "time": "Oct 25 19:53:18 2026 GMT"
+      }
+     ],
+     "sigstore": {
+      "file": "events/archive/hz-bipad-i-95744_58fb0b0d04d2.json.sigstore.json",
+      "identity": "https://github.com/Yizebaba/EVEREST-/.github/workflows/evidence.yml@refs/heads/events",
+      "rekor_log_index": "3467138950",
+      "self_verified": true,
+      "rekor": "https://search.sigstore.dev/?logIndex=3467138950"
+     },
+     "verify": {
+      "checks": {
+       "sha256_python": true,
+       "sha256_coreutils": true,
+       "rfc3161_FreeTSA": true,
+       "rfc3161_DigiCert": true,
+       "sigstore_cosign": true,
+       "sigstore_python": true,
+       "ots_parse": true,
+       "prov": true,
+       "rocrate": true
+      },
+      "passed": 9,
+      "total": 9,
+      "failed": [],
+      "why": {},
+      "at": "2026-10-25T19:53:30Z"
      }
     }
    ],
@@ -24114,7 +24161,7 @@
    "t": "2026-10-11T18:15:00Z",
    "t_detected": "2026-10-11T18:15:00Z",
    "t_prec": "day",
-   "first_seen": "2026-10-25T18:43:23Z",
+   "first_seen": "2026-10-25T19:38:45Z",
    "kind": "Landslide",
    "place": "Khatyad Rural Municipality-11",
    "lat": 29.53942798,
@@ -24123,7 +24170,7 @@
    "man": "4f53cda18c2baa0c",
    "n": 50,
    "src_n": 1,
-   "built": "2026-10-25T18:50:09Z",
+   "built": "2026-10-25T19:45:32Z",
    "missing": 8
   },
   "hz-bipad-i-95688": {
@@ -60114,6 +60161,51 @@
      },
      "bitcoin_block": 973111,
      "confirmed_checked": "2026-10-25T19:36:12Z"
+    },
+    {
+     "sha256": "3c1b5020fec1dd492894d8c17c158090a789109b601928a95f03a6678486ca2e",
+     "file": "events/archive/usgs-us6000u1j7_3c1b5020fec1.json",
+     "ots": "events/archive/usgs-us6000u1j7_3c1b5020fec1.json.ots",
+     "stamped": "2026-10-25T19:45:32Z",
+     "status": "pending",
+     "err": null,
+     "tsa": [
+      {
+       "tsa": "FreeTSA",
+       "file": "events/archive/usgs-us6000u1j7_3c1b5020fec1.json.FreeTSA.tsr",
+       "time": "Oct 25 19:51:57 2026 GMT"
+      },
+      {
+       "tsa": "DigiCert",
+       "file": "events/archive/usgs-us6000u1j7_3c1b5020fec1.json.DigiCert.tsr",
+       "time": "Oct 25 19:51:57 2026 GMT"
+      }
+     ],
+     "sigstore": {
+      "file": "events/archive/usgs-us6000u1j7_3c1b5020fec1.json.sigstore.json",
+      "identity": "https://github.com/Yizebaba/EVEREST-/.github/workflows/evidence.yml@refs/heads/events",
+      "rekor_log_index": "3467102018",
+      "self_verified": true,
+      "rekor": "https://search.sigstore.dev/?logIndex=3467102018"
+     },
+     "verify": {
+      "checks": {
+       "sha256_python": true,
+       "sha256_coreutils": true,
+       "rfc3161_FreeTSA": true,
+       "rfc3161_DigiCert": true,
+       "sigstore_cosign": true,
+       "sigstore_python": true,
+       "ots_parse": true,
+       "prov": true,
+       "rocrate": true
+      },
+      "passed": 9,
+      "total": 9,
+      "failed": [],
+      "why": {},
+      "at": "2026-10-25T19:53:31Z"
+     }
     }
    ],
    "title": "USGS 记录的崩塌/滑坡 M3.9",
@@ -60127,9 +60219,9 @@
    "lon": 84.942,
    "v": 25,
    "man": "4f53cda18c2baa0c",
-   "n": 76,
+   "n": 78,
    "src_n": 10,
-   "built": "2026-10-25T18:50:09Z",
+   "built": "2026-10-25T19:45:32Z",
    "missing": 8
   },
   "news-flood-gorkha-2026-10-14": {
@@ -71832,6 +71924,51 @@
      },
      "bitcoin_block": 973111,
      "confirmed_checked": "2026-10-25T19:36:12Z"
+    },
+    {
+     "sha256": "6d7e71e6de847f35d199c575334568e0785e14384638e207641c1e634644827c",
+     "file": "events/archive/news-flood-gorkha-2026-10-14_6d7e71e6de84.json",
+     "ots": "events/archive/news-flood-gorkha-2026-10-14_6d7e71e6de84.json.ots",
+     "stamped": "2026-10-25T19:45:32Z",
+     "status": "pending",
+     "err": null,
+     "tsa": [
+      {
+       "tsa": "FreeTSA",
+       "file": "events/archive/news-flood-gorkha-2026-10-14_6d7e71e6de84.json.FreeTSA.tsr",
+       "time": "Oct 25 19:51:08 2026 GMT"
+      },
+      {
+       "tsa": "DigiCert",
+       "file": "events/archive/news-flood-gorkha-2026-10-14_6d7e71e6de84.json.DigiCert.tsr",
+       "time": "Oct 25 19:51:08 2026 GMT"
+      }
+     ],
+     "sigstore": {
+      "file": "events/archive/news-flood-gorkha-2026-10-14_6d7e71e6de84.json.sigstore.json",
+      "identity": "https://github.com/Yizebaba/EVEREST-/.github/workflows/evidence.yml@refs/heads/events",
+      "rekor_log_index": "3467077334",
+      "self_verified": true,
+      "rekor": "https://search.sigstore.dev/?logIndex=3467077334"
+     },
+     "verify": {
+      "checks": {
+       "sha256_python": true,
+       "sha256_coreutils": true,
+       "rfc3161_FreeTSA": true,
+       "rfc3161_DigiCert": true,
+       "sigstore_cosign": true,
+       "sigstore_python": true,
+       "ots_parse": true,
+       "prov": true,
+       "rocrate": true
+      },
+      "passed": 9,
+      "total": 9,
+      "failed": [],
+      "why": {},
+      "at": "2026-10-25T19:53:33Z"
+     }
     }
    ],
    "title": "Gorkha 洪水（新闻线索）",
@@ -71847,7 +71984,7 @@
    "man": "4f53cda18c2baa0c",
    "n": 67,
    "src_n": 8,
-   "built": "2026-10-25T18:50:09Z",
+   "built": "2026-10-25T19:45:32Z",
    "missing": 7
   },
   "news-flood-dhading-2026-10-16": {
@@ -78811,6 +78948,51 @@
      },
      "bitcoin_block": 973111,
      "confirmed_checked": "2026-10-25T19:36:12Z"
+    },
+    {
+     "sha256": "0b5fec4e9b4365d8c8cd8882455accf1ba0225e7a59c93cfc49c6b19213d379d",
+     "file": "events/archive/news-flood-dhading-2026-10-16_0b5fec4e9b43.json",
+     "ots": "events/archive/news-flood-dhading-2026-10-16_0b5fec4e9b43.json.ots",
+     "stamped": "2026-10-25T19:45:32Z",
+     "status": "pending",
+     "err": null,
+     "tsa": [
+      {
+       "tsa": "FreeTSA",
+       "file": "events/archive/news-flood-dhading-2026-10-16_0b5fec4e9b43.json.FreeTSA.tsr",
+       "time": "Oct 25 19:49:29 2026 GMT"
+      },
+      {
+       "tsa": "DigiCert",
+       "file": "events/archive/news-flood-dhading-2026-10-16_0b5fec4e9b43.json.DigiCert.tsr",
+       "time": "Oct 25 19:49:29 2026 GMT"
+      }
+     ],
+     "sigstore": {
+      "file": "events/archive/news-flood-dhading-2026-10-16_0b5fec4e9b43.json.sigstore.json",
+      "identity": "https://github.com/Yizebaba/EVEREST-/.github/workflows/evidence.yml@refs/heads/events",
+      "rekor_log_index": "3467032040",
+      "self_verified": true,
+      "rekor": "https://search.sigstore.dev/?logIndex=3467032040"
+     },
+     "verify": {
+      "checks": {
+       "sha256_python": true,
+       "sha256_coreutils": true,
+       "rfc3161_FreeTSA": true,
+       "rfc3161_DigiCert": true,
+       "sigstore_cosign": true,
+       "sigstore_python": true,
+       "ots_parse": true,
+       "prov": true,
+       "rocrate": true
+      },
+      "passed": 9,
+      "total": 9,
+      "failed": [],
+      "why": {},
+      "at": "2026-10-25T19:53:34Z"
+     }
     }
    ],
    "title": "Dhading 洪水（新闻线索）",
@@ -78824,10 +79006,10 @@
    "lon": 84.92,
    "v": 25,
    "man": "4f53cda18c2baa0c",
-   "n": 74,
+   "n": 73,
    "src_n": 4,
-   "built": "2026-10-25T18:50:09Z",
-   "missing": 9
+   "built": "2026-10-25T19:45:32Z",
+   "missing": 10
   },
   "news-flood-manaslu-2026-10-25": {
    "ots": [
@@ -79065,6 +79247,51 @@
      },
      "bitcoin_block": 973111,
      "confirmed_checked": "2026-10-25T19:36:12Z"
+    },
+    {
+     "sha256": "b5e712601889f27613933abf1ce57706f9ad0c698d124a4432f6df24ac202500",
+     "file": "events/archive/news-flood-manaslu-2026-10-25_b5e712601889.json",
+     "ots": "events/archive/news-flood-manaslu-2026-10-25_b5e712601889.json.ots",
+     "stamped": "2026-10-25T19:45:32Z",
+     "status": "pending",
+     "err": null,
+     "tsa": [
+      {
+       "tsa": "FreeTSA",
+       "file": "events/archive/news-flood-manaslu-2026-10-25_b5e712601889.json.FreeTSA.tsr",
+       "time": "Oct 25 19:48:09 2026 GMT"
+      },
+      {
+       "tsa": "DigiCert",
+       "file": "events/archive/news-flood-manaslu-2026-10-25_b5e712601889.json.DigiCert.tsr",
+       "time": "Oct 25 19:48:09 2026 GMT"
+      }
+     ],
+     "sigstore": {
+      "file": "events/archive/news-flood-manaslu-2026-10-25_b5e712601889.json.sigstore.json",
+      "identity": "https://github.com/Yizebaba/EVEREST-/.github/workflows/evidence.yml@refs/heads/events",
+      "rekor_log_index": "3466997872",
+      "self_verified": true,
+      "rekor": "https://search.sigstore.dev/?logIndex=3466997872"
+     },
+     "verify": {
+      "checks": {
+       "sha256_python": true,
+       "sha256_coreutils": true,
+       "rfc3161_FreeTSA": true,
+       "rfc3161_DigiCert": true,
+       "sigstore_cosign": true,
+       "sigstore_python": true,
+       "ots_parse": true,
+       "prov": true,
+       "rocrate": true
+      },
+      "passed": 9,
+      "total": 9,
+      "failed": [],
+      "why": {},
+      "at": "2026-10-25T19:53:35Z"
+     }
     }
    ],
    "title": "Manaslu 洪水（新闻线索）",
@@ -79080,9 +79307,9 @@
    "man": "4f53cda18c2baa0c",
    "n": 39,
    "src_n": 2,
-   "built": "2026-10-25T18:50:09Z",
+   "built": "2026-10-25T19:45:32Z",
    "missing": 12
   }
  },
- "updated": "2026-10-25T19:36:12Z"
+ "updated": "2026-10-25T19:45:32Z"
 }
