@@ -1,0 +1,161 @@
+{
+ "@context": "https://w3id.org/ro/crate/1.1/context",
+ "@graph": [
+  {
+   "@id": "ro-crate-metadata.json",
+   "@type": "CreativeWork",
+   "conformsTo": {
+    "@id": "https://w3id.org/ro/crate/1.1"
+   },
+   "about": {
+    "@id": "./"
+   }
+  },
+  {
+   "@id": "./",
+   "@type": "Dataset",
+   "name": "EVEREST 事件证据包：Myagdi 滑坡（新闻线索）",
+   "description": "只陈述公开来源记录了什么、什么时候；不判断成因，不预测。地震台强信号只说明那一刻台站记录到较强震动，来源需要结合其他证据。",
+   "datePublished": "2026-10-27T09:19:01Z",
+   "license": {
+    "@id": "https://creativecommons.org/licenses/by/4.0/"
+   },
+   "keywords": [
+    "GH0300"
+   ],
+   "spatialCoverage": {
+    "@id": "#place"
+   },
+   "temporalCoverage": "2026-10-27T06:49:58Z",
+   "publisher": {
+    "@id": "https://github.com/Yizebaba/EVEREST-"
+   },
+   "hasPart": [
+    {
+     "@id": "https://raw.githubusercontent.com/Yizebaba/EVEREST-/events/events/news-landslide-myagdi-2026-10-27.json"
+    },
+    {
+     "@id": "https://raw.githubusercontent.com/Yizebaba/EVEREST-/events/events/news-landslide-myagdi-2026-10-27.prov.json"
+    },
+    {
+     "@id": "https://raw.githubusercontent.com/Yizebaba/EVEREST-/events/events/news-landslide-myagdi-2026-10-27_evn.png"
+    },
+    {
+     "@id": "https://raw.githubusercontent.com/Yizebaba/EVEREST-/events/events/archive/news-landslide-myagdi-2026-10-27_1cbc7e30e109.json"
+    },
+    {
+     "@id": "https://raw.githubusercontent.com/Yizebaba/EVEREST-/events/events/archive/news-landslide-myagdi-2026-10-27_1cbc7e30e109.json.ots"
+    },
+    {
+     "@id": "https://raw.githubusercontent.com/Yizebaba/EVEREST-/events/events/archive/news-landslide-myagdi-2026-10-27_1cbc7e30e109.json.FreeTSA.tsr"
+    },
+    {
+     "@id": "https://raw.githubusercontent.com/Yizebaba/EVEREST-/events/events/archive/news-landslide-myagdi-2026-10-27_1cbc7e30e109.json.DigiCert.tsr"
+    },
+    {
+     "@id": "https://raw.githubusercontent.com/Yizebaba/EVEREST-/events/events/archive/news-landslide-myagdi-2026-10-27_1cbc7e30e109.json.sigstore.json"
+    }
+   ],
+   "citation": [
+    {
+     "@id": "https://doi.org/10.1038/s41597-025-05948-z"
+    },
+    {
+     "@id": "https://doi.org/10.1038/s41597-023-02847-z"
+    },
+    {
+     "@id": "https://doi.org/10.5194/essd-18-4697-2026"
+    }
+   ]
+  },
+  {
+   "@id": "https://doi.org/10.1038/s41597-025-05948-z",
+   "@type": "ScholarlyArticle",
+   "name": "A new Landslide Investigation and Simulation Archive through downscaled landslide experiments",
+   "datePublished": "2025"
+  },
+  {
+   "@id": "https://doi.org/10.1038/s41597-023-02847-z",
+   "@type": "ScholarlyArticle",
+   "name": "CAS Landslide Dataset: A Large-Scale and Multisensor Dataset for Deep Learning-Based Landslide Detection",
+   "datePublished": "2024"
+  },
+  {
+   "@id": "https://doi.org/10.5194/essd-18-4697-2026",
+   "@type": "ScholarlyArticle",
+   "name": "Unified Global Landslide Catalogue (UGLC): a single, standardised global-scale landslide dataset",
+   "datePublished": "2026"
+  },
+  {
+   "@id": "#place",
+   "@type": "Place",
+   "name": "Myagdi",
+   "geo": {
+    "@id": "#geo"
+   }
+  },
+  {
+   "@id": "#geo",
+   "@type": "GeoCoordinates",
+   "latitude": 28.6,
+   "longitude": 83.5
+  },
+  {
+   "@id": "https://github.com/Yizebaba/EVEREST-",
+   "@type": "Organization",
+   "name": "EVEREST"
+  },
+  {
+   "@id": "https://raw.githubusercontent.com/Yizebaba/EVEREST-/events/events/news-landslide-myagdi-2026-10-27.json",
+   "@type": "File",
+   "name": "证据包（时间线）",
+   "encodingFormat": "application/json"
+  },
+  {
+   "@id": "https://raw.githubusercontent.com/Yizebaba/EVEREST-/events/events/news-landslide-myagdi-2026-10-27.prov.json",
+   "@type": "File",
+   "name": "W3C PROV 溯源记录",
+   "encodingFormat": "application/json",
+   "conformsTo": {
+    "@id": "https://www.w3.org/TR/prov-json/"
+   }
+  },
+  {
+   "@id": "https://raw.githubusercontent.com/Yizebaba/EVEREST-/events/events/news-landslide-myagdi-2026-10-27_evn.png",
+   "@type": "File",
+   "name": "地震台信号图",
+   "encodingFormat": "image/png"
+  },
+  {
+   "@id": "https://raw.githubusercontent.com/Yizebaba/EVEREST-/events/events/archive/news-landslide-myagdi-2026-10-27_1cbc7e30e109.json",
+   "@type": "File",
+   "name": "不可变快照",
+   "sha256": "1cbc7e30e109d4b3bd30c012ebb3855f3674eb4d5394362e56edf4aeb98b42fd",
+   "dateCreated": "2026-10-27T09:19:01Z"
+  },
+  {
+   "@id": "https://raw.githubusercontent.com/Yizebaba/EVEREST-/events/events/archive/news-landslide-myagdi-2026-10-27_1cbc7e30e109.json.ots",
+   "@type": "File",
+   "name": "OpenTimestamps 证明",
+   "encodingFormat": "application/vnd.opentimestamps"
+  },
+  {
+   "@id": "https://raw.githubusercontent.com/Yizebaba/EVEREST-/events/events/archive/news-landslide-myagdi-2026-10-27_1cbc7e30e109.json.FreeTSA.tsr",
+   "@type": "File",
+   "name": "RFC 3161 时间戳（FreeTSA）",
+   "encodingFormat": "application/timestamp-reply"
+  },
+  {
+   "@id": "https://raw.githubusercontent.com/Yizebaba/EVEREST-/events/events/archive/news-landslide-myagdi-2026-10-27_1cbc7e30e109.json.DigiCert.tsr",
+   "@type": "File",
+   "name": "RFC 3161 时间戳（DigiCert）",
+   "encodingFormat": "application/timestamp-reply"
+  },
+  {
+   "@id": "https://raw.githubusercontent.com/Yizebaba/EVEREST-/events/events/archive/news-landslide-myagdi-2026-10-27_1cbc7e30e109.json.sigstore.json",
+   "@type": "File",
+   "name": "Sigstore 签名（含 Rekor 透明日志记录）",
+   "encodingFormat": "application/vnd.dev.sigstore.bundle+json"
+  }
+ ]
+}
