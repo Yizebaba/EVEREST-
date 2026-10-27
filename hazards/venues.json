@@ -1,5 +1,5 @@
 {
- "generated": "2026-10-27T02:43:08Z",
+ "generated": "2026-10-27T08:20:19Z",
  "method": "281 种灾害：每种找研究最集中、影响力最高的前三个期刊/会议，以及可作数据源或引用的数据集和数据论文。\n数据来自 OpenAlex（公开学术数据库，2 亿多篇论文，api.openalex.org，免费、无需密钥）。在 GitHub 运行器上跑。\n\n方法（可复现）：\n  1. 用 tools/hazard_keywords.py 里每种灾害的第一个匹配词检索 2020 年以来的论文（article/review），按发表期刊或会议分组计数；\n  2. 取论文数最多的 25 个来源里、该主题论文不少于 5 篇的期刊或会议（排除 Zenodo 这类存储库），\n     再去掉综合性大刊（名单见 MULTI，如 PLoS ONE、Scientific Reports、Nature Communications），\n     按“期刊 h 指数 × ln(1 + 该主题论文数)”排序取前三（既看影响力，也看在这个主题上发得多不多）\n     → “该灾种的专业顶刊顶会”；综合性大刊单独列出（multidisciplinary）；\n  （以下两步用 Crossref 公开接口，不占 OpenAlex 额度）\n  3. 同一检索词下，发表在数据期刊（标题里要出现检索词中的实词，不相关的丢掉）（ESSD、Scientific Data、Geoscience Data Journal、Data in Brief）的论文按检索相关度取前三 → 可引用的数据论文；\n  4. 同一检索词下，2020 年以来检索相关度前 20 篇里被引最多的三篇 → 方法参考。\n输出：venues.json\n增量运行：OpenAlex 按额度计费（无密钥每天约 100 次检索，免费密钥约 1000 次；每个灾种 1 次检索）。\n已有结果的灾种跳过；额度用完（HTTP 429）就停，下次接着跑。可选环境变量 OPENALEX_API_KEY（openalex.org/settings/api）。\n",
  "done": 281,
  "total": 281,
