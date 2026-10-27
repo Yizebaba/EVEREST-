@@ -1,9 +1,9 @@
 BIPAD 灾害事件库 fail None <urlopen error timed out>
 BIPAD 警报 fail None <urlopen error timed out>
 BIPAD 空气质量站 fail None <urlopen error timed out>
-NASA EONET ok 302 
+NASA EONET fail None <urlopen error [Errno 101] Network is unreachable>
 USGS 地震目录 ok 9 
-GDACS ok 100 
+GDACS fail None <urlopen error timed out>
 NOAA SWPC 空间天气 ok 88 
 NASA CNEOS ok 78 
 CelesTrak 在轨目标 ok 285 
@@ -16,9 +16,9 @@ Have I Been Pwned 数据泄露 ok 10
 IODA 网络连通 ok 0 
 尼泊尔央行汇率 fail None <urlopen error timed out>
 Safecast 辐射 ok 0 
-Sentinel-5P 大气成分 ok 7 
+Sentinel-5P 大气成分 fail None HTTP Error 504: Gateway Timeout
 机场天气实况 METAR ok 10 
-航空危险天气通报 SIGMET ok 28 
+航空危险天气通报 SIGMET ok 26 
 美国风暴实况报告 SPC ok 0 
 美国气象局已观测警报 NWS ok 7 
 USGS 火山通告 ok 1 
@@ -33,6 +33,6 @@ IBTrACS 活跃气旋 ok 7
 NSIDC 海冰 ok 2 
 史密森尼火山周报 ok 24 
 GBIF 物种记录（尼泊尔） ok 2 
-新闻 RSS ok 172 
-{"ok_none": 149, "local": 70, "global": 53, "observed": 9} 13722 records 5 candidates
+新闻 RSS ok 183 
+{"ok_none": 149, "local": 70, "global": 53, "observed": 9} 13741 records 5 candidates
 exit=0
