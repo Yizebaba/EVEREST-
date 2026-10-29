@@ -1,0 +1,1418 @@
+{
+ "id": "news-flood-dhading-2026-10-16",
+ "hips": [
+  "MH0600"
+ ],
+ "title": "Dhading 洪水（新闻线索）",
+ "title_en": "Dhading flood (news lead)",
+ "kind": "洪水",
+ "place": "Dhading",
+ "lat": 27.87,
+ "lon": 84.92,
+ "t": "2026-10-16T00:00:00Z",
+ "evn": {
+  "distance_km": 186,
+  "coverage_pct": 73,
+  "background": 23.07384760301765,
+  "peaks": [
+   [
+    "2026-10-15T10:52:19Z",
+    38.4
+   ],
+   [
+    "2026-10-15T02:31:19Z",
+    28.0
+   ],
+   [
+    "2026-10-15T08:39:19Z",
+    19.1
+   ]
+  ],
+  "png": "news-flood-dhading-2026-10-16_evn.png"
+ },
+ "kkn": {
+  "distance_km": 36,
+  "coverage_pct": 100,
+  "peaks": [
+   [
+    "2026-10-15T01:10:00Z",
+    27.1
+   ],
+   [
+    "2026-10-15T09:14:00Z",
+    10.6
+   ]
+  ]
+ },
+ "ioda": {
+  "region": "Bagmati (3024)",
+  "bgp": {
+   "median_before": 2237,
+   "min_after": 2237
+  },
+  "ping-slash24": {
+   "median_before": 776,
+   "min_after": 762
+  }
+ },
+ "sentinel": {
+  "sentinel-1-rtc": {
+   "before": {
+    "id": "S1D_IW_GRDH_1SDV_20261015T122142_20261015T122207_005026_0097FB_rtc",
+    "t": "2026-10-15T12:21:54Z",
+    "cloud": null,
+    "preview": "https://planetarycomputer.microsoft.com/api/data/v1/item/preview.png?collection=sentinel-1-rtc&item=S1D_IW_GRDH_1SDV_20261015T122142_20261015T122207_005026_0097FB_rtc&assets=vv&assets=vh&tile_format=png&expression=0.03%20%2B%20log%20(10e-4%20-%20log%20(0.05%20%2F%20(0.02%20%2B%202%20*%20vv)));0.05%20%2B%20exp%20(0.25%20*%20(log%20(0.01%20%2B%202%20*%20vv)%20%2B%20log%20(0.02%20%2B%205%20*%20vh)));1%20-%20log%20(0.05%20%2F%20(0.045%20-%200.9%20*%20vv))&asset_as_band=True&rescale=0,.8000&rescale=0,1.000&rescale=0,1.000&format=png",
+    "explore": "https://planetarycomputer.microsoft.com/explore?c=84.920,27.870&z=11&d=sentinel-1-rtc"
+   },
+   "after": {
+    "id": "S1D_IW_GRDH_1SDV_20261023T001845_20261023T001910_005135_009BBB_rtc",
+    "t": "2026-10-23T00:18:58Z",
+    "cloud": null,
+    "preview": "https://planetarycomputer.microsoft.com/api/data/v1/item/preview.png?collection=sentinel-1-rtc&item=S1D_IW_GRDH_1SDV_20261023T001845_20261023T001910_005135_009BBB_rtc&assets=vv&assets=vh&tile_format=png&expression=0.03%20%2B%20log%20(10e-4%20-%20log%20(0.05%20%2F%20(0.02%20%2B%202%20*%20vv)));0.05%20%2B%20exp%20(0.25%20*%20(log%20(0.01%20%2B%202%20*%20vv)%20%2B%20log%20(0.02%20%2B%205%20*%20vh)));1%20-%20log%20(0.05%20%2F%20(0.045%20-%200.9%20*%20vv))&asset_as_band=True&rescale=0,.8000&rescale=0,1.000&rescale=0,1.000&format=png",
+    "explore": "https://planetarycomputer.microsoft.com/explore?c=84.920,27.870&z=11&d=sentinel-1-rtc"
+   }
+  },
+  "sentinel-2-l2a": {
+   "before": {
+    "id": "S2C_MSIL2A_20261011T045721_R119_T45RUM_20261011T095104",
+    "t": "2026-10-11T04:57:21Z",
+    "cloud": 15.456955,
+    "preview": "https://planetarycomputer.microsoft.com/api/data/v1/item/preview.png?collection=sentinel-2-l2a&item=S2C_MSIL2A_20261011T045721_R119_T45RUM_20261011T095104&assets=visual&asset_bidx=visual%7C1,2,3&nodata=0&format=png",
+    "explore": "https://planetarycomputer.microsoft.com/explore?c=84.920,27.870&z=11&d=sentinel-2-l2a"
+   },
+   "after": {
+    "id": "S2B_MSIL2A_20261016T045759_R119_T45RUM_20261016T084839",
+    "t": "2026-10-16T04:57:59Z",
+    "cloud": 31.138375,
+    "preview": "https://planetarycomputer.microsoft.com/api/data/v1/item/preview.png?collection=sentinel-2-l2a&item=S2B_MSIL2A_20261016T045759_R119_T45RUM_20261016T084839&assets=visual&asset_bidx=visual%7C1,2,3&nodata=0&format=png",
+    "explore": "https://planetarycomputer.microsoft.com/explore?c=84.920,27.870&z=11&d=sentinel-2-l2a"
+   }
+  }
+ },
+ "gfm": {
+  "scenes": [
+   {
+    "id": "ENSEMBLE_FLOOD_20261022T121404_VV_AS020M_E033N027T3",
+    "t": "2026-10-22T12:14:04Z",
+    "flood_asset": "dlr_flood_extent",
+    "href": "https://data.eodc.eu/collections/GFM_NRT_INTERIM/flood_extent/AS020M/2026/10/22/DLR_FLOOD_20261022T121404_VV_AS020M_E033N027T3.tif"
+   },
+   {
+    "id": "ENSEMBLE_FLOOD_20261022T121339_VV_AS020M_E033N027T3",
+    "t": "2026-10-22T12:13:39Z",
+    "flood_asset": "dlr_flood_extent",
+    "href": "https://data.eodc.eu/collections/GFM_NRT_INTERIM/flood_extent/AS020M/2026/10/22/DLR_FLOOD_20261022T121339_VV_AS020M_E033N027T3.tif"
+   },
+   {
+    "id": "ENSEMBLE_FLOOD_20261022T121314_VV_AS020M_E033N027T3",
+    "t": "2026-10-22T12:13:14Z",
+    "flood_asset": "dlr_flood_extent",
+    "href": "https://data.eodc.eu/collections/GFM_NRT_INTERIM/flood_extent/AS020M/2026/10/22/DLR_FLOOD_20261022T121314_VV_AS020M_E033N027T3.tif"
+   },
+   {
+    "id": "ENSEMBLE_FLOOD_20261020T123012_VV_AS020M_E033N027T3",
+    "t": "2026-10-20T12:30:12Z",
+    "flood_asset": "dlr_flood_extent",
+    "href": "https://data.eodc.eu/collections/GFM_NRT_INTERIM/flood_extent/AS020M/2026/10/20/DLR_FLOOD_20261020T123012_VV_AS020M_E033N027T3.tif"
+   },
+   {
+    "id": "ENSEMBLE_FLOOD_20261020T122947_VV_AS020M_E033N027T3",
+    "t": "2026-10-20T12:29:47Z",
+    "flood_asset": "dlr_flood_extent",
+    "href": "https://data.eodc.eu/collections/GFM_NRT_INTERIM/flood_extent/AS020M/2026/10/20/DLR_FLOOD_20261020T122947_VV_AS020M_E033N027T3.tif"
+   },
+   {
+    "id": "ENSEMBLE_FLOOD_20261018T001038_VV_AS020M_E033N027T3",
+    "t": "2026-10-18T00:10:38Z",
+    "flood_asset": "dlr_flood_extent",
+    "href": "https://data.eodc.eu/collections/GFM_NRT_INTERIM/flood_extent/AS020M/2026/10/18/DLR_FLOOD_20261018T001038_VV_AS020M_E033N027T3.tif"
+   },
+   {
+    "id": "ENSEMBLE_FLOOD_20261018T001013_VV_AS020M_E033N027T3",
+    "t": "2026-10-18T00:10:13Z",
+    "flood_asset": "dlr_flood_extent",
+    "href": "https://data.eodc.eu/collections/GFM_NRT_INTERIM/flood_extent/AS020M/2026/10/18/DLR_FLOOD_20261018T001013_VV_AS020M_E033N027T3.tif"
+   },
+   {
+    "id": "ENSEMBLE_FLOOD_20261016T002716_VV_AS020M_E033N027T3",
+    "t": "2026-10-16T00:27:16Z",
+    "flood_asset": "dlr_flood_extent",
+    "href": "https://data.eodc.eu/collections/GFM_NRT_INTERIM/flood_extent/AS020M/2026/10/16/DLR_FLOOD_20261016T002716_VV_AS020M_E033N027T3.tif"
+   },
+   {
+    "id": "ENSEMBLE_FLOOD_20261016T002651_VV_AS020M_E033N027T3",
+    "t": "2026-10-16T00:26:51Z",
+    "flood_asset": "dlr_flood_extent",
+    "href": "https://data.eodc.eu/collections/GFM_NRT_INTERIM/flood_extent/AS020M/2026/10/16/DLR_FLOOD_20261016T002651_VV_AS020M_E033N027T3.tif"
+   },
+   {
+    "id": "ENSEMBLE_FLOOD_20261016T002626_VV_AS020M_E033N027T3",
+    "t": "2026-10-16T00:26:26Z",
+    "flood_asset": "dlr_flood_extent",
+    "href": "https://data.eodc.eu/collections/GFM_NRT_INTERIM/flood_extent/AS020M/2026/10/16/DLR_FLOOD_20261016T002626_VV_AS020M_E033N027T3.tif"
+   },
+   {
+    "id": "ENSEMBLE_FLOOD_20261015T122207_VV_AS020M_E033N027T3",
+    "t": "2026-10-15T12:22:07Z",
+    "flood_asset": "dlr_flood_extent",
+    "href": "https://data.eodc.eu/collections/GFM_NRT_INTERIM/flood_extent/AS020M/2026/10/15/DLR_FLOOD_20261015T122207_VV_AS020M_E033N027T3.tif"
+   },
+   {
+    "id": "ENSEMBLE_FLOOD_20261015T122142_VV_AS020M_E033N027T3",
+    "t": "2026-10-15T12:21:42Z",
+    "flood_asset": "dlr_flood_extent",
+    "href": "https://data.eodc.eu/collections/GFM_NRT_INTERIM/flood_extent/AS020M/2026/10/15/DLR_FLOOD_20261015T122142_VV_AS020M_E033N027T3.tif"
+   },
+   {
+    "id": "ENSEMBLE_FLOOD_20261015T122117_VV_AS020M_E033N027T3",
+    "t": "2026-10-15T12:21:17Z",
+    "flood_asset": "dlr_flood_extent",
+    "href": "https://data.eodc.eu/collections/GFM_NRT_INTERIM/flood_extent/AS020M/2026/10/15/DLR_FLOOD_20261015T122117_VV_AS020M_E033N027T3.tif"
+   }
+  ],
+  "portal": "https://portal.gfm.eodc.eu/?lat=27.87&lng=84.92&zoom=11"
+ },
+ "manual": {
+  "accepted": 0,
+  "pending": 0
+ },
+ "rshake": {
+  "stations": [
+   {
+    "sta": "R6E91",
+    "km": 5
+   },
+   {
+    "sta": "R14FA",
+    "km": 16
+   }
+  ]
+ },
+ "news": [
+  {
+   "t": "2026-10-18T16:45:00Z",
+   "title": "From precarious cable to span : Suspension bridge restores life flow in flood - hit Nepal Nuwakot",
+   "url": "https://aninews.in/news/world/asia/from-precarious-cable-to-span-suspension-bridge-restores-life-flow-in-flood-hit-nepal8217s-nuwakot20261018205700/",
+   "domain": "aninews.in",
+   "lang": "English"
+  }
+ ],
+ "kp_max": 4.0,
+ "hazard_links": {
+  "n": 39,
+  "codes": [
+   "BI0604",
+   "BI0605",
+   "EN0103",
+   "EN0104",
+   "GH0300",
+   "MH0203",
+   "MH0600",
+   "TL0211",
+   "TL0212",
+   "TL0305"
+  ]
+ },
+ "history": {
+  "source": {
+   "name": "HMAGLOFDB（高山亚洲冰湖溃决数据库）",
+   "repo": "https://github.com/fidelsteiner/HMAGLOFDB",
+   "commit": "e445f70118eaadf232e3bd6ff37ef9cdf93d9405",
+   "commit_time": "2026-09-30T09:04:04Z",
+   "file": "https://github.com/fidelsteiner/HMAGLOFDB/blob/e445f70118eaadf232e3bd6ff37ef9cdf93d9405/Database/GLOFs/HMAGLOFDB.csv",
+   "release_doi": "https://doi.org/10.5281/zenodo.7271187",
+   "paper": "https://doi.org/10.5194/essd-15-3941-2023",
+   "n": 774,
+   "fetched": "2026-10-29T02:06:24Z"
+  },
+  "radius_km": 30,
+  "n": 1,
+  "records": [
+   {
+    "id": "759",
+    "year": "2025",
+    "date": "2025-7-8",
+    "lake": "Ephemeral",
+    "country": "China",
+    "km": 28.3,
+    "lives": "28",
+    "mechanism": "Englacial tunnel",
+    "ref": "(this study)"
+   }
+  ],
+  "note": "数据库里事件 30 km 内历史上收录过的冰湖溃决，每条带数据库编号和原始文献；只是历史记录，不是这次事件的证据，也不用来推测。"
+ },
+ "png": "news-flood-dhading-2026-10-16_evn.png",
+ "references": [
+  {
+   "hips": "MH0600",
+   "hazard": "洪水",
+   "query": "\"flood disaster\"",
+   "data_papers": [
+    {
+     "title": "Flood simulation with the RiverCure approach: the open dataset of the 2016 Águeda flood event",
+     "doi": "https://doi.org/10.5194/essd-16-375-2024",
+     "journal": "Earth System Science Data",
+     "year": 2024
+    },
+    {
+     "title": "FloodIMG: Flood image DataBase system",
+     "doi": "https://doi.org/10.1016/j.dib.2023.109164",
+     "journal": "Data in Brief",
+     "year": 2023
+    },
+    {
+     "title": "Restoration models of flood resilient bridges: Survey data",
+     "doi": "https://doi.org/10.1016/j.dib.2021.107088",
+     "journal": "Data in Brief",
+     "year": 2021
+    }
+   ],
+   "venues": [
+    {
+     "name": "Journal of Hydrology",
+     "h": 360
+    },
+    {
+     "name": "Water",
+     "h": 173
+    },
+    {
+     "name": "Natural Hazards",
+     "h": 187
+    }
+   ]
+  }
+ ],
+ "references_note": "该灾种可引用的公开数据论文和专业期刊（OpenAlex 自动检索，见 docs/HAZARD_VENUES.md），是背景参考，不是本次事件的证据。",
+ "t_detected": "2026-10-16T00:00:00Z",
+ "t_src": "新闻（GDELT）",
+ "t_prec": "day",
+ "timeline": [
+  {
+   "t": "2026-10-11T04:57:21Z",
+   "src": "Sentinel-2 光学",
+   "kind": "NEUTRAL",
+   "text_en": "Last scene before the first public signal S2C_MSIL2A_20261011T045721_R119_T45RUM_20261011T095104 (cloud 15%)",
+   "text": "第一条公开信号之前最近一景 S2C_MSIL2A_20261011T045721_R119_T45RUM_20261011T095104（云量 15%）",
+   "url": "https://planetarycomputer.microsoft.com/api/data/v1/item/preview.png?collection=sentinel-2-l2a&item=S2C_MSIL2A_20261011T045721_R119_T45RUM_20261011T095104&assets=visual&asset_bidx=visual%7C1,2,3&nodata=0&format=png",
+   "bound": "Sentinel-2 光学"
+  },
+  {
+   "t": "2026-10-15T00:00:00Z",
+   "src": "IO.EVN 地震台",
+   "kind": "MISSING",
+   "text_en": "Data covers only 73% of the window",
+   "text": "窗口内数据只覆盖 73%",
+   "bound": "IO.EVN 地震台"
+  },
+  {
+   "t": "2026-10-15T01:10:00Z",
+   "src": "KKN 地震台",
+   "kind": "SUPPORTING",
+   "text": "1–5 Hz 信号约为背景的 27 倍（台站距事件约 36 km）；IO.EVN 这一时刻没有强信号",
+   "text_en": "1–5 Hz signal about 27× background (station about 36 km away); IO.EVN not strong at this time",
+   "bound": "KKN 地震台"
+  },
+  {
+   "t": "2026-10-15T02:31:19Z",
+   "src": "IO.EVN 地震台",
+   "kind": "SUPPORTING",
+   "text_en": "1–5 Hz signal about 28× background (station about 186 km away; shows only that strong shaking was recorded, source not determined)",
+   "text": "1–5 Hz 信号约为背景的 28 倍（台站距事件约 186 km；只说明此时有强信号，来源未判定）",
+   "bound": "IO.EVN 地震台"
+  },
+  {
+   "t": "2026-10-15T02:31:19Z",
+   "src": "KKN 地震台",
+   "kind": "CONTRADICTORY",
+   "text": "IO.EVN 这一时刻的强信号，KKN 没有记录到：更可能是珠峰附近的局部震动（如冰崩），不是这次事件",
+   "text_en": "KKN did not record IO.EVN's strong signal at this time: more likely local shaking near Everest (e.g. icefall), not this event",
+   "bound": "KKN 地震台"
+  },
+  {
+   "t": "2026-10-15T08:39:19Z",
+   "src": "IO.EVN 地震台",
+   "kind": "SUPPORTING",
+   "text_en": "1–5 Hz signal about 19× background (station about 186 km away; shows only that strong shaking was recorded, source not determined)",
+   "text": "1–5 Hz 信号约为背景的 19 倍（台站距事件约 186 km；只说明此时有强信号，来源未判定）",
+   "bound": "IO.EVN 地震台"
+  },
+  {
+   "t": "2026-10-15T08:39:19Z",
+   "src": "KKN 地震台",
+   "kind": "CONTRADICTORY",
+   "text": "IO.EVN 这一时刻的强信号，KKN 没有记录到：更可能是珠峰附近的局部震动（如冰崩），不是这次事件",
+   "text_en": "KKN did not record IO.EVN's strong signal at this time: more likely local shaking near Everest (e.g. icefall), not this event",
+   "bound": "KKN 地震台"
+  },
+  {
+   "t": "2026-10-15T09:14:00Z",
+   "src": "KKN 地震台",
+   "kind": "SUPPORTING",
+   "text": "1–5 Hz 信号约为背景的 11 倍（台站距事件约 36 km）；IO.EVN 这一时刻没有强信号",
+   "text_en": "1–5 Hz signal about 11× background (station about 36 km away); IO.EVN not strong at this time",
+   "bound": "KKN 地震台"
+  },
+  {
+   "t": "2026-10-15T10:52:06Z",
+   "src": "EMSC 地震目录",
+   "kind": "SUPPORTING",
+   "text_en": "m 3.0 · NEPAL",
+   "text": "m 3.0 · NEPAL",
+   "bound": "EMSC 地震目录"
+  },
+  {
+   "t": "2026-10-15T10:52:19Z",
+   "src": "IO.EVN 地震台",
+   "kind": "SUPPORTING",
+   "text_en": "1–5 Hz signal about 38× background (station about 186 km away; shows only that strong shaking was recorded, source not determined)",
+   "text": "1–5 Hz 信号约为背景的 38 倍（台站距事件约 186 km；只说明此时有强信号，来源未判定）",
+   "bound": "IO.EVN 地震台"
+  },
+  {
+   "t": "2026-10-15T10:52:19Z",
+   "src": "KKN 地震台",
+   "kind": "CONTRADICTORY",
+   "text": "IO.EVN 这一时刻的强信号，KKN 没有记录到：更可能是珠峰附近的局部震动（如冰崩），不是这次事件",
+   "text_en": "KKN did not record IO.EVN's strong signal at this time: more likely local shaking near Everest (e.g. icefall), not this event",
+   "bound": "KKN 地震台"
+  },
+  {
+   "t": "2026-10-15T11:56:00Z",
+   "src": "灾种扫描 · BIPAD 空气质量站",
+   "kind": "SUPPORTING",
+   "hips": [
+    "EN0103",
+    "MH0203",
+    "EN0104"
+   ],
+   "text": "Hetauda AQI 160.0",
+   "text_en": "Hetauda AQI 160.0",
+   "url": null,
+   "bound": "灾种扫描"
+  },
+  {
+   "t": "2026-10-15T12:21:17Z",
+   "src": "哥白尼 GFM",
+   "kind": "NEUTRAL",
+   "text": "Sentinel-1 自动洪水范围产品 ENSEMBLE_FLOOD_20261015T122117_VV_AS020M_E033N027T3（含洪水范围图层）",
+   "text_en": "Sentinel-1 automatic flood-extent product ENSEMBLE_FLOOD_20261015T122117_VV_AS020M_E033N027T3 (flood-extent layer included)",
+   "url": "https://data.eodc.eu/collections/GFM_NRT_INTERIM/flood_extent/AS020M/2026/10/15/DLR_FLOOD_20261015T122117_VV_AS020M_E033N027T3.tif",
+   "bound": "哥白尼 GFM"
+  },
+  {
+   "t": "2026-10-15T12:21:42Z",
+   "src": "哥白尼 GFM",
+   "kind": "NEUTRAL",
+   "text": "Sentinel-1 自动洪水范围产品 ENSEMBLE_FLOOD_20261015T122142_VV_AS020M_E033N027T3（含洪水范围图层）",
+   "text_en": "Sentinel-1 automatic flood-extent product ENSEMBLE_FLOOD_20261015T122142_VV_AS020M_E033N027T3 (flood-extent layer included)",
+   "url": "https://data.eodc.eu/collections/GFM_NRT_INTERIM/flood_extent/AS020M/2026/10/15/DLR_FLOOD_20261015T122142_VV_AS020M_E033N027T3.tif",
+   "bound": "哥白尼 GFM"
+  },
+  {
+   "t": "2026-10-15T12:21:54Z",
+   "src": "Sentinel-1 雷达",
+   "kind": "NEUTRAL",
+   "text_en": "Last scene before the first public signal S1D_IW_GRDH_1SDV_20261015T122142_20261015T122207_005026_0097FB_rtc",
+   "text": "第一条公开信号之前最近一景 S1D_IW_GRDH_1SDV_20261015T122142_20261015T122207_005026_0097FB_rtc",
+   "url": "https://planetarycomputer.microsoft.com/api/data/v1/item/preview.png?collection=sentinel-1-rtc&item=S1D_IW_GRDH_1SDV_20261015T122142_20261015T122207_005026_0097FB_rtc&assets=vv&assets=vh&tile_format=png&expression=0.03%20%2B%20log%20(10e-4%20-%20log%20(0.05%20%2F%20(0.02%20%2B%202%20*%20vv)));0.05%20%2B%20exp%20(0.25%20*%20(log%20(0.01%20%2B%202%20*%20vv)%20%2B%20log%20(0.02%20%2B%205%20*%20vh)));1%20-%20log%20(0.05%20%2F%20(0.045%20-%200.9%20*%20vv))&asset_as_band=True&rescale=0,.8000&rescale=0,1.000&rescale=0,1.000&format=png",
+   "bound": "Sentinel-1 雷达"
+  },
+  {
+   "t": "2026-10-15T12:22:07Z",
+   "src": "哥白尼 GFM",
+   "kind": "NEUTRAL",
+   "text": "Sentinel-1 自动洪水范围产品 ENSEMBLE_FLOOD_20261015T122207_VV_AS020M_E033N027T3（含洪水范围图层）",
+   "text_en": "Sentinel-1 automatic flood-extent product ENSEMBLE_FLOOD_20261015T122207_VV_AS020M_E033N027T3 (flood-extent layer included)",
+   "url": "https://data.eodc.eu/collections/GFM_NRT_INTERIM/flood_extent/AS020M/2026/10/15/DLR_FLOOD_20261015T122207_VV_AS020M_E033N027T3.tif",
+   "bound": "哥白尼 GFM"
+  },
+  {
+   "t": "2026-10-15T18:15:00Z",
+   "src": "灾种扫描 · BIPAD 灾害事件库",
+   "kind": "SUPPORTING",
+   "hips": [
+    "TL0305"
+   ],
+   "text": "Fire at Aurahi Municipality-2（死亡 1）",
+   "text_en": "Fire at Aurahi Municipality-2（死亡 1）",
+   "url": "https://bipadportal.gov.np/incidents/95821",
+   "bound": "灾种扫描",
+   "archive": "https://web.archive.org/web/20261018113000/https://bipadportal.gov.np/incidents/95821",
+   "archive_t": "2026-10-18T11:30:00Z"
+  },
+  {
+   "t": "2026-10-15T18:15:00Z",
+   "src": "灾种扫描 · BIPAD 灾害事件库",
+   "kind": "SUPPORTING",
+   "hips": [
+    "TL0305"
+   ],
+   "text": "Fire at Devchuli Municipality-13",
+   "text_en": "Fire at Devchuli Municipality-13",
+   "url": "https://bipadportal.gov.np/incidents/95808",
+   "bound": "灾种扫描",
+   "archive": "https://web.archive.org/web/20261019110015/https://bipadportal.gov.np/incidents/95808",
+   "archive_t": "2026-10-19T11:00:15Z"
+  },
+  {
+   "t": "2026-10-15T20:12:19Z",
+   "src": "IO.EVN 地震台",
+   "kind": "MISSING",
+   "text": "20:12–01:40 UTC 没有数据（328 分钟）",
+   "text_en": "No data 20:12–01:40 UTC (328 min)",
+   "bound": "IO.EVN 地震台"
+  },
+  {
+   "t": "2026-10-16T00:00:00Z",
+   "src": "新闻（GDELT）",
+   "kind": "SUPPORTING",
+   "text_en": "news.google.com: Google News（尼泊尔灾害）：Nepal: Gorkha and Dhading Districts - Reference map and flood extents (As of 16 October 2026) - ReliefWeb",
+   "text": "news.google.com：Google News（尼泊尔灾害）：Nepal: Gorkha and Dhading Districts - Reference map and flood extents (As of 16 October 2026) - ReliefWeb",
+   "url": "https://news.google.com/rss/articles/CBMitAFBVV95cUxQcTVHV0VNdmdhVE4tRFlWSlp1UnFMNHpLcG9Kd2w2b0ZWSEsxcG5HdDc0LWdXamZkYm5UZEoyUDFETFBmOFBueUJIdWhNM2lrV1c2M0tQNzFzTUlIVEV5dUVfSkIzRjdtdUZURkFsdFZfRExEdTlIM1p3Vk5yRmpVaEpJNk5IMmR5aGc2ZzlrXzczU1lJQ28tbmRBQ1BmQnJSaWgxWl9VWlh6V056RklUd2NMOXk?oc=5",
+   "archive": "https://web.archive.org/web/20261019103838/https://news.google.com/rss/articles/CBMitAFBVV95cUxQcTVHV0VNdmdhVE4tRFlWSlp1UnFMNHpLcG9Kd2w2b0ZWSEsxcG5HdDc0LWdXamZkYm5UZEoyUDFETFBmOFBueUJIdWhNM2lrV1c2M0tQNzFzTUlIVEV5dUVfSkIzRjdtdUZURkFsdFZfRExEdTlIM1p3Vk5yRmpVaEpJNk5IMmR5aGc2ZzlrXzczU1lJQ28tbmRBQ1BmQnJSaWgxWl9VWlh6V056RklUd2NMOXk?oc=5",
+   "archive_t": "2026-10-19T10:38:38Z"
+  },
+  {
+   "t": "2026-10-16T00:00:00Z",
+   "src": "USGS 地震目录",
+   "kind": "NEUTRAL",
+   "text_en": "Nothing within 300 km in the day before or after",
+   "text": "事件 300 km 内前后一天没有记录",
+   "bound": "USGS 地震目录"
+  },
+  {
+   "t": "2026-10-16T00:00:00Z",
+   "src": "IODA 网络连通",
+   "kind": "NEUTRAL",
+   "text_en": "No clear drop in Bagmati region within 24 h of the event",
+   "text": "Bagmati 区事件前后 24 小时没有明显下降",
+   "bound": "IODA 网络连通"
+  },
+  {
+   "t": "2026-10-16T00:00:00Z",
+   "src": "Raspberry Shake 地震仪",
+   "kind": "MISSING",
+   "text": "AM.R6E91 取不到波形（没有返回数据）",
+   "text_en": "AM.R6E91 waveform not available (没有返回数据)",
+   "bound": "Raspberry Shake"
+  },
+  {
+   "t": "2026-10-16T00:00:00Z",
+   "src": "Raspberry Shake 地震仪",
+   "kind": "MISSING",
+   "text": "AM.R14FA 取不到波形（没有返回数据）",
+   "text_en": "AM.R14FA waveform not available (没有返回数据)",
+   "bound": "Raspberry Shake"
+  },
+  {
+   "t": "2026-10-16T00:00:00Z",
+   "src": "维基百科",
+   "kind": "NEUTRAL",
+   "text": "事件后没有新建的相关条目",
+   "text_en": "No related article created after the event",
+   "bound": "维基百科"
+  },
+  {
+   "t": "2026-10-16T00:00:00Z",
+   "src": "OCHA HDX",
+   "kind": "NEUTRAL",
+   "text": "事件后没有新建的尼泊尔灾害数据集",
+   "text_en": "No new Nepal disaster dataset after the event",
+   "bound": "OCHA HDX"
+  },
+  {
+   "t": "2026-10-16T00:00:00Z",
+   "src": "灾种扫描 · 新闻 RSS",
+   "kind": "SUPPORTING",
+   "hips": [
+    "MH0600"
+   ],
+   "text": "Google News（尼泊尔灾害）：Nepal: Gorkha and Dhading Districts - Reference map and flood extents (As of 16 October 2026) - ReliefWeb",
+   "text_en": "Google News（尼泊尔灾害）：Nepal: Gorkha and Dhading Districts - Reference map and flood extents (As of 16 October 2026) - ReliefWeb",
+   "url": "https://news.google.com/rss/articles/CBMitAFBVV95cUxQcTVHV0VNdmdhVE4tRFlWSlp1UnFMNHpLcG9Kd2w2b0ZWSEsxcG5HdDc0LWdXamZkYm5UZEoyUDFETFBmOFBueUJIdWhNM2lrV1c2M0tQNzFzTUlIVEV5dUVfSkIzRjdtdUZURkFsdFZfRExEdTlIM1p3Vk5yRmpVaEpJNk5IMmR5aGc2ZzlrXzczU1lJQ28tbmRBQ1BmQnJSaWgxWl9VWlh6V056RklUd2NMOXk?oc=5",
+   "bound": "灾种扫描",
+   "archive": "https://web.archive.org/web/20261019103838/https://news.google.com/rss/articles/CBMitAFBVV95cUxQcTVHV0VNdmdhVE4tRFlWSlp1UnFMNHpLcG9Kd2w2b0ZWSEsxcG5HdDc0LWdXamZkYm5UZEoyUDFETFBmOFBueUJIdWhNM2lrV1c2M0tQNzFzTUlIVEV5dUVfSkIzRjdtdUZURkFsdFZfRExEdTlIM1p3Vk5yRmpVaEpJNk5IMmR5aGc2ZzlrXzczU1lJQ28tbmRBQ1BmQnJSaWgxWl9VWlh6V056RklUd2NMOXk?oc=5",
+   "archive_t": "2026-10-19T10:38:38Z"
+  },
+  {
+   "t": "2026-10-16T00:26:26Z",
+   "src": "哥白尼 GFM",
+   "kind": "SUPPORTING",
+   "text": "Sentinel-1 自动洪水范围产品 ENSEMBLE_FLOOD_20261016T002626_VV_AS020M_E033N027T3（含洪水范围图层）",
+   "text_en": "Sentinel-1 automatic flood-extent product ENSEMBLE_FLOOD_20261016T002626_VV_AS020M_E033N027T3 (flood-extent layer included)",
+   "url": "https://data.eodc.eu/collections/GFM_NRT_INTERIM/flood_extent/AS020M/2026/10/16/DLR_FLOOD_20261016T002626_VV_AS020M_E033N027T3.tif",
+   "bound": "哥白尼 GFM",
+   "archive": "https://web.archive.org/web/20261016033454/https://data.eodc.eu/collections/GFM_NRT_INTERIM/flood_extent/AS020M/2026/10/16/DLR_FLOOD_20261016T002626_VV_AS020M_E033N027T3.tif",
+   "archive_t": "2026-10-16T03:34:54Z"
+  },
+  {
+   "t": "2026-10-16T00:26:51Z",
+   "src": "哥白尼 GFM",
+   "kind": "SUPPORTING",
+   "text": "Sentinel-1 自动洪水范围产品 ENSEMBLE_FLOOD_20261016T002651_VV_AS020M_E033N027T3（含洪水范围图层）",
+   "text_en": "Sentinel-1 automatic flood-extent product ENSEMBLE_FLOOD_20261016T002651_VV_AS020M_E033N027T3 (flood-extent layer included)",
+   "url": "https://data.eodc.eu/collections/GFM_NRT_INTERIM/flood_extent/AS020M/2026/10/16/DLR_FLOOD_20261016T002651_VV_AS020M_E033N027T3.tif",
+   "bound": "哥白尼 GFM",
+   "archive": "https://web.archive.org/web/20261016033506/https://data.eodc.eu/collections/GFM_NRT_INTERIM/flood_extent/AS020M/2026/10/16/DLR_FLOOD_20261016T002651_VV_AS020M_E033N027T3.tif",
+   "archive_t": "2026-10-16T03:35:06Z"
+  },
+  {
+   "t": "2026-10-16T00:27:16Z",
+   "src": "哥白尼 GFM",
+   "kind": "SUPPORTING",
+   "text": "Sentinel-1 自动洪水范围产品 ENSEMBLE_FLOOD_20261016T002716_VV_AS020M_E033N027T3（含洪水范围图层）",
+   "text_en": "Sentinel-1 automatic flood-extent product ENSEMBLE_FLOOD_20261016T002716_VV_AS020M_E033N027T3 (flood-extent layer included)",
+   "url": "https://data.eodc.eu/collections/GFM_NRT_INTERIM/flood_extent/AS020M/2026/10/16/DLR_FLOOD_20261016T002716_VV_AS020M_E033N027T3.tif",
+   "bound": "哥白尼 GFM",
+   "archive": "https://web.archive.org/web/20261016033739/https://data.eodc.eu/collections/GFM_NRT_INTERIM/flood_extent/AS020M/2026/10/16/DLR_FLOOD_20261016T002716_VV_AS020M_E033N027T3.tif",
+   "archive_t": "2026-10-16T03:37:39Z"
+  },
+  {
+   "t": "2026-10-16T03:52:16Z",
+   "src": "新闻（GDELT）",
+   "kind": "SUPPORTING",
+   "text_en": "risingnepaldaily.com: Rising Nepal：Kaligandaki flood turns Tatopani hot spring into barren riverbed",
+   "text": "risingnepaldaily.com：Rising Nepal：Kaligandaki flood turns Tatopani hot spring into barren riverbed",
+   "url": "https://risingnepaldaily.com/news/87864"
+  },
+  {
+   "t": "2026-10-16T03:55:11Z",
+   "src": "新闻（GDELT）",
+   "kind": "SUPPORTING",
+   "text_en": "news.google.com: Google News（尼泊尔灾害）：Kaligandaki flood turns Tatopani hot spring into barren riverbed - The Rising Nepal",
+   "text": "news.google.com：Google News（尼泊尔灾害）：Kaligandaki flood turns Tatopani hot spring into barren riverbed - The Rising Nepal",
+   "url": "https://news.google.com/rss/articles/CBMiUEFVX3lxTE5qS0hBZVZoTE0tYUlLMGRCNklHbXRrRHhWSmxqbW44Ml91WWpFZjBnTmVKYnN5ei02QVlKMXVhckRsbUFWOXk5dGdmeG44UXo3?oc=5",
+   "archive": "https://web.archive.org/web/20261018113723/https://news.google.com/rss/articles/CBMiUEFVX3lxTE5qS0hBZVZoTE0tYUlLMGRCNklHbXRrRHhWSmxqbW44Ml91WWpFZjBnTmVKYnN5ei02QVlKMXVhckRsbUFWOXk5dGdmeG44UXo3?oc=5",
+   "archive_t": "2026-10-18T11:37:23Z"
+  },
+  {
+   "t": "2026-10-16T04:57:59Z",
+   "src": "Sentinel-2 光学",
+   "kind": "SUPPORTING",
+   "text_en": "First scene after the first public signal S2B_MSIL2A_20261016T045759_R119_T45RUM_20261016T084839 (cloud 31%), compare with before",
+   "text": "第一条公开信号之后第一景 S2B_MSIL2A_20261016T045759_R119_T45RUM_20261016T084839（云量 31%），可与事件前对比",
+   "url": "https://planetarycomputer.microsoft.com/api/data/v1/item/preview.png?collection=sentinel-2-l2a&item=S2B_MSIL2A_20261016T045759_R119_T45RUM_20261016T084839&assets=visual&asset_bidx=visual%7C1,2,3&nodata=0&format=png",
+   "bound": "Sentinel-2 光学",
+   "archive": "https://web.archive.org/web/20261018123502/https://planetarycomputer.microsoft.com/api/data/v1/item/preview.png?collection=sentinel-2-l2a&item=S2B_MSIL2A_20261016T045759_R119_T45RUM_20261016T084839&assets=visual&asset_bidx=visual%7C1,2,3&nodata=0&format=png",
+   "archive_t": "2026-10-18T12:35:02Z"
+  },
+  {
+   "t": "2026-10-16T08:47:31Z",
+   "src": "新闻（GDELT）",
+   "kind": "SUPPORTING",
+   "text_en": "english.onlinekhabar.com: OnlineKhabar English：Govt declares flood-hit areas in Gorkha, Baglung and Dhading disaster crisis zones",
+   "text": "english.onlinekhabar.com：OnlineKhabar English：Govt declares flood-hit areas in Gorkha, Baglung and Dhading disaster crisis zones",
+   "url": "https://english.onlinekhabar.com/govt-declares-flood-hit-areas-in-gorkha-baglung-and-dhading-disaster-crisis-zones.html",
+   "archive": "https://web.archive.org/web/20261016091955/https://english.onlinekhabar.com/govt-declares-flood-hit-areas-in-gorkha-baglung-and-dhading-disaster-crisis-zones.html",
+   "archive_t": "2026-10-16T09:19:55Z"
+  },
+  {
+   "t": "2026-10-16T08:47:31Z",
+   "src": "灾种扫描 · 新闻 RSS",
+   "kind": "SUPPORTING",
+   "hips": [
+    "MH0600",
+    "GH0300"
+   ],
+   "text": "OnlineKhabar English：Govt declares flood-hit areas in Gorkha, Baglung and Dhading disaster crisis zones",
+   "text_en": "OnlineKhabar English：Govt declares flood-hit areas in Gorkha, Baglung and Dhading disaster crisis zones",
+   "url": "https://english.onlinekhabar.com/govt-declares-flood-hit-areas-in-gorkha-baglung-and-dhading-disaster-crisis-zones.html",
+   "bound": "灾种扫描",
+   "archive": "https://web.archive.org/web/20261016091955/https://english.onlinekhabar.com/govt-declares-flood-hit-areas-in-gorkha-baglung-and-dhading-disaster-crisis-zones.html",
+   "archive_t": "2026-10-16T09:19:55Z"
+  },
+  {
+   "t": "2026-10-16T18:00:00Z",
+   "src": "地磁 Kp（GFZ）",
+   "kind": "NEUTRAL",
+   "text": "事件前后一天最大 Kp 4.0：没有地磁暴",
+   "text_en": "Max Kp 4.0 within a day of the event: no geomagnetic storm",
+   "bound": "地磁 Kp"
+  },
+  {
+   "t": "2026-10-16T18:15:00Z",
+   "src": "灾种扫描 · BIPAD 灾害事件库",
+   "kind": "SUPPORTING",
+   "hips": [
+    "TL0305"
+   ],
+   "text": "Fire at Gosaikunda Rural Municipality-4",
+   "text_en": "Fire at Gosaikunda Rural Municipality-4",
+   "url": "https://bipadportal.gov.np/incidents/95862",
+   "bound": "灾种扫描",
+   "archive": "https://web.archive.org/web/20261019062717/https://bipadportal.gov.np/incidents/95862",
+   "archive_t": "2026-10-19T06:27:17Z"
+  },
+  {
+   "t": "2026-10-16T19:35:20Z",
+   "src": "EMSC 地震目录",
+   "kind": "SUPPORTING",
+   "text_en": "m 3.5 · WESTERN XIZANG",
+   "text": "m 3.5 · WESTERN XIZANG",
+   "bound": "EMSC 地震目录"
+  },
+  {
+   "t": "2026-10-17T01:52:00Z",
+   "src": "灾种扫描 · BIPAD 空气质量站",
+   "kind": "SUPPORTING",
+   "hips": [
+    "EN0103",
+    "MH0203",
+    "EN0104"
+   ],
+   "text": "Bhaisipati AQI 151.0",
+   "text_en": "Bhaisipati AQI 151.0",
+   "url": null,
+   "bound": "灾种扫描"
+  },
+  {
+   "t": "2026-10-17T18:15:00Z",
+   "src": "灾种扫描 · BIPAD 灾害事件库",
+   "kind": "SUPPORTING",
+   "hips": [
+    "BI0605"
+   ],
+   "text": "Snake Bite at Jitpur Simara Submetropolitan City-17（死亡 1）",
+   "text_en": "Snake Bite at Jitpur Simara Submetropolitan City-17（死亡 1）",
+   "url": "https://bipadportal.gov.np/incidents/95849",
+   "bound": "灾种扫描",
+   "archive": "https://web.archive.org/web/20261019062801/https://bipadportal.gov.np/incidents/95849",
+   "archive_t": "2026-10-19T06:28:01Z"
+  },
+  {
+   "t": "2026-10-17T18:15:00Z",
+   "src": "灾种扫描 · BIPAD 灾害事件库",
+   "kind": "SUPPORTING",
+   "hips": [
+    "TL0305"
+   ],
+   "text": "Fire at Makawanpurgadhi Rural Municipality-5",
+   "text_en": "Fire at Makawanpurgadhi Rural Municipality-5",
+   "url": "https://bipadportal.gov.np/incidents/95859",
+   "bound": "灾种扫描",
+   "archive": "https://web.archive.org/web/20261019063002/https://bipadportal.gov.np/incidents/95859",
+   "archive_t": "2026-10-19T06:30:02Z"
+  },
+  {
+   "t": "2026-10-17T18:15:00Z",
+   "src": "灾种扫描 · BIPAD 灾害事件库",
+   "kind": "SUPPORTING",
+   "hips": [
+    "TL0305"
+   ],
+   "text": "Fire at Kageshwori Manahora Municipality-9",
+   "text_en": "Fire at Kageshwori Manahora Municipality-9",
+   "url": "https://bipadportal.gov.np/incidents/95863",
+   "bound": "灾种扫描"
+  },
+  {
+   "t": "2026-10-18T00:00:00Z",
+   "src": "灾种扫描 · IODA 网络连通",
+   "kind": "SUPPORTING",
+   "hips": [
+    "TL0211",
+    "TL0212"
+   ],
+   "text": "尼泊尔网络中断 ping-slash24 得分 4781.472684085511",
+   "text_en": "尼泊尔网络中断 ping-slash24 得分 4781.472684085511",
+   "url": "https://ioda.inetintel.cc.gatech.edu/country/NP",
+   "bound": "灾种扫描"
+  },
+  {
+   "t": "2026-10-18T00:10:13Z",
+   "src": "哥白尼 GFM",
+   "kind": "SUPPORTING",
+   "text": "Sentinel-1 自动洪水范围产品 ENSEMBLE_FLOOD_20261018T001013_VV_AS020M_E033N027T3（含洪水范围图层）",
+   "text_en": "Sentinel-1 automatic flood-extent product ENSEMBLE_FLOOD_20261018T001013_VV_AS020M_E033N027T3 (flood-extent layer included)",
+   "url": "https://data.eodc.eu/collections/GFM_NRT_INTERIM/flood_extent/AS020M/2026/10/18/DLR_FLOOD_20261018T001013_VV_AS020M_E033N027T3.tif",
+   "bound": "哥白尼 GFM",
+   "archive": "https://web.archive.org/web/20261018030040/https://data.eodc.eu/collections/GFM_NRT_INTERIM/flood_extent/AS020M/2026/10/18/DLR_FLOOD_20261018T001013_VV_AS020M_E033N027T3.tif",
+   "archive_t": "2026-10-18T03:00:40Z"
+  },
+  {
+   "t": "2026-10-18T00:10:38Z",
+   "src": "哥白尼 GFM",
+   "kind": "SUPPORTING",
+   "text": "Sentinel-1 自动洪水范围产品 ENSEMBLE_FLOOD_20261018T001038_VV_AS020M_E033N027T3（含洪水范围图层）",
+   "text_en": "Sentinel-1 automatic flood-extent product ENSEMBLE_FLOOD_20261018T001038_VV_AS020M_E033N027T3 (flood-extent layer included)",
+   "url": "https://data.eodc.eu/collections/GFM_NRT_INTERIM/flood_extent/AS020M/2026/10/18/DLR_FLOOD_20261018T001038_VV_AS020M_E033N027T3.tif",
+   "bound": "哥白尼 GFM",
+   "archive": "https://web.archive.org/web/20261018030051/https://data.eodc.eu/collections/GFM_NRT_INTERIM/flood_extent/AS020M/2026/10/18/DLR_FLOOD_20261018T001038_VV_AS020M_E033N027T3.tif",
+   "archive_t": "2026-10-18T03:00:51Z"
+  },
+  {
+   "t": "2026-10-18T01:55:00Z",
+   "src": "灾种扫描 · BIPAD 空气质量站",
+   "kind": "SUPPORTING",
+   "hips": [
+    "EN0103",
+    "MH0203",
+    "EN0104"
+   ],
+   "text": "Bhaktapur  AQI 157.0",
+   "text_en": "Bhaktapur  AQI 157.0",
+   "url": null,
+   "bound": "灾种扫描"
+  },
+  {
+   "t": "2026-10-18T16:45:00Z",
+   "src": "GDELT 新闻",
+   "kind": "SUPPORTING",
+   "text": "最早一篇相关报道（aninews.in）：From precarious cable to span : Suspension bridge restores life flow in flood - hit Nepal Nuwakot",
+   "text_en": "Earliest related report (aninews.in): From precarious cable to span : Suspension bridge restores life flow in flood - hit Nepal Nuwakot",
+   "url": "https://aninews.in/news/world/asia/from-precarious-cable-to-span-suspension-bridge-restores-life-flow-in-flood-hit-nepal8217s-nuwakot20261018205700/",
+   "bound": "GDELT 新闻"
+  },
+  {
+   "t": "2026-10-18T16:45:00Z",
+   "src": "GDELT 新闻",
+   "kind": "NEUTRAL",
+   "text": "事件前 1 天到后 5 天共 1 篇、1 家媒体：aninews.in",
+   "text_en": "1 articles from 1 outlets between 1 day before and 5 days after: aninews.in",
+   "bound": "GDELT 新闻"
+  },
+  {
+   "t": "2026-10-18T18:15:00Z",
+   "src": "灾种扫描 · BIPAD 灾害事件库",
+   "kind": "SUPPORTING",
+   "hips": [
+    "BI0605"
+   ],
+   "text": "Snake Bite at Gorkha Municipality-13",
+   "text_en": "Snake Bite at Gorkha Municipality-13",
+   "url": "https://bipadportal.gov.np/incidents/95879",
+   "bound": "灾种扫描",
+   "archive": "https://web.archive.org/web/20261020064844/https://bipadportal.gov.np/incidents/95879",
+   "archive_t": "2026-10-20T06:48:44Z"
+  },
+  {
+   "t": "2026-10-18T18:15:00Z",
+   "src": "灾种扫描 · BIPAD 灾害事件库",
+   "kind": "SUPPORTING",
+   "hips": [
+    "TL0305"
+   ],
+   "text": "Fire at Thori Rural Municipality-5",
+   "text_en": "Fire at Thori Rural Municipality-5",
+   "url": "https://bipadportal.gov.np/incidents/95885",
+   "bound": "灾种扫描",
+   "archive": "https://web.archive.org/web/20261020075653/https://bipadportal.gov.np/incidents/95885",
+   "archive_t": "2026-10-20T07:56:53Z"
+  },
+  {
+   "t": "2026-10-18T19:01:00Z",
+   "src": "灾种扫描 · BIPAD 空气质量站",
+   "kind": "SUPPORTING",
+   "hips": [
+    "EN0103",
+    "MH0203",
+    "EN0104"
+   ],
+   "text": "Ratnapark AQI 210.0",
+   "text_en": "Ratnapark AQI 210.0",
+   "url": null,
+   "bound": "灾种扫描"
+  },
+  {
+   "t": "2026-10-19T00:34:00Z",
+   "src": "灾种扫描 · BIPAD 空气质量站",
+   "kind": "SUPPORTING",
+   "hips": [
+    "EN0103",
+    "MH0203",
+    "EN0104"
+   ],
+   "text": "Sauraha AQI 158.0",
+   "text_en": "Sauraha AQI 158.0",
+   "url": null,
+   "bound": "灾种扫描"
+  },
+  {
+   "t": "2026-10-19T01:59:00Z",
+   "src": "灾种扫描 · BIPAD 空气质量站",
+   "kind": "SUPPORTING",
+   "hips": [
+    "EN0103",
+    "MH0203",
+    "EN0104"
+   ],
+   "text": "Khumaltar AQI 155.0",
+   "text_en": "Khumaltar AQI 155.0",
+   "url": null,
+   "bound": "灾种扫描"
+  },
+  {
+   "t": "2026-10-19T18:15:00Z",
+   "src": "灾种扫描 · BIPAD 灾害事件库",
+   "kind": "SUPPORTING",
+   "hips": [
+    "TL0305"
+   ],
+   "text": "Fire at Rhishing Rural Municipality-1",
+   "text_en": "Fire at Rhishing Rural Municipality-1",
+   "url": "https://bipadportal.gov.np/incidents/95866",
+   "bound": "灾种扫描",
+   "archive": "https://web.archive.org/web/20261020055359/https://bipadportal.gov.np/incidents/95866",
+   "archive_t": "2026-10-20T05:53:59Z"
+  },
+  {
+   "t": "2026-10-19T18:15:00Z",
+   "src": "灾种扫描 · BIPAD 灾害事件库",
+   "kind": "SUPPORTING",
+   "hips": [
+    "TL0305"
+   ],
+   "text": "Fire at Kageshwori Manahora Municipality-9",
+   "text_en": "Fire at Kageshwori Manahora Municipality-9",
+   "url": "https://bipadportal.gov.np/incidents/95892",
+   "bound": "灾种扫描",
+   "archive": "https://web.archive.org/web/20261020160307/https://bipadportal.gov.np/incidents/95892",
+   "archive_t": "2026-10-20T16:03:07Z"
+  },
+  {
+   "t": "2026-10-19T18:15:00Z",
+   "src": "灾种扫描 · BIPAD 灾害事件库",
+   "kind": "SUPPORTING",
+   "hips": [
+    "TL0305"
+   ],
+   "text": "Fire at Marsyangdi Rural Municipality-7",
+   "text_en": "Fire at Marsyangdi Rural Municipality-7",
+   "url": "https://bipadportal.gov.np/incidents/95903",
+   "bound": "灾种扫描",
+   "archive": "https://web.archive.org/web/20261021024356/https://bipadportal.gov.np/incidents/95903",
+   "archive_t": "2026-10-21T02:43:56Z"
+  },
+  {
+   "t": "2026-10-19T18:15:00Z",
+   "src": "灾种扫描 · BIPAD 灾害事件库",
+   "kind": "SUPPORTING",
+   "hips": [
+    "TL0305"
+   ],
+   "text": "Fire at Kageshwori Manahora Municipality-9",
+   "text_en": "Fire at Kageshwori Manahora Municipality-9",
+   "url": "https://bipadportal.gov.np/incidents/95900",
+   "bound": "灾种扫描",
+   "archive": "https://web.archive.org/web/20261021024520/https://bipadportal.gov.np/incidents/95900",
+   "archive_t": "2026-10-21T02:45:20Z"
+  },
+  {
+   "t": "2026-10-20T09:54:00Z",
+   "src": "灾种扫描 · BIPAD 空气质量站",
+   "kind": "SUPPORTING",
+   "hips": [
+    "EN0103",
+    "MH0203",
+    "EN0104"
+   ],
+   "text": "Pulchowk AQI 165.0",
+   "text_en": "Pulchowk AQI 165.0",
+   "url": null,
+   "bound": "灾种扫描"
+  },
+  {
+   "t": "2026-10-20T12:29:47Z",
+   "src": "哥白尼 GFM",
+   "kind": "SUPPORTING",
+   "text": "Sentinel-1 自动洪水范围产品 ENSEMBLE_FLOOD_20261020T122947_VV_AS020M_E033N027T3（含洪水范围图层）",
+   "text_en": "Sentinel-1 automatic flood-extent product ENSEMBLE_FLOOD_20261020T122947_VV_AS020M_E033N027T3 (flood-extent layer included)",
+   "url": "https://data.eodc.eu/collections/GFM_NRT_INTERIM/flood_extent/AS020M/2026/10/20/DLR_FLOOD_20261020T122947_VV_AS020M_E033N027T3.tif",
+   "bound": "哥白尼 GFM",
+   "archive": "https://web.archive.org/web/20261020160323/https://data.eodc.eu/collections/GFM_NRT_INTERIM/flood_extent/AS020M/2026/10/20/DLR_FLOOD_20261020T122947_VV_AS020M_E033N027T3.tif",
+   "archive_t": "2026-10-20T16:03:23Z"
+  },
+  {
+   "t": "2026-10-20T12:30:12Z",
+   "src": "哥白尼 GFM",
+   "kind": "SUPPORTING",
+   "text": "Sentinel-1 自动洪水范围产品 ENSEMBLE_FLOOD_20261020T123012_VV_AS020M_E033N027T3（含洪水范围图层）",
+   "text_en": "Sentinel-1 automatic flood-extent product ENSEMBLE_FLOOD_20261020T123012_VV_AS020M_E033N027T3 (flood-extent layer included)",
+   "url": "https://data.eodc.eu/collections/GFM_NRT_INTERIM/flood_extent/AS020M/2026/10/20/DLR_FLOOD_20261020T123012_VV_AS020M_E033N027T3.tif",
+   "bound": "哥白尼 GFM",
+   "archive": "https://web.archive.org/web/20261020160334/https://data.eodc.eu/collections/GFM_NRT_INTERIM/flood_extent/AS020M/2026/10/20/DLR_FLOOD_20261020T123012_VV_AS020M_E033N027T3.tif",
+   "archive_t": "2026-10-20T16:03:34Z"
+  },
+  {
+   "t": "2026-10-20T15:58:00Z",
+   "src": "灾种扫描 · BIPAD 空气质量站",
+   "kind": "SUPPORTING",
+   "hips": [
+    "EN0103",
+    "MH0203",
+    "EN0104"
+   ],
+   "text": "PU Pkr AQI 155.0",
+   "text_en": "PU Pkr AQI 155.0",
+   "url": null,
+   "bound": "灾种扫描"
+  },
+  {
+   "t": "2026-10-20T18:15:00Z",
+   "src": "灾种扫描 · BIPAD 灾害事件库",
+   "kind": "SUPPORTING",
+   "hips": [
+    "TL0305"
+   ],
+   "text": "Fire at Kageshwori Manahora Municipality-9",
+   "text_en": "Fire at Kageshwori Manahora Municipality-9",
+   "url": "https://bipadportal.gov.np/incidents/95904",
+   "bound": "灾种扫描",
+   "archive": "https://web.archive.org/web/20261021035042/https://bipadportal.gov.np/incidents/95904",
+   "archive_t": "2026-10-21T03:50:42Z"
+  },
+  {
+   "t": "2026-10-20T18:15:00Z",
+   "src": "灾种扫描 · BIPAD 灾害事件库",
+   "kind": "SUPPORTING",
+   "hips": [
+    "TL0305"
+   ],
+   "text": "Fire at Budhanilkantha Municipality-5",
+   "text_en": "Fire at Budhanilkantha Municipality-5",
+   "url": "https://bipadportal.gov.np/incidents/95905",
+   "bound": "灾种扫描",
+   "archive": "https://web.archive.org/web/20261021111211/https://bipadportal.gov.np/incidents/95905",
+   "archive_t": "2026-10-21T11:12:11Z"
+  },
+  {
+   "t": "2026-10-22T12:13:14Z",
+   "src": "哥白尼 GFM",
+   "kind": "SUPPORTING",
+   "text": "Sentinel-1 自动洪水范围产品 ENSEMBLE_FLOOD_20261022T121314_VV_AS020M_E033N027T3（含洪水范围图层）",
+   "text_en": "Sentinel-1 automatic flood-extent product ENSEMBLE_FLOOD_20261022T121314_VV_AS020M_E033N027T3 (flood-extent layer included)",
+   "url": "https://data.eodc.eu/collections/GFM_NRT_INTERIM/flood_extent/AS020M/2026/10/22/DLR_FLOOD_20261022T121314_VV_AS020M_E033N027T3.tif",
+   "bound": "哥白尼 GFM",
+   "archive": "https://web.archive.org/web/20261022162649/https://data.eodc.eu/collections/GFM_NRT_INTERIM/flood_extent/AS020M/2026/10/22/DLR_FLOOD_20261022T121314_VV_AS020M_E033N027T3.tif",
+   "archive_t": "2026-10-22T16:26:49Z"
+  },
+  {
+   "t": "2026-10-22T12:13:39Z",
+   "src": "哥白尼 GFM",
+   "kind": "SUPPORTING",
+   "text": "Sentinel-1 自动洪水范围产品 ENSEMBLE_FLOOD_20261022T121339_VV_AS020M_E033N027T3（含洪水范围图层）",
+   "text_en": "Sentinel-1 automatic flood-extent product ENSEMBLE_FLOOD_20261022T121339_VV_AS020M_E033N027T3 (flood-extent layer included)",
+   "url": "https://data.eodc.eu/collections/GFM_NRT_INTERIM/flood_extent/AS020M/2026/10/22/DLR_FLOOD_20261022T121339_VV_AS020M_E033N027T3.tif",
+   "bound": "哥白尼 GFM",
+   "archive": "https://web.archive.org/web/20261022162700/https://data.eodc.eu/collections/GFM_NRT_INTERIM/flood_extent/AS020M/2026/10/22/DLR_FLOOD_20261022T121339_VV_AS020M_E033N027T3.tif",
+   "archive_t": "2026-10-22T16:27:00Z"
+  },
+  {
+   "t": "2026-10-22T12:14:04Z",
+   "src": "哥白尼 GFM",
+   "kind": "SUPPORTING",
+   "text": "Sentinel-1 自动洪水范围产品 ENSEMBLE_FLOOD_20261022T121404_VV_AS020M_E033N027T3（含洪水范围图层）",
+   "text_en": "Sentinel-1 automatic flood-extent product ENSEMBLE_FLOOD_20261022T121404_VV_AS020M_E033N027T3 (flood-extent layer included)",
+   "url": "https://data.eodc.eu/collections/GFM_NRT_INTERIM/flood_extent/AS020M/2026/10/22/DLR_FLOOD_20261022T121404_VV_AS020M_E033N027T3.tif",
+   "bound": "哥白尼 GFM",
+   "archive": "https://web.archive.org/web/20261022212730/https://data.eodc.eu/collections/GFM_NRT_INTERIM/flood_extent/AS020M/2026/10/22/DLR_FLOOD_20261022T121404_VV_AS020M_E033N027T3.tif",
+   "archive_t": "2026-10-22T21:27:30Z"
+  },
+  {
+   "t": "2026-10-23T00:18:58Z",
+   "src": "Sentinel-1 雷达",
+   "kind": "SUPPORTING",
+   "text_en": "First scene after the first public signal S1D_IW_GRDH_1SDV_20261023T001845_20261023T001910_005135_009BBB_rtc, compare with before",
+   "text": "第一条公开信号之后第一景 S1D_IW_GRDH_1SDV_20261023T001845_20261023T001910_005135_009BBB_rtc，可与事件前对比",
+   "url": "https://planetarycomputer.microsoft.com/api/data/v1/item/preview.png?collection=sentinel-1-rtc&item=S1D_IW_GRDH_1SDV_20261023T001845_20261023T001910_005135_009BBB_rtc&assets=vv&assets=vh&tile_format=png&expression=0.03%20%2B%20log%20(10e-4%20-%20log%20(0.05%20%2F%20(0.02%20%2B%202%20*%20vv)));0.05%20%2B%20exp%20(0.25%20*%20(log%20(0.01%20%2B%202%20*%20vv)%20%2B%20log%20(0.02%20%2B%205%20*%20vh)));1%20-%20log%20(0.05%20%2F%20(0.045%20-%200.9%20*%20vv))&asset_as_band=True&rescale=0,.8000&rescale=0,1.000&rescale=0,1.000&format=png",
+   "bound": "Sentinel-1 雷达",
+   "archive": "https://web.archive.org/web/20261024022613/https://planetarycomputer.microsoft.com/api/data/v1/item/preview.png?collection=sentinel-1-rtc&item=S1D_IW_GRDH_1SDV_20261023T001845_20261023T001910_005135_009BBB_rtc&assets=vv&assets=vh&tile_format=png&expression=0.03%20%2B%20log%20(10e-4%20-%20log%20(0.05%20%2F%20(0.02%20%2B%202%20*%20vv)));0.05%20%2B%20exp%20(0.25%20*%20(log%20(0.01%20%2B%202%20*%20vv)%20%2B%20log%20(0.02%20%2B%205%20*%20vh)));1%20-%20log%20(0.05%20%2F%20(0.045%20-%200.9%20*%20vv))&asset_as_band=True&rescale=0,.8000&rescale=0,1.000&rescale=0,1.000&format=png",
+   "archive_t": "2026-10-24T02:26:13Z"
+  },
+  {
+   "t": "2026-10-29T02:06:24Z",
+   "src": "Copernicus EMS",
+   "kind": "NEUTRAL",
+   "text_en": "No rapid mapping activated for this event",
+   "text": "没有为这次事件启动应急制图",
+   "bound": "Copernicus EMS"
+  },
+  {
+   "t": "2026-10-29T02:06:24Z",
+   "src": "IFRC Montandon",
+   "kind": "MISSING",
+   "text": "需要 IFRC GO 账号令牌才能查询（未配置）",
+   "text_en": "Needs an IFRC GO account token (not configured)",
+   "bound": "IFRC Montandon"
+  },
+  {
+   "t": "2026-10-29T02:06:24Z",
+   "src": "ReliefWeb",
+   "kind": "MISSING",
+   "text": "需要申请 ReliefWeb appname（未配置）",
+   "text_en": "Needs a ReliefWeb appname (not configured)",
+   "bound": "ReliefWeb"
+  },
+  {
+   "t": "2026-10-29T02:06:24Z",
+   "src": "Cloudflare Radar",
+   "kind": "MISSING",
+   "text": "需要 Cloudflare API 令牌（未配置）",
+   "text_en": "Needs a Cloudflare API token (not configured)",
+   "bound": "Cloudflare Radar"
+  },
+  {
+   "t": "2026-10-29T02:06:24Z",
+   "src": "NASA FIRMS 火点",
+   "kind": "MISSING",
+   "text": "需要 FIRMS MAP_KEY（未配置）",
+   "text_en": "Needs a FIRMS MAP_KEY (not configured)",
+   "bound": "NASA FIRMS"
+  },
+  {
+   "t": "2026-10-29T02:06:24Z",
+   "src": "NASA 夜间灯光",
+   "kind": "MISSING",
+   "text": "需要 NASA Earthdata 账号令牌（未配置）",
+   "text_en": "Needs a NASA Earthdata token (not configured)",
+   "bound": "NASA 夜间灯光"
+  },
+  {
+   "t": "2026-10-29T02:06:24Z",
+   "src": "Vantor 开放影像",
+   "kind": "NEUTRAL",
+   "text": "这次事件没有启动开放影像",
+   "text_en": "No open imagery released for this event",
+   "bound": "Vantor 开放影像"
+  }
+ ],
+ "built": "2026-10-29T02:06:24Z",
+ "bounds": {
+  "Sentinel-2 光学": {
+   "can": "这一时间有没有光学影像覆盖、云量多少，可用于前后对比。",
+   "cannot": "云和阴影会遮挡；有影像不等于能看出变化。"
+  },
+  "IO.EVN 地震台": {
+   "can": "台站在这一时刻记录到的地面震动强弱（1–5 Hz，相对自身背景）；有数据缺口时说明台站或传输中断。",
+   "cannot": "不能说明震动的来源（滑坡、雪崩、冰崩、地震、风、人为活动都可能）和发生地点；单台不能定位。"
+  },
+  "KKN 地震台": {
+   "can": "同上：台站记录到的震动强弱和数据缺口。和 IO.EVN 对照，可以看信号是局部的还是区域性的。",
+   "cannot": "不能说明来源和地点；两台都没有记录不等于没有发生（离得远、频段不同都可能漏掉）。"
+  },
+  "EMSC 地震目录": {
+   "can": "EMSC 汇总的地震时间、位置、震级。",
+   "cannot": "早期结果会修订；不说明影响和损失。"
+  },
+  "灾种扫描": {
+   "can": "这个公开来源在这一时间发布了这条记录。",
+   "cannot": "只是记录本身；不同来源的同一事件可能重复，数字以原始来源为准。"
+  },
+  "哥白尼 GFM": {
+   "can": "哥白尼全球洪水监测按 Sentinel-1 雷达自动算出的水体范围。",
+   "cannot": "自动产品，山区阴影、积雪、植被会误判或漏判；不说明水深和损失。"
+  },
+  "Sentinel-1 雷达": {
+   "can": "这一时间有没有雷达影像覆盖事件地点，可用于前后对比。",
+   "cannot": "有影像不等于能看出变化；山区几何畸变严重，需人工判读。"
+  },
+  "USGS 地震目录": {
+   "can": "USGS 测定的地震（或崩塌类事件）的时间、位置、震级。",
+   "cannot": "目录里的位置和震级会修订；崩塌类事件的位置不精确；不说明是否造成损失。"
+  },
+  "IODA 网络连通": {
+   "can": "当地网络连通指标在这一时刻是否下降。",
+   "cannot": "下降可能是断电、线路损坏，也可能是运营商维护；不能说明原因。"
+  },
+  "Raspberry Shake": {
+   "can": "民间地震仪在这一时刻是否记录到震动、有没有在线。",
+   "cannot": "民用设备，噪声大、没有官方校准；不能单独说明发生了什么。"
+  },
+  "维基百科": {
+   "can": "有没有人为这次事件新建或编辑条目。",
+   "cannot": "任何人可编辑；只说明受到关注，不是事实来源。"
+  },
+  "OCHA HDX": {
+   "can": "人道数据交换平台上有没有相关数据集。",
+   "cannot": "只说明有数据集，不说明其内容是否准确。"
+  },
+  "地磁 Kp": {
+   "can": "这段时间的地磁活动水平，作为 GNSS 和卫星通信的背景。",
+   "cannot": "和地面灾害没有因果关系；只用来说明观测条件。"
+  },
+  "GDELT 新闻": {
+   "can": "全球新闻里有没有报道、报道的数量和时间。",
+   "cannot": "新闻是二手信息，早期报道常有误；报道多少不等于事件大小。"
+  },
+  "Copernicus EMS": {
+   "can": "欧盟应急制图服务是否为这次事件启动、出了哪些图。",
+   "cannot": "没启动不说明灾害小；图是对某一时刻的判读。"
+  },
+  "IFRC Montandon": {
+   "can": "国际红十字会 Montandon 库里有没有这次事件的记录。",
+   "cannot": "收录有延迟；没收录不说明没发生。"
+  },
+  "ReliefWeb": {
+   "can": "联合国人道机构网站上关于这次事件的报告。",
+   "cannot": "报告引用的数字来自各方，会更新；不同报告可能不一致。"
+  },
+  "Cloudflare Radar": {
+   "can": "Cloudflare 观测到的当地网络流量或中断。",
+   "cannot": "只反映经过 Cloudflare 的流量；不能说明原因。"
+  },
+  "NASA FIRMS": {
+   "can": "卫星在过境时探测到的热异常（火点）。",
+   "cannot": "云遮挡会漏检；热异常可能是农业烧荒、工业热源；不说明起火原因。"
+  },
+  "NASA 夜间灯光": {
+   "can": "夜间灯光亮度在事件前后的变化。",
+   "cannot": "受云、月光、季节影响；变暗不一定是停电。"
+  },
+  "Vantor 开放影像": {
+   "can": "是否为这次事件公开了高分辨率影像。",
+   "cannot": "只说明有没有影像，不说明影像里看到了什么。"
+  }
+ },
+ "archive_note": "带 archive 字段的条目：原始网页已由互联网档案馆时光机（Wayback Machine，独立第三方）存档，archive_t 是存档时间。存档证明那一刻网页的样子，不证明网页内容属实。",
+ "archive_n": 30,
+ "note_en": "States only what public sources recorded and when; no attribution of cause, no prediction. A strong seismic signal only means the station recorded strong shaking at that moment.",
+ "note": "只陈述公开来源记录了什么、什么时候；不判断成因，不预测。地震台强信号只说明那一刻台站记录到较强震动，来源需要结合其他证据。",
+ "receipts": [
+  {
+   "t": "2026-10-29T02:10:13Z",
+   "method": "GET",
+   "url": "https://geofon.gfz.de/fdsnws/dataselect/1/query?net=IO&sta=EVN&cha=BHZ&starttime=2026-10-15T00:00:00&endtime=2026-10-16T03:00:00",
+   "status": 200,
+   "bytes": 1732608,
+   "sha256": "9b47188df1d93fd69eb60921d0ba957b90dd6fcfadc8db1bbe8ddc11e19884e1",
+   "type": "application/vnd.fdsn.mseed"
+  },
+  {
+   "t": "2026-10-29T02:10:14Z",
+   "method": "GET",
+   "url": "https://service.iris.edu/fdsnws/dataselect/1/query?net=NK&sta=KKN&cha=BHZ&loc=*&starttime=2026-10-15T00:00:00&endtime=2026-10-16T03:00:00",
+   "status": 200,
+   "bytes": 5380096,
+   "sha256": "cd3b7e6abae6eef4cfaba4514d6076555ec029fc764a5928e79324e8a91fe293",
+   "type": "application/vnd.fdsn.mseed"
+  },
+  {
+   "t": "2026-10-29T02:10:15Z",
+   "method": "GET",
+   "url": "https://earthquake.usgs.gov/fdsnws/event/1/query?format=geojson&latitude=27.87&longitude=84.92&maxradiuskm=300&starttime=2026-10-15T00:00:00Z&endtime=2026-10-17T00:00:00Z",
+   "status": 200,
+   "bytes": 324,
+   "sha256": "463ba17059f8a1e66ca40e1ace61bd59892c17df170f3c7b20831db3ea911654",
+   "type": "application/json; charset=utf-8",
+   "body": "events/raw/463ba17059f8a1e66ca40e1ace61bd59892c17df170f3c7b20831db3ea911654.gz"
+  },
+  {
+   "t": "2026-10-29T02:10:15Z",
+   "method": "GET",
+   "url": "https://www.seismicportal.eu/fdsnws/event/1/query?format=json&lat=27.87&lon=84.92&maxradius=2.7&start=2026-10-15T00:00:00&end=2026-10-17T00:00:00",
+   "status": 200,
+   "bytes": 1131,
+   "sha256": "5f4664fcb907001cf6faf48232c19309bcca8c15c8171ea6dbd2899ab0a56d8a",
+   "type": "application/json",
+   "body": "events/raw/5f4664fcb907001cf6faf48232c19309bcca8c15c8171ea6dbd2899ab0a56d8a.gz"
+  },
+  {
+   "t": "2026-10-29T02:10:16Z",
+   "method": "GET",
+   "url": "https://api.ioda.inetintel.cc.gatech.edu/v2/entities/query?entityType=region&search=Bagmati",
+   "status": 200,
+   "bytes": 560,
+   "sha256": "d27c0b3c0ebafc5d24f6da75fdd1b2dc2bb5bbd8777634db368535e59c7026a9",
+   "type": "application/json",
+   "body": "events/raw/d27c0b3c0ebafc5d24f6da75fdd1b2dc2bb5bbd8777634db368535e59c7026a9.gz"
+  },
+  {
+   "t": "2026-10-29T02:10:17Z",
+   "method": "GET",
+   "url": "https://api.ioda.inetintel.cc.gatech.edu/v2/signals/raw/region/3024?from=1792022400&until=1792195200",
+   "status": 200,
+   "bytes": 109512,
+   "sha256": "3e52feef77bb3bdd0c813b02f726d7eb58cce3477fa886cb7a35637305fb00d3",
+   "type": "application/json"
+  },
+  {
+   "t": "2026-10-29T02:10:19Z",
+   "method": "GET",
+   "url": "https://rapidmapping.emergency.copernicus.eu/backend/dashboard-api/public-activations-info/?limit=400",
+   "status": 200,
+   "bytes": 86304,
+   "sha256": "d11a4b3d287bf8f5b7f386e7c13ced14b9b1f663938e3334a2987b484e548611",
+   "type": "application/json"
+  },
+  {
+   "t": "2026-10-29T02:10:19Z",
+   "method": "POST",
+   "url": "https://planetarycomputer.microsoft.com/api/stac/v1/search",
+   "status": 200,
+   "bytes": 7050,
+   "sha256": "ce7b101df99ad7df43751228b80d9bffb421cc1944a835e33ee200da9e57853b",
+   "type": "application/geo+json; charset=utf-8",
+   "body": "events/raw/ce7b101df99ad7df43751228b80d9bffb421cc1944a835e33ee200da9e57853b.gz"
+  },
+  {
+   "t": "2026-10-29T02:10:20Z",
+   "method": "POST",
+   "url": "https://planetarycomputer.microsoft.com/api/stac/v1/search",
+   "status": 200,
+   "bytes": 6604,
+   "sha256": "360b27a184062e90c3ca307e23aef01a1465ef012fccc84d1d929fc3c450d5b1",
+   "type": "application/geo+json; charset=utf-8",
+   "body": "events/raw/360b27a184062e90c3ca307e23aef01a1465ef012fccc84d1d929fc3c450d5b1.gz"
+  },
+  {
+   "t": "2026-10-29T02:10:21Z",
+   "method": "POST",
+   "url": "https://planetarycomputer.microsoft.com/api/stac/v1/search",
+   "status": 200,
+   "bytes": 16273,
+   "sha256": "0ac70db6bcfaaa60d7673db403c7d29cf1f81a7d9abc0a81f1f7df2178578b40",
+   "type": "application/geo+json; charset=utf-8",
+   "body": "events/raw/0ac70db6bcfaaa60d7673db403c7d29cf1f81a7d9abc0a81f1f7df2178578b40.gz"
+  },
+  {
+   "t": "2026-10-29T02:10:21Z",
+   "method": "POST",
+   "url": "https://planetarycomputer.microsoft.com/api/stac/v1/search",
+   "status": 200,
+   "bytes": 16203,
+   "sha256": "66e5c69c5eb9af7aad5e37de51b026aa28ef7770f744b8ebb29047ca1e2b58d3",
+   "type": "application/geo+json; charset=utf-8",
+   "body": "events/raw/66e5c69c5eb9af7aad5e37de51b026aa28ef7770f744b8ebb29047ca1e2b58d3.gz"
+  },
+  {
+   "t": "2026-10-29T02:10:22Z",
+   "method": "POST",
+   "url": "https://stac.eodc.eu/api/v1/search",
+   "status": 200,
+   "bytes": 150187,
+   "sha256": "cb7eae0ce536d6cf49ddf146f8e6719e0ca68a96c3f0ab8644a08f62967a8262",
+   "type": "application/geo+json"
+  },
+  {
+   "t": "2026-10-29T02:10:23Z",
+   "method": "GET",
+   "url": "https://data.raspberryshake.org/fdsnws/station/1/query?network=AM&latitude=27.87&longitude=84.92&maxradius=1.35&level=channel&format=text&starttime=2026-10-15T18:00:00&endtime=2026-10-16T03:00:00",
+   "status": 200,
+   "bytes": 13460,
+   "sha256": "8bb9bf8fd84295a4eb2a593979d2a9087bfccca87b77f0d9cd588576bd661b89",
+   "type": "text/plain; charset=utf-8",
+   "body": "events/raw/8bb9bf8fd84295a4eb2a593979d2a9087bfccca87b77f0d9cd588576bd661b89.gz"
+  },
+  {
+   "t": "2026-10-29T02:10:24Z",
+   "method": "GET",
+   "url": "https://data.raspberryshake.org/fdsnws/dataselect/1/query?network=AM&station=R6E91&location=00&channel=EHZ&starttime=2026-10-15T18:00:00&endtime=2026-10-16T03:00:00",
+   "status": 204,
+   "bytes": 0,
+   "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+   "type": ""
+  },
+  {
+   "t": "2026-10-29T02:10:25Z",
+   "method": "GET",
+   "url": "https://data.raspberryshake.org/fdsnws/dataselect/1/query?network=AM&station=R14FA&location=00&channel=EHZ&starttime=2026-10-15T18:00:00&endtime=2026-10-16T03:00:00",
+   "status": 204,
+   "bytes": 0,
+   "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+   "type": ""
+  },
+  {
+   "t": "2026-10-29T02:10:25Z",
+   "method": "GET",
+   "url": "https://earthquake.usgs.gov/fdsnws/event/1/query?format=geojson&latitude=27.87&longitude=84.92&maxradiuskm=300&starttime=2026-10-15T00:00:00Z&endtime=2026-10-17T00:00:00Z&minmagnitude=4",
+   "status": 200,
+   "bytes": 339,
+   "sha256": "83f2e240f00477d173e1b00a1676762d7d27fa7e494398d9ab4a0a8917b56781",
+   "type": "application/json; charset=utf-8",
+   "body": "events/raw/83f2e240f00477d173e1b00a1676762d7d27fa7e494398d9ab4a0a8917b56781.gz"
+  },
+  {
+   "t": "2026-10-29T02:11:27Z",
+   "method": "GET",
+   "url": "https://api.gdeltproject.org/api/v2/doc/doc?query=%22Dhading%22+%28flood+OR+landslide+OR+avalanche+OR+earthquake+OR+%22glacial+lake%22+OR+%22debris+flow%22+OR+snowstorm+OR+rockfall%29+Nepal+sourcelang%3Aenglish&mode=artlist&maxrecords=75&format=json&sort=dateasc&startdatetime=20261015000000&enddatetime=20261021000000",
+   "status": 200,
+   "bytes": 431,
+   "sha256": "6dd7a8ec96ff99d207e0413b66ffd8739f5f6c5b25961aaf3f7d7ab16b36d5de",
+   "type": "application/json; charset=utf-8",
+   "body": "events/raw/6dd7a8ec96ff99d207e0413b66ffd8739f5f6c5b25961aaf3f7d7ab16b36d5de.gz"
+  },
+  {
+   "t": "2026-10-29T02:11:27Z",
+   "method": "GET",
+   "url": "https://en.wikipedia.org/w/api.php?action=query&list=search&srsearch=Dhading+2026+flood&format=json&srlimit=5",
+   "status": 200,
+   "bytes": 1982,
+   "sha256": "76d565b3e9040d506ae44f8f39c465f77b3247a59542959b8810fd0ffcaa79d1",
+   "type": "application/json; charset=utf-8",
+   "body": "events/raw/76d565b3e9040d506ae44f8f39c465f77b3247a59542959b8810fd0ffcaa79d1.gz"
+  },
+  {
+   "t": "2026-10-29T02:11:27Z",
+   "method": "GET",
+   "url": "https://en.wikipedia.org/w/api.php?action=query&prop=revisions&titles=2026+Nepal%E2%80%93Tibet+floods&rvlimit=1&rvdir=newer&rvprop=timestamp&format=json",
+   "status": 200,
+   "bytes": 219,
+   "sha256": "d6855fbb07daa708ddbb4b865d4650775c6f90a600f2014f420d5e3a64305208",
+   "type": "application/json; charset=utf-8",
+   "body": "events/raw/d6855fbb07daa708ddbb4b865d4650775c6f90a600f2014f420d5e3a64305208.gz"
+  },
+  {
+   "t": "2026-10-29T02:11:27Z",
+   "method": "GET",
+   "url": "https://en.wikipedia.org/w/api.php?action=query&prop=revisions&titles=2026+Budhi+Gandaki+flood&rvlimit=1&rvdir=newer&rvprop=timestamp&format=json",
+   "status": 200,
+   "bytes": 215,
+   "sha256": "26ecdf61e1e29047d64b1db20dd0265a70171a0734e68dbc31d97dbc6543b85e",
+   "type": "application/json; charset=utf-8",
+   "body": "events/raw/26ecdf61e1e29047d64b1db20dd0265a70171a0734e68dbc31d97dbc6543b85e.gz"
+  },
+  {
+   "t": "2026-10-29T02:11:27Z",
+   "method": "GET",
+   "url": "https://en.wikipedia.org/w/api.php?action=query&prop=revisions&titles=Timeline+of+the+2026+Nepal%E2%80%93Tibet+floods&rvlimit=1&rvdir=newer&rvprop=timestamp&format=json",
+   "status": 200,
+   "bytes": 235,
+   "sha256": "553ed39da47aa49d3b12712733c1cb01aa52422221158c6ab9be28c61cb11af5",
+   "type": "application/json; charset=utf-8",
+   "body": "events/raw/553ed39da47aa49d3b12712733c1cb01aa52422221158c6ab9be28c61cb11af5.gz"
+  },
+  {
+   "t": "2026-10-29T02:11:27Z",
+   "method": "GET",
+   "url": "https://en.wikipedia.org/w/api.php?action=query&prop=revisions&titles=2026+in+Nepal&rvlimit=1&rvdir=newer&rvprop=timestamp&format=json",
+   "status": 200,
+   "bytes": 204,
+   "sha256": "70dd0a42b2587c424f91d092ff76c7cf7a5936b70318bbfc2ff32493d38fd9bb",
+   "type": "application/json; charset=utf-8",
+   "body": "events/raw/70dd0a42b2587c424f91d092ff76c7cf7a5936b70318bbfc2ff32493d38fd9bb.gz"
+  },
+  {
+   "t": "2026-10-29T02:11:28Z",
+   "method": "GET",
+   "url": "https://en.wikipedia.org/w/api.php?action=query&prop=revisions&titles=Budhi+Gandaki+River&rvlimit=1&rvdir=newer&rvprop=timestamp&format=json",
+   "status": 200,
+   "bytes": 209,
+   "sha256": "1ca1a4f34798b52ecbe4c772df153c2fb16c2c752d5f0c62c6304f6ba8053ecf",
+   "type": "application/json; charset=utf-8",
+   "body": "events/raw/1ca1a4f34798b52ecbe4c772df153c2fb16c2c752d5f0c62c6304f6ba8053ecf.gz"
+  },
+  {
+   "t": "2026-10-29T02:11:28Z",
+   "method": "GET",
+   "url": "https://data.humdata.org/api/3/action/package_search?q=flood+OR+landslide+OR+avalanche+OR+earthquake+OR+disaster&fq=groups%3Anpl+AND+metadata_created%3A%5B2026-10-15T00%3A00%3A00Z+TO+NOW%5D&sort=metadata_created+asc&rows=10",
+   "status": 200,
+   "bytes": 284,
+   "sha256": "57c17659bf3ca406184ebd539b7ba731e17b3c7230d1d9606689e123d07ec1e3",
+   "type": "application/json;charset=utf-8",
+   "body": "events/raw/57c17659bf3ca406184ebd539b7ba731e17b3c7230d1d9606689e123d07ec1e3.gz"
+  },
+  {
+   "t": "2026-10-29T02:11:29Z",
+   "method": "GET",
+   "url": "https://kp.gfz-potsdam.de/app/json/?start=2026-10-15T00%3A00%3A00Z&end=2026-10-17T00%3A00%3A00Z&index=Kp",
+   "status": 200,
+   "bytes": 668,
+   "sha256": "a8b367fb04584fc531999119a558bef9fda844ab29702c0af98f4d15cd2bb102",
+   "type": "application/json",
+   "body": "events/raw/a8b367fb04584fc531999119a558bef9fda844ab29702c0af98f4d15cd2bb102.gz"
+  }
+ ],
+ "receipts_note": "取数回执：生成这份证据包时向各来源发出的请求、时间和返回内容的 SHA-256；小的文本响应原样存在 events/raw/。回执随证据包一起存证。"
+}
