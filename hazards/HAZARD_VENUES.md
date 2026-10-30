@@ -1,6 +1,6 @@
 # 281 种灾害：各灾种的专业顶刊顶会和可引用数据
 
-自动生成于 2026-10-30T02:43:05Z，数据论文已查 **281/281** 种，期刊排名已完成 **281** 种（期刊排名用 OpenAlex，按天计额度，每天自动续跑，补齐为止）。生成脚本 `tools/venue_rank.py` + `tools/venues_report.py`，原始数据 `hazards/venues.json`（events 分支）。
+自动生成于 2026-10-30T08:56:15Z，数据论文已查 **281/281** 种，期刊排名已完成 **281** 种（期刊排名用 OpenAlex，按天计额度，每天自动续跑，补齐为止）。生成脚本 `tools/venue_rank.py` + `tools/venues_report.py`，原始数据 `hazards/venues.json`（events 分支）。
 
 ## 方法
 
