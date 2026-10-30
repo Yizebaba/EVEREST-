@@ -1344,8 +1344,9 @@
   "asked": "2026-10-30T10:38:58Z"
  },
  "https://planetarycomputer.microsoft.com/api/data/v1/item/preview.png?collection=sentinel-1-rtc&item=S1D_IW_GRDH_1SDV_20261030T001038_20261030T001103_005237_009F2E_rtc&assets=vv&assets=vh&tile_format=png&expression=0.03%20%2B%20log%20(10e-4%20-%20log%20(0.05%20%2F%20(0.02%20%2B%202%20*%20vv)));0.05%20%2B%20exp%20(0.25%20*%20(log%20(0.01%20%2B%202%20*%20vv)%20%2B%20log%20(0.02%20%2B%205%20*%20vh)));1%20-%20log%20(0.05%20%2F%20(0.045%20-%200.9%20*%20vv))&asset_as_band=True&rescale=0,.8000&rescale=0,1.000&rescale=0,1.000&format=png": {
-  "err": "The read operation timed out",
-  "tries": 1,
-  "asked": "2026-10-30T14:54:34Z"
+  "status": 429,
+  "err": "HTTP Error 429: TOO MANY REQUESTS",
+  "tries": 2,
+  "asked": "2026-10-30T15:59:35Z"
  }
 }
