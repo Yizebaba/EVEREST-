@@ -172,6 +172,7 @@
    }
   ]
  },
+ "news": [],
  "kp_max": 2.667,
  "hazard_links": {
   "n": 4,
@@ -422,9 +423,9 @@
   {
    "t": "2026-10-27T06:49:58Z",
    "src": "GDELT 新闻",
-   "kind": "MISSING",
-   "text": "查询失败（HTTP Error 429: Too Many Requests）",
-   "text_en": "Query failed (HTTP Error 429: Too Many Requests)",
+   "kind": "NEUTRAL",
+   "text": "没有找到“Myagdi”的相关新闻",
+   "text_en": "No related news found for “Myagdi”",
    "bound": "GDELT 新闻"
   },
   {
@@ -624,7 +625,7 @@
    "archive_t": "2026-10-30T04:11:43Z"
   },
   {
-   "t": "2026-10-30T13:45:11Z",
+   "t": "2026-10-30T14:54:34Z",
    "src": "BIPAD 水位站",
    "kind": "MISSING",
    "text_en": "Query failed (<urlopen error timed out>)",
@@ -632,7 +633,7 @@
    "bound": "BIPAD 水位站"
   },
   {
-   "t": "2026-10-30T13:45:11Z",
+   "t": "2026-10-30T14:54:34Z",
    "src": "Copernicus EMS",
    "kind": "NEUTRAL",
    "text_en": "No rapid mapping activated for this event",
@@ -640,7 +641,7 @@
    "bound": "Copernicus EMS"
   },
   {
-   "t": "2026-10-30T13:45:11Z",
+   "t": "2026-10-30T14:54:34Z",
    "src": "IFRC Montandon",
    "kind": "MISSING",
    "text": "需要 IFRC GO 账号令牌才能查询（未配置）",
@@ -648,7 +649,7 @@
    "bound": "IFRC Montandon"
   },
   {
-   "t": "2026-10-30T13:45:11Z",
+   "t": "2026-10-30T14:54:34Z",
    "src": "ReliefWeb",
    "kind": "MISSING",
    "text": "需要申请 ReliefWeb appname（未配置）",
@@ -656,7 +657,7 @@
    "bound": "ReliefWeb"
   },
   {
-   "t": "2026-10-30T13:45:11Z",
+   "t": "2026-10-30T14:54:34Z",
    "src": "Cloudflare Radar",
    "kind": "MISSING",
    "text": "需要 Cloudflare API 令牌（未配置）",
@@ -664,7 +665,7 @@
    "bound": "Cloudflare Radar"
   },
   {
-   "t": "2026-10-30T13:45:11Z",
+   "t": "2026-10-30T14:54:34Z",
    "src": "NASA FIRMS 火点",
    "kind": "MISSING",
    "text": "需要 FIRMS MAP_KEY（未配置）",
@@ -672,7 +673,7 @@
    "bound": "NASA FIRMS"
   },
   {
-   "t": "2026-10-30T13:45:11Z",
+   "t": "2026-10-30T14:54:34Z",
    "src": "NASA 夜间灯光",
    "kind": "MISSING",
    "text": "需要 NASA Earthdata 账号令牌（未配置）",
@@ -680,7 +681,7 @@
    "bound": "NASA 夜间灯光"
   },
   {
-   "t": "2026-10-30T13:45:11Z",
+   "t": "2026-10-30T14:54:34Z",
    "src": "Vantor 开放影像",
    "kind": "NEUTRAL",
    "text": "这次事件没有启动开放影像",
@@ -688,7 +689,7 @@
    "bound": "Vantor 开放影像"
   }
  ],
- "built": "2026-10-30T13:45:11Z",
+ "built": "2026-10-30T14:54:34Z",
  "bounds": {
   "Sentinel-1 雷达": {
    "can": "这一时间有没有雷达影像覆盖事件地点，可用于前后对比。",
@@ -785,7 +786,7 @@
  "note": "只陈述公开来源记录了什么、什么时候；不判断成因，不预测。地震台强信号只说明那一刻台站记录到较强震动，来源需要结合其他证据。",
  "receipts": [
   {
-   "t": "2026-10-30T13:47:48Z",
+   "t": "2026-10-30T14:57:59Z",
    "method": "GET",
    "url": "https://geofon.gfz.de/fdsnws/dataselect/1/query?net=IO&sta=EVN&cha=BHZ&starttime=2026-10-26T06:49:58&endtime=2026-10-27T09:49:58",
    "status": 200,
@@ -794,7 +795,7 @@
    "type": "application/vnd.fdsn.mseed"
   },
   {
-   "t": "2026-10-30T13:47:49Z",
+   "t": "2026-10-30T14:58:01Z",
    "method": "GET",
    "url": "https://service.iris.edu/fdsnws/dataselect/1/query?net=NK&sta=KKN&cha=BHZ&loc=*&starttime=2026-10-26T06:49:58&endtime=2026-10-27T09:49:58",
    "status": 200,
@@ -803,17 +804,17 @@
    "type": "application/vnd.fdsn.mseed"
   },
   {
-   "t": "2026-10-30T13:47:49Z",
+   "t": "2026-10-30T14:58:01Z",
    "method": "GET",
    "url": "https://earthquake.usgs.gov/fdsnws/event/1/query?format=geojson&latitude=28.6&longitude=83.5&maxradiuskm=300&starttime=2026-10-26T06:49:58Z&endtime=2026-10-28T06:49:58Z",
    "status": 200,
    "bytes": 322,
-   "sha256": "76b6017f32e9c6f63c4910567e7de3244a26093f7af6450a7fa7d2ed0ce964ec",
+   "sha256": "4dfb83f5ba975eac9592a7a74ad188663a3197c8b87cd5259ef11ff1868b4150",
    "type": "application/json; charset=utf-8",
-   "body": "events/raw/76b6017f32e9c6f63c4910567e7de3244a26093f7af6450a7fa7d2ed0ce964ec.gz"
+   "body": "events/raw/4dfb83f5ba975eac9592a7a74ad188663a3197c8b87cd5259ef11ff1868b4150.gz"
   },
   {
-   "t": "2026-10-30T13:47:51Z",
+   "t": "2026-10-30T14:58:02Z",
    "method": "GET",
    "url": "https://www.seismicportal.eu/fdsnws/event/1/query?format=json&lat=28.6&lon=83.5&maxradius=2.7&start=2026-10-26T06:49:58&end=2026-10-28T06:49:58",
    "status": 204,
@@ -822,26 +823,26 @@
    "type": ""
   },
   {
-   "t": "2026-10-30T13:48:51Z",
+   "t": "2026-10-30T14:59:03Z",
    "method": "GET",
    "url": "https://api.ioda.inetintel.cc.gatech.edu/v2/entities/query?entityType=region&search=Dhawalagiri",
    "status": 200,
    "bytes": 568,
-   "sha256": "3d54ae843216cb9c60fe15e1c5351c3989ec929771dbefe51f6374a094e084a3",
+   "sha256": "b274a94f27fd75af0e25d0e324176dee357031626730f9fed623e39d4974e4f2",
    "type": "application/json",
-   "body": "events/raw/3d54ae843216cb9c60fe15e1c5351c3989ec929771dbefe51f6374a094e084a3.gz"
+   "body": "events/raw/b274a94f27fd75af0e25d0e324176dee357031626730f9fed623e39d4974e4f2.gz"
   },
   {
-   "t": "2026-10-30T13:48:53Z",
+   "t": "2026-10-30T14:59:05Z",
    "method": "GET",
    "url": "https://api.ioda.inetintel.cc.gatech.edu/v2/signals/raw/region/3019?from=1792997398&until=1793170198",
    "status": 200,
-   "bytes": 108681,
-   "sha256": "2899940a0dc7bf316eb513adb646e31a782cc539c68f1efce9ad3be5f5926818",
+   "bytes": 108683,
+   "sha256": "c8f72d73de8f04f6f22a467f8f9d35959a727fba45be2ebeb9a5b403597ad969",
    "type": "application/json"
   },
   {
-   "t": "2026-10-30T13:48:54Z",
+   "t": "2026-10-30T14:59:06Z",
    "method": "GET",
    "url": "https://rapidmapping.emergency.copernicus.eu/backend/dashboard-api/public-activations-info/?limit=400",
    "status": 200,
@@ -850,7 +851,7 @@
    "type": "application/json"
   },
   {
-   "t": "2026-10-30T13:48:54Z",
+   "t": "2026-10-30T14:59:07Z",
    "method": "POST",
    "url": "https://planetarycomputer.microsoft.com/api/stac/v1/search",
    "status": 200,
@@ -860,7 +861,7 @@
    "body": "events/raw/ea71a89fc9979fc4a57abd8a207b68cf6e0ca571cca03d3e06ef6c9109f380fc.gz"
   },
   {
-   "t": "2026-10-30T13:48:55Z",
+   "t": "2026-10-30T14:59:07Z",
    "method": "POST",
    "url": "https://planetarycomputer.microsoft.com/api/stac/v1/search",
    "status": 200,
@@ -870,7 +871,7 @@
    "body": "events/raw/ecd6cd1fcef89ac8850acce959104a76ffa76ab25b56d5bf56a6590181e594c7.gz"
   },
   {
-   "t": "2026-10-30T13:48:55Z",
+   "t": "2026-10-30T14:59:07Z",
    "method": "POST",
    "url": "https://planetarycomputer.microsoft.com/api/stac/v1/search",
    "status": 200,
@@ -880,7 +881,7 @@
    "body": "events/raw/bec87c2f2af24273608af1b32f05e9dc40c38667f31398ff5546154cd143ce61.gz"
   },
   {
-   "t": "2026-10-30T13:48:55Z",
+   "t": "2026-10-30T14:59:08Z",
    "method": "POST",
    "url": "https://planetarycomputer.microsoft.com/api/stac/v1/search",
    "status": 200,
@@ -890,7 +891,7 @@
    "body": "events/raw/e795bb08c9e3a5aa7a55b65bc69a08cce1ebbeaea0f5265a483e44cc19ac14fd.gz"
   },
   {
-   "t": "2026-10-30T13:48:57Z",
+   "t": "2026-10-30T14:59:09Z",
    "method": "POST",
    "url": "https://stac.eodc.eu/api/v1/search",
    "status": 200,
@@ -899,7 +900,7 @@
    "type": "application/geo+json"
   },
   {
-   "t": "2026-10-30T13:48:58Z",
+   "t": "2026-10-30T14:59:10Z",
    "method": "GET",
    "url": "https://data.raspberryshake.org/fdsnws/station/1/query?network=AM&latitude=28.6&longitude=83.5&maxradius=1.35&level=channel&format=text&starttime=2026-10-27T00:49:58&endtime=2026-10-27T09:49:58",
    "status": 200,
@@ -909,7 +910,7 @@
    "body": "events/raw/a1101e7df783f19d9f16269704803b7ac2b61a03edb625f31e3fd3fbaac7623c.gz"
   },
   {
-   "t": "2026-10-30T13:49:07Z",
+   "t": "2026-10-30T14:59:19Z",
    "method": "GET",
    "url": "https://data.raspberryshake.org/fdsnws/dataselect/1/query?network=AM&station=RB628&location=00&channel=EHZ&starttime=2026-10-27T00:49:58&endtime=2026-10-27T09:49:58",
    "status": 200,
@@ -918,7 +919,7 @@
    "type": "application/vnd.fdsn.mseed"
   },
   {
-   "t": "2026-10-30T13:49:08Z",
+   "t": "2026-10-30T14:59:20Z",
    "method": "GET",
    "url": "https://data.raspberryshake.org/fdsnws/dataselect/1/query?network=AM&station=RBB7B&location=00&channel=EHZ&starttime=2026-10-27T00:49:58&endtime=2026-10-27T09:49:58",
    "status": 204,
@@ -927,27 +928,37 @@
    "type": ""
   },
   {
-   "t": "2026-10-30T13:49:08Z",
+   "t": "2026-10-30T14:59:20Z",
    "method": "GET",
    "url": "https://earthquake.usgs.gov/fdsnws/event/1/query?format=geojson&latitude=28.6&longitude=83.5&maxradiuskm=300&starttime=2026-10-26T06:49:58Z&endtime=2026-10-28T06:49:58Z&minmagnitude=4",
    "status": 200,
    "bytes": 337,
-   "sha256": "83c12795022df4247ca8e7f4080aeddb319e5987cb17c2ecdf92f3b826033552",
+   "sha256": "7064d998d8076ec3a1341108c9387d9073f944bea2d6c7b9b8b4bdc3f983d3d4",
    "type": "application/json; charset=utf-8",
-   "body": "events/raw/83c12795022df4247ca8e7f4080aeddb319e5987cb17c2ecdf92f3b826033552.gz"
+   "body": "events/raw/7064d998d8076ec3a1341108c9387d9073f944bea2d6c7b9b8b4bdc3f983d3d4.gz"
   },
   {
-   "t": "2026-10-30T13:50:08Z",
+   "t": "2026-10-30T15:01:14Z",
+   "method": "GET",
+   "url": "https://api.gdeltproject.org/api/v2/doc/doc?query=%22Myagdi%22+%28flood+OR+landslide+OR+avalanche+OR+earthquake+OR+%22glacial+lake%22+OR+%22debris+flow%22+OR+snowstorm+OR+rockfall%29+Nepal+sourcelang%3Aenglish&mode=artlist&maxrecords=75&format=json&sort=dateasc&startdatetime=20261026064958&enddatetime=20261030145434",
+   "status": 200,
+   "bytes": 2,
+   "sha256": "44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a",
+   "type": "application/json; charset=utf-8",
+   "body": "events/raw/44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a.gz"
+  },
+  {
+   "t": "2026-10-30T15:01:14Z",
    "method": "GET",
    "url": "https://en.wikipedia.org/w/api.php?action=query&list=search&srsearch=Myagdi+2026+disaster&format=json&srlimit=5",
    "status": 200,
    "bytes": 1886,
-   "sha256": "33778ea65e2664bedb18dfe9f77f8b14ba0124ac1a2b6c65bcc2b832a503fe24",
+   "sha256": "9eaf5d370c8692ba610e71d22e915b4beefe6bdb581f9db2fc599e47aa6681aa",
    "type": "application/json; charset=utf-8",
-   "body": "events/raw/33778ea65e2664bedb18dfe9f77f8b14ba0124ac1a2b6c65bcc2b832a503fe24.gz"
+   "body": "events/raw/9eaf5d370c8692ba610e71d22e915b4beefe6bdb581f9db2fc599e47aa6681aa.gz"
   },
   {
-   "t": "2026-10-30T13:50:08Z",
+   "t": "2026-10-30T15:01:14Z",
    "method": "GET",
    "url": "https://en.wikipedia.org/w/api.php?action=query&prop=revisions&titles=Tara+Air+Flight+193&rvlimit=1&rvdir=newer&rvprop=timestamp&format=json",
    "status": 200,
@@ -957,7 +968,7 @@
    "body": "events/raw/e5dbafdc9e75be5b5dd554b7e76e0df4250b72cc60c63e1c9df0962e9ff6fcc2.gz"
   },
   {
-   "t": "2026-10-30T13:50:08Z",
+   "t": "2026-10-30T15:01:14Z",
    "method": "GET",
    "url": "https://en.wikipedia.org/w/api.php?action=query&prop=revisions&titles=Roads+in+Nepal&rvlimit=1&rvdir=newer&rvprop=timestamp&format=json",
    "status": 200,
@@ -967,17 +978,7 @@
    "body": "events/raw/a2dad31a1738af7f30de8b1cef8b85fdedf1bcc0384ee3a661e60da20fb80ded.gz"
   },
   {
-   "t": "2026-10-30T13:50:09Z",
-   "method": "GET",
-   "url": "https://en.wikipedia.org/w/api.php?action=query&prop=revisions&titles=Bagmati+River&rvlimit=1&rvdir=newer&rvprop=timestamp&format=json",
-   "status": 200,
-   "bytes": 197,
-   "sha256": "916bca3826f41f0b897d1265e4a8f0d03b87ce1f15f26640741dff2f87963078",
-   "type": "application/json; charset=utf-8",
-   "body": "events/raw/916bca3826f41f0b897d1265e4a8f0d03b87ce1f15f26640741dff2f87963078.gz"
-  },
-  {
-   "t": "2026-10-30T13:50:09Z",
+   "t": "2026-10-30T15:01:15Z",
    "method": "GET",
    "url": "https://en.wikipedia.org/w/api.php?action=query&prop=revisions&titles=List+of+accidents+and+incidents+involving+commercial+aircraft&rvlimit=1&rvdir=newer&rvprop=timestamp&format=json",
    "status": 200,
@@ -987,7 +988,17 @@
    "body": "events/raw/4c33cca38aa2669f7c732dc6a9074de91f98a258894e08d7f29e8d9030929f45.gz"
   },
   {
-   "t": "2026-10-30T13:50:09Z",
+   "t": "2026-10-30T15:01:15Z",
+   "method": "GET",
+   "url": "https://en.wikipedia.org/w/api.php?action=query&prop=revisions&titles=Bagmati+River&rvlimit=1&rvdir=newer&rvprop=timestamp&format=json",
+   "status": 200,
+   "bytes": 197,
+   "sha256": "916bca3826f41f0b897d1265e4a8f0d03b87ce1f15f26640741dff2f87963078",
+   "type": "application/json; charset=utf-8",
+   "body": "events/raw/916bca3826f41f0b897d1265e4a8f0d03b87ce1f15f26640741dff2f87963078.gz"
+  },
+  {
+   "t": "2026-10-30T15:01:15Z",
    "method": "GET",
    "url": "https://en.wikipedia.org/w/api.php?action=query&prop=revisions&titles=February+24&rvlimit=1&rvdir=newer&rvprop=timestamp&format=json",
    "status": 200,
@@ -997,7 +1008,7 @@
    "body": "events/raw/ac7476f5eba1d3bf0a5407489e1a95748943450661e6885ef626106452e53492.gz"
   },
   {
-   "t": "2026-10-30T13:50:09Z",
+   "t": "2026-10-30T15:01:15Z",
    "method": "GET",
    "url": "https://data.humdata.org/api/3/action/package_search?q=flood+OR+landslide+OR+avalanche+OR+earthquake+OR+disaster&fq=groups%3Anpl+AND+metadata_created%3A%5B2026-10-26T06%3A49%3A58Z+TO+NOW%5D&sort=metadata_created+asc&rows=10",
    "status": 200,
@@ -1007,7 +1018,7 @@
    "body": "events/raw/57c17659bf3ca406184ebd539b7ba731e17b3c7230d1d9606689e123d07ec1e3.gz"
   },
   {
-   "t": "2026-10-30T13:50:11Z",
+   "t": "2026-10-30T15:01:16Z",
    "method": "GET",
    "url": "https://kp.gfz-potsdam.de/app/json/?start=2026-10-26T06%3A49%3A58Z&end=2026-10-28T06%3A49%3A58Z&index=Kp",
    "status": 200,
