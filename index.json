@@ -105487,7 +105487,7 @@
      "file": "events/archive/news-snowstorm-dolpa-2026-11-01_ddce47f87e15.json",
      "ots": "events/archive/news-snowstorm-dolpa-2026-11-01_ddce47f87e15.json.ots",
      "stamped": "2026-11-01T15:53:31Z",
-     "status": "pending",
+     "status": "confirmed",
      "err": null,
      "tsa": [
       {
@@ -105525,6 +105525,53 @@
       "failed": [],
       "why": {},
       "at": "2026-11-01T15:56:47Z"
+     },
+     "bitcoin_block": 974146,
+     "confirmed_checked": "2026-11-01T16:58:08Z"
+    },
+    {
+     "sha256": "0fbac20d3ef31ebce1eafe1c2f1072efdb5b7b1868824b1e033235a58df410b0",
+     "file": "events/archive/news-snowstorm-dolpa-2026-11-01_0fbac20d3ef3.json",
+     "ots": "events/archive/news-snowstorm-dolpa-2026-11-01_0fbac20d3ef3.json.ots",
+     "stamped": "2026-11-01T16:58:08Z",
+     "status": "pending",
+     "err": null,
+     "tsa": [
+      {
+       "tsa": "FreeTSA",
+       "file": "events/archive/news-snowstorm-dolpa-2026-11-01_0fbac20d3ef3.json.FreeTSA.tsr",
+       "time": "Nov  1 17:00:35 2026 GMT"
+      },
+      {
+       "tsa": "DigiCert",
+       "file": "events/archive/news-snowstorm-dolpa-2026-11-01_0fbac20d3ef3.json.DigiCert.tsr",
+       "time": "Nov  1 17:00:36 2026 GMT"
+      }
+     ],
+     "sigstore": {
+      "file": "events/archive/news-snowstorm-dolpa-2026-11-01_0fbac20d3ef3.json.sigstore.json",
+      "identity": "https://github.com/Yizebaba/EVEREST-/.github/workflows/evidence.yml@refs/heads/events",
+      "rekor_log_index": "3634646010",
+      "self_verified": true,
+      "rekor": "https://search.sigstore.dev/?logIndex=3634646010"
+     },
+     "verify": {
+      "checks": {
+       "sha256_python": true,
+       "sha256_coreutils": true,
+       "rfc3161_FreeTSA": true,
+       "rfc3161_DigiCert": true,
+       "sigstore_cosign": true,
+       "sigstore_python": true,
+       "ots_parse": true,
+       "prov": true,
+       "rocrate": true
+      },
+      "passed": 9,
+      "total": 9,
+      "failed": [],
+      "why": {},
+      "at": "2026-11-01T17:00:47Z"
      }
     }
    ],
@@ -105541,9 +105588,9 @@
    "man": "4f53cda18c2baa0c",
    "n": 31,
    "src_n": 2,
-   "built": "2026-11-01T15:53:31Z",
+   "built": "2026-11-01T16:58:08Z",
    "missing": 12
   }
  },
- "updated": "2026-11-01T16:39:38Z"
+ "updated": "2026-11-01T16:58:08Z"
 }
