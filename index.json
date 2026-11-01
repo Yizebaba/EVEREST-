@@ -96220,7 +96220,7 @@
      "file": "events/archive/news-flood-manaslu-2026-10-25_2dcce8220b26.json",
      "ots": "events/archive/news-flood-manaslu-2026-10-25_2dcce8220b26.json.ots",
      "stamped": "2026-11-01T08:49:27Z",
-     "status": "pending",
+     "status": "confirmed",
      "err": null,
      "tsa": [
       {
@@ -96258,7 +96258,9 @@
       "failed": [],
       "why": {},
       "at": "2026-11-01T08:54:54Z"
-     }
+     },
+     "bitcoin_block": 974109,
+     "confirmed_checked": "2026-11-01T10:19:26Z"
     },
     {
      "sha256": "47e0a0f0160a9f841debc7347aba549a14e2cac1cf15bade56f368e7ad61191b",
@@ -101687,7 +101689,7 @@
      "file": "events/archive/news-landslide-myagdi-2026-10-27_4584e0083413.json",
      "ots": "events/archive/news-landslide-myagdi-2026-10-27_4584e0083413.json.ots",
      "stamped": "2026-11-01T08:49:27Z",
-     "status": "pending",
+     "status": "confirmed",
      "err": null,
      "tsa": [
       {
@@ -101725,7 +101727,9 @@
       "failed": [],
       "why": {},
       "at": "2026-11-01T08:54:56Z"
-     }
+     },
+     "bitcoin_block": 974109,
+     "confirmed_checked": "2026-11-01T10:19:26Z"
     },
     {
      "sha256": "88592ce2f5e2d5623fc76da859842aa1e35756bd420a4245d98f0ea3608e0061",
@@ -104197,7 +104201,7 @@
      "file": "events/archive/news-flood-rasuwagadhi-2026-10-30_7b19d75bd808.json",
      "ots": "events/archive/news-flood-rasuwagadhi-2026-10-30_7b19d75bd808.json.ots",
      "stamped": "2026-11-01T08:49:27Z",
-     "status": "pending",
+     "status": "confirmed",
      "err": null,
      "tsa": [
       {
@@ -104235,7 +104239,9 @@
       "failed": [],
       "why": {},
       "at": "2026-11-01T08:54:57Z"
-     }
+     },
+     "bitcoin_block": 974109,
+     "confirmed_checked": "2026-11-01T10:19:26Z"
     },
     {
      "sha256": "9ed0d605273e01b64cde1f80101677198a91d5285242d4f37b32e8e867ff8bac",
@@ -104306,7 +104312,7 @@
      "file": "events/archive/news-snowstorm-dolpa-2026-11-01_6ba760aae84c.json",
      "ots": "events/archive/news-snowstorm-dolpa-2026-11-01_6ba760aae84c.json.ots",
      "stamped": "2026-11-01T08:23:36Z",
-     "status": "pending",
+     "status": "confirmed",
      "err": null,
      "tsa": [
       {
@@ -104344,14 +104350,16 @@
       "failed": [],
       "why": {},
       "at": "2026-11-01T08:29:56Z"
-     }
+     },
+     "bitcoin_block": 974107,
+     "confirmed_checked": "2026-11-01T10:19:26Z"
     },
     {
      "sha256": "39d4508184c40bb63f27184f82be30b6d85b3b37a1955c6abcafafa2ea011f35",
      "file": "events/archive/news-snowstorm-dolpa-2026-11-01_39d4508184c4.json",
      "ots": "events/archive/news-snowstorm-dolpa-2026-11-01_39d4508184c4.json.ots",
      "stamped": "2026-11-01T09:13:56Z",
-     "status": "pending",
+     "status": "confirmed",
      "err": null,
      "tsa": [
       {
@@ -104389,6 +104397,53 @@
       "failed": [],
       "why": {},
       "at": "2026-11-01T09:17:53Z"
+     },
+     "bitcoin_block": 974109,
+     "confirmed_checked": "2026-11-01T10:19:26Z"
+    },
+    {
+     "sha256": "f3b30855d25b7563f09da059aee5856ae2262ff7718c58f5c120e89131498dde",
+     "file": "events/archive/news-snowstorm-dolpa-2026-11-01_f3b30855d25b.json",
+     "ots": "events/archive/news-snowstorm-dolpa-2026-11-01_f3b30855d25b.json.ots",
+     "stamped": "2026-11-01T10:19:26Z",
+     "status": "pending",
+     "err": null,
+     "tsa": [
+      {
+       "tsa": "FreeTSA",
+       "file": "events/archive/news-snowstorm-dolpa-2026-11-01_f3b30855d25b.json.FreeTSA.tsr",
+       "time": "Nov  1 10:22:06 2026 GMT"
+      },
+      {
+       "tsa": "DigiCert",
+       "file": "events/archive/news-snowstorm-dolpa-2026-11-01_f3b30855d25b.json.DigiCert.tsr",
+       "time": "Nov  1 10:22:07 2026 GMT"
+      }
+     ],
+     "sigstore": {
+      "file": "events/archive/news-snowstorm-dolpa-2026-11-01_f3b30855d25b.json.sigstore.json",
+      "identity": "https://github.com/Yizebaba/EVEREST-/.github/workflows/evidence.yml@refs/heads/events",
+      "rekor_log_index": "3626742001",
+      "self_verified": true,
+      "rekor": "https://search.sigstore.dev/?logIndex=3626742001"
+     },
+     "verify": {
+      "checks": {
+       "sha256_python": true,
+       "sha256_coreutils": true,
+       "rfc3161_FreeTSA": true,
+       "rfc3161_DigiCert": true,
+       "sigstore_cosign": true,
+       "sigstore_python": true,
+       "ots_parse": true,
+       "prov": true,
+       "rocrate": true
+      },
+      "passed": 9,
+      "total": 9,
+      "failed": [],
+      "why": {},
+      "at": "2026-11-01T10:22:29Z"
      }
     }
    ],
@@ -104405,9 +104460,9 @@
    "man": "4f53cda18c2baa0c",
    "n": 30,
    "src_n": 2,
-   "built": "2026-11-01T09:13:56Z",
-   "missing": 11
+   "built": "2026-11-01T10:19:26Z",
+   "missing": 12
   }
  },
- "updated": "2026-11-01T09:59:06Z"
+ "updated": "2026-11-01T10:19:26Z"
 }
