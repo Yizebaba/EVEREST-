@@ -96737,7 +96737,7 @@
      "file": "events/archive/news-flood-manaslu-2026-10-25_18b959754cbb.json",
      "ots": "events/archive/news-flood-manaslu-2026-10-25_18b959754cbb.json.ots",
      "stamped": "2026-11-01T20:34:58Z",
-     "status": "pending",
+     "status": "confirmed",
      "err": null,
      "tsa": [
       {
@@ -96775,7 +96775,9 @@
       "failed": [],
       "why": {},
       "at": "2026-11-01T20:39:43Z"
-     }
+     },
+     "bitcoin_block": 974176,
+     "confirmed_checked": "2026-11-01T22:04:41Z"
     },
     {
      "sha256": "8e4526db4133c4c77f5db410b870714f12a47378d7c16c68e4d6c89f3fb18129",
@@ -102721,7 +102723,7 @@
      "file": "events/archive/news-landslide-myagdi-2026-10-27_521d8ace47ca.json",
      "ots": "events/archive/news-landslide-myagdi-2026-10-27_521d8ace47ca.json.ots",
      "stamped": "2026-11-01T20:34:58Z",
-     "status": "pending",
+     "status": "confirmed",
      "err": null,
      "tsa": [
       {
@@ -102759,7 +102761,9 @@
       "failed": [],
       "why": {},
       "at": "2026-11-01T20:39:44Z"
-     }
+     },
+     "bitcoin_block": 974176,
+     "confirmed_checked": "2026-11-01T22:04:41Z"
     },
     {
      "sha256": "db8f6c86f2d70ca01288e5b62660d3022e7f987a39c8f76e2d59d55c13186021",
@@ -105748,7 +105752,7 @@
      "file": "events/archive/news-flood-rasuwagadhi-2026-10-30_a5cfdad5a96e.json",
      "ots": "events/archive/news-flood-rasuwagadhi-2026-10-30_a5cfdad5a96e.json.ots",
      "stamped": "2026-11-01T20:34:58Z",
-     "status": "pending",
+     "status": "confirmed",
      "err": null,
      "tsa": [
       {
@@ -105786,7 +105790,9 @@
       "failed": [],
       "why": {},
       "at": "2026-11-01T20:39:45Z"
-     }
+     },
+     "bitcoin_block": 974176,
+     "confirmed_checked": "2026-11-01T22:04:41Z"
     },
     {
      "sha256": "d32e4650e414b63f7a12728fc914a8a7859dd670719b2c6d032978c0872be0db",
@@ -106460,6 +106466,51 @@
       "why": {},
       "at": "2026-11-01T20:57:09Z"
      }
+    },
+    {
+     "sha256": "a8526c709fc0c102bea58d3c967e5e9f40701c100b4487b0f519b3d690a3ba7b",
+     "file": "events/archive/news-snowstorm-dolpa-2026-11-01_a8526c709fc0.json",
+     "ots": "events/archive/news-snowstorm-dolpa-2026-11-01_a8526c709fc0.json.ots",
+     "stamped": "2026-11-01T22:04:41Z",
+     "status": "pending",
+     "err": null,
+     "tsa": [
+      {
+       "tsa": "FreeTSA",
+       "file": "events/archive/news-snowstorm-dolpa-2026-11-01_a8526c709fc0.json.FreeTSA.tsr",
+       "time": "Nov  1 22:06:57 2026 GMT"
+      },
+      {
+       "tsa": "DigiCert",
+       "file": "events/archive/news-snowstorm-dolpa-2026-11-01_a8526c709fc0.json.DigiCert.tsr",
+       "time": "Nov  1 22:06:57 2026 GMT"
+      }
+     ],
+     "sigstore": {
+      "file": "events/archive/news-snowstorm-dolpa-2026-11-01_a8526c709fc0.json.sigstore.json",
+      "identity": "https://github.com/Yizebaba/EVEREST-/.github/workflows/evidence.yml@refs/heads/events",
+      "rekor_log_index": "3636423053",
+      "self_verified": true,
+      "rekor": "https://search.sigstore.dev/?logIndex=3636423053"
+     },
+     "verify": {
+      "checks": {
+       "sha256_python": true,
+       "sha256_coreutils": true,
+       "rfc3161_FreeTSA": true,
+       "rfc3161_DigiCert": true,
+       "sigstore_cosign": true,
+       "sigstore_python": true,
+       "ots_parse": true,
+       "prov": true,
+       "rocrate": true
+      },
+      "passed": 9,
+      "total": 9,
+      "failed": [],
+      "why": {},
+      "at": "2026-11-01T22:07:12Z"
+     }
     }
    ],
    "title": "Dolpa 雪暴（新闻线索）",
@@ -106475,9 +106526,9 @@
    "man": "4f53cda18c2baa0c",
    "n": 31,
    "src_n": 2,
-   "built": "2026-11-01T20:54:34Z",
-   "missing": 11
+   "built": "2026-11-01T22:04:41Z",
+   "missing": 12
   }
  },
- "updated": "2026-11-01T21:39:42Z"
+ "updated": "2026-11-01T22:04:41Z"
 }
