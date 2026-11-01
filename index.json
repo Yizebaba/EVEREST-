@@ -104870,7 +104870,7 @@
      "file": "events/archive/news-snowstorm-dolpa-2026-11-01_8fd1cf585029.json",
      "ots": "events/archive/news-snowstorm-dolpa-2026-11-01_8fd1cf585029.json.ots",
      "stamped": "2026-11-01T11:29:11Z",
-     "status": "pending",
+     "status": "confirmed",
      "err": null,
      "tsa": [
       {
@@ -104908,7 +104908,9 @@
       "failed": [],
       "why": {},
       "at": "2026-11-01T11:32:16Z"
-     }
+     },
+     "bitcoin_block": 974125,
+     "confirmed_checked": "2026-11-01T13:43:53Z"
     },
     {
      "sha256": "9dd231e9f48d293554789567aade507b4f1a62aacd61de8858c3d4292f452ccb",
@@ -104954,6 +104956,51 @@
       "why": {},
       "at": "2026-11-01T12:37:16Z"
      }
+    },
+    {
+     "sha256": "979d89b9cebc11bc93c2eba5934f46348a186b0c79e0c265472474c3930ff5bb",
+     "file": "events/archive/news-snowstorm-dolpa-2026-11-01_979d89b9cebc.json",
+     "ots": "events/archive/news-snowstorm-dolpa-2026-11-01_979d89b9cebc.json.ots",
+     "stamped": "2026-11-01T13:43:53Z",
+     "status": "pending",
+     "err": null,
+     "tsa": [
+      {
+       "tsa": "FreeTSA",
+       "file": "events/archive/news-snowstorm-dolpa-2026-11-01_979d89b9cebc.json.FreeTSA.tsr",
+       "time": "Nov  1 13:45:39 2026 GMT"
+      },
+      {
+       "tsa": "DigiCert",
+       "file": "events/archive/news-snowstorm-dolpa-2026-11-01_979d89b9cebc.json.DigiCert.tsr",
+       "time": "Nov  1 13:45:39 2026 GMT"
+      }
+     ],
+     "sigstore": {
+      "file": "events/archive/news-snowstorm-dolpa-2026-11-01_979d89b9cebc.json.sigstore.json",
+      "identity": "https://github.com/Yizebaba/EVEREST-/.github/workflows/evidence.yml@refs/heads/events",
+      "rekor_log_index": "3631571965",
+      "self_verified": true,
+      "rekor": "https://search.sigstore.dev/?logIndex=3631571965"
+     },
+     "verify": {
+      "checks": {
+       "sha256_python": true,
+       "sha256_coreutils": true,
+       "rfc3161_FreeTSA": true,
+       "rfc3161_DigiCert": true,
+       "sigstore_cosign": true,
+       "sigstore_python": true,
+       "ots_parse": true,
+       "prov": true,
+       "rocrate": true
+      },
+      "passed": 9,
+      "total": 9,
+      "failed": [],
+      "why": {},
+      "at": "2026-11-01T13:45:59Z"
+     }
     }
    ],
    "title": "Dolpa 雪暴（新闻线索）",
@@ -104967,11 +105014,11 @@
    "lon": 82.87,
    "v": 25,
    "man": "4f53cda18c2baa0c",
-   "n": 30,
+   "n": 31,
    "src_n": 2,
-   "built": "2026-11-01T12:34:31Z",
+   "built": "2026-11-01T13:43:53Z",
    "missing": 11
   }
  },
- "updated": "2026-11-01T13:19:28Z"
+ "updated": "2026-11-01T13:43:53Z"
 }
