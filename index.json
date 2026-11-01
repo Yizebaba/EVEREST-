@@ -96690,7 +96690,7 @@
      "file": "events/archive/news-flood-manaslu-2026-10-25_b78a6384a975.json",
      "ots": "events/archive/news-flood-manaslu-2026-10-25_b78a6384a975.json.ots",
      "stamped": "2026-11-01T19:44:16Z",
-     "status": "pending",
+     "status": "confirmed",
      "err": null,
      "tsa": [
       {
@@ -96728,7 +96728,9 @@
       "failed": [],
       "why": {},
       "at": "2026-11-01T19:49:15Z"
-     }
+     },
+     "bitcoin_block": 974170,
+     "confirmed_checked": "2026-11-01T20:54:34Z"
     },
     {
      "sha256": "18b959754cbb7fd542b01e4965c5e702d09fb8a6c15b6466ab6dbe059bccfd0a",
@@ -102627,7 +102629,7 @@
      "file": "events/archive/news-landslide-myagdi-2026-10-27_b67a188c9eb8.json",
      "ots": "events/archive/news-landslide-myagdi-2026-10-27_b67a188c9eb8.json.ots",
      "stamped": "2026-11-01T19:44:16Z",
-     "status": "pending",
+     "status": "confirmed",
      "err": null,
      "tsa": [
       {
@@ -102665,7 +102667,9 @@
       "failed": [],
       "why": {},
       "at": "2026-11-01T19:49:16Z"
-     }
+     },
+     "bitcoin_block": 974170,
+     "confirmed_checked": "2026-11-01T20:54:34Z"
     },
     {
      "sha256": "521d8ace47ca153735274f99cda6470838cdcce6e014fbc84ee37ddb2c912588",
@@ -105607,7 +105611,7 @@
      "file": "events/archive/news-flood-rasuwagadhi-2026-10-30_e39260e76b1f.json",
      "ots": "events/archive/news-flood-rasuwagadhi-2026-10-30_e39260e76b1f.json.ots",
      "stamped": "2026-11-01T19:44:16Z",
-     "status": "pending",
+     "status": "confirmed",
      "err": null,
      "tsa": [
       {
@@ -105645,7 +105649,9 @@
       "failed": [],
       "why": {},
       "at": "2026-11-01T19:49:17Z"
-     }
+     },
+     "bitcoin_block": 974170,
+     "confirmed_checked": "2026-11-01T20:54:34Z"
     },
     {
      "sha256": "a5cfdad5a96eba65547b735281eb6b3c3afc8f87a66806848b12fe2eaac22980",
@@ -106233,7 +106239,7 @@
      "file": "events/archive/news-snowstorm-dolpa-2026-11-01_9594011b793b.json",
      "ots": "events/archive/news-snowstorm-dolpa-2026-11-01_9594011b793b.json.ots",
      "stamped": "2026-11-01T19:50:02Z",
-     "status": "pending",
+     "status": "confirmed",
      "err": null,
      "tsa": [
       {
@@ -106271,6 +106277,53 @@
       "failed": [],
       "why": {},
       "at": "2026-11-01T19:52:44Z"
+     },
+     "bitcoin_block": 974170,
+     "confirmed_checked": "2026-11-01T20:54:34Z"
+    },
+    {
+     "sha256": "4aae6a111d14aecc9d55f96436e117c9d5da4881c4228554a9d97a101de48b49",
+     "file": "events/archive/news-snowstorm-dolpa-2026-11-01_4aae6a111d14.json",
+     "ots": "events/archive/news-snowstorm-dolpa-2026-11-01_4aae6a111d14.json.ots",
+     "stamped": "2026-11-01T20:54:34Z",
+     "status": "pending",
+     "err": null,
+     "tsa": [
+      {
+       "tsa": "FreeTSA",
+       "file": "events/archive/news-snowstorm-dolpa-2026-11-01_4aae6a111d14.json.FreeTSA.tsr",
+       "time": "Nov  1 20:56:53 2026 GMT"
+      },
+      {
+       "tsa": "DigiCert",
+       "file": "events/archive/news-snowstorm-dolpa-2026-11-01_4aae6a111d14.json.DigiCert.tsr",
+       "time": "Nov  1 20:56:54 2026 GMT"
+      }
+     ],
+     "sigstore": {
+      "file": "events/archive/news-snowstorm-dolpa-2026-11-01_4aae6a111d14.json.sigstore.json",
+      "identity": "https://github.com/Yizebaba/EVEREST-/.github/workflows/evidence.yml@refs/heads/events",
+      "rekor_log_index": "3635932573",
+      "self_verified": true,
+      "rekor": "https://search.sigstore.dev/?logIndex=3635932573"
+     },
+     "verify": {
+      "checks": {
+       "sha256_python": true,
+       "sha256_coreutils": true,
+       "rfc3161_FreeTSA": true,
+       "rfc3161_DigiCert": true,
+       "sigstore_cosign": true,
+       "sigstore_python": true,
+       "ots_parse": true,
+       "prov": true,
+       "rocrate": true
+      },
+      "passed": 9,
+      "total": 9,
+      "failed": [],
+      "why": {},
+      "at": "2026-11-01T20:57:09Z"
      }
     }
    ],
@@ -106287,9 +106340,9 @@
    "man": "4f53cda18c2baa0c",
    "n": 31,
    "src_n": 2,
-   "built": "2026-11-01T19:50:02Z",
-   "missing": 12
+   "built": "2026-11-01T20:54:34Z",
+   "missing": 11
   }
  },
- "updated": "2026-11-01T20:34:58Z"
+ "updated": "2026-11-01T20:54:34Z"
 }
