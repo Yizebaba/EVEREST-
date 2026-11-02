@@ -108119,7 +108119,7 @@
      "file": "events/archive/news-snowstorm-dolpa-2026-11-01_0702aa0db372.json",
      "ots": "events/archive/news-snowstorm-dolpa-2026-11-01_0702aa0db372.json.ots",
      "stamped": "2026-11-02T06:21:40Z",
-     "status": "pending",
+     "status": "confirmed",
      "err": null,
      "tsa": [
       {
@@ -108157,6 +108157,53 @@
       "failed": [],
       "why": {},
       "at": "2026-11-02T06:31:46Z"
+     },
+     "bitcoin_block": 974223,
+     "confirmed_checked": "2026-11-02T07:26:13Z"
+    },
+    {
+     "sha256": "4a144fba0169760ed6f9f8cab92920a6bab4feb3fa2fe1bb2c8bb8c6470c82cf",
+     "file": "events/archive/news-snowstorm-dolpa-2026-11-01_4a144fba0169.json",
+     "ots": "events/archive/news-snowstorm-dolpa-2026-11-01_4a144fba0169.json.ots",
+     "stamped": "2026-11-02T07:26:13Z",
+     "status": "pending",
+     "err": null,
+     "tsa": [
+      {
+       "tsa": "FreeTSA",
+       "file": "events/archive/news-snowstorm-dolpa-2026-11-01_4a144fba0169.json.FreeTSA.tsr",
+       "time": "Nov  2 07:27:37 2026 GMT"
+      },
+      {
+       "tsa": "DigiCert",
+       "file": "events/archive/news-snowstorm-dolpa-2026-11-01_4a144fba0169.json.DigiCert.tsr",
+       "time": "Nov  2 07:27:38 2026 GMT"
+      }
+     ],
+     "sigstore": {
+      "file": "events/archive/news-snowstorm-dolpa-2026-11-01_4a144fba0169.json.sigstore.json",
+      "identity": "https://github.com/Yizebaba/EVEREST-/.github/workflows/evidence.yml@refs/heads/events",
+      "rekor_log_index": "3637940010",
+      "self_verified": true,
+      "rekor": "https://search.sigstore.dev/?logIndex=3637940010"
+     },
+     "verify": {
+      "checks": {
+       "sha256_python": true,
+       "sha256_coreutils": true,
+       "rfc3161_FreeTSA": true,
+       "rfc3161_DigiCert": true,
+       "sigstore_cosign": true,
+       "sigstore_python": true,
+       "ots_parse": true,
+       "prov": true,
+       "rocrate": true
+      },
+      "passed": 9,
+      "total": 9,
+      "failed": [],
+      "why": {},
+      "at": "2026-11-02T07:35:13Z"
      }
     }
    ],
@@ -108173,7 +108220,7 @@
    "man": "4f53cda18c2baa0c",
    "n": 36,
    "src_n": 2,
-   "built": "2026-11-02T06:21:40Z",
+   "built": "2026-11-02T07:26:13Z",
    "missing": 12
   },
   "hz-bipad-i-96080": {
@@ -108316,13 +108363,58 @@
       "why": {},
       "at": "2026-11-02T06:31:47Z"
      }
+    },
+    {
+     "sha256": "31db56bc3caccb8c4bd6a55ccf885589f3eae709de9d02d42c90645a7273996d",
+     "file": "events/archive/hz-bipad-i-96080_31db56bc3cac.json",
+     "ots": "events/archive/hz-bipad-i-96080_31db56bc3cac.json.ots",
+     "stamped": "2026-11-02T07:26:13Z",
+     "status": "pending",
+     "err": null,
+     "tsa": [
+      {
+       "tsa": "FreeTSA",
+       "file": "events/archive/hz-bipad-i-96080_31db56bc3cac.json.FreeTSA.tsr",
+       "time": "Nov  2 07:33:39 2026 GMT"
+      },
+      {
+       "tsa": "DigiCert",
+       "file": "events/archive/hz-bipad-i-96080_31db56bc3cac.json.DigiCert.tsr",
+       "time": "Nov  2 07:33:39 2026 GMT"
+      }
+     ],
+     "sigstore": {
+      "file": "events/archive/hz-bipad-i-96080_31db56bc3cac.json.sigstore.json",
+      "identity": "https://github.com/Yizebaba/EVEREST-/.github/workflows/evidence.yml@refs/heads/events",
+      "rekor_log_index": "3637947298",
+      "self_verified": true,
+      "rekor": "https://search.sigstore.dev/?logIndex=3637947298"
+     },
+     "verify": {
+      "checks": {
+       "sha256_python": true,
+       "sha256_coreutils": true,
+       "rfc3161_FreeTSA": true,
+       "rfc3161_DigiCert": true,
+       "sigstore_cosign": true,
+       "sigstore_python": true,
+       "ots_parse": true,
+       "prov": true,
+       "rocrate": true
+      },
+      "passed": 9,
+      "total": 9,
+      "failed": [],
+      "why": {},
+      "at": "2026-11-02T07:35:14Z"
+     }
     }
    ],
    "title": "Boat Capsize at Dhankuta Municipality-2",
    "t": "2026-10-24T18:15:00Z",
    "t_detected": "2026-10-24T18:15:00Z",
    "t_prec": "day",
-   "first_seen": "2026-11-02T06:13:19Z",
+   "first_seen": "2026-11-02T07:23:24Z",
    "kind": "Boat Capsize",
    "place": "Dhankuta Municipality-2",
    "lat": 27.00791,
@@ -108331,7 +108423,7 @@
    "man": "4f53cda18c2baa0c",
    "n": 66,
    "src_n": 1,
-   "built": "2026-11-02T06:21:40Z",
+   "built": "2026-11-02T07:26:13Z",
    "missing": 11
   },
   "hz-bipad-i-96114": {
@@ -108474,24 +108566,69 @@
       "why": {},
       "at": "2026-11-02T06:31:48Z"
      }
+    },
+    {
+     "sha256": "d4492257e8c8ed77daca8634d59d1175a1b29f64989ec8f451dea50afef3085d",
+     "file": "events/archive/hz-bipad-i-96114_d4492257e8c8.json",
+     "ots": "events/archive/hz-bipad-i-96114_d4492257e8c8.json.ots",
+     "stamped": "2026-11-02T07:26:13Z",
+     "status": "pending",
+     "err": null,
+     "tsa": [
+      {
+       "tsa": "FreeTSA",
+       "file": "events/archive/hz-bipad-i-96114_d4492257e8c8.json.FreeTSA.tsr",
+       "time": "Nov  2 07:34:56 2026 GMT"
+      },
+      {
+       "tsa": "DigiCert",
+       "file": "events/archive/hz-bipad-i-96114_d4492257e8c8.json.DigiCert.tsr",
+       "time": "Nov  2 07:34:57 2026 GMT"
+      }
+     ],
+     "sigstore": {
+      "file": "events/archive/hz-bipad-i-96114_d4492257e8c8.json.sigstore.json",
+      "identity": "https://github.com/Yizebaba/EVEREST-/.github/workflows/evidence.yml@refs/heads/events",
+      "rekor_log_index": "3637949882",
+      "self_verified": true,
+      "rekor": "https://search.sigstore.dev/?logIndex=3637949882"
+     },
+     "verify": {
+      "checks": {
+       "sha256_python": true,
+       "sha256_coreutils": true,
+       "rfc3161_FreeTSA": true,
+       "rfc3161_DigiCert": true,
+       "sigstore_cosign": true,
+       "sigstore_python": true,
+       "ots_parse": true,
+       "prov": true,
+       "rocrate": true
+      },
+      "passed": 9,
+      "total": 9,
+      "failed": [],
+      "why": {},
+      "at": "2026-11-02T07:35:15Z"
+     }
     }
    ],
    "title": "Landslide at Gauriganga Municipality-9",
    "t": "2026-10-23T18:15:00Z",
    "t_detected": "2026-10-23T18:15:00Z",
    "t_prec": "day",
-   "first_seen": "2026-11-02T06:13:19Z",
+   "first_seen": "2026-11-02T07:23:24Z",
    "kind": "Landslide",
    "place": "Gauriganga Municipality-9",
    "lat": 28.74013,
    "lon": 80.89463,
    "v": 25,
    "man": "4f53cda18c2baa0c",
-   "n": 51,
+   "n": 52,
    "src_n": 1,
-   "built": "2026-11-02T06:21:40Z",
-   "missing": 8
+   "built": "2026-11-02T07:26:13Z",
+   "missing": 7
   }
  },
- "updated": "2026-11-02T07:01:16Z"
+ "updated": "2026-11-02T07:26:13Z"
 }
