@@ -1,0 +1,143 @@
+{
+ "@context": "https://w3id.org/ro/crate/1.1/context",
+ "@graph": [
+  {
+   "@id": "ro-crate-metadata.json",
+   "@type": "CreativeWork",
+   "conformsTo": {
+    "@id": "https://w3id.org/ro/crate/1.1"
+   },
+   "about": {
+    "@id": "./"
+   }
+  },
+  {
+   "@id": "./",
+   "@type": "Dataset",
+   "name": "EVEREST 事件证据包：Boat Capsize at Dhankuta Municipality-2",
+   "description": "只陈述公开来源记录了什么、什么时候；不判断成因，不预测。地震台强信号只说明那一刻台站记录到较强震动，来源需要结合其他证据。",
+   "datePublished": "2026-11-02T04:27:08Z",
+   "license": {
+    "@id": "https://creativecommons.org/licenses/by/4.0/"
+   },
+   "keywords": [
+    "TL0402"
+   ],
+   "spatialCoverage": {
+    "@id": "#place"
+   },
+   "temporalCoverage": "2026-10-24T18:15:00Z",
+   "publisher": {
+    "@id": "https://github.com/Yizebaba/EVEREST-"
+   },
+   "hasPart": [
+    {
+     "@id": "https://raw.githubusercontent.com/Yizebaba/EVEREST-/events/events/hz-bipad-i-96080.json"
+    },
+    {
+     "@id": "https://raw.githubusercontent.com/Yizebaba/EVEREST-/events/events/hz-bipad-i-96080.prov.json"
+    },
+    {
+     "@id": "https://raw.githubusercontent.com/Yizebaba/EVEREST-/events/events/hz-bipad-i-96080_evn.png"
+    },
+    {
+     "@id": "https://raw.githubusercontent.com/Yizebaba/EVEREST-/events/events/archive/hz-bipad-i-96080_7db821666377.json"
+    },
+    {
+     "@id": "https://raw.githubusercontent.com/Yizebaba/EVEREST-/events/events/archive/hz-bipad-i-96080_7db821666377.json.ots"
+    },
+    {
+     "@id": "https://raw.githubusercontent.com/Yizebaba/EVEREST-/events/events/archive/hz-bipad-i-96080_7db821666377.json.FreeTSA.tsr"
+    },
+    {
+     "@id": "https://raw.githubusercontent.com/Yizebaba/EVEREST-/events/events/archive/hz-bipad-i-96080_7db821666377.json.DigiCert.tsr"
+    },
+    {
+     "@id": "https://raw.githubusercontent.com/Yizebaba/EVEREST-/events/events/archive/hz-bipad-i-96080_7db821666377.json.sigstore.json"
+    }
+   ],
+   "citation": [
+    {
+     "@id": "https://doi.org/10.1016/j.dib.2026.112803"
+    }
+   ]
+  },
+  {
+   "@id": "https://doi.org/10.1016/j.dib.2026.112803",
+   "@type": "ScholarlyArticle",
+   "name": "Data on the extent of sessile invertebrate fouling on the hulls of recreational boats in the western English Channel (north-east Atlantic), and patterns of boat maintenance and usage there",
+   "datePublished": "2026"
+  },
+  {
+   "@id": "#place",
+   "@type": "Place",
+   "name": "Dhankuta Municipality-2",
+   "geo": {
+    "@id": "#geo"
+   }
+  },
+  {
+   "@id": "#geo",
+   "@type": "GeoCoordinates",
+   "latitude": 27.00791,
+   "longitude": 87.36671
+  },
+  {
+   "@id": "https://github.com/Yizebaba/EVEREST-",
+   "@type": "Organization",
+   "name": "EVEREST"
+  },
+  {
+   "@id": "https://raw.githubusercontent.com/Yizebaba/EVEREST-/events/events/hz-bipad-i-96080.json",
+   "@type": "File",
+   "name": "证据包（时间线）",
+   "encodingFormat": "application/json"
+  },
+  {
+   "@id": "https://raw.githubusercontent.com/Yizebaba/EVEREST-/events/events/hz-bipad-i-96080.prov.json",
+   "@type": "File",
+   "name": "W3C PROV 溯源记录",
+   "encodingFormat": "application/json",
+   "conformsTo": {
+    "@id": "https://www.w3.org/TR/prov-json/"
+   }
+  },
+  {
+   "@id": "https://raw.githubusercontent.com/Yizebaba/EVEREST-/events/events/hz-bipad-i-96080_evn.png",
+   "@type": "File",
+   "name": "地震台信号图",
+   "encodingFormat": "image/png"
+  },
+  {
+   "@id": "https://raw.githubusercontent.com/Yizebaba/EVEREST-/events/events/archive/hz-bipad-i-96080_7db821666377.json",
+   "@type": "File",
+   "name": "不可变快照",
+   "sha256": "7db82166637767f4ace32c3e6ec7cb75a55901488c87396bb3a064994238fb41",
+   "dateCreated": "2026-11-02T04:27:08Z"
+  },
+  {
+   "@id": "https://raw.githubusercontent.com/Yizebaba/EVEREST-/events/events/archive/hz-bipad-i-96080_7db821666377.json.ots",
+   "@type": "File",
+   "name": "OpenTimestamps 证明",
+   "encodingFormat": "application/vnd.opentimestamps"
+  },
+  {
+   "@id": "https://raw.githubusercontent.com/Yizebaba/EVEREST-/events/events/archive/hz-bipad-i-96080_7db821666377.json.FreeTSA.tsr",
+   "@type": "File",
+   "name": "RFC 3161 时间戳（FreeTSA）",
+   "encodingFormat": "application/timestamp-reply"
+  },
+  {
+   "@id": "https://raw.githubusercontent.com/Yizebaba/EVEREST-/events/events/archive/hz-bipad-i-96080_7db821666377.json.DigiCert.tsr",
+   "@type": "File",
+   "name": "RFC 3161 时间戳（DigiCert）",
+   "encodingFormat": "application/timestamp-reply"
+  },
+  {
+   "@id": "https://raw.githubusercontent.com/Yizebaba/EVEREST-/events/events/archive/hz-bipad-i-96080_7db821666377.json.sigstore.json",
+   "@type": "File",
+   "name": "Sigstore 签名（含 Rekor 透明日志记录）",
+   "encodingFormat": "application/vnd.dev.sigstore.bundle+json"
+  }
+ ]
+}
