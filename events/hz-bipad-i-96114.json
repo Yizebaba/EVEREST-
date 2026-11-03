@@ -381,8 +381,8 @@
    "t": "2026-10-23T18:15:00Z",
    "src": "地磁 Kp（GFZ）",
    "kind": "MISSING",
-   "text": "查询失败（<urlopen error timed out>）",
-   "text_en": "Query failed (<urlopen error timed out>)",
+   "text": "查询失败（没有数据）",
+   "text_en": "Query failed (没有数据)",
    "bound": "地磁 Kp"
   },
   {
@@ -679,7 +679,7 @@
    "bound": "灾种扫描"
   },
   {
-   "t": "2026-11-03T13:53:10Z",
+   "t": "2026-11-03T15:02:35Z",
    "src": "Copernicus EMS",
    "kind": "NEUTRAL",
    "text_en": "No rapid mapping activated for this event",
@@ -687,7 +687,7 @@
    "bound": "Copernicus EMS"
   },
   {
-   "t": "2026-11-03T13:53:10Z",
+   "t": "2026-11-03T15:02:35Z",
    "src": "IFRC Montandon",
    "kind": "MISSING",
    "text": "需要 IFRC GO 账号令牌才能查询（未配置）",
@@ -695,7 +695,7 @@
    "bound": "IFRC Montandon"
   },
   {
-   "t": "2026-11-03T13:53:10Z",
+   "t": "2026-11-03T15:02:35Z",
    "src": "ReliefWeb",
    "kind": "MISSING",
    "text": "需要申请 ReliefWeb appname（未配置）",
@@ -703,7 +703,7 @@
    "bound": "ReliefWeb"
   },
   {
-   "t": "2026-11-03T13:53:10Z",
+   "t": "2026-11-03T15:02:35Z",
    "src": "Cloudflare Radar",
    "kind": "MISSING",
    "text": "需要 Cloudflare API 令牌（未配置）",
@@ -711,7 +711,7 @@
    "bound": "Cloudflare Radar"
   },
   {
-   "t": "2026-11-03T13:53:10Z",
+   "t": "2026-11-03T15:02:35Z",
    "src": "NASA FIRMS 火点",
    "kind": "MISSING",
    "text": "需要 FIRMS MAP_KEY（未配置）",
@@ -719,7 +719,7 @@
    "bound": "NASA FIRMS"
   },
   {
-   "t": "2026-11-03T13:53:10Z",
+   "t": "2026-11-03T15:02:35Z",
    "src": "NASA 夜间灯光",
    "kind": "MISSING",
    "text": "需要 NASA Earthdata 账号令牌（未配置）",
@@ -727,7 +727,7 @@
    "bound": "NASA 夜间灯光"
   },
   {
-   "t": "2026-11-03T13:53:10Z",
+   "t": "2026-11-03T15:02:35Z",
    "src": "Vantor 开放影像",
    "kind": "NEUTRAL",
    "text": "这次事件没有启动开放影像",
@@ -735,7 +735,7 @@
    "bound": "Vantor 开放影像"
   }
  ],
- "built": "2026-11-03T13:53:10Z",
+ "built": "2026-11-03T15:02:35Z",
  "bounds": {
   "Sentinel-1 雷达": {
    "can": "这一时间有没有雷达影像覆盖事件地点，可用于前后对比。",
@@ -824,17 +824,17 @@
  "note": "只陈述公开来源记录了什么、什么时候；不判断成因，不预测。地震台强信号只说明那一刻台站记录到较强震动，来源需要结合其他证据。",
  "receipts": [
   {
-   "t": "2026-11-03T14:04:52Z",
+   "t": "2026-11-03T15:08:54Z",
    "method": "GET",
    "url": "https://earthquake.usgs.gov/fdsnws/event/1/query?format=geojson&latitude=28.74013&longitude=80.89463&maxradiuskm=300&starttime=2026-10-22T18:15:00Z&endtime=2026-10-24T18:15:00Z",
    "status": 200,
    "bytes": 330,
-   "sha256": "28bc19e6e216c8838c0f286a910aa4151eb0fef19bce200b261151e68be29eb7",
+   "sha256": "a0bfa99a60a5c2cbf5061b38ececd5581561713353d135b1e0c2873c7a8aecbe",
    "type": "application/json; charset=utf-8",
-   "body": "events/raw/28bc19e6e216c8838c0f286a910aa4151eb0fef19bce200b261151e68be29eb7.gz"
+   "body": "events/raw/a0bfa99a60a5c2cbf5061b38ececd5581561713353d135b1e0c2873c7a8aecbe.gz"
   },
   {
-   "t": "2026-11-03T14:04:53Z",
+   "t": "2026-11-03T15:08:55Z",
    "method": "GET",
    "url": "https://www.seismicportal.eu/fdsnws/event/1/query?format=json&lat=28.74013&lon=80.89463&maxradius=2.7&start=2026-10-22T18:15:00&end=2026-10-24T18:15:00",
    "status": 204,
@@ -843,27 +843,27 @@
    "type": ""
   },
   {
-   "t": "2026-11-03T14:04:53Z",
+   "t": "2026-11-03T15:08:55Z",
    "method": "GET",
    "url": "https://api.ioda.inetintel.cc.gatech.edu/v2/entities/query?entityType=region&search=Karnali",
    "status": 200,
    "bytes": 560,
-   "sha256": "53bb3e98ec5949cb6e5cbff8ebf69f5faee92e97c29de376b6f67545dba5907d",
+   "sha256": "d98fc4c46ff67684b13a3c859d3b15461345ebcea31f94eead4e16c4025d7f87",
    "type": "application/json",
-   "body": "events/raw/53bb3e98ec5949cb6e5cbff8ebf69f5faee92e97c29de376b6f67545dba5907d.gz"
+   "body": "events/raw/d98fc4c46ff67684b13a3c859d3b15461345ebcea31f94eead4e16c4025d7f87.gz"
   },
   {
-   "t": "2026-11-03T14:04:54Z",
+   "t": "2026-11-03T15:08:56Z",
    "method": "GET",
    "url": "https://api.ioda.inetintel.cc.gatech.edu/v2/signals/raw/region/3020?from=1792692900&until=1792865700",
    "status": 200,
-   "bytes": 7183,
-   "sha256": "17e6a8744fba6e098b62eee887d7b82cd0bd9d6b64b26cda928185af6808a032",
+   "bytes": 7184,
+   "sha256": "6b7cc9f90fd0a7042e1c77e0725a6429ec07e7f6901859d040576b21c409fe81",
    "type": "application/json",
-   "body": "events/raw/17e6a8744fba6e098b62eee887d7b82cd0bd9d6b64b26cda928185af6808a032.gz"
+   "body": "events/raw/6b7cc9f90fd0a7042e1c77e0725a6429ec07e7f6901859d040576b21c409fe81.gz"
   },
   {
-   "t": "2026-11-03T14:04:56Z",
+   "t": "2026-11-03T15:08:58Z",
    "method": "GET",
    "url": "https://rapidmapping.emergency.copernicus.eu/backend/dashboard-api/public-activations-info/?limit=400",
    "status": 200,
@@ -872,7 +872,7 @@
    "type": "application/json"
   },
   {
-   "t": "2026-11-03T14:04:56Z",
+   "t": "2026-11-03T15:08:58Z",
    "method": "POST",
    "url": "https://planetarycomputer.microsoft.com/api/stac/v1/search",
    "status": 200,
@@ -882,17 +882,17 @@
    "body": "events/raw/d5c2d6288706f823ca40e76f2d71153091585e8a2264f627509c4aef994e13d2.gz"
   },
   {
-   "t": "2026-11-03T14:04:56Z",
+   "t": "2026-11-03T15:08:58Z",
    "method": "POST",
    "url": "https://planetarycomputer.microsoft.com/api/stac/v1/search",
    "status": 200,
    "bytes": 7129,
-   "sha256": "6695f98c5acc96408b1eed323a200e4d6b6c572bc7eff8af4a99258028e99d40",
+   "sha256": "7135cc170e00a95204ae091159a6b74118e21ab5150a3a71e756a83214eb612b",
    "type": "application/geo+json; charset=utf-8",
-   "body": "events/raw/6695f98c5acc96408b1eed323a200e4d6b6c572bc7eff8af4a99258028e99d40.gz"
+   "body": "events/raw/7135cc170e00a95204ae091159a6b74118e21ab5150a3a71e756a83214eb612b.gz"
   },
   {
-   "t": "2026-11-03T14:04:57Z",
+   "t": "2026-11-03T15:08:58Z",
    "method": "POST",
    "url": "https://planetarycomputer.microsoft.com/api/stac/v1/search",
    "status": 200,
@@ -902,17 +902,17 @@
    "body": "events/raw/d8e6a8c099c642de5aa9534a942c7778e31a551e0794d4ad384b6dd3c413ab75.gz"
   },
   {
-   "t": "2026-11-03T14:04:58Z",
+   "t": "2026-11-03T15:08:59Z",
    "method": "POST",
    "url": "https://planetarycomputer.microsoft.com/api/stac/v1/search",
    "status": 200,
    "bytes": 16621,
-   "sha256": "664959e7f675259667d2f81740edbb41aa1cdff9d763fdcd395340951eaf02c9",
+   "sha256": "c43ba544d0db5c1273aa8d004afa79669978e6aaba720e54a45c995f6b79964f",
    "type": "application/geo+json; charset=utf-8",
-   "body": "events/raw/664959e7f675259667d2f81740edbb41aa1cdff9d763fdcd395340951eaf02c9.gz"
+   "body": "events/raw/c43ba544d0db5c1273aa8d004afa79669978e6aaba720e54a45c995f6b79964f.gz"
   },
   {
-   "t": "2026-11-03T14:04:58Z",
+   "t": "2026-11-03T15:09:00Z",
    "method": "POST",
    "url": "https://stac.eodc.eu/api/v1/search",
    "status": 200,
@@ -921,7 +921,7 @@
    "type": "application/geo+json"
   },
   {
-   "t": "2026-11-03T14:04:59Z",
+   "t": "2026-11-03T15:09:02Z",
    "method": "GET",
    "url": "https://data.raspberryshake.org/fdsnws/station/1/query?network=AM&latitude=28.74013&longitude=80.89463&maxradius=1.35&level=channel&format=text&starttime=2026-10-23T12:15:00&endtime=2026-10-23T21:15:00",
    "status": 200,
@@ -931,7 +931,7 @@
    "body": "events/raw/a406536070075b7ed3109880bf33e47aee329b07b5fe3a162a12ba3724668ab5.gz"
   },
   {
-   "t": "2026-11-03T14:05:00Z",
+   "t": "2026-11-03T15:09:02Z",
    "method": "GET",
    "url": "https://data.raspberryshake.org/fdsnws/dataselect/1/query?network=AM&station=R2140&location=00&channel=EHZ&starttime=2026-10-23T12:15:00&endtime=2026-10-23T21:15:00",
    "status": 204,
@@ -940,7 +940,7 @@
    "type": ""
   },
   {
-   "t": "2026-11-03T14:05:01Z",
+   "t": "2026-11-03T15:09:03Z",
    "method": "GET",
    "url": "https://data.raspberryshake.org/fdsnws/dataselect/1/query?network=AM&station=RF542&location=00&channel=EHZ&starttime=2026-10-23T12:15:00&endtime=2026-10-23T21:15:00",
    "status": 204,
@@ -949,27 +949,27 @@
    "type": ""
   },
   {
-   "t": "2026-11-03T14:05:03Z",
+   "t": "2026-11-03T15:09:03Z",
    "method": "GET",
    "url": "https://earthquake.usgs.gov/fdsnws/event/1/query?format=geojson&latitude=28.74013&longitude=80.89463&maxradiuskm=300&starttime=2026-10-22T18:15:00Z&endtime=2026-10-24T18:15:00Z&minmagnitude=4",
    "status": 200,
    "bytes": 345,
-   "sha256": "99d35caf1d2fddcb706e02cd191d124576a1edf157df9dd0e611e7d93de87773",
+   "sha256": "eaec11f318b61795916936accf60d0315bffd931feb52e3779d76078a2f6c35b",
    "type": "application/json; charset=utf-8",
-   "body": "events/raw/99d35caf1d2fddcb706e02cd191d124576a1edf157df9dd0e611e7d93de87773.gz"
+   "body": "events/raw/eaec11f318b61795916936accf60d0315bffd931feb52e3779d76078a2f6c35b.gz"
   },
   {
-   "t": "2026-11-03T14:06:08Z",
+   "t": "2026-11-03T15:10:05Z",
    "method": "GET",
    "url": "https://en.wikipedia.org/w/api.php?action=query&list=search&srsearch=Nepal+2026+disaster&format=json&srlimit=5",
    "status": 200,
    "bytes": 2401,
-   "sha256": "798d9cab308f14ca77c532616f7e85ce9942e2d730043bb9ce2858f771197bec",
+   "sha256": "e7cb10aa2882259c25bec96425f6e52670c7bfa4d2fb4fc6c59be9473e4d61f1",
    "type": "application/json; charset=utf-8",
-   "body": "events/raw/798d9cab308f14ca77c532616f7e85ce9942e2d730043bb9ce2858f771197bec.gz"
+   "body": "events/raw/e7cb10aa2882259c25bec96425f6e52670c7bfa4d2fb4fc6c59be9473e4d61f1.gz"
   },
   {
-   "t": "2026-11-03T14:06:08Z",
+   "t": "2026-11-03T15:10:05Z",
    "method": "GET",
    "url": "https://en.wikipedia.org/w/api.php?action=query&prop=revisions&titles=2026+Nepal%E2%80%93Tibet+floods&rvlimit=1&rvdir=newer&rvprop=timestamp&format=json",
    "status": 200,
@@ -979,7 +979,7 @@
    "body": "events/raw/d6855fbb07daa708ddbb4b865d4650775c6f90a600f2014f420d5e3a64305208.gz"
   },
   {
-   "t": "2026-11-03T14:06:09Z",
+   "t": "2026-11-03T15:10:05Z",
    "method": "GET",
    "url": "https://en.wikipedia.org/w/api.php?action=query&prop=revisions&titles=2014+Nepal+snowstorm+disaster&rvlimit=1&rvdir=newer&rvprop=timestamp&format=json",
    "status": 200,
@@ -989,7 +989,7 @@
    "body": "events/raw/38fdbc0c747be56393f72715ce670c2a8bd0afd0d710466145f2c940ae70a924.gz"
   },
   {
-   "t": "2026-11-03T14:06:09Z",
+   "t": "2026-11-03T15:10:05Z",
    "method": "GET",
    "url": "https://en.wikipedia.org/w/api.php?action=query&prop=revisions&titles=Timeline+of+the+2026+Nepal%E2%80%93Tibet+floods&rvlimit=1&rvdir=newer&rvprop=timestamp&format=json",
    "status": 200,
@@ -999,7 +999,7 @@
    "body": "events/raw/553ed39da47aa49d3b12712733c1cb01aa52422221158c6ab9be28c61cb11af5.gz"
   },
   {
-   "t": "2026-11-03T14:06:09Z",
+   "t": "2026-11-03T15:10:06Z",
    "method": "GET",
    "url": "https://en.wikipedia.org/w/api.php?action=query&prop=revisions&titles=2026+Budhi+Gandaki+flood&rvlimit=1&rvdir=newer&rvprop=timestamp&format=json",
    "status": 200,
@@ -1009,7 +1009,7 @@
    "body": "events/raw/26ecdf61e1e29047d64b1db20dd0265a70171a0734e68dbc31d97dbc6543b85e.gz"
   },
   {
-   "t": "2026-11-03T14:06:09Z",
+   "t": "2026-11-03T15:10:06Z",
    "method": "GET",
    "url": "https://en.wikipedia.org/w/api.php?action=query&prop=revisions&titles=2026+Broad+Peak+avalanche&rvlimit=1&rvdir=newer&rvprop=timestamp&format=json",
    "status": 200,
@@ -1019,7 +1019,7 @@
    "body": "events/raw/73d26b702fb06b43c316ab6ddc9fa7f389a0b85407a4a75052ca5ac0f370be1d.gz"
   },
   {
-   "t": "2026-11-03T14:06:09Z",
+   "t": "2026-11-03T15:10:06Z",
    "method": "GET",
    "url": "https://data.humdata.org/api/3/action/package_search?q=flood+OR+landslide+OR+avalanche+OR+earthquake+OR+disaster&fq=groups%3Anpl+AND+metadata_created%3A%5B2026-10-22T18%3A15%3A00Z+TO+NOW%5D&sort=metadata_created+asc&rows=10",
    "status": 200,
@@ -1027,6 +1027,16 @@
    "sha256": "57c17659bf3ca406184ebd539b7ba731e17b3c7230d1d9606689e123d07ec1e3",
    "type": "application/json;charset=utf-8",
    "body": "events/raw/57c17659bf3ca406184ebd539b7ba731e17b3c7230d1d9606689e123d07ec1e3.gz"
+  },
+  {
+   "t": "2026-11-03T15:10:10Z",
+   "method": "GET",
+   "url": "https://kp.gfz-potsdam.de/app/json/?start=2026-10-22T18%3A15%3A00Z&end=2026-10-24T18%3A15%3A00Z&index=Kp",
+   "status": 200,
+   "bytes": 233,
+   "sha256": "fd4f088860068daf2aeff35d419416f70c1b839c94f4e3d5bc6ce0ab0d04630f",
+   "type": "application/json",
+   "body": "events/raw/fd4f088860068daf2aeff35d419416f70c1b839c94f4e3d5bc6ce0ab0d04630f.gz"
   }
  ],
  "receipts_note": "取数回执：生成这份证据包时向各来源发出的请求、时间和返回内容的 SHA-256；小的文本响应原样存在 events/raw/。回执随证据包一起存证。"
