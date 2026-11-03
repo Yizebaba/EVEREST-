@@ -2120,9 +2120,10 @@
   "asked": "2026-11-03T13:53:10Z"
  },
  "https://data.eodc.eu/collections/GFM_NRT_INTERIM/flood_extent/AS020M/2026/10/30/DLR_FLOOD_20261030T001103_VV_AS020M_E036N024T3.tif": {
-  "err": "The read operation timed out",
-  "tries": 1,
-  "asked": "2026-11-03T15:02:35Z"
+  "status": 429,
+  "err": "HTTP Error 429: TOO MANY REQUESTS",
+  "tries": 2,
+  "asked": "2026-11-03T16:04:00Z"
  },
  "https://data.eodc.eu/collections/GFM_NRT_INTERIM/flood_extent/AS020M/2026/10/30/DLR_FLOOD_20261030T001128_VV_AS020M_E036N024T3.tif": {
   "status": 200,
@@ -2140,5 +2141,12 @@
   "err": "<urlopen error [Errno 111] Connection refused>",
   "tries": 1,
   "asked": "2026-11-03T15:02:35Z"
+ },
+ "https://data.eodc.eu/collections/GFM_NRT_INTERIM/flood_extent/AS020M/2026/11/03/DLR_FLOOD_20261103T121338_VV_AS020M_E033N027T3.tif": {
+  "status": 200,
+  "archive": "https://web.archive.org/web/20261103160654/https://data.eodc.eu/collections/GFM_NRT_INTERIM/flood_extent/AS020M/2026/11/03/DLR_FLOOD_20261103T121338_VV_AS020M_E033N027T3.tif",
+  "t": "2026-11-03T16:06:54Z",
+  "tries": 1,
+  "asked": "2026-11-03T16:04:00Z"
  }
 }
