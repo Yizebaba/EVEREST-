@@ -342,7 +342,7 @@ async function status(env) {
   const o = await env.DB.prepare("SELECT MAX(rowid) n FROM obs").first();
   const sc = await env.DB.prepare("SELECT COUNT(*) n FROM scored").first();
   const dates = await env.DB.prepare("SELECT COUNT(*) n FROM (SELECT 1 FROM scene WHERE next_idx > 0 OR status='done' GROUP BY date, orbit)").first();
-  const data = { code: "v5-rt-south", gh_token_set: !!env.GH_TOKEN, gh_status_at: await getMeta(env, "gh_status_at"), scenes: s, obs_rows: o.n || 0,
+  const data = { code: "v5-rt-south", gh_token_set: !!env.GH_TOKEN, ext_kick: JSON.parse((await getMeta(env, "ext_kick")) || "null"), gh_status_at: await getMeta(env, "gh_status_at"), scenes: s, obs_rows: o.n || 0,
     dates_scored: sc.n, dates_total: dates.n, live_at: await getMeta(env, "live_at"), facets: FACETS.length };
   const at = nowIso();
   await setMeta(env, "status_cache", JSON.stringify({ at, data }));

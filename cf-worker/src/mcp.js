@@ -122,7 +122,7 @@ async function call(name, args, h) {
       `坡面雷达监测：` + (fs.live_at ? "已出分级（用 everest_facets 查看）" : `建立历史基线中，${sc.d || 0}/${sc.n || 0} 景`),
       `ADS-B：` + (S.adsb && S.adsb.ok ? `${v("adsb").count} 架（${v("adsb").source}）` : "不可用"),
       "监测与推演分开；停报不等于正常。"];
-    return { text: lines.join("\n"), data: { updated: rt.updated, sources: src, offline: off, facets: { scenes: sc, live_at: fs.live_at } } };
+    return { text: lines.join("\n"), data: { updated: rt.updated, sources: src, offline: off, facets: { scenes: sc, live_at: fs.live_at }, triggers: fs.ext_kick || null } };
   }
   if (name === "everest_water_levels") {
     const q = String(args.station || "").toLowerCase(), now = Date.parse(rt.updated);
