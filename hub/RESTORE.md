@@ -544,3 +544,6 @@
 - 复原：在 BRI 仓库 git revert 9d68f04。
 - 11-05 v93 运行检查发现 GitHub 定时严重延迟（BRI 扫描设 30 分钟实际约 5 小时，推演排队设 5 分钟实际约 5 小时）。Worker 改为用 repository_dispatch 触发：每 5 分钟中的第 4 分钟只做外部触发——BRI 扫描每 30 分钟、BRI 咽喉要道和港口物流每 12 小时、推演有排队时每 5 分钟后备一次；网页提交推演（无文件时提交即排队，有文件时传完 commit）立即触发排队工作流；mirofish.yml 结束时再触发排队派下一个。触发状态见 /api/events.json 的 ext_kick（204 = 成功）。GitHub 定时保留作后备。
 - 复原：git revert 本次提交（cf-worker/src/events.js、index.js、mfq.js，.github/workflows/mirofish-queue.yml、mirofish.yml）；BRI 仓库的 repository_dispatch 入口不影响其定时，可留可删。
+- 11-05 v93.1 everest_overview 的数据里加 triggers（即 ext_kick）。首次触发 BRI 三项均返回 403：Worker 的 GH_TOKEN 对 BRI 仓库没有内容写权限，需在 GitHub 令牌设置里加上 BRI-Full-Scope-Foresight（Contents 读写）。加上后无需改代码，下一个触发点自动生效。复原：git revert 本次提交。
+- 11-05 BRI tools/logistics.py：PortWatch 每周重建期间查不到的国家和咽喉要道改为沿用上次的值（标 stale），此前 11-03 起咽喉要道被清空、港口国家从 117 降到 62；已从 11-02 的数据补回。复原：在 BRI 仓库 git revert 9e772fe。
+- 11-05 BRI 的 World Monitor 每日任务（claude.ai 定时任务）发现自 10-18 建立以来从未成功写入仓库（每次显示成功但 data/wm_raw 没有新提交）。提示词改为：先准备仓库再花额度；git push 失败时用 gh api 写文件；任何一份没写进就推送通知。复原：用 update_trigger 换回旧提示词。
