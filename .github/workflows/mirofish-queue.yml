@@ -4,6 +4,7 @@ name: mirofish-queue
 on:
   schedule: [{ cron: "*/5 * * * *" }]
   workflow_dispatch:
+  repository_dispatch: { types: [mfq] }   # v93：Worker 在任务提交时立即触发；定时只作后备
 permissions:
   actions: write
   id-token: write

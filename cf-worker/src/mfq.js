@@ -64,6 +64,10 @@ async function oidc(req) {
   return cl;
 }
 
+import { ghDispatch } from "./events.js";
+// v93：任务一进入排队就立即叫排队工作流（不等 GitHub 定时）
+const kickQ = env => ghDispatch(env, env.GH_REPO, "mfq").catch(() => 0);
+
 export async function handleMf(req, env, u) {
   if (req.method === "OPTIONS") return new Response(null, { headers: H });
   await init(env);
@@ -113,6 +117,7 @@ export async function handleMf(req, env, u) {
     const sc = [...new Set(scope.split(",").filter(Boolean).concat(seeds.map(x => x.split("/")[1]).filter(x => /^[A-Z]{3}$/.test(x))))].slice(0, 5).join(",");
     await env.DB.prepare("INSERT INTO mf_jobs (id,created,state,project,scope,title,requirement,rounds,secret,iph,seeds,utok,manifest) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?)")
       .bind(id, now(), man.length ? "uploading" : "queued", project, sc, title, reqm, rounds, JSON.stringify({ llm, zep }), iph, JSON.stringify(seeds), utok, JSON.stringify(man)).run();
+    if (!man.length) await kickQ(env);
     return J({ id, state: man.length ? "uploading" : "queued", upload_token: utok, chunk: CHUNK });
   }
   if (p === "/mf/upload" && req.method === "POST") {   // 网页逐块上传使用者的文件（每块 base64 ≤ CHUNK）
@@ -133,6 +138,7 @@ export async function handleMf(req, env, u) {
       if (n < Math.floor(f.size * 4 / 3) - 4) return J({ error: "文件没有传完：" + f.name }, 400);
     }
     await env.DB.prepare("UPDATE mf_jobs SET state='queued', utok=NULL WHERE id=?").bind(String(b.id)).run();
+    await kickQ(env);
     return J({ id: b.id, state: "queued" });
   }
   // 以下只给本仓库的 GitHub Actions（OIDC）

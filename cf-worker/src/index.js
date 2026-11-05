@@ -5,7 +5,7 @@
 import FACETS from "./facets.json";
 import { searchScenes, facetStat, STAC, DATA } from "./pc.js";
 import { rtTick, rtPublic, IMG } from "./rt.js";
-import { detect, kick, hazardsKick } from "./events.js";
+import { detect, kick, hazardsKick, extKick } from "./events.js";
 import { handleMcp } from "./mcp.js";
 import { handleMf } from "./mfq.js";
 
@@ -280,6 +280,12 @@ async function tick(env) {
   const log = { t: nowIso(), fetches: 0 };
   try {
     await init(env);
+    if (new Date().getUTCMinutes() % 5 === 4) {   // v93：这一分钟只做外部触发（BRI 扫描等、推演排队后备），最多 4 个请求
+      let q = 0; try { q = (await env.DB.prepare("SELECT COUNT(*) n FROM mf_jobs WHERE state='queued'").first()).n || 0; } catch (e) {}
+      const xk = await extKick(env, JSON.parse((await getMeta(env, "ext_kick")) || "null"), q);
+      if (xk) { await setMeta(env, "ext_kick", JSON.stringify(xk)); log.ext_kick = xk; }
+      return log;
+    }
     if (new Date().getUTCMinutes() % 5 === 2 || env.RT_EVERY_TICK === "1") {
       Object.assign(log, await rtTick(env, getMeta, setMeta));
       try {   // 事件自动发现 + 触发证据包
@@ -357,7 +363,7 @@ async function route(req, env) {
     if (u.pathname === "/api/live.json") { await init(env); const v = await getMeta(env, "live"); return v ? new Response(v, { headers: { "content-type": "application/json; charset=utf-8", ...CORS } }) : json({ building: true, status: await status(env) }, 202); }
     if (u.pathname.startsWith("/mf/")) return handleMf(req, env, u);   // MiroFish 推演排队（使用者自己的密钥）
     if (u.pathname === "/api/status.json") return json(await status(env));
-    if (u.pathname === "/api/events.json") { await init(env); const ev = JSON.parse((await getMeta(env, "events")) || "{}"); return json({ events: Object.values(ev).sort((x, y) => y.t.localeCompare(x.t)), kick: JSON.parse((await getMeta(env, "events_kick")) || "null"), hz_kick: JSON.parse((await getMeta(env, "hz_kick")) || "null") }); }
+    if (u.pathname === "/api/events.json") { await init(env); const ev = JSON.parse((await getMeta(env, "events")) || "{}"); return json({ events: Object.values(ev).sort((x, y) => y.t.localeCompare(x.t)), kick: JSON.parse((await getMeta(env, "events_kick")) || "null"), hz_kick: JSON.parse((await getMeta(env, "hz_kick")) || "null"), ext_kick: JSON.parse((await getMeta(env, "ext_kick")) || "null") }); }
     if (u.pathname === "/api/facets.json") return json(FACETS);
     if (u.pathname === "/api/rt.json") { await init(env); const v = await getMeta(env, "rt"); return json(v ? rtPublic(JSON.parse(v)) : { building: true }); }
     if (u.pathname === "/mcp") {   // EVEREST 连接器（MCP），只读

@@ -159,3 +159,27 @@ export async function hazardsKick(env, last) {
   // 成功是 200/201；失败也记时间（避免每 5 分钟重复请求），状态码留着排查
   return { ...L, [task + "_status"]: r.status, [task + "_at"]: now.toISOString() };
 }
+
+
+// v93：GitHub 自带定时常常延迟几小时（实测 BRI 扫描设 30 分钟、实际约 5 小时一次）。改由 Worker 用 repository_dispatch 触发：
+// 一次 POST，不用先读文件；只需要 GH_TOKEN 对目标仓库有内容写权限。目标仓库的工作流里写 on.repository_dispatch.types。
+const EXT = [   // [键, 仓库, 事件类型, 间隔毫秒]
+  ["bri_scan", "Yizebaba/BRI-Full-Scope-Foresight", "scan", 30 * 60e3],
+  ["bri_chk", "Yizebaba/BRI-Full-Scope-Foresight", "chokepoints", 12 * 3600e3],
+  ["bri_log", "Yizebaba/BRI-Full-Scope-Foresight", "logistics", 12 * 3600e3]];
+export async function ghDispatch(env, repo, type) {
+  if (!env.GH_TOKEN) return 0;
+  const r = await fetch(`https://api.github.com/repos/${repo}/dispatches`, { method: "POST",
+    headers: { "user-agent": "everest-facets-worker", accept: "application/vnd.github+json", authorization: "Bearer " + env.GH_TOKEN, "content-type": "application/json" },
+    body: JSON.stringify({ event_type: type }) });
+  return r.status;   // 204 = 成功
+}
+// 每 5 分钟调一次：到点的 BRI 任务各发一次；推演有排队任务、5 分钟内没叫过排队工作流时叫一次（网页提交时已立即叫过，这里是后备）
+export async function extKick(env, last, queued) {
+  if (!env.GH_TOKEN) return null;
+  const now = new Date(), L = { ...(last || {}) }, due = (t, ms) => !t || now - Date.parse(t) >= ms - 60e3;
+  let n = 0;
+  for (const [k, repo, type, ms] of EXT) if (due(L[k + "_at"], ms)) { L[k + "_status"] = await ghDispatch(env, repo, type); L[k + "_at"] = now.toISOString(); n++; }
+  if (queued > 0 && due(L.mfq_at, 5 * 60e3)) { L.mfq_status = await ghDispatch(env, env.GH_REPO, "mfq"); L.mfq_at = now.toISOString(); n++; }
+  return n ? L : null;
+}

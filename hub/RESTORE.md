@@ -542,3 +542,5 @@
 - 复原：改回旧名需要在 GitHub 把仓库名改回 BRI-Empower，再 git revert 这两次提交。
 - 10-22 04:20 发现 BRI 的 trade 工作流提交一直没推上去（和每 30 分钟的 scan 同时改 seeds，rebase 冲突后静默失败；150 国贸易数据只有 5 国、country_facts.json 从未进仓库）。改为 tools/push_data.sh：先存文件，每次从最新 main 开始放回再提交推送，失败会报错；seeds 只由 scan 提交。重新跑了 trade 全量。
 - 复原：在 BRI 仓库 git revert 9d68f04。
+- 11-05 v93 运行检查发现 GitHub 定时严重延迟（BRI 扫描设 30 分钟实际约 5 小时，推演排队设 5 分钟实际约 5 小时）。Worker 改为用 repository_dispatch 触发：每 5 分钟中的第 4 分钟只做外部触发——BRI 扫描每 30 分钟、BRI 咽喉要道和港口物流每 12 小时、推演有排队时每 5 分钟后备一次；网页提交推演（无文件时提交即排队，有文件时传完 commit）立即触发排队工作流；mirofish.yml 结束时再触发排队派下一个。触发状态见 /api/events.json 的 ext_kick（204 = 成功）。GitHub 定时保留作后备。
+- 复原：git revert 本次提交（cf-worker/src/events.js、index.js、mfq.js，.github/workflows/mirofish-queue.yml、mirofish.yml）；BRI 仓库的 repository_dispatch 入口不影响其定时，可留可删。

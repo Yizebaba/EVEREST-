@@ -22,7 +22,7 @@ on:
       report_only_sim: { description: "只生成报告：模拟编号 sim_xxx", default: "" }
 permissions:
   contents: write
-  actions: read
+  actions: write   # v93：结束时叫排队工作流派下一个
   id-token: write
 concurrency:
   group: mirofish-${{ inputs.job || 'owner' }}
@@ -119,3 +119,4 @@ jobs:
           D="${MFDIR:-${MFP:-mirofish}/$(date -u +%Y%m%dT%H%M%SZ)}"
           bash tools/mirofish_checkpoint.sh "$D" "final"
           [ -n "${MF_JOB:-}" ] && python3 tools/mirofish_claim.py done "$D" || true
+          [ -n "${MF_JOB:-}" ] && GH_TOKEN="${{ github.token }}" gh workflow run mirofish-queue.yml --ref main -R "$GITHUB_REPOSITORY" || true
