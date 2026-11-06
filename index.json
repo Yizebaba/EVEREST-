@@ -87571,7 +87571,7 @@
      "file": "events/archive/news-flood-manaslu-2026-10-25_f6ebd89cce47.json",
      "ots": "events/archive/news-flood-manaslu-2026-10-25_f6ebd89cce47.json.ots",
      "stamped": "2026-11-06T04:48:06Z",
-     "status": "pending",
+     "status": "confirmed",
      "err": null,
      "tsa": [
       {
@@ -87609,7 +87609,9 @@
       "failed": [],
       "why": {},
       "at": "2026-11-06T04:58:09Z"
-     }
+     },
+     "bitcoin_block": 974764,
+     "confirmed_checked": "2026-11-06T06:28:45Z"
     },
     {
      "sha256": "d8c3329cee9211a58a8717fe9e930d3297a23dd5916254267aa90c20f6ff848a",
@@ -98255,7 +98257,7 @@
      "file": "events/archive/news-landslide-myagdi-2026-10-27_0a3a35260181.json",
      "ots": "events/archive/news-landslide-myagdi-2026-10-27_0a3a35260181.json.ots",
      "stamped": "2026-11-06T04:48:06Z",
-     "status": "pending",
+     "status": "confirmed",
      "err": null,
      "tsa": [
       {
@@ -98293,7 +98295,9 @@
       "failed": [],
       "why": {},
       "at": "2026-11-06T04:58:10Z"
-     }
+     },
+     "bitcoin_block": 974764,
+     "confirmed_checked": "2026-11-06T06:28:45Z"
     },
     {
      "sha256": "df8998e0c31b4fa7ff418d890425982edc2007c1e858cef3c64a2cdaf70c15b3",
@@ -105982,7 +105986,7 @@
      "file": "events/archive/news-flood-rasuwagadhi-2026-10-30_08722b5cd7ca.json",
      "ots": "events/archive/news-flood-rasuwagadhi-2026-10-30_08722b5cd7ca.json.ots",
      "stamped": "2026-11-06T04:48:06Z",
-     "status": "pending",
+     "status": "confirmed",
      "err": null,
      "tsa": [
       {
@@ -106020,7 +106024,9 @@
       "failed": [],
       "why": {},
       "at": "2026-11-06T04:58:11Z"
-     }
+     },
+     "bitcoin_block": 974764,
+     "confirmed_checked": "2026-11-06T06:28:45Z"
     },
     {
      "sha256": "c458054a00dd3e9391226063233a4dd5a45a6e7ef1364271b583a0308bfe2083",
@@ -111308,7 +111314,7 @@
      "file": "events/archive/news-snowstorm-dolpa-2026-11-01_9750c6a51416.json",
      "ots": "events/archive/news-snowstorm-dolpa-2026-11-01_9750c6a51416.json.ots",
      "stamped": "2026-11-06T04:48:06Z",
-     "status": "pending",
+     "status": "confirmed",
      "err": null,
      "tsa": [
       {
@@ -111346,7 +111352,9 @@
       "failed": [],
       "why": {},
       "at": "2026-11-06T04:58:12Z"
-     }
+     },
+     "bitcoin_block": 974764,
+     "confirmed_checked": "2026-11-06T06:28:45Z"
     },
     {
      "sha256": "f2b787389db598f767942f41b15f763954f569816f22c8c109152d214b18510b",
@@ -120279,7 +120287,71 @@
    "src_n": 1,
    "built": "2026-11-06T05:53:23Z",
    "missing": 8
+  },
+  "news-earthquake-humla-2026-11-06": {
+   "ots": [
+    {
+     "sha256": "89533c7d6b26f75ac1c246761f5b20b2ecfc30b1c657ea73f6d66d8fb020eb34",
+     "file": "events/archive/news-earthquake-humla-2026-11-06_89533c7d6b26.json",
+     "ots": "events/archive/news-earthquake-humla-2026-11-06_89533c7d6b26.json.ots",
+     "stamped": "2026-11-06T06:28:45Z",
+     "status": "pending",
+     "err": null,
+     "tsa": [
+      {
+       "tsa": "FreeTSA",
+       "file": "events/archive/news-earthquake-humla-2026-11-06_89533c7d6b26.json.FreeTSA.tsr",
+       "time": "Nov  6 06:31:33 2026 GMT"
+      },
+      {
+       "tsa": "DigiCert",
+       "file": "events/archive/news-earthquake-humla-2026-11-06_89533c7d6b26.json.DigiCert.tsr",
+       "time": "Nov  6 06:31:33 2026 GMT"
+      }
+     ],
+     "sigstore": {
+      "file": "events/archive/news-earthquake-humla-2026-11-06_89533c7d6b26.json.sigstore.json",
+      "identity": "https://github.com/Yizebaba/EVEREST-/.github/workflows/evidence.yml@refs/heads/events",
+      "rekor_log_index": "3711434194",
+      "self_verified": true,
+      "rekor": "https://search.sigstore.dev/?logIndex=3711434194"
+     },
+     "verify": {
+      "checks": {
+       "sha256_python": true,
+       "sha256_coreutils": true,
+       "rfc3161_FreeTSA": true,
+       "rfc3161_DigiCert": true,
+       "sigstore_cosign": true,
+       "sigstore_python": true,
+       "ots_parse": true,
+       "prov": true,
+       "rocrate": true
+      },
+      "passed": 9,
+      "total": 9,
+      "failed": [],
+      "why": {},
+      "at": "2026-11-06T06:32:04Z"
+     }
+    }
+   ],
+   "title": "Humla 地震（新闻线索）",
+   "t": "2026-11-06T05:26:18Z",
+   "t_detected": "2026-11-06T05:26:18Z",
+   "t_prec": null,
+   "first_seen": "2026-11-06T06:28:08.831Z",
+   "kind": "地震",
+   "place": "Humla",
+   "lat": 30,
+   "lon": 81.8,
+   "v": 25,
+   "man": "4f53cda18c2baa0c",
+   "n": 26,
+   "src_n": 2,
+   "built": "2026-11-06T06:28:45Z",
+   "missing": 11
   }
  },
- "updated": "2026-11-06T06:16:04Z"
+ "updated": "2026-11-06T06:28:45Z"
 }
