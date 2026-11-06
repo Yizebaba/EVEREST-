@@ -120577,7 +120577,7 @@
      "file": "events/archive/news-earthquake-humla-2026-11-06_89533c7d6b26.json",
      "ots": "events/archive/news-earthquake-humla-2026-11-06_89533c7d6b26.json.ots",
      "stamped": "2026-11-06T06:28:45Z",
-     "status": "pending",
+     "status": "confirmed",
      "err": null,
      "tsa": [
       {
@@ -120615,6 +120615,53 @@
       "failed": [],
       "why": {},
       "at": "2026-11-06T06:32:04Z"
+     },
+     "bitcoin_block": 974771,
+     "confirmed_checked": "2026-11-06T07:26:04Z"
+    },
+    {
+     "sha256": "425504a99a488c0502c431a989b2f55796a203852cc06733f1cc4effc21d9a25",
+     "file": "events/archive/news-earthquake-humla-2026-11-06_425504a99a48.json",
+     "ots": "events/archive/news-earthquake-humla-2026-11-06_425504a99a48.json.ots",
+     "stamped": "2026-11-06T07:26:04Z",
+     "status": "pending",
+     "err": null,
+     "tsa": [
+      {
+       "tsa": "FreeTSA",
+       "file": "events/archive/news-earthquake-humla-2026-11-06_425504a99a48.json.FreeTSA.tsr",
+       "time": "Nov  6 07:27:50 2026 GMT"
+      },
+      {
+       "tsa": "DigiCert",
+       "file": "events/archive/news-earthquake-humla-2026-11-06_425504a99a48.json.DigiCert.tsr",
+       "time": "Nov  6 07:27:50 2026 GMT"
+      }
+     ],
+     "sigstore": {
+      "file": "events/archive/news-earthquake-humla-2026-11-06_425504a99a48.json.sigstore.json",
+      "identity": "https://github.com/Yizebaba/EVEREST-/.github/workflows/evidence.yml@refs/heads/events",
+      "rekor_log_index": "3712000943",
+      "self_verified": true,
+      "rekor": "https://search.sigstore.dev/?logIndex=3712000943"
+     },
+     "verify": {
+      "checks": {
+       "sha256_python": true,
+       "sha256_coreutils": true,
+       "rfc3161_FreeTSA": true,
+       "rfc3161_DigiCert": true,
+       "sigstore_cosign": true,
+       "sigstore_python": true,
+       "ots_parse": true,
+       "prov": true,
+       "rocrate": true
+      },
+      "passed": 9,
+      "total": 9,
+      "failed": [],
+      "why": {},
+      "at": "2026-11-06T07:28:14Z"
      }
     }
    ],
@@ -120631,9 +120678,9 @@
    "man": "4f53cda18c2baa0c",
    "n": 26,
    "src_n": 2,
-   "built": "2026-11-06T06:28:45Z",
-   "missing": 11
+   "built": "2026-11-06T07:26:04Z",
+   "missing": 12
   }
  },
- "updated": "2026-11-06T07:01:49Z"
+ "updated": "2026-11-06T07:26:04Z"
 }
