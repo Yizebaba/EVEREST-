@@ -78704,7 +78704,7 @@
      "file": "events/archive/news-flood-manaslu-2026-10-25_d21cb06f4a99.json",
      "ots": "events/archive/news-flood-manaslu-2026-10-25_d21cb06f4a99.json.ots",
      "stamped": "2026-11-07T11:16:00Z",
-     "status": "pending",
+     "status": "confirmed",
      "err": null,
      "tsa": [
       {
@@ -78742,7 +78742,9 @@
       "failed": [],
       "why": {},
       "at": "2026-11-07T11:24:20Z"
-     }
+     },
+     "bitcoin_block": 974932,
+     "confirmed_checked": "2026-11-07T14:21:20Z"
     },
     {
      "sha256": "e8e49688842c401bcb7f182fd620feb7e902ab6cc405c8082d15028e963834e0",
@@ -78833,6 +78835,45 @@
       "why": {},
       "at": "2026-11-07T13:38:14Z"
      }
+    },
+    {
+     "sha256": "0059ee34452a6f50a6e26348e57673a975ddf2754d3e8f85584c9f3f50e0aa99",
+     "file": "events/archive/news-flood-manaslu-2026-10-25_0059ee34452a.json",
+     "ots": "events/archive/news-flood-manaslu-2026-10-25_0059ee34452a.json.ots",
+     "stamped": "2026-11-07T14:21:20Z",
+     "status": "pending",
+     "err": null,
+     "tsa": [
+      {
+       "tsa": "FreeTSA",
+       "file": "events/archive/news-flood-manaslu-2026-10-25_0059ee34452a.json.FreeTSA.tsr",
+       "time": "Nov  7 14:29:10 2026 GMT"
+      },
+      {
+       "tsa": "DigiCert",
+       "file": "events/archive/news-flood-manaslu-2026-10-25_0059ee34452a.json.DigiCert.tsr",
+       "time": "Nov  7 14:29:10 2026 GMT"
+      }
+     ],
+     "sigstore": {
+      "err": "-10-25_0059ee34452a.json: Post \"https://rekor.sigstore.dev/api/v1/log/entries\": POST https://rekor.sigstore.dev/api/v1/log/entries giving up after 4 attempt(s)\n"
+     },
+     "verify": {
+      "checks": {
+       "sha256_python": true,
+       "sha256_coreutils": true,
+       "rfc3161_FreeTSA": true,
+       "rfc3161_DigiCert": true,
+       "ots_parse": true,
+       "prov": true,
+       "rocrate": true
+      },
+      "passed": 7,
+      "total": 7,
+      "failed": [],
+      "why": {},
+      "at": "2026-11-07T14:34:25Z"
+     }
     }
    ],
    "title": "Manaslu 洪水（新闻线索）",
@@ -78848,7 +78889,7 @@
    "man": "4f53cda18c2baa0c",
    "n": 67,
    "src_n": 2,
-   "built": "2026-11-07T13:28:35Z",
+   "built": "2026-11-07T14:21:20Z",
    "missing": 9
   },
   "news-landslide-myagdi-2026-10-27": {
@@ -90796,7 +90837,7 @@
      "file": "events/archive/news-landslide-myagdi-2026-10-27_1668916daff0.json",
      "ots": "events/archive/news-landslide-myagdi-2026-10-27_1668916daff0.json.ots",
      "stamped": "2026-11-07T11:16:00Z",
-     "status": "pending",
+     "status": "confirmed",
      "err": null,
      "tsa": [
       {
@@ -90834,7 +90875,9 @@
       "failed": [],
       "why": {},
       "at": "2026-11-07T11:24:21Z"
-     }
+     },
+     "bitcoin_block": 974932,
+     "confirmed_checked": "2026-11-07T14:21:20Z"
     },
     {
      "sha256": "a7d3cb67fb9d6ee59494a7150e6b23b3d1af323eeb5ba772461cdefec210dd24",
@@ -90925,6 +90968,45 @@
       "why": {},
       "at": "2026-11-07T13:38:15Z"
      }
+    },
+    {
+     "sha256": "e9ada6e4a1348f73e2a653bcc4681d9503e7a4be43dfe45fe00e8ae6badbed8a",
+     "file": "events/archive/news-landslide-myagdi-2026-10-27_e9ada6e4a134.json",
+     "ots": "events/archive/news-landslide-myagdi-2026-10-27_e9ada6e4a134.json.ots",
+     "stamped": "2026-11-07T14:21:20Z",
+     "status": "pending",
+     "err": null,
+     "tsa": [
+      {
+       "tsa": "FreeTSA",
+       "file": "events/archive/news-landslide-myagdi-2026-10-27_e9ada6e4a134.json.FreeTSA.tsr",
+       "time": "Nov  7 14:26:50 2026 GMT"
+      },
+      {
+       "tsa": "DigiCert",
+       "file": "events/archive/news-landslide-myagdi-2026-10-27_e9ada6e4a134.json.DigiCert.tsr",
+       "time": "Nov  7 14:26:50 2026 GMT"
+      }
+     ],
+     "sigstore": {
+      "err": "-10-27_e9ada6e4a134.json: Post \"https://rekor.sigstore.dev/api/v1/log/entries\": POST https://rekor.sigstore.dev/api/v1/log/entries giving up after 4 attempt(s)\n"
+     },
+     "verify": {
+      "checks": {
+       "sha256_python": true,
+       "sha256_coreutils": true,
+       "rfc3161_FreeTSA": true,
+       "rfc3161_DigiCert": true,
+       "ots_parse": true,
+       "prov": true,
+       "rocrate": true
+      },
+      "passed": 7,
+      "total": 7,
+      "failed": [],
+      "why": {},
+      "at": "2026-11-07T14:34:26Z"
+     }
     }
    ],
    "title": "Myagdi 滑坡（新闻线索）",
@@ -90940,7 +91022,7 @@
    "man": "4f53cda18c2baa0c",
    "n": 76,
    "src_n": 3,
-   "built": "2026-11-07T13:28:35Z",
+   "built": "2026-11-07T14:21:20Z",
    "missing": 9
   },
   "news-flood-rasuwagadhi-2026-10-30": {
@@ -99931,7 +100013,7 @@
      "file": "events/archive/news-flood-rasuwagadhi-2026-10-30_c83a738cdd86.json",
      "ots": "events/archive/news-flood-rasuwagadhi-2026-10-30_c83a738cdd86.json.ots",
      "stamped": "2026-11-07T11:16:00Z",
-     "status": "pending",
+     "status": "confirmed",
      "err": null,
      "tsa": [
       {
@@ -99969,7 +100051,9 @@
       "failed": [],
       "why": {},
       "at": "2026-11-07T11:24:23Z"
-     }
+     },
+     "bitcoin_block": 974932,
+     "confirmed_checked": "2026-11-07T14:21:20Z"
     },
     {
      "sha256": "5d0866752469f9cdf0b1f4495af8fdfea2983a891655d4f25567d3a291bea397",
@@ -100060,6 +100144,45 @@
       "why": {},
       "at": "2026-11-07T13:38:16Z"
      }
+    },
+    {
+     "sha256": "6356580be4af6f4fa9890c6a7bf05ad2d89e39490515a7c255573682654c2bee",
+     "file": "events/archive/news-flood-rasuwagadhi-2026-10-30_6356580be4af.json",
+     "ots": "events/archive/news-flood-rasuwagadhi-2026-10-30_6356580be4af.json.ots",
+     "stamped": "2026-11-07T14:21:20Z",
+     "status": "pending",
+     "err": null,
+     "tsa": [
+      {
+       "tsa": "FreeTSA",
+       "file": "events/archive/news-flood-rasuwagadhi-2026-10-30_6356580be4af.json.FreeTSA.tsr",
+       "time": "Nov  7 14:25:10 2026 GMT"
+      },
+      {
+       "tsa": "DigiCert",
+       "file": "events/archive/news-flood-rasuwagadhi-2026-10-30_6356580be4af.json.DigiCert.tsr",
+       "time": "Nov  7 14:25:10 2026 GMT"
+      }
+     ],
+     "sigstore": {
+      "err": "-10-30_6356580be4af.json: Post \"https://rekor.sigstore.dev/api/v1/log/entries\": POST https://rekor.sigstore.dev/api/v1/log/entries giving up after 4 attempt(s)\n"
+     },
+     "verify": {
+      "checks": {
+       "sha256_python": true,
+       "sha256_coreutils": true,
+       "rfc3161_FreeTSA": true,
+       "rfc3161_DigiCert": true,
+       "ots_parse": true,
+       "prov": true,
+       "rocrate": true
+      },
+      "passed": 7,
+      "total": 7,
+      "failed": [],
+      "why": {},
+      "at": "2026-11-07T14:34:26Z"
+     }
     }
    ],
    "title": "Rasuwagadhi 洪水（新闻线索）",
@@ -100073,10 +100196,10 @@
    "lon": 85.38,
    "v": 25,
    "man": "4f53cda18c2baa0c",
-   "n": 68,
+   "n": 67,
    "src_n": 2,
-   "built": "2026-11-07T13:28:35Z",
-   "missing": 9
+   "built": "2026-11-07T14:21:20Z",
+   "missing": 7
   },
   "news-snowstorm-dolpa-2026-11-01": {
    "ots": [
@@ -106659,7 +106782,7 @@
      "file": "events/archive/news-snowstorm-dolpa-2026-11-01_27896c91f6a7.json",
      "ots": "events/archive/news-snowstorm-dolpa-2026-11-01_27896c91f6a7.json.ots",
      "stamped": "2026-11-07T11:16:00Z",
-     "status": "pending",
+     "status": "confirmed",
      "err": null,
      "tsa": [
       {
@@ -106697,7 +106820,9 @@
       "failed": [],
       "why": {},
       "at": "2026-11-07T11:24:24Z"
-     }
+     },
+     "bitcoin_block": 974932,
+     "confirmed_checked": "2026-11-07T14:21:20Z"
     },
     {
      "sha256": "33bfd8f63aec9edfa0be923e156a9f5bead8cea181cc42a5c19f579dbcf65948",
@@ -106788,6 +106913,45 @@
       "why": {},
       "at": "2026-11-07T13:38:17Z"
      }
+    },
+    {
+     "sha256": "2bd53b39ec4ae33dbae34c7dd449261ad371bc9eb2fd29c5c07eaaaa0cf7af37",
+     "file": "events/archive/news-snowstorm-dolpa-2026-11-01_2bd53b39ec4a.json",
+     "ots": "events/archive/news-snowstorm-dolpa-2026-11-01_2bd53b39ec4a.json.ots",
+     "stamped": "2026-11-07T14:21:20Z",
+     "status": "pending",
+     "err": null,
+     "tsa": [
+      {
+       "tsa": "FreeTSA",
+       "file": "events/archive/news-snowstorm-dolpa-2026-11-01_2bd53b39ec4a.json.FreeTSA.tsr",
+       "time": "Nov  7 14:23:52 2026 GMT"
+      },
+      {
+       "tsa": "DigiCert",
+       "file": "events/archive/news-snowstorm-dolpa-2026-11-01_2bd53b39ec4a.json.DigiCert.tsr",
+       "time": "Nov  7 14:23:53 2026 GMT"
+      }
+     ],
+     "sigstore": {
+      "err": "-11-01_2bd53b39ec4a.json: Post \"https://rekor.sigstore.dev/api/v1/log/entries\": POST https://rekor.sigstore.dev/api/v1/log/entries giving up after 4 attempt(s)\n"
+     },
+     "verify": {
+      "checks": {
+       "sha256_python": true,
+       "sha256_coreutils": true,
+       "rfc3161_FreeTSA": true,
+       "rfc3161_DigiCert": true,
+       "ots_parse": true,
+       "prov": true,
+       "rocrate": true
+      },
+      "passed": 7,
+      "total": 7,
+      "failed": [],
+      "why": {},
+      "at": "2026-11-07T14:34:26Z"
+     }
     }
    ],
    "title": "Dolpa 雪暴（新闻线索）",
@@ -106803,8 +106967,8 @@
    "man": "4f53cda18c2baa0c",
    "n": 59,
    "src_n": 2,
-   "built": "2026-11-07T13:28:35Z",
-   "missing": 7
+   "built": "2026-11-07T14:21:20Z",
+   "missing": 8
   },
   "hz-bipad-i-96080": {
    "ots": [
@@ -112504,7 +112668,7 @@
      "file": "events/archive/hz-bipad-i-96080_ab08870c9dab.json",
      "ots": "events/archive/hz-bipad-i-96080_ab08870c9dab.json.ots",
      "stamped": "2026-11-07T11:16:00Z",
-     "status": "pending",
+     "status": "confirmed",
      "err": null,
      "tsa": [
       {
@@ -112542,7 +112706,9 @@
       "failed": [],
       "why": {},
       "at": "2026-11-07T11:24:26Z"
-     }
+     },
+     "bitcoin_block": 974932,
+     "confirmed_checked": "2026-11-07T14:21:20Z"
     },
     {
      "sha256": "cd0e340d2683d0a1800de0e06e99f0684203d87cdfbefa3455b65030fae578fd",
@@ -112633,13 +112799,52 @@
       "why": {},
       "at": "2026-11-07T13:38:18Z"
      }
+    },
+    {
+     "sha256": "30a709b12dade4c943ed294f50db8463cfb646bf7538fd3a7472b62cca629c2c",
+     "file": "events/archive/hz-bipad-i-96080_30a709b12dad.json",
+     "ots": "events/archive/hz-bipad-i-96080_30a709b12dad.json.ots",
+     "stamped": "2026-11-07T14:21:20Z",
+     "status": "pending",
+     "err": null,
+     "tsa": [
+      {
+       "tsa": "FreeTSA",
+       "file": "events/archive/hz-bipad-i-96080_30a709b12dad.json.FreeTSA.tsr",
+       "time": "Nov  7 14:31:50 2026 GMT"
+      },
+      {
+       "tsa": "DigiCert",
+       "file": "events/archive/hz-bipad-i-96080_30a709b12dad.json.DigiCert.tsr",
+       "time": "Nov  7 14:31:51 2026 GMT"
+      }
+     ],
+     "sigstore": {
+      "err": "-96080_30a709b12dad.json: Post \"https://rekor.sigstore.dev/api/v1/log/entries\": POST https://rekor.sigstore.dev/api/v1/log/entries giving up after 4 attempt(s)\n"
+     },
+     "verify": {
+      "checks": {
+       "sha256_python": true,
+       "sha256_coreutils": true,
+       "rfc3161_FreeTSA": true,
+       "rfc3161_DigiCert": true,
+       "ots_parse": true,
+       "prov": true,
+       "rocrate": true
+      },
+      "passed": 7,
+      "total": 7,
+      "failed": [],
+      "why": {},
+      "at": "2026-11-07T14:34:26Z"
+     }
     }
    ],
    "title": "Boat Capsize at Dhankuta Municipality-2",
    "t": "2026-10-24T18:15:00Z",
    "t_detected": "2026-10-24T18:15:00Z",
    "t_prec": "day",
-   "first_seen": "2026-11-07T13:08:28Z",
+   "first_seen": "2026-11-07T14:18:11Z",
    "kind": "Boat Capsize",
    "place": "Dhankuta Municipality-2",
    "lat": 27.00791,
@@ -112648,7 +112853,7 @@
    "man": "4f53cda18c2baa0c",
    "n": 66,
    "src_n": 1,
-   "built": "2026-11-07T13:28:35Z",
+   "built": "2026-11-07T14:21:20Z",
    "missing": 11
   },
   "hz-bipad-i-96114": {
@@ -118345,7 +118550,7 @@
      "file": "events/archive/hz-bipad-i-96114_c8e7a8b9abc5.json",
      "ots": "events/archive/hz-bipad-i-96114_c8e7a8b9abc5.json.ots",
      "stamped": "2026-11-07T11:16:00Z",
-     "status": "pending",
+     "status": "confirmed",
      "err": null,
      "tsa": [
       {
@@ -118383,7 +118588,9 @@
       "failed": [],
       "why": {},
       "at": "2026-11-07T11:24:27Z"
-     }
+     },
+     "bitcoin_block": 974932,
+     "confirmed_checked": "2026-11-07T14:21:20Z"
     },
     {
      "sha256": "75b1836683d598e1e49ace83258b7beaa784241812c6e156e3d9abfc6f1f3059",
@@ -118474,13 +118681,52 @@
       "why": {},
       "at": "2026-11-07T13:38:19Z"
      }
+    },
+    {
+     "sha256": "b7bd35e07d7abbc98a6c333401ac9d0be07597baa5fd8e0fc4e00c253788ec2d",
+     "file": "events/archive/hz-bipad-i-96114_b7bd35e07d7a.json",
+     "ots": "events/archive/hz-bipad-i-96114_b7bd35e07d7a.json.ots",
+     "stamped": "2026-11-07T14:21:20Z",
+     "status": "pending",
+     "err": null,
+     "tsa": [
+      {
+       "tsa": "FreeTSA",
+       "file": "events/archive/hz-bipad-i-96114_b7bd35e07d7a.json.FreeTSA.tsr",
+       "time": "Nov  7 14:33:06 2026 GMT"
+      },
+      {
+       "tsa": "DigiCert",
+       "file": "events/archive/hz-bipad-i-96114_b7bd35e07d7a.json.DigiCert.tsr",
+       "time": "Nov  7 14:33:06 2026 GMT"
+      }
+     ],
+     "sigstore": {
+      "err": "-96114_b7bd35e07d7a.json: Post \"https://rekor.sigstore.dev/api/v1/log/entries\": POST https://rekor.sigstore.dev/api/v1/log/entries giving up after 4 attempt(s)\n"
+     },
+     "verify": {
+      "checks": {
+       "sha256_python": true,
+       "sha256_coreutils": true,
+       "rfc3161_FreeTSA": true,
+       "rfc3161_DigiCert": true,
+       "ots_parse": true,
+       "prov": true,
+       "rocrate": true
+      },
+      "passed": 7,
+      "total": 7,
+      "failed": [],
+      "why": {},
+      "at": "2026-11-07T14:34:27Z"
+     }
     }
    ],
    "title": "Landslide at Gauriganga Municipality-9",
    "t": "2026-10-23T18:15:00Z",
    "t_detected": "2026-10-23T18:15:00Z",
    "t_prec": "day",
-   "first_seen": "2026-11-07T13:08:28Z",
+   "first_seen": "2026-11-07T14:18:11Z",
    "kind": "Landslide",
    "place": "Gauriganga Municipality-9",
    "lat": 28.74013,
@@ -118489,7 +118735,7 @@
    "man": "4f53cda18c2baa0c",
    "n": 51,
    "src_n": 1,
-   "built": "2026-11-07T13:28:35Z",
+   "built": "2026-11-07T14:21:20Z",
    "missing": 8
   },
   "news-earthquake-humla-2026-11-06": {
@@ -119815,7 +120061,7 @@
      "file": "events/archive/news-earthquake-humla-2026-11-06_f993fa3d9d96.json",
      "ots": "events/archive/news-earthquake-humla-2026-11-06_f993fa3d9d96.json.ots",
      "stamped": "2026-11-07T11:16:00Z",
-     "status": "pending",
+     "status": "confirmed",
      "err": null,
      "tsa": [
       {
@@ -119853,7 +120099,9 @@
       "failed": [],
       "why": {},
       "at": "2026-11-07T11:24:28Z"
-     }
+     },
+     "bitcoin_block": 974932,
+     "confirmed_checked": "2026-11-07T14:21:20Z"
     },
     {
      "sha256": "7a97374ea24b06ab76f1c201511f1b0946e5e6a0bba68cf77c2f7c5064872ca5",
@@ -119944,6 +120192,45 @@
       "why": {},
       "at": "2026-11-07T13:38:20Z"
      }
+    },
+    {
+     "sha256": "9f9de28c276ad454db3999ad28d55d023dd49a5a64ed756a7592c543f668c193",
+     "file": "events/archive/news-earthquake-humla-2026-11-06_9f9de28c276a.json",
+     "ots": "events/archive/news-earthquake-humla-2026-11-06_9f9de28c276a.json.ots",
+     "stamped": "2026-11-07T14:21:20Z",
+     "status": "pending",
+     "err": null,
+     "tsa": [
+      {
+       "tsa": "FreeTSA",
+       "file": "events/archive/news-earthquake-humla-2026-11-06_9f9de28c276a.json.FreeTSA.tsr",
+       "time": "Nov  7 14:22:40 2026 GMT"
+      },
+      {
+       "tsa": "DigiCert",
+       "file": "events/archive/news-earthquake-humla-2026-11-06_9f9de28c276a.json.DigiCert.tsr",
+       "time": "Nov  7 14:22:40 2026 GMT"
+      }
+     ],
+     "sigstore": {
+      "err": "-11-06_9f9de28c276a.json: Post \"https://rekor.sigstore.dev/api/v1/log/entries\": POST https://rekor.sigstore.dev/api/v1/log/entries giving up after 4 attempt(s)\n"
+     },
+     "verify": {
+      "checks": {
+       "sha256_python": true,
+       "sha256_coreutils": true,
+       "rfc3161_FreeTSA": true,
+       "rfc3161_DigiCert": true,
+       "ots_parse": true,
+       "prov": true,
+       "rocrate": true
+      },
+      "passed": 7,
+      "total": 7,
+      "failed": [],
+      "why": {},
+      "at": "2026-11-07T14:34:27Z"
+     }
     }
    ],
    "title": "Humla 地震（新闻线索）",
@@ -119959,9 +120246,9 @@
    "man": "4f53cda18c2baa0c",
    "n": 35,
    "src_n": 3,
-   "built": "2026-11-07T13:28:35Z",
-   "missing": 9
+   "built": "2026-11-07T14:21:20Z",
+   "missing": 10
   }
  },
- "updated": "2026-11-07T13:56:11Z"
+ "updated": "2026-11-07T14:21:20Z"
 }
