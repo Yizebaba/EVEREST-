@@ -96177,7 +96177,7 @@
      "file": "events/archive/news-flood-rasuwagadhi-2026-10-30_170d2cca37bb.json",
      "ots": "events/archive/news-flood-rasuwagadhi-2026-10-30_170d2cca37bb.json.ots",
      "stamped": "2026-11-11T18:03:42Z",
-     "status": "pending",
+     "status": "confirmed",
      "err": null,
      "tsa": [
       {
@@ -96215,7 +96215,9 @@
       "failed": [],
       "why": {},
       "at": "2026-11-11T18:07:51Z"
-     }
+     },
+     "bitcoin_block": 975464,
+     "confirmed_checked": "2026-11-11T21:06:42Z"
     },
     {
      "sha256": "ab5b6a44137da0ad987878d522f28c9bb739231aaad191abb6b8360ae9d86462",
@@ -96261,6 +96263,51 @@
       "why": {},
       "at": "2026-11-11T19:12:30Z"
      }
+    },
+    {
+     "sha256": "79867d36d314a4ff0aea9e510411af3d1c9eb145c0a8d5aea9414cc6f8f03bbe",
+     "file": "events/archive/news-flood-rasuwagadhi-2026-10-30_79867d36d314.json",
+     "ots": "events/archive/news-flood-rasuwagadhi-2026-10-30_79867d36d314.json.ots",
+     "stamped": "2026-11-11T21:06:42Z",
+     "status": "pending",
+     "err": null,
+     "tsa": [
+      {
+       "tsa": "FreeTSA",
+       "file": "events/archive/news-flood-rasuwagadhi-2026-10-30_79867d36d314.json.FreeTSA.tsr",
+       "time": "Nov 11 21:10:38 2026 GMT"
+      },
+      {
+       "tsa": "DigiCert",
+       "file": "events/archive/news-flood-rasuwagadhi-2026-10-30_79867d36d314.json.DigiCert.tsr",
+       "time": "Nov 11 21:10:38 2026 GMT"
+      }
+     ],
+     "sigstore": {
+      "file": "events/archive/news-flood-rasuwagadhi-2026-10-30_79867d36d314.json.sigstore.json",
+      "identity": "https://github.com/Yizebaba/EVEREST-/.github/workflows/evidence.yml@refs/heads/events",
+      "rekor_log_index": "3817964347",
+      "self_verified": true,
+      "rekor": "https://search.sigstore.dev/?logIndex=3817964347"
+     },
+     "verify": {
+      "checks": {
+       "sha256_python": true,
+       "sha256_coreutils": true,
+       "rfc3161_FreeTSA": true,
+       "rfc3161_DigiCert": true,
+       "sigstore_cosign": true,
+       "sigstore_python": true,
+       "ots_parse": true,
+       "prov": true,
+       "rocrate": true
+      },
+      "passed": 9,
+      "total": 9,
+      "failed": [],
+      "why": {},
+      "at": "2026-11-11T21:11:01Z"
+     }
     }
    ],
    "title": "Rasuwagadhi 洪水（新闻线索）",
@@ -96276,7 +96323,7 @@
    "man": "4f53cda18c2baa0c",
    "n": 68,
    "src_n": 2,
-   "built": "2026-11-11T19:08:05Z",
+   "built": "2026-11-11T21:06:42Z",
    "missing": 9
   },
   "news-snowstorm-dolpa-2026-11-01": {
@@ -107405,6 +107452,51 @@
       "why": {},
       "at": "2026-11-11T19:12:31Z"
      }
+    },
+    {
+     "sha256": "1037264b5cea92d0558d1792d6ac015be5a49dbb88b4bcc34d1a1564853bb101",
+     "file": "events/archive/news-snowstorm-dolpa-2026-11-01_1037264b5cea.json",
+     "ots": "events/archive/news-snowstorm-dolpa-2026-11-01_1037264b5cea.json.ots",
+     "stamped": "2026-11-11T21:06:42Z",
+     "status": "pending",
+     "err": null,
+     "tsa": [
+      {
+       "tsa": "FreeTSA",
+       "file": "events/archive/news-snowstorm-dolpa-2026-11-01_1037264b5cea.json.FreeTSA.tsr",
+       "time": "Nov 11 21:09:20 2026 GMT"
+      },
+      {
+       "tsa": "DigiCert",
+       "file": "events/archive/news-snowstorm-dolpa-2026-11-01_1037264b5cea.json.DigiCert.tsr",
+       "time": "Nov 11 21:09:20 2026 GMT"
+      }
+     ],
+     "sigstore": {
+      "file": "events/archive/news-snowstorm-dolpa-2026-11-01_1037264b5cea.json.sigstore.json",
+      "identity": "https://github.com/Yizebaba/EVEREST-/.github/workflows/evidence.yml@refs/heads/events",
+      "rekor_log_index": "3817946562",
+      "self_verified": true,
+      "rekor": "https://search.sigstore.dev/?logIndex=3817946562"
+     },
+     "verify": {
+      "checks": {
+       "sha256_python": true,
+       "sha256_coreutils": true,
+       "rfc3161_FreeTSA": true,
+       "rfc3161_DigiCert": true,
+       "sigstore_cosign": true,
+       "sigstore_python": true,
+       "ots_parse": true,
+       "prov": true,
+       "rocrate": true
+      },
+      "passed": 9,
+      "total": 9,
+      "failed": [],
+      "why": {},
+      "at": "2026-11-11T21:11:02Z"
+     }
     }
    ],
    "title": "Dolpa 雪暴（新闻线索）",
@@ -107420,8 +107512,8 @@
    "man": "4f53cda18c2baa0c",
    "n": 59,
    "src_n": 2,
-   "built": "2026-11-11T19:08:05Z",
-   "missing": 7
+   "built": "2026-11-11T21:06:42Z",
+   "missing": 8
   },
   "hz-bipad-i-96080": {
    "ots": [
@@ -126344,6 +126436,51 @@
       "why": {},
       "at": "2026-11-11T19:12:32Z"
      }
+    },
+    {
+     "sha256": "3a16b1b5144ab0a77c0531f2a160616a45612814467b3e1a1039ab6dc27f4c23",
+     "file": "events/archive/news-earthquake-humla-2026-11-06_3a16b1b5144a.json",
+     "ots": "events/archive/news-earthquake-humla-2026-11-06_3a16b1b5144a.json.ots",
+     "stamped": "2026-11-11T21:06:42Z",
+     "status": "pending",
+     "err": null,
+     "tsa": [
+      {
+       "tsa": "FreeTSA",
+       "file": "events/archive/news-earthquake-humla-2026-11-06_3a16b1b5144a.json.FreeTSA.tsr",
+       "time": "Nov 11 21:08:01 2026 GMT"
+      },
+      {
+       "tsa": "DigiCert",
+       "file": "events/archive/news-earthquake-humla-2026-11-06_3a16b1b5144a.json.DigiCert.tsr",
+       "time": "Nov 11 21:08:01 2026 GMT"
+      }
+     ],
+     "sigstore": {
+      "file": "events/archive/news-earthquake-humla-2026-11-06_3a16b1b5144a.json.sigstore.json",
+      "identity": "https://github.com/Yizebaba/EVEREST-/.github/workflows/evidence.yml@refs/heads/events",
+      "rekor_log_index": "3817929003",
+      "self_verified": true,
+      "rekor": "https://search.sigstore.dev/?logIndex=3817929003"
+     },
+     "verify": {
+      "checks": {
+       "sha256_python": true,
+       "sha256_coreutils": true,
+       "rfc3161_FreeTSA": true,
+       "rfc3161_DigiCert": true,
+       "sigstore_cosign": true,
+       "sigstore_python": true,
+       "ots_parse": true,
+       "prov": true,
+       "rocrate": true
+      },
+      "passed": 9,
+      "total": 9,
+      "failed": [],
+      "why": {},
+      "at": "2026-11-11T21:11:03Z"
+     }
     }
    ],
    "title": "Humla 地震（新闻线索）",
@@ -126359,9 +126496,9 @@
    "man": "4f53cda18c2baa0c",
    "n": 36,
    "src_n": 3,
-   "built": "2026-11-11T19:08:05Z",
+   "built": "2026-11-11T21:06:42Z",
    "missing": 8
   }
  },
- "updated": "2026-11-11T19:56:54Z"
+ "updated": "2026-11-11T21:06:42Z"
 }
