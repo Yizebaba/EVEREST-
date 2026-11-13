@@ -1,6 +1,6 @@
 {
   "pipeline": "Everest Autonomous InSAR & Multi-Hazard Pipeline (v5.0)",
-  "timestamp_utc": "2026-11-12T21:23:33.788788",
+  "timestamp_utc": "2026-11-13T03:24:20.208516",
   "insar_pair": {
     "master": "2026-10-22",
     "slave": "2026-11-03"
@@ -118,27 +118,19 @@
     "realtime_seismic": {
       "status": "success",
       "source": "USGS Earthquake Hazards Program",
-      "total_events_in_radius": 1,
-      "nearby_earthquake_detected": true,
-      "max_magnitude": 4.6,
-      "events": [
-        {
-          "place": "73 km NNW of Gyalshing, India",
-          "magnitude": 4.6,
-          "depth_km": 10,
-          "distance_km": 95.1,
-          "time": 1794438022433
-        }
-      ]
+      "total_events_in_radius": 0,
+      "nearby_earthquake_detected": false,
+      "max_magnitude": 0.0,
+      "events": []
     },
     "realtime_weather": {
-      "status": "success",
-      "source": "ECMWF ERA5-Land / Open-Meteo Operational Model",
-      "summit_temperature_c": -44.9,
+      "status": "fallback",
+      "source": "ECMWF Climate Baseline",
+      "summit_temperature_c": -20.5,
       "precipitation_mm": 0.0,
       "snowfall_cm": 0.0,
-      "freezing_level_height_m": 4730.0,
-      "wind_speed_kmh": 2.9,
+      "freezing_level_height_m": 5200.0,
+      "wind_speed_kmh": 18.0,
       "is_high_freeze_thaw_melt": false,
       "is_heavy_rain_or_melt": false
     },
@@ -185,12 +177,10 @@
       "uncertainty_reasons": [
         "LOW_INSAR_COHERENCE_NOISE"
       ],
-      "active_evidences": [
-        "Seismic vibration ground motion trigger"
-      ],
+      "active_evidences": [],
       "persistence_index": 0.4,
       "spatial_consistency_index": 0.5,
-      "evidence_score": 0.2,
+      "evidence_score": 0.0,
       "human_verification_required": false,
       "alert_dispatched": false
     },
