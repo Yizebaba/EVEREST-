@@ -138343,7 +138343,7 @@
      "file": "events/archive/news-earthquake-humla-2026-11-06_5db37121c104.json",
      "ots": "events/archive/news-earthquake-humla-2026-11-06_5db37121c104.json.ots",
      "stamped": "2026-11-16T13:37:02Z",
-     "status": "pending",
+     "status": "confirmed",
      "err": null,
      "tsa": [
       {
@@ -138381,7 +138381,9 @@
       "failed": [],
       "why": {},
       "at": "2026-11-16T13:40:38Z"
-     }
+     },
+     "bitcoin_block": 976141,
+     "confirmed_checked": "2026-11-16T15:38:25Z"
     },
     {
      "sha256": "04be2e4963264b811b8a8eb30b6b82b1cdf51ee46ec5019256fa2a534db44413",
@@ -138427,6 +138429,51 @@
       "why": {},
       "at": "2026-11-16T14:47:24Z"
      }
+    },
+    {
+     "sha256": "aaf5010f8ec77ef8cdcff07bcb9d1701ffd2db1868b71038b667eae79beb0f49",
+     "file": "events/archive/news-earthquake-humla-2026-11-06_aaf5010f8ec7.json",
+     "ots": "events/archive/news-earthquake-humla-2026-11-06_aaf5010f8ec7.json.ots",
+     "stamped": "2026-11-16T15:38:25Z",
+     "status": "pending",
+     "err": null,
+     "tsa": [
+      {
+       "tsa": "FreeTSA",
+       "file": "events/archive/news-earthquake-humla-2026-11-06_aaf5010f8ec7.json.FreeTSA.tsr",
+       "time": "Nov 16 15:40:53 2026 GMT"
+      },
+      {
+       "tsa": "DigiCert",
+       "file": "events/archive/news-earthquake-humla-2026-11-06_aaf5010f8ec7.json.DigiCert.tsr",
+       "time": "Nov 16 15:40:53 2026 GMT"
+      }
+     ],
+     "sigstore": {
+      "file": "events/archive/news-earthquake-humla-2026-11-06_aaf5010f8ec7.json.sigstore.json",
+      "identity": "https://github.com/Yizebaba/EVEREST-/.github/workflows/evidence.yml@refs/heads/events",
+      "rekor_log_index": "3929093340",
+      "self_verified": true,
+      "rekor": "https://search.sigstore.dev/?logIndex=3929093340"
+     },
+     "verify": {
+      "checks": {
+       "sha256_python": true,
+       "sha256_coreutils": true,
+       "rfc3161_FreeTSA": true,
+       "rfc3161_DigiCert": true,
+       "sigstore_cosign": true,
+       "sigstore_python": true,
+       "ots_parse": true,
+       "prov": true,
+       "rocrate": true
+      },
+      "passed": 9,
+      "total": 9,
+      "failed": [],
+      "why": {},
+      "at": "2026-11-16T15:41:15Z"
+     }
     }
    ],
    "title": "Humla 地震（新闻线索）",
@@ -138442,8 +138489,8 @@
    "man": "4f53cda18c2baa0c",
    "n": 37,
    "src_n": 3,
-   "built": "2026-11-16T14:43:36Z",
-   "missing": 8
+   "built": "2026-11-16T15:38:25Z",
+   "missing": 7
   },
   "news-landslide-gorkha-2026-11-14": {
    "ots": [
@@ -140567,7 +140614,7 @@
      "file": "events/archive/news-landslide-gorkha-2026-11-14_3b54a15519cc.json",
      "ots": "events/archive/news-landslide-gorkha-2026-11-14_3b54a15519cc.json.ots",
      "stamped": "2026-11-16T13:37:02Z",
-     "status": "pending",
+     "status": "confirmed",
      "err": null,
      "tsa": [
       {
@@ -140605,7 +140652,9 @@
       "failed": [],
       "why": {},
       "at": "2026-11-16T13:40:39Z"
-     }
+     },
+     "bitcoin_block": 976141,
+     "confirmed_checked": "2026-11-16T15:38:25Z"
     },
     {
      "sha256": "21b8b85e0e9c2187628502943a76d509d36cd0da26ee2a5fe75ed0c27dd5cb51",
@@ -140651,6 +140700,51 @@
       "why": {},
       "at": "2026-11-16T14:47:25Z"
      }
+    },
+    {
+     "sha256": "071e6d4ef7b99e5c286516581655fd8ffec507807fc48d83cbc33e8b03af4ea0",
+     "file": "events/archive/news-landslide-gorkha-2026-11-14_071e6d4ef7b9.json",
+     "ots": "events/archive/news-landslide-gorkha-2026-11-14_071e6d4ef7b9.json.ots",
+     "stamped": "2026-11-16T15:38:25Z",
+     "status": "pending",
+     "err": null,
+     "tsa": [
+      {
+       "tsa": "FreeTSA",
+       "file": "events/archive/news-landslide-gorkha-2026-11-14_071e6d4ef7b9.json.FreeTSA.tsr",
+       "time": "Nov 16 15:40:03 2026 GMT"
+      },
+      {
+       "tsa": "DigiCert",
+       "file": "events/archive/news-landslide-gorkha-2026-11-14_071e6d4ef7b9.json.DigiCert.tsr",
+       "time": "Nov 16 15:40:03 2026 GMT"
+      }
+     ],
+     "sigstore": {
+      "file": "events/archive/news-landslide-gorkha-2026-11-14_071e6d4ef7b9.json.sigstore.json",
+      "identity": "https://github.com/Yizebaba/EVEREST-/.github/workflows/evidence.yml@refs/heads/events",
+      "rekor_log_index": "3929074961",
+      "self_verified": true,
+      "rekor": "https://search.sigstore.dev/?logIndex=3929074961"
+     },
+     "verify": {
+      "checks": {
+       "sha256_python": true,
+       "sha256_coreutils": true,
+       "rfc3161_FreeTSA": true,
+       "rfc3161_DigiCert": true,
+       "sigstore_cosign": true,
+       "sigstore_python": true,
+       "ots_parse": true,
+       "prov": true,
+       "rocrate": true
+      },
+      "passed": 9,
+      "total": 9,
+      "failed": [],
+      "why": {},
+      "at": "2026-11-16T15:41:16Z"
+     }
     }
    ],
    "title": "Gorkha 滑坡（新闻线索）",
@@ -140666,9 +140760,9 @@
    "man": "4f53cda18c2baa0c",
    "n": 56,
    "src_n": 2,
-   "built": "2026-11-16T14:43:36Z",
-   "missing": 9
+   "built": "2026-11-16T15:38:25Z",
+   "missing": 8
   }
  },
- "updated": "2026-11-16T15:12:44Z"
+ "updated": "2026-11-16T15:38:25Z"
 }
