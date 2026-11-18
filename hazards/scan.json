@@ -1,14 +1,10 @@
 {
- "updated": "2026-11-18T00:28:56Z",
+ "updated": "2026-11-18T00:48:36Z",
  "sources": {
   "BIPAD 灾害事件库": {
-   "state": "ok",
-   "n": 500,
-   "local": 500,
-   "latest": "2026-11-16T18:15:00Z",
-   "sec": 3.8,
-   "window_days": 30,
-   "hazard_types": 47,
+   "state": "fail",
+   "err": "The read operation timed out",
+   "sec": 60.8,
    "latency": "准实时"
   },
   "BIPAD 警报": {
@@ -16,7 +12,7 @@
    "n": 100,
    "local": 100,
    "latest": "2026-11-17T02:55:00Z",
-   "sec": 2.1,
+   "sec": 4.1,
    "latency": "实时"
   },
   "BIPAD 空气质量站": {
@@ -24,14 +20,16 @@
    "n": 2,
    "local": 2,
    "latest": "2026-10-21T15:59:00Z",
-   "sec": 1.5,
+   "sec": 1.7,
    "stations": 31,
    "latency": "实时"
   },
   "NASA EONET": {
-   "state": "fail",
-   "err": "HTTP Error 500: Internal Server Error",
-   "sec": 0.2,
+   "state": "ok",
+   "n": 302,
+   "local": 2,
+   "latest": "2026-11-17T12:00:00Z",
+   "sec": 0.7,
    "latency": "准实时"
   },
   "USGS 地震目录": {
@@ -39,7 +37,7 @@
    "n": 5,
    "local": 4,
    "latest": "2026-11-16T21:11:20Z",
-   "sec": 0.3,
+   "sec": 0.5,
    "latency": "实时"
   },
   "GDACS": {
@@ -47,7 +45,7 @@
    "n": 100,
    "local": 0,
    "latest": "2026-11-17T18:15:19Z",
-   "sec": 2.6,
+   "sec": 2.5,
    "latency": "实时"
   },
   "NOAA SWPC 空间天气": {
@@ -55,7 +53,7 @@
    "n": 73,
    "local": 73,
    "latest": "2026-11-17T21:39:00Z",
-   "sec": 0.1,
+   "sec": 0.3,
    "latency": "实时"
   },
   "NASA CNEOS": {
@@ -70,8 +68,8 @@
    "state": "ok",
    "n": 208,
    "local": 0,
-   "latest": "2026-11-18T00:28:56Z",
-   "sec": 2.7,
+   "latest": "2026-11-18T00:48:36Z",
+   "sec": 2.5,
    "latency": "实时"
   },
   "WHO 疫情通报": {
@@ -79,7 +77,7 @@
    "n": 100,
    "local": 0,
    "latest": "2026-11-13T19:00:00Z",
-   "sec": 1.5,
+   "sec": 1.1,
    "latency": "准实时"
   },
   "WHO FluNet（尼泊尔）": {
@@ -87,7 +85,7 @@
    "n": 8,
    "local": 8,
    "latest": "2026-11-02T00:00:00Z",
-   "sec": 0.7,
+   "sec": 0.3,
    "latency": "定期"
   },
   "WOAH WAHIS 动物疫情": {
@@ -95,7 +93,7 @@
    "n": 50,
    "local": 0,
    "latest": "2026-11-13T00:00:00Z",
-   "sec": 20.0,
+   "sec": 22.0,
    "latency": "准实时"
   },
   "openFDA 食品药品召回": {
@@ -103,7 +101,7 @@
    "n": 100,
    "local": 0,
    "latest": "2026-11-11T00:00:00Z",
-   "sec": 1.2,
+   "sec": 1.4,
    "latency": "定期"
   },
   "CISA 已利用漏洞": {
@@ -111,7 +109,7 @@
    "n": 34,
    "local": 0,
    "latest": "2026-11-17T00:00:00Z",
-   "sec": 0.4,
+   "sec": 0.5,
    "latency": "准实时"
   },
   "Have I Been Pwned 数据泄露": {
@@ -132,7 +130,7 @@
    "n": 2,
    "local": 2,
    "latest": "2026-11-17T07:25:00Z",
-   "sec": 0.2,
+   "sec": 0.4,
    "latency": "实时"
   },
   "尼泊尔央行汇率": {
@@ -140,7 +138,7 @@
    "n": 0,
    "local": 0,
    "latest": null,
-   "sec": 3.5,
+   "sec": 3.3,
    "usd_latest": [
     "2026-11-18",
     149.86
@@ -152,7 +150,7 @@
    "n": 0,
    "local": 0,
    "latest": null,
-   "sec": 0.6,
+   "sec": 0.4,
    "measurements_1y": 100,
    "latency": "实时"
   },
@@ -161,7 +159,7 @@
    "n": 7,
    "local": 7,
    "latest": "2026-11-17T08:57:04Z",
-   "sec": 0.7,
+   "sec": 0.5,
    "products": [
     "L2__AER_AI",
     "L2__CH4___",
@@ -177,37 +175,37 @@
    "state": "ok",
    "n": 12,
    "local": 1,
-   "latest": "2026-11-18T00:26:00Z",
+   "latest": "2026-11-18T00:46:00Z",
    "sec": 0.1,
-   "stations": 5054,
+   "stations": 5003,
    "phenomena": {
-    "霾": 49,
-    "雾": 43,
-    "雷暴": 27,
-    "持续风 ≥34 节（烈风）": 21,
-    "冻雨/冻毛毛雨": 1,
-    "大雨": 6,
+    "雷暴": 24,
+    "大雨": 7,
+    "雾": 44,
+    "霾": 50,
+    "持续风 ≥34 节（烈风）": 18,
     "阵风 ≥50 节": 3,
     "大雪": 1,
-    "扬沙/浮尘": 1,
-    "烟": 6,
-    "高吹雪+大风": 1
+    "高吹雪+大风": 1,
+    "烟": 5,
+    "冻雨/冻毛毛雨": 1,
+    "扬沙/浮尘": 1
    },
    "latency": "实时"
   },
   "航空危险天气通报 SIGMET": {
    "state": "ok",
-   "n": 14,
+   "n": 16,
    "local": 0,
-   "latest": "2026-11-18T00:26:00Z",
-   "sec": 0.0,
+   "latest": "2026-11-18T00:45:00Z",
+   "sec": 0.1,
    "latency": "实时"
   },
   "美国风暴实况报告 SPC": {
    "state": "ok",
-   "n": 0,
+   "n": 1,
    "local": 0,
-   "latest": null,
+   "latest": "2026-11-17T23:42:00Z",
    "sec": 0.2,
    "latency": "实时"
   },
@@ -216,7 +214,7 @@
    "n": 4,
    "local": 0,
    "latest": "2026-11-17T14:27:00Z",
-   "sec": 0.6,
+   "sec": 0.5,
    "latency": "实时"
   },
   "USGS 火山通告": {
@@ -224,16 +222,16 @@
    "n": 1,
    "local": 0,
    "latest": "2026-11-13T21:04:48Z",
-   "sec": 0.1,
+   "sec": 0.2,
    "latency": "实时"
   },
   "美国林火实时 NIFC": {
    "state": "ok",
    "n": 1,
    "local": 0,
-   "latest": "2026-11-18T00:28:56Z",
+   "latest": "2026-11-18T00:48:36Z",
    "sec": 0.2,
-   "new_48h": 129,
+   "new_48h": 127,
    "latency": "实时"
   },
   "abuse.ch ThreatFox": {
@@ -246,18 +244,18 @@
    "state": "ok",
    "n": 1,
    "local": 0,
-   "latest": "2026-11-18T00:28:56Z",
-   "sec": 0.5,
+   "latest": "2026-11-18T00:48:36Z",
+   "sec": 0.6,
    "urls": 300,
    "latency": "准实时"
   },
   "ADS-B 紧急代码 7700": {
    "state": "ok",
-   "n": 0,
+   "n": 1,
    "local": 0,
-   "latest": null,
-   "sec": 0.7,
-   "aircraft": 0,
+   "latest": "2026-11-18T00:48:36Z",
+   "sec": 0.4,
+   "aircraft": 1,
    "latency": "实时"
   },
   "太平洋海啸预警中心": {
@@ -265,7 +263,7 @@
    "n": 2,
    "local": 0,
    "latest": "2026-11-13T23:30:02Z",
-   "sec": 0.1,
+   "sec": 0.2,
    "latency": "实时"
   },
   "NOAA NCEI 历史灾害库": {
@@ -273,17 +271,17 @@
    "n": 43,
    "local": 0,
    "latest": "2026-10-24T00:00:00Z",
-   "sec": 1.4,
+   "sec": 2.0,
    "latency": "定期"
   },
   "IOC 海平面站": {
    "state": "ok",
    "n": 1,
    "local": 0,
-   "latest": "2026-11-18T00:28:56Z",
-   "sec": 4.9,
+   "latest": "2026-11-18T00:48:36Z",
+   "sec": 5.7,
    "stations": 1773,
-   "reporting_6h": 1037,
+   "reporting_6h": 1043,
    "latency": "实时"
   },
   "IBTrACS 活跃气旋": {
@@ -299,23 +297,23 @@
    "n": 2,
    "local": 0,
    "latest": "2026-11-16T00:00:00Z",
-   "sec": 0.9,
+   "sec": 0.6,
    "latency": "准实时"
   },
   "史密森尼火山周报": {
    "state": "ok",
    "n": 27,
    "local": 0,
-   "latest": "2026-11-18T00:28:56Z",
-   "sec": 0.1,
+   "latest": "2026-11-18T00:48:36Z",
+   "sec": 0.2,
    "latency": "定期"
   },
   "GBIF 物种记录（尼泊尔）": {
    "state": "ok",
    "n": 2,
    "local": 2,
-   "latest": "2026-11-18T00:28:56Z",
-   "sec": 1.5,
+   "latest": "2026-11-18T00:48:36Z",
+   "sec": 1.1,
    "latency": "定期"
   },
   "Global Forest Watch": {
@@ -345,10 +343,10 @@
   },
   "新闻 RSS": {
    "state": "ok",
-   "n": 52,
-   "local": 52,
-   "latest": "2026-11-17T15:59:57Z",
-   "sec": 6.4,
+   "n": 55,
+   "local": 55,
+   "latest": "2026-11-18T00:49:14Z",
+   "sec": 5.0,
    "feeds": {
     "Kathmandu Post": 40,
     "OnlineKhabar English": 20,
@@ -356,17 +354,17 @@
     "Republica": "失败：HTTP Error 404: Not Found",
     "Nepali Times": 30,
     "Rising Nepal": 10,
-    "ReliefWeb（尼泊尔）": "失败：no element found: line 1, column 0",
-    "Google News（尼泊尔灾害）": 40,
+    "ReliefWeb（尼泊尔）": 20,
+    "Google News（尼泊尔灾害）": 39,
     "Google News（西藏灾害）": 27
    },
    "latency": "实时"
   }
  },
  "by_latency": {
-  "只有新闻": 114,
+  "只有新闻": 130,
   "实时": 60,
-  "准实时": 97,
+  "准实时": 81,
   "定期": 10
  },
  "by_state": {
@@ -456,7 +454,6 @@
     "航空危险天气通报 SIGMET"
    ],
    "tested_ok": [
-    "BIPAD 灾害事件库",
     "BIPAD 警报",
     "新闻 RSS",
     "机场天气实况 METAR",
@@ -464,7 +461,7 @@
    ],
    "n_90d": 1281,
    "n_local_90d": 19,
-   "latest": "2026-11-18T00:26:00Z",
+   "latest": "2026-11-18T00:46:00Z",
    "latest_title": "VEPY 机场实况：雷暴（METAR VEPY 111100Z 03002KT 5000 TS FEW016 FEW025CB OVC080 13/11 Q1020 TEMPO FM1110 TL1140 ）",
    "latest_url": "https://aviationweather.gov/data/metar/?ids=VEPY",
    "observed": null,
@@ -485,15 +482,14 @@
     "航空危险天气通报 SIGMET"
    ],
    "tested_ok": [
-    "BIPAD 灾害事件库",
     "新闻 RSS",
     "机场天气实况 METAR",
     "美国气象局已观测警报 NWS",
     "航空危险天气通报 SIGMET"
    ],
-   "n_90d": 1852,
+   "n_90d": 1851,
    "n_local_90d": 14,
-   "latest": "2026-11-18T00:26:00Z",
+   "latest": "2026-11-18T00:46:00Z",
    "latest_title": "VEPY 机场实况：雷暴（METAR VEPY 111100Z 03002KT 5000 TS FEW016 FEW025CB OVC080 13/11 Q1020 TEMPO FM1110 TL1140 ）",
    "latest_url": "https://aviationweather.gov/data/metar/?ids=VEPY",
    "observed": null,
@@ -515,6 +511,7 @@
     "航空危险天气通报 SIGMET"
    ],
    "tested_ok": [
+    "NASA EONET",
     "Sentinel-5P 大气成分",
     "新闻 RSS",
     "机场天气实况 METAR",
@@ -548,7 +545,7 @@
    ],
    "n_90d": 897,
    "n_local_90d": 265,
-   "latest": "2026-11-18T00:25:00Z",
+   "latest": "2026-11-18T00:46:00Z",
    "latest_title": "VEGK 机场实况：雾（METAR VEGK 172330Z 00000KT 0800 R29/P2000 FG SKC 16/16 Q1016 NOSIG）",
    "latest_url": "https://aviationweather.gov/data/metar/?ids=VEGK",
    "observed": null,
@@ -570,13 +567,14 @@
    ],
    "tested_ok": [
     "BIPAD 空气质量站",
+    "NASA EONET",
     "Sentinel-5P 大气成分",
     "新闻 RSS",
     "机场天气实况 METAR"
    ],
    "n_90d": 1821,
    "n_local_90d": 1190,
-   "latest": "2026-11-18T00:26:00Z",
+   "latest": "2026-11-18T00:43:00Z",
    "latest_title": "VILK 机场实况：霾（METAR VILK 171330Z VRB02KT 3000 HZ NSC 19/16 Q1016 NOSIG）",
    "latest_url": "https://aviationweather.gov/data/metar/?ids=VILK",
    "observed": "Sentinel-5P __AER_AI 覆盖喜马拉雅（有观测，未计算数值）",
@@ -595,6 +593,7 @@
     "机场天气实况 METAR"
    ],
    "tested_ok": [
+    "NASA EONET",
     "新闻 RSS",
     "机场天气实况 METAR"
    ],
@@ -622,6 +621,7 @@
     "美国气象局已观测警报 NWS"
    ],
    "tested_ok": [
+    "NASA EONET",
     "Sentinel-5P 大气成分",
     "新闻 RSS",
     "机场天气实况 METAR",
@@ -629,7 +629,7 @@
    ],
    "n_90d": 759,
    "n_local_90d": 128,
-   "latest": "2026-11-18T00:00:00Z",
+   "latest": "2026-11-18T00:30:00Z",
    "latest_title": "VECO 机场实况：烟（METAR VECO 160900Z 00000KT 1200 R22/1400 FU FEW020 SCT100 26/20 Q1009 NOSIG）",
    "latest_url": "https://aviationweather.gov/data/metar/?ids=VECO",
    "observed": "Sentinel-5P __CO 覆盖喜马拉雅（有观测，未计算数值）",
@@ -650,15 +650,14 @@
     "美国风暴实况报告 SPC"
    ],
    "tested_ok": [
-    "BIPAD 灾害事件库",
     "新闻 RSS",
     "机场天气实况 METAR",
     "美国气象局已观测警报 NWS",
     "美国风暴实况报告 SPC"
    ],
-   "n_90d": 649,
+   "n_90d": 650,
    "n_local_90d": 5,
-   "latest": "2026-11-18T00:20:00Z",
+   "latest": "2026-11-18T00:37:00Z",
    "latest_title": "OnlineKhabar English：Transport federation urges caution in road travel amid rainfall forecast",
    "latest_url": "https://english.onlinekhabar.com/transport-federation-urges-caution-in-road-travel-amid-rainfall-forecast.html",
    "observed": null,
@@ -702,8 +701,8 @@
    ],
    "n_90d": 628,
    "n_local_90d": 0,
-   "latest": "2026-11-18T00:20:00Z",
-   "latest_title": "全球 21 个机场此刻报告“持续风 ≥34 节（烈风）”（例：ENLE、ENLA、KGLX）",
+   "latest": "2026-11-18T00:40:00Z",
+   "latest_title": "全球 18 个机场此刻报告“持续风 ≥34 节（烈风）”（例：KGLX、PAPB、KTBX）",
    "latest_url": "https://aviationweather.gov/data/metar/",
    "observed": null,
    "state": "global",
@@ -721,7 +720,6 @@
     "机场天气实况 METAR"
    ],
    "tested_ok": [
-    "BIPAD 灾害事件库",
     "新闻 RSS",
     "机场天气实况 METAR"
    ],
@@ -774,6 +772,7 @@
    ],
    "tested_ok": [
     "IBTrACS 活跃气旋",
+    "NASA EONET",
     "新闻 RSS"
    ],
    "n_90d": 79,
@@ -798,6 +797,7 @@
    ],
    "tested_ok": [
     "IBTrACS 活跃气旋",
+    "NASA EONET",
     "新闻 RSS"
    ],
    "n_90d": 12,
@@ -822,6 +822,7 @@
    ],
    "tested_ok": [
     "IBTrACS 活跃气旋",
+    "NASA EONET",
     "新闻 RSS"
    ],
    "n_90d": 13,
@@ -850,6 +851,7 @@
    "tested_ok": [
     "GDACS",
     "IBTrACS 活跃气旋",
+    "NASA EONET",
     "新闻 RSS",
     "美国气象局已观测警报 NWS",
     "航空危险天气通报 SIGMET"
@@ -876,8 +878,8 @@
     "新闻 RSS"
    ],
    "tested_ok": [
-    "BIPAD 灾害事件库",
     "GDACS",
+    "NASA EONET",
     "新闻 RSS"
    ],
    "n_90d": 17,
@@ -902,14 +904,13 @@
     "机场天气实况 METAR"
    ],
    "tested_ok": [
-    "BIPAD 灾害事件库",
     "BIPAD 警报",
     "新闻 RSS",
     "机场天气实况 METAR"
    ],
    "n_90d": 700,
    "n_local_90d": 69,
-   "latest": "2026-11-18T00:20:00Z",
+   "latest": "2026-11-18T00:46:00Z",
    "latest_title": "OnlineKhabar English：9 Nepali student films to screen at EU Film Festival Nepal",
    "latest_url": "https://english.onlinekhabar.com/student-films-eu-film-festival.html",
    "observed": null,
@@ -934,7 +935,7 @@
    ],
    "n_90d": 245,
    "n_local_90d": 0,
-   "latest": "2026-11-18T00:00:00Z",
+   "latest": "2026-11-18T00:34:00Z",
    "latest_title": "全球 1 个机场此刻报告“高吹雪+大风”（例：CYFB）",
    "latest_url": "https://aviationweather.gov/data/metar/",
    "observed": null,
@@ -954,7 +955,6 @@
     "美国风暴实况报告 SPC"
    ],
    "tested_ok": [
-    "BIPAD 灾害事件库",
     "新闻 RSS",
     "机场天气实况 METAR",
     "美国风暴实况报告 SPC"
@@ -982,12 +982,13 @@
    ],
    "tested_ok": [
     "BIPAD 警报",
+    "NASA EONET",
     "新闻 RSS",
     "机场天气实况 METAR"
    ],
    "n_90d": 462,
    "n_local_90d": 49,
-   "latest": "2026-11-18T00:15:00Z",
+   "latest": "2026-11-18T00:35:00Z",
    "latest_title": "Rising Nepal：Rain, snowfall predicted in mountainous region",
    "latest_url": "https://risingnepaldaily.com/news/88597",
    "observed": null,
@@ -1006,7 +1007,6 @@
     "美国气象局已观测警报 NWS"
    ],
    "tested_ok": [
-    "BIPAD 灾害事件库",
     "新闻 RSS",
     "美国气象局已观测警报 NWS"
    ],
@@ -1032,7 +1032,7 @@
     "美国气象局已观测警报 NWS"
    ],
    "tested_ok": [
-    "BIPAD 灾害事件库",
+    "NASA EONET",
     "新闻 RSS",
     "美国气象局已观测警报 NWS"
    ],
@@ -1059,8 +1059,8 @@
     "美国气象局已观测警报 NWS"
    ],
    "tested_ok": [
-    "BIPAD 灾害事件库",
     "BIPAD 警报",
+    "NASA EONET",
     "新闻 RSS",
     "美国气象局已观测警报 NWS"
    ],
@@ -1262,15 +1262,15 @@
     "新闻 RSS"
    ],
    "tested_ok": [
-    "BIPAD 灾害事件库",
     "GDACS",
+    "NASA EONET",
     "新闻 RSS"
    ],
-   "n_90d": 579,
-   "n_local_90d": 526,
-   "latest": "2026-11-17T12:41:34Z",
-   "latest_title": "Google News（西藏灾害）：N.C. South Asian communities rally behind those affected by Nepal flood - The Daily Tar Heel",
-   "latest_url": "https://news.google.com/rss/articles/CBMimAFBVV95cUxONHFYenZIWW9CUk51bk9DMklpT2laM29vZmh2dW1OTmZ0aC03dGxJNThIelA0ZWVxTm0zZ2N0OHdRN2VXajQzaENZcnZvdnBtcFprNjg0YjFELW5MUEpRNjV1RTd1Uzl1UTlzWlhNQVFOOFlCUXAxVFdXekpmZEJ3UU04RWJpRmVQMU8zbURHNkpEU200U1FYRA?oc=5",
+   "n_90d": 583,
+   "n_local_90d": 530,
+   "latest": "2026-11-18T00:49:14Z",
+   "latest_title": "Google News（尼泊尔灾害）：Flood victims occupy Nepal Electricity Authority land, erect tents - The Kathmandu Post",
+   "latest_url": "https://news.google.com/rss/articles/CBMisAFBVV95cUxPTjN0djNIVldSV3pNTFAySnJrbEZCbHF6LXNXeE5lVzVoRy1XWGxqdWszQnY4c2pJaHA4ZmI5bVU5LWNyamlnM1dqUWlhb2lHWUZkR2hndTlvcmppNVpjZGE1MFZ5ZkpIT29CMEx1bHhDLTF1NDRHd0tRd3hmZDZYdlhGZVJmb2RzTWUtWE1pYUF1SFFpRmtiRGpQQU83UUlkdEVRUFFXUEFqeEo2Rm9XVg?oc=5",
    "observed": null,
    "state": "local",
    "rt_tier": "实时"
@@ -1293,8 +1293,8 @@
    ],
    "n_90d": 631,
    "n_local_90d": 0,
-   "latest": "2026-11-18T00:28:56Z",
-   "latest_title": "全球 1773 个潮位站，最近 6 小时在报 1037 个",
+   "latest": "2026-11-18T00:48:36Z",
+   "latest_title": "全球 1773 个潮位站，最近 6 小时在报 1043 个",
    "latest_url": "https://www.ioc-sealevelmonitoring.org/",
    "observed": null,
    "state": "global",
@@ -1316,8 +1316,8 @@
    ],
    "n_90d": 631,
    "n_local_90d": 0,
-   "latest": "2026-11-18T00:28:56Z",
-   "latest_title": "全球 1773 个潮位站，最近 6 小时在报 1037 个",
+   "latest": "2026-11-18T00:48:36Z",
+   "latest_title": "全球 1773 个潮位站，最近 6 小时在报 1043 个",
    "latest_url": "https://www.ioc-sealevelmonitoring.org/",
    "observed": null,
    "state": "global",
@@ -1359,7 +1359,6 @@
     "美国气象局已观测警报 NWS"
    ],
    "tested_ok": [
-    "BIPAD 灾害事件库",
     "BIPAD 警报",
     "新闻 RSS",
     "美国气象局已观测警报 NWS"
@@ -1405,7 +1404,6 @@
     "新闻 RSS"
    ],
    "tested_ok": [
-    "BIPAD 灾害事件库",
     "新闻 RSS"
    ],
    "n_90d": 2,
@@ -1415,7 +1413,7 @@
    "latest_url": "https://english.onlinekhabar.com/waterlogged-tu-cricket-ground.html",
    "observed": null,
    "state": "local",
-   "rt_tier": "准实时"
+   "rt_tier": "只有新闻"
   },
   {
    "code": "MH0607",
@@ -1428,7 +1426,6 @@
     "新闻 RSS"
    ],
    "tested_ok": [
-    "BIPAD 灾害事件库",
     "新闻 RSS"
    ],
    "n_90d": 4,
@@ -1438,7 +1435,7 @@
    "latest_url": "https://english.onlinekhabar.com/govt-plans-to-lower-water-levels-in-four-glacial-lakes-expand-flood-early-warning-systems.html",
    "observed": null,
    "state": "local",
-   "rt_tier": "准实时"
+   "rt_tier": "只有新闻"
   },
   {
    "code": "MH0608",
@@ -1519,8 +1516,8 @@
    ],
    "n_90d": 631,
    "n_local_90d": 0,
-   "latest": "2026-11-18T00:28:56Z",
-   "latest_title": "全球 1773 个潮位站，最近 6 小时在报 1037 个",
+   "latest": "2026-11-18T00:48:36Z",
+   "latest_title": "全球 1773 个潮位站，最近 6 小时在报 1043 个",
    "latest_url": "https://www.ioc-sealevelmonitoring.org/",
    "observed": null,
    "state": "global",
@@ -1542,8 +1539,8 @@
    ],
    "n_90d": 631,
    "n_local_90d": 0,
-   "latest": "2026-11-18T00:28:56Z",
-   "latest_title": "全球 1773 个潮位站，最近 6 小时在报 1037 个",
+   "latest": "2026-11-18T00:48:36Z",
+   "latest_title": "全球 1773 个潮位站，最近 6 小时在报 1043 个",
    "latest_url": "https://www.ioc-sealevelmonitoring.org/",
    "observed": null,
    "state": "global",
@@ -1567,7 +1564,7 @@
    ],
    "n_90d": 632,
    "n_local_90d": 1,
-   "latest": "2026-11-18T00:28:56Z",
+   "latest": "2026-11-18T00:48:36Z",
    "latest_title": "Kathmandu Post：Cyclone Arnab begins making landfall in India’s Andhra Pradesh state",
    "latest_url": "https://kathmandupost.com/world/2026/10/28/cyclone-arnab-begins-making-landfall-in-india-s-andhra-pradesh-state",
    "observed": null,
@@ -1590,8 +1587,8 @@
    ],
    "n_90d": 631,
    "n_local_90d": 0,
-   "latest": "2026-11-18T00:28:56Z",
-   "latest_title": "全球 1773 个潮位站，最近 6 小时在报 1037 个",
+   "latest": "2026-11-18T00:48:36Z",
+   "latest_title": "全球 1773 个潮位站，最近 6 小时在报 1043 个",
    "latest_url": "https://www.ioc-sealevelmonitoring.org/",
    "observed": null,
    "state": "global",
@@ -1638,6 +1635,7 @@
     "新闻 RSS"
    ],
    "tested_ok": [
+    "NASA EONET",
     "NSIDC 海冰",
     "新闻 RSS"
    ],
@@ -1662,6 +1660,7 @@
     "新闻 RSS"
    ],
    "tested_ok": [
+    "NASA EONET",
     "NSIDC 海冰",
     "新闻 RSS"
    ],
@@ -1708,7 +1707,6 @@
     "美国气象局已观测警报 NWS"
    ],
    "tested_ok": [
-    "BIPAD 灾害事件库",
     "BIPAD 警报",
     "新闻 RSS",
     "美国气象局已观测警报 NWS"
@@ -1945,7 +1943,7 @@
    ],
    "n_90d": 628,
    "n_local_90d": 0,
-   "latest": "2026-11-18T00:28:56Z",
+   "latest": "2026-11-18T00:48:36Z",
    "latest_title": "跟踪中的碎片（四次大型解体事件）2680 个",
    "latest_url": null,
    "observed": null,
@@ -1968,15 +1966,15 @@
     "美国气象局已观测警报 NWS"
    ],
    "tested_ok": [
-    "BIPAD 灾害事件库",
     "BIPAD 警报",
     "GDACS",
+    "NASA EONET",
     "USGS 地震目录",
     "新闻 RSS",
     "美国气象局已观测警报 NWS"
    ],
-   "n_90d": 1259,
-   "n_local_90d": 802,
+   "n_90d": 1258,
+   "n_local_90d": 801,
    "latest": "2026-11-17T18:15:19Z",
    "latest_title": "Google News（西藏灾害）：Rescuers search for survivors after deadly earthquake in China’s Tibet region - Rutland Herald",
    "latest_url": "https://news.google.com/rss/articles/CBMi_AFBVV95cUxQbTBNQjdSVE1acERVeVhWcHZZQ0ZTQms1N2hPZUl4Umdjd3g2Ymc4eTFZSk56UTNrWGNhcGVUUkc4TnlQbGNsRGdXSkJ0RVJwN1BJdHVIaWkwbFRtZ2xHRmxQcTUwbkpWcjRkOGd5ZlFTbnUtazJ4bEdqaFNETWJKUlpVMFBVOUF4VmZQZW5FcVFLU3lWRW5PVWRuUnE5cEJMMG5ILUxubFVfekI4VUdPUzdzYy1vVzdiRWFVUU5Tc3dITmtXRF9FR2QwdzRLN0hRYXA0NWNCQXlpZFEwSjRPTE9DRmhsSFVrNmt6S1ZidklOdUpXU3NkX1puM0U?oc=5",
@@ -1999,15 +1997,15 @@
     "新闻 RSS"
    ],
    "tested_ok": [
-    "BIPAD 灾害事件库",
     "GDACS",
+    "NASA EONET",
     "NOAA NCEI 历史灾害库",
     "史密森尼火山周报",
     "新闻 RSS"
    ],
    "n_90d": 31,
    "n_local_90d": 0,
-   "latest": "2026-11-18T00:28:56Z",
+   "latest": "2026-11-18T00:48:36Z",
    "latest_title": "Krakatau (Indonesia) - Report for 8 October-14 October 2026 - New Eruptive Activity",
    "latest_url": "https://volcano.si.edu/reports_weekly.cfm",
    "observed": null,
@@ -2033,6 +2031,7 @@
    ],
    "tested_ok": [
     "GDACS",
+    "NASA EONET",
     "NOAA NCEI 历史灾害库",
     "USGS 火山通告",
     "史密森尼火山周报",
@@ -2041,9 +2040,9 @@
     "美国气象局已观测警报 NWS",
     "航空危险天气通报 SIGMET"
    ],
-   "n_90d": 1545,
+   "n_90d": 1547,
    "n_local_90d": 0,
-   "latest": "2026-11-18T00:28:56Z",
+   "latest": "2026-11-18T00:48:36Z",
    "latest_title": "Krakatau (Indonesia) - Report for 8 October-14 October 2026 - New Eruptive Activity",
    "latest_url": "https://volcano.si.edu/reports_weekly.cfm",
    "observed": null,
@@ -2063,6 +2062,7 @@
     "新闻 RSS"
    ],
    "tested_ok": [
+    "NASA EONET",
     "NOAA NCEI 历史灾害库",
     "史密森尼火山周报",
     "新闻 RSS"
@@ -2074,7 +2074,7 @@
    "latest_url": null,
    "observed": null,
    "state": "ok_none",
-   "rt_tier": "定期"
+   "rt_tier": "准实时"
   },
   {
    "code": "GH0204",
@@ -2089,6 +2089,7 @@
     "新闻 RSS"
    ],
    "tested_ok": [
+    "NASA EONET",
     "NOAA NCEI 历史灾害库",
     "史密森尼火山周报",
     "新闻 RSS"
@@ -2100,7 +2101,7 @@
    "latest_url": null,
    "observed": null,
    "state": "ok_none",
-   "rt_tier": "定期"
+   "rt_tier": "准实时"
   },
   {
    "code": "GH0205",
@@ -2116,6 +2117,7 @@
     "新闻 RSS"
    ],
    "tested_ok": [
+    "NASA EONET",
     "NOAA NCEI 历史灾害库",
     "Sentinel-5P 大气成分",
     "史密森尼火山周报",
@@ -2123,7 +2125,7 @@
    ],
    "n_90d": 27,
    "n_local_90d": 0,
-   "latest": "2026-11-18T00:28:56Z",
+   "latest": "2026-11-18T00:48:36Z",
    "latest_title": "Krakatau (Indonesia) - Report for 8 October-14 October 2026 - New Eruptive Activity",
    "latest_url": "https://volcano.si.edu/reports_weekly.cfm",
    "observed": "Sentinel-5P __SO2 覆盖喜马拉雅（有观测，未计算数值）",
@@ -2144,8 +2146,8 @@
     "新闻 RSS"
    ],
    "tested_ok": [
-    "BIPAD 灾害事件库",
     "BIPAD 警报",
+    "NASA EONET",
     "USGS 地震目录",
     "新闻 RSS"
    ],
@@ -2234,7 +2236,6 @@
     "新闻 RSS"
    ],
    "tested_ok": [
-    "BIPAD 灾害事件库",
     "新闻 RSS"
    ],
    "n_90d": 81,
@@ -2244,7 +2245,7 @@
    "latest_url": "https://news.google.com/rss/articles/CBMiiwFBVV95cUxNaEhmNlgtSUZPVHBFNW9KeGpNRm1lU3NBdFVOaTVkWGxoYkM2LTk5cnFHUmxsNGtlaWNhODJVVTNFRUJxdHpucFpCZnFaRDFBcVBaMXNsNXZuOHE0ci1BcVZ0Qm1SczJ4Q1I0Uzd0S1BPb0tuWDJFa0lGWkVpUG9WVUtXdjZ5aERYazN3?oc=5",
    "observed": null,
    "state": "local",
-   "rt_tier": "准实时"
+   "rt_tier": "只有新闻"
   },
   {
    "code": "GH0305",
@@ -2446,7 +2447,6 @@
     "新闻 RSS"
    ],
    "tested_ok": [
-    "BIPAD 灾害事件库",
     "新闻 RSS"
    ],
    "n_90d": 0,
@@ -2456,7 +2456,7 @@
    "latest_url": null,
    "observed": null,
    "state": "ok_none",
-   "rt_tier": "准实时"
+   "rt_tier": "只有新闻"
   },
   {
    "code": "GH0404",
@@ -2604,7 +2604,6 @@
     "美国气象局已观测警报 NWS"
    ],
    "tested_ok": [
-    "BIPAD 灾害事件库",
     "BIPAD 空气质量站",
     "BIPAD 警报",
     "Sentinel-5P 大气成分",
@@ -2701,7 +2700,6 @@
     "新闻 RSS"
    ],
    "tested_ok": [
-    "BIPAD 灾害事件库",
     "新闻 RSS"
    ],
    "n_90d": 1,
@@ -2711,7 +2709,7 @@
    "latest_url": "https://risingnepaldaily.com/news/88316",
    "observed": null,
    "state": "local",
-   "rt_tier": "准实时"
+   "rt_tier": "只有新闻"
   },
   {
    "code": "EN0202",
@@ -2796,16 +2794,16 @@
     "美国气象局已观测警报 NWS"
    ],
    "tested_ok": [
-    "BIPAD 灾害事件库",
     "BIPAD 警报",
     "GDACS",
+    "NASA EONET",
     "新闻 RSS",
     "美国林火实时 NIFC",
     "美国气象局已观测警报 NWS"
    ],
    "n_90d": 1986,
    "n_local_90d": 5,
-   "latest": "2026-11-18T00:28:56Z",
+   "latest": "2026-11-18T00:48:36Z",
    "latest_title": "Forest Fire at Shey Phoksundo Rural Municipality-99",
    "latest_url": "https://bipadportal.gov.np/incidents/96467",
    "observed": null,
@@ -2996,8 +2994,8 @@
    ],
    "n_90d": 631,
    "n_local_90d": 0,
-   "latest": "2026-11-18T00:28:56Z",
-   "latest_title": "全球 1773 个潮位站，最近 6 小时在报 1037 个",
+   "latest": "2026-11-18T00:48:36Z",
+   "latest_title": "全球 1773 个潮位站，最近 6 小时在报 1043 个",
    "latest_url": "https://www.ioc-sealevelmonitoring.org/",
    "observed": null,
    "state": "global",
@@ -3014,6 +3012,7 @@
     "新闻 RSS"
    ],
    "tested_ok": [
+    "NASA EONET",
     "新闻 RSS"
    ],
    "n_90d": 0,
@@ -3023,7 +3022,7 @@
    "latest_url": null,
    "observed": null,
    "state": "ok_none",
-   "rt_tier": "只有新闻"
+   "rt_tier": "准实时"
   },
   {
    "code": "EN0404",
@@ -3295,7 +3294,6 @@
     "美国气象局已观测警报 NWS"
    ],
    "tested_ok": [
-    "BIPAD 灾害事件库",
     "新闻 RSS",
     "美国气象局已观测警报 NWS"
    ],
@@ -3511,7 +3509,6 @@
     "新闻 RSS"
    ],
    "tested_ok": [
-    "BIPAD 灾害事件库",
     "openFDA 食品药品召回",
     "新闻 RSS"
    ],
@@ -3522,7 +3519,7 @@
    "latest_url": null,
    "observed": null,
    "state": "global",
-   "rt_tier": "准实时"
+   "rt_tier": "定期"
   },
   {
    "code": "CH0602",
@@ -3623,7 +3620,6 @@
     "新闻 RSS"
    ],
    "tested_ok": [
-    "BIPAD 灾害事件库",
     "新闻 RSS"
    ],
    "n_90d": 0,
@@ -3633,7 +3629,7 @@
    "latest_url": null,
    "observed": null,
    "state": "ok_none",
-   "rt_tier": "准实时"
+   "rt_tier": "只有新闻"
   },
   {
    "code": "CH0902",
@@ -3690,7 +3686,6 @@
     "新闻 RSS"
    ],
    "tested_ok": [
-    "BIPAD 灾害事件库",
     "WHO FluNet（尼泊尔）",
     "WHO 疫情通报",
     "新闻 RSS"
@@ -3736,7 +3731,6 @@
     "新闻 RSS"
    ],
    "tested_ok": [
-    "BIPAD 灾害事件库",
     "新闻 RSS"
    ],
    "n_90d": 0,
@@ -3746,7 +3740,7 @@
    "latest_url": null,
    "observed": null,
    "state": "ok_none",
-   "rt_tier": "准实时"
+   "rt_tier": "只有新闻"
   },
   {
    "code": "BI0104",
@@ -3760,7 +3754,6 @@
     "新闻 RSS"
    ],
    "tested_ok": [
-    "BIPAD 灾害事件库",
     "openFDA 食品药品召回",
     "新闻 RSS"
    ],
@@ -3771,7 +3764,7 @@
    "latest_url": null,
    "observed": null,
    "state": "global",
-   "rt_tier": "准实时"
+   "rt_tier": "定期"
   },
   {
    "code": "BI0105",
@@ -3848,7 +3841,6 @@
     "新闻 RSS"
    ],
    "tested_ok": [
-    "BIPAD 灾害事件库",
     "WHO 疫情通报",
     "新闻 RSS"
    ],
@@ -3897,7 +3889,6 @@
     "新闻 RSS"
    ],
    "tested_ok": [
-    "BIPAD 灾害事件库",
     "新闻 RSS"
    ],
    "n_90d": 0,
@@ -3907,7 +3898,7 @@
    "latest_url": null,
    "observed": null,
    "state": "ok_none",
-   "rt_tier": "准实时"
+   "rt_tier": "只有新闻"
   },
   {
    "code": "BI0111",
@@ -4080,7 +4071,6 @@
     "新闻 RSS"
    ],
    "tested_ok": [
-    "BIPAD 灾害事件库",
     "WHO 疫情通报",
     "新闻 RSS"
    ],
@@ -4975,7 +4965,6 @@
     "新闻 RSS"
    ],
    "tested_ok": [
-    "BIPAD 灾害事件库",
     "WHO 疫情通报",
     "新闻 RSS"
    ],
@@ -5002,7 +4991,6 @@
     "新闻 RSS"
    ],
    "tested_ok": [
-    "BIPAD 灾害事件库",
     "WHO FluNet（尼泊尔）",
     "WHO 疫情通报",
     "WOAH WAHIS 动物疫情",
@@ -5421,7 +5409,6 @@
     "新闻 RSS"
    ],
    "tested_ok": [
-    "BIPAD 灾害事件库",
     "新闻 RSS"
    ],
    "n_90d": 0,
@@ -5431,7 +5418,7 @@
    "latest_url": null,
    "observed": null,
    "state": "ok_none",
-   "rt_tier": "准实时"
+   "rt_tier": "只有新闻"
   },
   {
    "code": "BI0502",
@@ -5444,7 +5431,6 @@
     "新闻 RSS"
    ],
    "tested_ok": [
-    "BIPAD 灾害事件库",
     "新闻 RSS"
    ],
    "n_90d": 0,
@@ -5454,7 +5440,7 @@
    "latest_url": null,
    "observed": null,
    "state": "ok_none",
-   "rt_tier": "准实时"
+   "rt_tier": "只有新闻"
   },
   {
    "code": "BI0503",
@@ -5467,7 +5453,6 @@
     "新闻 RSS"
    ],
    "tested_ok": [
-    "BIPAD 灾害事件库",
     "新闻 RSS"
    ],
    "n_90d": 0,
@@ -5477,7 +5462,7 @@
    "latest_url": null,
    "observed": null,
    "state": "ok_none",
-   "rt_tier": "准实时"
+   "rt_tier": "只有新闻"
   },
   {
    "code": "BI0601",
@@ -5532,6 +5517,7 @@
     "新闻 RSS"
    ],
    "tested_ok": [
+    "NASA EONET",
     "新闻 RSS"
    ],
    "n_90d": 0,
@@ -5541,7 +5527,7 @@
    "latest_url": null,
    "observed": null,
    "state": "ok_none",
-   "rt_tier": "只有新闻"
+   "rt_tier": "准实时"
   },
   {
    "code": "BI0604",
@@ -5554,7 +5540,6 @@
     "新闻 RSS"
    ],
    "tested_ok": [
-    "BIPAD 灾害事件库",
     "新闻 RSS"
    ],
    "n_90d": 39,
@@ -5564,7 +5549,7 @@
    "latest_url": "https://thehimalayantimes.com/nepal/human-wildlife-coexistence-conference-opens-in-bhutan-nepal-joins-regional-dialogue",
    "observed": null,
    "state": "local",
-   "rt_tier": "准实时"
+   "rt_tier": "只有新闻"
   },
   {
    "code": "BI0605",
@@ -5577,7 +5562,6 @@
     "新闻 RSS"
    ],
    "tested_ok": [
-    "BIPAD 灾害事件库",
     "新闻 RSS"
    ],
    "n_90d": 79,
@@ -5587,7 +5571,7 @@
    "latest_url": "https://bipadportal.gov.np/incidents/96500",
    "observed": null,
    "state": "local",
-   "rt_tier": "准实时"
+   "rt_tier": "只有新闻"
   },
   {
    "code": "TL0101",
@@ -5741,7 +5725,7 @@
    ],
    "n_90d": 632,
    "n_local_90d": 1,
-   "latest": "2026-11-18T00:28:56Z",
+   "latest": "2026-11-18T00:48:36Z",
    "latest_title": "OnlineKhabar English：Integrated Anti-Cyber Scam Centre to begin operations on Friday",
    "latest_url": "https://english.onlinekhabar.com/anti-cyber-scam-centre.html",
    "observed": null,
@@ -5822,7 +5806,6 @@
     "新闻 RSS"
    ],
    "tested_ok": [
-    "BIPAD 灾害事件库",
     "新闻 RSS"
    ],
    "n_90d": 4,
@@ -5832,7 +5815,7 @@
    "latest_url": "https://english.onlinekhabar.com/collapsed-suspension-bridge-kanchanpur.html",
    "observed": null,
    "state": "local",
-   "rt_tier": "准实时"
+   "rt_tier": "只有新闻"
   },
   {
    "code": "TL0205",
@@ -5888,7 +5871,6 @@
     "新闻 RSS"
    ],
    "tested_ok": [
-    "BIPAD 灾害事件库",
     "BIPAD 警报",
     "新闻 RSS"
    ],
@@ -6091,7 +6073,6 @@
     "新闻 RSS"
    ],
    "tested_ok": [
-    "BIPAD 灾害事件库",
     "新闻 RSS"
    ],
    "n_90d": 0,
@@ -6101,7 +6082,7 @@
    "latest_url": null,
    "observed": null,
    "state": "ok_none",
-   "rt_tier": "准实时"
+   "rt_tier": "只有新闻"
   },
   {
    "code": "TL0302",
@@ -6115,7 +6096,6 @@
     "新闻 RSS"
    ],
    "tested_ok": [
-    "BIPAD 灾害事件库",
     "Sentinel-5P 大气成分",
     "新闻 RSS"
    ],
@@ -6162,7 +6142,7 @@
     "新闻 RSS"
    ],
    "tested_ok": [
-    "BIPAD 灾害事件库",
+    "NASA EONET",
     "USGS 地震目录",
     "新闻 RSS"
    ],
@@ -6188,7 +6168,7 @@
     "新闻 RSS"
    ],
    "tested_ok": [
-    "BIPAD 灾害事件库",
+    "NASA EONET",
     "新闻 RSS"
    ],
    "n_90d": 428,
@@ -6233,7 +6213,6 @@
     "新闻 RSS"
    ],
    "tested_ok": [
-    "BIPAD 灾害事件库",
     "USGS 地震目录",
     "新闻 RSS"
    ],
@@ -6278,7 +6257,6 @@
     "新闻 RSS"
    ],
    "tested_ok": [
-    "BIPAD 灾害事件库",
     "新闻 RSS"
    ],
    "n_90d": 0,
@@ -6288,7 +6266,7 @@
    "latest_url": null,
    "observed": null,
    "state": "ok_none",
-   "rt_tier": "准实时"
+   "rt_tier": "只有新闻"
   },
   {
    "code": "TL0401",
@@ -6303,7 +6281,6 @@
    ],
    "tested_ok": [
     "ADS-B 紧急代码 7700",
-    "BIPAD 灾害事件库",
     "新闻 RSS"
    ],
    "n_90d": 9,
@@ -6311,7 +6288,7 @@
    "latest": "2026-11-04T09:40:22Z",
    "latest_title": "Google News（尼泊尔灾害）：From a holiday in Nepal to heartbreak: Chennai parents, aged 80 and 74, lose son in helicopter crash - Udayavani",
    "latest_url": "https://news.google.com/rss/articles/CBMi2wFBVV95cUxPcWN0RVdhX2trWG1fSUxlTHAxRzIxalliZERkcjBsbXVjdzBHUjlSZmdNLUF0SmhMTWd1WEZEUmFXR1FocWNJTUZfOTVnY2JiUWk4Z0ttRHFLX1ROWmNLLVg2X2RqbUVQQncyOGVzeVFkT1pRbFhzNVFvZVJpRUNZSnQ3RmZWMERVc21MWGotSXJpTmFVR290V2l2Z2hjdGtQR3IyTkExaV9PNXJzVVJHTzd3NG9nQ2dJZWZiNzVsZ0pUdVVxV2hLMHR6emRyUHJMcmJGZjRRYzhmUVU?oc=5",
-   "observed": "TEST 发出紧急代码 7700（DRON）",
+   "observed": "N273LA 发出紧急代码 7700（DA40）",
    "state": "local",
    "rt_tier": "实时"
   },
@@ -6326,7 +6303,6 @@
     "新闻 RSS"
    ],
    "tested_ok": [
-    "BIPAD 灾害事件库",
     "新闻 RSS"
    ],
    "n_90d": 2,
@@ -6336,7 +6312,7 @@
    "latest_url": "https://risingnepaldaily.com/news/88025",
    "observed": null,
    "state": "local",
-   "rt_tier": "准实时"
+   "rt_tier": "只有新闻"
   },
   {
    "code": "TL0403",
@@ -6391,7 +6367,6 @@
     "新闻 RSS"
    ],
    "tested_ok": [
-    "BIPAD 灾害事件库",
     "新闻 RSS"
    ],
    "n_90d": 42,
@@ -6401,7 +6376,7 @@
    "latest_url": "https://news.google.com/rss/articles/CBMifEFVX3lxTE1XVG1rX3pFSnhwbVkxVTR3X2NZZGRlVUp3Q0hRbnZfaXE3YlVnaU5XcTExY1BtTm1tR2twbXVVYm5HTUROenRKMWZUd1d5a0lhd09Md1VmT2xjYzhmdV8wamw2UDh5VkJ1eFdaeTd0YTFDTjlYanl6X0prcjg?oc=5",
    "observed": null,
    "state": "local",
-   "rt_tier": "准实时"
+   "rt_tier": "只有新闻"
   },
   {
    "code": "TL0501",
@@ -6671,7 +6646,6 @@
     "航空危险天气通报 SIGMET"
    ],
    "tested_ok": [
-    "BIPAD 灾害事件库",
     "Safecast 辐射",
     "新闻 RSS",
     "美国气象局已观测警报 NWS",
@@ -6831,8 +6805,8 @@
    "tested_ok": [
     "新闻 RSS"
    ],
-   "n_90d": 19,
-   "n_local_90d": 19,
+   "n_90d": 20,
+   "n_local_90d": 20,
    "latest": "2026-11-17T10:24:31Z",
    "latest_title": "Rising Nepal：Advocates call for urgent reforms to Nepal’s sexual violence laws",
    "latest_url": "https://risingnepaldaily.com/news/88723",
