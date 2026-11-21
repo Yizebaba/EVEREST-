@@ -144749,7 +144749,7 @@
      "file": "events/archive/news-landslide-gorkha-2026-11-14_bbbed526cbb6.json",
      "ots": "events/archive/news-landslide-gorkha-2026-11-14_bbbed526cbb6.json.ots",
      "stamped": "2026-11-21T10:33:52Z",
-     "status": "pending",
+     "status": "confirmed",
      "err": null,
      "tsa": [
       {
@@ -144787,6 +144787,53 @@
       "failed": [],
       "why": {},
       "at": "2026-11-21T10:35:47Z"
+     },
+     "bitcoin_block": 976890,
+     "confirmed_checked": "2026-11-21T11:47:10Z"
+    },
+    {
+     "sha256": "af05f2cefdcc85b63ff92c2885013d892ba5b82a43a29ac619ac51dba0b020ce",
+     "file": "events/archive/news-landslide-gorkha-2026-11-14_af05f2cefdcc.json",
+     "ots": "events/archive/news-landslide-gorkha-2026-11-14_af05f2cefdcc.json.ots",
+     "stamped": "2026-11-21T11:47:10Z",
+     "status": "pending",
+     "err": null,
+     "tsa": [
+      {
+       "tsa": "FreeTSA",
+       "file": "events/archive/news-landslide-gorkha-2026-11-14_af05f2cefdcc.json.FreeTSA.tsr",
+       "time": "Nov 21 11:48:08 2026 GMT"
+      },
+      {
+       "tsa": "DigiCert",
+       "file": "events/archive/news-landslide-gorkha-2026-11-14_af05f2cefdcc.json.DigiCert.tsr",
+       "time": "Nov 21 11:48:08 2026 GMT"
+      }
+     ],
+     "sigstore": {
+      "file": "events/archive/news-landslide-gorkha-2026-11-14_af05f2cefdcc.json.sigstore.json",
+      "identity": "https://github.com/Yizebaba/EVEREST-/.github/workflows/evidence.yml@refs/heads/events",
+      "rekor_log_index": "4032880940",
+      "self_verified": true,
+      "rekor": "https://search.sigstore.dev/?logIndex=4032880940"
+     },
+     "verify": {
+      "checks": {
+       "sha256_python": true,
+       "sha256_coreutils": true,
+       "rfc3161_FreeTSA": true,
+       "rfc3161_DigiCert": true,
+       "sigstore_cosign": true,
+       "sigstore_python": true,
+       "ots_parse": true,
+       "prov": true,
+       "rocrate": true
+      },
+      "passed": 9,
+      "total": 9,
+      "failed": [],
+      "why": {},
+      "at": "2026-11-21T11:48:14Z"
      }
     }
    ],
@@ -144803,9 +144850,9 @@
    "man": "4f53cda18c2baa0c",
    "n": 67,
    "src_n": 2,
-   "built": "2026-11-21T10:33:52Z",
-   "missing": 7
+   "built": "2026-11-21T11:47:10Z",
+   "missing": 6
   }
  },
- "updated": "2026-11-21T11:21:45Z"
+ "updated": "2026-11-21T11:47:10Z"
 }
