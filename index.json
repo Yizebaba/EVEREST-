@@ -138951,7 +138951,7 @@
      "file": "events/archive/news-landslide-gorkha-2026-11-14_a5b6cc939a1f.json",
      "ots": "events/archive/news-landslide-gorkha-2026-11-14_a5b6cc939a1f.json.ots",
      "stamped": "2026-11-22T14:23:13Z",
-     "status": "pending",
+     "status": "confirmed",
      "err": null,
      "tsa": [
       {
@@ -138989,7 +138989,9 @@
       "failed": [],
       "why": {},
       "at": "2026-11-22T14:24:57Z"
-     }
+     },
+     "bitcoin_block": 977068,
+     "confirmed_checked": "2026-11-22T16:22:36Z"
     },
     {
      "sha256": "46b03b070bcf20e27481a75b3cc9b39bacc9ef9a3388756455f210de6804db17",
@@ -139035,6 +139037,51 @@
       "why": {},
       "at": "2026-11-22T15:24:38Z"
      }
+    },
+    {
+     "sha256": "e39973e32c83fe49c9904ecb5ba26ce939c72c4e8e0748d620426cc9e48223f2",
+     "file": "events/archive/news-landslide-gorkha-2026-11-14_e39973e32c83.json",
+     "ots": "events/archive/news-landslide-gorkha-2026-11-14_e39973e32c83.json.ots",
+     "stamped": "2026-11-22T16:22:36Z",
+     "status": "pending",
+     "err": null,
+     "tsa": [
+      {
+       "tsa": "FreeTSA",
+       "file": "events/archive/news-landslide-gorkha-2026-11-14_e39973e32c83.json.FreeTSA.tsr",
+       "time": "Nov 22 16:28:06 2026 GMT"
+      },
+      {
+       "tsa": "DigiCert",
+       "file": "events/archive/news-landslide-gorkha-2026-11-14_e39973e32c83.json.DigiCert.tsr",
+       "time": "Nov 22 16:28:06 2026 GMT"
+      }
+     ],
+     "sigstore": {
+      "file": "events/archive/news-landslide-gorkha-2026-11-14_e39973e32c83.json.sigstore.json",
+      "identity": "https://github.com/Yizebaba/EVEREST-/.github/workflows/evidence.yml@refs/heads/events",
+      "rekor_log_index": "4046768025",
+      "self_verified": true,
+      "rekor": "https://search.sigstore.dev/?logIndex=4046768025"
+     },
+     "verify": {
+      "checks": {
+       "sha256_python": true,
+       "sha256_coreutils": true,
+       "rfc3161_FreeTSA": true,
+       "rfc3161_DigiCert": true,
+       "sigstore_cosign": true,
+       "sigstore_python": true,
+       "ots_parse": true,
+       "prov": true,
+       "rocrate": true
+      },
+      "passed": 9,
+      "total": 9,
+      "failed": [],
+      "why": {},
+      "at": "2026-11-22T16:28:20Z"
+     }
     }
    ],
    "title": "Gorkha 滑坡（新闻线索）",
@@ -139050,7 +139097,7 @@
    "man": "4f53cda18c2baa0c",
    "n": 67,
    "src_n": 2,
-   "built": "2026-11-22T15:22:53Z",
+   "built": "2026-11-22T16:22:36Z",
    "missing": 7
   },
   "news-flood-nuwakot-2026-11-22": {
@@ -139099,6 +139146,51 @@
       "why": {},
       "at": "2026-11-22T15:33:58Z"
      }
+    },
+    {
+     "sha256": "faaa889a6d362d7c25db101c29e5e92be5a412a581f447d02cf0f41df71cfe2a",
+     "file": "events/archive/news-flood-nuwakot-2026-11-22_faaa889a6d36.json",
+     "ots": "events/archive/news-flood-nuwakot-2026-11-22_faaa889a6d36.json.ots",
+     "stamped": "2026-11-22T16:22:36Z",
+     "status": "pending",
+     "err": null,
+     "tsa": [
+      {
+       "tsa": "FreeTSA",
+       "file": "events/archive/news-flood-nuwakot-2026-11-22_faaa889a6d36.json.FreeTSA.tsr",
+       "time": "Nov 22 16:26:15 2026 GMT"
+      },
+      {
+       "tsa": "DigiCert",
+       "file": "events/archive/news-flood-nuwakot-2026-11-22_faaa889a6d36.json.DigiCert.tsr",
+       "time": "Nov 22 16:26:15 2026 GMT"
+      }
+     ],
+     "sigstore": {
+      "file": "events/archive/news-flood-nuwakot-2026-11-22_faaa889a6d36.json.sigstore.json",
+      "identity": "https://github.com/Yizebaba/EVEREST-/.github/workflows/evidence.yml@refs/heads/events",
+      "rekor_log_index": "4046765106",
+      "self_verified": true,
+      "rekor": "https://search.sigstore.dev/?logIndex=4046765106"
+     },
+     "verify": {
+      "checks": {
+       "sha256_python": true,
+       "sha256_coreutils": true,
+       "rfc3161_FreeTSA": true,
+       "rfc3161_DigiCert": true,
+       "sigstore_cosign": true,
+       "sigstore_python": true,
+       "ots_parse": true,
+       "prov": true,
+       "rocrate": true
+      },
+      "passed": 9,
+      "total": 9,
+      "failed": [],
+      "why": {},
+      "at": "2026-11-22T16:28:21Z"
+     }
     }
    ],
    "title": "Nuwakot 洪水（新闻线索）",
@@ -139114,9 +139206,9 @@
    "man": "4f53cda18c2baa0c",
    "n": 41,
    "src_n": 2,
-   "built": "2026-11-22T15:28:37Z",
+   "built": "2026-11-22T16:22:36Z",
    "missing": 12
   }
  },
- "updated": "2026-11-22T15:56:31Z"
+ "updated": "2026-11-22T16:22:36Z"
 }
