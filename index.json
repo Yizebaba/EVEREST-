@@ -139233,7 +139233,7 @@
      "file": "events/archive/news-landslide-gorkha-2026-11-14_b79b90fe394b.json",
      "ots": "events/archive/news-landslide-gorkha-2026-11-14_b79b90fe394b.json.ots",
      "stamped": "2026-11-22T20:26:34Z",
-     "status": "pending",
+     "status": "confirmed",
      "err": null,
      "tsa": [
       {
@@ -139271,6 +139271,57 @@
       "failed": [],
       "why": {},
       "at": "2026-11-22T20:29:58Z"
+     },
+     "bitcoin_block": 977100,
+     "confirmed_checked": "2026-11-22T21:17:43Z"
+    },
+    {
+     "sha256": "2d528259edd4943fc1221bee4b578388ed12a2cb0c4a7b9af4312b3595a0c6dc",
+     "file": "events/archive/news-landslide-gorkha-2026-11-14_2d528259edd4.json",
+     "ots": "events/archive/news-landslide-gorkha-2026-11-14_2d528259edd4.json.ots",
+     "stamped": "2026-11-22T21:17:43Z",
+     "status": "pending",
+     "err": null,
+     "tsa": [
+      {
+       "tsa": "FreeTSA",
+       "file": "events/archive/news-landslide-gorkha-2026-11-14_2d528259edd4.json.FreeTSA.tsr",
+       "time": null
+      },
+      {
+       "tsa": "DigiCert",
+       "file": "events/archive/news-landslide-gorkha-2026-11-14_2d528259edd4.json.DigiCert.tsr",
+       "time": "Nov 22 21:20:38 2026 GMT"
+      }
+     ],
+     "sigstore": {
+      "file": "events/archive/news-landslide-gorkha-2026-11-14_2d528259edd4.json.sigstore.json",
+      "identity": "https://github.com/Yizebaba/EVEREST-/.github/workflows/evidence.yml@refs/heads/events",
+      "rekor_log_index": "4048405579",
+      "self_verified": true,
+      "rekor": "https://search.sigstore.dev/?logIndex=4048405579"
+     },
+     "verify": {
+      "checks": {
+       "sha256_python": true,
+       "sha256_coreutils": true,
+       "rfc3161_FreeTSA": false,
+       "rfc3161_DigiCert": true,
+       "sigstore_cosign": true,
+       "sigstore_python": true,
+       "ots_parse": true,
+       "prov": true,
+       "rocrate": true
+      },
+      "passed": 8,
+      "total": 9,
+      "failed": [
+       "rfc3161_FreeTSA"
+      ],
+      "why": {
+       "rfc3161_FreeTSA": "stamp routines:ts_check_status_info:no time stamp token:../crypto/ts/ts_rsp_verify.c:389:status code: rejection, status text: Error during serial number generation., failure codes: addInfoNotAvailable"
+      },
+      "at": "2026-11-22T21:20:53Z"
      }
     }
    ],
@@ -139287,7 +139338,7 @@
    "man": "4f53cda18c2baa0c",
    "n": 67,
    "src_n": 2,
-   "built": "2026-11-22T20:26:34Z",
+   "built": "2026-11-22T21:17:43Z",
    "missing": 6
   },
   "news-flood-nuwakot-2026-11-22": {
@@ -139532,7 +139583,7 @@
      "file": "events/archive/news-flood-nuwakot-2026-11-22_c6c9dbfc2a91.json",
      "ots": "events/archive/news-flood-nuwakot-2026-11-22_c6c9dbfc2a91.json.ots",
      "stamped": "2026-11-22T20:26:34Z",
-     "status": "pending",
+     "status": "confirmed",
      "err": null,
      "tsa": [
       {
@@ -139570,6 +139621,53 @@
       "failed": [],
       "why": {},
       "at": "2026-11-22T20:29:59Z"
+     },
+     "bitcoin_block": 977100,
+     "confirmed_checked": "2026-11-22T21:17:43Z"
+    },
+    {
+     "sha256": "1fa8d1ab778d7916e19e0d02a9b22ececa6d89657b6c757329635dd81d58b11d",
+     "file": "events/archive/news-flood-nuwakot-2026-11-22_1fa8d1ab778d.json",
+     "ots": "events/archive/news-flood-nuwakot-2026-11-22_1fa8d1ab778d.json.ots",
+     "stamped": "2026-11-22T21:17:43Z",
+     "status": "pending",
+     "err": null,
+     "tsa": [
+      {
+       "tsa": "FreeTSA",
+       "file": "events/archive/news-flood-nuwakot-2026-11-22_1fa8d1ab778d.json.FreeTSA.tsr",
+       "time": "Nov 22 21:19:30 2026 GMT"
+      },
+      {
+       "tsa": "DigiCert",
+       "file": "events/archive/news-flood-nuwakot-2026-11-22_1fa8d1ab778d.json.DigiCert.tsr",
+       "time": "Nov 22 21:19:30 2026 GMT"
+      }
+     ],
+     "sigstore": {
+      "file": "events/archive/news-flood-nuwakot-2026-11-22_1fa8d1ab778d.json.sigstore.json",
+      "identity": "https://github.com/Yizebaba/EVEREST-/.github/workflows/evidence.yml@refs/heads/events",
+      "rekor_log_index": "4048403479",
+      "self_verified": true,
+      "rekor": "https://search.sigstore.dev/?logIndex=4048403479"
+     },
+     "verify": {
+      "checks": {
+       "sha256_python": true,
+       "sha256_coreutils": true,
+       "rfc3161_FreeTSA": true,
+       "rfc3161_DigiCert": true,
+       "sigstore_cosign": true,
+       "sigstore_python": true,
+       "ots_parse": true,
+       "prov": true,
+       "rocrate": true
+      },
+      "passed": 9,
+      "total": 9,
+      "failed": [],
+      "why": {},
+      "at": "2026-11-22T21:20:54Z"
      }
     }
    ],
@@ -139586,9 +139684,9 @@
    "man": "4f53cda18c2baa0c",
    "n": 41,
    "src_n": 2,
-   "built": "2026-11-22T20:26:34Z",
+   "built": "2026-11-22T21:17:43Z",
    "missing": 11
   }
  },
- "updated": "2026-11-22T20:51:39Z"
+ "updated": "2026-11-22T21:17:43Z"
 }
