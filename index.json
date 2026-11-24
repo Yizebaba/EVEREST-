@@ -143626,6 +143626,51 @@
       "why": {},
       "at": "2026-11-24T10:25:16Z"
      }
+    },
+    {
+     "sha256": "570ff4b9d7c1d184bdd47766712da4ce5712beac5481f88f762a83a16997f5da",
+     "file": "events/archive/usgs-us6000ud3i_570ff4b9d7c1.json",
+     "ots": "events/archive/usgs-us6000ud3i_570ff4b9d7c1.json.ots",
+     "stamped": "2026-11-24T11:18:49Z",
+     "status": "pending",
+     "err": null,
+     "tsa": [
+      {
+       "tsa": "FreeTSA",
+       "file": "events/archive/usgs-us6000ud3i_570ff4b9d7c1.json.FreeTSA.tsr",
+       "time": "Nov 24 11:20:38 2026 GMT"
+      },
+      {
+       "tsa": "DigiCert",
+       "file": "events/archive/usgs-us6000ud3i_570ff4b9d7c1.json.DigiCert.tsr",
+       "time": "Nov 24 11:20:38 2026 GMT"
+      }
+     ],
+     "sigstore": {
+      "file": "events/archive/usgs-us6000ud3i_570ff4b9d7c1.json.sigstore.json",
+      "identity": "https://github.com/Yizebaba/EVEREST-/.github/workflows/evidence.yml@refs/heads/events",
+      "rekor_log_index": "4076665108",
+      "self_verified": true,
+      "rekor": "https://search.sigstore.dev/?logIndex=4076665108"
+     },
+     "verify": {
+      "checks": {
+       "sha256_python": true,
+       "sha256_coreutils": true,
+       "rfc3161_FreeTSA": true,
+       "rfc3161_DigiCert": true,
+       "sigstore_cosign": true,
+       "sigstore_python": true,
+       "ots_parse": true,
+       "prov": true,
+       "rocrate": true
+      },
+      "passed": 9,
+      "total": 9,
+      "failed": [],
+      "why": {},
+      "at": "2026-11-24T11:21:00Z"
+     }
     }
    ],
    "title": "M5.3 地震",
@@ -143639,11 +143684,11 @@
    "lon": 87.9467,
    "v": 25,
    "man": "4f53cda18c2baa0c",
-   "n": 64,
+   "n": 65,
    "src_n": 6,
-   "built": "2026-11-24T10:22:13Z",
-   "missing": 13
+   "built": "2026-11-24T11:18:49Z",
+   "missing": 15
   }
  },
- "updated": "2026-11-24T11:05:08Z"
+ "updated": "2026-11-24T11:18:49Z"
 }
