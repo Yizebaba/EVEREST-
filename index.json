@@ -141258,7 +141258,7 @@
      "file": "events/archive/news-landslide-gorkha-2026-11-14_14fadfe7680a.json",
      "ots": "events/archive/news-landslide-gorkha-2026-11-14_14fadfe7680a.json.ots",
      "stamped": "2026-11-24T17:22:36Z",
-     "status": "pending",
+     "status": "confirmed",
      "err": null,
      "tsa": [
       {
@@ -141296,6 +141296,53 @@
       "failed": [],
       "why": {},
       "at": "2026-11-24T17:31:29Z"
+     },
+     "bitcoin_block": 977396,
+     "confirmed_checked": "2026-11-24T18:37:13Z"
+    },
+    {
+     "sha256": "7c293704bac47bd2947b0faaa25d0378844e2ff92383cd10ab0f0697d89ba077",
+     "file": "events/archive/news-landslide-gorkha-2026-11-14_7c293704bac4.json",
+     "ots": "events/archive/news-landslide-gorkha-2026-11-14_7c293704bac4.json.ots",
+     "stamped": "2026-11-24T18:37:13Z",
+     "status": "pending",
+     "err": null,
+     "tsa": [
+      {
+       "tsa": "FreeTSA",
+       "file": "events/archive/news-landslide-gorkha-2026-11-14_7c293704bac4.json.FreeTSA.tsr",
+       "time": "Nov 24 18:46:17 2026 GMT"
+      },
+      {
+       "tsa": "DigiCert",
+       "file": "events/archive/news-landslide-gorkha-2026-11-14_7c293704bac4.json.DigiCert.tsr",
+       "time": "Nov 24 18:46:17 2026 GMT"
+      }
+     ],
+     "sigstore": {
+      "file": "events/archive/news-landslide-gorkha-2026-11-14_7c293704bac4.json.sigstore.json",
+      "identity": "https://github.com/Yizebaba/EVEREST-/.github/workflows/evidence.yml@refs/heads/events",
+      "rekor_log_index": "4085030281",
+      "self_verified": true,
+      "rekor": "https://search.sigstore.dev/?logIndex=4085030281"
+     },
+     "verify": {
+      "checks": {
+       "sha256_python": true,
+       "sha256_coreutils": true,
+       "rfc3161_FreeTSA": true,
+       "rfc3161_DigiCert": true,
+       "sigstore_cosign": true,
+       "sigstore_python": true,
+       "ots_parse": true,
+       "prov": true,
+       "rocrate": true
+      },
+      "passed": 9,
+      "total": 9,
+      "failed": [],
+      "why": {},
+      "at": "2026-11-24T18:46:32Z"
      }
     }
    ],
@@ -141310,10 +141357,10 @@
    "lon": 84.63,
    "v": 25,
    "man": "4f53cda18c2baa0c",
-   "n": 64,
+   "n": 67,
    "src_n": 2,
-   "built": "2026-11-24T17:22:36Z",
-   "missing": 8
+   "built": "2026-11-24T18:37:13Z",
+   "missing": 7
   },
   "news-flood-nuwakot-2026-11-22": {
    "ots": [
@@ -143619,6 +143666,51 @@
      },
      "bitcoin_block": 977395,
      "confirmed_checked": "2026-11-24T18:12:26Z"
+    },
+    {
+     "sha256": "4a297ab7f2e9a9380a586f4e2c4cb288a3c4e8ba820db19b524630bad3f77282",
+     "file": "events/archive/news-flood-nuwakot-2026-11-22_4a297ab7f2e9.json",
+     "ots": "events/archive/news-flood-nuwakot-2026-11-22_4a297ab7f2e9.json.ots",
+     "stamped": "2026-11-24T18:37:13Z",
+     "status": "pending",
+     "err": null,
+     "tsa": [
+      {
+       "tsa": "FreeTSA",
+       "file": "events/archive/news-flood-nuwakot-2026-11-22_4a297ab7f2e9.json.FreeTSA.tsr",
+       "time": "Nov 24 18:42:16 2026 GMT"
+      },
+      {
+       "tsa": "DigiCert",
+       "file": "events/archive/news-flood-nuwakot-2026-11-22_4a297ab7f2e9.json.DigiCert.tsr",
+       "time": "Nov 24 18:42:16 2026 GMT"
+      }
+     ],
+     "sigstore": {
+      "file": "events/archive/news-flood-nuwakot-2026-11-22_4a297ab7f2e9.json.sigstore.json",
+      "identity": "https://github.com/Yizebaba/EVEREST-/.github/workflows/evidence.yml@refs/heads/events",
+      "rekor_log_index": "4085001984",
+      "self_verified": true,
+      "rekor": "https://search.sigstore.dev/?logIndex=4085001984"
+     },
+     "verify": {
+      "checks": {
+       "sha256_python": true,
+       "sha256_coreutils": true,
+       "rfc3161_FreeTSA": true,
+       "rfc3161_DigiCert": true,
+       "sigstore_cosign": true,
+       "sigstore_python": true,
+       "ots_parse": true,
+       "prov": true,
+       "rocrate": true
+      },
+      "passed": 9,
+      "total": 9,
+      "failed": [],
+      "why": {},
+      "at": "2026-11-24T18:46:33Z"
+     }
     }
    ],
    "title": "Nuwakot 洪水（新闻线索）",
@@ -143634,7 +143726,7 @@
    "man": "4f53cda18c2baa0c",
    "n": 62,
    "src_n": 2,
-   "built": "2026-11-24T17:22:36Z",
+   "built": "2026-11-24T18:37:13Z",
    "missing": 12
   },
   "usgs-us6000ud3i": {
@@ -144531,6 +144623,51 @@
      },
      "bitcoin_block": 977395,
      "confirmed_checked": "2026-11-24T18:12:26Z"
+    },
+    {
+     "sha256": "07293cf28da7e44c135e0e17961f58dd451b883ba044bee6f01f19ef87b9f8ff",
+     "file": "events/archive/usgs-us6000ud3i_07293cf28da7.json",
+     "ots": "events/archive/usgs-us6000ud3i_07293cf28da7.json.ots",
+     "stamped": "2026-11-24T18:37:13Z",
+     "status": "pending",
+     "err": null,
+     "tsa": [
+      {
+       "tsa": "FreeTSA",
+       "file": "events/archive/usgs-us6000ud3i_07293cf28da7.json.FreeTSA.tsr",
+       "time": "Nov 24 18:39:58 2026 GMT"
+      },
+      {
+       "tsa": "DigiCert",
+       "file": "events/archive/usgs-us6000ud3i_07293cf28da7.json.DigiCert.tsr",
+       "time": "Nov 24 18:39:58 2026 GMT"
+      }
+     ],
+     "sigstore": {
+      "file": "events/archive/usgs-us6000ud3i_07293cf28da7.json.sigstore.json",
+      "identity": "https://github.com/Yizebaba/EVEREST-/.github/workflows/evidence.yml@refs/heads/events",
+      "rekor_log_index": "4084990667",
+      "self_verified": true,
+      "rekor": "https://search.sigstore.dev/?logIndex=4084990667"
+     },
+     "verify": {
+      "checks": {
+       "sha256_python": true,
+       "sha256_coreutils": true,
+       "rfc3161_FreeTSA": true,
+       "rfc3161_DigiCert": true,
+       "sigstore_cosign": true,
+       "sigstore_python": true,
+       "ots_parse": true,
+       "prov": true,
+       "rocrate": true
+      },
+      "passed": 9,
+      "total": 9,
+      "failed": [],
+      "why": {},
+      "at": "2026-11-24T18:46:34Z"
+     }
     }
    ],
    "title": "M5.3 地震",
@@ -144546,9 +144683,9 @@
    "man": "4f53cda18c2baa0c",
    "n": 66,
    "src_n": 6,
-   "built": "2026-11-24T17:22:36Z",
+   "built": "2026-11-24T18:37:13Z",
    "missing": 15
   }
  },
- "updated": "2026-11-24T18:12:26Z"
+ "updated": "2026-11-24T18:37:13Z"
 }
