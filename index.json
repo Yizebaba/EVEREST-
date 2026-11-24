@@ -142224,7 +142224,71 @@
    "src_n": 2,
    "built": "2026-11-24T01:42:12Z",
    "missing": 12
+  },
+  "usgs-us6000ud3i": {
+   "ots": [
+    {
+     "sha256": "cfdee726286159cdd270da6ddc22049ee1e8a1267db472dbcf818e4c48ad8dba",
+     "file": "events/archive/usgs-us6000ud3i_cfdee7262861.json",
+     "ots": "events/archive/usgs-us6000ud3i_cfdee7262861.json.ots",
+     "stamped": "2026-11-24T01:53:07Z",
+     "status": "pending",
+     "err": null,
+     "tsa": [
+      {
+       "tsa": "FreeTSA",
+       "file": "events/archive/usgs-us6000ud3i_cfdee7262861.json.FreeTSA.tsr",
+       "time": "Nov 24 01:56:52 2026 GMT"
+      },
+      {
+       "tsa": "DigiCert",
+       "file": "events/archive/usgs-us6000ud3i_cfdee7262861.json.DigiCert.tsr",
+       "time": "Nov 24 01:56:52 2026 GMT"
+      }
+     ],
+     "sigstore": {
+      "file": "events/archive/usgs-us6000ud3i_cfdee7262861.json.sigstore.json",
+      "identity": "https://github.com/Yizebaba/EVEREST-/.github/workflows/evidence.yml@refs/heads/events",
+      "rekor_log_index": "4065225526",
+      "self_verified": true,
+      "rekor": "https://search.sigstore.dev/?logIndex=4065225526"
+     },
+     "verify": {
+      "checks": {
+       "sha256_python": true,
+       "sha256_coreutils": true,
+       "rfc3161_FreeTSA": true,
+       "rfc3161_DigiCert": true,
+       "sigstore_cosign": true,
+       "sigstore_python": true,
+       "ots_parse": true,
+       "prov": true,
+       "rocrate": true
+      },
+      "passed": 9,
+      "total": 9,
+      "failed": [],
+      "why": {},
+      "at": "2026-11-24T01:57:04Z"
+     }
+    }
+   ],
+   "title": "M5.3 地震",
+   "t": "2026-11-24T01:32:42.417Z",
+   "t_detected": "2026-11-24T01:32:42.417Z",
+   "t_prec": null,
+   "first_seen": "2026-11-24T01:52:35.359Z",
+   "kind": "地震",
+   "place": "67 km WNW of Mangan, India",
+   "lat": 27.8328,
+   "lon": 87.9467,
+   "v": 25,
+   "man": "4f53cda18c2baa0c",
+   "n": 48,
+   "src_n": 1,
+   "built": "2026-11-24T01:53:07Z",
+   "missing": 14
   }
  },
- "updated": "2026-11-24T01:48:47Z"
+ "updated": "2026-11-24T01:53:07Z"
 }
