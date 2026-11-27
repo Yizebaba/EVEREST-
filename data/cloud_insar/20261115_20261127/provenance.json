@@ -1,0 +1,133 @@
+{
+  "assets": {
+    "phase_coh_20261115T121331_20261127T121330.tif": {
+      "eo:bands": [
+        {
+          "name": "Phase_ifg_VV"
+        },
+        {
+          "name": "Unw_Phase_ifg_VV"
+        },
+        {
+          "name": "coh_VV"
+        }
+      ],
+      "href": "https://s3.waw3-1.openeo.v1.dataspace.copernicus.eu/openeo-data-prod-waw4-1/batch_jobs/j-26112718293346738423f7e33bd4ae7f/phase_coh_20261115T121331_20261127T121330.tif",
+      "proj:shape": [
+        1909,
+        5381
+      ],
+      "raster:bands": [
+        {
+          "data_type": "float32"
+        },
+        {
+          "data_type": "float32"
+        },
+        {
+          "data_type": "float32"
+        }
+      ],
+      "roles": [
+        "data"
+      ],
+      "title": "phase_coh_20261115T121331_20261127T121330.tif",
+      "type": "application/octet-stream"
+    }
+  },
+  "description": "Results for batch job j-26112718293346738423f7e33bd4ae7f",
+  "extent": {
+    "spatial": {
+      "bbox": [
+        [
+          -180,
+          -90,
+          180,
+          90
+        ]
+      ]
+    },
+    "temporal": {
+      "interval": [
+        [
+          "2026-11-15T12:13:31Z",
+          "2026-11-15T12:13:31Z"
+        ]
+      ]
+    }
+  },
+  "id": "j-26112718293346738423f7e33bd4ae7f",
+  "license": "proprietary",
+  "links": [
+    {
+      "href": "s3://openeo-data-prod-waw4-1/batch_jobs/j-26112718293346738423f7e33bd4ae7f/collection.json",
+      "rel": "original",
+      "title": "Link to original STAC catalog.",
+      "type": "application/json"
+    },
+    {
+      "href": "https://openeo.dataspace.copernicus.eu/openeo/1.2/jobs/j-26112718293346738423f7e33bd4ae7f/results",
+      "rel": "self",
+      "type": "application/json"
+    },
+    {
+      "href": "https://openeo.dataspace.copernicus.eu/openeo/1.2/jobs/j-26112718293346738423f7e33bd4ae7f/results/YjU5ZWIzNTItYjc1My00NGZmLWExYjQtNWE2MTA4MTg0MjFj/ac5173602fd28ba108cdfcd263b69a4f",
+      "rel": "canonical",
+      "type": "application/json"
+    },
+    {
+      "href": "http://ceos.org/ard/files/PFS/SR/v5.0/CARD4L_Product_Family_Specification_Surface_Reflectance-v5.0.pdf",
+      "rel": "card4l-document",
+      "type": "application/pdf"
+    }
+  ],
+  "openeo:status": "finished",
+  "providers": [
+    {
+      "description": "This data was processed on an openEO backend maintained by VITO.",
+      "name": "VITO",
+      "processing:expression": {
+        "expression": {
+          "interferogram": {
+            "arguments": {
+              "InSAR_pairs": [
+                [
+                  "2026-11-15",
+                  "2026-11-27"
+                ]
+              ],
+              "burst_id": 23790,
+              "coherence_window_az": 2,
+              "coherence_window_rg": 10,
+              "n_az_looks": 1,
+              "n_rg_looks": 4,
+              "polarization": "VV",
+              "sub_swath": "IW1"
+            },
+            "namespace": "https://raw.githubusercontent.com/ESA-APEx/apex_algorithms/refs/heads/main/algorithm_catalog/eurac/sentinel1_sar_interferogram/openeo_udp/sentinel1_sar_interferogram.json",
+            "process_id": "sentinel1_sar_interferogram",
+            "result": true
+          }
+        },
+        "format": "openeo"
+      },
+      "processing:facility": "openEO Geotrellis backend",
+      "processing:software": {
+        "Geotrellis backend": "0.74.0a15"
+      },
+      "roles": [
+        "processor"
+      ]
+    }
+  ],
+  "stac_extensions": [
+    "https://stac-extensions.github.io/eo/v1.1.0/schema.json",
+    "https://stac-extensions.github.io/file/v2.1.0/schema.json",
+    "https://stac-extensions.github.io/processing/v1.1.0/schema.json",
+    "https://stac-extensions.github.io/projection/v1.2.0/schema.json"
+  ],
+  "stac_version": "1.0.0",
+  "summaries": {},
+  "title": "Everest_InSAR_20261115_20261127",
+  "type": "Collection"
+}
