@@ -32,7 +32,21 @@
  },
  "kkn": {
   "distance_km": 262,
-  "error": "HTTP Error 503: Service Unavailable"
+  "coverage_pct": 100,
+  "peaks": [
+   [
+    "2026-11-24T01:33:42Z",
+    1994.3
+   ],
+   [
+    "2026-11-24T02:09:42Z",
+    10.7
+   ],
+   [
+    "2026-11-23T07:44:42Z",
+    6.6
+   ]
+  ]
  },
  "gauges": [
   {
@@ -50,8 +64,8 @@
    "id": 3270,
    "title": "Tamor River at Taplejung",
    "km": 59,
-   "level": 1.28999996185,
-   "at": "2026-11-27T08:20:00+05:45",
+   "level": 1.29199981689,
+   "at": "2026-11-27T09:40:00+05:45",
    "warning": 5.5,
    "danger": 6.0,
    "status": "BELOW WARNING LEVEL",
@@ -62,7 +76,7 @@
    "title": "Barun River at Syaksila",
    "km": 59,
    "level": 1.1499004364,
-   "at": "2026-11-27T08:40:00+05:45",
+   "at": "2026-11-27T09:50:00+05:45",
    "warning": 4.5,
    "danger": null,
    "status": "BELOW WARNING LEVEL",
@@ -83,8 +97,8 @@
    "id": 2874,
    "title": "Arun River at Uwa Gau",
    "km": 64,
-   "level": 2.1829996109,
-   "at": "2026-11-27T08:40:00+05:45",
+   "level": 2.1639995575,
+   "at": "2026-11-27T09:50:00+05:45",
    "warning": 7.5,
    "danger": null,
    "status": "BELOW WARNING LEVEL",
@@ -105,8 +119,8 @@
    "id": 3333,
    "title": "Tamor River at Majhitar",
    "km": 78,
-   "level": 4.793800354,
-   "at": "2026-11-27T08:40:00+05:45",
+   "level": 4.78610038757,
+   "at": "2026-11-27T09:50:00+05:45",
    "warning": 8.3,
    "danger": 9.5,
    "status": "BELOW WARNING LEVEL",
@@ -262,6 +276,18 @@
   "accepted": 0,
   "pending": 0
  },
+ "rshake": {
+  "stations": [
+   {
+    "sta": "R5A68",
+    "km": 121
+   },
+   {
+    "sta": "RDD5D",
+    "km": 122
+   }
+  ]
+ },
  "gnss": {
   "stations": [
    "TPLJ",
@@ -269,53 +295,9 @@
    "NMS2"
   ]
  },
- "news": [
-  {
-   "t": "2026-11-24T04:45:00Z",
-   "title": "Earthquake felt in parts of Bangladesh as 5 . 6 tremor hits Nepal",
-   "url": "https://www.thedailystar.net/news/world/news/earthquake-felt-parts-bangladesh-56-tremor-hits-nepal-4331811",
-   "domain": "thedailystar.net",
-   "lang": "English"
-  },
-  {
-   "t": "2026-11-24T05:15:00Z",
-   "title": "Earthquake Hits Nepal Near China Border – Chennaionline",
-   "url": "https://www.chennaionline.com/news/earthquake-hits-nepal-near-china-border/",
-   "domain": "chennaionline.com",
-   "lang": "English"
-  },
-  {
-   "t": "2026-11-24T06:30:00Z",
-   "title": "Nepal Sikkim Earthquake Today ( 5 . 3 ): Which Areas are Affected and is There Landslide Risk ? ",
-   "url": "https://www.jagranjosh.com/general-knowledge/earthquake-today-nepal-sikkim-koshi-province-damage-risk-1820014086-1",
-   "domain": "jagranjosh.com",
-   "lang": "English"
-  },
-  {
-   "t": "2026-11-24T07:15:00Z",
-   "title": "Magnitude 5 . 3 Earthquake Strikes Nepal , Tremors Felt Across Parts of India and Neighbouring Countries",
-   "url": "https://www.heraldgoa.in/globe-nation/magnitude-5-3-earthquake-strikes-nepal-tremors-felt-across-parts-of-india-and-neighbouring-countries/496690/",
-   "domain": "heraldgoa.in",
-   "lang": "English"
-  },
-  {
-   "t": "2026-11-24T07:15:00Z",
-   "title": "​5 . 3 - Magnitude Earthquake Hits Nepal Near Lelep ; Tremors Felt Across Bihar , West Bengal , Meghalaya",
-   "url": "https://pragativadi.com/5-3-magnitude-earthquake-hits-nepal-near-lelep-tremors-felt-across-bihar-west-bengal-meghalaya/",
-   "domain": "pragativadi.com",
-   "lang": "English"
-  },
-  {
-   "t": "2026-11-24T07:15:00Z",
-   "title": "5 . 6 magnitude earthquake strikes Nepal   Koshi province close to China border",
-   "url": "https://www.dailyexcelsior.com/5-6-magnitude-earthquake-strikes-nepals-koshi-province-close-to-china-border/",
-   "domain": "dailyexcelsior.com",
-   "lang": "English"
-  }
- ],
  "kp_max": 2.667,
  "hazard_links": {
-  "n": 28,
+  "n": 30,
   "codes": [
    "BI0604",
    "BI0605",
@@ -337,7 +319,7 @@
    "release_doi": "https://doi.org/10.5281/zenodo.7271187",
    "paper": "https://doi.org/10.5194/essd-15-3941-2023",
    "n": 775,
-   "fetched": "2026-11-27T03:07:43Z"
+   "fetched": "2026-11-27T04:13:24Z"
   },
   "radius_km": 30,
   "n": 19,
@@ -743,6 +725,22 @@
    "bound": "IO.EVN 地震台"
   },
   {
+   "t": "2026-11-23T02:52:42Z",
+   "src": "KKN 地震台",
+   "kind": "CONTRADICTORY",
+   "text": "IO.EVN 这一时刻的强信号，KKN 没有记录到：更可能是珠峰附近的局部震动（如冰崩），不是这次事件",
+   "text_en": "KKN did not record IO.EVN's strong signal at this time: more likely local shaking near Everest (e.g. icefall), not this event",
+   "bound": "KKN 地震台"
+  },
+  {
+   "t": "2026-11-23T07:44:42Z",
+   "src": "KKN 地震台",
+   "kind": "SUPPORTING",
+   "text": "1–5 Hz 信号约为背景的 7 倍（台站距事件约 262 km）；IO.EVN 这一时刻没有强信号",
+   "text_en": "1–5 Hz signal about 7× background (station about 262 km away); IO.EVN not strong at this time",
+   "bound": "KKN 地震台"
+  },
+  {
    "t": "2026-11-23T16:21:42Z",
    "src": "IO.EVN 地震台",
    "kind": "SUPPORTING",
@@ -751,12 +749,28 @@
    "bound": "IO.EVN 地震台"
   },
   {
+   "t": "2026-11-23T16:21:42Z",
+   "src": "KKN 地震台",
+   "kind": "CONTRADICTORY",
+   "text": "IO.EVN 这一时刻的强信号，KKN 没有记录到：更可能是珠峰附近的局部震动（如冰崩），不是这次事件",
+   "text_en": "KKN did not record IO.EVN's strong signal at this time: more likely local shaking near Everest (e.g. icefall), not this event",
+   "bound": "KKN 地震台"
+  },
+  {
    "t": "2026-11-23T17:11:42Z",
    "src": "IO.EVN 地震台",
    "kind": "SUPPORTING",
    "text_en": "1–5 Hz signal about 64× background (station about 112 km away; shows only that strong shaking was recorded, source not determined)",
    "text": "1–5 Hz 信号约为背景的 64 倍（台站距事件约 112 km；只说明此时有强信号，来源未判定）",
    "bound": "IO.EVN 地震台"
+  },
+  {
+   "t": "2026-11-23T17:11:42Z",
+   "src": "KKN 地震台",
+   "kind": "CONTRADICTORY",
+   "text": "IO.EVN 这一时刻的强信号，KKN 没有记录到：更可能是珠峰附近的局部震动（如冰崩），不是这次事件",
+   "text_en": "KKN did not record IO.EVN's strong signal at this time: more likely local shaking near Everest (e.g. icefall), not this event",
+   "bound": "KKN 地震台"
   },
   {
    "t": "2026-11-23T17:59:42Z",
@@ -795,35 +809,6 @@
    "archive_t": "2026-11-24T10:13:53Z"
   },
   {
-   "t": "2026-11-23T18:15:00Z",
-   "src": "灾种扫描 · BIPAD 灾害事件库",
-   "kind": "SUPPORTING",
-   "hips": [
-    "MH0301",
-    "MH0304"
-   ],
-   "text": "Wind storm at Khandbari Municipality-7",
-   "text_en": "Wind storm at Khandbari Municipality-7",
-   "url": "https://bipadportal.gov.np/incidents/96661",
-   "bound": "灾种扫描",
-   "archive": "https://web.archive.org/web/20261125050043/https://bipadportal.gov.np/incidents/96661",
-   "archive_t": "2026-11-25T05:00:43Z"
-  },
-  {
-   "t": "2026-11-23T18:15:00Z",
-   "src": "灾种扫描 · BIPAD 灾害事件库",
-   "kind": "SUPPORTING",
-   "hips": [
-    "TL0305"
-   ],
-   "text": "Fire at Barhadashi Rural Municipality-7",
-   "text_en": "Fire at Barhadashi Rural Municipality-7",
-   "url": "https://bipadportal.gov.np/incidents/96668",
-   "bound": "灾种扫描",
-   "archive": "https://web.archive.org/web/20261125060557/https://bipadportal.gov.np/incidents/96668",
-   "archive_t": "2026-11-25T06:05:57Z"
-  },
-  {
    "t": "2026-11-23T23:52:11Z",
    "src": "EMSC 地震目录",
    "kind": "SUPPORTING",
@@ -841,14 +826,6 @@
    "bound": "USGS 地震目录",
    "archive": "https://web.archive.org/web/20261124015550/https://earthquake.usgs.gov/earthquakes/eventpage/us6000ud3i",
    "archive_t": "2026-11-24T01:55:50Z"
-  },
-  {
-   "t": "2026-11-24T01:32:42Z",
-   "src": "KKN 地震台",
-   "kind": "MISSING",
-   "text": "取不到这段波形（HTTP Error 503: Service Unavailable）",
-   "text_en": "Waveform not available (HTTP Error 503: Service Unavailable)",
-   "bound": "KKN 地震台"
   },
   {
    "t": "2026-11-24T01:32:42Z",
@@ -889,8 +866,16 @@
    "t": "2026-11-24T01:32:42Z",
    "src": "Raspberry Shake 地震仪",
    "kind": "MISSING",
-   "text": "台站查询失败（The read operation timed out）",
-   "text_en": "Station query failed (The read operation timed out)",
+   "text": "AM.R5A68 取不到波形（没有返回数据）",
+   "text_en": "AM.R5A68 waveform not available (没有返回数据)",
+   "bound": "Raspberry Shake"
+  },
+  {
+   "t": "2026-11-24T01:32:42Z",
+   "src": "Raspberry Shake 地震仪",
+   "kind": "MISSING",
+   "text": "AM.RDD5D 取不到波形（没有返回数据）",
+   "text_en": "AM.RDD5D waveform not available (没有返回数据)",
    "bound": "Raspberry Shake"
   },
   {
@@ -906,6 +891,14 @@
   },
   {
    "t": "2026-11-24T01:32:42Z",
+   "src": "GDELT 新闻",
+   "kind": "MISSING",
+   "text": "查询失败（HTTP Error 429: Too Many Requests）",
+   "text_en": "Query failed (HTTP Error 429: Too Many Requests)",
+   "bound": "GDELT 新闻"
+  },
+  {
+   "t": "2026-11-24T01:32:42Z",
    "src": "维基百科",
    "kind": "NEUTRAL",
    "text": "事件后没有新建的相关条目",
@@ -915,9 +908,9 @@
   {
    "t": "2026-11-24T01:32:42Z",
    "src": "OCHA HDX",
-   "kind": "NEUTRAL",
-   "text": "事件后没有新建的尼泊尔灾害数据集",
-   "text_en": "No new Nepal disaster dataset after the event",
+   "kind": "MISSING",
+   "text": "查询失败（Expecting value: line 1 column 1 (char 0)）",
+   "text_en": "Query failed (Expecting value: line 1 column 1 (char 0))",
    "bound": "OCHA HDX"
   },
   {
@@ -927,6 +920,22 @@
    "text_en": "mb 5.3 · SIKKIM, INDIA",
    "text": "mb 5.3 · SIKKIM, INDIA",
    "bound": "EMSC 地震目录"
+  },
+  {
+   "t": "2026-11-24T01:33:42Z",
+   "src": "KKN 地震台",
+   "kind": "SUPPORTING",
+   "text": "1–5 Hz 信号约为背景的 1994 倍（台站距事件约 262 km）；IO.EVN 这一时刻没有数据，无法核对",
+   "text_en": "1–5 Hz signal about 1994× background (station about 262 km away); IO.EVN had no data then, cannot cross-check",
+   "bound": "KKN 地震台"
+  },
+  {
+   "t": "2026-11-24T02:09:42Z",
+   "src": "KKN 地震台",
+   "kind": "SUPPORTING",
+   "text": "1–5 Hz 信号约为背景的 11 倍（台站距事件约 262 km）；IO.EVN 这一时刻没有强信号",
+   "text_en": "1–5 Hz signal about 11× background (station about 262 km away); IO.EVN not strong at this time",
+   "bound": "KKN 地震台"
   },
   {
    "t": "2026-11-24T04:38:13Z",
@@ -998,17 +1007,6 @@
    "archive_t": "2026-11-24T07:05:54Z"
   },
   {
-   "t": "2026-11-24T04:45:00Z",
-   "src": "GDELT 新闻",
-   "kind": "SUPPORTING",
-   "text": "最早一篇相关报道（thedailystar.net）：Earthquake felt in parts of Bangladesh as 5 . 6 tremor hits Nepal",
-   "text_en": "Earliest related report (thedailystar.net): Earthquake felt in parts of Bangladesh as 5 . 6 tremor hits Nepal",
-   "url": "https://www.thedailystar.net/news/world/news/earthquake-felt-parts-bangladesh-56-tremor-hits-nepal-4331811",
-   "bound": "GDELT 新闻",
-   "archive": "https://web.archive.org/web/20261124080319/https://www.thedailystar.net/news/world/news/earthquake-felt-parts-bangladesh-56-tremor-hits-nepal-4331811",
-   "archive_t": "2026-11-24T08:03:19Z"
-  },
-  {
    "t": "2026-11-24T06:16:31Z",
    "src": "新闻（GDELT）",
    "kind": "SUPPORTING",
@@ -1045,14 +1043,6 @@
    "bound": "灾种扫描",
    "archive": "https://web.archive.org/web/20261124090915/https://aviationweather.gov/data/metar/?ids=VEBD",
    "archive_t": "2026-11-24T09:09:15Z"
-  },
-  {
-   "t": "2026-11-24T07:15:00Z",
-   "src": "GDELT 新闻",
-   "kind": "NEUTRAL",
-   "text": "事件前 1 天到后 5 天共 6 篇、6 家媒体：chennaionline.com、dailyexcelsior.com、heraldgoa.in、jagranjosh.com、pragativadi.com、thedailystar.net",
-   "text_en": "6 articles from 6 outlets between 1 day before and 5 days after: chennaionline.com, dailyexcelsior.com, heraldgoa.in, jagranjosh.com, pragativadi.com, thedailystar.net",
-   "bound": "GDELT 新闻"
   },
   {
    "t": "2026-11-24T07:30:00Z",
@@ -1219,6 +1209,18 @@
    "archive_t": "2026-11-26T13:58:08Z"
   },
   {
+   "t": "2026-11-24T18:15:00Z",
+   "src": "灾种扫描 · BIPAD 灾害事件库",
+   "kind": "SUPPORTING",
+   "hips": [
+    "TL0305"
+   ],
+   "text": "Fire at Belbari Municipality-8",
+   "text_en": "Fire at Belbari Municipality-8",
+   "url": "https://bipadportal.gov.np/incidents/96715",
+   "bound": "灾种扫描"
+  },
+  {
    "t": "2026-11-24T23:54:01Z",
    "src": "哥白尼 GFM",
    "kind": "SUPPORTING",
@@ -1353,7 +1355,19 @@
    "bound": "灾种扫描"
   },
   {
-   "t": "2026-11-27T03:07:43Z",
+   "t": "2026-11-25T18:15:00Z",
+   "src": "灾种扫描 · BIPAD 灾害事件库",
+   "kind": "SUPPORTING",
+   "hips": [
+    "TL0305"
+   ],
+   "text": "Fire at Belbari Municipality-8",
+   "text_en": "Fire at Belbari Municipality-8",
+   "url": "https://bipadportal.gov.np/incidents/96716",
+   "bound": "灾种扫描"
+  },
+  {
+   "t": "2026-11-27T04:13:24Z",
    "src": "BIPAD 水位站",
    "kind": "MISSING",
    "text_en": "7 public gauges within 80 km, 4 reporting now; not reporting: Arun River at Kimathanka, Mewa Khola at Taplejung, Kabeli Khola at Taplejung",
@@ -1361,7 +1375,7 @@
    "bound": "BIPAD 水位站"
   },
   {
-   "t": "2026-11-27T03:07:43Z",
+   "t": "2026-11-27T04:13:24Z",
    "src": "Copernicus EMS",
    "kind": "NEUTRAL",
    "text_en": "No rapid mapping activated for this event",
@@ -1369,7 +1383,7 @@
    "bound": "Copernicus EMS"
   },
   {
-   "t": "2026-11-27T03:07:43Z",
+   "t": "2026-11-27T04:13:24Z",
    "src": "Sentinel-1 雷达",
    "kind": "MISSING",
    "text_en": "No new scene after the first public signal yet (filled in automatically)",
@@ -1377,7 +1391,7 @@
    "bound": "Sentinel-1 雷达"
   },
   {
-   "t": "2026-11-27T03:07:43Z",
+   "t": "2026-11-27T04:13:24Z",
    "src": "GNSS 测站",
    "kind": "MISSING",
    "text": "TPLJ（距约 58 km）事件后的解算还没出（通常滞后几天到两周）",
@@ -1385,7 +1399,7 @@
    "bound": "GNSS 测站"
   },
   {
-   "t": "2026-11-27T03:07:43Z",
+   "t": "2026-11-27T04:13:24Z",
    "src": "GNSS 测站",
    "kind": "MISSING",
    "text": "MAN8（距约 69 km）事件后的解算还没出（通常滞后几天到两周）",
@@ -1393,7 +1407,7 @@
    "bound": "GNSS 测站"
   },
   {
-   "t": "2026-11-27T03:07:43Z",
+   "t": "2026-11-27T04:13:24Z",
    "src": "GNSS 测站",
    "kind": "MISSING",
    "text": "NMS2（距约 101 km）事件后的解算还没出（通常滞后几天到两周）",
@@ -1401,7 +1415,7 @@
    "bound": "GNSS 测站"
   },
   {
-   "t": "2026-11-27T03:07:43Z",
+   "t": "2026-11-27T04:13:24Z",
    "src": "ReliefWeb",
    "kind": "MISSING",
    "text": "需要申请 ReliefWeb appname（未配置）",
@@ -1409,7 +1423,7 @@
    "bound": "ReliefWeb"
   },
   {
-   "t": "2026-11-27T03:07:43Z",
+   "t": "2026-11-27T04:13:24Z",
    "src": "Cloudflare Radar",
    "kind": "MISSING",
    "text": "需要 Cloudflare API 令牌（未配置）",
@@ -1417,7 +1431,7 @@
    "bound": "Cloudflare Radar"
   },
   {
-   "t": "2026-11-27T03:07:43Z",
+   "t": "2026-11-27T04:13:24Z",
    "src": "NASA FIRMS 火点",
    "kind": "MISSING",
    "text": "需要 FIRMS MAP_KEY（未配置）",
@@ -1425,7 +1439,7 @@
    "bound": "NASA FIRMS"
   },
   {
-   "t": "2026-11-27T03:07:43Z",
+   "t": "2026-11-27T04:13:24Z",
    "src": "NASA 夜间灯光",
    "kind": "MISSING",
    "text": "需要 NASA Earthdata 账号令牌（未配置）",
@@ -1433,7 +1447,7 @@
    "bound": "NASA 夜间灯光"
   },
   {
-   "t": "2026-11-27T03:07:43Z",
+   "t": "2026-11-27T04:13:24Z",
    "src": "Vantor 开放影像",
    "kind": "NEUTRAL",
    "text": "这次事件没有启动开放影像",
@@ -1441,7 +1455,7 @@
    "bound": "Vantor 开放影像"
   }
  ],
- "built": "2026-11-27T03:07:43Z",
+ "built": "2026-11-27T04:13:24Z",
  "bounds": {
   "Sentinel-2 光学": {
    "can": "这一时间有没有光学影像覆盖、云量多少，可用于前后对比。",
@@ -1459,6 +1473,10 @@
    "can": "台站在这一时刻记录到的地面震动强弱（1–5 Hz，相对自身背景）；有数据缺口时说明台站或传输中断。",
    "cannot": "不能说明震动的来源（滑坡、雪崩、冰崩、地震、风、人为活动都可能）和发生地点；单台不能定位。"
   },
+  "KKN 地震台": {
+   "can": "同上：台站记录到的震动强弱和数据缺口。和 IO.EVN 对照，可以看信号是局部的还是区域性的。",
+   "cannot": "不能说明来源和地点；两台都没有记录不等于没有发生（离得远、频段不同都可能漏掉）。"
+  },
   "灾种扫描": {
    "can": "这个公开来源在这一时间发布了这条记录。",
    "cannot": "只是记录本身；不同来源的同一事件可能重复，数字以原始来源为准。"
@@ -1470,10 +1488,6 @@
   "USGS 地震目录": {
    "can": "USGS 测定的地震（或崩塌类事件）的时间、位置、震级。",
    "cannot": "目录里的位置和震级会修订；崩塌类事件的位置不精确；不说明是否造成损失。"
-  },
-  "KKN 地震台": {
-   "can": "同上：台站记录到的震动强弱和数据缺口。和 IO.EVN 对照，可以看信号是局部的还是区域性的。",
-   "cannot": "不能说明来源和地点；两台都没有记录不等于没有发生（离得远、频段不同都可能漏掉）。"
   },
   "IODA 网络连通": {
    "can": "当地网络连通指标在这一时刻是否下降。",
@@ -1491,6 +1505,10 @@
    "can": "公众提交的“有感”报告数量和分布。",
    "cannot": "自愿提交，有人口和网络偏差；没有报告不等于无感。"
   },
+  "GDELT 新闻": {
+   "can": "全球新闻里有没有报道、报道的数量和时间。",
+   "cannot": "新闻是二手信息，早期报道常有误；报道多少不等于事件大小。"
+  },
   "维基百科": {
    "can": "有没有人为这次事件新建或编辑条目。",
    "cannot": "任何人可编辑；只说明受到关注，不是事实来源。"
@@ -1498,10 +1516,6 @@
   "OCHA HDX": {
    "can": "人道数据交换平台上有没有相关数据集。",
    "cannot": "只说明有数据集，不说明其内容是否准确。"
-  },
-  "GDELT 新闻": {
-   "can": "全球新闻里有没有报道、报道的数量和时间。",
-   "cannot": "新闻是二手信息，早期报道常有误；报道多少不等于事件大小。"
   },
   "地磁 Kp": {
    "can": "这段时间的地磁活动水平，作为 GNSS 和卫星通信的背景。",
@@ -1541,12 +1555,12 @@
   }
  },
  "archive_note": "带 archive 字段的条目：原始网页已由互联网档案馆时光机（Wayback Machine，独立第三方）存档，archive_t 是存档时间。存档证明那一刻网页的样子，不证明网页内容属实。",
- "archive_n": 38,
+ "archive_n": 35,
  "note_en": "States only what public sources recorded and when; no attribution of cause, no prediction. A strong seismic signal only means the station recorded strong shaking at that moment.",
  "note": "只陈述公开来源记录了什么、什么时候；不判断成因，不预测。地震台强信号只说明那一刻台站记录到较强震动，来源需要结合其他证据。",
  "receipts": [
   {
-   "t": "2026-11-27T03:13:44Z",
+   "t": "2026-11-27T04:20:26Z",
    "method": "GET",
    "url": "https://geofon.gfz.de/fdsnws/dataselect/1/query?net=IO&sta=EVN&cha=BHZ&starttime=2026-11-23T01:32:42&endtime=2026-11-24T04:32:42",
    "status": 200,
@@ -1555,17 +1569,26 @@
    "type": "application/vnd.fdsn.mseed"
   },
   {
-   "t": "2026-11-27T03:13:45Z",
+   "t": "2026-11-27T04:20:28Z",
+   "method": "GET",
+   "url": "https://service.iris.edu/fdsnws/dataselect/1/query?net=NK&sta=KKN&cha=BHZ&loc=*&starttime=2026-11-23T01:32:42&endtime=2026-11-24T04:32:42",
+   "status": 200,
+   "bytes": 6225408,
+   "sha256": "a568404a625e030ee1863f52203571f9dfcb6ca7ab6b06ef2318f91a350462c3",
+   "type": "application/vnd.fdsn.mseed"
+  },
+  {
+   "t": "2026-11-27T04:20:28Z",
    "method": "GET",
    "url": "https://earthquake.usgs.gov/fdsnws/event/1/query?format=geojson&latitude=27.8328&longitude=87.9467&maxradiuskm=300&starttime=2026-11-23T01:32:42Z&endtime=2026-11-25T01:32:42Z",
    "status": 200,
    "bytes": 1017,
-   "sha256": "9d9a21901b785f1c0c63240f619b332671e9544cff43cab251359594197709f3",
+   "sha256": "05bf0532510cc29d65e49318bcd276815407b9f35c36e5e25ac2dbfd10e96b72",
    "type": "application/json; charset=utf-8",
-   "body": "events/raw/9d9a21901b785f1c0c63240f619b332671e9544cff43cab251359594197709f3.gz"
+   "body": "events/raw/05bf0532510cc29d65e49318bcd276815407b9f35c36e5e25ac2dbfd10e96b72.gz"
   },
   {
-   "t": "2026-11-27T03:13:46Z",
+   "t": "2026-11-27T04:20:30Z",
    "method": "GET",
    "url": "https://www.seismicportal.eu/fdsnws/event/1/query?format=json&lat=27.8328&lon=87.9467&maxradius=2.7&start=2026-11-23T01:32:42&end=2026-11-25T01:32:42",
    "status": 200,
@@ -1575,35 +1598,35 @@
    "body": "events/raw/5a30a00960badc6c70613b4a5f5a6a03d028b89972e952552f3d76349cc0df81.gz"
   },
   {
-   "t": "2026-11-27T03:13:48Z",
+   "t": "2026-11-27T04:20:32Z",
    "method": "GET",
    "url": "https://bipadportal.gov.np/api/v1/river-stations/?format=json&limit=100&offset=0",
    "status": 200,
-   "bytes": 73120,
-   "sha256": "82872a8179d3d9f33db2103a0987ee9ea0e28202888a0f3ce29177c686a10cce",
+   "bytes": 73130,
+   "sha256": "33c0fc81daf667fbe33d7407bad976424137e1e3a62c371af2cc8902777d99cd",
    "type": "application/json"
   },
   {
-   "t": "2026-11-27T03:13:50Z",
+   "t": "2026-11-27T04:20:34Z",
    "method": "GET",
    "url": "https://bipadportal.gov.np/api/v1/river-stations/?format=json&limit=100&offset=100",
    "status": 200,
-   "bytes": 73193,
-   "sha256": "150bbc681423ecaf6f7be4378822e594376415ec3900f73044de051ed601c87b",
+   "bytes": 73128,
+   "sha256": "f402ccbd93bcf9d1601b3ab2f3ce9b8fb3c35c7db9a75e119c96ef81669574df",
    "type": "application/json"
   },
   {
-   "t": "2026-11-27T03:13:51Z",
+   "t": "2026-11-27T04:20:35Z",
    "method": "GET",
    "url": "https://bipadportal.gov.np/api/v1/river-stations/?format=json&limit=100&offset=200",
    "status": 200,
-   "bytes": 61472,
-   "sha256": "acd43eb0600e545cbce0c1550d6bd831f1f3dd4feaabd0e4fefd191fb9a722d9",
+   "bytes": 61525,
+   "sha256": "8ba8a6ea59c04b62bcaecc71ee8bf0d1f68948543c2bfc0512e6f40ffe0aabf3",
    "type": "application/json",
-   "body": "events/raw/acd43eb0600e545cbce0c1550d6bd831f1f3dd4feaabd0e4fefd191fb9a722d9.gz"
+   "body": "events/raw/8ba8a6ea59c04b62bcaecc71ee8bf0d1f68948543c2bfc0512e6f40ffe0aabf3.gz"
   },
   {
-   "t": "2026-11-27T03:13:53Z",
+   "t": "2026-11-27T04:20:36Z",
    "method": "GET",
    "url": "https://bipadportal.gov.np/api/v1/river-stations/?format=json&limit=100&offset=300",
    "status": 200,
@@ -1613,7 +1636,7 @@
    "body": "events/raw/628a1562f0d9b0619735bfb6ad5e60a3cd7e37f4f1a83a96c3f97fac5400820f.gz"
   },
   {
-   "t": "2026-11-27T03:14:54Z",
+   "t": "2026-11-27T04:21:38Z",
    "method": "GET",
    "url": "https://rapidmapping.emergency.copernicus.eu/backend/dashboard-api/public-activations-info/?limit=400",
    "status": 200,
@@ -1622,7 +1645,7 @@
    "type": "application/json"
   },
   {
-   "t": "2026-11-27T03:14:54Z",
+   "t": "2026-11-27T04:21:38Z",
    "method": "POST",
    "url": "https://planetarycomputer.microsoft.com/api/stac/v1/search",
    "status": 200,
@@ -1632,7 +1655,7 @@
    "body": "events/raw/d55bf33c886309fc13637e21c023f790f0937e3c4472b17ca15c001b1b553075.gz"
   },
   {
-   "t": "2026-11-27T03:14:55Z",
+   "t": "2026-11-27T04:21:38Z",
    "method": "POST",
    "url": "https://planetarycomputer.microsoft.com/api/stac/v1/search",
    "status": 200,
@@ -1642,7 +1665,7 @@
    "body": "events/raw/972225b3d056011f9c4b1be82a3843e70b2442e6109c86501e454d8abf5b4891.gz"
   },
   {
-   "t": "2026-11-27T03:14:55Z",
+   "t": "2026-11-27T04:21:39Z",
    "method": "POST",
    "url": "https://planetarycomputer.microsoft.com/api/stac/v1/search",
    "status": 200,
@@ -1652,17 +1675,17 @@
    "body": "events/raw/d0a8cd3dea22b68029eb542c2eab00689be0e2ce5a9b2b154b5c1e369de72a56.gz"
   },
   {
-   "t": "2026-11-27T03:14:55Z",
+   "t": "2026-11-27T04:21:39Z",
    "method": "POST",
    "url": "https://planetarycomputer.microsoft.com/api/stac/v1/search",
    "status": 200,
    "bytes": 16069,
-   "sha256": "b26524c86702eff0f60cb7022de63365f20f30afdc6befc3fb3caf3969ae8e9f",
+   "sha256": "5dc946e919a79c7bc1ac8149fdf2de4f06710a6597a2131b0dda812bd540c81a",
    "type": "application/geo+json; charset=utf-8",
-   "body": "events/raw/b26524c86702eff0f60cb7022de63365f20f30afdc6befc3fb3caf3969ae8e9f.gz"
+   "body": "events/raw/5dc946e919a79c7bc1ac8149fdf2de4f06710a6597a2131b0dda812bd540c81a.gz"
   },
   {
-   "t": "2026-11-27T03:14:57Z",
+   "t": "2026-11-27T04:21:41Z",
    "method": "POST",
    "url": "https://stac.eodc.eu/api/v1/search",
    "status": 200,
@@ -1671,7 +1694,7 @@
    "type": "application/geo+json"
   },
   {
-   "t": "2026-11-27T03:14:58Z",
+   "t": "2026-11-27T04:21:41Z",
    "method": "POST",
    "url": "https://montandon-eoapi-stage.ifrc.org/stac/search",
    "status": 200,
@@ -1681,17 +1704,45 @@
    "body": "events/raw/9e895adcf657a5ace447aa718c5afcf8988780d9b56a1f8d1815d59f698b3e45.gz"
   },
   {
-   "t": "2026-11-27T03:15:58Z",
+   "t": "2026-11-27T04:21:48Z",
+   "method": "GET",
+   "url": "https://data.raspberryshake.org/fdsnws/station/1/query?network=AM&latitude=27.8328&longitude=87.9467&maxradius=1.35&level=channel&format=text&starttime=2026-11-23T19:32:42&endtime=2026-11-24T04:32:42",
+   "status": 200,
+   "bytes": 422,
+   "sha256": "3e6d501d47231be174b4cb5d6b57111c3c98a5c518d152fdfe4106f7d21fa3fd",
+   "type": "text/plain; charset=utf-8",
+   "body": "events/raw/3e6d501d47231be174b4cb5d6b57111c3c98a5c518d152fdfe4106f7d21fa3fd.gz"
+  },
+  {
+   "t": "2026-11-27T04:22:01Z",
+   "method": "GET",
+   "url": "https://data.raspberryshake.org/fdsnws/dataselect/1/query?network=AM&station=R5A68&location=00&channel=EHZ&starttime=2026-11-23T19:32:42&endtime=2026-11-24T04:32:42",
+   "status": 204,
+   "bytes": 0,
+   "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+   "type": ""
+  },
+  {
+   "t": "2026-11-27T04:22:04Z",
+   "method": "GET",
+   "url": "https://data.raspberryshake.org/fdsnws/dataselect/1/query?network=AM&station=RDD5D&location=00&channel=EHZ&starttime=2026-11-23T19:32:42&endtime=2026-11-24T04:32:42",
+   "status": 204,
+   "bytes": 0,
+   "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+   "type": ""
+  },
+  {
+   "t": "2026-11-27T04:22:04Z",
    "method": "GET",
    "url": "https://earthquake.usgs.gov/fdsnws/event/1/query?format=geojson&latitude=27.8328&longitude=87.9467&maxradiuskm=300&starttime=2026-11-23T01:32:42Z&endtime=2026-11-25T01:32:42Z&minmagnitude=4",
    "status": 200,
    "bytes": 1032,
-   "sha256": "28c767f99f7787933fa78310e6ff4f098a32913f63ed49b08f863f4dba255e58",
+   "sha256": "43892c1c8d8272b8189b4f5842b501957e9d05e7091bc39247a59acc7a62f68b",
    "type": "application/json; charset=utf-8",
-   "body": "events/raw/28c767f99f7787933fa78310e6ff4f098a32913f63ed49b08f863f4dba255e58.gz"
+   "body": "events/raw/43892c1c8d8272b8189b4f5842b501957e9d05e7091bc39247a59acc7a62f68b.gz"
   },
   {
-   "t": "2026-11-27T03:15:59Z",
+   "t": "2026-11-27T04:22:04Z",
    "method": "GET",
    "url": "https://earthquake.usgs.gov/fdsnws/event/1/query?eventid=us6000ud3i&format=geojson",
    "status": 200,
@@ -1701,7 +1752,7 @@
    "body": "events/raw/18b28dcdd5ccd45361e3de41b841ecde9fad3a595c9f26e219b8f9cc527ff0cc.gz"
   },
   {
-   "t": "2026-11-27T03:15:59Z",
+   "t": "2026-11-27T04:22:05Z",
    "method": "GET",
    "url": "https://geodesy.unr.edu/NGLStationPages/DataHoldings.txt",
    "status": 200,
@@ -1710,7 +1761,7 @@
    "type": "text/plain"
   },
   {
-   "t": "2026-11-27T03:16:00Z",
+   "t": "2026-11-27T04:22:05Z",
    "method": "GET",
    "url": "https://geodesy.unr.edu/gps_timeseries/IGS20/tenv3/IGS20/TPLJ.tenv3",
    "status": 200,
@@ -1719,7 +1770,7 @@
    "type": ""
   },
   {
-   "t": "2026-11-27T03:16:01Z",
+   "t": "2026-11-27T04:22:06Z",
    "method": "GET",
    "url": "https://geodesy.unr.edu/gps_timeseries/IGS20/tenv3/IGS20/MAN8.tenv3",
    "status": 200,
@@ -1728,7 +1779,7 @@
    "type": ""
   },
   {
-   "t": "2026-11-27T03:16:02Z",
+   "t": "2026-11-27T04:22:06Z",
    "method": "GET",
    "url": "https://geodesy.unr.edu/gps_timeseries/IGS20/tenv3/IGS20/NMS2.tenv3",
    "status": 200,
@@ -1737,27 +1788,17 @@
    "type": ""
   },
   {
-   "t": "2026-11-27T03:16:25Z",
-   "method": "GET",
-   "url": "https://api.gdeltproject.org/api/v2/doc/doc?query=%22Taplejung%22+%28flood+OR+landslide+OR+avalanche+OR+earthquake+OR+%22glacial+lake%22+OR+%22debris+flow%22+OR+snowstorm+OR+rockfall%29+Nepal+sourcelang%3Aenglish&mode=artlist&maxrecords=75&format=json&sort=dateasc&startdatetime=20261123013242&enddatetime=20261127030743",
-   "status": 200,
-   "bytes": 3001,
-   "sha256": "3d93296a33a5a3b8739074db8713d9e66c3bdcb3d844d298f61573110e77321e",
-   "type": "application/json; charset=utf-8",
-   "body": "events/raw/3d93296a33a5a3b8739074db8713d9e66c3bdcb3d844d298f61573110e77321e.gz"
-  },
-  {
-   "t": "2026-11-27T03:16:25Z",
+   "t": "2026-11-27T04:23:08Z",
    "method": "GET",
    "url": "https://en.wikipedia.org/w/api.php?action=query&list=search&srsearch=Taplejung+2026+disaster&format=json&srlimit=5",
    "status": 200,
-   "bytes": 1862,
-   "sha256": "d197562719dd1a30507a8e0b3be2e1cae6315c9e25faf68dc81db7e8d7b557dc",
+   "bytes": 1860,
+   "sha256": "5738e8d37975baaaf5e27aaf6f992d61811d1f0c83a45c32870718aaf070fd62",
    "type": "application/json; charset=utf-8",
-   "body": "events/raw/d197562719dd1a30507a8e0b3be2e1cae6315c9e25faf68dc81db7e8d7b557dc.gz"
+   "body": "events/raw/5738e8d37975baaaf5e27aaf6f992d61811d1f0c83a45c32870718aaf070fd62.gz"
   },
   {
-   "t": "2026-11-27T03:16:25Z",
+   "t": "2026-11-27T04:23:08Z",
    "method": "GET",
    "url": "https://en.wikipedia.org/w/api.php?action=query&prop=revisions&titles=Sherpa+people&rvlimit=1&rvdir=newer&rvprop=timestamp&format=json",
    "status": 200,
@@ -1767,17 +1808,7 @@
    "body": "events/raw/feaa9fe6680b5b1abce1c1bfda90b05087ddbbbb135cc0b34291e563cc95ff97.gz"
   },
   {
-   "t": "2026-11-27T03:16:25Z",
-   "method": "GET",
-   "url": "https://en.wikipedia.org/w/api.php?action=query&prop=revisions&titles=April+2015+Nepal+earthquake&rvlimit=1&rvdir=newer&rvprop=timestamp&format=json",
-   "status": 200,
-   "bytes": 217,
-   "sha256": "4f94b8e2dde8b35d7264b96b2dd24da19e8c3563ac772f63ea1b5b2bb17d8259",
-   "type": "application/json; charset=utf-8",
-   "body": "events/raw/4f94b8e2dde8b35d7264b96b2dd24da19e8c3563ac772f63ea1b5b2bb17d8259.gz"
-  },
-  {
-   "t": "2026-11-27T03:16:25Z",
+   "t": "2026-11-27T04:23:08Z",
    "method": "GET",
    "url": "https://en.wikipedia.org/w/api.php?action=query&prop=revisions&titles=List+of+deaths+on+eight-thousanders&rvlimit=1&rvdir=newer&rvprop=timestamp&format=json",
    "status": 200,
@@ -1787,7 +1818,17 @@
    "body": "events/raw/fbe0296e1fb491f8421611c162e49dab6f5cc3dc95b7e61501df7bb375775ee2.gz"
   },
   {
-   "t": "2026-11-27T03:16:25Z",
+   "t": "2026-11-27T04:23:08Z",
+   "method": "GET",
+   "url": "https://en.wikipedia.org/w/api.php?action=query&prop=revisions&titles=April+2015+Nepal+earthquake&rvlimit=1&rvdir=newer&rvprop=timestamp&format=json",
+   "status": 200,
+   "bytes": 217,
+   "sha256": "4f94b8e2dde8b35d7264b96b2dd24da19e8c3563ac772f63ea1b5b2bb17d8259",
+   "type": "application/json; charset=utf-8",
+   "body": "events/raw/4f94b8e2dde8b35d7264b96b2dd24da19e8c3563ac772f63ea1b5b2bb17d8259.gz"
+  },
+  {
+   "t": "2026-11-27T04:23:08Z",
    "method": "GET",
    "url": "https://en.wikipedia.org/w/api.php?action=query&prop=revisions&titles=China%E2%80%93Nepal+border&rvlimit=1&rvdir=newer&rvprop=timestamp&format=json",
    "status": 200,
@@ -1797,27 +1838,27 @@
    "body": "events/raw/29f8c19a0f9f6343f5d672edae5862b651495f491c4b0d80978a83ab21eab600.gz"
   },
   {
-   "t": "2026-11-27T03:16:25Z",
+   "t": "2026-11-27T04:23:08Z",
    "method": "GET",
-   "url": "https://en.wikipedia.org/w/api.php?action=query&prop=revisions&titles=List+of+accidents+and+incidents+involving+helicopters&rvlimit=1&rvdir=newer&rvprop=timestamp&format=json",
+   "url": "https://en.wikipedia.org/w/api.php?action=query&prop=revisions&titles=Ministry+of+Water+Supply%2C+Irrigation+and+Energy+%28Koshi+Province%29&rvlimit=1&rvdir=newer&rvprop=timestamp&format=json",
    "status": 200,
-   "bytes": 243,
-   "sha256": "2d011d8603b21a7bb758ce83d74952540efa7155672844bc75b93b847f81013e",
+   "bytes": 255,
+   "sha256": "f2d7db1f9e42e5ec320746ddea3c69db3ff01ea53604ec0d0a69724176f55cc1",
    "type": "application/json; charset=utf-8",
-   "body": "events/raw/2d011d8603b21a7bb758ce83d74952540efa7155672844bc75b93b847f81013e.gz"
+   "body": "events/raw/f2d7db1f9e42e5ec320746ddea3c69db3ff01ea53604ec0d0a69724176f55cc1.gz"
   },
   {
-   "t": "2026-11-27T03:16:26Z",
+   "t": "2026-11-27T04:23:09Z",
    "method": "GET",
    "url": "https://data.humdata.org/api/3/action/package_search?q=flood+OR+landslide+OR+avalanche+OR+earthquake+OR+disaster&fq=groups%3Anpl+AND+metadata_created%3A%5B2026-11-23T01%3A32%3A42Z+TO+NOW%5D&sort=metadata_created+asc&rows=10",
-   "status": 200,
-   "bytes": 284,
-   "sha256": "57c17659bf3ca406184ebd539b7ba731e17b3c7230d1d9606689e123d07ec1e3",
-   "type": "application/json;charset=utf-8",
-   "body": "events/raw/57c17659bf3ca406184ebd539b7ba731e17b3c7230d1d9606689e123d07ec1e3.gz"
+   "status": 202,
+   "bytes": 0,
+   "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+   "type": "text/html; charset=UTF-8",
+   "body": "events/raw/e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855.gz"
   },
   {
-   "t": "2026-11-27T03:16:27Z",
+   "t": "2026-11-27T04:23:10Z",
    "method": "GET",
    "url": "https://kp.gfz-potsdam.de/app/json/?start=2026-11-23T01%3A32%3A42Z&end=2026-11-25T01%3A32%3A42Z&index=Kp",
    "status": 200,
