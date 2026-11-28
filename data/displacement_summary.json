@@ -1,6 +1,6 @@
 {
   "pipeline": "Everest Autonomous InSAR & Multi-Hazard Pipeline (v5.0)",
-  "timestamp_utc": "2026-11-27T22:29:31.145370",
+  "timestamp_utc": "2026-11-28T00:34:11.977831",
   "insar_pair": {
     "master": "2026-11-15",
     "slave": "2026-11-27"
@@ -10,23 +10,23 @@
   "results": {
     "insar_displacement": {
       "source": "cloud_insar (Copernicus openEO)",
-      "status": "UNOBSERVABLE",
-      "reason": "\u4e91\u7aef\u5e72\u6d89\u6700\u65b0\u662f 2026-10-22\u21922026-11-03\uff0c\u8fd8\u6ca1\u7b97\u5230\u6700\u65b0\u5f71\u50cf\u5bf9 2026-11-15\u21922026-11-27",
+      "status": "OBSERVED_PHASE_ONLY",
+      "reason": "\u5df2\u6709\u6700\u65b0\u5f71\u50cf\u5bf9\u7684\u76f8\u4f4d\u548c\u76f8\u5e72\u6027\uff1b\u6ca1\u6709\u7a33\u5b9a\u53c2\u8003\u70b9\uff0c\u4f4d\u79fb\u4e0d\u7ed9\u6570",
       "evaluated_candidate_pixels": 0,
       "median_mm": null,
       "mean_mm": null,
       "min_mm": null,
       "max_mm": null,
       "cloud_pair": {
-        "master": "2026-10-22",
-        "slave": "2026-11-03"
+        "master": "2026-11-15",
+        "slave": "2026-11-27"
       },
-      "cloud_processed_utc": "2026-11-03T20:25:53.303305+00:00",
-      "job_id": "j-261103194853415b9a59e2f05e34bf0a",
-      "valid_phase_pixels": 2200026,
-      "coherence_mean": 0.2969944724606667,
+      "cloud_processed_utc": "2026-11-27T22:29:50.259519+00:00",
+      "job_id": "j-26112718293346738423f7e33bd4ae7f",
+      "valid_phase_pixels": 2770412,
+      "coherence_mean": 0.34185818934720313,
       "displacement_status": "UNREFERENCED_NOT_FOR_HAZARD_DECISIONS",
-      "source_sha256": "758c4b99f8ff4c79d5b82fcf1cfafefbda173e17cde0a9effeab10adbba1474c"
+      "source_sha256": "6545b1dc19de4f9c251031e8f8d14bb71e86a2e661ae66dbce7077f564e69859"
     },
     "itslive_velocity_baseline": {
       "status": "success",
@@ -126,11 +126,11 @@
     "realtime_weather": {
       "status": "success",
       "source": "ECMWF ERA5-Land / Open-Meteo Operational Model",
-      "summit_temperature_c": -42.8,
+      "summit_temperature_c": -43.7,
       "precipitation_mm": 0.0,
       "snowfall_cm": 0.0,
-      "freezing_level_height_m": 4820.0,
-      "wind_speed_kmh": 1.7,
+      "freezing_level_height_m": 4740.0,
+      "wind_speed_kmh": 2.1,
       "is_high_freeze_thaw_melt": false,
       "is_heavy_rain_or_melt": false
     },
