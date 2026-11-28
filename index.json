@@ -144787,6 +144787,51 @@
       "why": {},
       "at": "2026-11-28T07:58:07Z"
      }
+    },
+    {
+     "sha256": "7d4f2e94c4e57b59136f4257ed88125e5f835b87f8c8133d09bcb9af35f15ec1",
+     "file": "events/archive/news-landslide-gorkha-2026-11-14_7d4f2e94c4e5.json",
+     "ots": "events/archive/news-landslide-gorkha-2026-11-14_7d4f2e94c4e5.json.ots",
+     "stamped": "2026-11-28T08:52:41Z",
+     "status": "pending",
+     "err": null,
+     "tsa": [
+      {
+       "tsa": "FreeTSA",
+       "file": "events/archive/news-landslide-gorkha-2026-11-14_7d4f2e94c4e5.json.FreeTSA.tsr",
+       "time": "Nov 28 09:04:18 2026 GMT"
+      },
+      {
+       "tsa": "DigiCert",
+       "file": "events/archive/news-landslide-gorkha-2026-11-14_7d4f2e94c4e5.json.DigiCert.tsr",
+       "time": "Nov 28 09:04:18 2026 GMT"
+      }
+     ],
+     "sigstore": {
+      "file": "events/archive/news-landslide-gorkha-2026-11-14_7d4f2e94c4e5.json.sigstore.json",
+      "identity": "https://github.com/Yizebaba/EVEREST-/.github/workflows/evidence.yml@refs/heads/events",
+      "rekor_log_index": "4159109434",
+      "self_verified": true,
+      "rekor": "https://search.sigstore.dev/?logIndex=4159109434"
+     },
+     "verify": {
+      "checks": {
+       "sha256_python": true,
+       "sha256_coreutils": true,
+       "rfc3161_FreeTSA": true,
+       "rfc3161_DigiCert": true,
+       "sigstore_cosign": true,
+       "sigstore_python": true,
+       "ots_parse": true,
+       "prov": true,
+       "rocrate": true
+      },
+      "passed": 9,
+      "total": 9,
+      "failed": [],
+      "why": {},
+      "at": "2026-11-28T09:04:58Z"
+     }
     }
    ],
    "title": "Gorkha 滑坡（新闻线索）",
@@ -144800,10 +144845,10 @@
    "lon": 84.63,
    "v": 25,
    "man": "4f53cda18c2baa0c",
-   "n": 67,
+   "n": 66,
    "src_n": 2,
-   "built": "2026-11-28T07:47:35Z",
-   "missing": 7
+   "built": "2026-11-28T08:52:41Z",
+   "missing": 9
   },
   "news-flood-nuwakot-2026-11-22": {
    "ots": [
@@ -151006,6 +151051,51 @@
       "why": {},
       "at": "2026-11-28T07:58:08Z"
      }
+    },
+    {
+     "sha256": "4e0a788f771cefc07dbdbfbe1e177915bca7bfe76ce94580e6543363479b2c8b",
+     "file": "events/archive/news-flood-nuwakot-2026-11-22_4e0a788f771c.json",
+     "ots": "events/archive/news-flood-nuwakot-2026-11-22_4e0a788f771c.json.ots",
+     "stamped": "2026-11-28T08:52:41Z",
+     "status": "pending",
+     "err": null,
+     "tsa": [
+      {
+       "tsa": "FreeTSA",
+       "file": "events/archive/news-flood-nuwakot-2026-11-22_4e0a788f771c.json.FreeTSA.tsr",
+       "time": "Nov 28 09:01:20 2026 GMT"
+      },
+      {
+       "tsa": "DigiCert",
+       "file": "events/archive/news-flood-nuwakot-2026-11-22_4e0a788f771c.json.DigiCert.tsr",
+       "time": "Nov 28 09:01:20 2026 GMT"
+      }
+     ],
+     "sigstore": {
+      "file": "events/archive/news-flood-nuwakot-2026-11-22_4e0a788f771c.json.sigstore.json",
+      "identity": "https://github.com/Yizebaba/EVEREST-/.github/workflows/evidence.yml@refs/heads/events",
+      "rekor_log_index": "4159092121",
+      "self_verified": true,
+      "rekor": "https://search.sigstore.dev/?logIndex=4159092121"
+     },
+     "verify": {
+      "checks": {
+       "sha256_python": true,
+       "sha256_coreutils": true,
+       "rfc3161_FreeTSA": true,
+       "rfc3161_DigiCert": true,
+       "sigstore_cosign": true,
+       "sigstore_python": true,
+       "ots_parse": true,
+       "prov": true,
+       "rocrate": true
+      },
+      "passed": 9,
+      "total": 9,
+      "failed": [],
+      "why": {},
+      "at": "2026-11-28T09:04:59Z"
+     }
     }
    ],
    "title": "Nuwakot 洪水（新闻线索）",
@@ -151021,7 +151111,7 @@
    "man": "4f53cda18c2baa0c",
    "n": 69,
    "src_n": 2,
-   "built": "2026-11-28T07:47:35Z",
+   "built": "2026-11-28T08:52:41Z",
    "missing": 10
   },
   "usgs-us6000ud3i": {
@@ -155735,7 +155825,7 @@
      "file": "events/archive/usgs-us6000ud3i_0875cbcabc4e.json",
      "ots": "events/archive/usgs-us6000ud3i_0875cbcabc4e.json.ots",
      "stamped": "2026-11-28T06:37:50Z",
-     "status": "pending",
+     "status": "confirmed",
      "err": null,
      "tsa": [
       {
@@ -155773,7 +155863,9 @@
       "failed": [],
       "why": {},
       "at": "2026-11-28T06:51:03Z"
-     }
+     },
+     "bitcoin_block": 977911,
+     "confirmed_checked": "2026-11-28T08:52:41Z"
     },
     {
      "sha256": "03f38e8547a044e3454f1bf91c11e774969158b77f75a8136e588702a87be033",
@@ -155819,6 +155911,51 @@
       "why": {},
       "at": "2026-11-28T07:58:09Z"
      }
+    },
+    {
+     "sha256": "0a351a0a202df8da404c62dc28403e9e6cf664c5bf09cb43e0363f0ea7876501",
+     "file": "events/archive/usgs-us6000ud3i_0a351a0a202d.json",
+     "ots": "events/archive/usgs-us6000ud3i_0a351a0a202d.json.ots",
+     "stamped": "2026-11-28T08:52:41Z",
+     "status": "pending",
+     "err": null,
+     "tsa": [
+      {
+       "tsa": "FreeTSA",
+       "file": "events/archive/usgs-us6000ud3i_0a351a0a202d.json.FreeTSA.tsr",
+       "time": "Nov 28 08:57:51 2026 GMT"
+      },
+      {
+       "tsa": "DigiCert",
+       "file": "events/archive/usgs-us6000ud3i_0a351a0a202d.json.DigiCert.tsr",
+       "time": "Nov 28 08:57:51 2026 GMT"
+      }
+     ],
+     "sigstore": {
+      "file": "events/archive/usgs-us6000ud3i_0a351a0a202d.json.sigstore.json",
+      "identity": "https://github.com/Yizebaba/EVEREST-/.github/workflows/evidence.yml@refs/heads/events",
+      "rekor_log_index": "4159057783",
+      "self_verified": true,
+      "rekor": "https://search.sigstore.dev/?logIndex=4159057783"
+     },
+     "verify": {
+      "checks": {
+       "sha256_python": true,
+       "sha256_coreutils": true,
+       "rfc3161_FreeTSA": true,
+       "rfc3161_DigiCert": true,
+       "sigstore_cosign": true,
+       "sigstore_python": true,
+       "ots_parse": true,
+       "prov": true,
+       "rocrate": true
+      },
+      "passed": 9,
+      "total": 9,
+      "failed": [],
+      "why": {},
+      "at": "2026-11-28T09:05:00Z"
+     }
     }
    ],
    "title": "M5.3 地震",
@@ -155832,10 +155969,10 @@
    "lon": 87.9467,
    "v": 25,
    "man": "4f53cda18c2baa0c",
-   "n": 88,
+   "n": 87,
    "src_n": 6,
-   "built": "2026-11-28T07:47:35Z",
-   "missing": 14
+   "built": "2026-11-28T08:52:41Z",
+   "missing": 13
   },
   "news-flood-nuwakot-2026-11-25": {
    "ots": [
@@ -158950,7 +159087,7 @@
      "file": "events/archive/news-flood-nuwakot-2026-11-25_19de8dcb236b.json",
      "ots": "events/archive/news-flood-nuwakot-2026-11-25_19de8dcb236b.json.ots",
      "stamped": "2026-11-28T06:37:50Z",
-     "status": "pending",
+     "status": "confirmed",
      "err": null,
      "tsa": [
       {
@@ -158988,7 +159125,9 @@
       "failed": [],
       "why": {},
       "at": "2026-11-28T06:51:04Z"
-     }
+     },
+     "bitcoin_block": 977911,
+     "confirmed_checked": "2026-11-28T08:52:41Z"
     },
     {
      "sha256": "bffbbfde3d5f1fc25ac20f86200b7ee6a9bf900892d0516e58eea069cf6d46ae",
@@ -159034,6 +159173,51 @@
       "why": {},
       "at": "2026-11-28T07:58:10Z"
      }
+    },
+    {
+     "sha256": "91d49c00388767ef02ac68d03bfea2903fa6e99b640c263f2e0fcd51e8008a5d",
+     "file": "events/archive/news-flood-nuwakot-2026-11-25_91d49c003887.json",
+     "ots": "events/archive/news-flood-nuwakot-2026-11-25_91d49c003887.json.ots",
+     "stamped": "2026-11-28T08:52:41Z",
+     "status": "pending",
+     "err": null,
+     "tsa": [
+      {
+       "tsa": "FreeTSA",
+       "file": "events/archive/news-flood-nuwakot-2026-11-25_91d49c003887.json.FreeTSA.tsr",
+       "time": "Nov 28 08:55:37 2026 GMT"
+      },
+      {
+       "tsa": "DigiCert",
+       "file": "events/archive/news-flood-nuwakot-2026-11-25_91d49c003887.json.DigiCert.tsr",
+       "time": "Nov 28 08:55:37 2026 GMT"
+      }
+     ],
+     "sigstore": {
+      "file": "events/archive/news-flood-nuwakot-2026-11-25_91d49c003887.json.sigstore.json",
+      "identity": "https://github.com/Yizebaba/EVEREST-/.github/workflows/evidence.yml@refs/heads/events",
+      "rekor_log_index": "4159045411",
+      "self_verified": true,
+      "rekor": "https://search.sigstore.dev/?logIndex=4159045411"
+     },
+     "verify": {
+      "checks": {
+       "sha256_python": true,
+       "sha256_coreutils": true,
+       "rfc3161_FreeTSA": true,
+       "rfc3161_DigiCert": true,
+       "sigstore_cosign": true,
+       "sigstore_python": true,
+       "ots_parse": true,
+       "prov": true,
+       "rocrate": true
+      },
+      "passed": 9,
+      "total": 9,
+      "failed": [],
+      "why": {},
+      "at": "2026-11-28T09:05:01Z"
+     }
     }
    ],
    "title": "Nuwakot 洪水（新闻线索）",
@@ -159049,9 +159233,9 @@
    "man": "4f53cda18c2baa0c",
    "n": 65,
    "src_n": 4,
-   "built": "2026-11-28T07:47:35Z",
-   "missing": 10
+   "built": "2026-11-28T08:52:41Z",
+   "missing": 11
   }
  },
- "updated": "2026-11-28T08:28:31Z"
+ "updated": "2026-11-28T08:52:41Z"
 }
